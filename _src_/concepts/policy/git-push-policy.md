@@ -1,0 +1,276 @@
+# Push policy
+
+## Purpose
+
+Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../stack/) or [Module](../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
+
+* **track**: set the new head commit on the [stack](../stack/) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/#where-do-runs-come-from) [Run](../run/), ie. one that can be [applied](../run/#applying);
+* **propose**: create a [proposed Run](../run/#where-do-runs-come-from) against a proposed version of infrastructure;
+* **ignore**: do not schedule a new Run;
+
+Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
+
+### Git push policy and tracked branch
+
+Each stack and module points at a particular Git branch called a [tracked branch](../stack/#repository-and-branch). By default, any push to the tracked branch triggers a tracked [Run](../run/) that can be [applied](../run/#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
+
+### Push and Pull Request events
+
+Spacelift can currently react to two types of events - _push_ and _pull request_ (also called _merge request_ by GitLab). Push events are the default - even if you don't have a push policy set up, we will respond to those events. Pull request events are supported for some VCS providers and are generally received when you open, synchronize (push a new commit), label, or merge the pull request.
+
+There are some valid reasons to use _pull request_ events in addition or indeed instead of push ones. One is that when making decisions based on the paths of affected files, push events are often confusing:
+
+* they contain affected files for all commits in a push, not just the head commit;
+* they are not context-aware, making it hard to work with pull requests - if a given push is ignored on an otherwise relevant PR, then the Spacelift status check is not provided;
+
+But there are more reasons depending on how you want to structure your workflow. Here are a few samples of PR-driven policies from real-life use cases, each reflecting a slightly different way of doing things.
+
+First, let's only trigger proposed runs if a PR exists, and allow any push to the tracked branch to trigger a tracked run:
+
+```perl
+package spacelift
+
+track   { input.push.branch = input.stack.branch }
+propose { not is_null(input.pull_request) }
+ignore  { not track; not propose }
+```
+
+If you want to enforce that tracked runs are _always_ created from PR merges (and not from direct pushes to the tracked branch), you can tweak the above policy accordingly to just ignore all non-PR events:
+
+```perl
+package spacelift
+
+track   { is_pr; input.push.branch = input.stack.branch }
+propose { is_pr }
+ignore  { not is_pr }
+is_pr   { not is_null(input.pull_request) }
+```
+
+Here's another example where you respond to a particular PR label ("deploy") to automatically deploy changes:
+
+```perl
+package spacelift
+
+track   { is_pr, labeled }
+propose { true }
+is_pr   { not is_null(input.pull_request) }
+labeled { input.pull_request.labels[_] = "deploy" }
+```
+
+{% hint style="info" %}
+When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.\
+\
+Let us know if you notice any irregularities.
+{% endhint %}
+
+#### Deduplicating events
+
+If you're using pull requests in your flow, it is possible that we'll receive duplicate events. For example, if you push to a feature branch and then open a pull request, we first receive a _push_ event, then a separate _pull request (opened)_ event. When you push another commit to that feature branch, we again receive two events - _push_ and _pull request (synchronized)._ When you merge the pull request, we get two more - _push_ and _pull request_ _(closed)_.
+
+It is possible that push policies resolve to the same actionable (not _ignore_) outcome (eg. _track_ or _propose_). In those cases instead of creating two separate runs, we debounce the events by deduplicating runs created by them on a per-stack basis.
+
+The deduplication key consists of the commit SHA and run type. If your policy returns two different actionable outcomes for two different events associated with a given SHA, both runs will be created. In practice, this would be an unusual corner case and a good occasion to revisit your workflow.
+
+When events are deduplicated and you're sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that it's the first one that creates a run.
+
+### Canceling in-progress runs
+
+The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../run/#queued) or are [awaiting human confirmation](../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
+
+```perl
+cancel[run.id] { run := input.in_progress[_] }
+```
+
+Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, the rule below will only cancel proposed runs that are currently queued (waiting for the worker):
+
+```perl
+cancel[run.id] {
+  run := input.in_progress[_]
+  run.type == "PROPOSED"
+  run.state == "QUEUED"
+}
+```
+
+{% hint style="info" %}
+Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
+{% endhint %}
+
+### Corner case: track, don't trigger
+
+The `track` decision sets the new head commit on the affected stack or [module](../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../run/#where-do-runs-come-from), or a [task](../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
+
+Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
+
+Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../run/tracked.md#triggering-manually), through [the API](../../integrations/api.md), or using a [trigger policy](trigger-policy.md):
+
+```python
+track     { input.push.branch == input.stack.branch }
+propose   { not track }
+notrigger { true }
+```
+
+## Data input
+
+As input, Git push policy receives the following document:
+
+```javascript
+{
+  "pull_request": {
+    "action": "string - opened, reopened, closed, merged, edited, labeled, synchronize, unlabeled",
+    "base": {
+      "affected_files": ["string"],
+      "author": "string",
+      "branch": "string",
+      "created_at": "number (timestamp in nanoseconds)",
+      "message": "string",
+      "tag": "string"
+    },
+    "diff": ["string - list of files changed between base and head commit"],
+    "head": {
+      "affected_files": ["string"],
+      "author": "string",
+      "branch": "string",
+      "created_at": "number (timestamp in nanoseconds)",
+      "message": "string",
+      "tag": "string"
+    },
+    "labels": ["string"],
+    "title": "string"
+  }
+  "push": {
+    // For Git push events, this contains the pushed commit.
+    // For Pull Request events,
+    // this contains the head commit or merge commit if available (merge event).
+    "affected_files": ["string"],
+    "author": "string",
+    "branch": "string",
+    "created_at": "number (timestamp in nanoseconds)",
+    "message": "string",
+    "tag": "string"
+  },
+  "stack": {
+    "administrative": "boolean",
+    "branch": "string",
+    "labels": ["string - list of arbitrary, user-defined selectors"],
+    "locked_by": "optional string - if the stack is locked, this is the name of the user who did it",
+    "name": "string",
+    "namespace": "string - repository namespace, only relevant to GitLab repositories",
+    "project_root": "optional string - project root as set on the Stack, if any",
+    "repository": "string",
+    "state": "string",
+    "terraform_version": "string or null"
+  },
+  "in_progress": [{
+    "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+    "changes": [
+      {
+        "action": "string enum - added | changed | deleted",
+        "entity": {
+          "address": "string - full address of the entity",
+          "name": "string - name of the entity",
+          "type": "string - full resource type or \"output\" for outputs"
+        },
+        "phase": "string enum - plan | apply"
+      }
+    ],
+    "created_at": "number - creation Unix timestamp in nanoseconds",
+    "runtime_config": {
+      "before_init": ["string - command to run before run initialization"],
+      "project_root": "string - root of the Terraform project",
+      "runner_image": "string - Docker image used to execute the run",
+      "terraform_version": "string - Terraform version used to for the run"
+    },
+    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+    "type": "string - PROPOSED or TRACKED",
+    "updated_at": "number - last update Unix timestamp in nanoseconds",
+    "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
+  }]
+}
+```
+
+Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
+
+{% hint style="warning" %}
+If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
+{% endhint %}
+
+It is also possible to define an auxiliary rule called `ignore_track`, which overrides a positive outcome of the `track` rule but does not affect other rules, most notably the `propose` one. This can be used to turn some of the pushes that would otherwise be applied into test runs.
+
+## Use cases
+
+### Ignoring certain paths
+
+Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
+
+{% hint style="info" %}
+This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
+{% endhint %}
+
+Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html)  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
+
+```perl
+package spacelift
+
+track   { input.push.branch == input.stack.branch }
+propose { input.push.branch != "" }
+ignore  { not affected }
+
+affected {
+	some i, j, k
+
+  tracked_directories := {"modules/", "production/"}
+  tracked_extensions := {".tf", ".tf.json"}
+
+	path := input.push.affected_files[i]
+
+  startswith(path, tracked_directories[j])
+  endswith(path, tracked_extensions[k])
+}
+```
+
+As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna\_Karenina\_principle). A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM).
+
+### Status checks and ignored pushes
+
+By default when the push policy instructs Spacelift to ignore a certain change, no commit status check is sent back to the VCS. This behavior is explicitly designed to prevent noise in monorepo scenarios where a large number of stacks are linked to the same Git repo.
+
+However, in certain cases one may still be interested in learning that the push was ignored, or just getting a commit status check for a given stack when it's set as required as part of [GitHub branch protection](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule) set of rules, or simply your internal organization rules.
+
+In that case, you may find the `notify` rule useful. The purpose of this rule is to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:
+
+```perl
+package spacelift
+
+# other rules (including ignore), see above
+
+notify { ignore } 
+```
+
+{% hint style="info" %}
+The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
+{% endhint %}
+
+## Applying from a tag
+
+Another possible use case of a Git push policy would be to apply from a newly created tag rather than from a branch. This in turn can be useful in multiple scenarios - for example, a staging/QA environment could be deployed every time a certain tag type is applied to a tested branch, thereby providing inline feedback on a GitHub Pull Request from the actual deployment rather than a plan/test. One could also constrain production to only apply from tags unless a Run is explicitly triggered by the user.
+
+Here's an example of one such policy:
+
+```perl
+package spacelift
+
+track   { re_match(`^\d+\.\d+\.\d+$`, input.push.tag) }
+propose { input.push.branch != input.stack.branch }
+```
+
+## Default Git push policy
+
+If no Git push policies are attached to a stack or a module, the default behavior is equivalent to this policy:
+
+```perl
+package spacelift
+
+track   { input.push.branch == input.stack.branch }
+propose { input.push.branch != "" }
+ignore  { input.push.branch == "" }
+```
