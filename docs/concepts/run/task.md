@@ -6,12 +6,12 @@ While tasks enjoy the privilege of having their own GUI screen, they're just ano
 
 ## The purpose of tasks
 
-The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html), or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html).\
-\
+The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html), or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html).
+
 Given that thanks to the [Docker integration](../../integrations/docker.md) you have full control over the execution environment of your workloads, there's hardly a limit to what you can do.
 
 !!! Danger
-Obvious abuse of shared workers will get you kicked out of the platform. But you can abuse private workers all you like.
+    Obvious abuse of shared workers will get you kicked out of the platform. But you can abuse private workers all you like.
 
 
 With the above caveat, let's go through the main benefits of using Spacelift tasks.
@@ -33,7 +33,7 @@ Spacelift's integration with infra providers like [AWS](../../integrations/cloud
 Yes, the secrets are masked in the output and won't leak due to an honest mistake.
 
 !!! Danger
-There are limits to the extent we can protect you from a determined attacker with write access to your stack. We don't want to give you a false sense of security where none is warranted. You may want to look into [task policies](../policy/task-run-policy.md) to prevent certain (or even all) tasks from being executed.
+    There are limits to the extent we can protect you from a determined attacker with write access to your stack. We don't want to give you a false sense of security where none is warranted. You may want to look into [task policies](../policy/task-run-policy.md) to prevent certain (or even all) tasks from being executed.
 
 
 ### Audited

@@ -1,7 +1,7 @@
 # Initialization policy
 
 !!! Warning
-This feature is deprecated as we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious-looking jobs on their end.
+    This feature is deprecated as we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious-looking jobs on their end.
 
 
 ## Purpose
@@ -9,14 +9,14 @@ This feature is deprecated as we're planning to move the pre-flight checks to th
 Initialization policy can prevent a [Run](../run/) or a [Task](../run/task.md) from being [initialized](../run/#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
 !!! Warning
-Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
+    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
 
 For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
 
 Let's create a simple initialization policy, attach it to the stack, and see what gives:
 
-```perl
+```opa
 package spacelift
 
 deny["you shall not pass"] {
@@ -36,7 +36,7 @@ Initialization policies are simple in that they only use a single rule - **deny*
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "commit": {
     "author": "string - GitHub login if available, name otherwise",
@@ -96,12 +96,12 @@ While specialized, Spacelift is still a CI/CD platform and thus allows running c
 
 That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/#before\_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("don't use Terraform please (%s)", [command])] {
   command := input.run.runtime_config.before_init[_]
-  
+
   contains(command, "terraform")
   command != "terraform fmt -check"
 }
@@ -111,12 +111,12 @@ Feel free to play with this example in [the Rego playground](https://play.openpo
 
 OK, but what if someone gets clever and creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? Well, you have two choices - you could replace a blacklist with a whitelist, but a clever attacker can be really clever. So the other choice is to make sure that a known good Docker is used to execute the run. Here's an example:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("unexpected runner image (%s)", [image])] {
   image := input.run.runtime_config.runner_image
-  
+
   image != "spacelift/runner:latest"
 }
 ```
@@ -124,7 +124,7 @@ deny[sprintf("unexpected runner image (%s)", [image])] {
 Here's the above example in [the Rego playground](https://play.openpolicyagent.org/p/VxIREPOS0d).
 
 !!! Danger
-Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
+    Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
 
 
 ### Enforce organizational rules
@@ -133,7 +133,7 @@ While the previous section was all about making sure that bad stuff does not get
 
 One of the above examples explicitly whitelisted Terraform formatting check. Keeping your code formatted in a standard way is generally a good idea, so let's make sure that this command always gets executed first. Note that as per [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna\_Karenina\_principle) this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
 
-```perl
+```opa
 package spacelift
 
 deny["please always run formatting check first"] {
@@ -150,7 +150,7 @@ Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/
 
 This time we'll skip the mandatory "don't deploy on weekends" check because while it could also be implemented here, there are probably better places to do it. Instead, let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can go fancy and require references to Jira tickets or even look at commit messages:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("invalid feature branch name (%s)", [branch])] {

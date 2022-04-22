@@ -14,7 +14,7 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
 To make sure that we have no access to your private key, you will need to generate it on your end, and use it to create a certificate signing request to give to Spacelift. We'll generate a certificate for you, so that workers can use it to authenticate with the Spacelift backend. The following command will generate the key and CSR:
 
-```
+```bash
 openssl req -new -newkey rsa:4096 -nodes -keyout spacelift.key -out spacelift.csr
 ```
 
@@ -34,7 +34,7 @@ Finally, you can run the launcher binary by setting two environment variables:
 * `SPACELIFT_POOL_PRIVATE_KEY` - the contents of the private key file you generated, in base64.
 
 !!! Info
-You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run something like <mark style="color:purple;">`cat spacelift.key | base64 -w 0`</mark>in your command line. For Mac users, the command will be something like <mark style="color:purple;">cat spacelift.key | base64 -b 0</mark>
+    You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run something like <mark style="color:purple;">`cat spacelift.key | base64 -w 0`</mark>in your command line. For Mac users, the command will be something like <mark style="color:purple;">cat spacelift.key | base64 -b 0</mark>
 
 
 Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.

@@ -8,14 +8,14 @@ Let’s start with a small example. You’ll need a private worker for this.
 
 On the machine where the worker resides, create a simple policy in a file:
 
-```javascript
+```opa
 package spacelift
 sample { true }
 ```
 
 And then start the worker with an additional environment variable:
 
-```
+```bash
 SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY=/path/to/your/policy.rego
 ```
 
@@ -25,7 +25,7 @@ We’ll also need a [Stack](../stack/) to which [this worker is attached](../wor
 
 We can now trigger a run and provide an arbitrary metadata string:
 
-```
+```bash
 ~> spacectl stack deploy --id testing-spacelift --run-metadata "deploy-metadata"
 You have successfully created a deployment
 The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-spacelift/run/01FEKAGP4AYV0DWP4QDFTANRES
@@ -33,7 +33,7 @@ The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-sp
 
 And in the private worker logs we should suitably see (formatted for readability):
 
-```javascript
+```json
 {
   "caller": "setup.go:201",
   "level": "info",
@@ -105,7 +105,7 @@ Great!
 
 We can now go ahead and confirm this run:
 
-```
+```bash
 ~> spacectl stack confirm --id testing-spacelift --run-metadata "confirm-metadata" --run 01FEKAGP4AYV0DWP4QDFTANRES
 You have successfully confirmed a deployment
 The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-spacelift/run/01FEKAGP4AYV0DWP4QDFTANRES
@@ -113,7 +113,7 @@ The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-sp
 
 In the policy sample log for the relevant metadata key we’ll see an additional entry, which was added when confirming:
 
-```javascript
+```json
 "user_provided_metadata": [
   "deploy-metadata",
   "confirm-metadata"

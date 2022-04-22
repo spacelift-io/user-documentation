@@ -27,7 +27,7 @@ But there are more reasons depending on how you want to structure your workflow.
 
 First, let's only trigger proposed runs if a PR exists, and allow any push to the tracked branch to trigger a tracked run:
 
-```perl
+```opa
 package spacelift
 
 track   { input.push.branch = input.stack.branch }
@@ -37,7 +37,7 @@ ignore  { not track; not propose }
 
 If you want to enforce that tracked runs are _always_ created from PR merges (and not from direct pushes to the tracked branch), you can tweak the above policy accordingly to just ignore all non-PR events:
 
-```perl
+```opa
 package spacelift
 
 track   { is_pr; input.push.branch = input.stack.branch }
@@ -48,7 +48,7 @@ is_pr   { not is_null(input.pull_request) }
 
 Here's another example where you respond to a particular PR label ("deploy") to automatically deploy changes:
 
-```perl
+```opa
 package spacelift
 
 track   { is_pr, labeled }
@@ -58,9 +58,9 @@ labeled { input.pull_request.labels[_] = "deploy" }
 ```
 
 !!! Info
-When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.\
-\
-Let us know if you notice any irregularities.
+    When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.
+
+    Let us know if you notice any irregularities.
 
 
 #### Deduplicating events
@@ -77,13 +77,13 @@ When events are deduplicated and you're sampling policy evaluations, you may not
 
 The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../run/#queued) or are [awaiting human confirmation](../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
-```perl
+```opa
 cancel[run.id] { run := input.in_progress[_] }
 ```
 
 Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, the rule below will only cancel proposed runs that are currently queued (waiting for the worker):
 
-```perl
+```opa
 cancel[run.id] {
   run := input.in_progress[_]
   run.type == "PROPOSED"
@@ -92,7 +92,7 @@ cancel[run.id] {
 ```
 
 !!! Info
-Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
+    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
 
 
 ### Corner case: track, don't trigger
@@ -103,7 +103,7 @@ Sometimes, however, you may want to trigger those tracked runs in a specific ord
 
 Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../run/tracked.md#triggering-manually), through [the API](../../integrations/api.md), or using a [trigger policy](trigger-policy.md):
 
-```python
+```opa
 track     { input.push.branch == input.stack.branch }
 propose   { not track }
 notrigger { true }
@@ -113,7 +113,7 @@ notrigger { true }
 
 As input, Git push policy receives the following document:
 
-```javascript
+```json
 {
   "pull_request": {
     "action": "string - opened, reopened, closed, merged, edited, labeled, synchronize, unlabeled",
@@ -191,7 +191,7 @@ As input, Git push policy receives the following document:
 Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
 
 !!! Warning
-If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
+    If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
 
 
 It is also possible to define an auxiliary rule called `ignore_track`, which overrides a positive outcome of the `track` rule but does not affect other rules, most notably the `propose` one. This can be used to turn some of the pushes that would otherwise be applied into test runs.
@@ -203,12 +203,12 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
 
 !!! Info
-This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
+    This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
 
 
 Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html)  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
 
-```perl
+```opa
 package spacelift
 
 track   { input.push.branch == input.stack.branch }
@@ -238,16 +238,16 @@ However, in certain cases one may still be interested in learning that the push 
 
 In that case, you may find the `notify` rule useful. The purpose of this rule is to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:
 
-```perl
+```opa
 package spacelift
 
 # other rules (including ignore), see above
 
-notify { ignore } 
+notify { ignore }
 ```
 
 !!! Info
-The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
+    The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
 
 
 ## Applying from a tag
@@ -256,7 +256,7 @@ Another possible use case of a Git push policy would be to apply from a newly cr
 
 Here's an example of one such policy:
 
-```perl
+```opa
 package spacelift
 
 track   { re_match(`^\d+\.\d+\.\d+$`, input.push.tag) }
@@ -267,7 +267,7 @@ propose { input.push.branch != input.stack.branch }
 
 If no Git push policies are attached to a stack or a module, the default behavior is equivalent to this policy:
 
-```perl
+```opa
 package spacelift
 
 track   { input.push.branch == input.stack.branch }
