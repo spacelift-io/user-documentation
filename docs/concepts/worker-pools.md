@@ -24,7 +24,7 @@ Now you can submit the `spacelift.csr` file in the worker pool creation form. In
 
 You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift Terraform provider](../vendors/terraform/terraform-provider.md).
 
-![](/assets/images/Screen%20Shot%202022-02-17%20at%203.13.38%20PM.png)
+![](../assets/images/Screen%20Shot%202022-02-17%20at%203.13.38%20PM.png)
 
 The launcher binary is available [here](https://downloads.spacelift.io/spacelift-launcher). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed.
 

@@ -2,7 +2,7 @@
 
 Unless you're defining a stack programmatically using our [Terraform provider](../../vendors/terraform/terraform-provider.md), you will be creating one from the root of your Spacelift account:
 
-![](/assets/images/Stacks_%C2%B7_spacelift-io%20%282%29.png)
+![](../../assets/images/Stacks_%C2%B7_spacelift-io%20%282%29.png)
 
 !!! Info
     You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on.md).
@@ -19,7 +19,7 @@ Please see below for a step-by-step walkthrough and explanation.
 
 ## Integrate VCS
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%289%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%289%29.png)
 
 In the first step you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
 
@@ -37,7 +37,7 @@ A few things worth noting:
 
 Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%2810%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%2810%29.png)
 
 The basic settings are:
 
@@ -45,7 +45,7 @@ The basic settings are:
 * project root (optional), i.e. where inside the repository Spacelift should look for the infra project source code;
 * [worker pool](../worker-pools.md) to use, if applicable;
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%2811%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%2811%29.png)
 
 The advanced settings are:
 
@@ -60,7 +60,7 @@ At this point you'll probably know whether you want to create a [Terraform](crea
 
 ### Terraform
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%2812%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%2812%29.png)
 
 When selecting **Terraform**, you can choose which **version of Terraform** to start with - we support Terraform 0.12.0 and above. You don't need to dwell on this decision since you can change the version later - Spacelift supports full [Terraform version management](../../vendors/terraform/version-management.md) allowing you to even preview the impact of upgrading to a newer version.
 
@@ -78,7 +78,7 @@ If you choose not to use our state backend, feel free to proceed. If you do want
 
 ### Pulumi
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%2813%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%2813%29.png)
 
 When creating a Pulumi stack, you will need to provide two things. First, the login URL to your Pulumi state backend, as currently we don't provide one like we do for Terraform, so you will need to bring your own.
 
@@ -86,11 +86,11 @@ Second, you need to specify the name of the Pulumi stack. This is separate from 
 
 ## Name your stack
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%2814%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%2814%29.png)
 
 We're almost there, but here comes the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
 
-![](/assets/images/New_stack_%C2%B7_spacelift-io%20%288%29.png)
+![](../../assets/images/New_stack_%C2%B7_spacelift-io%20%288%29.png)
 
 You'll be able to change the name and description later, too - with one caveat. Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
 

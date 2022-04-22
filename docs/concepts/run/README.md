@@ -32,11 +32,11 @@ Let's start with the latter - more common - scenario. Spacelift serializes all s
 
 If you run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in the header:
 
-![](/assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing.png)
+![](../../assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing.png)
 
 The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io). In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
 
-![](/assets/images/Spacelift_Status.png)
+![](../../assets/images/Spacelift_Status.png)
 
 If you're using private workers, please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
 
@@ -54,7 +54,7 @@ The _preparing_ state is the first one where real work is done. At this point bo
 
 Here's an example of one such handover:
 
-![](/assets/images/Screenshot%20from%202021-04-01%2015-53-59.png)
+![](../../assets/images/Screenshot%20from%202021-04-01%2015-53-59.png)
 
 Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ\_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
@@ -97,7 +97,7 @@ Stopped state indicates that a run has been stopped while [Initializing](./#init
 
 Here's an example of a run manually stopped while [Initializing](./#initializing):
 
-![](/assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing%20%282%29.png)
+![](../../assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing%20%282%29.png)
 
 Stopped is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
 

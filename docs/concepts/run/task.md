@@ -1,6 +1,6 @@
 # Task
 
-![](/assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_.png)
 
 While tasks enjoy the privilege of having their own GUI screen, they're just another type of [run](./). The core difference is that after the common [initialization](./#initializing) phase, a **task will run your custom command** instead of a string of preordained vendor-specific commands.
 
@@ -28,7 +28,7 @@ Any non-trivial infrastructure project will inevitably be full of credentials an
 
 Spacelift's integration with infra providers like [AWS](../../integrations/cloud-providers/aws.md) also allows authentication without any credentials whatsoever, which further protects you from the shame and humiliation of having the keys to the kingdom leaked by running the occasional `env` command, as you do. Actually, let's run it in Spacelift to see what gives:
 
-![](/assets/images/env_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/images/env_%C2%B7_Datadog_Synthetics__prod_.png)
 
 Yes, the secrets are masked in the output and won't leak due to an honest mistake.
 
@@ -50,13 +50,13 @@ Performing a task will succeed and the task will transition to the [finished](./
 
 In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
 
-![](/assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
+![](../../assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
 
 Let's execute a task without initialization on a Terraform stack:
 
-![](/assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_.png)
 
 Notice how the operation failed because it is expected to be executed on an initialized Terraform workspace. But the same operation would easily succeed if we were to run it in the default mode, with initialization:
 
-![](/assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
+![](../../assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
 

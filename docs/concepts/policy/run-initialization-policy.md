@@ -26,7 +26,7 @@ deny["you shall not pass"] {
 
 ...and boom:
 
-![](/assets/images/Initial_commit_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
+![](../../assets/images/Initial_commit_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
 
 ## Rules
 

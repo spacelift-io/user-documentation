@@ -8,9 +8,9 @@ description: >-
 
 If you take a look at the Environment screen of a stack you will notice it's pretty busy - in fact it's the second busiest view in Spacelift ([run](../run/) being the undisputed winner). Ultimately though, all the records here are either [environment variables](environment.md#environment-variables) or [mounted files](environment.md#mounted-files). The main part of the view represents the synthetic outcome determining what your run will "see" when executed. If this does not make sense yet, please hang on and read the remainder of this article.
 
-![](/assets/images/Environment_%C2%B7_Managed_stack%20%281%29.png)
+![](../../assets/images/Environment_%C2%B7_Managed_stack%20%281%29.png)
 
-![](/assets/images/Editing_environment_%C2%B7_Managed_stack.png)
+![](../../assets/images/Editing_environment_%C2%B7_Managed_stack.png)
 
 ## Environment variables
 
@@ -22,7 +22,7 @@ The concept of environment variables is instinctively understood by all programm
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
-![](/assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
+![](../../assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
 
 ...and so is editing:
 
@@ -46,7 +46,7 @@ When you click _Override_, you can replace the value computed at runtime with a 
 
 Note how it becomes a regular write-only variable upon saving:
 
-![](/assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%286%29.png)
+![](../../assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%286%29.png)
 
 If you delete this variable, it will again be replaced by the computed one. If you want to get rid of the computed variable entirely, you will need to disable the integration that originally led to its inclusion in this list.
 
@@ -54,7 +54,7 @@ If you delete this variable, it will again be replaced by the computed one. If y
 
 The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
 
-![](/assets/images/Editing_environment_%C2%B7_Managed_stack%20%281%29.png)
+![](../../assets/images/Editing_environment_%C2%B7_Managed_stack%20%281%29.png)
 
 !!! Info
     Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
@@ -76,7 +76,7 @@ An environment variable whose name starts with the _ro\__ prefix is only passed 
 
 Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs) variable split into two separate environment variables:
 
-![](/assets/images/Environment_%C2%B7_Bacon_bacon.png)
+![](../../assets/images/Environment_%C2%B7_Bacon_bacon.png)
 
 The first token will potentially be exposed to less-trusted code, so it makes sense to create it with read-only permissions. The second token on the other hand will only be exposed to the reviewed code and can be given write or admin permissions.
 
@@ -116,7 +116,7 @@ Your Git repository is cloned into `/mnt/workspace/source/`, which also serves a
 
 While contexts are important enough to [warrant their own dedicated article](context.md), it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/), as well as with [computed values](environment.md#computed-values). Perhaps you've noticed the blue labels on one of the earlier screenshots. If you haven't, here they are again, with a proper highlight:
 
-![](/assets/images/Environment_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
+![](../../assets/images/Environment_%C2%B7_Stack_managed_by_Spacelift%20%281%29.png)
 
 The highlighted label is the name of the [attached context](context.md#attaching-contexts) that supplies those values. The sorted list of attached contexts is located below the calculated environment view, and each entry can be unfurled to see its exact content.
 
@@ -138,11 +138,11 @@ Note how we can now _Delete_ the variable - this would revert it to the value de
 
 Perhaps you may have noticed how [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) come in two flavors - _plain_ and _secret_. Here they are in the form for the new environment variable:
 
-![](/assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%2812%29.png)
+![](../../assets/images/Editing_environment_%C2%B7_Stack_managed_by_Spacelift%20%2812%29.png)
 
 ...and here they are in the form for the new mounted file:
 
-![](/assets/images/Editing_environment_%C2%B7_Managed_stack%20%284%29.png)
+![](../../assets/images/Editing_environment_%C2%B7_Managed_stack%20%284%29.png)
 
 Functionally, the difference between the two is pretty simple - plain values are accessible in the web GUI and through the [API](../../integrations/api.md), and secret ones aren't - they're only made available to [Runs](../run/) and [Tasks](../run/task.md). Here's an example of two environment variables in the GUI - one plain, and one secret (also referred to as _write-only_):
 

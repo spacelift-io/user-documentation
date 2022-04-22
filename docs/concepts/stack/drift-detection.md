@@ -16,7 +16,7 @@ Spacelift comes with a built-in mechanism to detect and - optionally - reconcile
 
 To get started, create a drift detection configuration from the Integrations section of your stack settings. You will be able to add multiple cron rules to define when your reconciliation jobs should be scheduled, as well as decide whether you want your jobs to trigger [tracked runs](../run/tracked.md) ([reconciliation](drift-detection.md#to-reconcile-or-not-to-reconcile) jobs) in response to detected drift**:**
 
-![](/assets/images/Edit_stack_%C2%B7_Test_github_packages_tf.png)
+![](../../assets/images/Edit_stack_%C2%B7_Test_github_packages_tf.png)
 
 !!! Info
     Note that, at least currently, drift detection only works on private workers.
@@ -34,7 +34,7 @@ However, if you choose not to reconcile changes, you can still get value out of 
 
 With drift detection enabled on the stack, [proposed runs](../run/proposed.md) are quietly executing in the background. If they do not detect any changes, the only way you'd know about them is by viewing all runs in the _Account > Runs_ section and filtering or grouping by drift detection parameter - here is an example:
 
-![](/assets/images/Spacelift%20%285%29.png)
+![](../../assets/images/Spacelift%20%285%29.png)
 
 But once your job detects drift (and you've enabled [reconciliation](drift-detection.md#to-reconcile-or-not-to-reconcile)), it triggers a regular tracked run. This run is subject to the same rules as a regular tracked run is. For example, if you set your stack not to [deploy changes automatically](stack-settings.md#autodeploy), the run will end up in an [_Unconfirmed_](../run/tracked.md#unconfirmed) state, waiting for your decision. The same thing will happen if a [plan policy](../policy/terraform-plan-policy.md) produces a warning using a matched `warn` rule.
 

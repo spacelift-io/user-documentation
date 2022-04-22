@@ -50,11 +50,11 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 * On the Spacelift home page, select the "Get Started" button at the top right corner of the page.
 
-![Click "Get Started" button](/assets/images/Screen%20Shot%202022-02-22%20at%202.56.18%20PM.png)
+![Click "Get Started" button](./assets/images/Screen%20Shot%202022-02-22%20at%202.56.18%20PM.png)
 
 * Enter your e-mail address and click "Sign Up"
 
-![Enter your email address and click "Sign Up"](/assets/images/Screen%20Shot%202022-02-22%20at%202.57.31%20PM.png)
+![Enter your email address and click "Sign Up"](./assets/images/Screen%20Shot%202022-02-22%20at%202.57.31%20PM.png)
 
 **Note:** Currently, Spacelift accounts are associated with your selected GitHub account or GitHub Organization. After clicking "Sign Up", you'll need to select an organization you are a member of, your personal account, or create a new GitHub Organization to use with Spacelift.
 
@@ -66,11 +66,11 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 1. [Install the Spacelift Github App](https://github.com/apps/spacelift-io/installations/new) if you have not already installed it during the signup process.
 
-![](/assets/images/0.png)
+![](./assets/images/0.png)
 
 1. Attach any of your terraform repositories that create local resources (we will not not be integrating any of the cloud providers to keep our first run simple).
 
-![](/assets/images/1.png)
+![](./assets/images/1.png)
 
 Now login to the Spacelift console, you are ready to create your first stack!
 
@@ -78,35 +78,35 @@ Now login to the Spacelift console, you are ready to create your first stack!
 
 1. Click on the Add **Stack** button.
 
-![](/assets/images/2.png)
+![](./assets/images/2.png)
 
 1. In the **Integrate VCS** form, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack.
 
-![](/assets/images/3.png)
+![](./assets/images/3.png)
 
 Click on _Continue_ to configure the backend.
 
 1. Choose Terraform as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack.
 
-![](/assets/images/4.png)
+![](./assets/images/4.png)
 
 1. Leave the default options checked for **Define Behavior** and click continue.
 
-![](/assets/images/5.png)
+![](./assets/images/5.png)
 
 1. Give a name to your stack and save.
 
-![](/assets/images/6.png)
+![](./assets/images/6.png)
 
 ### Step 4: Trigger your first Run
 
 Saving the stack will lead you to the **Runs** screen. Click on _Trigger_ to kick start a Spacelift job that will check out the source code, run terraform commands on it and then present you with an option to apply (confirm) these changes.
 
-![](/assets/images/7.png)
+![](./assets/images/7.png)
 
 Click on _Confirm_ and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
 
-![](/assets/images/8.png)
+![](./assets/images/8.png)
 
 ## Further Reading
 

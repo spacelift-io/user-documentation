@@ -23,7 +23,7 @@ warn["hey, you look suspicious"] {
 
 Let's create this policy, attach it to a Stack and take it for a spin by [triggering a run](../run/tracked.md#triggering-manually):
 
-![](/assets/images/Revert__Attempt_to_create_an_IAM_user_agains_a_policy___10_____11__%C2%B7_We_test_in_prod.png)
+![](../../assets/images/Revert__Attempt_to_create_an_IAM_user_agains_a_policy___10_____11__%C2%B7_We_test_in_prod.png)
 
 Yay, that works (and it fails our plan, too), but it's not terribly useful - unless of course you want to block all changes to your Stack in a really clumsy way. Let's look a bit deeper into the [document](terraform-plan-policy.md#data-input) that each plan policy receives, two possible [use cases](terraform-plan-policy.md#use-cases) - [rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) and [automated code review](terraform-plan-policy.md#automated-code-review) - and some [cookbook examples](terraform-plan-policy.md#cookbook).
 
@@ -209,7 +209,7 @@ OK, so rule enforcement is very powerful, sometimes you want something more soph
 
 You've already seen **warn** rules in the [first section of this article](terraform-plan-policy.md#purpose) but here it is in action again:
 
-![](/assets/images/Revert__Attempt_to_create_an_IAM_user_agains_a_policy___10_____11__%C2%B7_We_test_in_prod%20%281%29.png)
+![](../../assets/images/Revert__Attempt_to_create_an_IAM_user_agains_a_policy___10_____11__%C2%B7_We_test_in_prod%20%281%29.png)
 
 It won't fail your plan and it looks relatively benign, but this little yellow note can provide great help to a human reviewer, especially when multiple changes are introduced. Also, if a stack is set to [autodeploy](../stack/#autodeploy), the presence of a single warning is enough to flag the run for a human review.
 
@@ -237,15 +237,15 @@ iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
 
 Predictably, this fails when committed to a non-tracked (feature) branch:
 
-![](/assets/images/Attempt_to_create_an_IAM_user_agains_a_policy_%C2%B7_We_test_in_prod.png)
+![](../../assets/images/Attempt_to_create_an_IAM_user_agains_a_policy_%C2%B7_We_test_in_prod.png)
 
 ...but as a GitHub repo admin you can still merge it if you've set your branch protection rules accordingly:
 
-![](/assets/images/Attempt_to_create_an_IAM_user_against_a_policy_by_marcinwyszynski_%C2%B7_Pull_Request__10_%C2%B7_spacelift-io_marcinw-end-to-end.png)
+![](../../assets/images/Attempt_to_create_an_IAM_user_against_a_policy_by_marcinwyszynski_%C2%B7_Pull_Request__10_%C2%B7_spacelift-io_marcinw-end-to-end.png)
 
 Cool, let's merge it and see what happens:
 
-![](/assets/images/Attempt_to_create_an_IAM_user_agains_a_policy___10__%C2%B7_We_test_in_prod.png)
+![](../../assets/images/Attempt_to_create_an_IAM_user_agains_a_policy___10__%C2%B7_We_test_in_prod.png)
 
 Cool, so the run stopped in its tracks and awaits human decision. At this point we still have a choice to either [confirm](../run/#discarded) or [discard](../run/#discarded) the run. In the latter case, you will likely want to revert the commit that caused the problem - otherwise all subsequent runs will be affected.
 

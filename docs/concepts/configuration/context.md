@@ -4,7 +4,7 @@
 
 On a high level, context is a bundle of configuration elements ([environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files)) independent of any [stack](../stack/) that can be managed separately and [attached](context.md#attaching-a-context) to as many or as few stacks as necessary. Contexts are only directly accessible to administrators from the account view:
 
-![](/assets/images/Contexts_%C2%B7_marcinwyszynski.png)
+![](../../assets/images/Contexts_%C2%B7_marcinwyszynski.png)
 
 The list of contexts merely shows the name and description of the context. Clicking on the name allows you to [edit it](context.md#editing-a-context).
 
@@ -16,11 +16,11 @@ Managing a context is quite straightforward - you can [create](context.md#creati
 
 As an account administrator you can create a new context from the Contexts screen as seen on the above screenshot by pressing the Add context button:
 
-![](/assets/images/Contexts_%C2%B7_marcinwyszynski%20%281%29.png)
+![](../../assets/images/Contexts_%C2%B7_marcinwyszynski%20%281%29.png)
 
 This takes you to a simple form where the only inputs are name and description:
 
-![](/assets/images/New_context_%C2%B7_marcinwyszynski.png)
+![](../../assets/images/New_context_%C2%B7_marcinwyszynski.png)
 
 The required _name_ is what you'll see in the context list and in the dropdown when attaching the context. Make sure that it's informative enough to be able to immediately communicate the purpose of the context, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
 
@@ -36,17 +36,17 @@ The optional _description_ is completely free-form and it supports [Markdown](ht
 
 Editing the context is only a little more exciting. You can edit the context from its dedicated view by pressing the Edit button:
 
-![](/assets/images/Managed_context_%C2%B7_marcinwyszynski.png)
+![](../../assets/images/Managed_context_%C2%B7_marcinwyszynski.png)
 
 This switches the context into editing mode where you can change the name and description but also manage configuration elements the same way you'd do for the [stack environment](environment.md), only much simpler - without overrides and [computed values](environment.md#computed-values):
 
-![](/assets/images/Editing_Managed_context_%C2%B7_marcinwyszynski.png)
+![](../../assets/images/Editing_Managed_context_%C2%B7_marcinwyszynski.png)
 
 ### Attaching and detaching
 
 Attaching and detaching contexts actually happens from the [stack](../stack/) management view. To attach a context, select the Contexts tab. This should show you a dropdown with all the contexts available for attaching, and a slider to set the [priority of the attachment](context.md#a-note-on-priority):
 
-![](/assets/images/Edit_stack_%C2%B7_Managed_stack%20%281%29.png)
+![](../../assets/images/Edit_stack_%C2%B7_Managed_stack%20%281%29.png)
 
 !!! Info
     A context can only be attached once to a given stack, so if it's already attached, it will not be visible in the dropdown menu.
@@ -54,19 +54,19 @@ Attaching and detaching contexts actually happens from the [stack](../stack/) ma
 
 OK, let's attach the context with priority 0 and see what gives:
 
-![](/assets/images/Edit_stack_%C2%B7_End-to-end_testing%20%281%29.png)
+![](../../assets/images/Edit_stack_%C2%B7_End-to-end_testing%20%281%29.png)
 
 Now this attached context will also contribute to the [stack environment](environment.md)...
 
-![](/assets/images/Environment_%C2%B7_Managed_stack%20%283%29.png)
+![](../../assets/images/Environment_%C2%B7_Managed_stack%20%283%29.png)
 
 ...and be visible on the list of attached stacks:
 
-![](/assets/images/Environment_%C2%B7_Managed_stack%20%284%29.png)
+![](../../assets/images/Environment_%C2%B7_Managed_stack%20%284%29.png)
 
 In order to detach the context, you can just press the _Detach_ button and the context will stop contributing to the [stack's environment](environment.md):
 
-![](/assets/images/Edit_stack_%C2%B7_End-to-end_testing%20%282%29.png)
+![](../../assets/images/Edit_stack_%C2%B7_End-to-end_testing%20%282%29.png)
 
 #### A note on priority
 
@@ -76,7 +76,7 @@ You may be wondering what the priority slider is for. A priority is a property o
 
 Deleting a context is straightforward - by pressing the Delete button in the context view you can get rid of an unnecessary context:
 
-![](/assets/images/Production_Kubernetes_cluster_Ireland_%C2%B7_marcinwyszynski.png)
+![](../../assets/images/Production_Kubernetes_cluster_Ireland_%C2%B7_marcinwyszynski.png)
 
 !!! Warning
     Deleting a context will also automatically detach it from all the stacks it was attached to. Make sure you only delete contexts that are no longer useful. For security purposes we do not store historical stuff and actually remove the deleted data from all of our data storage systems.
