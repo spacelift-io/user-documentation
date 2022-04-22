@@ -30,7 +30,7 @@ Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). In
 
 ### Change Workflow
 
-Spacelift deeply integrates with your Version Control System (VCS). Pull requests are evaluated by Spacelift to provide a preview of the changes being made to infrastructure; these changes are deployed automatically when PRs are merged. You can learn more about [VCS integration](integrations/source-control/) here.\
+Spacelift deeply integrates with your Version Control System (VCS). Pull requests are evaluated by Spacelift to provide a preview of the changes being made to infrastructure; these changes are deployed automatically when PRs are merged. You can learn more about [VCS integration](integrations/source-control/) here.
 
 
 ## Step-by-step
@@ -59,7 +59,7 @@ This tutorial will help you complete your first stack and run. It assumes you us
 **Note:** Currently, Spacelift accounts are associated with your selected GitHub account or GitHub Organization. After clicking "Sign Up", you'll need to select an organization you are a member of, your personal account, or create a new GitHub Organization to use with Spacelift.
 
 !!! Info
-The GitHub Organization/account name selected will be used as your Spacelift account name.
+    The GitHub Organization/account name selected will be used as your Spacelift account name.
 
 
 ### Step 2: Connect with your VCS
