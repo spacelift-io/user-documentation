@@ -3,6 +3,7 @@ theme:
   favicon: assets/favicon.ico
   language: en
   name: material
+  custom_dir: docs/overrides
   palette:
     - scheme: default
       primary: indigo
