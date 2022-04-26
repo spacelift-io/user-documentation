@@ -1,1 +1,4 @@
-/* Custom CSS rules go here */
+[data-md-color-scheme="spacelift"] {
+  --md-primary-fg-color: #131417;
+  --md-accent-fg-color: #7C47FC;
+}

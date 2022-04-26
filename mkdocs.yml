@@ -1,22 +1,12 @@
 site_name: Spacelift Documentation
 theme:
-  favicon: assets/favicon.ico
+  logo: assets/logo.png
+  favicon: assets/favicon.png
   language: en
   name: material
   custom_dir: docs/overrides
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - scheme: slate
-      primary: blue
-      accent: blue
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+    scheme: spacelift
   features:
     - content.code.annotate
     - navigation.indexes
