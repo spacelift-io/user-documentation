@@ -37,7 +37,7 @@ Last but not least the third group - folks who build things on top of existing i
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "request": {
     "remote_ip": "string - IP of the user making a request",
@@ -49,7 +49,7 @@ This is the schema of the data input that each policy request will receive:
     "teams": ["string - names of org teams the user is a member of"]
   },
   "stack": { // when access to a stack is being evaluated
-    "id": "string - unique ID of the stack", 
+    "id": "string - unique ID of the stack",
     "administrative": "boolean - is the stack administrative",
     "autodeploy": "boolean - is the stack currently set to autodeploy",
     "branch": "string - tracked branch of the stack",
@@ -85,7 +85,7 @@ With all the above theory in mind, let's jump straight to the code and define so
 
 I get read access, you get read access, everyone gets read access. As long as they're members of the Engineering team:
 
-```perl
+```opa
 package spacelift
 
 read { input.session.teams[_] == "Engineering" }
@@ -97,7 +97,7 @@ OK, that was simple. But let's also see it in the [Rego playground](https://play
 
 You know when things go wrong it's usually because someone did something. Like an infra deployment. Let's try to make sure they're in the office when doing so and restrict write access to business hours and office IP range. This policy is best combined with one that gives read access.
 
-```perl
+```opa
 package spacelift
 
 now     := input.request.timestamp_ns
@@ -119,7 +119,7 @@ Here is this example in [Rego playground](https://play.openpolicyagent.org/p/IDq
 
 [Administrative](../stack/#administrative) stacks are powerful - getting **write** access to one is almost as good as being an **admin** - you can define and attach [contexts](../configuration/context.md) and [policies](./). So let's deny **write** access to them entirely. This works since access policies are not evaluated for **admin** users.
 
-```perl
+```opa
 package spacelift
 
 deny_write { input.stack.administrative }

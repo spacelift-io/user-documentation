@@ -48,7 +48,7 @@ Reversing this action is equally simple - just follow the same steps making sure
 
 Here's an example webhook payload for a notification about a manually triggered run having finished:
 
-```javascript
+```json
 {
     "account": "spacelift-io",
     "state": "FINISHED",

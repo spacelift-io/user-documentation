@@ -162,7 +162,7 @@ The _Deploy_ functionality has been introduced in response to customers used to 
 
 If you want to prevent users from deploying directly from GitHub, you can add a simple [push policy](../../concepts/policy/git-push-policy.md) to that effect, based on the fact that the run trigger always indicates GitHub as the source (the exact format is `github/$username`).
 
-```perl
+```opa
 package spacelift
 
 deny["Do not deploy from GitHub"] {

@@ -9,12 +9,12 @@ Initialization policy can prevent a [Run](../run/) or a [Task](../run/task.md) f
 
 !!! warning
     Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
-    
+
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
 Let's create a simple initialization policy, attach it to the stack, and see what gives:
 
-```perl
+```opa
 package spacelift
 
 deny["you shall not pass"] {
@@ -34,7 +34,7 @@ Initialization policies are simple in that they only use a single rule - **deny*
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "commit": {
     "author": "string - GitHub login if available, name otherwise",
@@ -94,7 +94,7 @@ While specialized, Spacelift is still a CI/CD platform and thus allows running c
 
 That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/#before_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("don't use Terraform please (%s)", [command])] {
@@ -109,7 +109,7 @@ Feel free to play with this example in [the Rego playground](https://play.openpo
 
 OK, but what if someone gets clever and creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? Well, you have two choices - you could replace a blacklist with a whitelist, but a clever attacker can be really clever. So the other choice is to make sure that a known good Docker is used to execute the run. Here's an example:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("unexpected runner image (%s)", [image])] {
@@ -130,7 +130,7 @@ While the previous section was all about making sure that bad stuff does not get
 
 One of the above examples explicitly whitelisted Terraform formatting check. Keeping your code formatted in a standard way is generally a good idea, so let's make sure that this command always gets executed first. Note that as per [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle) this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
 
-```perl
+```opa
 package spacelift
 
 deny["please always run formatting check first"] {
@@ -147,7 +147,7 @@ Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/
 
 This time we'll skip the mandatory "don't deploy on weekends" check because while it could also be implemented here, there are probably better places to do it. Instead, let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can go fancy and require references to Jira tickets or even look at commit messages:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("invalid feature branch name (%s)", [branch])] {

@@ -6,7 +6,7 @@ Spacelift GCP integration allows Spacelift to manage your Google Cloud resources
 
 With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1) for the Google Terraform provider, so you can define it like this:
 
-```python
+```terraform
 provider "google" {}
 ```
 
@@ -41,7 +41,7 @@ Once you click _Save_, the account is generated for you and we display its globa
 
 If you're using Spacelift Terraform provider to create the integration programmatically, you can do the following:
 
-```python
+```terraform
 resource "spacelift_gcp_service_account" "gcp-integration" {
   stack_id = spacelift_stack.your-stack.id
 
@@ -57,7 +57,7 @@ resource "spacelift_gcp_service_account" "gcp-integration" {
 
 If the service account linked to your administrative stack has sufficient privileges on the GCP organization,  you can even programmatically create a dedicated GCP project and set up the integration from the Google side of things:
 
-```python
+```terraform
 resource "google_project" "k8s-core" {
   name       = "Kubernetes core"
   project_id = "unicorn-k8s-core"

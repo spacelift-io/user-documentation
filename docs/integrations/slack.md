@@ -29,7 +29,7 @@ Similar to regular requests to our HTTP APIs, requests and actions coming from S
 
 Unlike HTTP requests, policy inputs representing Slack interactions replace `"request"` and `"session"` sections with a single `"slack"` section, containing the following payload:
 
-```javascript
+```json
 {
 	"command": "<string> - command received, if any",
 	"user": {

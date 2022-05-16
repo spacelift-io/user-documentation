@@ -19,7 +19,7 @@ All runs triggered - directly or indirectly - by trigger policies as a result of
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "run": {
     "changes": [
@@ -98,7 +98,7 @@ Since trigger policies turn Spacelift into a Turing machine, you could probably 
 
 The purpose here is to create a complex workflow that spans multiple Stacks. We will want to trigger a predefined list of Stacks when a Run finishes successfully. Here's our first take:
 
-```javascript
+```opa
 package spacelift
 
 trigger["stack-one"]   { finished }
@@ -118,7 +118,7 @@ We can do better, and to do that, we'll use Stack [labels](../stack/#labels). La
 
 So how's that:
 
-```javascript
+```opa
 package spacelift
 
 trigger[stack.id] {
@@ -133,7 +133,7 @@ Here's a minimal example of this rule in the [Rego playground](https://play.open
 
 Can we do better? Sure, we can even have stacks use labels to decide which types of runs or state changes they care about. Here's a mind-bending example:
 
-```javascript
+```opa
 package spacelift
 
 trigger[stack.id] {
@@ -152,7 +152,7 @@ trigger[stack.id] {
 
 Here's another use case - sometimes Terraform or Pulumi deployments fail for a reason that has nothing to do with the code - think eventual consistency between various cloud subsystems, transient API errors etc. It would be great if you could restart the failed run. Oh, and let's make sure new runs are not created in a crazy loop - since policy-triggered runs trigger another policy evaluation:
 
-```javascript
+```opa
 package spacelift
 
 trigger[stack.id] {
@@ -186,7 +186,7 @@ Which means that Stack 1 triggers both Stack 2a and 2b, and we only want to trig
 
 First we'll have to create a trigger policy for Stack 1:
 
-```javascript
+```opa
 package spacelift
 
 trigger["stack-2a"] {
@@ -207,7 +207,7 @@ This will trigger both Stack 2a and 2b whenever a run finishes on Stack 1.
 
 Now onto a trigger policy for Stack 2a and 2b:
 
-```javascript
+```opa
 package spacelift
 
 trigger["stack-3"] {
@@ -224,7 +224,7 @@ Here we trigger Stack 3, whenever the runs in Stack 2a and 2b are both finished.
 
 You can also easily extend this to work with a label-based approach, so that you could define Stack 3's dependencies by attaching a `depends-on:stack-2a,stack-2b`label to it:
 
-```javascript
+```opa
 package spacelift
 
 # Helper with stack_id's of workflow runs which have already finished.
@@ -236,21 +236,21 @@ already_finished[run.stack_id] {
 trigger[stack.id] {
   input.run.state == "FINISHED"
   input.run.type == "TRACKED"
-  
+
   # For each Stack which has a depends-on label,
   # get a list of its dependencies.
   stack := input.stacks[_]
   label := stack.labels[_]
   startswith(label, "depends-on:")
   dependencies := split(trim_prefix(label, "depends-on:"), ",")
-  
+
   # The current Stack is one of the dependencies.
   input.stack.id == dependencies[_]
-  
-  finished_dependencies := [dependency | 
+
+  finished_dependencies := [dependency |
                                        dependency := dependencies[_]
                                        already_finished[dependency]]
-  
+
   # Check if all dependencies have finished.
   count(finished_dependencies) == count(dependencies)
 }

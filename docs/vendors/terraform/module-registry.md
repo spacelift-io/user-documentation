@@ -6,8 +6,8 @@ description: This article shows how Spacelift can help you manage Terraform Modu
 
 ## Intro
 
-In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html) help you abstract away common functionality in your infrastructure.\
-\
+In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html) help you abstract away common functionality in your infrastructure.
+
 The name of a module managed by Spacelift is of the following form:
 
 ```
@@ -23,7 +23,7 @@ In this name we have:
 
 You can use a module in your Terraform configuration this way:
 
-```python
+```terraform
 module "my-birthday-cake" {
   source  = "spacelift.io/spacelift-io/cake/oven"
   version = "4.2.0"
@@ -55,7 +55,7 @@ Spacelift provides everything you need to make your module easily maintainable a
 
 You will have to set up a repository for your module, the structure of the repository should be as follows:
 
-```python
+```bash
 .
 ├── .spacelift
 │   ├── config.yml

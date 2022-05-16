@@ -8,7 +8,7 @@ Plan policies are the only ones that have access to the actual changes to the ma
 
 Here is a super simple policy that will show both types of rules in action:
 
-```perl
+```opa
 package spacelift
 
 deny["you shall not pass"] {
@@ -31,7 +31,7 @@ Yay, that works (and it fails our plan, too), but it's not terribly useful - unl
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "spacelift:": {
     "commit": {
@@ -117,7 +117,7 @@ String properties in `"before"` and `"after"` objects will be sanitized in order
 
 If you need to compare a string property to a constant, you can use the `sanitized(string)` helper function.
 
-```perl
+```opa
 deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
   some resource
   affected_resources[resource]
@@ -136,7 +136,7 @@ In every organization there are things you just don't do. Hard-won knowledge emb
 
 Let's start by introducing a very simple and reasonable rule - never create static AWS credentials:
 
-```perl
+```opa
 package spacelift
 
 # Note that the message here is dynamic and captures resource address to provide
@@ -161,7 +161,7 @@ Here's a minimal example of this rule in the [Rego playground](https://play.open
 
 If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy) or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html), among others. So here it is:
 
-```perl
+```opa
 package spacelift
 
 # This is what Rego calls a set. You can add further elements to it as necessary.
@@ -187,7 +187,7 @@ Here's the obligatory [Rego playground example](https://play.openpolicyagent.org
 
 While in most cases you'll want your rules to only look at resources affected by the change, you're not limited to doing so. You can also look at all resources and force teams to remove certain resources. Here's an example - until all AWS resources are removed all in one go, no further changes can take place:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf(message, [resource.address])] {
@@ -219,7 +219,7 @@ As a general rule when using plan policies for code review, **deny** when run ty
 
 We thus suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, but will give the reviewer a chance to approve the change nevertheless. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/#autodeploy) to _false_, or explicitly **warn** about potential violations. Here's an example how to reuse the same rule to **deny** or **warn** depending on the run type:
 
-```perl
+```opa
 package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"
@@ -259,7 +259,7 @@ Below are a few examples of policies that accomplish some common business goals.
 
 Adding resources may ultimately cost a lot of money but it's generally pretty safe from an operational perspective. Let's use a warn rule to allow changes with only added resources to get automatically applied, and require all others to get a human review:
 
-```perl
+```opa
 package spacelift
 
 warn[sprintf(message, [action, resource.address])] {
@@ -279,7 +279,7 @@ warn[sprintf(message, [action, resource.address])] {
 
 Sometimes there are folks who really know what they're doing and changes they introduce can get deployed automatically, especially if they already went through code review. Below is an example that allows commits from whitelisted individuals to be deployed automatically (assumes Stack set to [autodeploy](../stack/#autodeploy)):
 
-```perl
+```opa
 package spacelift
 
 warn[sprintf(message, [author])] {
@@ -297,7 +297,7 @@ Here's the [playground example](https://play.openpolicyagent.org/p/IW8EfP7rwj) f
 
 Massive changes make reviewers miserable. Let's automatically fail all changes that affect more than 50 resources. Let's also allow them to be deployed with mandatory human review nevertheless:
 
-```perl
+```opa
 package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"
@@ -322,7 +322,7 @@ Here's the above example in the [Rego playground](https://play.openpolicyagent.o
 
 This is a fancy contrived example building on top of the previous one. However, rather than just looking at the total number of affected resources, it attempts to create a metric called a "blast radius" - that is how much the change will affect the whole stack. It assigns special multipliers to some types of resources changed and treats different types of changes differently: deletes and updates are more "expensive" because they affect live resources, while new resources are generally safer and thus "cheaper". As per our [automated code review](terraform-plan-policy.md#automated-code-review) pattern, we will fail Pull Requests with changes violating this policy, but require human action through **warnings** when these changes hit the tracked branch.
 
-```perl
+```opa
 package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"

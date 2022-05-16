@@ -14,7 +14,7 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
 To make sure that we have no access to your private key, you will need to generate it on your end, and use it to create a certificate signing request to give to Spacelift. We'll generate a certificate for you, so that workers can use it to authenticate with the Spacelift backend. The following command will generate the key and CSR:
 
-```
+```bash
 openssl req -new -newkey rsa:4096 -nodes -keyout spacelift.key -out spacelift.csr
 ```
 

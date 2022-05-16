@@ -14,7 +14,7 @@ Enter task policies. The sole purpose of task policies is to prevent certain com
 
 Task policies are simple in that they only use a single rule - **deny** - with a string message. A single match for that rule will prevent a run from being created, with an appropriate API error. Let's see how that works in practice by defining a simple rule and attaching it to a stack:
 
-```perl
+```opa
 package spacelift
 
 deny["not in my town, you don't"] { true }
@@ -28,7 +28,7 @@ And here's the outcome when trying to run a task:
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "request": {
     "command": "string - command that the user is trying to execute as task",
@@ -69,7 +69,7 @@ In addition to our [global helper functions](./#helper-functions), we also provi
 
 Let's have a look at a few examples to see what you can accomplish with task policies. You've seen one example already - disabling tasks entirely. That's perhaps both heavy-handed and naive given that admins can detach the policy if needed. So let's only block non-admins from running tasks:
 
-```perl
+```opa
 package spacelift
 
 deny["only admins can run tasks"] { not input.session.admin }
@@ -79,7 +79,7 @@ Let's look at an example of this simple policy in [the Rego playground](https://
 
 That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html). Let's try then, and please excuse the regex:
 
-```perl
+```opa
 package spacelift
 
 deny[sprintf("command not allowed (%s)", [command])] {
@@ -94,7 +94,7 @@ Feel free to play with the above example in [the Rego playground](https://play.o
 
 If you want to keep whitelisting different commands, it may be more elegant to flip the rule logic, create a series of _allowed_ rules, and define one _deny_ rule as `not allowed`. Let's have a look at this approach, and while we're at it let's remind everyone not to run anything during the weekend:
 
-```perl
+```opa
 package spacelift
 
 command := input.request.command

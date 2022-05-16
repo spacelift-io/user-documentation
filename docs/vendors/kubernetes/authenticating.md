@@ -21,7 +21,7 @@ Please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/
 
 The simplest way to connect to an AWS EKS cluster is using the AWS CLI tool. To do this, add the following _before init_ hook to your Stack:
 
-```
+```bash
 aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 ```
 
@@ -45,7 +45,7 @@ Depending on your exact use-case, you may need to use slightly different version
 
 When using our [Azure integration](../../integrations/cloud-providers/azure.md#spacelift-managed-integration), you can use the computed `$ARM_*` environment variables to login as the Service Principal for the integration:
 
-```
+```bash
 az login --service-principal -u "$ARM_CLIENT_ID" -t "$ARM_TENANT_ID" -p "$ARM_CLIENT_SECRET"
 az aks get-credentials --name "$AKS_CLUSTER_NAME" --resource-group "$AKS_RESOURCE_GROUP"
 ```
@@ -54,7 +54,7 @@ az aks get-credentials --name "$AKS_CLUSTER_NAME" --resource-group "$AKS_RESOURC
 
 When using [private workers with a managed identity](../../integrations/cloud-providers/azure.md#managed-identities), you can use the identity of that worker to login:
 
-```
+```bash
 az login --identity
 az aks get-credentials --name "$AKS_CLUSTER_NAME" --resource-group "$AKS_RESOURCE_GROUP"
 ```
@@ -65,7 +65,7 @@ You can use the gcloud CLI to authenticate with a GKE cluster when using the [Sp
 
 The Spacelift GCP integration automatically generates an access token for your GCP service account, and this token can be used for getting your cluster credentials as well as accessing the cluster. To do this, add the following _before init_ hooks to your Stack:
 
-```
+```bash
 # Output the token into a temporary file, use gcloud to get
 # the cluster credentials, then remove the tmp file
 echo "$GOOGLE_OAUTH_ACCESS_TOKEN" > /mnt/workspace/gcloud-access-token
@@ -93,7 +93,7 @@ Please note, your Stack needs to have the following environment variables set fo
 
 If your cluster is deployed to a single zone, you can use the `--zone` flag instead of the `--region` flag in the `gcloud container clusters get-credentials` command:
 
-```
+```bash
 gcloud container clusters get-credentials $GKE_CLUSTER_NAME \
   --zone $GKE_CLUSTER_ZONE \
   --project $GCP_PROJECT_NAME \

@@ -28,7 +28,7 @@ Note that giving folks admin access is a big thing. Admins can do pretty much ev
 
 This is the schema of the data input that each policy request will receive:
 
-```javascript
+```json
 {
   "request": {
     "remote_ip": "string - IP of the user trying to log in",
@@ -75,7 +75,7 @@ There are three possible use cases for login policies - granting access to folks
 
 In high-security environments where the principle of least access is applied, it's quite possible that nobody on the infra team gets admin access to _GitHub_. Still, it would be pretty useful for those people to be in charge of your _Spacelift_ account. Let's create a login policy that will allow every member of the DevOps team to get admin access, and everyone in Engineering to get regular access - we'll give them more granular access to individual stacks later using [stack access policies](stack-access-policy.md). While at it, let's also explicitly deny access to all non-members just to be on the safe side.
 
-```perl
+```opa
 package spacelift
 
 teams := input.session.teams
@@ -98,7 +98,7 @@ This is also important for single sign-on integrations: only the [integration cr
 
 Sometimes you have folks (short-term consultants, most likely) who are not members of your organization but need access to your Spacelift account - either as regular members or perhaps even as admins. There's also the situation where a bunch of friends is working on a hobby project in a personal GitHub account and they could use access to Spacelift. Here's an example of a policy that allows a bunch of whitelisted folks to get regular access and one to get admin privileges:
 
-```perl
+```opa
 package spacelift
 
 admins  := { "alice" }
@@ -121,7 +121,7 @@ Stable and secure infrastructure is crucial to your business continuity. And all
 
 Note that this example only defines deny rules so you'll likely want to add some allow and admin rules, too - either in this policy or in a separate one.
 
-```perl
+```opa
 package spacelift
 
 now     := input.request.timestamp_ns
@@ -146,7 +146,7 @@ In addition to boolean rules regulating access to your Spacelift account, the lo
 * is a member of the DevOps team, as defined by your IdP;
 * is not a member of the Contractors team, as defined by your IdP;
 
-```perl
+```opa
 package spacelift
 
 team["Superwriter"] {
@@ -164,7 +164,7 @@ What's important here is that the **team** rule overwrites the original list of 
 
 If the above is not what you want, and you still would like to retain the original list of teams, you can modify the above example the following way:
 
-```perl
+```opa
 package spacelift
 
 # This rule will copy each of the existing teams to the
@@ -188,7 +188,7 @@ A playground example of the above is available [here](https://play.openpolicyage
 
 If no login policies are defined on the account, Spacelift behaves as if it had this policy:
 
-```perl
+```opa
 package spacelift
 
 allow { input.session.member }

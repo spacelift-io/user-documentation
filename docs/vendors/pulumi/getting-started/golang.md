@@ -42,7 +42,7 @@ Confirm the run to let it apply the changes, after applying it should look like 
 
 We can see the websiteUrl stack output. If we try to curl it, lo and behold:
 
-```
+```bash
 ~> curl s3-website-bucket-b47a23a.s3-website.eu-central-1.amazonaws.com
 <html><head>
     <title>Hello S3</title><meta charset="UTF-8">

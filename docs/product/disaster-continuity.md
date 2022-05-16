@@ -42,7 +42,7 @@ In the event of a disaster, Spacelift will presumably not be accessible or usabl
 
 Using your favorite cloud provider, generate temporary credentials for your deployment role. With Amazon Web Services for example, this would be done using the following command:
 
-```
+```bash
 aws sts assume-role \
   --role-arn <your-deployment-role-arn> \
   --role-session-name local-infra-deployment
@@ -50,7 +50,7 @@ aws sts assume-role \
 
 Using the output from the **assume-role** command, set your credentials in your shell.
 
-```
+```bash
 export AWS_ACCESS_KEY_ID=<value for access key id>
 export AWS_SECRET_ACCESS_KEY=<value for secret access key>
 export AWS_SESSION_TOKEN=<value for session toknen>
@@ -60,18 +60,18 @@ export AWS_SESSION_TOKEN=<value for session toknen>
 
 Initialize your code locally:
 
-```
+```bash
 terraform init
 ```
 
 To preview changes to be deployed:
 
-```
+```bash
 terraform plan
 ```
 
 To deploy changes:
 
-```
+```bash
 terraform apply
 ```

@@ -20,7 +20,7 @@ The following prerequisites are required to follow the rest of this guide:
 
 Start by creating a new repository for your Helm stack. This repository only needs to contain a single item - a _kustomization.yaml_ file:
 
-```
+```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -42,7 +42,7 @@ The kustomization file is used to tell `kubectl` where to find the file containi
 
 Follow the same steps to create your stack as per the [Getting Started](getting-started.md#create-a-new-stack) guide, but when you get to the _Define Behavior_ step, add the following commands as _before plan_ hooks:
 
-```
+```bash
 helm repo add spacelift https://downloads.spacelift.io/helm
 helm template spacelift-worker-pool spacelift/spacelift-worker --values values.yaml --set "replicaCount=$SPACELIFT_WORKER_REPLICAS" --set "credentials.token=$SPACELIFT_WORKER_POOL_TOKEN" --set "credentials.privateKey=$SPACELIFT_WORKER_POOL_PRIVATE_KEY" > spacelift-worker-pool.yaml
 ```

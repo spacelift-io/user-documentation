@@ -9,7 +9,7 @@ Our Terraform provider is open source and its [README](https://github.com/spacel
 So, without further ado, let's define a stack:
 
 {% code title="stack.tf" %}
-```python
+```terraform
 resource "spacelift_stack" "managed-stack" {
   name = "Stack managed by Spacelift"
 
@@ -23,7 +23,7 @@ resource "spacelift_stack" "managed-stack" {
 That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/#access-readers-and-writers-teams), so why don't we define some?
 
 {% code title="stack-and-teams.tf" %}
-```python
+```terraform
 resource "github_team" "stack-readers" {
   name = "managed-stack-readers"
 }
@@ -49,7 +49,7 @@ resource "spacelift_stack" "managed-stack" {
 Now that we programmatically combine Spacelift and GitHub resources, let's add AWS to the mix and give our new stack a dedicated [IAM role](../../integrations/cloud-providers/aws.md):
 
 {% code title="stack-teams-and-iam.tf" %}
-```python
+```terraform
 resource "github_team" "stack-readers" {
   name = "managed-stack-readers"
 }
@@ -105,7 +105,7 @@ resource "spacelift_stack_aws_role" "managed-stack" {
 
 Depending on whether you're using Terraform _0.12.x_ or higher, the Spacelift provider is distributed slightly differently. For _0.12.x_ users, the provider is distributed as a binary available in the [runner Docker image](../../integrations/docker.md#standard-runner-image) in the same folder we put the Terraform binary. If you're using Terraform _0.13_ and above, you can benefit from pulling our provider directly from our own provider registry. In order to do that, just point Terraform to the right location:
 
-```python
+```terraform
 provider "spacelift" {}
 
 terraform {
@@ -127,7 +127,7 @@ If you want to run the Spacelift provider outside of Spacelift, or you need to m
 
 In order to set up the provider to use an API key, you will need the key ID, secret, and the API key endpoint:
 
-```python
+```terraform
 variable "spacelift_key_id" {}
 variable "spacelift_key_secret" {}
 
@@ -146,7 +146,7 @@ These values can also be passed using environment variables, though this will on
 
 If you want to talk to multiple Spacelift accounts, you just need to set up [provider aliases](https://www.terraform.io/docs/configuration/providers.html#alias-multiple-provider-configurations) like this:
 
-```python
+```terraform
 variable "spacelift_first_key_id" {}
 variable "spacelift_first_key_secret" {}
 
@@ -172,7 +172,7 @@ provider "spacelift" {
 
 If you're running from inside Spacelift, you can still use the default, zero-setup provider for the current account with providers for accounts set up through API keys:
 
-```python
+```terraform
 variable "spacelift_that_key_id" {}
 variable "spacelift_that_key_secret" {}
 

@@ -44,7 +44,7 @@ When a user reviews the run, Spacelift persists their review and passes it to th
 
 This is the schema of the data input that each policy request will receive:
 
-```jsonp
+```json
 {
   "reviews": { // run reviews
     "current": { // reviews for the current state
@@ -105,7 +105,7 @@ In this example, each Unconfirmed run will require two approvals - including pro
 !!! info
     We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack).
 
-```python
+```opa
 package spacelift
 
 approve { input.run.state != "UNCONFIRMED" }
@@ -122,7 +122,7 @@ Here's a [minimal example to play with](https://play.openpolicyagent.org/p/Xhn6O
 
 This is a variation of the above policy, but one that will automatically fail any run that receives more than one rejection.
 
-```
+```opa
 package spacelift
 
 approve { input.run.state != "UNCONFIRMED" }
@@ -134,7 +134,7 @@ Here's a [minimal example to play with](https://play.openpolicyagent.org/p/swoLe
 
 ### Require approval for a task command not on the allowlist
 
-```python
+```opa
 package spacelift
 
 allowlist := ["ps", "ls", "rm -rf /"]
@@ -155,7 +155,7 @@ Here's a [minimal example to play with](https://play.openpolicyagent.org/p/iKwd8
 
 Usually, you will want to apply different rules to different types of jobs. Since approval policies are attached to stacks, you will want to be smart about how you combine different rules. Here's how you can do that in a readable way, combining two of the above approval flows as an example:
 
-```python
+```opa
 package spacelift
 
 # First, let's define all conditions that require explicit
@@ -184,7 +184,7 @@ Here's a [minimal example to play with](https://play.openpolicyagent.org/p/lvLa7
 
 Sometimes you want to give certain roles but not others the power to approve certain workloads. The policy below approves an unconfirmed run or a task when either a Director approves it, or **both** DevOps and Security roles approve it:
 
-```perl
+```opa
 package spacelift
 
 # First, let's define all conditions that require explicit

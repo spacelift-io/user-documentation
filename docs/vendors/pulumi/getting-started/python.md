@@ -59,7 +59,7 @@ Confirm the run to let it apply the changes, after applying it should look like 
 
 We can see the public\_dns stack output. If we try to curl it, lo and behold:
 
-```
+```bash
 ~> curl ec2-3-125-48-55.eu-central-1.compute.amazonaws.com
 Hello, World!
 ```

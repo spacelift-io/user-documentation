@@ -42,7 +42,7 @@ Spacelift automatically posts the usage summary to your pull requests once Infra
 
 Spacelift includes the full Infracost breakdown report in JSON format as part of the input to your plan policies. This is contained in `third_party_metadata.infracost`. The following shows an example plan input:
 
-```javascript
+```json
 {
   "cloudformation": null,
   "pulumi": null,
@@ -84,7 +84,7 @@ Spacelift includes the full Infracost breakdown report in JSON format as part of
 
 This means that you can take cost information into account when deciding whether to ask for human approval or to block changes entirely. The following policy provides a simple example of this:
 
-```perl
+```opa
 package spacelift
 
 # Prevent any changes that will cause the monthly cost to go above a certain threshold

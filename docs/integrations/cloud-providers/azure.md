@@ -59,9 +59,9 @@ Click on the Accept button to complete the admin consent process, at which point
 
 !!! warning
     Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
-    
+
     ![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD_AmzogTK_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg_H41DLG8LPHxbxgJFB=s0)
-    
+
     This isn’t a problem. Just wait a few minutes and try again.
 
 ### Configuring Azure permissions
@@ -118,13 +118,13 @@ If you already understand how to create and manage Service Principals, feel free
 
 Create a Service Principal using the following command, substituting`<subscription-id>` with your own subscription ID:
 
-```
+```bash
 az ad sp create-for-rbac --name spacelift-sp --role="Contributor" --scopes="/subscriptions/<subscription-id>"
 ```
 
 This will output something like the following:
 
-```
+```bash
 Changing "spacelift-sp" to a valid URI of "http://spacelift-sp", which is the required format used for service principal names
 Creating 'Contributor' role assignment under scope '/subscriptions/458fd769-5a4c-4df2-a339-8981094d8899'
 The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
@@ -141,8 +141,8 @@ The command creates a new Service Principal called `spacelift-sp`, and grants it
 
 !!! info
     If you would rather assign permissions separately, you can run the following command to create a Service Principal with no role assignments:
-    
-    ```
+
+    ```bash
     az ad sp create-for-rbac --name spacelift-sp --skip-assignment
     ```
 

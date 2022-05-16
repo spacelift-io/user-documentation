@@ -16,7 +16,7 @@ The best way to customizing your Terraform execution environment is to build a c
 If you want our tooling in your image, there are two possible approaches. The first approach is to **build on top of our image**. We'd suggest doing that only if your customizations are relatively simple. For example, let's add a custom CircleCI provider to your image. They have a releases page allowing you to just `curl` the right version of the binary and put it in the `/bin` directory:
 
 {% code title="Dockerfile" %}
-```
+```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest
 
 WORKDIR /tmp
@@ -30,7 +30,7 @@ For more sophisticated use cases it may be cleaner to **use Docker's** [**multis
 
 The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the Terraform binary are automatically used.
 
-```
+```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest as spacelift
 FROM golang:1.13-alpine as builder
 
@@ -52,23 +52,23 @@ RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 
 !!! info
     Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
-    
+
     * this user exists and has the right UID, otherwise you won't have access to your files;
     * whatever you need accessed and executed in your custom image has the right ownership and/or permissions;
-    
+
     Depending on your image flavor, the exact command to add the user may be different.
 
 ### Custom providers from Terraform 0.13 onwards
 
 Since Terraform 0.13, custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13 if the following stanza is added to the `Dockerfile`.
 
-```bash
+```docker
 COPY --from=builder /terraform-provider-sops /plugins/registry.myorg.io/myorg/sops/1.0.0/linux_amd64/terraform-provider-sops
 ```
 
 In addition, the custom provider must be explicitly required in the Terraform code, like this:
 
-```bash
+```terraform
 terraform {
   required_providers {
     spacelift = {

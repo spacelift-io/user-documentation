@@ -43,7 +43,7 @@ We run `pulumi up --refresh --diff --show-replacement-steps` in order to apply c
 
 Most policies don't change at all. The one that changes most is the plan policy. Instead of the terraform raw plan in the `terraform` field, you'll get a `pulumi` field with the raw Pulumi plan and the following schema:
 
-```
+```json
 {
   "pulumi": {
     "steps": [

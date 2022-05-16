@@ -45,7 +45,7 @@ Confirm the run to let it apply the changes, after applying it should look like 
 
 We can see the publicHostName stack output. If we try to curl it, lo and behold:
 
-```
+```bash
 ~> curl ec2-18-184-240-9.eu-central-1.compute.amazonaws.com
 Hello, World!
 ```

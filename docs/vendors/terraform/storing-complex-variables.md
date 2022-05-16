@@ -12,7 +12,7 @@ When using "complex" variable types with Spacelift such as `map` and `list` you'
 
 ### Usage Example
 
-```
+```terraform
 locals {
   map = {
     foo = "bar"

@@ -74,7 +74,7 @@ Here's a practical difference between the two types:
 
 {% tabs %}
 {% tab title="boolean.rego" %}
-```perl
+```opa
 package spacelift
 
 # This is a simple deny rule.
@@ -86,7 +86,7 @@ deny {
 {% endtab %}
 
 {% tab title="string.rego" %}
-```perl
+```opa
 package spacelift
 
 # This is a deny rule with string value.
@@ -100,7 +100,7 @@ deny["the user will see this"] {
 
 For the policies that generate a set of strings, you want these strings to be both informative and relevant, so you'll see this pattern a lot in the examples:
 
-```perl
+```opa
 package spacelift
 
 we_dont_create := { "scary", "resource", "types" }
@@ -127,7 +127,7 @@ The following helper functions can be used in Spacelift policies:
 
 There are two ways of creating policies - through the web UI and through the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](./#testing-policies). Here's how you'd define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration for completeness):
 
-```perl
+```opa
 resource "spacelift_stack" "example-stack" {
   name       = "Example stack"
   repository = "example-stack"
@@ -190,19 +190,19 @@ Enter **policy workbench**. Policy workbench allows you to capture policy evalua
 
 Each of Spacelift's policies supports an additional boolean rule called `sample`. Returning `true` from this rule means that the input to the policy evaluation is captured, along with the policy body at the time and the exact result of the policy evaluation. You can for example just capture every evaluation with a simple:
 
-```bash
+```opa
 sample { true }
 ```
 
 If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty least for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
 
-```bash
+```opa
 sample { count(deny) == 0 }
 ```
 
 You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
 
-```go
+```opa
 sample {
   millis := round(input.request.timestamp_ns / 1e6)
   millis % 100 <= 10
@@ -268,7 +268,7 @@ Luckily, Spacelift uses a well-documented and well-supported open source languag
 Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#account-membership), and write a test for it:
 
 {% code title="deny-non-members.rego" %}
-```perl
+```opa
 package spacelift
 
 deny { not input.session.member }
@@ -278,7 +278,7 @@ deny { not input.session.member }
 You'll see that we simply mock out the `input` received by the policy:
 
 {% code title="deny-non-members_test.rego" %}
-```perl
+```opa
 package spacelift
 
 test_non_member {
@@ -301,7 +301,7 @@ PASS: 2/2
 Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](run-initialization-policy.md) that denies commits to a particular branch (because why not):
 
 {% code title="deny-sandbox.rego" %}
-```perl
+```opa
 package spacelift
 
 deny[sprintf("don't push to %s", [branch])] {
@@ -314,7 +314,7 @@ deny[sprintf("don't push to %s", [branch])] {
 In the respective test, we will check that the set return by the **deny** rule either has the expected element for the matching input, or is empty for non-matching one:
 
 {% code title="deny-sandbox_test.rego" %}
-```perl
+```opa
 package spacelift
 
 test_sandbox_denied {
