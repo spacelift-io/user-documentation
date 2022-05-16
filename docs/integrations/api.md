@@ -179,11 +179,11 @@ Our GraphQL schema is self-documenting. The best way to view the latest document
 !!! warning
     Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
 
-### **Insomnia Example**
+### Insomnia Example
 
 ![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift\_–\_GraphQL.png)
 
-### **GraphiQL Example**
+### GraphiQL Example
 
 _Input your GraphQL Endpoint for your Spacelift Account._
 

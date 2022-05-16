@@ -1,6 +1,6 @@
 # Drift detection
 
-## **Drift happens**
+## Drift happens
 
 In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired and the actual state of the infrastructure managed by your tool of choice - [Terraform](https://www.terraform.io), [Pulumi](https://www.pulumi.com), [CloudFormation](https://aws.amazon.com/cloudformation/), etc. In practice, there are two sources of _drift_.
 

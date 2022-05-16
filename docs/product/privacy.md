@@ -8,9 +8,9 @@ This privacy policy applies to all information collected through our and/or any 
 
 Please read this privacy policy carefully as it will help you make informed decisions about sharing your personal information with us.
 
-## **1. What information do we collect?**
+## 1. What information do we collect?
 
-### **Personal information you disclose to us**
+### Personal information you disclose to us
 
 We collect personal information that you voluntarily provide to us when registering at the expressing an interest in obtaining information about us or our products and services, when participating in activities on the or otherwise contacting us.
 
@@ -28,7 +28,7 @@ We automatically collect certain information when you visit, use or navigate the
 
 Like many businesses, we also collect information through cookies and similar technologies.
 
-## **2. Will your information be shared with anyone?**
+## 2. Will your information be shared with anyone?
 
 We may process or share data based on the following legal basis:
 
@@ -86,7 +86,7 @@ If we are relying on your consent to process your personal information, you have
 
 If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm)
 
-### **Account Information**
+### Account Information
 
 If you would at any time like to review or change the information in your account or terminate your account, you can: 
 

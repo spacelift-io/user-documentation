@@ -49,7 +49,7 @@ Note how it becomes a regular write-only variable upon saving:
 
 If you delete this variable, it will again be replaced by the computed one. If you want to get rid of the computed variable entirely, you will need to disable the integration that originally led to its inclusion in this list.
 
-### **Spacelift environment**
+### Spacelift environment
 
 The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
 

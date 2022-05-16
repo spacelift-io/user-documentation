@@ -29,6 +29,15 @@ def transform_hints(content):
 def remove_unicode_spaces(content):
   return content.replace("&#x20;", "")
 
+def remove_bold_formatting_from_headings(content):
+  matches = re.finditer("^#{2,4}.*(?:\*\*|__).*(?:\*\*|__).*", content, flags=re.MULTILINE)
+  for match in matches:
+    src_heading = match.group(0)
+    dest_heading = src_heading.replace("**", "").replace("__", "")
+    content = content.replace(src_heading, dest_heading)
+
+  return content
+
 if __name__ == "__main__":
   ROOT_DIR = Path(__file__).parent.parent.absolute()
   DOCS_DIR = ROOT_DIR.joinpath("docs")
@@ -39,5 +48,6 @@ if __name__ == "__main__":
 
     content = transform_hints(content)
     content = remove_unicode_spaces(content)
+    content = remove_bold_formatting_from_headings(content)
 
     save_content_to_dest_file(src_file, content)

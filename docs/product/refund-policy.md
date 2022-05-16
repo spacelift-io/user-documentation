@@ -4,11 +4,11 @@ description: Spacelift, Inc. Refund Policy
 
 # Refund Policy
 
-## **GENERAL PROVISIONS**
+## GENERAL PROVISIONS
 
 Refunds will be made on the terms and conditions set out in this Policy in the event that the Customer withdraws from the Software purchase Agreement.
 
-## **DEFINITIONS**
+## DEFINITIONS
 
 The following definitions are set out for the purposes of this Policy:
 
@@ -19,7 +19,7 @@ The following definitions are set out for the purposes of this Policy:
 5. Agreement - the agreement between the Company and the Customer concerning the purchase of the Software.
 6. Funds - funds paid by the Customer to the Company under the Agreement for the purchase of the Software.
 
-## **REFUND PROCESS**
+## REFUND PROCESS
 
 The Customer may withdraw from the Agreement and claim a refund of funds within 14 days after the completion of the purchase of the Software provided that the purchased Software has not been activated during that period.
 
@@ -31,7 +31,7 @@ The Funds will be returned using the original payment method.
 
 The time taken to return the Funds may be affected by the operation of the payment provider.
 
-## **FINAL PROVISIONS**
+## FINAL PROVISIONS
 
 The current version of the Policy is available at [https://docs.spacelift.io/product/refund-policy](https://docs.spacelift.io/product/refund-policy)
 

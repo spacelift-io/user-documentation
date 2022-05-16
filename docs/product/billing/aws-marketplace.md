@@ -17,7 +17,7 @@ There are two types of AWS Marketplace offers, please select an option from belo
 
 Please follow the steps below to setup a public offering on the AWS Marketplace.
 
-#### Visit the **AWS Marketplace**
+#### Visit the AWS Marketplace
 
 {% embed url="https://aws.amazon.com/marketplace" %}
 

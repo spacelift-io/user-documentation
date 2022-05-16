@@ -6,7 +6,7 @@ description: Spacelift Getting Started Guide
 
 Hello and Welcome to Spacelift! In this guide we will briefly introduce some key concepts that you need to know to work with Spacelift. These concepts will be followed by [detailed instructions](getting-started.md#step-by-step) to help you create and configure your first run with Spacelift.
 
-## **Introduction to Main Concepts**
+## Introduction to Main Concepts
 
 ### Stacks
 
@@ -33,7 +33,7 @@ Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). In
 Spacelift deeply integrates with your Version Control System (VCS). Pull requests are evaluated by Spacelift to provide a preview of the changes being made to infrastructure; these changes are deployed automatically when PRs are merged. You can learn more about [VCS integration](integrations/source-control/) here.\
 
 
-## **Step-by-step**
+## Step-by-step
 
 This section provides step-by-step instructions to help you set up and get the most out of Spacelift. If you want to learn about core concepts, please have a look at the [main concepts](getting-started.md#introduction-to-main-concepts) section.
 
@@ -42,7 +42,7 @@ You can get started with either forking our Terraform Starter repository and tes
 * [Use our starter repository to play with Spacelift (guide)](https://github.com/spacelift-io/terraform-starter)
 * [Use your own repository (guide)](getting-started.md#first-stack-run)
 
-## **First Stack Run**
+## First Stack Run
 
 This tutorial will help you complete your first stack and run. It assumes you use your own repository.
 
@@ -86,7 +86,7 @@ Now login to the Spacelift console, you are ready to create your first stack!
 2. Follow the guide for [setting up the GitHub integration](integrations/source-control/github.md#setting-up-the-integration).
 3. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-### __ __Step 3: Create your first Stack
+###  Step 3: Create your first Stack
 
 1. Click on the Add **Stack** button.
 
@@ -120,7 +120,7 @@ Click on _Confirm_ and your changes will be applied. Your output will look diffe
 
 ![](./assets/screenshots/8.png)
 
-## **Further Reading**
+## Further Reading
 
 1. Learn how to [integrate with AWS](integrations/cloud-providers/aws.md) as a cloud provider for your infrastructure
 2. Try [creating and attaching policies](concepts/policy/#creating-policies) with stacks for common use cases
