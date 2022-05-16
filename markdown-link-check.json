@@ -1,12 +1,10 @@
 {
-  "replacementPatterns": [
+  "httpHeaders": [
     {
-      "pattern": "^.attachments",
-      "replacement": "file://some/conventional/folder/.attachments"
-    },
-    {
-      "pattern": "^/",
-      "replacement": "{{BASEURL}}/"
+      "urls": ["https://docs.github.com/"],
+      "headers": {
+        "Accept-Encoding": "zstd, br, gzip, deflate"
+      }
     }
   ]
 }

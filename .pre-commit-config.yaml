@@ -12,7 +12,7 @@ repos:
     rev: v3.10.2
     hooks:
       - id: markdown-link-check
-        args: [--quiet]
+        args: [--config=markdown-link-check.json, --quiet]
   - repo: https://github.com/shssoichiro/oxipng
     # KLUDGE: No published release with pre-commit support yet
     rev: 961c1548ec6daeed1edc841c0a41323ffa81e80d
