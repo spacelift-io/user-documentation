@@ -173,13 +173,13 @@ To configure the Azure provider using a client secret, add the following [enviro
 
 Once finished, your environment should look something like this:
 
-![](<../../.gitbook/assets/image (83).png>)
+![](<../../assets/screenshots/image (83).png>)
 
 #### Authenticating with a client certificate
 
 To configure the Azure provider using a client certificate, first add your PFX as a [mounted file](../../concepts/configuration/environment.md#mounted-files) to your environment:
 
-![](<../../.gitbook/assets/image (84).png>)
+![](<../../assets/screenshots/image (84).png>)
 
 {% hint style="warning" %}
 You should treat this certificate like any other credential, and mark it as a _secret._
@@ -195,7 +195,7 @@ Next, add the following [environment variables](../../concepts/configuration/env
 
 Once finished, your environment should look something like this:
 
-![](<../../.gitbook/assets/image (85).png>)
+![](<../../assets/screenshots/image (85).png>)
 
 ### Credential expiry and rotation
 
@@ -223,4 +223,4 @@ In addition, if using a user-assigned identity, add the following variable to yo
 
 Once finished, your environment should look something like this:
 
-![](<../../.gitbook/assets/image (86).png>)
+![](<../../assets/screenshots/image (86).png>)

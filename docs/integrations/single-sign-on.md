@@ -12,7 +12,7 @@ By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some 
 
 In order to manage single sign-on integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single sign-on_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
 
-![These URLs will be different for your account](../.gitbook/assets/sso\_settings.png)
+![These URLs will be different for your account](../assets/screenshots/sso\_settings.png)
 
 
 
@@ -78,4 +78,4 @@ In order to disable SSO integration for your Spacelift account, or change the Id
 Again, please note that new usernames will occupy new seats, even if they're the same users registered with a different identity provider.
 {% endhint %}
 
-![](../.gitbook/assets/disable-oidc.png)
+![](../assets/screenshots/disable-oidc.png)

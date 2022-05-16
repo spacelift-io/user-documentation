@@ -12,11 +12,11 @@ One of the things we're most proud of at Spacelift is the deep integration with 
 
 In order to set up the integration from the Spacelift side, navigate to the VCS Providers section of the Account Settings page in your Spacelift account, then click the _Set up_ button next to the GitHub (custom App) option:
 
-![](<../../.gitbook/assets/Screen Shot 2022-04-20 at 4.25.49 PM.png>)
+![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.25.49 PM.png>)
 
 This should open a form like this one:
 
-![](<../../.gitbook/assets/Screen Shot 2022-04-20 at 4.28.27 PM.png>)
+![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.28.27 PM.png>)
 
 ### Create a GitHub App
 
@@ -26,15 +26,15 @@ You will need the Webhook endpoint and Webhook secret while creating your App, s
 
 You can either create the App in an individual user account or within an organization account_:_
 
-![](<../../.gitbook/assets/image (52).png>)
+![](<../../assets/screenshots/image (52).png>)
 
 Give your app a name and homepage URL (these are only used for informational purposes within GitHub):
 
-![](<../../.gitbook/assets/image (53).png>)
+![](<../../assets/screenshots/image (53).png>)
 
 Enter your Webhook URL and secret:
 
-![](<../../.gitbook/assets/image (54).png>)
+![](<../../assets/screenshots/image (54).png>)
 
 **Set the following Repository permissions:**
 
@@ -63,15 +63,15 @@ Enter your Webhook URL and secret:
 
 Finally, choose whether you want to allow the App to be installed on any account or only on the account it is being created in and click on _Create GitHub App:_
 
-![](<../../.gitbook/assets/image (55).png>)
+![](<../../assets/screenshots/image (55).png>)
 
 Once your App has been created, make a note of the _App ID_ in the _About_ section:
 
-![](<../../.gitbook/assets/image (56).png>)
+![](<../../assets/screenshots/image (56).png>)
 
 Now scroll down to the _Private keys_ section __ of the page and click on _Generate a private key:_
 
-![](<../../.gitbook/assets/image (57).png>)
+![](<../../assets/screenshots/image (57).png>)
 
 This will download a file onto your machine containing the private key for your GitHub app. The file will be named `<app-name>.<date>.private-key.pem`, for example `spacelift.2021-05-11.private-key.pem`.
 
@@ -81,7 +81,7 @@ Now that your GitHub App has been created, go back to the integration configurat
 If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com)
 {% endhint %}
 
-![](<../../.gitbook/assets/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
+![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 
 Click on the Save button to save your integration settings.
 
@@ -89,15 +89,15 @@ Click on the Save button to save your integration settings.
 
 Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts in your GitHub account. To do this, go back to GitHub, find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
 
-![](<../../.gitbook/assets/image (58).png>)
+![](<../../assets/screenshots/image (58).png>)
 
 Go to the _Install App_ section, and click on the _Install_ button next to the account your want Spacelift to access:
 
-![](<../../.gitbook/assets/image (59).png>)
+![](<../../assets/screenshots/image (59).png>)
 
 Choose whether you want to allow Spacelift access to all the repositories in the account, or only certain ones:
 
-![](<../../.gitbook/assets/image (60).png>)
+![](<../../assets/screenshots/image (60).png>)
 
 Congrats, you've just linked your GitHub account to Spacelift!
 
@@ -105,7 +105,7 @@ Congrats, you've just linked your GitHub account to Spacelift!
 
 If you no-longer need the integration, you can remove it via the _Unlink_ button on the VCS Providers page:
 
-![](<../../.gitbook/assets/Screen Shot 2022-04-21 at 12.31.50 PM.png>)
+![](<../../assets/screenshots/Screen Shot 2022-04-21 at 12.31.50 PM.png>)
 
 Please note that unlinking the integration in Spacelift will not remove the GitHub App or its permissions from within GitHub. You will need to do that yourself
 
@@ -113,7 +113,7 @@ Please note that unlinking the integration in Spacelift will not remove the GitH
 
 If your Spacelift account is integrated with GitHub, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS provider to use. GitHub will always come first, assuming that you've integrated it with Spacelift for a good reason:
 
-![](<../../.gitbook/assets/Screen Shot 2022-04-21 at 12.43.09 PM.png>)
+![](<../../assets/screenshots/Screen Shot 2022-04-21 at 12.43.09 PM.png>)
 
 The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't go into further details.
 
@@ -133,23 +133,23 @@ Commit status notifications are triggered for [_proposed_ runs](../../concepts/r
 
 ...when the run is in progress ([initializing](../../concepts/run/#initializing)):
 
-![](../../.gitbook/assets/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end.png)
+![](../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end.png)
 
 ...when it succeeds _without changes_:
 
-![](<../../.gitbook/assets/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
+![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
 
 ...when it succeeds _with changes_:
 
-![](<../../.gitbook/assets/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
+![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
 
 ...and when it fails:
 
-![](<../../.gitbook/assets/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (3).png>)
+![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (3).png>)
 
 In each case, clicking on the _Details_ link will take you to the GitHub check view showing more details about the run:
 
-![](<../../.gitbook/assets/Add\_Azure\_integration\_variables\_by\_adamconnelly\_·\_Pull\_Request\_\_561\_·\_spacelift-io\_infra (1).png>)
+![](<../../assets/screenshots/Add\_Azure\_integration\_variables\_by\_adamconnelly\_·\_Pull\_Request\_\_561\_·\_spacelift-io\_infra (1).png>)
 
 The Check view provides high-level information about the changes introduced by the push, including the list of changing resources, including cost data if [Infracost](../../vendors/terraform/infracost.md) is set up.
 
@@ -175,13 +175,13 @@ deny["Do not deploy from GitHub"] {
 
 The effect is as follows:
 
-![](../../.gitbook/assets/Update\_README\_md\_·\_Private\_worker\_pool.png)
+![](../../assets/screenshots/Update\_README\_md\_·\_Private\_worker\_pool.png)
 
 #### Using Spacelift checks to protect branches
 
 You can use commit statuses to protect your branches tracked by Spacelift stacks by ensuring that _proposed_ runs succeed before merging their Pull Requests:
 
-![](<../../.gitbook/assets/New\_branch\_protection\_rule (1).png>)
+![](<../../assets/screenshots/New\_branch\_protection\_rule (1).png>)
 
 This is is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
 
@@ -189,23 +189,23 @@ This is is an important part of our proposed workflow - please refer to [this se
 
 [Deployments](https://developer.github.com/v3/guides/delivering-deployments/) and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
 
-![](<../../.gitbook/assets/Deployments\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
+![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
 
 If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
 
-![](<../../.gitbook/assets/Deployments\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
+![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
 
 If the [Applying](../../concepts/run/tracked.md#applying) phase succeeds (fingers crossed!), the deployment is marked as _Active_:
 
-![](../../.gitbook/assets/Deployments\_·\_spacelift-io\_marcinw-end-to-end.png)
+![](../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end.png)
 
 The whole deployment history broken down by stack can be accessed from your repo's _Environments_ section - a previously obscure feature that's recently getting more and more love from GitHub:
 
-![](../../.gitbook/assets/spacelift-io\_infra\_\_Infrastructure\_definitions\_for\_Spacelift.png)
+![](../../assets/screenshots/spacelift-io\_infra\_\_Infrastructure\_definitions\_for\_Spacelift.png)
 
 That's what it looks like for our test repo, with just a singe stack pointing at it:
 
-![](<../../.gitbook/assets/Deployments\_·\_spacelift-io\_marcinw-end-to-end (4).png>)
+![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (4).png>)
 
 {% hint style="info" %}
 The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../concepts/run/tracked.md).
@@ -215,7 +215,7 @@ The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../
 
 In order to help you keep track of all the pending changes to your infrastructure, Spacelift also has a PRs tab that lists all the active Pull Request against your tracked branch. Each of the entries shows the current status of the change as determined by Spacelift, and a link to the most recent Run responsible for determining that status:
 
-![](../../.gitbook/assets/Pull\_Requests\_·\_Spacelift\_development.png)
+![](../../assets/screenshots/Pull\_Requests\_·\_Spacelift\_development.png)
 
 Note that this view is read-only - you can't change a Pull Request through here, but clicking on the name will take you to GitHub where you can make changes.
 

@@ -109,7 +109,7 @@ we_dont_create := { "scary", "resource", "types" }
 deny[sprintf("some rule violated (%s)", [resource.address])] {
   some resource
   created_resources[resource]
-  
+
   we_dont_create[resource.type]
 }
 ```
@@ -150,11 +150,11 @@ resource "spacelift_policy_attachment" "example-attachment" {
 
 On the other hand, if you want to create a policy in the UI, here's how you could go about that. **Note that you must be a Spacelift admin to manage policies**. First, go to the Policies screen in your account view, and click the _Add policy_ button:
 
-![](<../../.gitbook/assets/Policies\_·\_spacelift-io (1).png>)
+![](<../../assets/screenshots/Policies\_·\_spacelift-io (1).png>)
 
 This takes you to the policy creation screen where you can choose the type of policy you want to create, and edit its body. For each type of policy you're also given an explanation and a few examples. We'll be creating an [access policy](stack-access-policy.md) that gives members of the _Engineering_ GitHub team read access to a stack:
 
-![](<../../.gitbook/assets/New\_policy\_·\_spacelift-io (2).png>)
+![](<../../assets/screenshots/New\_policy\_·\_spacelift-io (2).png>)
 
 Once you're done, click on the _Create policy_ button to save it. Don't worry, policy body is mutable so you'll always be able to edit it if need be.
 
@@ -166,17 +166,17 @@ Policies, with the exception of [Login policies](login-policy.md), can be automa
 
 In the example below, the policy will be automatically attached to all the stacks with the label `production`.
 
-![](<../../.gitbook/assets/CleanShot 2022-03-10 at 16.03.48@2x.png>)
+![](<../../assets/screenshots/CleanShot 2022-03-10 at 16.03.48@2x.png>)
 
 ### Manually
 
 In the web UI attaching policies is done in the stack management view, in the Policies tab:
 
-![](../../.gitbook/assets/Edit\_stack\_·\_We\_test\_in\_prod.png)
+![](../../assets/screenshots/Edit\_stack\_·\_We\_test\_in\_prod.png)
 
 We only have one policy, so let's select it and attach it:
 
-![](<../../.gitbook/assets/Edit\_stack\_·\_We\_test\_in\_prod (1).png>)
+![](<../../assets/screenshots/Edit\_stack\_·\_We\_test\_in\_prod (1).png>)
 
 Cool, your policy is attached and from now on it will affect the stack. You can detach it from this view, too.
 
@@ -221,31 +221,31 @@ In order to show you how to work with the policy workbench, we are going to use 
 This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter), which gives you hands-in experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
 {% endhint %}
 
-![](../../.gitbook/assets/Allow\_only\_safe\_commands\_·\_marcinwyszynski.png)
+![](../../assets/screenshots/Allow\_only\_safe\_commands\_·\_marcinwyszynski.png)
 
 In order to get to the policy workbench, first click on the Edit button in the upper right hand corner of the policy screen:
 
-![](<../../.gitbook/assets/Allow\_only\_safe\_commands\_·\_marcinwyszynski (1).png>)
+![](<../../assets/screenshots/Allow\_only\_safe\_commands\_·\_marcinwyszynski (1).png>)
 
 Then, click on the Show simulation panel link on the right hand side of the screen:
 
-![](<../../.gitbook/assets/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (1).png>)
+![](<../../assets/screenshots/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (1).png>)
 
 If your policy has been used evaluated and sampled, your screen should look something like this:
 
-![](../../.gitbook/assets/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski.png)
+![](../../assets/screenshots/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski.png)
 
 On the left hand side you have the policy body. On the right hand side there's a dropdown with timestamped evaluations (inputs) of this policy, color-coded for their ultimate outcome. Selecting one of the inputs allows you to simulate the evaluation:
 
-![](<../../.gitbook/assets/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (2).png>)
+![](<../../assets/screenshots/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (2).png>)
 
 While running simulations, you can edit both the input and the policy body. If you edit the policy body, or choose an input that has been evaluated with a different policy body, you will get a warning like this:
 
-![](<../../.gitbook/assets/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (3).png>)
+![](<../../assets/screenshots/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (3).png>)
 
 Clicking on the _Show changes_ link within that warning shows you the exact difference between the policy body in the editor panel, and the one used for evaluating the selected input:
 
-![](<../../.gitbook/assets/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (4).png>)
+![](<../../assets/screenshots/Editing\_Allow\_only\_safe\_commands\_·\_marcinwyszynski (4).png>)
 
 Once you're happy with your new policy body, you can click on the _Save changes_ button to make sure that the new body is used for future evaluations.
 
@@ -253,7 +253,7 @@ Once you're happy with your new policy body, you can click on the _Save changes_
 
 Yes, policy sampling is perfectly safe. Session data may contain some personal information like username, name and IP, but that data is only persisted for 7 days. Most importantly, in [plan policies](terraform-plan-policy.md) the inputs hash all the string attributes of resources, ensuring that no sensitive data leaks through this means.
 
-![](../../.gitbook/assets/Editing\_Enforce\_password\_strength\_·\_marcinwyszynski.png)
+![](../../assets/screenshots/Editing\_Enforce\_password\_strength\_·\_marcinwyszynski.png)
 
 Last but not least, the policy workbench - including access to previous inputs - is only available to **Spacelift account administrators**.
 

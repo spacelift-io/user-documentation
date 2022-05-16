@@ -16,7 +16,7 @@ Note that the Planning phase can be safely [stopped by the user](./#stopping-run
 
 If any [plan policies](../policy/terraform-plan-policy.md) are attached to the current stack, each of these policies is evaluated to automatically determine whether the change is acceptable according to the rules adopted by your organization. Here is an example of an otherwise successful planning phase that still fails due to policy violations:
 
-![](../../.gitbook/assets/Test\_multi-endpoint\_support\_\_\_6\_\_·\_Managed\_stack.png)
+![](../../assets/screenshots/Test\_multi-endpoint\_support\_\_\_6\_\_·\_Managed\_stack.png)
 
 You can read more about plan policies [here](../policy/terraform-plan-policy.md).
 
@@ -24,7 +24,7 @@ You can read more about plan policies [here](../policy/terraform-plan-policy.md)
 
 If the planning phase is successful (which includes policy evaluation), Spacelift analyses the diff and counts the resources and outputs that would be added, changed and deleted if the changes were to be applied. Here's one example of one such delta being reported:
 
-![](<../../.gitbook/assets/01DTA81NX98GZ17DFND94KXTPP\_·\_End-to-end\_testing (1).png>)
+![](<../../assets/screenshots/01DTA81NX98GZ17DFND94KXTPP\_·\_End-to-end\_testing (1).png>)
 
 ## Success criteria
 

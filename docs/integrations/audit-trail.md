@@ -6,19 +6,19 @@ Spacelift optionally supports auditing all operations that change Spacelift reso
 
 In order to set up the audit trail, navigate to the Audit trail section of your account settings and click the _Set up_ button:
 
-![](<../.gitbook/assets/Spacelift (1).png>)
+![](<../assets/screenshots/Spacelift (1).png>)
 
 You will then need to provide a webhook endpoint and an arbitrary secret that you can later use for [verifying payload](audit-trail.md#verifying-payload). Let's use ngrok for the purpose of this tutorial:
 
-![](<../.gitbook/assets/Spacelift (3).png>)
+![](<../assets/screenshots/Spacelift (3).png>)
 
 If you choose to automatically enable the functionality, clicking the _Save_ button will verify that payloads can be delivered (the endpoint returns a 2xx status code). This gives us an opportunity to look at the payload:
 
-![](../.gitbook/assets/ngrok\_-\_Inspect.png)
+![](../assets/screenshots/ngrok\_-\_Inspect.png)
 
 ...and the headers - the interesting ones are highlighted:
 
-![](<../.gitbook/assets/ngrok\_-\_Inspect (1).png>)
+![](<../assets/screenshots/ngrok\_-\_Inspect (1).png>)
 
 ## Usage
 
@@ -32,13 +32,13 @@ Every audit trail payload conforms to the same schema:
 
 Below is a sample:
 
-![](<../.gitbook/assets/ngrok\_-\_Inspect (2).png>)
+![](<../assets/screenshots/ngrok\_-\_Inspect (2).png>)
 
 ## Disabling and deleting the audit trail
 
 The audit trail can be disabled and deleted at any point, but for both events we will send the appropriate payload. We suggest that you always treat these at least as important security signals, if not alerting conditions:
 
-![](<../.gitbook/assets/ngrok\_-\_Inspect (3).png>)
+![](<../assets/screenshots/ngrok\_-\_Inspect (3).png>)
 
 ## Verifying payload
 

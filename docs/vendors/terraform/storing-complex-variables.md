@@ -19,7 +19,7 @@ locals {
   }
   list = ["this", "is", "a", "list"]
 }
-  
+
 resource "spacelift_context" "example" {
   description = "Example of storing complex variable types"
   name        = "Terraform Complex Variable Types Example"
@@ -42,7 +42,7 @@ resource "spacelift_environment_variable" "list_example" {
 
 Notice the use of the `jsonencode` function when storing these complex variable types. This will allow you to successfully store these variable types within Spacelift.
 
-![](../../.gitbook/assets/store-complex-variable-types.png)
+![](../../assets/screenshots/store-complex-variable-types.png)
 
 ### Consuming Stored Variables
 

@@ -4,7 +4,7 @@ The Kubernetes integration relies on using `kubectl`'s native authentication to 
 
 You should perform any custom authentication as part of a _before init_ hook to make sure that `kubectl` is configured correctly before any commands are run, as shown in the following example:
 
-![](<../../.gitbook/assets/image (110).png>)
+![](<../../assets/screenshots/image (110).png>)
 
 The following sections provide examples of how to configure the integration manually, as well as using Cloud-specific tooling.
 

@@ -38,13 +38,13 @@ Looking at the code, you will find that it deploys a single instance of Nginx.
 
 In Spacelift, go ahead and click the **Add Stack** button to create a Stack in Spacelift.
 
-![](../../.gitbook/assets/k8s-create-a-new-stack.png)
+![](../../assets/screenshots/k8s-create-a-new-stack.png)
 
 ### Integrate VCS
 
 Select the repository you created in the initial step, as seen in the picture.
 
-![Configuring the VCS settings.](../../.gitbook/assets/k8s-integrate-vcs.png)
+![Configuring the VCS settings.](../../assets/screenshots/k8s-integrate-vcs.png)
 
 ### Configure Backend
 
@@ -54,7 +54,7 @@ Choose Kubernetes from the dropdown list and type out the **namespace**.
 Spacelift does not recommend leaving the Namespace blank due to the elevated level of access privilege required.
 {% endhint %}
 
-![](../../.gitbook/assets/k8s-configure-backend.png)
+![](../../assets/screenshots/k8s-configure-backend.png)
 
 ### Define Behavior
 
@@ -69,7 +69,7 @@ To ensure the success of a Kubernetes deployment, the following options should b
 Spacelift can authenticate against any Kubernetes cluster, including local or cloud provider managed instances.
 {% endhint %}
 
-![](../../.gitbook/assets/k8s-define-behavior.png)
+![](../../assets/screenshots/k8s-define-behavior.png)
 
 In the example above, I am authenticating to an AWS EKS Cluster and used the following command to update the kubeconfig for the necessary cluster.\
 \
@@ -95,11 +95,11 @@ After you Name the Stack, follow the Cloud Integrations section to ensure Spacel
 
 Provide the name of your Stack. _Labels_ and _Description_ are not required but recommended.
 
-![](../../.gitbook/assets/k8s-name-stack.png)
+![](../../assets/screenshots/k8s-name-stack.png)
 
 Saving the Stack will redirect you to its Tracked Runs (Deployment) page.
 
-![](../../.gitbook/assets/k8s-triggered-runs.png)
+![](../../assets/screenshots/k8s-triggered-runs.png)
 
 ## Configure Integrations
 
@@ -107,7 +107,7 @@ To authenticate against a Kubernetes cluster provided by Cloud Provider managed 
 
 Navigate to the **Settings**, **Integrations** page and select the dropdown arrow to access the following selection screen:
 
-![](../../.gitbook/assets/k8s-integration-selection.png)
+![](../../assets/screenshots/k8s-integration-selection.png)
 
 {% hint style="warning" %}
 Necessary permissions to the Kubernetes Cluster are required.
@@ -125,7 +125,7 @@ Once you have configured the necessary integration, navigate the Stack landing p
 
 To Trigger a Run, select _**Trigger**_ on the right side of the Stacks view.
 
-![](../../.gitbook/assets/k8s-trigger.png)
+![](../../assets/screenshots/k8s-trigger.png)
 
 {% hint style="info" %}
 **Spacelift Label**\
@@ -145,7 +145,7 @@ After you manually trigger the Run in the Stack view, Spacelift will deploy a ru
 \
 After a successful planning phase, you can check the log to see the planned changes.
 
-![](../../.gitbook/assets/k8s-unconfirmed.png)
+![](../../assets/screenshots/k8s-unconfirmed.png)
 
 {% hint style="info" %}
 **Planning Phase**
@@ -164,7 +164,7 @@ To confirm the Triggered run, click the _**CONFIRM**_ button.
 
 The following screen highlights the Finished Run and output from a successful deployment to your Kubernetes cluster.
 
-![](../../.gitbook/assets/k8s-finished.png)
+![](../../assets/screenshots/k8s-finished.png)
 
 {% hint style="info" %}
 **Applying**

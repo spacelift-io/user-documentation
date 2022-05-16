@@ -27,7 +27,7 @@ You can use a module in your Terraform configuration this way:
 module "my-birthday-cake" {
   source  = "spacelift.io/spacelift-io/cake/oven"
   version = "4.2.0"
-  
+
   # Inputs.
   eggs  = 5
   flour = "200g"
@@ -77,19 +77,19 @@ The source code for a module can be stored in a subdirectory of your repository 
 
 In order to add a module to Spacelift, navigate to the _Modules_ section of the account view, and click the _Add module_ button:
 
-![](../../.gitbook/assets/Modules\_·\_marcinwyszynski.png)
+![](../../assets/screenshots/Modules\_·\_marcinwyszynski.png)
 
 The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
 
-![](<../../.gitbook/assets/New\_module\_·\_marcinwyszynski (2).png>)
+![](<../../assets/screenshots/New\_module\_·\_marcinwyszynski (2).png>)
 
 In the behavior section there are just three settings: [_administrative_](../../concepts/stack/#administrative)_,_ [_worker pool_](../../concepts/worker-pools.md#using-worker-pools) __ and _ **project root**_. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root let's you specify the module source code root inside of your repository:
 
-![](<../../.gitbook/assets/image (76).png>)
+![](<../../assets/screenshots/image (76).png>)
 
 Last but not least, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/#labels) and [description](../../concepts/stack/#name-and-description).
 
-![](<../../.gitbook/assets/image (77).png>)
+![](<../../assets/screenshots/image (77).png>)
 
 The name and provider will be inferred from your repository name if it follows the terraform-\<provider>-\<name> convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name.
 
@@ -127,7 +127,7 @@ tests:
     terraform_version: 0.13.0
     environment:
       TF_VAR_cabbage: awful
-      
+
   - name: Ensure that the submodule can fail
     # You can use negative to indicate that the test case is expected to fail
     negative: true
@@ -163,7 +163,7 @@ Each test case will have its own commit status in GitHub / GitLab.
 
 Whenever tests succeed on a [tracked change](../../concepts/run/#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.
 
-![](../../.gitbook/assets/Versions\_·\_terraform-spacelift-example.png)
+![](../../assets/screenshots/Versions\_·\_terraform-spacelift-example.png)
 
 Two proposed git flow are as follows:
 
@@ -187,7 +187,7 @@ If no test cases are present, the version is immediately marked green.
 
 In order to use modules, you have to source them from the Spacelift module registry. You can generate the necessary snippet, by opening the page of the specific module version, and clicking **show instructions**.
 
-![](<../../.gitbook/assets/image (1).png>)
+![](<../../assets/screenshots/image (1).png>)
 
 ### Sharing modules
 
@@ -195,7 +195,7 @@ Unlike Stacks, modules can be shared between Spacelift accounts in a sense that 
 
 In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings' Sharing section:
 
-![](../../.gitbook/assets/Edit\_module\_·\_eggs.png)
+![](../../assets/screenshots/Edit\_module\_·\_eggs.png)
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
 

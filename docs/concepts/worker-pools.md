@@ -24,7 +24,7 @@ Now you can submit the `spacelift.csr` file in the worker pool creation form. In
 
 You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift Terraform provider](../vendors/terraform/terraform-provider.md).
 
-![](<../.gitbook/assets/Screen Shot 2022-02-17 at 3.13.38 PM.png>)
+![](<../assets/screenshots/Screen Shot 2022-02-17 at 3.13.38 PM.png>)
 
 The launcher binary is available [here](https://downloads.spacelift.io/spacelift-launcher). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed.
 
@@ -89,6 +89,6 @@ export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
 
 Worker pools must be explicitly attached to [stacks](stack/) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
-![Example when editing the existing stack](../.gitbook/assets/Edit\_stack\_·\_Managed\_stack.png)
+![Example when editing the existing stack](../assets/screenshots/Edit\_stack\_·\_Managed\_stack.png)
 
-![Example when setting up a new module](<../.gitbook/assets/New\_module\_·\_marcinwyszynski (1).png>)
+![Example when setting up a new module](<../assets/screenshots/New\_module\_·\_marcinwyszynski (1).png>)

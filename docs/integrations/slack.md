@@ -14,7 +14,7 @@ The integration is an OAuth2 exchange which installs Slack Spacelift app in your
 
 Once you install the Spacelift app, the account-level integration is finished and the _Slack_ section of the _Settings_ screen informs you that the two are talking to one another:
 
-![](../.gitbook/assets/Mouse\_Highlight\_Overlay\_and\_Slack\_integration\_·\_spacelift-io.png)
+![](../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Slack\_integration\_·\_spacelift-io.png)
 
 Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Slack commands](slack.md#available-commands) and the management uses the Slack interface.
 
@@ -72,7 +72,7 @@ For the most up-to-date explanation of Slack user intricacies, please always ref
 
 As you can see, that's quite a bit of data you can base your decisions on. For example, you can map some Slack channels as having certain level of access to certain Stacks - just make sure to keep these Slack channels private / invite-only. Here's an example stack access policy allowing Write level of access to requests coming from Slack's _#dev-notifications_ channel:
 
-![](../.gitbook/assets/Manage\_stacks\_from\_\_dev-notifications\_·\_spacelift-io.png)
+![](../assets/screenshots/Manage\_stacks\_from\_\_dev-notifications\_·\_spacelift-io.png)
 
 Any Stack with this policy attached will be accessible for writing from this Slack channel - but no other!
 

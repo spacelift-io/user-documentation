@@ -6,7 +6,7 @@ Depending on the complexity of your infrastructure, the size of your team, your 
 
 Historically the first tool we offered was the search bar:
 
-![](../../.gitbook/assets/Stacks\_·\_spacelift-ci-gh.png)
+![](../../assets/screenshots/Stacks\_·\_spacelift-ci-gh.png)
 
 The search bar allows you to search and filter by the following stack properties:
 
@@ -16,13 +16,13 @@ The search bar allows you to search and filter by the following stack properties
 
 Note how the search phrase is highlighted, and irrelevant stacks are filtered out:
 
-![](<../../.gitbook/assets/Stacks\_·\_spacelift-ci-gh (1).png>)
+![](<../../assets/screenshots/Stacks\_·\_spacelift-ci-gh (1).png>)
 
 ## Filtering by status
 
 Filtering stacks by status is a very useful mechanism for identifying action items like plans pending confirmation ([unconfirmed](../run/tracked.md#unconfirmed) state) or [failed](../run/#failed) jobs that require fixing. For that, use the _Filter stacks by status_ section on the sidebar to the left. If you click on any of the statuses, the list of stacks will be filtered to only include stacks with a given status:
 
-![](<../../.gitbook/assets/Stacks\_·\_spacelift-ci-gh (2).png>)
+![](<../../assets/screenshots/Stacks\_·\_spacelift-ci-gh (2).png>)
 
 Note that if no stacks in the account have a particular status at the moment, that status is missing from the list.
 
@@ -30,15 +30,15 @@ Note that if no stacks in the account have a particular status at the moment, th
 
 Probably the most useful way of grouping stacks is by attaching folder labels to them. You can read more about [labels](stack-settings.md#labels) here, including how to set them, and folder labels are just regular labels, prefixed with `folder:`. In order to make it more obvious in the GUI and save some screen real estate, we replace the `folder:` prefix by the folder icon...
 
-![](<../../.gitbook/assets/Stacks\_·\_spacelift-ci-gh (3).png>)
+![](<../../assets/screenshots/Stacks\_·\_spacelift-ci-gh (3).png>)
 
 ...but once you start editing labels, the magic is gone:
 
-![](../../.gitbook/assets/Edit\_stack\_·\_End-to-end\_\_autoconfirm.png)
+![](../../assets/screenshots/Edit\_stack\_·\_End-to-end\_\_autoconfirm.png)
 
 For every folder label, a sidebar section is included in the _Folders_ menu, allowing you to search by that label. The number to the right hand side indicates that number of stacks with that label:
 
-![](<../../.gitbook/assets/Stacks\_·\_spacelift-ci-gh (4).png>)
+![](<../../assets/screenshots/Stacks\_·\_spacelift-ci-gh (4).png>)
 
 ### Nesting and multiple folder labels
 

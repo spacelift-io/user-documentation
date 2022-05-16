@@ -18,11 +18,11 @@ Currently (since version 0.15.x) the state format is stable so this is no longer
 
 Terraform binaries are neither distributed with Spacelift nor with its [runner Docker image](../../integrations/docker.md). Instead, Spacelift **dynamically detects** the right version for each workflow ([run](../../concepts/run/) or [task](../../concepts/run/task.md)), downloads the right binary on demand, verifies it, and mounts it as read-only on the runner Docker container as `/bin/terraform` to be directly available in the runner's `$PATH`:
 
-![](../../.gitbook/assets/01DTSRW825FHT2ZGC4TJR3Y3NM\_·\_End-to-end\_testing.png)
+![](../../assets/screenshots/01DTSRW825FHT2ZGC4TJR3Y3NM\_·\_End-to-end\_testing.png)
 
 There are two ways to tell Spacelift which Terraform version to use. The main one is to set the version directly on the stack. The version can be set in the Backend section of the stack configuration:
 
-![](../../.gitbook/assets/specific\_version.png)
+![](../../assets/screenshots/specific\_version.png)
 
 Note that you can either point to a specific version or define a version range, which is particularly useful if you don't want to update your code every time the Terraform version changes. The exact supported syntax options can be found [here](https://github.com/blang/semver#ranges).
 

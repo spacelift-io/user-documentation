@@ -4,7 +4,7 @@ Module test cases are special types of runs that are executed not on [Stacks](..
 
 In a nutshell, module test cases are almost identical to [autodeployed](../stack/stack-settings.md#autodeploy) [tracked runs](tracked.md). But unlike stacks, modules are stateless and do not manage any resources directly, so just after the changes are applied and resources are created, they are immediately destroyed during the _destroying_ phase. Here is what a fully successful module test case looks like:
 
-![](../../.gitbook/assets/Set\_up\_in\_the\_default\_VPC\_·\_spacelift-workerpool-on-ec2.png)
+![](../../assets/screenshots/Set\_up\_in\_the\_default\_VPC\_·\_spacelift-workerpool-on-ec2.png)
 
 Note that the destroying phase will run regardless of whether the applying phase succeeds or fails. This is because the failure could have been partial, and some resources may still have been created.
 

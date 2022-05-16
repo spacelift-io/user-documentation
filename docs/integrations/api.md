@@ -49,11 +49,11 @@ Spacelift supports creating and managing machine users with programmatic access 
 
 In order to create a new API Key, please navigate to the _API Keys_ section of the _Account Settings_ panel in your account.
 
-![Click Settings.](../.gitbook/assets/1-cilck-settings.png)
+![Click Settings.](../assets/screenshots/1-cilck-settings.png)
 
 Click _API Keys._
 
-![Click API Keys.](../.gitbook/assets/2-click-api-keys.png)
+![Click API Keys.](../assets/screenshots/2-click-api-keys.png)
 
 The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
@@ -61,11 +61,11 @@ For non-administrative keys, you may want to add a **virtual** list of teams tha
 
 Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
 
-![Create and Configure your new API Key.](../.gitbook/assets/3-create-api-key.png)
+![Create and Configure your new API Key.](../assets/screenshots/3-create-api-key.png)
 
 Once you click the _Add Key_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
 
-![Download your API Key.](../.gitbook/assets/4-download-api-key.png)
+![Download your API Key.](../assets/screenshots/4-download-api-key.png)
 
 The config file looks something like this:
 
@@ -190,15 +190,15 @@ Please replace the URL in the below examples with the one pointing to **your** S
 
 ### **Insomnia Example**
 
-![Example viewing GraphQL documentation using Insomnia.](../.gitbook/assets/Spacelift\_–\_GraphQL.png)
+![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift\_–\_GraphQL.png)
 
 ### **GraphiQL Example**
 
 _Input your GraphQL Endpoint for your Spacelift Account._
 
-![Click Docs.](../.gitbook/assets/1-graphiql.png)
+![Click Docs.](../assets/screenshots/1-graphiql.png)
 
 _Use the Documentation Explorer within GraphiQL_
 
-![](../.gitbook/assets/2-graphiql-view-docs.png)
+![](../assets/screenshots/2-graphiql-view-docs.png)
 

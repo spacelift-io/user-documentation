@@ -6,11 +6,11 @@ In addition to our out-of-the-box [integration with GitHub](github.md), Spacelif
 
 In order to set up the integration from the Spacelift side, please navigate to the _VCS Providers_ section of the admin Settings page and click the _Set up_ button next to the Bitbucket Data Center integration:
 
-![](<../../.gitbook/assets/image (100).png>)
+![](<../../assets/screenshots/image (100).png>)
 
 This should open a form like this one:
 
-![](<../../.gitbook/assets/image (101).png>)
+![](<../../assets/screenshots/image (101).png>)
 
 Now you'll have to fill in the API host URL, which is the URL on which Spacelift will access the Bitbucket server. This may be a URL which uses [VCS Agent Pools](../../concepts/vcs-agent-pools.md), or a normal URL, if your Bitbucket instance is publicly available.
 
@@ -18,25 +18,25 @@ The user facing host URL is the address on which users of you Bitbucket instance
 
 In order to get the access token you'll need to go on your Bitbucket instance into **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it write access to repositories:
 
-![Personal token creation](<../../.gitbook/assets/image (65).png>)
+![Personal token creation](<../../assets/screenshots/image (65).png>)
 
 This will give you an access token which you can put into the **Access token** field in the integration configuration.\
 
 
-![Created personal token](<../../.gitbook/assets/image (66).png>)
+![Created personal token](<../../assets/screenshots/image (66).png>)
 
 After doing all this you should have all fields filled in.
 
-![](<../../.gitbook/assets/image (102).png>)
+![](<../../assets/screenshots/image (102).png>)
 
 After saving, you'll receive your webhook secret and endpoint:
 
-![](<../../.gitbook/assets/image (103).png>)
+![](<../../assets/screenshots/image (103).png>)
 
 For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating Push and Pull Request Opened events.
 
-![Configuring Webhooks](<../../.gitbook/assets/Screenshot 2022-02-04 at 12.02.27.png>)
+![Configuring Webhooks](<../../assets/screenshots/Screenshot 2022-02-04 at 12.02.27.png>)
 
 When creating a Stack, you will now be able to choose the Bitbucket Datacenter provider and a repository inside of it:
 
-![Creating a Stack with the Bitbucket Datacenter integration](<../../.gitbook/assets/image (72).png>)
+![Creating a Stack with the Bitbucket Datacenter integration](<../../assets/screenshots/image (72).png>)

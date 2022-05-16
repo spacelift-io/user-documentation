@@ -18,25 +18,25 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 
 You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
 
-![](../../.gitbook/assets/1-spacelift-account-settings.png)
+![](../../assets/screenshots/1-spacelift-account-settings.png)
 
 ### Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from Azure. For now, **copy the authorized redirect URL** as we will need to provide Azure this URL when configuring our Azure App Registration within your Azure AD.
 
-![](../../.gitbook/assets/2-spacelift-copy-exchange-url.png)
+![](../../assets/screenshots/2-spacelift-copy-exchange-url.png)
 
 ### Azure Portal: Navigate to Azure Active Directory
 
 Within your Azure Account, navigate to your Azure Active Directory where you'd like to setup the OIDC integration for. In this guide, we are using a Default Directory for example purposes.
 
-![Navigate to your Azure Active Directory.](../../.gitbook/assets/1-azure-navigate-to-azure-ad.png)
+![Navigate to your Azure Active Directory.](../../assets/screenshots/1-azure-navigate-to-azure-ad.png)
 
 ### Azure AD: Create an App Registration
 
 While you are within your Active Directory's settings, click on **App registrations** from the navigation, and then select **New registration**.
 
-![Click on App Registrations, then click New Registration.](../../.gitbook/assets/2-azure-ad-new-registration.png)
+![Click on App Registrations, then click New Registration.](../../assets/screenshots/2-azure-ad-new-registration.png)
 
 ### Azure AD: App Registration Configuration
 
@@ -48,31 +48,31 @@ Remember the **authorized redirect URL** we copied earlier from Spacelift? We'll
 
 Click **Register**.
 
-![Give your App Registration a name. Configure the redirect URI.](../../.gitbook/assets/3-azure-create-app-integration-step-1.png)
+![Give your App Registration a name. Configure the redirect URI.](../../assets/screenshots/3-azure-create-app-integration-step-1.png)
 
 ### Azure AD: Add UPN Claim
 
 Start by navigating to the **Token configuration** section of your application.
 
-![](<../../.gitbook/assets/image (116).png>)
+![](<../../assets/screenshots/image (116).png>)
 
 Click the **Add optional claim** button, choose the **ID** token type, and select the **upn** claim:
 
-![](<../../.gitbook/assets/image (118).png>)
+![](<../../assets/screenshots/image (118).png>)
 
 Click the **Add** button, making sure to enable the **Turn on the Microsoft Graph profile permission** checkbox on the popup that appears:
 
-![](<../../.gitbook/assets/image (113).png>)
+![](<../../assets/screenshots/image (113).png>)
 
 ### Azure AD: Configure App Credentials
 
 Navigate to the **Certificates & secrets** section of your application.
 
-![Navigate to Credentials & secrets.](../../.gitbook/assets/3-azure-navigate-to-credentials.png)
+![Navigate to Credentials & secrets.](../../assets/screenshots/3-azure-navigate-to-credentials.png)
 
 Click the **New client secret** button.
 
-![Click New client secret.](../../.gitbook/assets/4-azure-new-client-secret.png)
+![Click New client secret.](../../assets/screenshots/4-azure-new-client-secret.png)
 
 Give your secret a **Description**.
 
@@ -84,7 +84,7 @@ In this example, we are using 6 months for **Expires.** This means you will need
 
 Click **Add.**
 
-![Define client secret Description and Expires duration.](../../.gitbook/assets/5-azure-new-secret.png)
+![Define client secret Description and Expires duration.](../../assets/screenshots/5-azure-new-secret.png)
 
 Now that we have the Client secret setup for our application, we'll need to take the **Value** and copy this into our Spacelift OIDC settings within the **Secret** input.
 
@@ -94,7 +94,7 @@ Now that we have the Client secret setup for our application, we'll need to take
 Don't click Save in Spacelift just yet, we still need to get the Client ID and Provider URL for your application.
 {% endhint %}
 
-![Copy the Value to your Spacelift OIDC settings as the "Secret".](<../../.gitbook/assets/Screen Shot 2022-04-14 at 11.03.31 AM.png>)
+![Copy the Value to your Spacelift OIDC settings as the "Secret".](<../../assets/screenshots/Screen Shot 2022-04-14 at 11.03.31 AM.png>)
 
 The best way we've found to obtain the Client ID and Provider URL is to perform the following steps:
 
@@ -110,11 +110,11 @@ Copy the portion of the **OpenID Connect metadata document** URL that is highlig
 You should remove the **/.well-known/openid-configuration** suffix from the URL and paste this over to the Provider URL within Spacelift. **IMPORTANT:** Ensure that the you do not have a trailing / at the end of your URL when the value is copied into Spacelift.
 {% endhint %}
 
-![Copy the OpenID Connect metadata document URL.](../../.gitbook/assets/6-azure-obtain-provider-url.png)
+![Copy the OpenID Connect metadata document URL.](../../assets/screenshots/6-azure-obtain-provider-url.png)
 
 The result should look something like this in Spacelift:
 
-![](<../../.gitbook/assets/7-spacelift-oidc-setup-result (1).png>)
+![](<../../assets/screenshots/7-spacelift-oidc-setup-result (1).png>)
 
 Click **Save.**
 

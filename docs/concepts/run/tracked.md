@@ -4,15 +4,15 @@ Tracked runs represent the actual changes to your infrastructure caused by chang
 
 They are presented on the _Runs_ screen, which is the main screen of the Stack view:
 
-![](../../.gitbook/assets/Runs\_·\_Vendor\_Releases\_Watcher.png)
+![](../../assets/screenshots/Runs\_·\_Vendor\_Releases\_Watcher.png)
 
 Each of the tracked runs is represented by a separate element containing some information about the attempted deployment:
 
-![](<../../.gitbook/assets/Runs\_·\_Vendor\_Releases\_Watcher (1).png>)
+![](<../../assets/screenshots/Runs\_·\_Vendor\_Releases\_Watcher (1).png>)
 
 Also worth noting is the colorful strip present on some runs - as long as the [planning](proposed.md#planning) phase was successful this visually represents the resources and outputs diff introduced by the change:
 
-![](../../.gitbook/assets/Runs\_·\_prod-infra-ireland.png)
+![](../../assets/screenshots/Runs\_·\_prod-infra-ireland.png)
 
 ## Triggering tracked runs
 
@@ -22,13 +22,13 @@ Tracked runs can be triggered in of the three ways - manually by the user, by a 
 
 Any account admin or stack [writer](../policy/stack-access-policy.md) can trigger a tracked run on a stack:
 
-![](../../.gitbook/assets/Runs\_·\_Terraform\_starter\_and\_Slack\_\_\_Threads\_\_\_Spacelift.png)
+![](../../assets/screenshots/Runs\_·\_Terraform\_starter\_and\_Slack\_\_\_Threads\_\_\_Spacelift.png)
 
 Runs triggered by individuals and [machine users](../../integrations/api.md#api-key-management) are marked accordingly:
 
-![Run triggered by an individual](../../.gitbook/assets/Runs\_·\_Terraform\_starter.png)
+![Run triggered by an individual](../../assets/screenshots/Runs\_·\_Terraform\_starter.png)
 
-![Run triggered by a machine user](../../.gitbook/assets/Runs\_·\_Datadog\_Synthetics\_\_prod\_.png)
+![Run triggered by a machine user](../../assets/screenshots/Runs\_·\_Datadog\_Synthetics\_\_prod\_.png)
 
 ### Triggering from Git events
 
@@ -36,13 +36,13 @@ Tracked runs can also be triggered by Git push and tag events. By default, whene
 
 Runs triggered by Git push and/or tag events can are marked accordingly:
 
-![](<../../.gitbook/assets/Runs\_·\_Vendor\_Releases\_Watcher (2).png>)
+![](<../../assets/screenshots/Runs\_·\_Vendor\_Releases\_Watcher (2).png>)
 
 ### Triggering from policies
 
 Trigger policies can be used to create sophisticated workflows representing arbitrarily complex processes like staged rollouts or cascading updates. This is an advanced topic, which is described in more detail in its [dedicated section](../policy/trigger-policy.md). But if you see something like this, be aware of the fact that a trigger policy must have been involved:
 
-![](../../.gitbook/assets/Runs\_·\_Managed\_stack.png)
+![](../../assets/screenshots/Runs\_·\_Managed\_stack.png)
 
 ## Handling no-op changes
 
@@ -67,7 +67,7 @@ If a change is detected and human approval is required, a tracked run will trans
 
 The resulting changes are shown to the user for the final approval:
 
-![](../../.gitbook/assets/01DTD3GK6HARX0ZD0Z2RDM5KGD\_·\_End-to-end\_testing.png)
+![](../../assets/screenshots/01DTD3GK6HARX0ZD0Z2RDM5KGD\_·\_End-to-end\_testing.png)
 
 If the user approves (confirms) the plan, the run transitions to the temporary [Confirmed](tracked.md#confirmed) state and waits for a worker node to pick it up. If the user doesn't like the plan and discards it, the run transitions to the terminal [Discarded](tracked.md#discarded) state.
 
@@ -89,11 +89,11 @@ Confirmed is a _passive state_ meaning no operations are performed while a run i
 
 If the run required a manual approval step, this phase is preceded by another handover ([preparing](./#preparing) phase) since the run again needs to be yielded to a worker node. This preparing phase is subtly different internally but ultimately serves the same purpose from the user perspective. Here's an example:
 
-![](../../.gitbook/assets/Retract\_the\_test\_·\_Datadog\_Pulumi.png)
+![](../../assets/screenshots/Retract\_the\_test\_·\_Datadog\_Pulumi.png)
 
 This preparation phase is very unlikely to fail, but if it does (eg. the worker node becomes unavailable during the transition), the run will transition to the terminal [failed](./#failed) state. If the handover succeeds, or the run does not go through the manual approval process, the applying phase begins and attempts to deploy the changes. Here's an example:
 
-![](../../.gitbook/assets/Use\_config\_for\_target\_repo\_\_·\_Vendor\_Releases\_Watcher.png)
+![](../../assets/screenshots/Use\_config\_for\_target\_repo\_\_·\_Vendor\_Releases\_Watcher.png)
 
 ## Success criteria
 

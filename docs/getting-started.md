@@ -50,11 +50,11 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 * On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get Started" button.
 
-![](<.gitbook/assets/Screenshot 2022-04-27 at 12-35-55 Collaborative Infrastructure For Modern Software Teams Spacelift.png>)
+![](<./assets/screenshots/Screenshot 2022-04-27 at 12-35-55 Collaborative Infrastructure For Modern Software Teams Spacelift.png>)
 
 * Sign Up with Google, GitLab or GitHub
 
-![](<.gitbook/assets/Screenshot 2022-04-27 at 12-37-48 Get started with Spacelift Free Trial Spacelift.png>)
+![](<./assets/screenshots/Screenshot 2022-04-27 at 12-37-48 Get started with Spacelift Free Trial Spacelift.png>)
 
 **Note:**&#x20;
 
@@ -79,7 +79,7 @@ The flow for connecting GitHub as a VCS provider is slightly different when usin
 1. [Install the Spacelift Github App](https://github.com/apps/spacelift-io/installations/new) if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-![](<.gitbook/assets/Screenshot 2022-04-27 at 17-39-51 Build software better together copy.png>)
+![](<./assets/screenshots/Screenshot 2022-04-27 at 17-39-51 Build software better together copy.png>)
 
 Now login to the Spacelift console, you are ready to create your first stack!
 
@@ -93,35 +93,35 @@ Now login to the Spacelift console, you are ready to create your first stack!
 
 1. Click on the Add **Stack** button.
 
-![](.gitbook/assets/2.png)
+![](./assets/screenshots/2.png)
 
 1. In the **Integrate VCS** form, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack.
 
-![](.gitbook/assets/3.png)
+![](./assets/screenshots/3.png)
 
 Click on _Continue_ to configure the backend.
 
 1. Choose Terraform as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack.
 
-![](.gitbook/assets/4.png)
+![](./assets/screenshots/4.png)
 
 1. Leave the default options checked for **Define Behavior** and click continue.
 
-![](.gitbook/assets/5.png)
+![](./assets/screenshots/5.png)
 
 1. Give a name to your stack and save.
 
-![](.gitbook/assets/6.png)
+![](./assets/screenshots/6.png)
 
 ### Step 4: Trigger your first Run
 
 Saving the stack will lead you to the **Runs** screen. Click on _Trigger_ to kick start a Spacelift job that will check out the source code, run terraform commands on it and then present you with an option to apply (confirm) these changes.
 
-![](.gitbook/assets/7.png)
+![](./assets/screenshots/7.png)
 
 Click on _Confirm_ and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
 
-![](.gitbook/assets/8.png)
+![](./assets/screenshots/8.png)
 
 ## **Further Reading**
 

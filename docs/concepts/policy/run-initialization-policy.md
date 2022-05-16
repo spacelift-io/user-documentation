@@ -26,7 +26,7 @@ deny["you shall not pass"] {
 
 ...and boom:
 
-![](<../../.gitbook/assets/Initial\_commit\_·\_Stack\_managed\_by\_Spacelift (1).png>)
+![](<../../assets/screenshots/Initial\_commit\_·\_Stack\_managed\_by\_Spacelift (1).png>)
 
 ## Rules
 
@@ -101,7 +101,7 @@ package spacelift
 
 deny[sprintf("don't use Terraform please (%s)", [command])] {
   command := input.run.runtime_config.before_init[_]
-  
+
   contains(command, "terraform")
   command != "terraform fmt -check"
 }
@@ -116,7 +116,7 @@ package spacelift
 
 deny[sprintf("unexpected runner image (%s)", [image])] {
   image := input.run.runtime_config.runner_image
-  
+
   image != "spacelift/runner:latest"
 }
 ```

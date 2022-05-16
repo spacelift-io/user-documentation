@@ -17,7 +17,7 @@ Creating a [context](../../concepts/configuration/context.md) for your Infracost
 
 If Infracost has been configured successfully, you should see some messages during the initialization phase of your runs indicating that Infracost is enabled and that the environment variable has been found:
 
-![](../../.gitbook/assets/1-initialized.png)
+![](../../assets/screenshots/1-initialized.png)
 
 ### Additional CLI Arguments
 
@@ -37,7 +37,7 @@ Once the integration is configured, Spacelift will automatically run Infracost b
 
 Spacelift automatically posts the usage summary to your pull requests once Infracost is enabled:
 
-![](../../.gitbook/assets/2-infracost-pr.png)
+![](../../assets/screenshots/2-infracost-pr.png)
 
 ### Plan Policies
 
@@ -112,4 +112,4 @@ warn[sprintf("monthly cost increase greater than %d%% (%.2f%%)", [threshold, per
 
 Infracost provides information about how individual resources contribute to the overall cost of the stack. Spacelift combines this information with our [resources view](../../concepts/resources.md) to allow you to view the cost information for each resource:
 
-![](../../.gitbook/assets/3-resources-view.png)
+![](../../assets/screenshots/3-resources-view.png)

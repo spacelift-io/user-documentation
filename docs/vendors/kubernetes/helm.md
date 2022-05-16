@@ -52,7 +52,7 @@ Also, make sure to specify your custom _Runner image_ that has Helm installed if
 
 Once you've completed both steps, you should see something like this:
 
-![](<../../.gitbook/assets/image (109).png>)
+![](<../../assets/screenshots/image (109).png>)
 
 ### Configure Environment
 
@@ -64,7 +64,7 @@ Once you have successfully created your Stack, add values for the following envi
 
 Your Stack environment should look something like this:
 
-![](<../../.gitbook/assets/image (117) (1).png>)
+![](<../../assets/screenshots/image (117) (1).png>)
 
 ## Configure Integrations
 
@@ -80,9 +80,9 @@ You can use a [Spacelift Task](../../concepts/run/task.md) to run the `kubectl c
 
 Triggering runs works exactly the same as when not using Helm. Once the planning stage has completed, you should see a preview of your changes, showing the Chart resources that will be created:
 
-![](<../../.gitbook/assets/image (116) (1).png>)
+![](<../../assets/screenshots/image (116) (1).png>)
 
 After approving the run, you should see the changes applying, along with a successful rollout of your Chart resources:
 
-![](<../../.gitbook/assets/image (110) (1).png>)
+![](<../../assets/screenshots/image (110) (1).png>)
 

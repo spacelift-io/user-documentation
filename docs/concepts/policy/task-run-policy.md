@@ -24,7 +24,7 @@ deny["not in my town, you don't"] { true }
 
 And here's the outcome when trying to run a task:
 
-![](../../.gitbook/assets/Tasks\_·\_Stack\_managed\_by\_Spacelift.png)
+![](../../assets/screenshots/Tasks\_·\_Stack\_managed\_by\_Spacelift.png)
 
 ## Data input
 

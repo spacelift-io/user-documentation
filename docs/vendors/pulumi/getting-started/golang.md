@@ -14,14 +14,14 @@ Now let's open Spacelift and create a new Stack, choose the examples repo you ju
 * Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-golang:latest`&#x20;
   * Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-golang).
 
-![Define behavior.](<../../../.gitbook/assets/image (42).png>)
+![Define behavior.](<../../../assets/screenshots/image (42).png>)
 
 In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll have to choose:
 
 * A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.&#x20;
 * A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-golang-pulumi-spacelift-stack`.
 
-![Configure backend.](<../../../.gitbook/assets/image (37).png>)
+![Configure backend.](<../../../assets/screenshots/image (37).png>)
 
 {% hint style="info" %}
 You can use https://api.pulumi.com as the Login URL to use the official Pulumi state backend. You'll also need to provide your Pulumi access token through the PULUMI\_ACCESS\_TOKEN environment variable.
@@ -31,15 +31,15 @@ You'll now have to set up the AWS integration for the Stack, as is described in 
 
 Go into the [Environment](../../../concepts/configuration/environment.md) tab in your screen, add an **AWS\_REGION** environment variable and set it to your region of choice, i.e. `eu-central-1`.
 
-![Configure environment.](<../../../.gitbook/assets/image (23).png>)
+![Configure environment.](<../../../assets/screenshots/image (23).png>)
 
 You can now trigger the Run manually in the Stack view, after the planning phase is over, you can check the log to see the planned changes.
 
-![Pending confirmation.](<../../../.gitbook/assets/image (8).png>)
+![Pending confirmation.](<../../../assets/screenshots/image (8).png>)
 
 Confirm the run to let it apply the changes, after applying it should look like this:
 
-![Applied](<../../../.gitbook/assets/image (9).png>)
+![Applied](<../../../assets/screenshots/image (9).png>)
 
 We can see the websiteUrl stack output. If we try to curl it, lo and behold:
 
@@ -55,8 +55,8 @@ We can see the websiteUrl stack output. If we try to curl it, lo and behold:
 
 In order to clean up, open the [Tasks](../../../concepts/run/task.md) tab, and perform `pulumi destroy --non-interactive --yes` there.
 
-![Performing cleanup task.](<../../../.gitbook/assets/image (5).png>)
+![Performing cleanup task.](<../../../assets/screenshots/image (5).png>)
 
 Which will destroy all created resources.
 
-![Destruction complete.](<../../../.gitbook/assets/image (11).png>)
+![Destruction complete.](<../../../assets/screenshots/image (11).png>)

@@ -14,7 +14,7 @@ On the Agent there are very conservative checks on what requests are let through
 
 Open the VCS Agent Pools panel, click **Add VCS Agent Pool**, give it a name and description, and you're done! A configuration token will be downloaded.
 
-![Creation of VCS Agent Pool](<../.gitbook/assets/image (45).png>)
+![Creation of VCS Agent Pool](<../assets/screenshots/image (45).png>)
 
 You can now run the launcher binary (downloaded from [here](https://downloads.spacelift.io/spacelift-vcs-agent)) by setting three environment variables:
 
@@ -24,17 +24,17 @@ You can now run the launcher binary (downloaded from [here](https://downloads.sp
 
 Congrats! Your VCS Agent should now connect to the Spacelift backend and start handling connections.
 
-![Running the VCS Agent](<../.gitbook/assets/image (51).png>)
+![Running the VCS Agent](<../assets/screenshots/image (51).png>)
 
-![VCS Agent connections](<../.gitbook/assets/image (47).png>)
+![VCS Agent connections](<../assets/screenshots/image (47).png>)
 
 Now whenever you need to specify an endpoint inside of Spacelift which should use your VCS Agent Pool, you should write it this way: `private://my-vcs-agent-pool-name/possible/path`
 
-![Setting up a VCS integration using a VCS Agent Pool](<../.gitbook/assets/image (48).png>)
+![Setting up a VCS integration using a VCS Agent Pool](<../assets/screenshots/image (48).png>)
 
 When trying to use this integration, i.e. by opening the Stack creation form, you'll get a detailed log of the requests:
 
-![Access Log example](<../.gitbook/assets/image (50).png>)
+![Access Log example](<../assets/screenshots/image (50).png>)
 
 ### Configuration options
 

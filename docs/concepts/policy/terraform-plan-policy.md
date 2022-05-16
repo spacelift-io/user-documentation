@@ -23,7 +23,7 @@ warn["hey, you look suspicious"] {
 
 Let's create this policy, attach it to a Stack and take it for a spin by [triggering a run](../run/tracked.md#triggering-manually):
 
-![](../../.gitbook/assets/Revert\_\_Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_\_\_\_11\_\_·\_We\_test\_in\_prod.png)
+![](../../assets/screenshots/Revert\_\_Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_\_\_\_11\_\_·\_We\_test\_in\_prod.png)
 
 Yay, that works (and it fails our plan, too), but it's not terribly useful - unless of course you want to block all changes to your Stack in a really clumsy way. Let's look a bit deeper into the [document](terraform-plan-policy.md#data-input) that each plan policy receives, two possible [use cases](terraform-plan-policy.md#use-cases) - [rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) and [automated code review](terraform-plan-policy.md#automated-code-review) - and some [cookbook examples](terraform-plan-policy.md#cookbook).
 
@@ -170,15 +170,15 @@ always_create_first := { "aws_batch_compute_environment" }
 deny[sprintf(message, [resource.address])] {
   message  := "always create before deleting (%s)"
   resource := input.terraform.resource_changes[_]
-  
+
   # Make sure the type is on the list.
   always_create_first[resource.type]
-  
+
   some i_create, i_delete
   resource.change.actions[i_create] == "create"
   resource.change.actions[i_delete] == "delete"
- 
-  
+
+
   i_delete < i_create
 }
 ```
@@ -193,9 +193,9 @@ package spacelift
 deny[sprintf(message, [resource.address])] {
   message  := "we've moved to GCP, find an equivalent there (%s)"
   resource := input.terraform.resource_changes[_]
-  
+
   resource.provider_name == "aws"
-  
+
   # If you're just deleting, all good.
   resource.change.actions != ["delete"]
 }
@@ -209,7 +209,7 @@ OK, so rule enforcement is very powerful, sometimes you want something more soph
 
 You've already seen **warn** rules in the [first section of this article](terraform-plan-policy.md#purpose) but here it is in action again:
 
-![](<../../.gitbook/assets/Revert\_\_Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_\_\_\_11\_\_·\_We\_test\_in\_prod (1).png>)
+![](<../../assets/screenshots/Revert\_\_Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_\_\_\_11\_\_·\_We\_test\_in\_prod (1).png>)
 
 It won't fail your plan and it looks relatively benign, but this little yellow note can provide great help to a human reviewer, especially when multiple changes are introduced. Also, if a stack is set to [autodeploy](../stack/#autodeploy), the presence of a single warning is enough to flag the run for a human review.
 
@@ -229,23 +229,23 @@ warn[reason] { not proposed; reason := iam_user_created[_] }
 
 iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
   some resource
-  created_resources[resource]  
-  
+  created_resources[resource]
+
   resource.type == "aws_iam_user"
 }
 ```
 
 Predictably, this fails when committed to a non-tracked (feature) branch:
 
-![](../../.gitbook/assets/Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_·\_We\_test\_in\_prod.png)
+![](../../assets/screenshots/Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_·\_We\_test\_in\_prod.png)
 
 ...but as a GitHub repo admin you can still merge it if you've set your branch protection rules accordingly:
 
-![](../../.gitbook/assets/Attempt\_to\_create\_an\_IAM\_user\_against\_a\_policy\_by\_marcinwyszynski\_·\_Pull\_Request\_\_10\_·\_spacelift-io\_marcinw-end-to-end.png)
+![](../../assets/screenshots/Attempt\_to\_create\_an\_IAM\_user\_against\_a\_policy\_by\_marcinwyszynski\_·\_Pull\_Request\_\_10\_·\_spacelift-io\_marcinw-end-to-end.png)
 
 Cool, let's merge it and see what happens:
 
-![](../../.gitbook/assets/Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_·\_We\_test\_in\_prod.png)
+![](../../assets/screenshots/Attempt\_to\_create\_an\_IAM\_user\_agains\_a\_policy\_\_\_10\_\_·\_We\_test\_in\_prod.png)
 
 Cool, so the run stopped in its tracks and awaits human decision. At this point we still have a choice to either [confirm](../run/#discarded) or [discard](../run/#discarded) the run. In the latter case, you will likely want to revert the commit that caused the problem - otherwise all subsequent runs will be affected.
 
@@ -286,7 +286,7 @@ warn[sprintf(message, [author])] {
   message     := "%s is not on the whitelist - human review required"
   author      := input.spacelift.commit.author
   whitelisted := { "alice", "bob", "charlie" }
-  
+
   not whitelisted[author]
 }
 ```
@@ -311,7 +311,7 @@ too_many_changes[msg] {
   res := input.terraform.resource_changes
   ret := count([r | r := res[_]; r.change.actions != ["no-op"]])
   msg := sprintf("more than %d changes (%d)", [threshold, ret])
-  
+
   ret > threshold
 }
 ```
@@ -334,13 +334,13 @@ blast_radius_too_high[sprintf("change blast radius too high (%d/100)", [blast_ra
 	blast_radius := sum([blast |
     					 resource := input.terraform.resource_changes[_];
                          blast := blast_radius_for_resource(resource)])
-                         
-	blast_radius > 100    
+
+	blast_radius > 100
 }
 
 blast_radius_for_resource(resource) = ret {
 	blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
-    
+
     ret := sum([value | action := resource.change.actions[_]
                     action_impact := blasts_radii_by_action[action]
                     type_impact := blast_radius_for_type(resource.type)

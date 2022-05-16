@@ -28,15 +28,15 @@ This list is consistent with the [defaults requested by the Terraform provider](
 
 If you're setting up the integration through the web UI, please go to the _Integrations_ tab in the stack management view and choose Google Cloud Platform from the list of available integrations:
 
-![](../../.gitbook/assets/Edit\_stack\_·\_Spacelift\_development.png)
+![](../../assets/screenshots/Edit\_stack\_·\_Spacelift\_development.png)
 
 Once there, you'll be presented with a form allowing you to customize the list of OAuth scopes for the temporary token we'll generate for each [Run](../../concepts/run/) and [Task](../../concepts/run/task.md):
 
-![](<../../.gitbook/assets/Edit\_stack\_·\_Spacelift\_development (1).png>)
+![](<../../assets/screenshots/Edit\_stack\_·\_Spacelift\_development (1).png>)
 
 Once you click _Save_, the account is generated for you and we display its globally unique email. You'll need this email when [setting up access on the GCP end](gcp.md#setting-up-access-in-gcp).
 
-![](<../../.gitbook/assets/Edit\_stack\_·\_Spacelift\_development (2).png>)
+![](<../../assets/screenshots/Edit\_stack\_·\_Spacelift\_development (2).png>)
 
 ### Using Terraform
 
@@ -76,7 +76,7 @@ resource "google_project_iam_member" "k8s-core" {
 
 In order to make the integration work, you'll have to make the dedicated service account a member of your organization and/or project, with an appropriate level of access. This is done in the [IAM & Admin](https://console.cloud.google.com/iam-admin/iam) view of GCP's web UI. First, let's show an example of adding a service account as a member on the organization level:
 
-![](../../.gitbook/assets/IAM\_–\_IAM\_\_\_admin\_–\_spacelift\_io\_–\_Google\_Cloud\_Platform.png)
+![](../../assets/screenshots/IAM\_–\_IAM\_\_\_admin\_–\_spacelift\_io\_–\_Google\_Cloud\_Platform.png)
 
 {% hint style="info" %}
 In the above example, we made the service account an owner of the organization, giving it full access to all resources. Depending on your use case, this may or may not be what you want.
@@ -84,7 +84,7 @@ In the above example, we made the service account an owner of the organization, 
 
 We can do the same on the project level, too. In fact, the process looks absolutely identical except that projects are represented by a different icon in the dropdown. Go figure:
 
-![](../../.gitbook/assets/IAM\_–\_IAM\_\_\_admin\_–\_spacelift-developme…\_–\_Google\_Cloud\_Platform.png)
+![](../../assets/screenshots/IAM\_–\_IAM\_\_\_admin\_–\_spacelift-developme…\_–\_Google\_Cloud\_Platform.png)
 
 It can take up to a minute for the membership data to propagate but once it does, your Spacelift-GCP integration should Just Work™.
 
