@@ -43,7 +43,7 @@ Click **Save Application**.
 
 ### Configure OIDC Settings
 
-Now that we have the GitLab Application setup, we'll need to take the **Application ID** and **Secret** to configure the Spacelift OIDC Settings.&#x20;
+Now that we have the GitLab Application setup, we'll need to take the **Application ID** and **Secret** to configure the Spacelift OIDC Settings.
 
 **Application ID** = Spacelift's **Client ID**
 
@@ -62,5 +62,5 @@ In Spacelift, the **Provider URL** depends on where you are using GitLab, if you
 
 ### GitLab OIDC Setup Completed <a href="#okta-oidc-setup-completed" id="okta-oidc-setup-completed"></a>
 
-That's it! Your OIDC integration with GitLab should now be fully configured.&#x20;
+That's it! Your OIDC integration with GitLab should now be fully configured.
 

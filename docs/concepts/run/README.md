@@ -43,7 +43,7 @@ Queued is a _passive state_ meaning no operations are performed while a run is i
 
 ### Canceled
 
-Canceled state means that the user has manually stopped a [Queued](./#queued) run or task even before it had the chance to be picked up by the worker.&#x20;
+Canceled state means that the user has manually stopped a [Queued](./#queued) run or task even before it had the chance to be picked up by the worker.
 
 Canceled is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can follow it.
 
@@ -55,7 +55,7 @@ Here's an example of one such handover:
 
 ![](<../../assets/screenshots/Screenshot from 2021-04-01 15-53-59.png>)
 
-Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ\_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.&#x20;
+Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ\_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
 Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](./#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](./#failed).
 

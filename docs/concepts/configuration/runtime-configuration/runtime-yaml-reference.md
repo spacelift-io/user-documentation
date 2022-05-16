@@ -5,13 +5,13 @@ This document is a reference for the Spacelift configuration keys that are used 
 ### Stack settings
 
 * [`version`](runtime-yaml-reference.md#version)
-* [`stack_defaults`](runtime-yaml-reference.md#stack\_defaults)&#x20;
+* [`stack_defaults`](runtime-yaml-reference.md#stack\_defaults)
 * [`stacks`](runtime-yaml-reference.md#stacks)
 
 ### Module settings
 
 * [`version`](runtime-yaml-reference.md#version)
-* [`module_version`](runtime-yaml-reference.md#module\_version)&#x20;
+* [`module_version`](runtime-yaml-reference.md#module\_version)
 * [`test_defaults`](runtime-yaml-reference.md#test\_defaults)
 * [`tests`](runtime-yaml-reference.md#tests)
 

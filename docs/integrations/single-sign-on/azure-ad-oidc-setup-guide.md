@@ -79,7 +79,7 @@ Give your secret a **Description**.
 Define an **Expires** duration**.**
 
 !!! info
-    In this example, we are using 6 months for **Expires.** This means you will need to generate a new client secret in 6 months for your OIDC integration.&#x20;
+    In this example, we are using 6 months for **Expires.** This means you will need to generate a new client secret in 6 months for your OIDC integration.
 
 Click **Add.**
 
@@ -102,7 +102,7 @@ On this page **Application (client) ID.** Copy this value to Spacelift as the Cl
 
 Next, Click **Endpoints** which should expand a page with the endpoints for your App.
 
-Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot.&#x20;
+Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot.
 
 !!! info
     You should remove the **/.well-known/openid-configuration** suffix from the URL and paste this over to the Provider URL within Spacelift. **IMPORTANT:** Ensure that the you do not have a trailing / at the end of your URL when the value is copied into Spacelift.

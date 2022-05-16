@@ -257,7 +257,7 @@ When the Spacelift GitHub app is installed on an account, we create a correspond
 
 ### Organization renamed
 
-If a GitHub organization name is changed, we change the name of the corresponding account in Spacelift.&#x20;
+If a GitHub organization name is changed, we change the name of the corresponding account in Spacelift.
 
 !!! warning
     This is only applicable for accounts that were created using GitHub originally.

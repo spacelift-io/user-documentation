@@ -51,7 +51,12 @@ RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 ```
 
 !!! info
-    Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:        * this user exists and has the right UID, otherwise you won't have access to your files;    * whatever you need accessed and executed in your custom image has the right ownership and/or permissions;        Depending on your image flavor, the exact command to add the user may be different.
+    Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
+    
+    * this user exists and has the right UID, otherwise you won't have access to your files;
+    * whatever you need accessed and executed in your custom image has the right ownership and/or permissions;
+    
+    Depending on your image flavor, the exact command to add the user may be different.
 
 ### Custom providers from Terraform 0.13 onwards
 

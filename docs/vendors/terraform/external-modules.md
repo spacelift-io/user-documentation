@@ -12,7 +12,7 @@ Git is by far the most popular external module source. This example will focus o
 
 ### Using HTTPS
 
-Git with HTTPS is slightly simpler than SSH - all you need is a personal access token, and you need to make sure that it ends up in the `~/.netrc` file, which Terraform will use to log in to the host that stores your source code.&#x20;
+Git with HTTPS is slightly simpler than SSH - all you need is a personal access token, and you need to make sure that it ends up in the `~/.netrc` file, which Terraform will use to log in to the host that stores your source code.
 
 Assuming you already have a token you can use, create a file like this:
 
@@ -58,7 +58,7 @@ In order to faciliate that, we've introduced a special mechanism for extending t
 
 ## To mount or not to mount?
 
-That is the question. And there isn't a single right answer. Instead, there is a list of questions to consider. By mounting a file, you're giving us access to its content. No, we're not going to read it, and yes, we have it encrypted using a fancy multi-layered mechanism, but still - we have it. So the main question is **how sensitive the credentials are**. Read-only deploy keys are probably the least sensitive - they only give read access to a single repository, so these are the ones where convenience may outweigh other concerns. On the other hand, personal access tokens may be pretty powerful, even if you generate them from service users. The same thing goes for personal SSH keys. Guard these well.&#x20;
+That is the question. And there isn't a single right answer. Instead, there is a list of questions to consider. By mounting a file, you're giving us access to its content. No, we're not going to read it, and yes, we have it encrypted using a fancy multi-layered mechanism, but still - we have it. So the main question is **how sensitive the credentials are**. Read-only deploy keys are probably the least sensitive - they only give read access to a single repository, so these are the ones where convenience may outweigh other concerns. On the other hand, personal access tokens may be pretty powerful, even if you generate them from service users. The same thing goes for personal SSH keys. Guard these well.
 
 So if you don't want to mount these credentials, what are your options? First, you can put these credentials directly into your [private runner image](../../integrations/docker.md#using-private-docker-images). But that means that anyone in your organization who uses the private runner image gets access to your credentials - and that may or may not be what you wanted.
 

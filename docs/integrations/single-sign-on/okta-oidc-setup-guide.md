@@ -49,7 +49,7 @@ As far as the assignments for this app integration, that's up to you at the end 
 
 ### Okta: Configure Group Claim
 
-Click on the **Sign On** tab within your newly created Okta App Integration,&#x20;
+Click on the **Sign On** tab within your newly created Okta App Integration,
 
 You'll need to edit the groups claim type to return groups you consider useful in Spacelift Login Policies. For testing purposes, you could set it to **Matches regex** with .\* for the regex value.
 
@@ -57,7 +57,7 @@ You'll need to edit the groups claim type to return groups you consider useful i
 
 ### Configure OIDC Settings
 
-Switch back to the **General** tab. Now that we have the Okta App Integration setup, we'll need to take the **Client ID**, **Client Secret**, and **Okta domain**, to configure the Spacelift OIDC Settings.&#x20;
+Switch back to the **General** tab. Now that we have the Okta App Integration setup, we'll need to take the **Client ID**, **Client Secret**, and **Okta domain**, to configure the Spacelift OIDC Settings.
 
 !!! info
     The Okta Domain will be set as the "Provider URL" in your Spacelift OIDC settings. **Ensure that you prefix this URL with https://**

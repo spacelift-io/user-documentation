@@ -22,7 +22,9 @@ Demo Usage of Spacelift GraphQL API
 Spacelift provides a GraphQL API for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
 !!! info
-    For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_        All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
+    For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_
+    
+    All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
 
 In order to use the API, you will need a **bearer token** to authenticate your requests. There are currently three ways of obtaining this token:
 

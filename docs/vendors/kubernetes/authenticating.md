@@ -26,7 +26,8 @@ aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 ```
 
 !!! info
-    * The `$REGION_NAME` and `$CLUSTER_NAME` environment variables must be defined in your Stack's environment.    * This relies on either using the Spacelift [AWS Integration](../../integrations/cloud-providers/aws.md), or ensuring that your workers have permission to access the EKS cluster.
+    * The `$REGION_NAME` and `$CLUSTER_NAME` environment variables must be defined in your Stack's environment.
+    * This relies on either using the Spacelift [AWS Integration](../../integrations/cloud-providers/aws.md), or ensuring that your workers have permission to access the EKS cluster.
 
 ## Azure
 

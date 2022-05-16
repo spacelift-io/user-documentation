@@ -26,6 +26,9 @@ def transform_hints(content):
 
   return content
 
+def remove_unicode_spaces(content):
+  return content.replace("&#x20;", "")
+
 if __name__ == "__main__":
   ROOT_DIR = Path(__file__).parent.parent.absolute()
   DOCS_DIR = ROOT_DIR.joinpath("docs")
@@ -35,5 +38,6 @@ if __name__ == "__main__":
     content = read_src_file_content(src_file)
 
     content = transform_hints(content)
+    content = remove_unicode_spaces(content)
 
     save_content_to_dest_file(src_file, content)

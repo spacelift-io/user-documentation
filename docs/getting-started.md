@@ -56,7 +56,7 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 12-37-48 Get started with Spacelift Free Trial Spacelift.png>)
 
-**Note:**&#x20;
+**Note:**
 
 When using GitHub as an authentication provider, your Spacelift accounts are associated with your selected GitHub account or GitHub Organization. After clicking "Sign Up", you'll need to choose an organization you are a member of, your personal account, or create a new GitHub Organization.
 

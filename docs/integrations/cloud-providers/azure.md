@@ -58,7 +58,11 @@ Click on the Accept button to complete the admin consent process, at which point
     The admin consent process requires at least one permission to be requested in order to work. Although the application requests the “Sign in and read user profile” permission, it never signs in as any users in your account or accesses their information.
 
 !!! warning
-    Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:        ![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD\_AmzogTK\_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg\_H41DLG8LPHxbxgJFB=s0)        This isn’t a problem. Just wait a few minutes and try again.
+    Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
+    
+    ![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD\_AmzogTK\_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg\_H41DLG8LPHxbxgJFB=s0)
+    
+    This isn’t a problem. Just wait a few minutes and try again.
 
 ### Configuring Azure permissions
 
@@ -136,7 +140,11 @@ The output includes credentials that you must protect. Be sure that you do not i
 The command creates a new Service Principal called `spacelift-sp`, and grants it the _Contributor_ role on your subscription. It also outputs the `appId`, `password` and `tenant` for the Service Principal. Make a note of these because you'll need them later.
 
 !!! info
-    If you would rather assign permissions separately, you can run the following command to create a Service Principal with no role assignments:        ```    az ad sp create-for-rbac --name spacelift-sp --skip-assignment    ```
+    If you would rather assign permissions separately, you can run the following command to create a Service Principal with no role assignments:
+    
+    ```
+    az ad sp create-for-rbac --name spacelift-sp --skip-assignment
+    ```
 
 ### Configuring via environment
 

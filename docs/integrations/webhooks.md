@@ -4,7 +4,7 @@ description: Receiving Spacelift notifications using webhooks
 
 # Webhooks
 
-Spacelift can optionally be set to send webhooks - POST requests about run state changes - to an HTTP endpoint of your choice.&#x20;
+Spacelift can optionally be set to send webhooks - POST requests about run state changes - to an HTTP endpoint of your choice.
 
 ### Setting up webhooks
 
@@ -86,7 +86,7 @@ Here's an example webhook payload for a notification about a manually triggered 
 
 The payload consists of a few fields:
 
-* `account` is the name (subdomain) of the account generating the webhook - useful in case you're pointing webhooks from various accounts at the same endpoint;&#x20;
+* `account` is the name (subdomain) of the account generating the webhook - useful in case you're pointing webhooks from various accounts at the same endpoint;
 * `state` is a string representation of the run state at the time of the notification being triggered;
 * `stateVersion` is the ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed;
 * `timestamp` is the unix timestamp of the state transition;

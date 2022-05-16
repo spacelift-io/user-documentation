@@ -1,6 +1,6 @@
 # Bitbucket Cloud
 
-In addition to our out-of-the-box [integration with GitHub](github.md) , Spacelift supports using Bitbucket Cloud as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md).&#x20;
+In addition to our out-of-the-box [integration with GitHub](github.md) , Spacelift supports using Bitbucket Cloud as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md).
 
 ## Setting up the integration
 

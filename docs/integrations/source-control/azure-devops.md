@@ -19,7 +19,15 @@ Now you'll have to fill in the Organization URL, which is the main URL of your A
 ![Azure DevOps main organization page](../../assets/screenshots/azureDevOps1.png)
 
 !!! info
-    The Azure DevOps Organization URL usually has the following format:        * `https://dev.azure.com/{my-organization-name}`        Depending on when your Azure DevOps organization was created, it may use a different format, for example:        * `https://{my-organization-name}.visualstudio.com`        You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration).
+    The Azure DevOps Organization URL usually has the following format:
+    
+    * `https://dev.azure.com/{my-organization-name}`
+    
+    Depending on when your Azure DevOps organization was created, it may use a different format, for example:
+    
+    * `https://{my-organization-name}.visualstudio.com`
+    
+    You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration).
 
 ### Creating a Personal Access Token
 
@@ -55,7 +63,7 @@ In order for Spacelift to be notified of any changes made in your Azure DevOps r
 
 ![Configured Azure DevOps integration](<../../assets/screenshots/image (92).png>)
 
-For each Azure DevOps project you want to use with Spacelift, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Webhook** and click **Next**.&#x20;
+For each Azure DevOps project you want to use with Spacelift, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Webhook** and click **Next**.
 
 ![Creating a Webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks1.gif)
 
@@ -89,4 +97,4 @@ Please also remember to remove any Spacelift webhooks from your repositories.
 
 
 
-&#x20;
+

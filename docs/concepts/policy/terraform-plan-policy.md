@@ -128,7 +128,7 @@ deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
 
 ## Use cases
 
-Since plan policies get access to the changes to your infrastructure that are about to be introduced, they are the right place to run all sorts of checks against those changes. We believe that that there are two main use cases for those checks - [hard rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) preventing shooting yourself in the foot and [automated code review](terraform-plan-policy.md#automated-code-review) that augments human decision-making.&#x20;
+Since plan policies get access to the changes to your infrastructure that are about to be introduced, they are the right place to run all sorts of checks against those changes. We believe that that there are two main use cases for those checks - [hard rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) preventing shooting yourself in the foot and [automated code review](terraform-plan-policy.md#automated-code-review) that augments human decision-making.
 
 ### Organizational rule enforcement
 

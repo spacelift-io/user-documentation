@@ -4,15 +4,15 @@ Thank you for choosing to be part of our community at Spacelift (“company”, 
 
 When you visit our and use our services, you trust us with your personal information. We take your privacy very seriously. In this privacy notice, we describe our privacy policy. We seek to explain to you in the clearest way possible what information we collect, how we use it and what rights you have in relation to it. We hope you take some time to read through it carefully, as it is important. If there are any terms in this privacy policy that you do not agree with, please discontinue use of our and our services.
 
-This privacy policy applies to all information collected through our and/or any related services, sales, marketing or events (we refer to them collectively in this privacy policy as the "Sites").&#x20;
+This privacy policy applies to all information collected through our and/or any related services, sales, marketing or events (we refer to them collectively in this privacy policy as the "Sites").
 
 Please read this privacy policy carefully as it will help you make informed decisions about sharing your personal information with us.
 
 ## **1. What information do we collect?**
 
-### **Personal information you disclose to us**&#x20;
+### **Personal information you disclose to us**
 
-We collect personal information that you voluntarily provide to us when registering at the expressing an interest in obtaining information about us or our products and services, when participating in activities on the or otherwise contacting us.&#x20;
+We collect personal information that you voluntarily provide to us when registering at the expressing an interest in obtaining information about us or our products and services, when participating in activities on the or otherwise contacting us.
 
 The personal information that we collect depends on the context of your interactions with us and the site, the choices you make and the products and features you use. The personal information we collect can include the following:
 
@@ -24,11 +24,11 @@ All personal information that you provide to us must be true, complete and accur
 
 ### Information automatically collected
 
-We automatically collect certain information when you visit, use or navigate the site. This information does not reveal your specific identity (like your name or contact information) but may include device and usage information, such as your IP address, browser and device characteristics, operating system, language preferences, referring URLs, device name, country, location, information about how and when you use our and other technical information. This information is primarily needed to maintain the security and operation of our site, and for our internal analytics and reporting purposes.&#x20;
+We automatically collect certain information when you visit, use or navigate the site. This information does not reveal your specific identity (like your name or contact information) but may include device and usage information, such as your IP address, browser and device characteristics, operating system, language preferences, referring URLs, device name, country, location, information about how and when you use our and other technical information. This information is primarily needed to maintain the security and operation of our site, and for our internal analytics and reporting purposes.
 
 Like many businesses, we also collect information through cookies and similar technologies.
 
-## **2. Will your information be shared with anyone?**&#x20;
+## **2. Will your information be shared with anyone?**
 
 We may process or share data based on the following legal basis:
 
@@ -54,13 +54,13 @@ We may use cookies and similar tracking technologies (like web beacons and pixel
 
 ## 4. How do we handle your social logins?
 
-Our offer you the ability to register and login using your third party social media account details (like your GitHub login). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile Information we receive may vary depending on the social media provider concerned, but will often include your name, e-mail address, organization membership, profile picture as well as other information you choose to make public. &#x20;
+Our offer you the ability to register and login using your third party social media account details (like your GitHub login). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile Information we receive may vary depending on the social media provider concerned, but will often include your name, e-mail address, organization membership, profile picture as well as other information you choose to make public. 
 
-We will use the information we receive only for the purposes that are described in this privacy policy or that are otherwise made clear to you on the site. Please note that we do not control, and are not responsible for, other uses of your personal information by your third party social media provider. We recommend that you review their privacy policy to understand how they collect, use and share your personal information, and how you can set your privacy preferences on their sites and apps. &#x20;
+We will use the information we receive only for the purposes that are described in this privacy policy or that are otherwise made clear to you on the site. Please note that we do not control, and are not responsible for, other uses of your personal information by your third party social media provider. We recommend that you review their privacy policy to understand how they collect, use and share your personal information, and how you can set your privacy preferences on their sites and apps. 
 
 ## 5. Is your information transferred internationally?
 
-Our servers are located in Ireland. If you are accessing our site from outside, please be aware that your information may be transferred to, stored, and processed by us in our facilities and by those third parties with whom we may [share your personal information](privacy.md#2-will-your-information-be-shared-with-anyone), in and other countries.&#x20;
+Our servers are located in Ireland. If you are accessing our site from outside, please be aware that your information may be transferred to, stored, and processed by us in our facilities and by those third parties with whom we may [share your personal information](privacy.md#2-will-your-information-be-shared-with-anyone), in and other countries.
 
 If you are a resident in the European Economic Area, then these countries may not have data protection or other laws as comprehensive as those in your country. We will however take all necessary measures to protect your personal information in accordance with this privacy policy and applicable law.
 
@@ -72,7 +72,7 @@ When we have no ongoing legitimate business need to process your personal inform
 
 ## 7. How do we keep your information safe?
 
-We have implemented appropriate technical and organisational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure. Although we will do our best to protect your personal information, transmission of personal information to and from our is at your own risk. You should only access the services within a secure environment.&#x20;
+We have implemented appropriate technical and organisational security measures designed to protect the security of any personal information we process. However, please also remember that we cannot guarantee that the internet itself is 100% secure. Although we will do our best to protect your personal information, transmission of personal information to and from our is at your own risk. You should only access the services within a secure environment.
 
 ## 8. Do we collect information from minors?
 
@@ -80,17 +80,17 @@ We do not knowingly solicit data from or market to children under 13 years of ag
 
 ## 9. What are your privacy rights?
 
-In some regions (like the European Economic Area), you have certain rights under applicable data protection laws. These may include the right (i) to request access and obtain a copy of your personal information, (ii) to request rectification or erasure; (iii) to restrict the processing of your personal information; and (iv) if applicable, to data portability. In certain circumstances, you may also have the right to object to the processing of your personal information. To make such a request, please use the [contact details](https://app.termly.io/dashboard/website/294859/privacy-policy#contact) provided below. We will consider and act upon any request in accordance with applicable data protection laws.&#x20;
+In some regions (like the European Economic Area), you have certain rights under applicable data protection laws. These may include the right (i) to request access and obtain a copy of your personal information, (ii) to request rectification or erasure; (iii) to restrict the processing of your personal information; and (iv) if applicable, to data portability. In certain circumstances, you may also have the right to object to the processing of your personal information. To make such a request, please use the [contact details](https://app.termly.io/dashboard/website/294859/privacy-policy#contact) provided below. We will consider and act upon any request in accordance with applicable data protection laws.
 
 If we are relying on your consent to process your personal information, you have the right to withdraw your consent at any time. Please note however that this will not affect the lawfulness of the processing before its withdrawal.
 
-If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm)&#x20;
+If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm)
 
-### **Account Information**&#x20;
+### **Account Information**
 
-If you would at any time like to review or change the information in your account or terminate your account, you can: &#x20;
+If you would at any time like to review or change the information in your account or terminate your account, you can: 
 
-Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, some information may be retained in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with legal requirements. &#x20;
+Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, some information may be retained in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with legal requirements. 
 
 ## 10. Do California residents have specific privacy rights?
 

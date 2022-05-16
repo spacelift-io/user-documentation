@@ -16,7 +16,7 @@ Also worth noting is the colorful strip present on some runs - as long as the [p
 
 ## Triggering tracked runs
 
-Tracked runs can be triggered in of the three ways - manually by the user, by a Git push or by a [trigger policy](../policy/trigger-policy.md).&#x20;
+Tracked runs can be triggered in of the three ways - manually by the user, by a Git push or by a [trigger policy](../policy/trigger-policy.md).
 
 ### Triggering manually
 
@@ -59,7 +59,7 @@ Changes can be automatically applied if both these conditions are met:
 * [autodeploy](../stack/stack-settings.md#autodeploy) is turned "on" for the Stack;
 * if [plan policies](../policy/terraform-plan-policy.md) are attached, none of them returns any warnings;
 
-Otherwise, the change will go through the manual flow described below.&#x20;
+Otherwise, the change will go through the manual flow described below.
 
 ### Unconfirmed
 

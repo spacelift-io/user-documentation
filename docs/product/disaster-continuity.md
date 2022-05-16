@@ -48,7 +48,7 @@ aws sts assume-role \
   --role-session-name local-infra-deployment
 ```
 
-Using the output from the **assume-role** command, set your credentials in your shell.&#x20;
+Using the output from the **assume-role** command, set your credentials in your shell.
 
 ```
 export AWS_ACCESS_KEY_ID=<value for access key id>

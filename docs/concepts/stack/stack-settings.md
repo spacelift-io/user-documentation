@@ -38,7 +38,7 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 * [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
 * [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
 
-These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec), [`tflint`](https://github.com/terraform-linters/tflint) or `terraform fmt`.&#x20;
+These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec), [`tflint`](https://github.com/terraform-linters/tflint) or `terraform fmt`.
 
 !!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](https://docs.spacelift.io/integrations/docker#customizing-the-runner-image).
@@ -79,7 +79,9 @@ spacectl stack local-preview --id <stack-id>
 ```
 
 !!! danger
-    This in effect allows anybody with write access to the Stack to execute arbitrary code with access to all the environment variables configured in the Stack.        Use with caution.
+    This in effect allows anybody with write access to the Stack to execute arbitrary code with access to all the environment variables configured in the Stack.
+    
+    Use with caution.
 
 ### Name and description
 
@@ -88,7 +90,9 @@ Stack name and description are pretty self-explanatory. The required _name_ is w
 The optional _description_ is completely free-form and it supports [Markdown](https://daringfireball.net/projects/markdown/). This is perhaps a good place for a thorough explanation of the purpose of the stack, perhaps a link or two, and an obligatory cat GIF.
 
 !!! warning
-    Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.        So even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
+    Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
+    
+    So even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
 
 ### Labels
 
@@ -108,7 +112,9 @@ _Repository_ and _branch_ point to the location of the source code for a stack. 
 Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
 
 !!! info
-    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while [recreating the stack](./#babys-first-stack) (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.        Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
+    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while [recreating the stack](./#babys-first-stack) (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
+    
+    Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
 _Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/git-push-policy.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run.
 

@@ -50,7 +50,7 @@ When grouping by resources parent - that is, seeing them as a tree, you can easi
 
 ![](../assets/screenshots/Runs\_·\_Spacelift\_development.png)
 
-Once you click into the subtree, you will be able to click out by clicking on the new virtual root, as if you were running `cd ..` in your terminal:&#x20;
+Once you click into the subtree, you will be able to click out by clicking on the new virtual root, as if you were running `cd ..` in your terminal:
 
 ![](<../assets/screenshots/Runs\_·\_Spacelift\_development (1).png>)
 

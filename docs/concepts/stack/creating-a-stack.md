@@ -14,7 +14,7 @@ The stack creation process involves four simple steps:
 3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), Pulumi)
 4. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 
-&#x20;Please see below for a step-by-step walkthrough and explanation.
+Please see below for a step-by-step walkthrough and explanation.
 
 ## Integrate VCS
 

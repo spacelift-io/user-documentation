@@ -40,7 +40,7 @@ And... oh no! It failed! However, the error message is quite straightforward. We
 
 ![Creating change set failed: Requires capabilities : \[CAPABILITY\_IAM\]](<../../assets/screenshots/Screenshot 2021-12-08 at 15.19.52 (4).png>)
 
-We can acknowledge this capability by setting the `CF_CAPABILITY_IAM` environment variable to `1`.&#x20;
+We can acknowledge this capability by setting the `CF_CAPABILITY_IAM` environment variable to `1`.
 
 There's a bunch of optional settings for CloudFormation Stacks we expose this way. You can read up on all of them in the [reference](reference.md#special-environment-variables).
 

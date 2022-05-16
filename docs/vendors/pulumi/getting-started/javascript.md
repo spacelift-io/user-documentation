@@ -14,14 +14,14 @@ Now let's open Spacelift and create a new Stack, choose the examples repo you ju
 
 * Set the project root to `aws-js-webserver`, as we want to run Pulumi in this subdirectory only.
 * Add one before init script: `npm install`, which will install all necessary dependencies, before initializing Pulumi itself. The outputs will be persisted in the workspace and be there for the [Planning](../../../concepts/run/#planning) and [Applying](../../../concepts/run/#applying) phases.
-* Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-javascript:latest`&#x20;
+* Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-javascript:latest`
   * Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-javascript).
 
 ![Define behavior.](<../../../assets/screenshots/image (43).png>)
 
 In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll have to choose:
 
-* A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.&#x20;
+* A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.
 * A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-javascript-pulumi-spacelift-stack`.
 
 ![Configure backend.](<../../../assets/screenshots/image (36).png>)
