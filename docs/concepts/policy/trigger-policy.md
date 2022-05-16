@@ -92,7 +92,7 @@ This is the schema of the data input that each policy request will receive:
 
 ## Use cases
 
-Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's\_Game\_of\_Life), but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
+Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life), but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
 
 ### Interdependent stacks
 

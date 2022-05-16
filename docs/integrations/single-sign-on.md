@@ -12,7 +12,7 @@ By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some 
 
 In order to manage single sign-on integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single sign-on_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
 
-![These URLs will be different for your account](../assets/screenshots/sso\_settings.png)
+![These URLs will be different for your account](../assets/screenshots/sso_settings.png)
 
 
 
@@ -66,7 +66,7 @@ The following are links to example implementations you can use as a reference/gu
 
 While certainly more convenient, IdP-initiated SSO lacks some of the protections awarded by SP-initiated SSO and is thus inherently less safe. Since Spacelift manages some of your most valuable resources, we decided against supporting this feature.
 
-If our server detects an IdP-initiated SSO session, it simply redirects the browser using [_303 See other_](https://en.wikipedia.org/wiki/HTTP\_303) HTTP status code to the endpoint that triggers a regular SP-initiated SSO flow. As a result, you can still access Spacelift by clicking on the link in your IdP catalog, but are not exposed to the vulnerabilities of the IdP-initiated SSO.
+If our server detects an IdP-initiated SSO session, it simply redirects the browser using [_303 See other_](https://en.wikipedia.org/wiki/HTTP_303) HTTP status code to the endpoint that triggers a regular SP-initiated SSO flow. As a result, you can still access Spacelift by clicking on the link in your IdP catalog, but are not exposed to the vulnerabilities of the IdP-initiated SSO.
 
 ## Disabling SSO
 

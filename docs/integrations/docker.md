@@ -11,7 +11,7 @@ By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/r
 
 ## Customizing the runner image
 
-The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/#runner\_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
+The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/#runner_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
 
 If you want our tooling in your image, there are two possible approaches. The first approach is to **build on top of our image**. We'd suggest doing that only if your customizations are relatively simple. For example, let's add a custom CircleCI provider to your image. They have a releases page allowing you to just `curl` the right version of the binary and put it in the `/bin` directory:
 

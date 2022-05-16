@@ -6,19 +6,19 @@ Runs can be reviewed when they enter one of the two states - [queued](../run/#qu
 
 Here's an example of a queued run waiting for a human review - note how the last approval policy evaluation returned an _Undecided_ decision. There's also a review button next to the cancelation one:
 
-![](<../../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Resource\_in\_a\_separate\_file\_·\_Bacon (2).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (2).png>)
 
 Review can be positive (approve) or negative (reject):
 
-![](<../../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Resource\_in\_a\_separate\_file\_·\_Bacon (1).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (1).png>)
 
 With a positive review, the approval policy could evaluate to Approve thus unblocking the run:
 
-![](../../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Resource\_in\_a\_separate\_file\_·\_Bacon.png)
+![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon.png)
 
 When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you will not be able to [confirm](../run/tracked.md#confirmed) it until that approval is received. The run can however be [discarded](../run/tracked.md#discarded) at any point:
 
-![](<../../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Resource\_in\_a\_separate\_file\_·\_Bacon (3).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (3).png>)
 
 In principle, the run review and approval process are very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
 

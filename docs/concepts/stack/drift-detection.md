@@ -16,7 +16,7 @@ Spacelift comes with a built-in mechanism to detect and - optionally - reconcile
 
 To get started, create a drift detection configuration from the Integrations section of your stack settings. You will be able to add multiple cron rules to define when your reconciliation jobs should be scheduled, as well as decide whether you want your jobs to trigger [tracked runs](../run/tracked.md) ([reconciliation](drift-detection.md#to-reconcile-or-not-to-reconcile) jobs) in response to detected drift**:**
 
-![](../../assets/screenshots/Edit\_stack\_·\_Test\_github\_packages\_tf.png)
+![](../../assets/screenshots/Edit_stack_·_Test_github_packages_tf.png)
 
 !!! info
     Note that, at least currently, drift detection only works on private workers.

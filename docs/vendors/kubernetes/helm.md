@@ -1,6 +1,6 @@
 # Helm
 
-There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm\_template/) command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
+There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm_template/) command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
 
 Please note, the following caveats apply:
 

@@ -181,7 +181,7 @@ Our GraphQL schema is self-documenting. The best way to view the latest document
 
 ### Insomnia Example
 
-![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift\_–\_GraphQL.png)
+![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift_–_GraphQL.png)
 
 ### GraphiQL Example
 

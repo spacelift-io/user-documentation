@@ -12,7 +12,10 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
-
+  - toc:
+      baselevel: 2
+      permalink: »
+      permalink_title: Anchor link to this section
 
 #################################################################################
 # Navigation                                                                    #

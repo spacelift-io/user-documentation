@@ -24,7 +24,7 @@ password $yourToken
 
 Then, upload this file to your stack's Spacelift environment as a [mounted file](../../concepts/configuration/environment.md#mounted-files). In this example, we called that file `github.netrc`:
 
-![](<../../assets/screenshots/Mouse\_Highlight\_Overlay (4).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (4).png>)
 
 Add the following commands as ["before init" hooks](../../concepts/stack/stack-settings.md#customizing-workflow) to append the content of this file to the `~/.netrc` proper:
 
@@ -37,7 +37,7 @@ chmod 600 ~/.netrc
 
 Using SSH isn't much more complex, but it requires a bit more preparation. Once you have a public-private key pair (whether it's a [personal](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) SSH key or a single-repo [deploy key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)), you will need to pass it to Spacelift and make sure it's used to access your VCS provider. Once again, we're going to use the [mounted file](../../concepts/configuration/environment.md#mounted-files) functionality to pass the _private_ key called `id_ed25519` to your stack's environment:
 
-![](<../../assets/screenshots/Mouse\_Highlight\_Overlay (5).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (5).png>)
 
 Add the following commands as ["before init" hooks](../../concepts/stack/stack-settings.md#before-init-scripts) to "teach" our SSH agent to use this key for GitHub:
 

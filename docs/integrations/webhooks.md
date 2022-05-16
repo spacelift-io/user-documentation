@@ -10,20 +10,20 @@ Spacelift can optionally be set to send webhooks - POST requests about run state
 
 Webhooks can be set up by Spacelift administrators on per-stack basis. In order to do that, navigate to the _Integrations_ section of the stack settings view. From the list of available integrations, select the _Add webhook_ option:
 
-![](../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Edit\_stack\_·\_Spacelift\_demo.png)
+![](../assets/screenshots/Mouse_Highlight_Overlay_and_Edit_stack_·_Spacelift_demo.png)
 
 !!! info
     You can set up as many webhooks for a Stack as you need, though each one _must_ have a unique endpoint.
 
 You will be presented with a simple setup form that requires you to provide and endpoint to which the payload is sent, and an _optional_ secret that you can use to [validate](webhooks.md#validating-payload) that the incoming requests are indeed coming from Spacelift:
 
-![](<../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Edit\_stack\_·\_Spacelift\_demo (1).png>)
+![](<../assets/screenshots/Mouse_Highlight_Overlay_and_Edit_stack_·_Spacelift_demo (1).png>)
 
 Please note that it's up to you to come up with a reasonably non-obvious secret.
 
 Once saved, the webhook will appear on the list of integrations:
 
-![](../assets/screenshots/Mouse\_Highlight\_Overlay.png)
+![](../assets/screenshots/Mouse_Highlight_Overlay.png)
 
 !!! info
     Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
@@ -34,15 +34,15 @@ By default webhooks are enabled which means that they are triggered every time t
 
 To do that, just click on the Edit button on the desired webhook integration section:
 
-![](<../assets/screenshots/Mouse\_Highlight\_Overlay (1).png>)
+![](<../assets/screenshots/Mouse_Highlight_Overlay (1).png>)
 
 ...and click on the Enabled toggle to see it going _gray_:
 
-![](<../assets/screenshots/Mouse\_Highlight\_Overlay (2).png>)
+![](<../assets/screenshots/Mouse_Highlight_Overlay (2).png>)
 
 Reversing this action is equally simple - just follow the same steps making sure that the toggle goes _green_:
 
-![](<../assets/screenshots/Mouse\_Highlight\_Overlay (3).png>)
+![](<../assets/screenshots/Mouse_Highlight_Overlay (3).png>)
 
 ### Interpreting webhook payload
 

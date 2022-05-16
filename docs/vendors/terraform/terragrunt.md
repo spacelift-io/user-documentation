@@ -4,7 +4,7 @@
 
 Whether a Terraform stack is using Terragrunt or not is controlled by the presence of `terragrunt` label on the stack:
 
-![](../../assets/screenshots/Settings\_·\_GitLab\_\_Terragrunt\_with\_autodeploy.png)
+![](../../assets/screenshots/Settings_·_GitLab__Terragrunt_with_autodeploy.png)
 
 If present, all workloads will use `terragrunt` instead of `terraform` as the main command. Since Terragrunt API is a superset of Terraform's, this is completely transparent to the end user.
 
@@ -12,7 +12,7 @@ Terragrunt is installed on our [standard runner image](../../integrations/docker
 
 During the _Initialization_ phase we're showing you the exact binary that will process your job, along with its location:
 
-![](../../assets/screenshots/Update\_main\_tf\_·\_GitLab\_\_Terragrunt\_with\_autodeploy.png)
+![](../../assets/screenshots/Update_main_tf_·_GitLab__Terragrunt_with_autodeploy.png)
 
 ### Versioning with Terragrunt
 

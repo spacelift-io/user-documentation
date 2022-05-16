@@ -14,11 +14,11 @@ You will then need to provide a webhook endpoint and an arbitrary secret that yo
 
 If you choose to automatically enable the functionality, clicking the _Save_ button will verify that payloads can be delivered (the endpoint returns a 2xx status code). This gives us an opportunity to look at the payload:
 
-![](../assets/screenshots/ngrok\_-\_Inspect.png)
+![](../assets/screenshots/ngrok_-_Inspect.png)
 
 ...and the headers - the interesting ones are highlighted:
 
-![](<../assets/screenshots/ngrok\_-\_Inspect (1).png>)
+![](<../assets/screenshots/ngrok_-_Inspect (1).png>)
 
 ## Usage
 
@@ -32,13 +32,13 @@ Every audit trail payload conforms to the same schema:
 
 Below is a sample:
 
-![](<../assets/screenshots/ngrok\_-\_Inspect (2).png>)
+![](<../assets/screenshots/ngrok_-_Inspect (2).png>)
 
 ## Disabling and deleting the audit trail
 
 The audit trail can be disabled and deleted at any point, but for both events we will send the appropriate payload. We suggest that you always treat these at least as important security signals, if not alerting conditions:
 
-![](<../assets/screenshots/ngrok\_-\_Inspect (3).png>)
+![](<../assets/screenshots/ngrok_-_Inspect (3).png>)
 
 ## Verifying payload
 

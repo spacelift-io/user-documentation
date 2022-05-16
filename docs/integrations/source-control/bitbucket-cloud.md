@@ -34,7 +34,7 @@ For each repository you want to use with Spacelift, you now have to go into its 
 
 ![Webhooks configuration](<../../assets/screenshots/Screenshot 2022-02-16 at 14.57.25.png>)
 
-The last step is to install the **Pull Request Commit Links** app to be able to use [this](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo\_slug%7D/commit/%7Bcommit%7D/pullrequests) API. This is done automatically when you go to the commit's details and then click "Pull requests" link.
+The last step is to install the **Pull Request Commit Links** app to be able to use [this](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bcommit%7D/pullrequests) API. This is done automatically when you go to the commit's details and then click "Pull requests" link.
 
 ![Commit's details](<../../assets/screenshots/Screenshot from 2021-06-15 11-19-56.png>)
 

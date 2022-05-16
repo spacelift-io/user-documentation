@@ -88,6 +88,6 @@ export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
 
 Worker pools must be explicitly attached to [stacks](stack/) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
-![Example when editing the existing stack](../assets/screenshots/Edit\_stack\_·\_Managed\_stack.png)
+![Example when editing the existing stack](../assets/screenshots/Edit_stack_·_Managed_stack.png)
 
-![Example when setting up a new module](<../assets/screenshots/New\_module\_·\_marcinwyszynski (1).png>)
+![Example when setting up a new module](<../assets/screenshots/New_module_·_marcinwyszynski (1).png>)

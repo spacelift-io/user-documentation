@@ -84,7 +84,7 @@ In some regions (like the European Economic Area), you have certain rights under
 
 If we are relying on your consent to process your personal information, you have the right to withdraw your consent at any time. Please note however that this will not affect the lawfulness of the processing before its withdrawal.
 
-If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm)
+If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm)
 
 ### Account Information
 

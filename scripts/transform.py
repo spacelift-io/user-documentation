@@ -38,6 +38,18 @@ def remove_bold_formatting_from_headings(content):
 
   return content
 
+def remove_backslashes_in_paths(content):
+  matches = re.finditer("\[(.*?)\]\((.*?)\)", content, flags=re.MULTILINE)
+  for match in matches:
+    src_link = match.group(0)
+    description = match.group(1)
+    url = match.group(2)
+    url = url.replace("\_", "_")
+    dest_link = f"[{description}]({url})"
+    content = content.replace(src_link, dest_link)
+
+  return content
+
 if __name__ == "__main__":
   ROOT_DIR = Path(__file__).parent.parent.absolute()
   DOCS_DIR = ROOT_DIR.joinpath("docs")
@@ -49,5 +61,6 @@ if __name__ == "__main__":
     content = transform_hints(content)
     content = remove_unicode_spaces(content)
     content = remove_bold_formatting_from_headings(content)
+    content = remove_backslashes_in_paths(content)
 
     save_content_to_dest_file(src_file, content)

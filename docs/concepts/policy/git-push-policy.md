@@ -224,7 +224,7 @@ affected {
 }
 ```
 
-As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna\_Karenina\_principle). A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM).
+As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle). A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM).
 
 ### Status checks and ignored pushes
 

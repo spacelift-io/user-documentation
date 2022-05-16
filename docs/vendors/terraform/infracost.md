@@ -20,7 +20,7 @@ If Infracost has been configured successfully, you should see some messages duri
 
 ### Additional CLI Arguments
 
-If you need to pass any additional CLI arguments to the Infracost breakdown command, you can add them to the `INFRACOST_CLI_ARGS` environment variable. Anything found in this variable is automatically appended to the command. This allows you to do things like specifying the path to your [Infracost usage file](https://www.infracost.io/docs/usage\_based\_resources#infracost-usage-file).
+If you need to pass any additional CLI arguments to the Infracost breakdown command, you can add them to the `INFRACOST_CLI_ARGS` environment variable. Anything found in this variable is automatically appended to the command. This allows you to do things like specifying the path to your [Infracost usage file](https://www.infracost.io/docs/usage_based_resources#infracost-usage-file).
 
 ### Ignore Failures
 

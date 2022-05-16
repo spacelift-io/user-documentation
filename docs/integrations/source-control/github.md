@@ -131,23 +131,23 @@ Commit status notifications are triggered for [_proposed_ runs](../../concepts/r
 
 ...when the run is in progress ([initializing](../../concepts/run/#initializing)):
 
-![](../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end.png)
+![](../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end.png)
 
 ...when it succeeds _without changes_:
 
-![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
+![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (2).png>)
 
 ...when it succeeds _with changes_:
 
-![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
+![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (1).png>)
 
 ...and when it fails:
 
-![](<../../assets/screenshots/Test\_a\_change\_by\_marcinwyszynski\_·\_Pull\_Request\_\_6\_·\_spacelift-io\_marcinw-end-to-end (3).png>)
+![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (3).png>)
 
 In each case, clicking on the _Details_ link will take you to the GitHub check view showing more details about the run:
 
-![](<../../assets/screenshots/Add\_Azure\_integration\_variables\_by\_adamconnelly\_·\_Pull\_Request\_\_561\_·\_spacelift-io\_infra (1).png>)
+![](<../../assets/screenshots/Add_Azure_integration_variables_by_adamconnelly_·_Pull_Request__561_·_spacelift-io_infra (1).png>)
 
 The Check view provides high-level information about the changes introduced by the push, including the list of changing resources, including cost data if [Infracost](../../vendors/terraform/infracost.md) is set up.
 
@@ -173,13 +173,13 @@ deny["Do not deploy from GitHub"] {
 
 The effect is as follows:
 
-![](../../assets/screenshots/Update\_README\_md\_·\_Private\_worker\_pool.png)
+![](../../assets/screenshots/Update_README_md_·_Private_worker_pool.png)
 
 #### Using Spacelift checks to protect branches
 
 You can use commit statuses to protect your branches tracked by Spacelift stacks by ensuring that _proposed_ runs succeed before merging their Pull Requests:
 
-![](<../../assets/screenshots/New\_branch\_protection\_rule (1).png>)
+![](<../../assets/screenshots/New_branch_protection_rule (1).png>)
 
 This is is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
 
@@ -187,23 +187,23 @@ This is is an important part of our proposed workflow - please refer to [this se
 
 [Deployments](https://developer.github.com/v3/guides/delivering-deployments/) and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
 
-![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (1).png>)
+![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (1).png>)
 
 If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
 
-![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (2).png>)
+![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (2).png>)
 
 If the [Applying](../../concepts/run/tracked.md#applying) phase succeeds (fingers crossed!), the deployment is marked as _Active_:
 
-![](../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end.png)
+![](../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end.png)
 
 The whole deployment history broken down by stack can be accessed from your repo's _Environments_ section - a previously obscure feature that's recently getting more and more love from GitHub:
 
-![](../../assets/screenshots/spacelift-io\_infra\_\_Infrastructure\_definitions\_for\_Spacelift.png)
+![](../../assets/screenshots/spacelift-io_infra__Infrastructure_definitions_for_Spacelift.png)
 
 That's what it looks like for our test repo, with just a singe stack pointing at it:
 
-![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (4).png>)
+![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (4).png>)
 
 !!! info
     The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../concepts/run/tracked.md).
@@ -212,7 +212,7 @@ That's what it looks like for our test repo, with just a singe stack pointing at
 
 In order to help you keep track of all the pending changes to your infrastructure, Spacelift also has a PRs tab that lists all the active Pull Request against your tracked branch. Each of the entries shows the current status of the change as determined by Spacelift, and a link to the most recent Run responsible for determining that status:
 
-![](../../assets/screenshots/Pull\_Requests\_·\_Spacelift\_development.png)
+![](../../assets/screenshots/Pull_Requests_·_Spacelift_development.png)
 
 Note that this view is read-only - you can't change a Pull Request through here, but clicking on the name will take you to GitHub where you can make changes.
 
@@ -237,7 +237,7 @@ We're almost there, but let's also consider a scenario where our coworkers are a
 
 ### Multi-stack version
 
-One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/#project\_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
+One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
 
 If you're in that group, you can create two long-lived Git branches, each linked to a different stack - the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack. Most development thus occurs on the staging branch and once the code is perfected there over a few iterations, a Pull Request can be opened from the `staging` to `production` branch, incorporating all the changes. That's essentially how we've seen most teams implement [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html). This approach keeps the history of the `production` branch clear and allows plenty of experimentation in the `staging` branch.
 
