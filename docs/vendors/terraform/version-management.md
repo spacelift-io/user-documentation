@@ -32,9 +32,8 @@ If you're creating stacks programmatically but intend to make independent change
 
 In order to determine the version of the Terraform binary to mount, Spacelift will first look at the [runtime configuration](../../concepts/configuration/runtime-configuration/#terraform\_version-setting). If it does not contain the version setting for the current stack, the stack setting is then considered. If there is no version set on the current stack, the **newest supported Terraform version** is used. We always advise creating stacks with the newest available version of Terraform, though we realize it may not be the best option if the project is imported from elsewhere or incompatible providers are used.
 
-{% hint style="warning" %}
-The newest Terraform version supported by Spacelift may lag a bit behind the latest available Terraform release. We err on the side of caution and thus separately verify each version to ensure that it works as expected and that our code is compatible with its output and general behavior. We're trying to catch up roughly within a week but **may temporarily blacklist a faulty version**. If you need a compatibility check and a bump sooner than that, please [file a ticket](https://forms.gle/eFEcsLr5gaiWxSE5A).
-{% endhint %}
+!!! warning
+    The newest Terraform version supported by Spacelift may lag a bit behind the latest available Terraform release. We err on the side of caution and thus separately verify each version to ensure that it works as expected and that our code is compatible with its output and general behavior. We're trying to catch up roughly within a week but **may temporarily blacklist a faulty version**. If you need a compatibility check and a bump sooner than that, please [file a ticket](https://forms.gle/eFEcsLr5gaiWxSE5A).
 
 Once we apply a run with a particular version of Terraform, we set it on the stack to make sure that we don't implicitly attempt to update it using a lower version.
 
@@ -42,6 +41,5 @@ Once we apply a run with a particular version of Terraform, we set it on the sta
 
 In order to migrate a [stack](../../concepts/stack/) to a newer version of Terraform, we suggest opening a feature branch bumping the version through [runtime configuration](../../concepts/configuration/runtime-configuration/#terraform\_version-setting). Open a Pull Request in GitHub from the feature branch to the tracked branch to easily get a link to your proposed run and see if everything looks good. If it does, merge your Pull Request and enjoy working with the latest and greatest version of Terraform. Otherwise, try making necessary changes until your code is working or postpone the migration until you have the bandwidth to do so.
 
-{% hint style="info" %}
-In general, we suggest to try and keep up with the latest Terraform releases. **The longer you wait, the more serious is the migration work going to be**. Terraform evolves, providers evolve, external APIs evolve and so should your code.
-{% endhint %}
+!!! info
+    In general, we suggest to try and keep up with the latest Terraform releases. **The longer you wait, the more serious is the migration work going to be**. Terraform evolves, providers evolve, external APIs evolve and so should your code.

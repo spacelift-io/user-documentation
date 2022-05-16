@@ -51,9 +51,8 @@ Now that we have the GitLab Application setup, we'll need to take the **Applicat
 
 In Spacelift, the **Provider URL** depends on where you are using GitLab, if you are using **GitLab.com** this value can be set as **https://gitlab.com**
 
-{% hint style="info" %}
-When setting your Provider URL within Spacelift, **do not include a trailing slash** "/" at the end of your URL or you may receive an error.
-{% endhint %}
+!!! info
+    When setting your Provider URL within Spacelift, **do not include a trailing slash** "/" at the end of your URL or you may receive an error.
 
 ![Copy the Application ID and Secret values to your Spacelift OIDC configuration](../../assets/screenshots/3-gitlab-copy-values.png)
 

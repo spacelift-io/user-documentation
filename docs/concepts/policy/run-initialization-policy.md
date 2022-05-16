@@ -1,18 +1,14 @@
 # Initialization policy
 
-{% hint style="warning" %}
-This feature is deprecated as we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious-looking jobs on their end.
-{% endhint %}
+!!! warning
+    This feature is deprecated as we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious-looking jobs on their end.
 
 ## Purpose
 
 Initialization policy can prevent a [Run](../run/) or a [Task](../run/task.md) from being [initialized](../run/#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
-{% hint style="warning" %}
-Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
-
-For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
-{% endhint %}
+!!! warning
+    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).        For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
 Let's create a simple initialization policy, attach it to the stack, and see what gives:
 
@@ -123,9 +119,8 @@ deny[sprintf("unexpected runner image (%s)", [image])] {
 
 Here's the above example in [the Rego playground](https://play.openpolicyagent.org/p/VxIREPOS0d).
 
-{% hint style="danger" %}
-Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
-{% endhint %}
+!!! danger
+    Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
 
 ### Enforce organizational rules
 

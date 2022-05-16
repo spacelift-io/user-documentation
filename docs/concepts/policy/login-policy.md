@@ -4,13 +4,11 @@
 
 Login policies can allow users to log in to the account, and optionally give them admin privileges, too. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
 
-{% hint style="warning" %}
-Login policies don't affect GitHub organization or [SSO](../../integrations/single-sign-on.md) admins and private account owners who always get admin access to their respective Spacelift accounts. This is to avoid a situation where a bad login policy locks out everyone from the account.
-{% endhint %}
+!!! warning
+    Login policies don't affect GitHub organization or [SSO](../../integrations/single-sign-on.md) admins and private account owners who always get admin access to their respective Spacelift accounts. This is to avoid a situation where a bad login policy locks out everyone from the account.
 
-{% hint style="danger" %}
-Any change made (create, update or delete) to a login policy will invalidate all active sessions, except the session making the change.
-{% endhint %}
+!!! danger
+    Any change made (create, update or delete) to a login policy will invalidate all active sessions, except the session making the change.
 
 A login policy can define the following types of boolean rules:
 
@@ -23,9 +21,8 @@ If no rules match, the default action will be to deny a login attempt.
 
 Note that giving folks admin access is a big thing. Admins can do pretty much everything in Spacelift - create and delete stacks, trigger runs or tasks, create, delete and attach contexts and policies, etc.
 
-{% hint style="danger" %}
-In practice, any time you define an **allow** or **admin** rule, you should probably think of restricting access using a **deny** rule, too. Please see the examples below to get a better feeling for it.
-{% endhint %}
+!!! danger
+    In practice, any time you define an **allow** or **admin** rule, you should probably think of restricting access using a **deny** rule, too. Please see the examples below to get a better feeling for it.
 
 ## Data input
 
@@ -56,9 +53,8 @@ When that GitHub account is an organization, we can explicitly query for your or
 
 When using single sign-on with SAML, every successful login attempt will necessarily require that the _member_ field is set to _true -_ if the linked IdP could verify you, you **must** be a member.
 
-{% hint style="warning" %}
-Watch this field very closely - it may be _very_ useful for your **deny** rules.
-{% endhint %}
+!!! warning
+    Watch this field very closely - it may be _very_ useful for your **deny** rules.
 
 #### Teams
 
@@ -68,9 +64,8 @@ Note that Spacelift treats GitHub team membership as transitive - for example le
 
 For single sign-on, the list of teams is pretty much arbitrary and depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see the [relevant article](../../integrations/single-sign-on.md#setting-up-the-integration) for more details.
 
-{% hint style="warning" %}
-Watch this field very closely - it may be _very_ useful for your **allow** and **admin** rules.
-{% endhint %}
+!!! warning
+    Watch this field very closely - it may be _very_ useful for your **allow** and **admin** rules.
 
 ## Use cases
 
@@ -98,9 +93,8 @@ This is also important for single sign-on integrations: only the [integration cr
 
 ### Granting access to external contributors
 
-{% hint style="danger" %}
-This feature is not available when using [single sign-on](../../integrations/single-sign-on.md) - your identity provider **must** be able to successfully validate each user trying to log in to Spacelift.
-{% endhint %}
+!!! danger
+    This feature is not available when using [single sign-on](../../integrations/single-sign-on.md) - your identity provider **must** be able to successfully validate each user trying to log in to Spacelift.
 
 Sometimes you have folks (short-term consultants, most likely) who are not members of your organization but need access to your Spacelift account - either as regular members or perhaps even as admins. There's also the situation where a bunch of friends is working on a hobby project in a personal GitHub account and they could use access to Spacelift. Here's an example of a policy that allows a bunch of whitelisted folks to get regular access and one to get admin privileges:
 
@@ -118,9 +112,8 @@ deny  { not admins[login]; not allowed[login] }
 
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw).
 
-{% hint style="warning" %}
-Note that granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your GitHub org, they automatically lose access to Spacelift. But when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift login policy, too.
-{% endhint %}
+!!! warning
+    Note that granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your GitHub org, they automatically lose access to Spacelift. But when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift login policy, too.
 
 ### Restricting access to specific circumstances
 

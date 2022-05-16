@@ -24,9 +24,8 @@ Though before that happens, you need to allow requests coming from Slack to acce
 
 Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. In this case, we're using [stack access policies](../concepts/policy/stack-access-policy.md). If you haven't had a chance to review the relevant documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
 
-{% hint style="info" %}
-The default stack access policy for Slack requests is to deny all access.
-{% endhint %}
+!!! info
+    The default stack access policy for Slack requests is to deny all access.
 
 Unlike HTTP requests, policy inputs representing Slack interactions replace `"request"` and `"session"` sections with a single `"slack"` section, containing the following payload:
 
@@ -66,9 +65,8 @@ Unlike HTTP requests, policy inputs representing Slack interactions replace `"re
 }
 ```
 
-{% hint style="info" %}
-For the most up-to-date explanation of Slack user intricacies, please always refer to [Slack's own documentation](https://api.slack.com/types/user).
-{% endhint %}
+!!! info
+    For the most up-to-date explanation of Slack user intricacies, please always refer to [Slack's own documentation](https://api.slack.com/types/user).
 
 As you can see, that's quite a bit of data you can base your decisions on. For example, you can map some Slack channels as having certain level of access to certain Stacks - just make sure to keep these Slack channels private / invite-only. Here's an example stack access policy allowing Write level of access to requests coming from Slack's _#dev-notifications_ channel:
 
@@ -76,9 +74,8 @@ As you can see, that's quite a bit of data you can base your decisions on. For e
 
 Any Stack with this policy attached will be accessible for writing from this Slack channel - but no other!
 
-{% hint style="info" %}
-Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a _#devops_ channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
-{% endhint %}
+!!! info
+    Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a _#devops_ channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
 
 ### Available slash commands
 

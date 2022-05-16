@@ -98,9 +98,8 @@ resource "spacelift_stack_aws_role" "managed-stack" {
 ```
 {% endcode %}
 
-{% hint style="success" %}
-OK, so who wants to go back to clicking on things in the web GUI? Because you will likely need to do some clicking, too, [at least with your first stack](terraform-provider.md#proposed-workflow).
-{% endhint %}
+!!! success
+    OK, so who wants to go back to clicking on things in the web GUI? Because you will likely need to do some clicking, too, [at least with your first stack](terraform-provider.md#proposed-workflow).
 
 ## How it works
 
@@ -196,9 +195,8 @@ We suggest to first manually create a single administrative stack, and then use 
 
 If you want to share data between stacks, please consider programmatically creating and attaching [contexts](../../concepts/configuration/context.md).
 
-{% hint style="info" %}
-Programmatically generated stacks and contexts can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
-{% endhint %}
+!!! info
+    Programmatically generated stacks and contexts can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
 
 ## Boundaries of programmatic management
 

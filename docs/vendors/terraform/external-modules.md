@@ -64,7 +64,6 @@ So if you don't want to mount these credentials, what are your options? First, y
 
 The other option is to store the credentials externally in one of the secrets stores - like [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [HashiCorp Vault](https://www.vaultproject.io) and retrieve them in one of your [`before_init`](../../concepts/stack/stack-settings.md#before-init-scripts) scripts before putting them in the right place (`~/.netrc` file, `~/.ssh` directory, etc.).
 
-{% hint style="info" %}
-If you decide to mount, we advise that you store credentials in [contexts](../../concepts/configuration/context.md) and attach these to stacks that need them. This way you can avoid credentials sprawl and leak.
-{% endhint %}
+!!! info
+    If you decide to mount, we advise that you store credentials in [contexts](../../concepts/configuration/context.md) and attach these to stacks that need them. This way you can avoid credentials sprawl and leak.
 

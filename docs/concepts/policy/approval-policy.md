@@ -22,9 +22,8 @@ When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you wil
 
 In principle, the run review and approval process are very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
 
-{% hint style="success" %}
-If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged". A run approval means "I'm OK with that action being executed".
-{% endhint %}
+!!! success
+    If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged". A run approval means "I'm OK with that action being executed".
 
 ## Rules
 
@@ -103,9 +102,8 @@ This is the schema of the data input that each policy request will receive:
 
 In this example, each Unconfirmed run will require two approvals - including proposed runs triggered by Git events. Additionally, the run should have no rejections. Anyone who rejects the run will need to change their mind in order for the run to go through.
 
-{% hint style="info" %}
-We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack).
-{% endhint %}
+!!! info
+    We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack).
 
 ```python
 package spacelift

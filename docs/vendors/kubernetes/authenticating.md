@@ -25,10 +25,8 @@ The simplest way to connect to an AWS EKS cluster is using the AWS CLI tool. To 
 aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 ```
 
-{% hint style="info" %}
-* The `$REGION_NAME` and `$CLUSTER_NAME` environment variables must be defined in your Stack's environment.
-* This relies on either using the Spacelift [AWS Integration](../../integrations/cloud-providers/aws.md), or ensuring that your workers have permission to access the EKS cluster.
-{% endhint %}
+!!! info
+    * The `$REGION_NAME` and `$CLUSTER_NAME` environment variables must be defined in your Stack's environment.    * This relies on either using the Spacelift [AWS Integration](../../integrations/cloud-providers/aws.md), or ensuring that your workers have permission to access the EKS cluster.
 
 ## Azure
 
@@ -39,9 +37,8 @@ The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](
 
 Depending on your exact use-case, you may need to use slightly different versions of the `az login` command. This guide outlines two main scenarios.
 
-{% hint style="info" %}
-Please note that both examples assume that your stack has an `$AKS_CLUSTER_NAME` and `$AKS_RESOURCE_GROUP` environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.
-{% endhint %}
+!!! info
+    Please note that both examples assume that your stack has an `$AKS_CLUSTER_NAME` and `$AKS_RESOURCE_GROUP` environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.
 
 ### Using the Spacelift Azure Integration
 
@@ -88,9 +85,8 @@ Please note, your Stack needs to have the following environment variables set fo
 * `GKE_CLUSTER_REGION` - the region the cluster is deployed to.
 * `GCP_PROJECT_NAME` - the name of your GCP project.
 
-{% hint style="info" %}
-The `get-credentials` command configures your _kubeconfig_ file to use the `gcloud config config-helper` command to allow token refresh. Unfortunately this command will not work when we only have an access token available. The script provided works around this by manually removing and re-creating the user details in the config file.
-{% endhint %}
+!!! info
+    The `get-credentials` command configures your _kubeconfig_ file to use the `gcloud config config-helper` command to allow token refresh. Unfortunately this command will not work when we only have an access token available. The script provided works around this by manually removing and re-creating the user details in the config file.
 
 ### Single Zone Deployment
 

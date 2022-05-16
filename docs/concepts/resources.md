@@ -60,9 +60,8 @@ One important aspect about navigating the resource tree is that once you click i
 
 ## Account-level resources
 
-{% hint style="warning" %}
-Account-level resource view is still a work in progress, so some of the UX may change frequently.
-{% endhint %}
+!!! warning
+    Account-level resource view is still a work in progress, so some of the UX may change frequently.
 
 A view similar to stack-level resources is available for the entire account, too. For this presentation we will use a very _symmetrical_ account - our automated testing instance repeatedly creating and updating the same types of resources in different ways to quickly detect potential regressions:
 

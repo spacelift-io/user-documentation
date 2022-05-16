@@ -60,19 +60,16 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 When using GitHub as an authentication provider, your Spacelift accounts are associated with your selected GitHub account or GitHub Organization. After clicking "Sign Up", you'll need to choose an organization you are a member of, your personal account, or create a new GitHub Organization.
 
-{% hint style="info" %}
-The GitHub Organization/account name selected will be used as your Spacelift account name.
-{% endhint %}
+!!! info
+    The GitHub Organization/account name selected will be used as your Spacelift account name.
 
 ### Step 2: Connecting with GitHub
 
-{% hint style="info" %}
-In this guide, we will be using GitHub to host our repositories. You can find more information about other supported VCS providers [here](integrations/source-control/).
-{% endhint %}
+!!! info
+    In this guide, we will be using GitHub to host our repositories. You can find more information about other supported VCS providers [here](integrations/source-control/).
 
-{% hint style="info" %}
-The flow for connecting GitHub as a VCS provider is slightly different when using GitHub to sign in compared to the other sign-in options (GitLab, Google). Follow the section that is applicable to you.
-{% endhint %}
+!!! info
+    The flow for connecting GitHub as a VCS provider is slightly different when using GitHub to sign in compared to the other sign-in options (GitLab, Google). Follow the section that is applicable to you.
 
 #### GitHub was used as a sign-in option:
 

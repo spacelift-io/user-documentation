@@ -55,9 +55,8 @@ In the app navigation, click on the **SSO** section. Now that we have the OneLog
 
 ![Copy/Paste the values into your Spacelift OIDC Settings, Click Save](../../assets/screenshots/configure-spacelift-oidc-settings.png)
 
-{% hint style="info" %}
-**Important:** You'll need to ensure your OneLogin user has access to the OneLogin App you just created, or else you will receive an unauthorized error when clicking save.
-{% endhint %}
+!!! info
+    **Important:** You'll need to ensure your OneLogin user has access to the OneLogin App you just created, or else you will receive an unauthorized error when clicking save.
 
 ### OneLogin OIDC Setup Completed
 

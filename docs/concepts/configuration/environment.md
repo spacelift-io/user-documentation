@@ -16,9 +16,8 @@ If you take a look at the Environment screen of a stack you will notice it's pre
 
 The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform ](https://www.terraform.io/docs/configuration/variables.html#environment-variables)_input variables_.
 
-{% hint style="info" %}
-Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html) because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
-{% endhint %}
+!!! info
+    Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html) because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
@@ -56,9 +55,8 @@ The _Spacelift environment_ section lists a special subset of [computed values](
 
 ![](<../../assets/screenshots/Editing\_environment\_·\_Managed\_stack (1).png>)
 
-{% hint style="info" %}
-Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
-{% endhint %}
+!!! info
+    Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
 
 ### Per-stage environment variables
 
@@ -92,15 +90,13 @@ It's almost like creating an environment variable, though instead of typing (or 
 
 ![File uploaded](<../../assets/screenshots/Editing\_environment\_·\_Managed\_stack (3).png>)
 
-{% hint style="info" %}
-Notice how you can your file give a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
-{% endhint %}
+!!! info
+    Notice how you can your file give a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
 
 Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/) executed for the [stack](../stack/).
 
-{% hint style="info" %}
-Mounted files are limited to 128kB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
-{% endhint %}
+!!! info
+    Mounted files are limited to 128kB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
 
 #### Project structure
 
@@ -108,9 +104,8 @@ When discussing mounted files, it is important to understand the structure of th
 
 Your Git repository is cloned into `/mnt/workspace/source/`, which also serves as the working directory for your project, unless explicitly overridden by the project root configuration setting (either on the [stack level](../stack/stack-settings.md#project-root) or on in the [runtime configuration](runtime-configuration/#project\_root-setting)).
 
-{% hint style="warning" %}
-Mounted files may be put into `/mnt/workspace/source/` as well and it's a legitimate use case, for example, to dynamically inject backend settings or even add extra infra definitions. Just **beware of path clashes** as mounted files will **override your project source code** in case of conflict. Sometimes this is what you want, sometimes not.
-{% endhint %}
+!!! warning
+    Mounted files may be put into `/mnt/workspace/source/` as well and it's a legitimate use case, for example, to dynamically inject backend settings or even add extra infra definitions. Just **beware of path clashes** as mounted files will **override your project source code** in case of conflict. Sometimes this is what you want, sometimes not.
 
 ## Attached contexts
 
@@ -130,9 +125,8 @@ Similar to [computed values](environment.md#computed-values), those coming from 
 
 Note how we can now _Delete_ the variable - this would revert it to the value defined by the context. Contexts can both provide [environment variables](environment.md#environment-variables) as well as [mounted files](environment.md#mounted-files), and both can be overridden directly on the stack.
 
-{% hint style="info" %}
-If you want to get rid of the context-provided variable or file entirely, you will need to [detach the context itself](context.md).
-{% endhint %}
+!!! info
+    If you want to get rid of the context-provided variable or file entirely, you will need to [detach the context itself](context.md).
 
 ## A note on visibility
 
@@ -154,6 +148,5 @@ Mounted files are similar - plain can be downloaded from the web GUI or through 
 
 While the content of secret (write-only) environment variables and mounted files is not accessible through the GUI or [API](../../integrations/api.md), the checksums are always available so if you have the value handy and just want to check if that's the same value as the one set in Spacelift, you can compare its checksum with the one reported by us - check out the most recent [GraphQL API](../../integrations/api.md#graphql-schema-s) schema for more details.
 
-{% hint style="info" %}
-Though all of our data is [encrypted both at rest and in transit](../../product/security.md#encryption), secret (write-only) values enjoy two extra layers of protection.
-{% endhint %}
+!!! info
+    Though all of our data is [encrypted both at rest and in transit](../../product/security.md#encryption), secret (write-only) values enjoy two extra layers of protection.

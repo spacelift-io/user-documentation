@@ -16,9 +16,8 @@ In Spacelift, each run is executed on a worker node, inside a Docker container. 
 
 Regardless of whether you end up using a private or a public worker pool, each Spacelift run involves a handover between _spacelift.io_ (which we like to call _the mothership_) and the worker node. After the handover, the worker node is fully responsible for running the job and communicating the results of the job back to _the mothership_.
 
-{% hint style="info" %}
-It's important to know that it's always the worker node executing the run and accessing your infrastructure, never the mothership.
-{% endhint %}
+!!! info
+    It's important to know that it's always the worker node executing the run and accessing your infrastructure, never the mothership.
 
 ## Common run states
 

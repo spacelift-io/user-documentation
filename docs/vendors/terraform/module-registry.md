@@ -69,9 +69,8 @@ Each module must have a `config.yml` file in its `.spacelift` directory, contain
 
 You can check out an example module here: [https://github.com/spacelift-io/terraform-spacelift-example](https://github.com/spacelift-io/terraform-spacelift-example)
 
-{% hint style="info" %}
-The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule)
-{% endhint %}
+!!! info
+    The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule)
 
 ### Spacelift setup
 
@@ -137,9 +136,8 @@ tests:
 
 This configuration is nearly identical to the one described in the [Runtime configuration](../../concepts/configuration/runtime-configuration/) section, with both `test_defaults` and each test case accepting the same configuration block. Note that settings explicitly specified in each test case will override those in the `test_defaults` section. Also, notice that each test case has a **name**, which is a **required field**.
 
-{% hint style="info" %}
-While we don't check for name uniqueness, it's always good idea to give your test cases descriptive names, as these are then used to report job status on your commits and pull requests.
-{% endhint %}
+!!! info
+    While we don't check for name uniqueness, it's always good idea to give your test cases descriptive names, as these are then used to report job status on your commits and pull requests.
 
 ## Tests
 
@@ -155,9 +153,8 @@ Test cases will be executed in parallel (as much as worker count permits) for ea
 
 Tests run both on [proposed and tracked changes](../../concepts/run/#where-do-runs-come-from). When a tracked change occurs, we create a Version. Versions are described in more detail in the [next section](module-registry.md#tests).
 
-{% hint style="info" %}
-Each test case will have its own commit status in GitHub / GitLab.
-{% endhint %}
+!!! info
+    Each test case will have its own commit status in GitHub / GitLab.
 
 ## Versions
 
@@ -179,9 +176,8 @@ Whenever you add a new functionality, you may want to create a feature branch an
 
 You can also use [Git push policies](../../concepts/policy/git-push-policy.md) to further customize this.
 
-{% hint style="info" %}
-If no test cases are present, the version is immediately marked green.
-{% endhint %}
+!!! info
+    If no test cases are present, the version is immediately marked green.
 
 ## Modules in practice
 

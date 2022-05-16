@@ -33,9 +33,8 @@ resources:
 
 The kustomization file is used to tell `kubectl` where to find the file containing the output of the `helm template` command, and prevents `kubectl` from attempting to apply every yaml file in your repository. This is important if you want to commit a `values.yaml` file to your repository.
 
-{% hint style="info" %}
-Our example repository contains a values.yaml file used to configure some of the chart values. This isn't required, and is simply there for illustrative purposes.
-{% endhint %}
+!!! info
+    Our example repository contains a values.yaml file used to configure some of the chart values. This isn't required, and is simply there for illustrative purposes.
 
 ## Create a new Stack
 
@@ -74,9 +73,8 @@ Configure any required Cloud Provider integrations as per the [Getting Started](
 
 This example assumes that a Kubernetes namespace called `spacelift-worker` already exists. If it doesn't, create it using `kubectl create namespace spacelift-worker` before triggering a run.
 
-{% hint style="info" %}
-You can use a [Spacelift Task](../../concepts/run/task.md) to run the `kubectl create namespace` command.
-{% endhint %}
+!!! info
+    You can use a [Spacelift Task](../../concepts/run/task.md) to run the `kubectl create namespace` command.
 
 Triggering runs works exactly the same as when not using Helm. Once the planning stage has completed, you should see a preview of your changes, showing the Chart resources that will be created:
 

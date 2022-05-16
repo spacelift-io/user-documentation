@@ -78,9 +78,8 @@ This is the schema of the data input that each policy request will receive:
 
 With all the above theory in mind, let's jump straight to the code and define some access policies. This section will cover some common examples that can be copied more or less directly, and some contrived ones to serve as an inspiration.
 
-{% hint style="info" %}
-Remember that access policies must be attached to a stack or a module to take effect.
-{% endhint %}
+!!! info
+    Remember that access policies must be attached to a stack or a module to take effect.
 
 ### Read access to everyone (in Engineering)
 

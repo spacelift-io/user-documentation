@@ -11,9 +11,8 @@ To enable Infracost on any stack you need to do the following:
 * Add the `infracost` label to the stack.
 * Add an `INFRACOST_API_KEY` [environment variable](../../concepts/configuration/environment.md) containing your Infracost API key.
 
-{% hint style="info" %}
-Creating a [context](../../concepts/configuration/context.md) for your Infracost API key means you can attach your key to any stacks that need to have Infracost enabled.
-{% endhint %}
+!!! info
+    Creating a [context](../../concepts/configuration/context.md) for your Infracost API key means you can attach your key to any stacks that need to have Infracost enabled.
 
 If Infracost has been configured successfully, you should see some messages during the initialization phase of your runs indicating that Infracost is enabled and that the environment variable has been found:
 

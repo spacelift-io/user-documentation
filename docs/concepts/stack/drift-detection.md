@@ -18,9 +18,8 @@ To get started, create a drift detection configuration from the Integrations sec
 
 ![](../../assets/screenshots/Edit\_stack\_·\_Test\_github\_packages\_tf.png)
 
-{% hint style="info" %}
-Note that, at least currently, drift detection only works on private workers.
-{% endhint %}
+!!! info
+    Note that, at least currently, drift detection only works on private workers.
 
 ### To reconcile, or not to reconcile
 

@@ -4,9 +4,8 @@ For those of you who don't want to manage Terraform state, Spacelift offers an o
 
 As you can see, it's also possible to import an existing Terraform state at this point, which is useful for users who want to upgrade their previous Terraform workflow.
 
-{% hint style="info" %}
-If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html) whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
-{% endhint %}
+!!! info
+    If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html) whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
 
 ## Do. Or do not. There is no try.
 
@@ -31,9 +30,8 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 S3, like half of the Internet. The pixie dust we're adding on top of it involves generating one-off credentials for every [run](../../concepts/run/) and [task](../../concepts/run/task.md) and injecting them directly into the root of your Terraform project as a `.tf` file.
 
-{% hint style="warning" %}
-If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
-{% endhint %}
+!!! warning
+    If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
 The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html). Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
 

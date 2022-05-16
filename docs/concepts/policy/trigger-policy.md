@@ -10,9 +10,8 @@ Frequently, your infrastructure consists of a number of projects ([stacks](../st
 
 Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
 
-{% hint style="warning" %}
-Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/#canceled), [Discarded](../run/tracked.md#discarded), [Stopped](../run/#stopping-runs) or [Failed](../run/#failed) in addition to the more obvious [Finished](../run/#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
-{% endhint %}
+!!! warning
+    Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/#canceled), [Discarded](../run/tracked.md#discarded), [Stopped](../run/#stopping-runs) or [Failed](../run/#failed) in addition to the more obvious [Finished](../run/#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
 
 All runs triggered - directly or indirectly - by trigger policies as a result of the same initial run are grouped into a so-called workflow. In the trigger policy you can access all other runs in the same workflow as the currently finished run, regardless of their Stack. This lets you coordinate executions of multiple Stacks and build workflows which require multiple runs to finish in order to commence to the next stage (and trigger another Stack).
 
@@ -88,9 +87,8 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
-{% hint style="info" %}
-Note the presence of two similar keys: `stack` and `stacks`. The former is the Stack that the newly finished Run belongs to. The other is a list of all Stacks in the account. The schema for both is the same.
-{% endhint %}
+!!! info
+    Note the presence of two similar keys: `stack` and `stacks`. The former is the Stack that the newly finished Run belongs to. The other is a list of all Stacks in the account. The schema for both is the same.
 
 ## Use cases
 
@@ -165,9 +163,8 @@ trigger[stack.id] {
 }
 ```
 
-{% hint style="info" %}
-Note that this will also prevent user-triggered runs from being retried. Which is usually what you want in the first place, because a triggering human is probably already babysitting the Stack anyway.
-{% endhint %}
+!!! info
+    Note that this will also prevent user-triggered runs from being retried. Which is usually what you want in the first place, because a triggering human is probably already babysitting the Stack anyway.
 
 ### Diamond Problem
 

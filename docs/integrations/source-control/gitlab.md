@@ -26,11 +26,8 @@ Congrats, you've just linked your GitLab account to Spacelift. You should be tak
 
 ![](<../../assets/screenshots/image (107).png>)
 
-{% hint style="warning" %}
-Unlike GitHub credentials which are specific to an organization rather than an individual, the GitLab integration uses personal credentials, which makes it more fragile in situations where an individual leaves the organization and deletes the access token.
-
-Thus, it may be a good idea to create "virtual" (machine) users in GitLab as a source of more stable credentials. Note however that this is a general concern, not one specific to Spacelift.
-{% endhint %}
+!!! warning
+    Unlike GitHub credentials which are specific to an organization rather than an individual, the GitLab integration uses personal credentials, which makes it more fragile in situations where an individual leaves the organization and deletes the access token.        Thus, it may be a good idea to create "virtual" (machine) users in GitLab as a source of more stable credentials. Note however that this is a general concern, not one specific to Spacelift.
 
 ## Using GitLab with stacks and modules
 
@@ -46,9 +43,8 @@ Spacelift is interested in pushes, tags and merge requests, so make sure you add
 
 If that sounds like hassle (it sure does to us), you can do the same thing automatically using [GitLab's Terraform provider](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/resources/project\_hook).
 
-{% hint style="warning" %}
-Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
-{% endhint %}
+!!! warning
+    Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
 
 Regardless of whether you've created it manually or programmatically, once your project webhook is set up, your GitLab-powered stack or module is ready to use.
 

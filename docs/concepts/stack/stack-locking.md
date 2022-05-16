@@ -8,6 +8,5 @@ The owner of the lock is the only one who can trigger [runs](../run/) and [tasks
 
 ![My precious!](../../assets/screenshots/Runs\_·\_End-to-end\_testing\_and\_Redirecting\_to\_OAuth\_provider\_\_\_.png)
 
-{% hint style="info" %}
-Note that while a stack is locked, [auto deploy](stack-settings.md#autodeploy) is disabled to prevent accidental deployments.
-{% endhint %}
+!!! info
+    Note that while a stack is locked, [auto deploy](stack-settings.md#autodeploy) is disabled to prevent accidental deployments.

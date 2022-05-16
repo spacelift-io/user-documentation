@@ -77,9 +77,8 @@ This will download a file onto your machine containing the private key for your 
 
 Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), the _App ID_, and paste the contents of your private key file into the Private key box:
 
-{% hint style="info" %}
-If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com)
-{% endhint %}
+!!! info
+    If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com)
 
 ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 
@@ -121,9 +120,8 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 In order to spare you the need to separately manage access to Spacelift, you can reuse GitHub's native teams. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/).
 
-{% hint style="info" %}
-The list of teams is empty for individual/private GitHub accounts.
-{% endhint %}
+!!! info
+    The list of teams is empty for individual/private GitHub accounts.
 
 ## Notifications
 
@@ -207,9 +205,8 @@ That's what it looks like for our test repo, with just a singe stack pointing at
 
 ![](<../../assets/screenshots/Deployments\_·\_spacelift-io\_marcinw-end-to-end (4).png>)
 
-{% hint style="info" %}
-The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../concepts/run/tracked.md).
-{% endhint %}
+!!! info
+    The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../concepts/run/tracked.md).
 
 ## Pull Requests
 
@@ -225,9 +222,8 @@ Once a Pull Request is closed, whether with or merging or without merging, it di
 
 In this section, we'd like to propose a workflow that has worked for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html).
 
-{% hint style="info" %}
-These are mere suggestions and Spacelift will fit pretty much any Git workflow. If you find a different process or a distinct variation of one of the described approaches works better for you, please [let us know](https://forms.gle/eFEcsLr5gaiWxSE5A).
-{% endhint %}
+!!! info
+    These are mere suggestions and Spacelift will fit pretty much any Git workflow. If you find a different process or a distinct variation of one of the described approaches works better for you, please [let us know](https://forms.gle/eFEcsLr5gaiWxSE5A).
 
 ### Single stack version
 
@@ -263,9 +259,8 @@ When the Spacelift GitHub app is installed on an account, we create a correspond
 
 If a GitHub organization name is changed, we change the name of the corresponding account in Spacelift.&#x20;
 
-{% hint style="warning" %}
-This is only applicable for accounts that were created using GitHub originally.
-{% endhint %}
+!!! warning
+    This is only applicable for accounts that were created using GitHub originally.
 
 ### Pull Request events
 

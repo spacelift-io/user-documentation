@@ -10,9 +10,8 @@ With the service account already created, we generate temporary OAuth token for 
 provider "google" {}
 ```
 
-{% hint style="info" %}
-Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider\_reference.html#project-1)identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
-{% endhint %}
+!!! info
+    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider\_reference.html#project-1)identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
 
 You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes) that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
 
@@ -78,9 +77,8 @@ In order to make the integration work, you'll have to make the dedicated service
 
 ![](../../assets/screenshots/IAM\_–\_IAM\_\_\_admin\_–\_spacelift\_io\_–\_Google\_Cloud\_Platform.png)
 
-{% hint style="info" %}
-In the above example, we made the service account an owner of the organization, giving it full access to all resources. Depending on your use case, this may or may not be what you want.
-{% endhint %}
+!!! info
+    In the above example, we made the service account an owner of the organization, giving it full access to all resources. Depending on your use case, this may or may not be what you want.
 
 We can do the same on the project level, too. In fact, the process looks absolutely identical except that projects are represented by a different icon in the dropdown. Go figure:
 

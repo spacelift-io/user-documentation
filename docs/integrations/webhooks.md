@@ -12,9 +12,8 @@ Webhooks can be set up by Spacelift administrators on per-stack basis. In order 
 
 ![](../assets/screenshots/Mouse\_Highlight\_Overlay\_and\_Edit\_stack\_·\_Spacelift\_demo.png)
 
-{% hint style="info" %}
-You can set up as many webhooks for a Stack as you need, though each one _must_ have a unique endpoint.
-{% endhint %}
+!!! info
+    You can set up as many webhooks for a Stack as you need, though each one _must_ have a unique endpoint.
 
 You will be presented with a simple setup form that requires you to provide and endpoint to which the payload is sent, and an _optional_ secret that you can use to [validate](webhooks.md#validating-payload) that the incoming requests are indeed coming from Spacelift:
 
@@ -26,9 +25,8 @@ Once saved, the webhook will appear on the list of integrations:
 
 ![](../assets/screenshots/Mouse\_Highlight\_Overlay.png)
 
-{% hint style="info" %}
-Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
-{% endhint %}
+!!! info
+    Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
 
 ### Enabling and disabling webhooks
 

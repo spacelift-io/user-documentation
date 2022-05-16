@@ -78,9 +78,8 @@ Give your secret a **Description**.
 
 Define an **Expires** duration**.**
 
-{% hint style="info" %}
-In this example, we are using 6 months for **Expires.** This means you will need to generate a new client secret in 6 months for your OIDC integration.&#x20;
-{% endhint %}
+!!! info
+    In this example, we are using 6 months for **Expires.** This means you will need to generate a new client secret in 6 months for your OIDC integration.&#x20;
 
 Click **Add.**
 
@@ -90,9 +89,8 @@ Now that we have the Client secret setup for our application, we'll need to take
 
 * **Value** within Azure AD = Spacelift's **Secret** input
 
-{% hint style="info" %}
-Don't click Save in Spacelift just yet, we still need to get the Client ID and Provider URL for your application.
-{% endhint %}
+!!! info
+    Don't click Save in Spacelift just yet, we still need to get the Client ID and Provider URL for your application.
 
 ![Copy the Value to your Spacelift OIDC settings as the "Secret".](<../../assets/screenshots/Screen Shot 2022-04-14 at 11.03.31 AM.png>)
 
@@ -106,9 +104,8 @@ Next, Click **Endpoints** which should expand a page with the endpoints for your
 
 Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot.&#x20;
 
-{% hint style="info" %}
-You should remove the **/.well-known/openid-configuration** suffix from the URL and paste this over to the Provider URL within Spacelift. **IMPORTANT:** Ensure that the you do not have a trailing / at the end of your URL when the value is copied into Spacelift.
-{% endhint %}
+!!! info
+    You should remove the **/.well-known/openid-configuration** suffix from the URL and paste this over to the Provider URL within Spacelift. **IMPORTANT:** Ensure that the you do not have a trailing / at the end of your URL when the value is copied into Spacelift.
 
 ![Copy the OpenID Connect metadata document URL.](../../assets/screenshots/6-azure-obtain-provider-url.png)
 

@@ -28,9 +28,8 @@ Depending on your identity provider and your use case, your mapping may be diffe
 
 Some identity providers (eg. [Okta](https://www.okta.com/)) will allow you to provide a custom per-user SAML 2.0 _Subject_ for SAML assertions. You could use this feature to map GitHub usernames to your identity provider users and thus get the exact same experience as when using GitHub as your identity provider.
 
-{% hint style="warning" %}
-When setting up SSO without this GitHub mapping, your future logins will appear as new users since Spacelift has no way of mapping those without your assistance. New users will count against your seat quota and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact).&#x20;
-{% endhint %}
+!!! warning
+    When setting up SSO without this GitHub mapping, your future logins will appear as new users since Spacelift has no way of mapping those without your assistance. New users will count against your seat quota and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact).&#x20;
 
 ### NameID format
 
@@ -50,9 +49,8 @@ When setting up Spacelift on your identity provider, you must make sure it suppo
 
 Spacelift dynamically checks integrated Identity Provider's Well-Known OpenID configuration for a list of supported scopes and, optionally, asks for `profile` and `groups` scopes if those are available.&#x20;
 
-{% hint style="warning" %}
-In order to populate the `input.session.teams` value in the Login Policies Spacelift tries to fetch the `groups` claim. For many Identity Providers, this claim has to be manually set and configured. Bear in mind that some providers such as GSuite do not support retrieving groups of given users.
-{% endhint %}
+!!! warning
+    In order to populate the `input.session.teams` value in the Login Policies Spacelift tries to fetch the `groups` claim. For many Identity Providers, this claim has to be manually set and configured. Bear in mind that some providers such as GSuite do not support retrieving groups of given users.
 
 ### OIDC Setup Guide Examples:
 
@@ -74,8 +72,7 @@ If our server detects an IdP-initiated SSO session, it simply redirects the brow
 
 In order to disable SSO integration for your Spacelift account, or change the IdP provider, please click the _Disable_ button to delete the integration. This change takes effect immediately for new logins, and will invalidate existing sessions. New sessions will be created using the new SSO identity provider or - if none is set up - Spacelift will utilize the default identity provider that was used to create the account originally.
 
-{% hint style="warning" %}
-Again, please note that new usernames will occupy new seats, even if they're the same users registered with a different identity provider.
-{% endhint %}
+!!! warning
+    Again, please note that new usernames will occupy new seats, even if they're the same users registered with a different identity provider.
 
 ![](../assets/screenshots/disable-oidc.png)

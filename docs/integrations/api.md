@@ -21,11 +21,8 @@ Demo Usage of Spacelift GraphQL API
 
 Spacelift provides a GraphQL API for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
-{% hint style="info" %}
-For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_
-
-All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
-{% endhint %}
+!!! info
+    For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_        All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
 
 In order to use the API, you will need a **bearer token** to authenticate your requests. There are currently three ways of obtaining this token:
 
@@ -83,9 +80,8 @@ credentials "spacelift.io" {
 }
 ```
 
-{% hint style="warning" %}
-Make sure you persist this data somewhere on your end - we don't store the token and it cannot be retrieved or recreated afterwards.
-{% endhint %}
+!!! warning
+    Make sure you persist this data somewhere on your end - we don't store the token and it cannot be retrieved or recreated afterwards.
 
 #### Using the API key
 
@@ -100,9 +96,8 @@ In order to use your newly generated API key in a program, you will first need t
 
 **POST** to _**https://example.app.spacelift.io/graphql**_
 
-{% hint style="info" %}
-Replace "example" with the name of your Spacelift account.
-{% endhint %}
+!!! info
+    Replace "example" with the name of your Spacelift account.
 
 **Query:**
 
@@ -114,9 +109,8 @@ mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {
 }
 ```
 
-{% hint style="info" %}
-You'll need to pass in the values of **keyId** and **keySecret** as input query variables for the above example query to work. In your API Client you should see a section called "Query Variables" where you can pass in an input variables for your query.
-{% endhint %}
+!!! info
+    You'll need to pass in the values of **keyId** and **keySecret** as input query variables for the above example query to work. In your API Client you should see a section called "Query Variables" where you can pass in an input variables for your query.
 
 **Query Variables Input:**
 
@@ -133,15 +127,13 @@ Note that the key ID is the alphanumeric identifier shown in the GUI in fixed-wi
 
 The received JWT is valid for an hour, so if you're accessing Spacelift API from a long-running process you will need to make sure that the key is recreated every time it expires. In order to help with that, you can retrieve the `validUntil` field (Unix timestamp of the expiration, in seconds) of the `apiKeyUser` along with the raw JWT.
 
-{% hint style="info" %}
-API keys are in fact **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged to a token) during any given billing cycle counts against the total number of users.
-{% endhint %}
+!!! info
+    API keys are in fact **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged to a token) during any given billing cycle counts against the total number of users.
 
 ### Personal GitHub Token > Token
 
-{% hint style="info" %}
-This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single sign-on methods](single-sign-on.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
-{% endhint %}
+!!! info
+    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single sign-on methods](single-sign-on.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
 
 **Steps:**
 
@@ -152,9 +144,8 @@ This option is only available to those using GitHub as their identity provider. 
 
 **POST** to _**https://example.app.spacelift.io/graphql**_
 
-{% hint style="info" %}
-Replace "example" with the name of your Spacelift account.
-{% endhint %}
+!!! info
+    Replace "example" with the name of your Spacelift account.
 
 **Query:**
 
@@ -166,9 +157,8 @@ mutation GetSpaceliftToken($token: String!) {
 }
 ```
 
-{% hint style="info" %}
-You'll need to pass in **token** as a query variable for the above example query to work. When making a GraphQL query with your favorite API Client, you should see a section called GraphQL variables where you can pass in an input.
-{% endhint %}
+!!! info
+    You'll need to pass in **token** as a query variable for the above example query to work. When making a GraphQL query with your favorite API Client, you should see a section called GraphQL variables where you can pass in an input.
 
 **GraphQL Variables Input:**
 
@@ -184,9 +174,8 @@ Assuming all went well, the result of the above query will return your JWT beare
 
 Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest) or [GraphiQL](https://github.com/skevy/graphiql-app). _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
 
-{% hint style="warning" %}
-Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
-{% endhint %}
+!!! warning
+    Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
 
 ### **Insomnia Example**
 

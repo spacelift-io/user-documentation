@@ -57,11 +57,8 @@ is_pr   { not is_null(input.pull_request) }
 labeled { input.pull_request.labels[_] = "deploy" }
 ```
 
-{% hint style="info" %}
-When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.\
-\
-Let us know if you notice any irregularities.
-{% endhint %}
+!!! info
+    When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.\    \    Let us know if you notice any irregularities.
 
 #### Deduplicating events
 
@@ -91,9 +88,8 @@ cancel[run.id] {
 }
 ```
 
-{% hint style="info" %}
-Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
-{% endhint %}
+!!! info
+    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
 
 ### Corner case: track, don't trigger
 
@@ -190,9 +186,8 @@ As input, Git push policy receives the following document:
 
 Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
 
-{% hint style="warning" %}
-If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
-{% endhint %}
+!!! warning
+    If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
 
 It is also possible to define an auxiliary rule called `ignore_track`, which overrides a positive outcome of the `track` rule but does not affect other rules, most notably the `propose` one. This can be used to turn some of the pushes that would otherwise be applied into test runs.
 
@@ -202,9 +197,8 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 
 Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
 
-{% hint style="info" %}
-This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
-{% endhint %}
+!!! info
+    This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
 
 Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html)  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
 
@@ -246,9 +240,8 @@ package spacelift
 notify { ignore } 
 ```
 
-{% hint style="info" %}
-The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
-{% endhint %}
+!!! info
+    The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
 
 ## Applying from a tag
 

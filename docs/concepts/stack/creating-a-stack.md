@@ -4,9 +4,8 @@ Unless you're defining a stack programmatically using our [Terraform provider](.
 
 ![](<../../assets/screenshots/Stacks\_·\_spacelift-io (2).png>)
 
-{% hint style="info" %}
-You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on.md).
-{% endhint %}
+!!! info
+    You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on.md).
 
 The stack creation process involves four simple steps:
 
@@ -29,9 +28,8 @@ A few things worth noting:
 * the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/git-push-policy.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
 * in order to learn what exactly our Git hosting provider integration means, please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) integration documentation;
 
-{% hint style="info" %}
-If you're using our default GitHub App integration, we only list the repositories you've given us access to. If some repositories appear to be missing in the selection dropdown, it's likely that you've installed the app on a few selected repositories. That's fine, too, just [whitelist the desired repositories](../../integrations/source-control/github.md) and retry.
-{% endhint %}
+!!! info
+    If you're using our default GitHub App integration, we only list the repositories you've given us access to. If some repositories appear to be missing in the selection dropdown, it's likely that you've installed the app on a few selected repositories. That's fine, too, just [whitelist the desired repositories](../../integrations/source-control/github.md) and retry.
 
 ## Define behavior
 
@@ -66,15 +64,13 @@ When selecting **Terraform**, you can choose which **version of Terraform** to s
 
 The next two decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like S3.
 
-{% hint style="info" %}
-If you want to bring your own backend, there's no point in doing additional [state locking](https://www.terraform.io/docs/state/locking.html) - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
-{% endhint %}
+!!! info
+    If you want to bring your own backend, there's no point in doing additional [state locking](https://www.terraform.io/docs/state/locking.html) - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
 
 If you choose not to use our state backend, feel free to proceed. If you do want us to manage your state, you have an option to import an existing state file from your previous backend. This is only relevant if you're migrating an existing Terraform project to Spacelift. If you have no state yet and Spacelift will be creating resources from scratch, this step is unnecessary.
 
-{% hint style="warning" %}
-Remember - this is the only time you can ask Spacelift to be the state backend for a given stack, so choose wisely. You can read more about state management [here](../../vendors/terraform/state-management.md).
-{% endhint %}
+!!! warning
+    Remember - this is the only time you can ask Spacelift to be the state backend for a given stack, so choose wisely. You can read more about state management [here](../../vendors/terraform/state-management.md).
 
 ### Pulumi
 

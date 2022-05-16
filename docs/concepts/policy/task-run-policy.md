@@ -1,8 +1,7 @@
 # Task policy
 
-{% hint style="warning" %}
-This feature is deprecated. Using an [Approval policy](approval-policy.md) allows you to achieve the same goals in a more flexible and powerful way.
-{% endhint %}
+!!! warning
+    This feature is deprecated. Using an [Approval policy](approval-policy.md) allows you to achieve the same goals in a more flexible and powerful way.
 
 ## Purpose
 
@@ -10,9 +9,8 @@ Spacelift tasks are a handy feature that allows an arbitrary command to be execu
 
 Enter task policies. The sole purpose of task policies is to prevent certain commands from being executed, to prevent certain groups or individuals from executing any commands, or to prevent certain commands from being executed by certain groups or individuals.
 
-{% hint style="info" %}
-Preventing **admins** from running tasks using policies can only play an advisory role and should not be considered a safety measure. A bad actor with admin privileges can detach a policy from the stack and run whatever they want. Choose your admins wisely.
-{% endhint %}
+!!! info
+    Preventing **admins** from running tasks using policies can only play an advisory role and should not be considered a safety measure. A bad actor with admin privileges can detach a policy from the stack and run whatever they want. Choose your admins wisely.
 
 Task policies are simple in that they only use a single rule - **deny** - with a string message. A single match for that rule will prevent a run from being created, with an appropriate API error. Let's see how that works in practice by defining a simple rule and attaching it to a stack:
 

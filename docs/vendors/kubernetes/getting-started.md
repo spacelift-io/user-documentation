@@ -50,9 +50,8 @@ Select the repository you created in the initial step, as seen in the picture.
 
 Choose Kubernetes from the dropdown list and type out the **namespace**.
 
-{% hint style="info" %}
-Spacelift does not recommend leaving the Namespace blank due to the elevated level of access privilege required.
-{% endhint %}
+!!! info
+    Spacelift does not recommend leaving the Namespace blank due to the elevated level of access privilege required.
 
 ![](../../assets/screenshots/k8s-configure-backend.png)
 
@@ -65,9 +64,8 @@ To ensure the success of a Kubernetes deployment, the following options should b
 * Runner Image: By Default, Spacelift will add the necessary binary to run `kubectl` if not found. Including runner images not provided by Spacelift.
 * Customize workflow: During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
 
-{% hint style="info" %}
-Spacelift can authenticate against any Kubernetes cluster, including local or cloud provider managed instances.
-{% endhint %}
+!!! info
+    Spacelift can authenticate against any Kubernetes cluster, including local or cloud provider managed instances.
 
 ![](../../assets/screenshots/k8s-define-behavior.png)
 
@@ -75,21 +73,13 @@ In the example above, I am authenticating to an AWS EKS Cluster and used the fol
 \
 `aws eks update-kubeconfig --region $region-name --name $cluster-name`
 
-{% hint style="info" %}
-`Update the previous variables according to your deployment.`\
-``
-
-* `$region-name:` AWS region where your Kubernetes cluster resides
-* `$cluster-name:` Name of your Kubernetes clusters
-{% endhint %}
+!!! info
+    `Update the previous variables according to your deployment.`\    ``        * `$region-name:` AWS region where your Kubernetes cluster resides    * `$cluster-name:` Name of your Kubernetes clusters
 
 The above allows the worker to authenticate to the proper cluster before running the specified Kubernetes deployment in the repository that we created earlier.
 
-{% hint style="warning" %}
-Authentication with a Cloud Provider is _**required**_.\
-\
-After you Name the Stack, follow the Cloud Integrations section to ensure Spacelift can authenticate to your Kubernetes Cluster.
-{% endhint %}
+!!! warning
+    Authentication with a Cloud Provider is _**required**_.\    \    After you Name the Stack, follow the Cloud Integrations section to ensure Spacelift can authenticate to your Kubernetes Cluster.
 
 ### Name the Stack
 
@@ -109,9 +99,8 @@ Navigate to the **Settings**, **Integrations** page and select the dropdown arro
 
 ![](../../assets/screenshots/k8s-integration-selection.png)
 
-{% hint style="warning" %}
-Necessary permissions to the Kubernetes Cluster are required.
-{% endhint %}
+!!! warning
+    Necessary permissions to the Kubernetes Cluster are required.
 
 The following links will help you set up the necessary integration with your Cloud Provider of choice.
 
@@ -127,13 +116,8 @@ To Trigger a Run, select _**Trigger**_ on the right side of the Stacks view.
 
 ![](../../assets/screenshots/k8s-trigger.png)
 
-{% hint style="info" %}
-**Spacelift Label**\
-****\
-****To help identify resources deployed to your Kubernetes cluster, Spacelift will add the following label to all resources.\
-\
-`spacelift-stack=<stack-slug>`
-{% endhint %}
+!!! info
+    **Spacelift Label**\    ****\    ****To help identify resources deployed to your Kubernetes cluster, Spacelift will add the following label to all resources.\    \    `spacelift-stack=<stack-slug>`
 
 ### Triggered Run Status
 
@@ -147,16 +131,8 @@ After a successful planning phase, you can check the log to see the planned chan
 
 ![](../../assets/screenshots/k8s-unconfirmed.png)
 
-{% hint style="info" %}
-**Planning Phase**
-
-Spacelift utilizes the dry run functionality of `kubectl apply to`compare your code to the current state of the cluster and output the list of changes to be made.\
-``\
-``A slightly different dry run mode depending on the scenario:
-
-* `--dry-run=server:`Utilized when resources are available
-* `--dry-run-client:`Utilized when <mark style="color:red;">**no**</mark> resources _****_ are available
-{% endhint %}
+!!! info
+    **Planning Phase**        Spacelift utilizes the dry run functionality of `kubectl apply to`compare your code to the current state of the cluster and output the list of changes to be made.\    ``\    ``A slightly different dry run mode depending on the scenario:        * `--dry-run=server:`Utilized when resources are available    * `--dry-run-client:`Utilized when <mark style="color:red;">**no**</mark> resources _****_ are available
 
 To confirm the Triggered run, click the _**CONFIRM**_ button.
 
@@ -166,22 +142,13 @@ The following screen highlights the Finished Run and output from a successful de
 
 ![](../../assets/screenshots/k8s-finished.png)
 
-{% hint style="info" %}
-**Applying**
-
-The default timeout is set to 10 minutes. If a Kubernetes Deployment is expected to take longer, you can customize that using the KUBECTL\_ROLLOUT\_TIMEOUT environment variable.\
-\
-Review the [documentation](../../concepts/configuration/environment.md) to find out more about Spacelift environment variables..
-{% endhint %}
+!!! info
+    **Applying**        The default timeout is set to 10 minutes. If a Kubernetes Deployment is expected to take longer, you can customize that using the KUBECTL\_ROLLOUT\_TIMEOUT environment variable.\    \    Review the [documentation](../../concepts/configuration/environment.md) to find out more about Spacelift environment variables..
 
 ### Default Removal of Deployments
 
-{% hint style="info" %}
-By default; if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>`label will be removed from the Kubernetes cluster. \
-
-
-The `--prune` flag will be utilized.
-{% endhint %}
+!!! info
+    By default; if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>`label will be removed from the Kubernetes cluster. \            The `--prune` flag will be utilized.
 
 
 

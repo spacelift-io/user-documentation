@@ -8,6 +8,10 @@ theme:
     - navigation.sections
   language: en
   name: material
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 
 #################################################################################

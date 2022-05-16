@@ -217,9 +217,8 @@ Capturing all evaluations sounds tempting but it will also be extremely messy. W
 
 In order to show you how to work with the policy workbench, we are going to use a [task policy](task-run-policy.md) that whitelists just two tasks - an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty:
 
-{% hint style="info" %}
-This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter), which gives you hands-in experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
-{% endhint %}
+!!! info
+    This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter), which gives you hands-in experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
 
 ![](../../assets/screenshots/Allow\_only\_safe\_commands\_·\_marcinwyszynski.png)
 
@@ -259,9 +258,8 @@ Last but not least, the policy workbench - including access to previous inputs -
 
 ## Testing policies
 
-{% hint style="info" %}
-In the examples for each type of policy we invite you to play around with the policy and its input [in the Rego playground](https://play.openpolicyagent.org). While certainly useful, we won't consider it proper unit testing.
-{% endhint %}
+!!! info
+    In the examples for each type of policy we invite you to play around with the policy and its input [in the Rego playground](https://play.openpolicyagent.org). While certainly useful, we won't consider it proper unit testing.
 
 The whole point of policy-as-code is being able to handle it as code, which involves everyone's favorite bit - testing. Testing policies is crucial because you don't want them accidentally allow the wrong crowd to do the wrong things.&#x20;
 
@@ -340,6 +338,5 @@ Again, we can then test it in the console using `opa test` command (note the glo
 PASS: 2/2
 ```
 
-{% hint style="success" %}
-We suggest you always unit test your policies and apply the same continuous integration principles as with your application code. You can set up a CI project using the vendor of your choice for the same repository that's linked to the Spacelift project that's defining those policies, to get an external validation.
-{% endhint %}
+!!! success
+    We suggest you always unit test your policies and apply the same continuous integration principles as with your application code. You can set up a CI project using the vendor of your choice for the same repository that's linked to the Spacelift project that's defining those policies, to get an external validation.

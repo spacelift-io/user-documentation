@@ -6,9 +6,8 @@ Every job in Spacelift is processed inside a fresh, isolated Docker container. T
 
 By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform) image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [very simple Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile) that builds this image.
 
-{% hint style="info" %}
-Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
-{% endhint %}
+!!! info
+    Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
 
 ## Customizing the runner image
 
@@ -51,14 +50,8 @@ COPY --from=builder /terraform-provider-sops /bin/terraform-provider-sops
 RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 ```
 
-{% hint style="info" %}
-Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
-
-* this user exists and has the right UID, otherwise you won't have access to your files;
-* whatever you need accessed and executed in your custom image has the right ownership and/or permissions;
-
-Depending on your image flavor, the exact command to add the user may be different.
-{% endhint %}
+!!! info
+    Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:        * this user exists and has the right UID, otherwise you won't have access to your files;    * whatever you need accessed and executed in your custom image has the right ownership and/or permissions;        Depending on your image flavor, the exact command to add the user may be different.
 
 ### Custom providers from Terraform 0.13 onwards
 
@@ -110,7 +103,6 @@ If you're building an image from a source other than [`public.ecr.aws/spacelift/
 
 Your stack is only as safe as the runner image you're using for it. A malicious actor is able to doctor your runner image in a way that will allow them to take over your stack and all its associated cloud provider accounts in a snap. Please always review the code, and only allow `docker push` access to your most trusted associates.
 
-{% hint style="info" %}
-In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools.md).
-{% endhint %}
+!!! info
+    In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools.md).
 

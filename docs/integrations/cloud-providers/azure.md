@@ -10,9 +10,8 @@ This page explains how to configure the following authentication methods in Spac
 * [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
 * [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools.md) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
 
-{% hint style="info" %}
-This guide explains how to configure the Azure provider using environment variables. Although you can add these environment variables directly to individual stacks, it may be worth creating a [Spacelift Context](../../concepts/configuration/context.md) to store your Azure credentials. This allows you to easily add the same credentials to any stack that requires them.
-{% endhint %}
+!!! info
+    This guide explains how to configure the Azure provider using environment variables. Although you can add these environment variables directly to individual stacks, it may be worth creating a [Spacelift Context](../../concepts/configuration/context.md) to store your Azure credentials. This allows you to easily add the same credentials to any stack that requires them.
 
 ## Spacelift Managed Integration
 
@@ -36,9 +35,8 @@ Click on the _Add Integration_ button to start configuring your integration:
 
 Give **** your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
-{% hint style="info" %}
-You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft\_AAD\_IAM/ActiveDirectoryMenuBlade/Overview) section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft\_Azure\_Billing/SubscriptionsBlade) section of the Azure portal.
-{% endhint %}
+!!! info
+    You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft\_AAD\_IAM/ActiveDirectoryMenuBlade/Overview) section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft\_Azure\_Billing/SubscriptionsBlade) section of the Azure portal.
 
 ### Providing admin consent
 
@@ -56,17 +54,11 @@ To install the Azure AD application for your Spacelift integration into your Azu
 
 Click on the Accept button to complete the admin consent process, at which point you should be redirected to your integration settings.
 
-{% hint style="info" %}
-The admin consent process requires at least one permission to be requested in order to work. Although the application requests the “Sign in and read user profile” permission, it never signs in as any users in your account or accesses their information.
-{% endhint %}
+!!! info
+    The admin consent process requires at least one permission to be requested in order to work. Although the application requests the “Sign in and read user profile” permission, it never signs in as any users in your account or accesses their information.
 
-{% hint style="warning" %}
-Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
-
-![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD\_AmzogTK\_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg\_H41DLG8LPHxbxgJFB=s0)
-
-This isn’t a problem. Just wait a few minutes and try again.
-{% endhint %}
+!!! warning
+    Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:        ![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD\_AmzogTK\_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg\_H41DLG8LPHxbxgJFB=s0)        This isn’t a problem. Just wait a few minutes and try again.
 
 ### Configuring Azure permissions
 
@@ -78,9 +70,8 @@ If you go to the Access Control (IAM) section of the Azure subscription or resou
 
 ![](https://lh6.googleusercontent.com/epsMyvwvup1nlfsiYj8AVjBo58W82eg3KkbgC6n8Ebf3lHElT4MDa3dB\_OiiOs2gYX\_8s8zI5aHUMkzeQpT-VkhSzs5yY\_rC92hd4Z0xCoaawCAiLVLzlf3be3NgdVtdFjwPWNQp=s0)
 
-{% hint style="info" %}
-The integration has no access to any of your Azure infrastructure unless you explicitly grant it the appropriate permissions.
-{% endhint %}
+!!! info
+    The integration has no access to any of your Azure infrastructure unless you explicitly grant it the appropriate permissions.
 
 ### Attaching to a stack
 
@@ -106,9 +97,8 @@ You can delete an Azure integration if you don’t need it anymore. To do that, 
 
 ![](https://lh4.googleusercontent.com/DAbsLUKrZJfbbltKK52CIMtJ9\_GilBjAMxIp9spuKz6b6H0Gwhr-Q63rQxFiPvoCqToNcwaIDKty1CmkRBezI2e2mkri27QkY9PbL135YxQznBS6Ur\_iQiOJEMSoMxoXkyAMRsjH=s0)
 
-{% hint style="info" %}
-You can only delete an integration if it is not being used by any stacks, so you may have to detach the integration from any stacks it is attached to first.
-{% endhint %}
+!!! info
+    You can only delete an integration if it is not being used by any stacks, so you may have to detach the integration from any stacks it is attached to first.
 
 #### Deleting the Enterprise Application
 
@@ -145,13 +135,8 @@ The output includes credentials that you must protect. Be sure that you do not i
 
 The command creates a new Service Principal called `spacelift-sp`, and grants it the _Contributor_ role on your subscription. It also outputs the `appId`, `password` and `tenant` for the Service Principal. Make a note of these because you'll need them later.
 
-{% hint style="info" %}
-If you would rather assign permissions separately, you can run the following command to create a Service Principal with no role assignments:
-
-```
-az ad sp create-for-rbac --name spacelift-sp --skip-assignment
-```
-{% endhint %}
+!!! info
+    If you would rather assign permissions separately, you can run the following command to create a Service Principal with no role assignments:        ```    az ad sp create-for-rbac --name spacelift-sp --skip-assignment    ```
 
 ### Configuring via environment
 
@@ -181,9 +166,8 @@ To configure the Azure provider using a client certificate, first add your PFX a
 
 ![](<../../assets/screenshots/image (84).png>)
 
-{% hint style="warning" %}
-You should treat this certificate like any other credential, and mark it as a _secret._
-{% endhint %}
+!!! warning
+    You should treat this certificate like any other credential, and mark it as a _secret._
 
 Next, add the following [environment variables](../../concepts/configuration/environment.md#environment-variables) to your stack:
 
