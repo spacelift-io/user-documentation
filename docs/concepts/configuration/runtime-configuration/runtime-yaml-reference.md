@@ -40,7 +40,7 @@ The version property is optional and currently ignored but for the sake of compl
 | `runner_image`      | N        | string               | Name of the [custom runner image](../../stack/stack-settings.md#runner-image), if any                                                            |
 | `terraform_version` | N        | string               | For Terraform stacks, [Terraform version number to be used](../../../vendors/terraform/version-management.md#intro-to-terraform-versioning)      |
 
-#### `stacks` <a href="stacks" id="stacks"></a>
+#### `stacks`
 
 The stacks section is a map using stack public ID (slug) as keys and stack settings - described in [this section](runtime-yaml-reference.md#stack_defaults) - as values. If you're using this mapping together with stack defaults, note that any default setting is overridden by an explicitly set stack-specific value. This is particularly important for list and map fields where one may assume that these are merged. In practice, they're not merged - they're replaced. If you want merging semantics, [YAML provides native methods to merge arrays and maps](http://blogs.perl.org/users/tinita/2019/05/reusing-data-with-yaml-anchors-aliases-and-merge-keys.html).
 

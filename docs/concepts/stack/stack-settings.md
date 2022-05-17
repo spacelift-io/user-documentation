@@ -138,7 +138,7 @@ You can find more information about our use of Docker in [this dedicated help ar
 
 ## Terraform-specific settings
 
-### Version <a href="#terraform-version" id="terraform-version"></a>
+### Version
 
 The Terraform version is set when a stack is created to indicate the version of Terraform that will be used with this project. However, Spacelift covers the entire [Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
 
@@ -150,12 +150,12 @@ If you're [managing Terraform state through Spacelift](../../vendors/terraform/s
 
 ## Pulumi-specific settings
 
-### Login URL <a href="#pulumi-login-url" id="pulumi-login-url"></a>
+### Login URL
 
 Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend)).
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/). More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/).
 
-### Stack name <a href="#pulumi-stack-name" id="pulumi-stack-name"></a>
+### Stack name
 
 The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](stack-settings.md#stack-name) - they _may_ be different, though it's probably good if you can keep them identical.
