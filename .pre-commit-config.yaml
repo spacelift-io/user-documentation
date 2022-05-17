@@ -4,6 +4,8 @@ repos:
     hooks:
       - id: check-added-large-files
       - id: check-yaml
+        # KLUDGE: Required for the mermaid support extension not to trigger an error in mkdocs.yaml
+        args: [--unsafe]
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.31.1
     hooks:
