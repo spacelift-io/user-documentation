@@ -17,7 +17,7 @@ Your access policy can define the following boolean rules:
 * **write**: gives the current user [write access](stack-access-policy.md#readers-and-writers) to the stack or module;
 * **read**: gives the current user [read access](stack-access-policy.md#readers-and-writers) to the stack or module;
 * **deny**: denies the current user **all** access to the stack or module, no matter the outcome of other rules;
-* **deny\_write**:  denies the current user **write** access to the stack or module, no matter the outcome of other rules;
+* **deny_write**:  denies the current user **write** access to the stack or module, no matter the outcome of other rules;
 
 Note that write access automatically assumes read permissions, too, so there's no need to define separate **read** policies for writers.
 
@@ -25,7 +25,7 @@ Another thing to keep in mind when defining access policies is that they are exe
 
 ## Readers and writers
 
-There are two levels of non-admin access to a [Spacelift stack](../stack/) or module - reader and writer. These are pretty intuitive for most developers, but this section will cover them in more detail to avoid any possible confusion. But first, let's try to understand the use case for different levels of access.
+There are two levels of non-admin access to a [Spacelift stack](../stack/README.md) or module - reader and writer. These are pretty intuitive for most developers, but this section will cover them in more detail to avoid any possible confusion. But first, let's try to understand the use case for different levels of access.
 
 In every non-trivial organization there will be different roles - folks who build and manage shared infrastructure, folks who build and manage their team or project-level infrastructure, and folks who use this infrastructure to build great things. The first group is probably the people who manage your Spacelift accounts - the **admins**. They need to be able to set up everything - create [stacks](../stack/), [contexts](../configuration/context.md) and [policies](./), and attach them accordingly. You'd normally use [login policies](login-policy.md) to manage their access.
 
