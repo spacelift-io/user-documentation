@@ -3,3 +3,5 @@
 default: false
 
 MD001: true
+MD003: true
+MD041: true

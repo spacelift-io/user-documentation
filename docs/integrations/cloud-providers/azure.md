@@ -44,8 +44,6 @@ Once your integration has been created successfully, you will be taken to the in
 
 ![](https://lh5.googleusercontent.com/_WAQuO6SvW0fNVQ2IeFu46K4DLluDbuG96v1SjMKbw1Y_c0xWfa0CynIO5UHdNgiWiFc1qchVympyMuU9-0PtBN2nqhaV6JDCvev2KE4aLOo_R1Yf8s7q-zEBRFdeFJOlpybv9IY=s0)
 
-####
-
 To install the Azure AD application for your Spacelift integration into your Azure account, click on the _Provide Consent_ button, which will redirect you to Azure. After logging into your Azure account, you should see a permissions screen like the following:
 
 
