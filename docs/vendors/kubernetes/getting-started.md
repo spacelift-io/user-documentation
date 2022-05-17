@@ -57,8 +57,8 @@ Choose Kubernetes from the dropdown list and type out the **namespace**.
 
 ### Define Behavior
 
-Select the arrow next to _Show Advanced Options_ to expose the advanced configuration options.\
-\
+Select the arrow next to _Show Advanced Options_ to expose the advanced configuration options.
+
 To ensure the success of a Kubernetes deployment, the following options should be reviewed and validated.
 
 * Runner Image: By Default, Spacelift will add the necessary binary to run `kubectl` if not found. Including runner images not provided by Spacelift.
@@ -69,22 +69,23 @@ To ensure the success of a Kubernetes deployment, the following options should b
 
 ![](../../assets/screenshots/k8s-define-behavior.png)
 
-In the example above, I am authenticating to an AWS EKS Cluster and used the following command to update the kubeconfig for the necessary cluster.\
-\
-`aws eks update-kubeconfig --region $region-name --name $cluster-name`
+In the example above, I am authenticating to an AWS EKS Cluster and used the following command to update the kubeconfig for the necessary cluster.
+
+```bash
+aws eks update-kubeconfig --region $region-name --name $cluster-name
+```
 
 !!! info
-    `Update the previous variables according to your deployment.`\
-    ``
-    
+    Update the previous variables according to your deployment.
+
     * `$region-name:` AWS region where your Kubernetes cluster resides
     * `$cluster-name:` Name of your Kubernetes clusters
 
 The above allows the worker to authenticate to the proper cluster before running the specified Kubernetes deployment in the repository that we created earlier.
 
 !!! warning
-    Authentication with a Cloud Provider is _**required**_.\
-    \
+    Authentication with a Cloud Provider is **required**.
+
     After you Name the Stack, follow the Cloud Integrations section to ensure Spacelift can authenticate to your Kubernetes Cluster.
 
 ### Name the Stack
@@ -122,12 +123,8 @@ To Trigger a Run, select _**Trigger**_ on the right side of the Stacks view.
 
 ![](../../assets/screenshots/k8s-trigger.png)
 
-!!! info
-    **Spacelift Label**\
-    ****\
-    ****To help identify resources deployed to your Kubernetes cluster, Spacelift will add the following label to all resources.\
-    \
-    `spacelift-stack=<stack-slug>`
+!!! info "Spacelift Label"
+    To help identify resources deployed to your Kubernetes cluster, Spacelift will add the following label to all resources: `spacelift-stack=<stack-slug>`
 
 ### Triggered Run Status
 
@@ -135,21 +132,20 @@ Please review the [documentation](broken-reference) for a detailed view of each 
 
 #### Unconfirmed
 
-After you manually trigger the Run in the Stack view, Spacelift will deploy a runner image, initialize the Cloud Provider, Authenticate with the Kubernetes Cluster and run the Deployment specified in the repository.\
-\
+After you manually trigger the Run in the Stack view, Spacelift will deploy a runner image, initialize the Cloud Provider, Authenticate with the Kubernetes Cluster and run the Deployment specified in the repository.
+
 After a successful planning phase, you can check the log to see the planned changes.
 
 ![](../../assets/screenshots/k8s-unconfirmed.png)
 
-!!! info
-    **Planning Phase**
-    
-    Spacelift utilizes the dry run functionality of `kubectl apply to`compare your code to the current state of the cluster and output the list of changes to be made.\
-    ``\
-    ``A slightly different dry run mode depending on the scenario:
-    
-    * `--dry-run=server:`Utilized when resources are available
-    * `--dry-run-client:`Utilized when <mark style="color:red;">**no**</mark> resources _****_ are available
+!!! info "Planning Phase"
+
+    Spacelift utilizes the dry run functionality of `kubectl apply` to compare your code to the current state of the cluster and output the list of changes to be made.
+
+    A slightly different dry run mode depending on the scenario:
+
+    * `--dry-run=server`: Utilized when resources are available
+    * `--dry-run-client`: Utilized when **no** resources are available
 
 To confirm the Triggered run, click the _**CONFIRM**_ button.
 
@@ -159,19 +155,16 @@ The following screen highlights the Finished Run and output from a successful de
 
 ![](../../assets/screenshots/k8s-finished.png)
 
-!!! info
-    **Applying**
-    
-    The default timeout is set to 10 minutes. If a Kubernetes Deployment is expected to take longer, you can customize that using the KUBECTL\_ROLLOUT\_TIMEOUT environment variable.\
-    \
+!!! info "Applying"
+    The default timeout is set to 10 minutes. If a Kubernetes Deployment is expected to take longer, you can customize that using the `KUBECTL_ROLLOUT_TIMEOUT` environment variable.
+
     Review the [documentation](../../concepts/configuration/environment.md) to find out more about Spacelift environment variables..
 
 ### Default Removal of Deployments
 
 !!! info
-    By default; if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>`label will be removed from the Kubernetes cluster. \
-    
-    
+    By default; if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>` label will be removed from the Kubernetes cluster.
+
     The `--prune` flag will be utilized.
 
 

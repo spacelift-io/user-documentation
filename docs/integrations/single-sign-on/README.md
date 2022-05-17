@@ -4,7 +4,7 @@ description: >-
   providers to log in to your Spacelift account.
 ---
 
-# Single sign-on
+# Single Sign-On
 
 By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a single sign-on approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports single sign-on using [SAML 2.0](single-sign-on.md#setting-up-saml) or [OIDC](single-sign-on.md#setting-up-oidc).
 
@@ -12,9 +12,7 @@ By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some 
 
 In order to manage single sign-on integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single sign-on_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
 
-![These URLs will be different for your account](../assets/screenshots/sso_settings.png)
-
-
+![These URLs will be different for your account](../../assets/screenshots/sso_settings.png)
 
 ## Setting up SAML
 
@@ -22,7 +20,7 @@ When setting up Spacelift on your identity provider, you may want to add three a
 
 * `FirstName` is used to build human-friendly user name;
 * `LastName` is used to build human-friendly user name;
-* `Teams` can be used by [login](../concepts/policy/login-policy.md) and [stack access](../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
+* `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
 
 Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/)) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [GSuite](https://support.google.com/a/answer/6327792?hl=en) and as a courtesy, we will flush your login history.
 
@@ -56,10 +54,10 @@ Spacelift dynamically checks integrated Identity Provider's Well-Known OpenID co
 
 The following are links to example implementations you can use as a reference/guide for setting up your own OIDC integration.
 
-* [GitLab](single-sign-on/gitlab-oidc-setup-guide.md)
-* [Okta](single-sign-on/okta-oidc-setup-guide.md)
-* [OneLogin](single-sign-on/onelogin-oidc-setup-guide.md)
-* [Azure AD](single-sign-on/azure-ad-oidc-setup-guide.md)
+* [GitLab](./gitlab-oidc-setup-guide.md)
+* [Okta](./okta-oidc-setup-guide.md)
+* [OneLogin](./onelogin-oidc-setup-guide.md)
+* [Azure AD](./azure-ad-oidc-setup-guide.md)
 * If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
 
 ## IdP-initiated SSO
@@ -75,4 +73,4 @@ In order to disable SSO integration for your Spacelift account, or change the Id
 !!! warning
     Again, please note that new usernames will occupy new seats, even if they're the same users registered with a different identity provider.
 
-![](../assets/screenshots/disable-oidc.png)
+![](../../assets/screenshots/disable-oidc.png)

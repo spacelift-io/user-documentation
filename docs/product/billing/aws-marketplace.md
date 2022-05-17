@@ -19,7 +19,7 @@ Please follow the steps below to setup a public offering on the AWS Marketplace.
 
 #### Visit the AWS Marketplace
 
-{% embed url="https://aws.amazon.com/marketplace" %}
+Go to the [AWS Marketplace](https://aws.amazon.com/marketplace).
 
 #### Find and Select Spacelift
 

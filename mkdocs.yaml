@@ -20,7 +20,6 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
-      baselevel: 2
       permalink: »
       permalink_title: Anchor link to this section
 
@@ -67,7 +66,6 @@ nav:
     - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
     - Terraform:
-      - vendors/terraform/README.md
       - vendors/terraform/module-registry.md
       - vendors/terraform/external-modules.md
       - vendors/terraform/terraform-provider.md
@@ -82,13 +80,16 @@ nav:
     - Pulumi:
       - vendors/pulumi/README.md
       - Getting Started:
-        - vendors/pulumi/getting-started/README.md
-        - vendors/pulumi/getting-started/c-sharp.md
+        # KLUDGE: The default value for navigation items come from the H1 heading for the page.
+        # Here the value for the H1 heading needs to be C\# to avoid parsing issues.
+        # Unfortunately, the valid value for the H1 heading causes an issue with the navigation item.
+        # Hence the override.
+        - C#: vendors/pulumi/getting-started/c-sharp.md
         - vendors/pulumi/getting-started/golang.md
         - vendors/pulumi/getting-started/javascript.md
         - vendors/pulumi/getting-started/python.md
-      # - vendors/pulumi/state-management.md
-      # - vendors/pulumi/version-management.md
+      # Empty: - vendors/pulumi/state-management.md
+      # Empty: - vendors/pulumi/version-management.md
     - CloudFormation:
       - vendors/cloudformation/README.md
       - vendors/cloudformation/getting-started.md
@@ -110,7 +111,6 @@ nav:
       - integrations/cloud-providers/azure.md
       - integrations/cloud-providers/gcp.md
     - Source Control:
-      - integrations/source-control/README.md
       - integrations/source-control/github.md
       - integrations/source-control/gitlab.md
       - integrations/source-control/azure-devops.md
@@ -118,8 +118,8 @@ nav:
       - integrations/source-control/bitbucket-datacenter-server.md
     - integrations/docker.md
     - integrations/api.md
-    - Single sign-on:
-      - integrations/single-sign-on.md
+    - Single Sign-On:
+      - integrations/single-sign-on/README.md
       - integrations/single-sign-on/gitlab-oidc-setup-guide.md
       - integrations/single-sign-on/okta-oidc-setup-guide.md
       - integrations/single-sign-on/onelogin-oidc-setup-guide.md
@@ -131,9 +131,8 @@ nav:
     - product/security.md
     - product/disaster-continuity.md
     - Billing:
-      - product/billing/README.md
       - product/billing/stripe.md
       - product/billing/aws-marketplace.md
     - product/terms.md
-    - product/cookies.md
+    # Empty: - product/cookies.md
     - product/refund-policy.md

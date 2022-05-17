@@ -22,6 +22,6 @@ Spacelift helps you manage the complexities and compliance challenges of using K
 
 You can also use Spacelift to mix and match Terraform, Pulumi, CloudFormation, and Kubernetes Stacks and have them talk to one another. For example, you can set up Terraform Stacks to provision the required infrastructure (like an ECS/EKS cluster with all its dependencies) and then deploy the following via a Kubernetes Stack.
 
-_**Anything that can be run via `kubectl` can be run within a Spacelift stack.** _ \
-\
+**Anything that can be run via `kubectl` can be run within a Spacelift stack.**
+
 To find out more about Kubernetes Workload Resources, read the[ reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/).
