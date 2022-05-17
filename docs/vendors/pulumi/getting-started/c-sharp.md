@@ -10,8 +10,7 @@ Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples
 
 In the root of the repository (not the aws-cs-webserver directory), add a new file:
 
-{% code title=".spacelift/config.yml" %}
-```yaml
+```yaml title=".spacelift/config.yml"
 version: "1"
 
 stack_defaults:
@@ -20,7 +19,6 @@ stack_defaults:
     - rm -rf bin
     - rm -rf obj
 ```
-{% endcode %}
 
 `before_apply` is not yet exposed through the interface like `before_init`, so you have to set it through the config file. When compiling, the dotnet CLI creates global state which is lost after confirmation. This will mostly clean the workspace before applying, so everything will be cleanly recompiled. Why mostly? This you will see in a sec.
 

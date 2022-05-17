@@ -2,8 +2,7 @@
 
 The runtime configuration is an optional setup applied to individual runs instead of being global to the stack. It's defined in `.spacelift/config.yml` YAML file at the root of your repository. A single file is used to define settings for all stacks associated with its host Git repository, so the file structure looks like this:
 
-{% code title=".spacelift/config.yml" %}
-```yaml
+```yaml title=".spacelift/config.yml"
 version: "1"
 
 stack_defaults:
@@ -32,9 +31,8 @@ stacks:
         terraform_version: 0.13.0
         environment:
             AWS_REGION: eu-west-1
-        
+
 ```
-{% endcode %}
 
 The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/#name-and-description) to the [stack configuration block](./#stack-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 

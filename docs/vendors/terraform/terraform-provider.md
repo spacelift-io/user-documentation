@@ -8,8 +8,7 @@ Our Terraform provider is open source and its [README](https://github.com/spacel
 
 So, without further ado, let's define a stack:
 
-{% code title="stack.tf" %}
-```terraform
+```terraform title="stack.tf"
 resource "spacelift_stack" "managed-stack" {
   name = "Stack managed by Spacelift"
 
@@ -18,12 +17,10 @@ resource "spacelift_stack" "managed-stack" {
   branch     = "master"
 }
 ```
-{% endcode %}
 
 That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/#access-readers-and-writers-teams), so why don't we define some?
 
-{% code title="stack-and-teams.tf" %}
-```terraform
+```terraform title="stack-and-teams.tf"
 resource "github_team" "stack-readers" {
   name = "managed-stack-readers"
 }
@@ -44,12 +41,10 @@ resource "spacelift_stack" "managed-stack" {
   writers_team = github_team.stack_writers.slug
 }
 ```
-{% endcode %}
 
 Now that we programmatically combine Spacelift and GitHub resources, let's add AWS to the mix and give our new stack a dedicated [IAM role](../../integrations/cloud-providers/aws.md):
 
-{% code title="stack-teams-and-iam.tf" %}
-```terraform
+```terraform title="stack-teams-and-iam.tf"
 resource "github_team" "stack-readers" {
   name = "managed-stack-readers"
 }
@@ -96,7 +91,6 @@ resource "spacelift_stack_aws_role" "managed-stack" {
   role_arn = aws_iam_role.managed-stack.arn
 }
 ```
-{% endcode %}
 
 !!! success
     OK, so who wants to go back to clicking on things in the web GUI? Because you will likely need to do some clicking, too, [at least with your first stack](terraform-provider.md#proposed-workflow).

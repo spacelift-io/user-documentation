@@ -15,8 +15,7 @@ The best way to customizing your Terraform execution environment is to build a c
 
 If you want our tooling in your image, there are two possible approaches. The first approach is to **build on top of our image**. We'd suggest doing that only if your customizations are relatively simple. For example, let's add a custom CircleCI provider to your image. They have a releases page allowing you to just `curl` the right version of the binary and put it in the `/bin` directory:
 
-{% code title="Dockerfile" %}
-```docker
+```docker title="Dockerfile"
 FROM public.ecr.aws/spacelift/runner-terraform:latest
 
 WORKDIR /tmp
@@ -24,7 +23,6 @@ RUN curl -O -L https://github.com/mrolla/terraform-provider-circleci/releases/do
   && mv terraform-provider-circleci-linux-amd64 /bin/terraform-provider-circleci \
   && chmod +x /bin/terraform-provider-circleci
 ```
-{% endcode %}
 
 For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/) to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops) [provider](https://github.com/carlpett/terraform-provider-sops) from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 

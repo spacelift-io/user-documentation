@@ -267,18 +267,15 @@ Luckily, Spacelift uses a well-documented and well-supported open source languag
 
 Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#account-membership), and write a test for it:
 
-{% code title="deny-non-members.rego" %}
-```opa
+```opa title="deny-non-members.rego"
 package spacelift
 
 deny { not input.session.member }
 ```
-{% endcode %}
 
 You'll see that we simply mock out the `input` received by the policy:
 
-{% code title="deny-non-members_test.rego" %}
-```opa
+```opa title="deny-non-members_test.rego"
 package spacelift
 
 test_non_member {
@@ -289,7 +286,6 @@ test_member_not_denied {
     not deny with input as { "session": { "member": true } }
 }
 ```
-{% endcode %}
 
 We can then test it in the console using `opa test` command (note the glob, which captures both the source and its associated test):
 
@@ -300,8 +296,7 @@ PASS: 2/2
 
 Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](run-initialization-policy.md) that denies commits to a particular branch (because why not):
 
-{% code title="deny-sandbox.rego" %}
-```opa
+```opa title="deny-sandbox.rego"
 package spacelift
 
 deny[sprintf("don't push to %s", [branch])] {
@@ -309,12 +304,10 @@ deny[sprintf("don't push to %s", [branch])] {
   branch == "sandbox"
 }
 ```
-{% endcode %}
 
 In the respective test, we will check that the set return by the **deny** rule either has the expected element for the matching input, or is empty for non-matching one:
 
-{% code title="deny-sandbox_test.rego" %}
-```opa
+```opa title="deny-sandbox_test.rego"
 package spacelift
 
 test_sandbox_denied {
@@ -329,7 +322,6 @@ test_master_not_denied {
   deny == expected with input as { "commit": { "branch": "master" } }
 }
 ```
-{% endcode %}
 
 Again, we can then test it in the console using `opa test` command (note the glob, which captures both the source and its associated test):
 

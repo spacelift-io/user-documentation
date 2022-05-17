@@ -12,15 +12,13 @@ Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples
 
 In the root of the repository (not the aws-py-webserver directory), add a new file:
 
-{% code title=".spacelift/config.yml" %}
-```yaml
+```yaml title=".spacelift/config.yml"
 version: "1"
 
 stack_defaults:
   before_apply:
     - pip install -r requirements.txt
 ```
-{% endcode %}
 
 `before_apply` is not yet exposed through the interface like `before_init`, so you have to set it through the config file.
 
