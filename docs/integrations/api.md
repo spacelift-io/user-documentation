@@ -13,9 +13,7 @@ The below guide walks through an example of generating your Spacelift token and 
 * Insomnia downloaded and installed
 * Spacelift account with admin access (for ability to create API Keys)
 
-{% embed url="https://www.loom.com/share/0f86be4d783c4bcfacb65c53be6bb1c1" %}
-Demo Usage of Spacelift GraphQL API
-{% endembed %}
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/0f86be4d783c4bcfacb65c53be6bb1c1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## API Usage
 
@@ -23,7 +21,7 @@ Spacelift provides a GraphQL API for you to control your Spacelift account progr
 
 !!! info
     For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_
-    
+
     All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
 
 In order to use the API, you will need a **bearer token** to authenticate your requests. There are currently three ways of obtaining this token:
