@@ -170,16 +170,12 @@ trigger[stack.id] {
 
 The diamond problem happens when your stacks and their dependencies form a shape like in the following diagram:
 
-```
-          ┌────┐
-       ┌─►│ 2a ├─┐
-       │  └────┘ │
-┌───┐  │         │   ┌───┐
-│ 1 ├──┤         ├──►│ 3 │
-└───┘  │         │   └───┘
-       │  ┌────┐ │
-       └─►│ 2b ├─┘
-          └────┘
+``` mermaid
+graph LR
+  1  --> 2a;
+  1  --> 2b;
+  2a --> 3;
+  2b --> 3;
 ```
 
 Which means that Stack 1 triggers both Stack 2a and 2b, and we only want to trigger Stack 3 when both predecessors finish. This can be elegantly solved using workflows.
