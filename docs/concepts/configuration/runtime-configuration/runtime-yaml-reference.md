@@ -25,17 +25,17 @@ The version property is optional and currently ignored but for the sake of compl
 
 | Key                 | Required | Type                 | Description                                                                                                                                      |
 | ------------------- | -------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `after_apply`       | N        | list\<string>        | List of commands executed [after applying changes](../../stack/stack-settings.md#before-apply-scripts).                                          |
-| `after_destroy`     | N        | list\<string>        | List of commands executed after destroying managed resources.                                                                                    |
-| `after_init`        | N        | list\<string>        | List of commands executed [after first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. terraform init).    |
-| `after_perform`     | N        | list\<string>        | List of commands executed after [performing a custom task](../../run/task.md#performing-a-task)                                                  |
-| `after_plan`        | N        | list\<string>        | List of commands executed after [planning changes](../../run/proposed.md#planning)                                                               |
-| `before_apply`      | N        | list\<string>        | List of commands executed [before applying changes](../../stack/stack-settings.md#before-apply-scripts).                                         |
-| `before_destroy`    | N        | list\<string>        | List of commands executed before destroying managed resources.                                                                                   |
-| `before_init`       | N        | list\<string>        | List of commands executed [before first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. `terraform init`). |
-| `before_perform`    | N        | list\<string>        | List of commands executed before [performing a custom task](../../run/task.md#performing-a-task)                                                 |
-| `before_plan`       | N        | list\<string>        | List of commands executed before [planning changes](../../run/proposed.md#planning)                                                              |
-| `environment`       | N        | map\<string, string> | Map of extra [environment variables](../environment.md#environment-variables) and their values passed to the job                                 |
+| `after_apply`       | N        | list<string\>        | List of commands executed [after applying changes](../../stack/stack-settings.md#before-apply-scripts).                                          |
+| `after_destroy`     | N        | list<string\>        | List of commands executed after destroying managed resources.                                                                                    |
+| `after_init`        | N        | list<string\>        | List of commands executed [after first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. terraform init).    |
+| `after_perform`     | N        | list<string\>        | List of commands executed after [performing a custom task](../../run/task.md#performing-a-task)                                                  |
+| `after_plan`        | N        | list<string\>        | List of commands executed after [planning changes](../../run/proposed.md#planning)                                                               |
+| `before_apply`      | N        | list<string\>        | List of commands executed [before applying changes](../../stack/stack-settings.md#before-apply-scripts).                                         |
+| `before_destroy`    | N        | list<string\>        | List of commands executed before destroying managed resources.                                                                                   |
+| `before_init`       | N        | list<string\>        | List of commands executed [before first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. `terraform init`). |
+| `before_perform`    | N        | list<string\>        | List of commands executed before [performing a custom task](../../run/task.md#performing-a-task)                                                 |
+| `before_plan`       | N        | list<string\>        | List of commands executed before [planning changes](../../run/proposed.md#planning)                                                              |
+| `environment`       | N        | map<string, string\> | Map of extra [environment variables](../environment.md#environment-variables) and their values passed to the job                                 |
 | `project_root`      | N        | string               | Optional folder inside the repository serving as the [root of your stack](../../stack/stack-settings.md#project-root)                            |
 | `runner_image`      | N        | string               | Name of the [custom runner image](../../stack/stack-settings.md#runner-image), if any                                                            |
 | `terraform_version` | N        | string               | For Terraform stacks, [Terraform version number to be used](../../../vendors/terraform/version-management.md#intro-to-terraform-versioning)      |
