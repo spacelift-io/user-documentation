@@ -6,25 +6,24 @@ Runs can be reviewed when they enter one of the two states - [queued](../run/#qu
 
 Here's an example of a queued run waiting for a human review - note how the last approval policy evaluation returned an _Undecided_ decision. There's also a review button next to the cancelation one:
 
-![](../../assets/images/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_%C2%B7_Bacon%20%282%29.png)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (2).png>)
 
 Review can be positive (approve) or negative (reject):
 
-![](../../assets/images/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_%C2%B7_Bacon%20%281%29.png)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (1).png>)
 
 With a positive review, the approval policy could evaluate to Approve thus unblocking the run:
 
-![](../../assets/images/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_%C2%B7_Bacon.png)
+![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon.png)
 
 When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you will not be able to [confirm](../run/tracked.md#confirmed) it until that approval is received. The run can however be [discarded](../run/tracked.md#discarded) at any point:
 
-![](../../assets/images/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_%C2%B7_Bacon%20%283%29.png)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (3).png>)
 
 In principle, the run review and approval process are very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
 
-!!! Success
+!!! success
     If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged". A run approval means "I'm OK with that action being executed".
-
 
 ## Rules
 
@@ -48,7 +47,7 @@ This is the schema of the data input that each policy request will receive:
 ```json
 {
   "reviews": { // run reviews
-    "current": [{ // reviews for the current state
+    "current": { // reviews for the current state
       "approvals": [{ // positive reviews
         "author": "string - reviewer username",
         "request": { // request data of the review
@@ -63,7 +62,7 @@ This is the schema of the data input that each policy request will receive:
         "state": "string - the state of the run at the time of the approval",
       }],
       "rejections": [/* negative reviews, see "approvals" for schema */]
-    }],
+    },
     "older": [/* reviews for previous state(s), see "current" for schema */]
   },
   "run": { // the run metadata
@@ -103,9 +102,8 @@ This is the schema of the data input that each policy request will receive:
 
 In this example, each Unconfirmed run will require two approvals - including proposed runs triggered by Git events. Additionally, the run should have no rejections. Anyone who rejects the run will need to change their mind in order for the run to go through.
 
-!!! Info
+!!! info
     We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack).
-
 
 ```opa
 package spacelift

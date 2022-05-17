@@ -11,17 +11,16 @@ To enable Infracost on any stack you need to do the following:
 * Add the `infracost` label to the stack.
 * Add an `INFRACOST_API_KEY` [environment variable](../../concepts/configuration/environment.md) containing your Infracost API key.
 
-!!! Info
-Creating a [context](../../concepts/configuration/context.md) for your Infracost API key means you can attach your key to any stacks that need to have Infracost enabled.
-
+!!! info
+    Creating a [context](../../concepts/configuration/context.md) for your Infracost API key means you can attach your key to any stacks that need to have Infracost enabled.
 
 If Infracost has been configured successfully, you should see some messages during the initialization phase of your runs indicating that Infracost is enabled and that the environment variable has been found:
 
-![](/assets/images/1-initialized.png)
+![](../../assets/screenshots/1-initialized.png)
 
 ### Additional CLI Arguments
 
-If you need to pass any additional CLI arguments to the Infracost breakdown command, you can add them to the `INFRACOST_CLI_ARGS` environment variable. Anything found in this variable is automatically appended to the command. This allows you to do things like specifying the path to your [Infracost usage file](https://www.infracost.io/docs/usage\_based\_resources#infracost-usage-file).
+If you need to pass any additional CLI arguments to the Infracost breakdown command, you can add them to the `INFRACOST_CLI_ARGS` environment variable. Anything found in this variable is automatically appended to the command. This allows you to do things like specifying the path to your [Infracost usage file](https://www.infracost.io/docs/usage_based_resources#infracost-usage-file).
 
 ### Ignore Failures
 
@@ -37,13 +36,13 @@ Once the integration is configured, Spacelift will automatically run Infracost b
 
 Spacelift automatically posts the usage summary to your pull requests once Infracost is enabled:
 
-![](/assets/images/2-infracost-pr.png)
+![](../../assets/screenshots/2-infracost-pr.png)
 
 ### Plan Policies
 
 Spacelift includes the full Infracost breakdown report in JSON format as part of the input to your plan policies. This is contained in `third_party_metadata.infracost`. The following shows an example plan input:
 
-```javascript
+```json
 {
   "cloudformation": null,
   "pulumi": null,
@@ -85,7 +84,7 @@ Spacelift includes the full Infracost breakdown report in JSON format as part of
 
 This means that you can take cost information into account when deciding whether to ask for human approval or to block changes entirely. The following policy provides a simple example of this:
 
-```perl
+```opa
 package spacelift
 
 # Prevent any changes that will cause the monthly cost to go above a certain threshold
@@ -112,4 +111,4 @@ warn[sprintf("monthly cost increase greater than %d%% (%.2f%%)", [threshold, per
 
 Infracost provides information about how individual resources contribute to the overall cost of the stack. Spacelift combines this information with our [resources view](../../concepts/resources.md) to allow you to view the cost information for each resource:
 
-![](/assets/images/3-resources-view.png)
+![](../../assets/screenshots/3-resources-view.png)

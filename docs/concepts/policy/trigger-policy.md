@@ -10,9 +10,8 @@ Frequently, your infrastructure consists of a number of projects ([stacks](../st
 
 Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
 
-!!! Warning
+!!! warning
     Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/#canceled), [Discarded](../run/tracked.md#discarded), [Stopped](../run/#stopping-runs) or [Failed](../run/#failed) in addition to the more obvious [Finished](../run/#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
-
 
 All runs triggered - directly or indirectly - by trigger policies as a result of the same initial run are grouped into a so-called workflow. In the trigger policy you can access all other runs in the same workflow as the currently finished run, regardless of their Stack. This lets you coordinate executions of multiple Stacks and build workflows which require multiple runs to finish in order to commence to the next stage (and trigger another Stack).
 
@@ -88,13 +87,12 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
-!!! Info
+!!! info
     Note the presence of two similar keys: `stack` and `stacks`. The former is the Stack that the newly finished Run belongs to. The other is a list of all Stacks in the account. The schema for both is the same.
-
 
 ## Use cases
 
-Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's\_Game\_of\_Life), but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
+Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life), but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
 
 ### Interdependent stacks
 
@@ -165,13 +163,12 @@ trigger[stack.id] {
 }
 ```
 
-!!! Info
+!!! info
     Note that this will also prevent user-triggered runs from being retried. Which is usually what you want in the first place, because a triggering human is probably already babysitting the Stack anyway.
-
 
 ### Diamond Problem
 
-The diamond problem happens when you're stacks and their dependencies form a shape like in the following diagram:
+The diamond problem happens when your stacks and their dependencies form a shape like in the following diagram:
 
 ``` mermaid
 graph LR
@@ -181,7 +178,7 @@ graph LR
   2b --> 3;
 ```
 
-Which means that Stack 1 trigger both Stack 2a and 2b, and we only want to trigger Stack 3 when both predecessors finish. This can be elegantly solved using workflows.
+Which means that Stack 1 triggers both Stack 2a and 2b, and we only want to trigger Stack 3 when both predecessors finish. This can be elegantly solved using workflows.
 
 First we'll have to create a trigger policy for Stack 1:
 

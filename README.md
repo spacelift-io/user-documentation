@@ -1,5 +1,11 @@
 # Spacelift User Documentation
 
-This is an experiment that uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+## Usage
 
-That was put together quickly and only a subset of pages is available at this time.
+Amd64: docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+Arm64: docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material
+
+## Checks
+
+- Install https://pre-commit.com/#installation
+- Install the git hook scripts: `pre-commit install`

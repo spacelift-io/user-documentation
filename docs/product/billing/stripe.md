@@ -14,13 +14,13 @@ If you would like to make changes to your Stripe payment configuration, please f
 
 To access billing information for your account, visit the **Settings** page of your account.
 
-![Click Settings](/assets/images/Screen%20Shot%202022-04-14%20at%201.50.39%20PM.png)
+![Click Settings](<../../assets/screenshots/Screen Shot 2022-04-14 at 1.50.39 PM.png>)
 
 ### Select Billing
 
 Click the billing tab.
 
-![Select the Billing tab.](/assets/images/Screen%20Shot%202022-04-14%20at%201.55.38%20PM.png)
+![Select the Billing tab.](<../../assets/screenshots/Screen Shot 2022-04-14 at 1.55.38 PM.png>)
 
 To upgrade your plan, click the **Upgrade** button.
 

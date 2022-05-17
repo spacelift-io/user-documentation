@@ -1,0 +1,3 @@
+# KLUDGE: Enable the rules individually below for the time being
+# to avoid being overwhelmed with errors.
+default: false

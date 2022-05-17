@@ -1,18 +1,17 @@
 # Task
 
-![](../../assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/Tasks_·_Datadog_Synthetics__prod_.png)
 
 While tasks enjoy the privilege of having their own GUI screen, they're just another type of [run](./). The core difference is that after the common [initialization](./#initializing) phase, a **task will run your custom command** instead of a string of preordained vendor-specific commands.
 
 ## The purpose of tasks
 
-The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html), or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html).
-
+The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html), or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html).\
+\
 Given that thanks to the [Docker integration](../../integrations/docker.md) you have full control over the execution environment of your workloads, there's hardly a limit to what you can do.
 
-!!! Danger
+!!! danger
     Obvious abuse of shared workers will get you kicked out of the platform. But you can abuse private workers all you like.
-
 
 With the above caveat, let's go through the main benefits of using Spacelift tasks.
 
@@ -28,13 +27,12 @@ Any non-trivial infrastructure project will inevitably be full of credentials an
 
 Spacelift's integration with infra providers like [AWS](../../integrations/cloud-providers/aws.md) also allows authentication without any credentials whatsoever, which further protects you from the shame and humiliation of having the keys to the kingdom leaked by running the occasional `env` command, as you do. Actually, let's run it in Spacelift to see what gives:
 
-![](../../assets/images/env_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/env_·_Datadog_Synthetics__prod_.png)
 
 Yes, the secrets are masked in the output and won't leak due to an honest mistake.
 
-!!! Danger
+!!! danger
     There are limits to the extent we can protect you from a determined attacker with write access to your stack. We don't want to give you a false sense of security where none is warranted. You may want to look into [task policies](../policy/task-run-policy.md) to prevent certain (or even all) tasks from being executed.
-
 
 ### Audited
 
@@ -50,13 +48,13 @@ Performing a task will succeed and the task will transition to the [finished](./
 
 In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
 
-![](../../assets/images/Tasks_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
+![](<../../assets/screenshots/Tasks_·_Datadog_Synthetics__prod_ (1).png>)
 
 Let's execute a task without initialization on a Terraform stack:
 
-![](../../assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/terraform_state_list_·_Datadog_Synthetics__prod_.png)
 
 Notice how the operation failed because it is expected to be executed on an initialized Terraform workspace. But the same operation would easily succeed if we were to run it in the default mode, with initialization:
 
-![](../../assets/images/terraform_state_list_%C2%B7_Datadog_Synthetics__prod_%20%281%29.png)
+![](<../../assets/screenshots/terraform_state_list_·_Datadog_Synthetics__prod_ (1).png>)
 

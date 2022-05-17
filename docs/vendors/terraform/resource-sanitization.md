@@ -4,7 +4,7 @@ Terraform state can contain very sensitive data. Sometimes this is unavoidable b
 
 For example, if we take the following definition for an EC2 instance:
 
-```javascript
+```terraform
 resource "aws_instance" "this" {
   ami           = "ami-abc123"
   instance_type = "t3.small"
@@ -21,7 +21,7 @@ resource "aws_instance" "this" {
 
 Spacelift will supply something similar to the following to any plan policies:
 
-```javascript
+```json
 {
   ...,
   "terraform": {

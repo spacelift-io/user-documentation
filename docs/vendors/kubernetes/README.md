@@ -12,7 +12,7 @@ Kubernetes is a portable, extensible, open-source platform for managing containe
 
 Spacelift supports Kubernetes via `kubectl`.
 
-### What is kubectl?
+### What is `kubectl`?
 
 The Kubernetes command-line tool, [`kubectl`](https://kubernetes.io/docs/reference/kubectl/kubectl/), allows you to run commands against Kubernetes clusters. You can use `kubectl` to deploy applications, inspect and manage cluster resources, and view logs. For more information including a complete list of `kubectl` operations, see the [`kubectl` reference documentation](https://kubernetes.io/docs/reference/kubectl/).
 
@@ -22,6 +22,6 @@ Spacelift helps you manage the complexities and compliance challenges of using K
 
 You can also use Spacelift to mix and match Terraform, Pulumi, CloudFormation, and Kubernetes Stacks and have them talk to one another. For example, you can set up Terraform Stacks to provision the required infrastructure (like an ECS/EKS cluster with all its dependencies) and then deploy the following via a Kubernetes Stack.
 
-_**Anything that can be run via `kubectl` can be run within a Spacelift stack.** _ \
-\
+**Anything that can be run via `kubectl` can be run within a Spacelift stack.**
+
 To find out more about Kubernetes Workload Resources, read the[ reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/).

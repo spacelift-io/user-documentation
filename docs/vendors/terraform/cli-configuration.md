@@ -12,9 +12,8 @@ Extending the Terraform CLI behavior can be done by using [mounted files](../../
 
 Any mounted files with names ending in `.terraformrc` will be appended to `~/.terraformrc`.
 
-!!! Info
-The Terraform CLI configuration file syntax supports [these settings](https://www.terraform.io/docs/cli/config/config-file.html#available-settings)
-
+!!! info
+    The Terraform CLI configuration file syntax supports [these settings](https://www.terraform.io/docs/cli/config/config-file.html#available-settings)
 
 
 

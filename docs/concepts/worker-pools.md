@@ -24,7 +24,7 @@ Now you can submit the `spacelift.csr` file in the worker pool creation form. In
 
 You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift Terraform provider](../vendors/terraform/terraform-provider.md).
 
-![](../assets/images/Screen%20Shot%202022-02-17%20at%203.13.38%20PM.png)
+![](<../assets/screenshots/Screen Shot 2022-02-17 at 3.13.38 PM.png>)
 
 The launcher binary is available [here](https://downloads.spacelift.io/spacelift-launcher). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed.
 
@@ -33,9 +33,8 @@ Finally, you can run the launcher binary by setting two environment variables:
 * `SPACELIFT_TOKEN` - the token you’ve received from Spacelift on worker pool creation
 * `SPACELIFT_POOL_PRIVATE_KEY` - the contents of the private key file you generated, in base64.
 
-!!! Info
+!!! info
     You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run something like <mark style="color:purple;">`cat spacelift.key | base64 -w 0`</mark>in your command line. For Mac users, the command will be something like <mark style="color:purple;">cat spacelift.key | base64 -b 0</mark>
-
 
 Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.
 
@@ -89,6 +88,6 @@ export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
 
 Worker pools must be explicitly attached to [stacks](stack/) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
-![Example when editing the existing stack](/assets/images/Edit_stack_%C2%B7_Managed_stack.png)
+![Example when editing the existing stack](../assets/screenshots/Edit_stack_·_Managed_stack.png)
 
-![Example when setting up a new module](/assets/images/New_module_%C2%B7_marcinwyszynski%20%281%29.png)
+![Example when setting up a new module](<../assets/screenshots/New_module_·_marcinwyszynski (1).png>)

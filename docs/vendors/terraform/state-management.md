@@ -4,9 +4,8 @@ For those of you who don't want to manage Terraform state, Spacelift offers an o
 
 As you can see, it's also possible to import an existing Terraform state at this point, which is useful for users who want to upgrade their previous Terraform workflow.
 
-!!! Info
-If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html) whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
-
+!!! info
+    If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html) whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
 
 ## Do. Or do not. There is no try.
 
@@ -21,7 +20,7 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 ### Don't
 
-1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote\_state.html). This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.\
+1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html). This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.\
 
 2. We'll let you in on a little secret now - behind the pixie dust it's still S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.\
 
@@ -31,9 +30,8 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 S3, like half of the Internet. The pixie dust we're adding on top of it involves generating one-off credentials for every [run](../../concepts/run/) and [task](../../concepts/run/task.md) and injecting them directly into the root of your Terraform project as a `.tf` file.
 
-!!! Warning
-If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
-
+!!! warning
+    If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
 The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html). Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
 
@@ -46,12 +44,12 @@ To do this, use the following steps:
 * Select the Spacelift Stack to which you would like to import state for.
 * Within the navigation, select "Tasks"
 
-![](/assets/images/Screen%20Shot%202022-02-15%20at%2010.25.20%20AM.png)
+![](<../../assets/screenshots/Screen Shot 2022-02-15 at 10.25.20 AM.png>)
 
 * Run the `terraform import` command needed to import your state file to the Spacelift-managed state by typing the command into the text input and clicking the perform button. Note: If you are using Terragrunt on Spacelift, you will need to run `terragrunt import`
 
-![](/assets/images/Screen%20Shot%202022-02-15%20at%201.05.23%20PM.png)
+![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.05.23 PM.png>)
 
 * Follow the status of your task's execution to ensure it was executed successfully. When completed, you should see an output similar to the following within the "Performing" step of your task.
 
-![](/assets/images/Screen%20Shot%202022-02-15%20at%201.31.29%20PM.png)
+![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)

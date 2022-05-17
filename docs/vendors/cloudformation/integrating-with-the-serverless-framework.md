@@ -22,7 +22,7 @@ You'll also have to invoke the serverless CLI in order to generate raw CloudForm
 
 You can add the following script as a mounted file:
 
-```
+```bash
 #!/bin/bash
 
 set -eu
@@ -39,7 +39,7 @@ and invoke it in your before initialization hooks: `sh sync.sh`
 
 Finally, specify the S3 bucket for artifacts in your serverless.yml configuration file:
 
-```
+```yaml
 provider:
   deploymentBucket: your-s3-bucket
 ```

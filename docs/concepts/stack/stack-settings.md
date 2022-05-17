@@ -40,31 +40,28 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec), [`tflint`](https://github.com/terraform-linters/tflint) or `terraform fmt`.
 
-!!! Danger
+!!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](https://docs.spacelift.io/integrations/docker#customizing-the-runner-image).
 
-
-!!! Info
+!!! info
     If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed.
-
 
 The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack) or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
 
-![](../../assets/images/Mouse_Highlight_Overlay%20%287%29.png)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
 
 
 
 Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts, but these variables will not be persisted between steps unless explicitly requested. This is particularly useful for retrieving one-off initialization secrets (eg. sensitive credentials).
 
-!!! Info
-    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/#before\_init-scripts) specified in the `.spacelift/config.yml` file.
-
+!!! info
+    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/#before_init-scripts) specified in the `.spacelift/config.yml` file.
 
 #### Persisting environment variables between steps
 
 Environment variables can be persisted between steps by writing them to the `.env` file in the project root. In this example, we're using two hooks - one _before_ the initialization and one _after_ the initialization phase. We use the first command to retrieve a secret from external storage and put it in the environment to be used by the initialization phase. We use the second command to persist the secret to the environment so that subsequent steps can access it:
 
-![](../../assets/images/Mouse_Highlight_Overlay%20%288%29.png)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (8).png>)
 
 Note that the environment persisted this way is uploaded (with RSA wrapped AES encryption) to external storage when the tracked run requires manual review. If you don't feel comfortable with it, you have 2 options:
 
@@ -81,11 +78,10 @@ If this is enabled, you can use [spacectl](https://github.com/spacelift-io/space
 spacectl stack local-preview --id <stack-id>
 ```
 
-!!! Danger
+!!! danger
     This in effect allows anybody with write access to the Stack to execute arbitrary code with access to all the environment variables configured in the Stack.
 
-Use with caution.
-
+    Use with caution.
 
 ### Name and description
 
@@ -93,11 +89,10 @@ Stack name and description are pretty self-explanatory. The required _name_ is w
 
 The optional _description_ is completely free-form and it supports [Markdown](https://daringfireball.net/projects/markdown/). This is perhaps a good place for a thorough explanation of the purpose of the stack, perhaps a link or two, and an obligatory cat GIF.
 
-!!! Warning
+!!! warning
     Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
 
-So even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
-
+    So even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
 
 ### Labels
 
@@ -107,9 +102,8 @@ Labels are arbitrary, user-defined tags that can be attached to Stacks. A single
 
 Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/git-push-policy.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
 
-!!! Info
-    The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/#project\_root-setting) specified in the `.spacelift/config.yml` file.
-
+!!! info
+    The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/#project_root-setting) specified in the `.spacelift/config.yml` file.
 
 ### Repository and branch
 
@@ -117,19 +111,17 @@ _Repository_ and _branch_ point to the location of the source code for a stack. 
 
 Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
 
-!!! Info
+!!! info
     Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while [recreating the stack](./#babys-first-stack) (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
 
-Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
-
+    Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
 _Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/git-push-policy.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run.
 
 Results of both tracked and proposed runs are displayed in the source control provider using their specific APIs - please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively to understand how Spacelift feedback is provided for your infrastructure changes.
 
-!!! Info
+!!! info
     A branch _must_ exist before it's pointed to in Spacelift.
-
 
 ### Runner image
 
@@ -139,9 +131,8 @@ Additionally, for our Pulumi integration overriding the default runner image is 
 
 You can find more information about our use of Docker in [this dedicated help article](../../integrations/docker.md).
 
-!!! Info
-    Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/#runner\_image-setting) specified in the `.spacelift/config.yml` file.
-
+!!! info
+    Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/#runner_image-setting) specified in the `.spacelift/config.yml` file.
 
 ### Worker pool
 
@@ -163,7 +154,7 @@ If you're [managing Terraform state through Spacelift](../../vendors/terraform/s
 
 Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend)).
 
-You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi\_login/). More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/).
+You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/). More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/).
 
 ### Stack name
 

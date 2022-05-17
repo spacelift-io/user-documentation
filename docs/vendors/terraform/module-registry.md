@@ -6,8 +6,8 @@ description: This article shows how Spacelift can help you manage Terraform Modu
 
 ## Intro
 
-In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html) help you abstract away common functionality in your infrastructure.\
-\
+In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html) help you abstract away common functionality in your infrastructure.
+
 The name of a module managed by Spacelift is of the following form:
 
 ```
@@ -23,11 +23,11 @@ In this name we have:
 
 You can use a module in your Terraform configuration this way:
 
-```python
+```terraform
 module "my-birthday-cake" {
   source  = "spacelift.io/spacelift-io/cake/oven"
   version = "4.2.0"
-  
+
   # Inputs.
   eggs  = 5
   flour = "200g"
@@ -55,7 +55,7 @@ Spacelift provides everything you need to make your module easily maintainable a
 
 You will have to set up a repository for your module, the structure of the repository should be as follows:
 
-```python
+```bash
 .
 ├── .spacelift
 │   ├── config.yml
@@ -69,27 +69,26 @@ Each module must have a `config.yml` file in its `.spacelift` directory, contain
 
 You can check out an example module here: [https://github.com/spacelift-io/terraform-spacelift-example](https://github.com/spacelift-io/terraform-spacelift-example)
 
-!!! Info
-The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule)
-
+!!! info
+    The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule)
 
 ### Spacelift setup
 
 In order to add a module to Spacelift, navigate to the _Modules_ section of the account view, and click the _Add module_ button:
 
-![](/assets/images/Modules_%C2%B7_marcinwyszynski.png)
+![](../../assets/screenshots/Modules_·_marcinwyszynski.png)
 
 The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
 
-![](/assets/images/New_module_%C2%B7_marcinwyszynski%20%282%29.png)
+![](<../../assets/screenshots/New_module_·_marcinwyszynski (2).png>)
 
 In the behavior section there are just three settings: [_administrative_](../../concepts/stack/#administrative)_,_ [_worker pool_](../../concepts/worker-pools.md#using-worker-pools) __ and _ **project root**_. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root let's you specify the module source code root inside of your repository:
 
-![](/assets/images/image%20%2876%29.png)
+![](<../../assets/screenshots/image (76).png>)
 
 Last but not least, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/#labels) and [description](../../concepts/stack/#name-and-description).
 
-![](/assets/images/image%20%2877%29.png)
+![](<../../assets/screenshots/image (77).png>)
 
 The name and provider will be inferred from your repository name if it follows the terraform-\<provider>-\<name> convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name.
 
@@ -127,7 +126,7 @@ tests:
     terraform_version: 0.13.0
     environment:
       TF_VAR_cabbage: awful
-      
+
   - name: Ensure that the submodule can fail
     # You can use negative to indicate that the test case is expected to fail
     negative: true
@@ -137,9 +136,8 @@ tests:
 
 This configuration is nearly identical to the one described in the [Runtime configuration](../../concepts/configuration/runtime-configuration/) section, with both `test_defaults` and each test case accepting the same configuration block. Note that settings explicitly specified in each test case will override those in the `test_defaults` section. Also, notice that each test case has a **name**, which is a **required field**.
 
-!!! Info
-While we don't check for name uniqueness, it's always good idea to give your test cases descriptive names, as these are then used to report job status on your commits and pull requests.
-
+!!! info
+    While we don't check for name uniqueness, it's always good idea to give your test cases descriptive names, as these are then used to report job status on your commits and pull requests.
 
 ## Tests
 
@@ -155,15 +153,14 @@ Test cases will be executed in parallel (as much as worker count permits) for ea
 
 Tests run both on [proposed and tracked changes](../../concepts/run/#where-do-runs-come-from). When a tracked change occurs, we create a Version. Versions are described in more detail in the [next section](module-registry.md#tests).
 
-!!! Info
-Each test case will have its own commit status in GitHub / GitLab.
-
+!!! info
+    Each test case will have its own commit status in GitHub / GitLab.
 
 ## Versions
 
 Whenever tests succeed on a [tracked change](../../concepts/run/#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.
 
-![](/assets/images/Versions_%C2%B7_terraform-spacelift-example.png)
+![](../../assets/screenshots/Versions_·_terraform-spacelift-example.png)
 
 Two proposed git flow are as follows:
 
@@ -179,15 +176,14 @@ Whenever you add a new functionality, you may want to create a feature branch an
 
 You can also use [Git push policies](../../concepts/policy/git-push-policy.md) to further customize this.
 
-!!! Info
-If no test cases are present, the version is immediately marked green.
-
+!!! info
+    If no test cases are present, the version is immediately marked green.
 
 ## Modules in practice
 
 In order to use modules, you have to source them from the Spacelift module registry. You can generate the necessary snippet, by opening the page of the specific module version, and clicking **show instructions**.
 
-![](/assets/images/image%20%281%29.png)
+![](<../../assets/screenshots/image (1).png>)
 
 ### Sharing modules
 
@@ -195,7 +191,7 @@ Unlike Stacks, modules can be shared between Spacelift accounts in a sense that 
 
 In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings' Sharing section:
 
-![](/assets/images/Edit_module_%C2%B7_eggs.png)
+![](../../assets/screenshots/Edit_module_·_eggs.png)
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
 

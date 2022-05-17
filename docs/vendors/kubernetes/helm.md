@@ -1,6 +1,6 @@
 # Helm
 
-There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm\_template/) command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
+There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm_template/) command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
 
 Please note, the following caveats apply:
 
@@ -20,7 +20,7 @@ The following prerequisites are required to follow the rest of this guide:
 
 Start by creating a new repository for your Helm stack. This repository only needs to contain a single item - a _kustomization.yaml_ file:
 
-```
+```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -33,9 +33,8 @@ resources:
 
 The kustomization file is used to tell `kubectl` where to find the file containing the output of the `helm template` command, and prevents `kubectl` from attempting to apply every yaml file in your repository. This is important if you want to commit a `values.yaml` file to your repository.
 
-!!! Info
-Our example repository contains a values.yaml file used to configure some of the chart values. This isn't required, and is simply there for illustrative purposes.
-
+!!! info
+    Our example repository contains a values.yaml file used to configure some of the chart values. This isn't required, and is simply there for illustrative purposes.
 
 ## Create a new Stack
 
@@ -43,7 +42,7 @@ Our example repository contains a values.yaml file used to configure some of the
 
 Follow the same steps to create your stack as per the [Getting Started](getting-started.md#create-a-new-stack) guide, but when you get to the _Define Behavior_ step, add the following commands as _before plan_ hooks:
 
-```
+```bash
 helm repo add spacelift https://downloads.spacelift.io/helm
 helm template spacelift-worker-pool spacelift/spacelift-worker --values values.yaml --set "replicaCount=$SPACELIFT_WORKER_REPLICAS" --set "credentials.token=$SPACELIFT_WORKER_POOL_TOKEN" --set "credentials.privateKey=$SPACELIFT_WORKER_POOL_PRIVATE_KEY" > spacelift-worker-pool.yaml
 ```
@@ -52,7 +51,7 @@ Also, make sure to specify your custom _Runner image_ that has Helm installed if
 
 Once you've completed both steps, you should see something like this:
 
-![](/assets/images/image%20%28109%29.png)
+![](<../../assets/screenshots/image (109).png>)
 
 ### Configure Environment
 
@@ -64,7 +63,7 @@ Once you have successfully created your Stack, add values for the following envi
 
 Your Stack environment should look something like this:
 
-![](/assets/images/image%20%28117%29.png)
+![](<../../assets/screenshots/image (117) (1).png>)
 
 ## Configure Integrations
 
@@ -74,15 +73,14 @@ Configure any required Cloud Provider integrations as per the [Getting Started](
 
 This example assumes that a Kubernetes namespace called `spacelift-worker` already exists. If it doesn't, create it using `kubectl create namespace spacelift-worker` before triggering a run.
 
-!!! Info
-You can use a [Spacelift Task](../../concepts/run/task.md) to run the `kubectl create namespace` command.
-
+!!! info
+    You can use a [Spacelift Task](../../concepts/run/task.md) to run the `kubectl create namespace` command.
 
 Triggering runs works exactly the same as when not using Helm. Once the planning stage has completed, you should see a preview of your changes, showing the Chart resources that will be created:
 
-![](/assets/images/image%20%28116%29.png)
+![](<../../assets/screenshots/image (116) (1).png>)
 
 After approving the run, you should see the changes applying, along with a successful rollout of your Chart resources:
 
-![](/assets/images/image%20%28110%29.png)
+![](<../../assets/screenshots/image (110) (1).png>)
 

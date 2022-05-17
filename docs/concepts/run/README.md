@@ -16,9 +16,8 @@ In Spacelift, each run is executed on a worker node, inside a Docker container. 
 
 Regardless of whether you end up using a private or a public worker pool, each Spacelift run involves a handover between _spacelift.io_ (which we like to call _the mothership_) and the worker node. After the handover, the worker node is fully responsible for running the job and communicating the results of the job back to _the mothership_.
 
-!!! Info
+!!! info
     It's important to know that it's always the worker node executing the run and accessing your infrastructure, never the mothership.
-
 
 ## Common run states
 
@@ -32,11 +31,11 @@ Let's start with the latter - more common - scenario. Spacelift serializes all s
 
 If you run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in the header:
 
-![](../../assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing.png)
+![](../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing.png)
 
-The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io). In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
+The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io/). In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
 
-![](../../assets/images/Spacelift_Status.png)
+![](../../assets/screenshots/Spacelift_Status.png)
 
 If you're using private workers, please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
 
@@ -54,9 +53,9 @@ The _preparing_ state is the first one where real work is done. At this point bo
 
 Here's an example of one such handover:
 
-![](../../assets/images/Screenshot%20from%202021-04-01%2015-53-59.png)
+![](<../../assets/screenshots/Screenshot from 2021-04-01 15-53-59.png>)
 
-Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ\_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
+Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
 Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](./#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](./#failed).
 
@@ -91,13 +90,11 @@ Finished is a _passive state_ meaning no operations are performed while a run is
 
 Some types of runs in some phases may safely be interrupted. We allow sending a stop signal from the GUI and API to the run, which is then passed to the worker handling the job. It's then up to the worker to handle or ignore that signal.
 
-Generally speaking, Spacelift tries to balance convenience and safety and defaults to only protecting your infrastructure state. [Tracked runs](tracked.md) cannot be stopped when they're applying changes and [tasks](task.md) cannot be stopped once they start executing the user-supplied command.
-
 Stopped state indicates that a run has been stopped while [Initializing](./#initializing) or [Planning](./#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
 
 Here's an example of a run manually stopped while [Initializing](./#initializing):
 
-![](../../assets/images/01DTD3M6DVC7VKQGJ72PCSEBKD_%C2%B7_End-to-end_testing%20%282%29.png)
+![](<../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing (2).png>)
 
 Stopped is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
 

@@ -27,4 +27,6 @@ You should build it, push it to a repository and set it as the [Runner Image](ht
 
 You'll also have to invoke SAM in order to generate raw CloudFormation files and upload Lambda artifacts to S3. You can do this by adding the following to your before initialization hooks:
 
-`sam package --region ${CF_METADATA_REGION} --s3-bucket ${CF_METADATA_TEMPLATE_BUCKET} --s3-prefix sam-artifacts --output-template-file ${CF_METADATA_ENTRY_TEMPLATE_FILE}`
+```bash
+sam package --region ${CF_METADATA_REGION} --s3-bucket ${CF_METADATA_TEMPLATE_BUCKET} --s3-prefix sam-artifacts --output-template-file ${CF_METADATA_ENTRY_TEMPLATE_FILE}
+```

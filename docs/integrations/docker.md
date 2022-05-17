@@ -6,18 +6,16 @@ Every job in Spacelift is processed inside a fresh, isolated Docker container. T
 
 By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform) image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [very simple Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile) that builds this image.
 
-!!! Info
-Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
-
+!!! info
+    Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
 
 ## Customizing the runner image
 
-The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/#runner\_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
+The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/#runner_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
 
 If you want our tooling in your image, there are two possible approaches. The first approach is to **build on top of our image**. We'd suggest doing that only if your customizations are relatively simple. For example, let's add a custom CircleCI provider to your image. They have a releases page allowing you to just `curl` the right version of the binary and put it in the `/bin` directory:
 
-{% code title="Dockerfile" %}
-```
+```docker title="Dockerfile"
 FROM public.ecr.aws/spacelift/runner-terraform:latest
 
 WORKDIR /tmp
@@ -25,13 +23,12 @@ RUN curl -O -L https://github.com/mrolla/terraform-provider-circleci/releases/do
   && mv terraform-provider-circleci-linux-amd64 /bin/terraform-provider-circleci \
   && chmod +x /bin/terraform-provider-circleci
 ```
-{% endcode %}
 
 For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/) to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops) [provider](https://github.com/carlpett/terraform-provider-sops) from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 
 The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the Terraform binary are automatically used.
 
-```
+```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest as spacelift
 FROM golang:1.13-alpine as builder
 
@@ -51,26 +48,25 @@ COPY --from=builder /terraform-provider-sops /bin/terraform-provider-sops
 RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 ```
 
-!!! Info
-Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
+!!! info
+    Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
 
-* this user exists and has the right UID, otherwise you won't have access to your files;
-* whatever you need accessed and executed in your custom image has the right ownership and/or permissions;
+    * this user exists and has the right UID, otherwise you won't have access to your files;
+    * whatever you need accessed and executed in your custom image has the right ownership and/or permissions;
 
-Depending on your image flavor, the exact command to add the user may be different.
-
+    Depending on your image flavor, the exact command to add the user may be different.
 
 ### Custom providers from Terraform 0.13 onwards
 
 Since Terraform 0.13, custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13 if the following stanza is added to the `Dockerfile`.
 
-```bash
+```docker
 COPY --from=builder /terraform-provider-sops /plugins/registry.myorg.io/myorg/sops/1.0.0/linux_amd64/terraform-provider-sops
 ```
 
 In addition, the custom provider must be explicitly required in the Terraform code, like this:
 
-```bash
+```terraform
 terraform {
   required_providers {
     spacelift = {
@@ -110,7 +106,6 @@ If you're building an image from a source other than [`public.ecr.aws/spacelift/
 
 Your stack is only as safe as the runner image you're using for it. A malicious actor is able to doctor your runner image in a way that will allow them to take over your stack and all its associated cloud provider accounts in a snap. Please always review the code, and only allow `docker push` access to your most trusted associates.
 
-!!! Info
-In our default public worker pool **we only support publicly available custom runner images**. If you need private runner images, you can log in to any Docker image registry from a worker in a [private worker pool](../concepts/worker-pools.md).
-
+!!! info
+    In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools.md).
 

@@ -19,19 +19,19 @@ Please follow the steps below to setup a public offering on the AWS Marketplace.
 
 #### Visit the AWS Marketplace
 
-{% embed url="https://aws.amazon.com/marketplace" %}
+Go to the [AWS Marketplace](https://aws.amazon.com/marketplace).
 
 #### Find and Select Spacelift
 
 Using the search bar, search for Spacelift, and select Spacelift within the results.
 
-![Search for Spacelift and select it from the results.](/assets/images/Screen%20Shot%202022-04-14%20at%2012.57.31%20PM.png)
+![Search for Spacelift and select it from the results.](<../../assets/screenshots/Screen Shot 2022-04-14 at 12.57.31 PM.png>)
 
 #### Configure Contract
 
 After selecting Spacelift from the results, you may be prompted to login to your AWS account. Ensure that you login with the AWS account in which you would like to be billed through.
 
-![Configure your contract, once completed, click Create contract.](/assets/images/Screen%20Shot%202022-04-13%20at%209.45.10%20AM.png)
+![Configure your contract, once completed, click Create contract.](<../../assets/screenshots/Screen Shot 2022-04-13 at 9.45.10 AM.png>)
 
 ### AWS Marketplace Private Offering
 

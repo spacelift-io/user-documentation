@@ -54,9 +54,9 @@ We may use cookies and similar tracking technologies (like web beacons and pixel
 
 ## 4. How do we handle your social logins?
 
-Our offer you the ability to register and login using your third party social media account details (like your GitHub login). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile Information we receive may vary depending on the social media provider concerned, but will often include your name, e-mail address, organization membership, profile picture as well as other information you choose to make public. 
+Our offer you the ability to register and login using your third party social media account details (like your GitHub login). Where you choose to do this, we will receive certain profile information about you from your social media provider. The profile Information we receive may vary depending on the social media provider concerned, but will often include your name, e-mail address, organization membership, profile picture as well as other information you choose to make public.
 
-We will use the information we receive only for the purposes that are described in this privacy policy or that are otherwise made clear to you on the site. Please note that we do not control, and are not responsible for, other uses of your personal information by your third party social media provider. We recommend that you review their privacy policy to understand how they collect, use and share your personal information, and how you can set your privacy preferences on their sites and apps. 
+We will use the information we receive only for the purposes that are described in this privacy policy or that are otherwise made clear to you on the site. Please note that we do not control, and are not responsible for, other uses of your personal information by your third party social media provider. We recommend that you review their privacy policy to understand how they collect, use and share your personal information, and how you can set your privacy preferences on their sites and apps.
 
 ## 5. Is your information transferred internationally?
 
@@ -84,13 +84,13 @@ In some regions (like the European Economic Area), you have certain rights under
 
 If we are relying on your consent to process your personal information, you have the right to withdraw your consent at any time. Please note however that this will not affect the lawfulness of the processing before its withdrawal.
 
-If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm)
+If you are resident in the European Economic Area and you believe we are unlawfully processing your personal information, you also have the right to complain to your local data protection supervisory authority. You can find their contact details here: [http://ec.europa.eu/justice/data-protection/bodies/authorities/index\_en.htm](http://ec.europa.eu/justice/data-protection/bodies/authorities/index_en.htm)
 
 ### Account Information
 
-If you would at any time like to review or change the information in your account or terminate your account, you can: 
+If you would at any time like to review or change the information in your account or terminate your account, you can:
 
-Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, some information may be retained in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with legal requirements. 
+Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, some information may be retained in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with legal requirements.
 
 ## 10. Do California residents have specific privacy rights?
 
@@ -102,16 +102,16 @@ If you are under 18 years of age, reside in California, and have a registered ac
 
 If you have questions or comments about this policy, you may email us at [privacy@spacelift.io](mailto:privacy@spacelift.io) or by post to:
 
-Spacelift, Inc.\
-541 Jefferson Ave. Suite 100\
-Redwood City\
+Spacelift, Inc.<br>
+541 Jefferson Ave. Suite 100<br>
+Redwood City<br>
 CA 94063
 
 For GDPR related:
 
-Spacelift\
-Lanciego 12/20\
-02-792 Warszawa\
+Spacelift<br>
+Lanciego 12/20<br>
+02-792 Warszawa<br>
 Poland
 
 ## 12. How can you review, update, or delete the data we collect from you?

@@ -8,7 +8,7 @@ This type of access control is typically done either by building a separate user
 
 Piggy-backing on the identity provider is probably a safer bet and is used by many DevTools vendors. With this approach, having some access level to a GitHub repo would give you the same access level to all Spacelift stacks and/or modules associated with it. That's somewhat reasonable, but not as flexible as having your own fancy user management system. Imagine having two stacks linked to one repo, representing two environments - staging and production. It's quite possible that you'd appreciate separate access controls for these two.
 
-Access policies offer the best of both worlds - they give you a tool to build your own access management system using data obtained either from our identity provider (GitHub), or from your identity provider if using [single sign-on integration](../../integrations/single-sign-on.md). In subsequent sections we'll dive deeper into [what data is exposed to your policies](stack-access-policy.md#data-input), how you can [define access policies](stack-access-policy.md#cookbook) with different levels of access, and [what those levels actually mean](stack-access-policy.md#readers-and-writers).
+Access policies offer the best of both worlds - they give you a tool to build your own access management system using data obtained either from our identity provider (GitHub), or from your identity provider if using [single sign-on integration](../../integrations/single-sign-on/README.md). In subsequent sections we'll dive deeper into [what data is exposed to your policies](stack-access-policy.md#data-input), how you can [define access policies](stack-access-policy.md#cookbook) with different levels of access, and [what those levels actually mean](stack-access-policy.md#readers-and-writers).
 
 ## Rules
 
@@ -78,9 +78,8 @@ This is the schema of the data input that each policy request will receive:
 
 With all the above theory in mind, let's jump straight to the code and define some access policies. This section will cover some common examples that can be copied more or less directly, and some contrived ones to serve as an inspiration.
 
-!!! Info
+!!! info
     Remember that access policies must be attached to a stack or a module to take effect.
-
 
 ### Read access to everyone (in Engineering)
 
