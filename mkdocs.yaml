@@ -6,13 +6,13 @@ theme:
   features:
     - content.code.annotate
     - navigation.indexes
+    - navigation.instant
     - navigation.sections
+    - navigation.tracking
   language: en
   name: material
 markdown_extensions:
   - admonition
-  # - attr_list
-  # - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
       auto_title: false
@@ -25,6 +25,19 @@ markdown_extensions:
   - toc:
       permalink: »
       permalink_title: Anchor link to this section
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/facebook
+      link: https://www.facebook.com/spaceliftio-103558488009736/
+      name: Spacelift on Facebook
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/spaceliftio
+      name: Spacelift on Twitter
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/spacelift-io/mycompany/
+      name: Spacelift on LinkedIn
+
 
 #################################################################################
 # Navigation                                                                    #
