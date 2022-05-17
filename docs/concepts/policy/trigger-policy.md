@@ -140,7 +140,7 @@ trigger[stack.id] {
   stack := input.stacks[_]
   input.run.type == "TRACKED"
   stack.labels[_] == concat("", [
-  	"depends-on:", input.stack.id,
+    "depends-on:", input.stack.id,
     "|state:", input.run.state],
   )
 }

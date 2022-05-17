@@ -85,6 +85,3 @@ We can do the same on the project level, too. In fact, the process looks absolut
 ![](../../assets/screenshots/IAM_–_IAM___admin_–_spacelift-developme…_–_Google_Cloud_Platform.png)
 
 It can take up to a minute for the membership data to propagate but once it does, your Spacelift-GCP integration should Just Work™.
-
-
-

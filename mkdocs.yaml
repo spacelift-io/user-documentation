@@ -104,8 +104,6 @@ nav:
         - vendors/pulumi/getting-started/golang.md
         - vendors/pulumi/getting-started/javascript.md
         - vendors/pulumi/getting-started/python.md
-      # Empty: - vendors/pulumi/state-management.md
-      # Empty: - vendors/pulumi/version-management.md
     - CloudFormation:
       - vendors/cloudformation/README.md
       - vendors/cloudformation/getting-started.md
@@ -150,5 +148,4 @@ nav:
       - product/billing/stripe.md
       - product/billing/aws-marketplace.md
     - product/terms.md
-    # Empty: - product/cookies.md
     - product/refund-policy.md

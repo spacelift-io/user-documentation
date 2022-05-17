@@ -72,4 +72,3 @@ By default we group by parent, giving you the same hierarchical view as for stac
 In this view you can also filter and group by different properties, with one extra property being the Stack:
 
 ![](../assets/screenshots/Spacelift_and_1__local_dev__tmuxinator_start_spacelift.png)
-

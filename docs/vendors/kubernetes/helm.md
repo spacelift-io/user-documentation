@@ -83,4 +83,3 @@ Triggering runs works exactly the same as when not using Helm. Once the planning
 After approving the run, you should see the changes applying, along with a successful rollout of your Chart resources:
 
 ![](<../../assets/screenshots/image (110) (1).png>)
-

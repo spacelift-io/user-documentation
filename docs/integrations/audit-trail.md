@@ -43,4 +43,3 @@ The audit trail can be disabled and deleted at any point, but for both events we
 ## Verifying payload
 
 Spacelift uses the same similar verification mechanism as GitHub. With each payload we send 2 headers, `X-Signature` and `X-Signature-256`. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [this article](https://medium.com/@vampiire/how-to-verify-the-authenticity-of-a-github-apps-webhook-payload-8d63ccc81a24) for details.
-

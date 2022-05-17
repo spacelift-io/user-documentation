@@ -108,4 +108,3 @@ Your stack is only as safe as the runner image you're using for it. A malicious 
 
 !!! info
     In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools.md).
-

@@ -331,15 +331,15 @@ deny[msg] { proposed; msg := blast_radius_too_high[_] }
 warn[msg] { not proposed; msg := blast_radius_too_high[_] }
 
 blast_radius_too_high[sprintf("change blast radius too high (%d/100)", [blast_radius])] {
-	blast_radius := sum([blast |
-    					 resource := input.terraform.resource_changes[_];
-                         blast := blast_radius_for_resource(resource)])
+  blast_radius := sum([blast |
+                        resource := input.terraform.resource_changes[_];
+                        blast := blast_radius_for_resource(resource)])
 
-	blast_radius > 100
+  blast_radius > 100
 }
 
 blast_radius_for_resource(resource) = ret {
-	blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
+  blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
 
     ret := sum([value | action := resource.change.actions[_]
                     action_impact := blasts_radii_by_action[action]

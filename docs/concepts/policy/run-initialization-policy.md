@@ -151,7 +151,7 @@ This time we'll skip the mandatory "don't deploy on weekends" check because whil
 package spacelift
 
 deny[sprintf("invalid feature branch name (%s)", [branch])] {
-	branch := input.commit.branch
+  branch := input.commit.branch
 
   input.run.type == "PROPOSED"
   not re_match("^(fix|feature)\/.*", branch)

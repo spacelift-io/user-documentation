@@ -57,4 +57,3 @@ Let's execute a task without initialization on a Terraform stack:
 Notice how the operation failed because it is expected to be executed on an initialized Terraform workspace. But the same operation would easily succeed if we were to run it in the default mode, with initialization:
 
 ![](<../../assets/screenshots/terraform_state_list_·_Datadog_Synthetics__prod_ (1).png>)
-

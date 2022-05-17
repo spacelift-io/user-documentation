@@ -14,6 +14,3 @@ Any mounted files with names ending in `.terraformrc` will be appended to `~/.te
 
 !!! info
     The Terraform CLI configuration file syntax supports [these settings](https://www.terraform.io/docs/cli/config/config-file.html#available-settings)
-
-
-

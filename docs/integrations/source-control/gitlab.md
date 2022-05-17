@@ -28,7 +28,7 @@ Congrats, you've just linked your GitLab account to Spacelift. You should be tak
 
 !!! warning
     Unlike GitHub credentials which are specific to an organization rather than an individual, the GitLab integration uses personal credentials, which makes it more fragile in situations where an individual leaves the organization and deletes the access token.
-    
+
     Thus, it may be a good idea to create "virtual" (machine) users in GitLab as a source of more stable credentials. Note however that this is a general concern, not one specific to Spacelift.
 
 ## Using GitLab with stacks and modules

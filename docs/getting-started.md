@@ -32,7 +32,6 @@ Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). In
 
 Spacelift deeply integrates with your Version Control System (VCS). Pull requests are evaluated by Spacelift to provide a preview of the changes being made to infrastructure; these changes are deployed automatically when PRs are merged. You can learn more about [VCS integration](integrations/source-control/) here.\
 
-
 ## Step-by-step
 
 This section provides step-by-step instructions to help you set up and get the most out of Spacelift. If you want to learn about core concepts, please have a look at the [main concepts](getting-started.md#introduction-to-main-concepts) section.

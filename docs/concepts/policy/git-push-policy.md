@@ -212,12 +212,12 @@ propose { input.push.branch != "" }
 ignore  { not affected }
 
 affected {
-	some i, j, k
+  some i, j, k
 
   tracked_directories := {"modules/", "production/"}
   tracked_extensions := {".tf", ".tf.json"}
 
-	path := input.push.affected_files[i]
+  path := input.push.affected_files[i]
 
   startswith(path, tracked_directories[j])
   endswith(path, tracked_extensions[k])

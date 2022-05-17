@@ -190,4 +190,3 @@ _Input your GraphQL Endpoint for your Spacelift Account._
 _Use the Documentation Explorer within GraphiQL_
 
 ![](../assets/screenshots/2-graphiql-view-docs.png)
-

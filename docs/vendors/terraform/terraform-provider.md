@@ -199,4 +199,3 @@ Spacelift administrative tokens are not like user tokens. Specifically, they all
 Administrative tokens have no superpowers either. They can't read write-only configuration elements any more than you can as a user. Unlike human users with user tokens, administrative tokens won't allow you to run `env` in a [task](../../concepts/run/task.md) and read back the logs.
 
 In general, we believe that things like runs or tasks do not fit the (relatively static) Terraform resource lifecycle model and that hiding those parts of the API from Terraform helps us ensure the integrity of potentially sensitive data - just see the example above.
-

@@ -26,8 +26,3 @@ You can also use Spacelift to mix and match Terraform, Pulumi, and CloudFormatio
 ## Does Spacelift support CloudFormation frameworks?
 
 Yes! We support [SAM](https://aws.amazon.com/serverless/sam/) and the [serverless framework](https://www.serverless.com). You can read more about it in the relevant subpages of this document. [CDK](https://github.com/aws/aws-cdk) is not yet supported but will be in the future.
-
-
-
-
-

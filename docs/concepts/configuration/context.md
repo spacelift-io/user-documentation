@@ -100,8 +100,6 @@ As an example of one such use case, let's imagine an organization where shared i
 
 The proposed setup for the above use case would involve two administrative stacks - one to manage all the stacks, and the other for the DevOps team. The management stack would programmatically define the DevOps one, and possibly also its context. The DevOps team would receive the context ID as an input variable, and use it to expose outputs as [`spacelift_environment_variable`](https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_environment_variable-resource)  and/or [`spacelift_mounted_file`](https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_mounted_file-resource) resources. The management stack could then simply attach the context populated by the DevOps stack to other stacks it defines and manages.
 
-
-
 ### Extending Terraform CLI Configuration (Terraform-specific)
 
 For some of our Terraform users, a convenient way to configure the Terraform CLI behavior is through customizing the `~/.terraformrc` file.

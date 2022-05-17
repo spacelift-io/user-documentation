@@ -31,37 +31,37 @@ Unlike HTTP requests, policy inputs representing Slack interactions replace `"re
 
 ```json
 {
-	"command": "<string> - command received, if any",
-	"user": {
-		"id": "<string> - Slack user ID who generated the request",
-		"deleted": "<bool> - is the user deleted",
-		"display_name": "<string> - user display name",
-		"has_2fa": "<bool> - does the user has 2FA enabled",
-		"is_admin": "<bool> - is the user a workspace admin",
-		"is_owner": "<bool> - is the user a workspace owner",
-		"is_primary_owner": "<bool> - is the Slack user a workspace primary owner",
-		"is_restricted": "<bool> - is this a guest user",
-		"is_ultra_restricted": "<bool> - is this a single-channel guest",
-		"is_stranger": "<bool> - does the belong to a different workspace",
-		"real_name": "<string> - user real name",
-		"tz": "<string> - user timezone",
-		"enterprise": {
-			"id": "<string> - Slack enterprise user ID, may be different from user.id",
-			"enterprise_id": "<string> - unique ID for the Enterprise Grid organization this user belongs to",
-			"enterprise_name": "<string> - display name for the Enterprise Grid organization",
-			"is_admin": "<bool> - is the user user an Admin of the Enterprise Grid organization",
-			"is_owner": "<bool> - is the user user an Owner of the Enterprise Grid organization",
-			"teams": "<list<string> - an array of workspace IDs that are in the Enterprise Grid organization"
-		}
-	},
-	"team": {
-		"id": "<string> ID of the Slack team that generated the request",
-		"name": "<string> Name of the Slack team"
-	},
-	"channel": {
-		"id": "<string> ID of the Slack channel that generated the request",
-		"name": "<string> Name of the Slack channel"
-	}
+  "command": "<string> - command received, if any",
+  "user": {
+    "id": "<string> - Slack user ID who generated the request",
+    "deleted": "<bool> - is the user deleted",
+    "display_name": "<string> - user display name",
+    "has_2fa": "<bool> - does the user has 2FA enabled",
+    "is_admin": "<bool> - is the user a workspace admin",
+    "is_owner": "<bool> - is the user a workspace owner",
+    "is_primary_owner": "<bool> - is the Slack user a workspace primary owner",
+    "is_restricted": "<bool> - is this a guest user",
+    "is_ultra_restricted": "<bool> - is this a single-channel guest",
+    "is_stranger": "<bool> - does the belong to a different workspace",
+    "real_name": "<string> - user real name",
+    "tz": "<string> - user timezone",
+    "enterprise": {
+      "id": "<string> - Slack enterprise user ID, may be different from user.id",
+      "enterprise_id": "<string> - unique ID for the Enterprise Grid organization this user belongs to",
+      "enterprise_name": "<string> - display name for the Enterprise Grid organization",
+      "is_admin": "<bool> - is the user user an Admin of the Enterprise Grid organization",
+      "is_owner": "<bool> - is the user user an Owner of the Enterprise Grid organization",
+      "teams": "<list<string> - an array of workspace IDs that are in the Enterprise Grid organization"
+    }
+  },
+  "team": {
+    "id": "<string> ID of the Slack team that generated the request",
+    "name": "<string> Name of the Slack team"
+  },
+  "channel": {
+    "id": "<string> ID of the Slack channel that generated the request",
+    "name": "<string> Name of the Slack channel"
+  }
 }
 ```
 
@@ -88,4 +88,3 @@ Three slash commands are currently available:
 ## Available actions
 
 Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a_Write_ level on the user Slack info.
-

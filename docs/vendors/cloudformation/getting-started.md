@@ -70,8 +70,7 @@ You can now switch to the **Outputs** tab and find the **URLBase** output. You c
 
 ![Calling the created Lambda Functions.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.38.49.png>)
 
-You can also switch to the **Resources** tab to explore the resources you've created.\
-
+You can also switch to the **Resources** tab to explore the resources you've created.
 
 ![Exploring the created resources.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.40.32.png>)
 

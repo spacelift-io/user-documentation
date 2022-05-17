@@ -20,13 +20,13 @@ Now you'll have to fill in the Organization URL, which is the main URL of your A
 
 !!! info
     The Azure DevOps Organization URL usually has the following format:
-    
+
     * `https://dev.azure.com/{my-organization-name}`
-    
+
     Depending on when your Azure DevOps organization was created, it may use a different format, for example:
-    
+
     * `https://{my-organization-name}.visualstudio.com`
-    
+
     You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration).
 
 ### Creating a Personal Access Token
@@ -94,7 +94,3 @@ If you no-longer need the integration, you can remove it via the _Unlink_ button
 ![VCS providers page](<../../assets/screenshots/image (94).png>)
 
 Please also remember to remove any Spacelift webhooks from your repositories.
-
-
-
-

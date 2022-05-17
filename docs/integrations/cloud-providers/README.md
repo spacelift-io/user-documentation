@@ -8,4 +8,3 @@ Cloud provider integrations allow Spacelift to manage your resources without the
 This is dangerous, and against security best practices. That's why Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
 
 Currently, [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) are fully supported.
-

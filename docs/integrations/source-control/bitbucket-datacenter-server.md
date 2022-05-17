@@ -20,8 +20,7 @@ In order to get the access token you'll need to go on your Bitbucket instance in
 
 ![Personal token creation](<../../assets/screenshots/image (65).png>)
 
-This will give you an access token which you can put into the **Access token** field in the integration configuration.\
-
+This will give you an access token which you can put into the **Access token** field in the integration configuration.
 
 ![Created personal token](<../../assets/screenshots/image (66).png>)
 

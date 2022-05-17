@@ -61,4 +61,3 @@ In Spacelift, the **Provider URL** depends on where you are using GitLab, if you
 ### GitLab OIDC Setup Completed
 
 That's it! Your OIDC integration with GitLab should now be fully configured.
-

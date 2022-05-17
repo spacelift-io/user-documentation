@@ -29,8 +29,6 @@ To add a new integration, go to the _Azure_ page under your account settings_._ 
 
 Click on the _Add Integration_ button to start configuring your integration:
 
-
-
 ![](https://lh3.googleusercontent.com/eRpQfxiWazqKWfnHTmLYcIYL1hvcm4R_Wi3tqaEVZw0WfpFJWQqYo7OoqDhpZppamrWjZBpl41i1ZtftBxcoYN1YSvok9p7gtpOFQhnPau9HousE4tghTDPQWZXQ7NXn0ADAzq21=s0)
 
 Give **** your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
@@ -45,8 +43,6 @@ Once your integration has been created successfully, you will be taken to the in
 ![](https://lh5.googleusercontent.com/_WAQuO6SvW0fNVQ2IeFu46K4DLluDbuG96v1SjMKbw1Y_c0xWfa0CynIO5UHdNgiWiFc1qchVympyMuU9-0PtBN2nqhaV6JDCvev2KE4aLOo_R1Yf8s7q-zEBRFdeFJOlpybv9IY=s0)
 
 To install the Azure AD application for your Spacelift integration into your Azure account, click on the _Provide Consent_ button, which will redirect you to Azure. After logging into your Azure account, you should see a permissions screen like the following:
-
-
 
 ![](https://lh6.googleusercontent.com/sEumQpyMVV6BSJJZbdNlZbKRJskpskk7zRebcK6V9HU3NoR-04TYMllNiDqzUcnDzzn6JQNT1UWtyPoetRSmYUUX_GLex9M65lgrJRMmFNtWYk3OSyrVZGCqw5gqHijmzqmYPb7F=s0)
 

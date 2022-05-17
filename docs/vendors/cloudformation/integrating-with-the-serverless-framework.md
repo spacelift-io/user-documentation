@@ -43,4 +43,3 @@ Finally, specify the S3 bucket for artifacts in your serverless.yml configuratio
 provider:
   deploymentBucket: your-s3-bucket
 ```
-

@@ -66,4 +66,3 @@ The other option is to store the credentials externally in one of the secrets st
 
 !!! info
     If you decide to mount, we advise that you store credentials in [contexts](../../concepts/configuration/context.md) and attach these to stacks that need them. This way you can avoid credentials sprawl and leak.
-

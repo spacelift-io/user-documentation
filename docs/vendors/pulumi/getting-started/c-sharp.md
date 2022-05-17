@@ -70,4 +70,3 @@ In order to clean up, open the [Tasks](../../../concepts/run/task.md) tab, and p
 Which will destroy all created resources.
 
 ![Destruction complete.](<../../../assets/screenshots/image (19).png>)
-
