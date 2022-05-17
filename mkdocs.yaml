@@ -4,12 +4,15 @@
 site_name: Spacelift
 theme:
   features:
+    - content.code.annotate
     - navigation.indexes
     - navigation.sections
   language: en
   name: material
 markdown_extensions:
   - admonition
+  # - attr_list
+  # - md_in_html
   - pymdownx.details
   - pymdownx.highlight:
       auto_title: false

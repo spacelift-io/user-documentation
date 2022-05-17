@@ -56,9 +56,9 @@ And in the private worker logs we should suitably see (formatted for readability
         "state": "PREPARING",
         "triggered_by": "api::01FEGXFB7TWQ2NNF95W7HPRE2E",
         "updated_at": 1630588656197898500,
-        "user_provided_metadata": [ // <------------------
-          "deploy-metadata".        // <-- the metadata --
-        ]                           // <------------------
+        "user_provided_metadata": [
+          "deploy-metadata". // (1)
+        ]
       },
       "static_run_environment": {
         "account_name": "cube2222",
@@ -100,6 +100,8 @@ And in the private worker logs we should suitably see (formatted for readability
   "ts": "2021-09-02T13:17:37.785219048Z"
 }
 ```
+
+1.  The metadata string
 
 Great!
 
