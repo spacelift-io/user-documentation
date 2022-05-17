@@ -4,10 +4,10 @@
 
 The AWS integration allows either Spacelift or a private worker controlled by you to [assume an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in your AWS account and thus generate a set of temporary credentials that are then exposed to your [run](../../concepts/run/) or [task](../../concepts/run/task.md) as the following [computed environment variables](../../concepts/configuration/environment.md#computed-values):
 
-* `AWS_ACCESS_KEY_ID`
-* `AWS_SECRET_ACCESS_KEY`
-* `AWS_SECURITY_TOKEN`
-* `AWS_SESSION_TOKEN`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_SECURITY_TOKEN`
+- `AWS_SESSION_TOKEN`
 
 This is enough for both the [AWS Terraform provider](https://www.terraform.io/docs/providers/aws/index.html#environment-variables) and/or [S3 state backend](https://www.terraform.io/docs/backends/types/s3.html) to generate a fully authenticated AWS session without further configuration. However, you will likely need to select one of the available regions with the former.
 

@@ -134,9 +134,9 @@ provider "spacelift" {
 
 These values can also be passed using environment variables, though this will only work to set up the provider for a single Spacelift account:
 
-* `SPACELIFT_API_KEY_ENDPOINT` for `api_key_endpoint`;
-* `SPACELIFT_API_KEY_ID` for `api_key_id`;
-* `SPACELIFT_API_KEY_SECRET` for `api_key_secret`;
+- `SPACELIFT_API_KEY_ENDPOINT` for `api_key_endpoint`;
+- `SPACELIFT_API_KEY_ID` for `api_key_id`;
+- `SPACELIFT_API_KEY_SECRET` for `api_key_secret`;
 
 If you want to talk to multiple Spacelift accounts, you just need to set up [provider aliases](https://www.terraform.io/docs/configuration/providers.html#alias-multiple-provider-configurations) like this:
 

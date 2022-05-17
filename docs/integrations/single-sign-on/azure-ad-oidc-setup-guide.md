@@ -10,9 +10,9 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 
 ## Pre-requisites
 
-* Spacelift account, with access to admin permissions
-* Azure account, with an existing Azure Active Directory
-  * You'll need permissions to create an **App Registration** within your Azure AD
+- Spacelift account, with access to admin permissions
+- Azure account, with an existing Azure Active Directory
+- You'll need permissions to create an **App Registration** within your Azure AD
 
 ## Configure Account Settings
 
@@ -85,9 +85,7 @@ Click **Add.**
 
 ![Define client secret Description and Expires duration.](../../assets/screenshots/5-azure-new-secret.png)
 
-Now that we have the Client secret setup for our application, we'll need to take the **Value** and copy this into our Spacelift OIDC settings within the **Secret** input.
-
-* **Value** within Azure AD = Spacelift's **Secret** input
+Now that we have the Client secret setup for our application, we'll need to take the **Value** and copy this into our Spacelift OIDC settings within the **Secret** input. **Value** within Azure AD = Spacelift's **Secret** input.
 
 !!! info
     Don't click Save in Spacelift just yet, we still need to get the Client ID and Provider URL for your application.

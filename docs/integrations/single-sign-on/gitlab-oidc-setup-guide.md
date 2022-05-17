@@ -10,8 +10,8 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 
 ## Pre-requisites
 
-* Spacelift account, with access to admin permissions
-* GitLab account, with permission to create GitLab Applications
+- Spacelift account, with access to admin permissions
+- GitLab account, with permission to create GitLab Applications
 
 ## Configure Account Settings
 

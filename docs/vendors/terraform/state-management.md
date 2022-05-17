@@ -41,15 +41,15 @@ So you have an existing resource that was created by other means and would like 
 
 To do this, use the following steps:
 
-* Select the Spacelift Stack to which you would like to import state for.
-* Within the navigation, select "Tasks"
+- Select the Spacelift Stack to which you would like to import state for.
+- Within the navigation, select "Tasks"
 
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 10.25.20 AM.png>)
 
-* Run the `terraform import` command needed to import your state file to the Spacelift-managed state by typing the command into the text input and clicking the perform button. Note: If you are using Terragrunt on Spacelift, you will need to run `terragrunt import`
+- Run the `terraform import` command needed to import your state file to the Spacelift-managed state by typing the command into the text input and clicking the perform button. Note: If you are using Terragrunt on Spacelift, you will need to run `terragrunt import`
 
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.05.23 PM.png>)
 
-* Follow the status of your task's execution to ensure it was executed successfully. When completed, you should see an output similar to the following within the "Performing" step of your task.
+- Follow the status of your task's execution to ensure it was executed successfully. When completed, you should see an output similar to the following within the "Performing" step of your task.
 
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)

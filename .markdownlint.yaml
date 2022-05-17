@@ -4,4 +4,6 @@ default: false
 
 MD001: true
 MD003: true
+MD004:
+  style: dash
 MD041: true

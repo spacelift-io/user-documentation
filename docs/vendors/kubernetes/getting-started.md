@@ -61,8 +61,8 @@ Select the arrow next to _Show Advanced Options_ to expose the advanced configur
 
 To ensure the success of a Kubernetes deployment, the following options should be reviewed and validated.
 
-* Runner Image: By Default, Spacelift will add the necessary binary to run `kubectl` if not found. Including runner images not provided by Spacelift.
-* Customize workflow: During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
+- Runner Image: By Default, Spacelift will add the necessary binary to run `kubectl` if not found. Including runner images not provided by Spacelift.
+- Customize workflow: During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
 
 !!! info
     Spacelift can authenticate against any Kubernetes cluster, including local or cloud provider managed instances.
@@ -78,8 +78,8 @@ aws eks update-kubeconfig --region $region-name --name $cluster-name
 !!! info
     Update the previous variables according to your deployment.
 
-    * `$region-name:` AWS region where your Kubernetes cluster resides
-    * `$cluster-name:` Name of your Kubernetes clusters
+    - `$region-name:` AWS region where your Kubernetes cluster resides
+    - `$cluster-name:` Name of your Kubernetes clusters
 
 The above allows the worker to authenticate to the proper cluster before running the specified Kubernetes deployment in the repository that we created earlier.
 
@@ -111,9 +111,9 @@ Navigate to the **Settings**, **Integrations** page and select the dropdown arro
 
 The following links will help you set up the necessary integration with your Cloud Provider of choice.
 
-* [AWS](../../integrations/cloud-providers/aws.md)
-* [Azure](../../integrations/cloud-providers/azure.md)
-* [GCP](../../integrations/cloud-providers/gcp.md)
+- [AWS](../../integrations/cloud-providers/aws.md)
+- [Azure](../../integrations/cloud-providers/azure.md)
+- [GCP](../../integrations/cloud-providers/gcp.md)
 
 Once you have configured the necessary integration, navigate the Stack landing page and Trigger a Run.
 
@@ -144,8 +144,8 @@ After a successful planning phase, you can check the log to see the planned chan
 
     A slightly different dry run mode depending on the scenario:
 
-    * `--dry-run=server`: Utilized when resources are available
-    * `--dry-run-client`: Utilized when **no** resources are available
+    - `--dry-run=server`: Utilized when resources are available
+    - `--dry-run-client`: Utilized when **no** resources are available
 
 To confirm the Triggered run, click the _**CONFIRM**_ button.
 

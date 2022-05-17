@@ -62,9 +62,9 @@ The _Spacelift environment_ section lists a special subset of [computed values](
 
 The Spacelift flow can be broken down into a number of stages - most importantly:
 
-* [Initializing](../run/#initializing), where we prepare the workspace;
-* [Planning](../run/proposed.md#planning), which calculates the changes;
-* [Applying](../run/tracked.md#applying), which makes the actual changes;
+- [Initializing](../run/#initializing), where we prepare the workspace;
+- [Planning](../run/proposed.md#planning), which calculates the changes;
+- [Applying](../run/tracked.md#applying), which makes the actual changes;
 
 In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any actual changes to your resources and your state and needs the credentials that support it. Yet frequently, the practice is to pass the same credentials to all stages. The reason for that is either the lack of awareness or - more often - the limitations in the tooling. Depending on your flow, this may be a potential security issue because even if you [manually review every job](../run/tracked.md#approval-flow) before it reaches the [_Applying_](../run/tracked.md#applying) stage, [the Planning phase can do a lot of damage](https://alex.kaskaso.li/post/terraform-plan-rce).
 

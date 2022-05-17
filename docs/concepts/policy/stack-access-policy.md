@@ -14,10 +14,10 @@ Access policies offer the best of both worlds - they give you a tool to build yo
 
 Your access policy can define the following boolean rules:
 
-* **write**: gives the current user [write access](stack-access-policy.md#readers-and-writers) to the stack or module;
-* **read**: gives the current user [read access](stack-access-policy.md#readers-and-writers) to the stack or module;
-* **deny**: denies the current user **all** access to the stack or module, no matter the outcome of other rules;
-* **deny_write**:  denies the current user **write** access to the stack or module, no matter the outcome of other rules;
+- **write**: gives the current user [write access](stack-access-policy.md#readers-and-writers) to the stack or module;
+- **read**: gives the current user [read access](stack-access-policy.md#readers-and-writers) to the stack or module;
+- **deny**: denies the current user **all** access to the stack or module, no matter the outcome of other rules;
+- **deny_write**:  denies the current user **write** access to the stack or module, no matter the outcome of other rules;
 
 Note that write access automatically assumes read permissions, too, so there's no need to define separate **read** policies for writers.
 

@@ -81,9 +81,9 @@ Any Stack with this policy attached will be accessible for writing from this Sla
 
 Three slash commands are currently available:
 
-* `/spacelift subscribe $stackId` - subscribes a particular Slack channel to run state changes for a given Stack - requires ;
-* `/spacelift unsubscribe $stackId` - unsubscribes a particular Slack channel from run state changes for a given Stack;
-* `/spacelift trigger $stackId` - triggers a tracked run for the specified Stack;
+- `/spacelift subscribe $stackId` - subscribes a particular Slack channel to run state changes for a given Stack - requires ;
+- `/spacelift unsubscribe $stackId` - unsubscribes a particular Slack channel from run state changes for a given Stack;
+- `/spacelift trigger $stackId` - triggers a tracked run for the specified Stack;
 
 ## Available actions
 

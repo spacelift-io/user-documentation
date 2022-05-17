@@ -39,8 +39,8 @@ This section provides step-by-step instructions to help you set up and get the m
 
 You can get started with either forking our Terraform Starter repository and testing all Spacelift capabilities in under 15 minutes or you can explore Spacelift on your own by adding your own repository and going from zero to fully managing your cloud resources.
 
-* [Use our starter repository to play with Spacelift (guide)](https://github.com/spacelift-io/terraform-starter)
-* [Use your own repository (guide)](getting-started.md#first-stack-run)
+- [Use our starter repository to play with Spacelift (guide)](https://github.com/spacelift-io/terraform-starter)
+- [Use your own repository (guide)](getting-started.md#first-stack-run)
 
 ## First Stack Run
 
@@ -48,11 +48,11 @@ This tutorial will help you complete your first stack and run. It assumes you us
 
 ### Step 1: Setup your Spacelift account
 
-* On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get Started" button.
+- On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get Started" button.
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 12-35-55 Collaborative Infrastructure For Modern Software Teams Spacelift.png>)
 
-* Sign Up with Google, GitLab or GitHub
+- Sign Up with Google, GitLab or GitHub
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 12-37-48 Get started with Spacelift Free Trial Spacelift.png>)
 

@@ -36,8 +36,6 @@ stacks:
 
 The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/#name-and-description) to the [stack configuration block](./#stack-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 
-.
-
 !!! info
     Since we adopted everyone's favorite data serialization format, you can use all the YAML shenanigans you can think of - things like anchors and inline JSON can keep your config DRY and neat.
 
@@ -59,16 +57,16 @@ While stack environment applies both to tracked and non-tracked branches, a runt
 
 These scripts allow customizing the Spacelift workflow - see the relevant documentation [here](../../stack/stack-settings.md#customizing-workflow). The following are available:
 
-* `before_init`
-* `after_init`
-* `before_plan`
-* `after_plan`
-* `before_apply`
-* `after_apply`
-* `before_perform`
-* `after_perform`
-* `before_destroy`
-* `after_destroy`
+- `before_init`
+- `after_init`
+- `before_plan`
+- `after_plan`
+- `before_apply`
+- `after_apply`
+- `before_perform`
+- `after_perform`
+- `before_destroy`
+- `after_destroy`
 
 ### `environment` map
 

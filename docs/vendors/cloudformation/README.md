@@ -6,10 +6,10 @@ description: Managing CloudFormation Stacks through Spacelift.
 
 You can find more details in the subpages:
 
-* [Getting Started](getting-started.md)
-* [Reference](reference.md)
-* [Integrating with SAM](integrating-with-sam.md)
-* [Integrating with the serverless framework](integrating-with-the-serverless-framework.md)
+- [Getting Started](getting-started.md)
+- [Reference](reference.md)
+- [Integrating with SAM](integrating-with-sam.md)
+- [Integrating with the serverless framework](integrating-with-the-serverless-framework.md)
 
 ## Why use CloudFormation?
 

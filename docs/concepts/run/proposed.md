@@ -30,10 +30,10 @@ If the planning phase is successful (which includes policy evaluation), Spacelif
 
 The planning phase will fail if:
 
-* infrastructure definitions are incorrect - eg. malformed, invalid etc.;
-* external APIs (eg. AWS, GCP, Azure etc.) fail when previewing changes;
-* plan policies return one or more _deny_ reasons;
-* a worker node crashes - eg. you kill a private worker node while it's executing the job;
+- infrastructure definitions are incorrect - eg. malformed, invalid etc.;
+- external APIs (eg. AWS, GCP, Azure etc.) fail when previewing changes;
+- plan policies return one or more _deny_ reasons;
+- a worker node crashes - eg. you kill a private worker node while it's executing the job;
 
 If that happens, the run will transition to the [failed](./#failed) state. Otherwise, the proposed run terminates in the [finished](./#finished) state.
 
@@ -41,6 +41,6 @@ If that happens, the run will transition to the [failed](./#failed) state. Other
 
 The results of proposed runs are reported in multiple ways:
 
-* always - in VCS, as commit statuses and pull request comments - please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation for the exact details;
-* through [Slack notifications](../../integrations/slack.md) - if set up;
-* through [webhooks](../../integrations/webhooks.md) - if set up;
+- always - in VCS, as commit statuses and pull request comments - please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation for the exact details;
+- through [Slack notifications](../../integrations/slack.md) - if set up;
+- through [webhooks](../../integrations/webhooks.md) - if set up;

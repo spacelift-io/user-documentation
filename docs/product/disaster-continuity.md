@@ -14,10 +14,10 @@ The following preparation items are recommended to be followed to ensure that yo
 
 Here is a list of best practices that should be followed in regards to managing the state of your infrastructure.
 
-* Store your state externally (e.g. Amazon S3 Bucket)
-* Enable versioning on your state file to keep a record of changes
-* Replicate your state file across regions
-* Enable MFA on deletion to prevent accidental loss of your state file
+- Store your state externally (e.g. Amazon S3 Bucket)
+- Enable versioning on your state file to keep a record of changes
+- Replicate your state file across regions
+- Enable MFA on deletion to prevent accidental loss of your state file
 
 ### Deployment Roles
 
@@ -25,18 +25,18 @@ Within your Spacelift configuration, each Spacelift stack utilizes a given Role 
 
 In the event of a disaster, Spacelift will presumably not be accessible or usable. You should ensure that you have appropriate access to your deployment role, to provide yourself the ability to assume it for deployment purposes, or have plans to use another role for deployment purposes.
 
-* Keep a record of all Roles used by your Spacelift Stacks that are used for deployment purposes
-* Ensure that you've done one of the following:
-  * Provided yourself access to the deployment role that Spacelift is using
-  * Have a plan to create, or have already created a break-glass role that you can use for disaster purposes
+- Keep a record of all Roles used by your Spacelift Stacks that are used for deployment purposes
+- Ensure that you've done one of the following:
+- Provided yourself access to the deployment role that Spacelift is using
+- Have a plan to create, or have already created a break-glass role that you can use for disaster purposes
 
 ## Terraform Break Glass Example Procedure
 
 ### Pre-requisites
 
-* Access to assume your deployment role(s)
-* Terraform installed locally
-* Managing your state externally (not Spacelift-managed state)
+- Access to assume your deployment role(s)
+- Terraform installed locally
+- Managing your state externally (not Spacelift-managed state)
 
 ### Assume deployment role locally
 

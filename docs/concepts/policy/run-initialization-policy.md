@@ -79,10 +79,10 @@ This is the schema of the data input that each policy request will receive:
 
 In addition to our [global helper functions](./#helper-functions), we also provide the following helpers for initialization policies:
 
-* `commit` - an alias for `input.commit`.
-* `run` - an alias for `input.run`.
-* `runtime_config` - an alias for `input.run.runtime_config`.
-* `stack` - an alias for `input.stack`.
+- `commit` - an alias for `input.commit`.
+- `run` - an alias for `input.run`.
+- `runtime_config` - an alias for `input.run.runtime_config`.
+- `stack` - an alias for `input.stack`.
 
 ## Use cases
 

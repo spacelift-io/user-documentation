@@ -86,12 +86,12 @@ Here's an example webhook payload for a notification about a manually triggered 
 
 The payload consists of a few fields:
 
-* `account` is the name (subdomain) of the account generating the webhook - useful in case you're pointing webhooks from various accounts at the same endpoint;
-* `state` is a string representation of the run state at the time of the notification being triggered;
-* `stateVersion` is the ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed;
-* `timestamp` is the unix timestamp of the state transition;
-* `run` contains information about the run, its associated commit and delta (if any);
-* stack contains some basic information about the parent [Stack](../concepts/stack/) of the `run`;
+- `account` is the name (subdomain) of the account generating the webhook - useful in case you're pointing webhooks from various accounts at the same endpoint;
+- `state` is a string representation of the run state at the time of the notification being triggered;
+- `stateVersion` is the ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed;
+- `timestamp` is the unix timestamp of the state transition;
+- `run` contains information about the run, its associated commit and delta (if any);
+- stack contains some basic information about the parent [Stack](../concepts/stack/) of the `run`;
 
 ## Validating payload
 

@@ -24,14 +24,14 @@ The Services may include automatically recurring payments for periodic charges (
 
 In Subscription Service:
 
-* Seat **** means each user who actively logged in to the Site in the last month.
-* Private worker is a single worker installed on-premise that allows you to execute Spacelift workflows on your end. You can read more about it [here](https://docs.spacelift.io/concepts/private-worker-pools).
+- Seat means each user who actively logged in to the Site in the last month.
+- Private worker is a single worker installed on-premise that allows you to execute Spacelift workflows on your end. You can read more about it [here](https://docs.spacelift.io/concepts/private-worker-pools).
 
 **1.8** Additional policies which also apply to your use of the Site include:
 
-* Our [Privacy Notice](privacy.md), which sets out the terms on which we process any personal data we collect from you, or that you provide to us. By using the Site, you consent to such processing and you warrant that all data provided by you is accurate.
+- Our [Privacy Notice](privacy.md), which sets out the terms on which we process any personal data we collect from you, or that you provide to us. By using the Site, you consent to such processing and you warrant that all data provided by you is accurate.
 
-* Our [Cookie Policy](cookies.md), which sets out information about the cookies on the Site.
+- Our [Cookie Policy](cookies.md), which sets out information about the cookies on the Site.
 
 ## 2. Acceptable Use
 
@@ -39,35 +39,35 @@ In Subscription Service:
 
 **2.2** As a user of this Site, you agree not to:
 
-* Systematically retrieve data or other content from the Site to a compile database or directory without written permission from us;
+- Systematically retrieve data or other content from the Site to a compile database or directory without written permission from us;
 
-* Make any unauthorized use of the Site, including collecting usernames and/or email addresses of users to send unsolicited email or creating user accounts under false pretenses;
+- Make any unauthorized use of the Site, including collecting usernames and/or email addresses of users to send unsolicited email or creating user accounts under false pretenses;
 
-* Use the Site to advertise or sell goods and services;
+- Use the Site to advertise or sell goods and services;
 
-* Circumvent, disable, or otherwise interfere with security-related features of the Site, including features that prevent or restrict the use or copying of any content or enforce limitations on the use;
+- Circumvent, disable, or otherwise interfere with security-related features of the Site, including features that prevent or restrict the use or copying of any content or enforce limitations on the use;
 
-* Trick, defraud, or mislead us and other users, especially in any attempt to learn sensitive account information such as user passwords;
+- Trick, defraud, or mislead us and other users, especially in any attempt to learn sensitive account information such as user passwords;
 
-* Make improper use of our support services, or submit false reports of abuse or misconduct;
+- Make improper use of our support services, or submit false reports of abuse or misconduct;
 
-* Interfere with, disrupt, or create an undue burden on the Site or the networks and services connected to the Site;
+- Interfere with, disrupt, or create an undue burden on the Site or the networks and services connected to the Site;
 
-* Attempt to impersonate another user or person, or use the username of another user;
+- Attempt to impersonate another user or person, or use the username of another user;
 
-* Sell or otherwise transfer your profile;
+- Sell or otherwise transfer your profile;
 
-* Use any information obtained from the Site in order to harass, abuse, or harm another person;
+- Use any information obtained from the Site in order to harass, abuse, or harm another person;
 
-* Harass, annoy, intimidate, or threaten any of our employees, agents, or other users;
+- Harass, annoy, intimidate, or threaten any of our employees, agents, or other users;
 
-* Delete the copyright or other proprietary rights notice from any of the content;
+- Delete the copyright or other proprietary rights notice from any of the content;
 
-* Upload or transmit (or attempt to upload or to transmit) viruses, Trojan horses, or other material that interferes with any party’s uninterrupted use and enjoyment of the Site, or any material that acts as a passive or active information collection or transmission mechanism;
+- Upload or transmit (or attempt to upload or to transmit) viruses, Trojan horses, or other material that interferes with any party’s uninterrupted use and enjoyment of the Site, or any material that acts as a passive or active information collection or transmission mechanism;
 
-* Use the Site in a manner inconsistent with any applicable laws or regulations;
+- Use the Site in a manner inconsistent with any applicable laws or regulations;
 
-* Falsely imply a relationship with us or another company with whom you do not have a relationship;
+- Falsely imply a relationship with us or another company with whom you do not have a relationship;
 
 ## 3. Information you provide to us
 
@@ -149,9 +149,9 @@ We make no warranties or representations about the accuracy or completeness of t
 
 Whether you are a consumer or a business user:
 
-* We do not exclude or limit in any way our liability to you where it would be unlawful to do so. This includes liability for death or personal injury caused by our negligence or the negligence of our employees, agents or subcontractors and for fraud or fraudulent misrepresentation;
+- We do not exclude or limit in any way our liability to you where it would be unlawful to do so. This includes liability for death or personal injury caused by our negligence or the negligence of our employees, agents or subcontractors and for fraud or fraudulent misrepresentation;
 
-* If we fail to comply with these Terms and Conditions, we will be responsible for loss or damage you suffer that is a foreseeable result of our breach of these Terms and Conditions, but we would not be responsible for any loss or damage that were not foreseeable at the time you started using the Site/Services;
+- If we fail to comply with these Terms and Conditions, we will be responsible for loss or damage you suffer that is a foreseeable result of our breach of these Terms and Conditions, but we would not be responsible for any loss or damage that were not foreseeable at the time you started using the Site/Services;
 
 Notwithstanding anything to the contrary contained in the Disclaimer/Limitation of Liability section, our liability to you for any cause whatsoever and regardless of the form of the action, will at all times be limited to a total aggregate amount equal to the greater of (a) the sum of PLN 5000 or (b) the amount paid, if any, by you to us for the Services/Site during the six (6) month period prior to any cause of action arising.
 
@@ -159,29 +159,29 @@ If you are a business user:
 
 We will not be liable to you for any loss or damage, whether in contract, tort (including negligence), breach of statutory duty, or otherwise, even if foreseeable, arising under or in connection with:
 
-* use of, or inability to use, our Site/Services; or
+- use of, or inability to use, our Site/Services; or
 
-* use of or reliance on any content displayed on our Site.
+- use of or reliance on any content displayed on our Site.
 
 In particular, we will not be liable for:
 
-* loss of profits, sales, business, or revenue;
+- loss of profits, sales, business, or revenue;
 
-* business interruption;
+- business interruption;
 
-* loss of anticipated savings;
+- loss of anticipated savings;
 
-* loss of business opportunity, goodwill or reputation; or
+- loss of business opportunity, goodwill or reputation; or
 
-* any indirect or consequential loss or damage.
+- any indirect or consequential loss or damage.
 
 If you are a consumer user:
 
-* Please note that we only provide our Site for domestic and private use. You agree not to use our Site for any commercial or business purposes, and we have no liability to you for any loss of profit, loss of business, business interruption, or loss of business opportunity;
+- Please note that we only provide our Site for domestic and private use. You agree not to use our Site for any commercial or business purposes, and we have no liability to you for any loss of profit, loss of business, business interruption, or loss of business opportunity;
 
-* If defective digital content that we have supplied, damages a device or digital content belonging to you and this is caused by our failure to use reasonable care and skill, we will either repair the damage or pay you compensation.
+- If defective digital content that we have supplied, damages a device or digital content belonging to you and this is caused by our failure to use reasonable care and skill, we will either repair the damage or pay you compensation.
 
-* You have legal rights in relation to goods that are faulty or not as described. Advice about your legal rights is available from your local Citizens' Advice Bureau or Trading Standards office. Nothing in these Terms and Conditions will affect these legal rights.
+- You have legal rights in relation to goods that are faulty or not as described. Advice about your legal rights is available from your local Citizens' Advice Bureau or Trading Standards office. Nothing in these Terms and Conditions will affect these legal rights.
 
 ## 10. Term and Termination
 

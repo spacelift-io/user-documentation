@@ -10,8 +10,8 @@ The below guide walks through an example of generating your Spacelift token and 
 
 **Pre-requisites:**
 
-* Insomnia downloaded and installed
-* Spacelift account with admin access (for ability to create API Keys)
+- Insomnia downloaded and installed
+- Spacelift account with admin access (for ability to create API Keys)
 
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/0f86be4d783c4bcfacb65c53be6bb1c1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 

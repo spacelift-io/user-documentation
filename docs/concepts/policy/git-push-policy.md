@@ -4,9 +4,9 @@
 
 Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../stack/) or [Module](../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
-* **track**: set the new head commit on the [stack](../stack/) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/#where-do-runs-come-from) [Run](../run/), ie. one that can be [applied](../run/#applying);
-* **propose**: create a [proposed Run](../run/#where-do-runs-come-from) against a proposed version of infrastructure;
-* **ignore**: do not schedule a new Run;
+- **track**: set the new head commit on the [stack](../stack/) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/#where-do-runs-come-from) [Run](../run/), ie. one that can be [applied](../run/#applying);
+- **propose**: create a [proposed Run](../run/#where-do-runs-come-from) against a proposed version of infrastructure;
+- **ignore**: do not schedule a new Run;
 
 Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
 
@@ -20,8 +20,8 @@ Spacelift can currently react to two types of events - _push_ and _pull request_
 
 There are some valid reasons to use _pull request_ events in addition or indeed instead of push ones. One is that when making decisions based on the paths of affected files, push events are often confusing:
 
-* they contain affected files for all commits in a push, not just the head commit;
-* they are not context-aware, making it hard to work with pull requests - if a given push is ignored on an otherwise relevant PR, then the Spacelift status check is not provided;
+- they contain affected files for all commits in a push, not just the head commit;
+- they are not context-aware, making it hard to work with pull requests - if a given push is ignored on an otherwise relevant PR, then the Spacelift status check is not provided;
 
 But there are more reasons depending on how you want to structure your workflow. Here are a few samples of PR-driven policies from real-life use cases, each reflecting a slightly different way of doing things.
 

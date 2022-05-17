@@ -10,9 +10,9 @@ Historically the first tool we offered was the search bar:
 
 The search bar allows you to search and filter by the following stack properties:
 
-* name;
-* ID (slug);
-* any of its [labels](stack-settings.md#labels);
+- name;
+- ID (slug);
+- any of its [labels](stack-settings.md#labels);
 
 Note how the search phrase is highlighted, and irrelevant stacks are filtered out:
 

@@ -6,9 +6,9 @@ Spacelift provides support for managing Azure resources via the Terraform [Azure
 
 This page explains how to configure the following authentication methods in Spacelift:
 
-* [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation, but is only supported on public workers.
-* [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
-* [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools.md) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
+- [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation, but is only supported on public workers.
+- [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
+- [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools.md) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
 
 !!! info
     This guide explains how to configure the Azure provider using environment variables. Although you can add these environment variables directly to individual stacks, it may be worth creating a [Spacelift Context](../../concepts/configuration/context.md) to store your Azure credentials. This allows you to easily add the same credentials to any stack that requires them.
@@ -148,8 +148,8 @@ The command creates a new Service Principal called `spacelift-sp`, and grants it
 
 Azure provides two options for authenticating Service Principals:
 
-* Client secrets - a randomly generated string.
-* Client certificates - an x509 certificate.
+- Client secrets - a randomly generated string.
+- Client certificates - an x509 certificate.
 
 Either option can be used depending on your requirements, and the configuration required for both is very similar.
 
@@ -157,10 +157,10 @@ Either option can be used depending on your requirements, and the configuration 
 
 To configure the Azure provider using a client secret, add the following [environment variables](../../concepts/configuration/environment.md#environment-variables) to your stack:
 
-* `ARM_CLIENT_ID` - the `appId` returned when you created your Service Principal. This is known as the _Application ID_ or _Client ID_ within Azure.
-* `ARM_CLIENT_SECRET` - the `password` returned when you created your Service Principal.
-* `ARM_SUBSCRIPTION_ID` - your subscription ID.
-* `ARM_TENANT_ID` - the `tenant` returned when you created your Service Principal.
+- `ARM_CLIENT_ID` - the `appId` returned when you created your Service Principal. This is known as the _Application ID_ or _Client ID_ within Azure.
+- `ARM_CLIENT_SECRET` - the `password` returned when you created your Service Principal.
+- `ARM_SUBSCRIPTION_ID` - your subscription ID.
+- `ARM_TENANT_ID` - the `tenant` returned when you created your Service Principal.
 
 Once finished, your environment should look something like this:
 
@@ -177,11 +177,11 @@ To configure the Azure provider using a client certificate, first add your PFX a
 
 Next, add the following [environment variables](../../concepts/configuration/environment.md#environment-variables) to your stack:
 
-* `ARM_CLIENT_ID` - the `appId` returned when you created your Service Principal. This is known as the _Application ID_ or _Client ID_ within Azure.
-* `ARM_CLIENT_CERTIFICATE_PATH` - the path to the certificate you uploaded in the previous step.
-* `ARM_CLIENT_CERTIFICATE_PASSWORD` - the password for your certificate.
-* `ARM_SUBSCRIPTION_ID` - your subscription ID.
-* `ARM_TENANT_ID` - the `tenant` returned when you created your Service Principal.
+- `ARM_CLIENT_ID` - the `appId` returned when you created your Service Principal. This is known as the _Application ID_ or _Client ID_ within Azure.
+- `ARM_CLIENT_CERTIFICATE_PATH` - the path to the certificate you uploaded in the previous step.
+- `ARM_CLIENT_CERTIFICATE_PASSWORD` - the password for your certificate.
+- `ARM_SUBSCRIPTION_ID` - your subscription ID.
+- `ARM_TENANT_ID` - the `tenant` returned when you created your Service Principal.
 
 Once finished, your environment should look something like this:
 
@@ -197,19 +197,19 @@ Azure [Managed Identities](https://docs.microsoft.com/en-us/azure/active-directo
 
 To use a managed identity, you need to take the following steps:
 
-* Follow the [instructions](../../concepts/worker-pools.md) to setup a private worker pool.
-* Create an Azure VM with a managed identity, and install the worker binary on it.
-* Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity) to use the managed identity for authentication.
+- Follow the [instructions](../../concepts/worker-pools.md) to setup a private worker pool.
+- Create an Azure VM with a managed identity, and install the worker binary on it.
+- Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity) to use the managed identity for authentication.
 
 To configure the Azure provider to use the managed identity, add the following environment variables to your stack:
 
-* `ARM_USE_MSI` - set to `true` to indicate you want to use a managed identity.
-* `ARM_SUBSCRIPTION_ID` - your subscription ID.
-* `ARM_TENANT_ID` - your Azure AD tenant.
+- `ARM_USE_MSI` - set to `true` to indicate you want to use a managed identity.
+- `ARM_SUBSCRIPTION_ID` - your subscription ID.
+- `ARM_TENANT_ID` - your Azure AD tenant.
 
 In addition, if using a user-assigned identity, add the following variable to your stack:
 
-* `ARM_CLIENT_ID` - the client ID of your user-assigned identity.
+- `ARM_CLIENT_ID` - the client ID of your user-assigned identity.
 
 Once finished, your environment should look something like this:
 

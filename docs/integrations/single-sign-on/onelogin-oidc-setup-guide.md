@@ -8,8 +8,8 @@ description: >-
 
 ## Pre-requisites
 
-* Spacelift account, with access to admin permissions
-* OneLogin account, with permission to create OneLogin Applications
+- Spacelift account, with access to admin permissions
+- OneLogin account, with permission to create OneLogin Applications
 
 ## Configure Account Settings
 

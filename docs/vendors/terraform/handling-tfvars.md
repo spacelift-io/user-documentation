@@ -4,9 +4,9 @@ For some of our Terraform users, the most convenient solution to configure a sta
 
 Spacelift supports this approach, but does not provide a separate mechanism, depending instead on a combination of Terraform's built-in mechanisms and Spacelift-provided primitives like:
 
-* [environment variables](../../concepts/configuration/environment.md#environment-variables);
-* [mounted files](../../concepts/configuration/environment.md#mounted-files)
-* [`before_init` ](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
+- [environment variables](../../concepts/configuration/environment.md#environment-variables);
+- [mounted files](../../concepts/configuration/environment.md#mounted-files)
+- [`before_init` ](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
 
 ## Using environment variables
 
@@ -28,8 +28,8 @@ If the variable definitions file is not part of the repo, we can inject it dynam
 
 Note that there are "magical" names you can give to your variable definitions files that always get autoloaded, without the need to supply extra CLI arguments. [According to the documentation](https://www.terraform.io/docs/language/values/variables.html#variable-definitions-tfvars-files), Terraform automatically loads a number of variable definitions files if they are present:
 
-* Files named exactly `terraform.tfvars` or `terraform.tfvars.json`.
-* Any files with names ending in `.auto.tfvars` or `.auto.tfvars.json`.
+- Files named exactly `terraform.tfvars` or `terraform.tfvars.json`.
+- Any files with names ending in `.auto.tfvars` or `.auto.tfvars.json`.
 
 The above can be used in conjunction with another Spacelift building block, [`before_init` hooks](../../concepts/configuration/runtime-configuration/#before_init-scripts).
 

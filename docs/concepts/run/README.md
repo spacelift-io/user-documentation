@@ -4,9 +4,9 @@ Every job that can touch your Spacelift-managed infrastructure is called a Run. 
 
 Three of them are children of [Stacks](../stack/):
 
-* [task](task.md), which is a freeform command you can execute on your infrastructure;
-* [proposed run](proposed.md), which serves as a preview of introduced changes;
-* [tracked run](tracked.md), which is a form of deployment;
+- [task](task.md), which is a freeform command you can execute on your infrastructure;
+- [proposed run](proposed.md), which serves as a preview of introduced changes;
+- [tracked run](tracked.md), which is a form of deployment;
 
 There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a Terraform module.
 
@@ -71,10 +71,10 @@ If this phase fails for whatever reason, the run is marked as [failed](./#failed
 
 If a run transitions into the _failed_ state means that something, at some point went wrong and this state can follow any state. In most cases this will be something related to your project like:
 
-* errors in the source code;
-* [pre-initialization checks](../stack/stack-settings.md#before-init-scripts) failing;
-* [plan policies](../policy/terraform-plan-policy.md) rejecting your change;
-* deployment-time errors;
+- errors in the source code;
+- [pre-initialization checks](../stack/stack-settings.md#before-init-scripts) failing;
+- [plan policies](../policy/terraform-plan-policy.md) rejecting your change;
+- deployment-time errors;
 
 In rare cases errors in Spacelift application code or third party dependencies can also make the job fail. These cases are clearly marked by a notice corresponding to the failure mode, reported through our exception tracker and immediately investigated.
 

@@ -29,8 +29,8 @@ In principle, the run review and approval process are very similar to GitHub's P
 
 Your approval policy can define the following boolean rules:
 
-* **approve**: the run is approved and no longer requires (or allows) review;
-* **reject**: the run fails immediately;
+- **approve**: the run is approved and no longer requires (or allows) review;
+- **reject**: the run fails immediately;
 
 While the 'approve' rule must be defined in order for the run to be able to progress, it's perfectly valid to not define the 'reject' rule. In that case, runs that look invalid can be cleaned up ([canceled](../run/#canceled) or [discarded](../run/tracked.md#discarded)) manually.
 

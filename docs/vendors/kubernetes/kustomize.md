@@ -4,8 +4,8 @@ Kubernetes support in Spacelift is driven by Kustomize with native support in `k
 
 We used Kustomize to make all resources created using the Spacelift Kubernetes support have unique labels attached to them:
 
-* `spacelift-stack: <stack-slug>`
-* `app.kubernetes.io/managed-by: spacelift`
+- `spacelift-stack: <stack-slug>`
+- `app.kubernetes.io/managed-by: spacelift`
 
 All operations Spacelift does will be done only on resources with the `spacelift-stack: <stack-slug>`.
 

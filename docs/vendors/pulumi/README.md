@@ -11,10 +11,10 @@ On a high level, [Pulumi](https://github.com/pulumi/pulumi) has a very similar f
 
 However, if you're the type that prefers to start with doing, instead of reading too much, there are quickstarts for each of the runtimes supported by Pulumi:
 
-* [C#](getting-started/c-sharp.md)
-* [Go](getting-started/golang.md)
-* [JavaScript](getting-started/javascript.md)
-* [Python](getting-started/python.md)
+- [C#](getting-started/c-sharp.md)
+- [Go](getting-started/golang.md)
+- [JavaScript](getting-started/javascript.md)
+- [Python](getting-started/python.md)
 
 In case you're just getting started with Pulumi, we'd recommend you to start with JavaScript. Believe it or not, it's actually the most pleasant experience we had with Pulumi! Later you can also easily switch to languages which compile to JavaScript, like TypeScript or ClojureScript.
 
@@ -26,8 +26,8 @@ The high level concepts of Spacelift don't change when used with Pulumi. Below, 
 
 Previously described in [Run Initializing](../../concepts/run/#initializing), in Pulumi the initialization will run:
 
-* `pulumi login` with your configured login URL
-* `pulumi stack select --create --select` with your configured Pulumi stack name (the one you set in vendor-specific settings, not the Spacelift [Stack](../../concepts/stack/) name)
+- `pulumi login` with your configured login URL
+- `pulumi stack select --create --select` with your configured Pulumi stack name (the one you set in vendor-specific settings, not the Spacelift [Stack](../../concepts/stack/) name)
 
 It will then commence to run all pre-initialization hooks.
 

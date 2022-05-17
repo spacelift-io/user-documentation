@@ -6,10 +6,10 @@ description: Details about all available CloudFormation-specific configuration o
 
 ## Stack Settings
 
-* **Region** - AWS region in which to create and execute the CloudFormation Stack.
-* **Stack Name** - The name for the CloudFormation Stack controlled by this Spacelift Stack.
-* **Entry Template File** - The path to the JSON or YAML file describing your root CloudFormation Stack. If you're generating CloudFormation code using a tool like SAM, point this to the file containing the generated template.
-* **Template Bucket** - S3 bucket to store CloudFormation templates in. Each created object will be prefixed by the current run ID like this: `<run id>/artifact_name`
+- **Region** - AWS region in which to create and execute the CloudFormation Stack.
+- **Stack Name** - The name for the CloudFormation Stack controlled by this Spacelift Stack.
+- **Entry Template File** - The path to the JSON or YAML file describing your root CloudFormation Stack. If you're generating CloudFormation code using a tool like SAM, point this to the file containing the generated template.
+- **Template Bucket** - S3 bucket to store CloudFormation templates in. Each created object will be prefixed by the current run ID like this: `<run id>/artifact_name`
 
 ## Special Environment Variables
 
@@ -31,7 +31,7 @@ Parameters:
     Description: Enter t2.micro or t2.small.
 ```
 
-In order to specify the InstanceTypeParameter add an environment variable to your Stack **CF\_PARAM\_InstanceTypeParameter** and set its value to i.e. _t2.micro_
+In order to specify the InstanceTypeParameter add an environment variable to your Stack `CF_PARAM_InstanceTypeParameter` and set its value to i.e. `t2.micro`
 
 ### CloudFormation Stack Capabilities
 

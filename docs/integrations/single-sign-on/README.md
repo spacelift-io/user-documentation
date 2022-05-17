@@ -18,9 +18,9 @@ In order to manage single sign-on integrations on your Spacelift account, please
 
 When setting up Spacelift on your identity provider, you may want to add three attribute mappings:
 
-* `FirstName` is used to build human-friendly user name;
-* `LastName` is used to build human-friendly user name;
-* `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
+- `FirstName` is used to build human-friendly user name;
+- `LastName` is used to build human-friendly user name;
+- `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
 
 Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/)) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [GSuite](https://support.google.com/a/answer/6327792?hl=en) and as a courtesy, we will flush your login history.
 
@@ -35,9 +35,9 @@ The NameID format specifies the format that Spacelift requests user identifiers 
 
 If your identity provider does not allow the NameID format to be configured at their end, you can choose from one of the following options:
 
-* Transient - an opaque identifier that is not guaranteed to remain the same between logins.
-* Email Address - an email address.
-* Persistent - an opaque identifier that remains the same between logins.
+- Transient - an opaque identifier that is not guaranteed to remain the same between logins.
+- Email Address - an email address.
+- Persistent - an opaque identifier that remains the same between logins.
 
 ## Setting up OIDC
 
@@ -54,11 +54,11 @@ Spacelift dynamically checks integrated Identity Provider's Well-Known OpenID co
 
 The following are links to example implementations you can use as a reference/guide for setting up your own OIDC integration.
 
-* [GitLab](./gitlab-oidc-setup-guide.md)
-* [Okta](./okta-oidc-setup-guide.md)
-* [OneLogin](./onelogin-oidc-setup-guide.md)
-* [Azure AD](./azure-ad-oidc-setup-guide.md)
-* If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
+- [GitLab](./gitlab-oidc-setup-guide.md)
+- [Okta](./okta-oidc-setup-guide.md)
+- [OneLogin](./onelogin-oidc-setup-guide.md)
+- [Azure AD](./azure-ad-oidc-setup-guide.md)
+- If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
 
 ## IdP-initiated SSO
 

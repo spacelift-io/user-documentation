@@ -15,11 +15,11 @@ provider "google" {}
 
 You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes) that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
 
-* `https://www.googleapis.com/auth/compute`
-* `https://www.googleapis.com/auth/cloud-platform`
-* `https://www.googleapis.com/auth/ndev.clouddns.readwrite`
-* `https://www.googleapis.com/auth/devstorage.full_control`
-* `https://www.googleapis.com/auth/userinfo.email`
+- `https://www.googleapis.com/auth/compute`
+- `https://www.googleapis.com/auth/cloud-platform`
+- `https://www.googleapis.com/auth/ndev.clouddns.readwrite`
+- `https://www.googleapis.com/auth/devstorage.full_control`
+- `https://www.googleapis.com/auth/userinfo.email`
 
 This list is consistent with the [defaults requested by the Terraform provider](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#scopes-1).
 

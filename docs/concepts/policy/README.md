@@ -6,18 +6,16 @@ Policy-as-code is the idea of expressing rules using a high-level programming la
 
 Spacelift as a development platform is built around this concept and allows defining policies that involve various decision points in the application. User-defined policies can decide:
 
-* Login: [who gets to log in](login-policy.md) to your Spacelift account and with what level of access;
-* Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
-* Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
-* Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
-* Plan: [which changes can be applied](terraform-plan-policy.md);
-* Push: [how Git push events are interpreted](git-push-policy.md);
-* Task: [which one-off commands can be executed](task-run-policy.md);
-* Trigger: [what happens when blocking runs terminate](trigger-policy.md);
+- Login: [who gets to log in](login-policy.md) to your Spacelift account and with what level of access;
+- Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
+- Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
+- Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
+- Plan: [which changes can be applied](terraform-plan-policy.md);
+- Push: [how Git push events are interpreted](git-push-policy.md);
+- Task: [which one-off commands can be executed](task-run-policy.md);
+- Trigger: [what happens when blocking runs terminate](trigger-policy.md);
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
-
-
 
 | Type                                           | Purpose                                                                               | Types                 | Returns       | Rules                                              |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------- | -------------------------------------------------- |
@@ -48,11 +46,11 @@ Multiple policies of the same type can be attached to a single stack, in which c
 
 To keep policies functionally pure and relatively snappy, we disabled some Rego built-ins that can query external or runtime data. These are:
 
-* `http.send`
-* `opa.runtime`
-* `rego.parse_module`
-* `time.now_ns`
-* `trace`
+- `http.send`
+- `opa.runtime`
+- `rego.parse_module`
+- `time.now_ns`
+- `trace`
 
 Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](./#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `request.timestamp_ns` in every policy payload, so please use it instead.
 

@@ -10,8 +10,8 @@ description: >-
 
 There are two types of AWS Marketplace offers, please select an option from below to be directed to the guide for the respective offering type.
 
-* [AWS Marketplace Public Offering](aws-marketplace.md#aws-marketplace-public-offering)
-* [AWS Marketplace Private Offering](aws-marketplace.md#aws-marketplace-private-offering)
+- [AWS Marketplace Public Offering](aws-marketplace.md#aws-marketplace-public-offering)
+- [AWS Marketplace Private Offering](aws-marketplace.md#aws-marketplace-private-offering)
 
 ### AWS Marketplace Public Offering
 

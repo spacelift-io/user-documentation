@@ -16,10 +16,10 @@ spacelift.io/<organization>/<module_name>/<provider>
 
 In this name we have:
 
-* The source module registry - `spacelift.io` is used here;
-* The organization which owns and maintains the module;
-* The module name, this will usually be the best shorthand descriptor of what the module actually does, i.e. it could be starting a machine with an HTTP server running.
-* The main Terraform provider this module is meant to work with, i.e. the provider for the cloud service the resources should be created on.
+- The source module registry - `spacelift.io` is used here;
+- The organization which owns and maintains the module;
+- The module name, this will usually be the best shorthand descriptor of what the module actually does, i.e. it could be starting a machine with an HTTP server running.
+- The main Terraform provider this module is meant to work with, i.e. the provider for the cloud service the resources should be created on.
 
 You can use a module in your Terraform configuration this way:
 
@@ -168,9 +168,9 @@ The first one would be to have a main branch and create feature branches for cha
 
 If you want more control over release schedules, you could go with the following:
 
-* A release branch
-* A main branch
-* Feature branches
+- A release branch
+- A main branch
+- Feature branches
 
 Whenever you add a new functionality, you may want to create a feature branch and open Pull Request from it to the main branch. Whenever you want to release a new version, you merge the main branch into the release branch.
 

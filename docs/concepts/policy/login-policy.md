@@ -12,10 +12,10 @@ Login policies can allow users to log in to the account, and optionally give the
 
 A login policy can define the following types of boolean rules:
 
-* **allow** - allows the user to log in as a _non-admin_;
-* **admin** - allows the user to log in as an _admin_ - note that you don't need to explicitly **allow** admin users;
-* **deny** - denies login attempt, no matter the result of other (**allow** and **admin**) rules;
-* **deny_admin**:  denies the current user **admin** access to the stack, no matter the outcome of other rules;
+- **allow** - allows the user to log in as a _non-admin_;
+- **admin** - allows the user to log in as an _admin_ - note that you don't need to explicitly **allow** admin users;
+- **deny** - denies login attempt, no matter the result of other (**allow** and **admin**) rules;
+- **deny_admin**:  denies the current user **admin** access to the stack, no matter the outcome of other rules;
 
 If no rules match, the default action will be to deny a login attempt.
 
@@ -142,9 +142,9 @@ There's a lot to digest here, so a [playground example](https://play.openpolicya
 
 In addition to boolean rules regulating access to your Spacelift account, the login policy exposes the **team** rule, which allows one to dynamically rewrite the list of teams received from the identity provider. This operation allows one to define Spacelift roles independent of the identity provider. To illustrate this use case, let's imagine you want to define a _Superwriter_ role for someone who's:
 
-* logging in from an office VPN;
-* is a member of the DevOps team, as defined by your IdP;
-* is not a member of the Contractors team, as defined by your IdP;
+- logging in from an office VPN;
+- is a member of the DevOps team, as defined by your IdP;
+- is not a member of the Contractors team, as defined by your IdP;
 
 ```opa
 package spacelift

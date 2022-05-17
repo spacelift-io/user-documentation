@@ -18,9 +18,9 @@ Open the VCS Agent Pools panel, click **Add VCS Agent Pool**, give it a name and
 
 You can now run the launcher binary (downloaded from [here](https://downloads.spacelift.io/spacelift-vcs-agent)) by setting three environment variables:
 
-* `SPACELIFT_VCS_AGENT_POOL_TOKEN` - the token you’ve received from Spacelift on worker pool creation
-* `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` - internal endpoint of your VCS system, including the protocol, as well as port, if applicable. i.e. `http://169.254.0.10:7990`
-* `SPACELIFT_VCS_AGENT_VENDOR` - the vendor of your VCS system, currently available options are **gitlab**, **bitbucket\_datacenter** and **github\_enterprise**.
+- `SPACELIFT_VCS_AGENT_POOL_TOKEN` - the token you’ve received from Spacelift on worker pool creation
+- `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` - internal endpoint of your VCS system, including the protocol, as well as port, if applicable. i.e. `http://169.254.0.10:7990`
+- `SPACELIFT_VCS_AGENT_VENDOR` - the vendor of your VCS system, currently available options are `gitlab`, `bitbucket_datacenter` and `github_enterprise`.
 
 Congrats! Your VCS Agent should now connect to the Spacelift backend and start handling connections.
 
@@ -40,8 +40,8 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 
 A number of configuration variables is available to customize how your VCS Agent behaves:
 
-* `SPACELIFT_VCS_AGENT_ALLOWED_PROJECTS` - regular expression matching allowed projects for API calls. Projects are in the form: 'group/repository';
-* `SPACELIFT_VCS_AGENT_PARALLELISM`- number of streams to create. Each stream can handle one request simultaneously;
+- `SPACELIFT_VCS_AGENT_ALLOWED_PROJECTS` - regular expression matching allowed projects for API calls. Projects are in the form: 'group/repository';
+- `SPACELIFT_VCS_AGENT_PARALLELISM`- number of streams to create. Each stream can handle one request simultaneously;
 
 ### Passing metadata tags
 

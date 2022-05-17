@@ -24,17 +24,17 @@ stack_defaults:
 
 Now let's open Spacelift and create a new Stack, choose the examples repo you just forked. In the second step you'll have to change multiple default values:
 
-* Set the project root to `aws-py-webserver`, as we want to run Pulumi in this subdirectory only.
-* Add one before init script: `pip install -r requirements.txt`, which will install all necessary dependencies, before initializing Pulumi itself. This will need to run both when [initializing](../../../concepts/run/#initializing) and before [applying](../../../concepts/run/#applying).
-* Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-python:latest`
-  * Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions here.
+- Set the project root to `aws-py-webserver`, as we want to run Pulumi in this subdirectory only.
+- Add one before init script: `pip install -r requirements.txt`, which will install all necessary dependencies, before initializing Pulumi itself. This will need to run both when [initializing](../../../concepts/run/#initializing) and before [applying](../../../concepts/run/#applying).
+- Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-python:latest`
+- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions here.
 
 ![Define behavior.](<../../../assets/screenshots/image (44).png>)
 
 In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll have to choose:
 
-* A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.
-* A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-python-pulumi-spacelift-stack`.
+- A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.
+- A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-python-pulumi-spacelift-stack`.
 
 ![Configure backend.](<../../../assets/screenshots/image (34).png>)
 
@@ -43,9 +43,9 @@ In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll h
 
 You'll now have to set up the AWS integration for the Stack, as is described in [AWS](../../../integrations/cloud-providers/aws.md#setting-up-aws-integration).
 
-Go into the [Environment](../../../concepts/configuration/environment.md) tab in your screen, add an **AWS\_REGION** environment variable and set it to your region of choice, i.e. `eu-central-1`.
+Go into the [Environment](../../../concepts/configuration/environment.md) tab in your screen, add an `AWS_REGION` environment variable and set it to your region of choice, i.e. `eu-central-1`.
 
-![Configure enviornment.](<../../../assets/screenshots/image (24).png>)
+![Configure environment.](<../../../assets/screenshots/image (24).png>)
 
 You can now trigger the Run manually in the Stack view, after the planning phase is over, you can check the log to see the planned changes.
 

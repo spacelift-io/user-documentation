@@ -8,8 +8,8 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 
 ## Pre-requisites
 
-* Spacelift account, with access to admin permissions
-* Okta account, with permission to create Okta App Integrations
+- Spacelift account, with access to admin permissions
+- Okta account, with permission to create Okta App Integrations
 
 ## Configure Account Settings
 

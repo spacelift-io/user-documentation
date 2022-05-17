@@ -56,10 +56,10 @@ Enter your Webhook URL and secret:
 
 **Subscribe to the following events:**
 
-* Organization
-* Pull request
-* Push
-* Repository
+- Organization
+- Pull request
+- Push
+- Repository
 
 Finally, choose whether you want to allow the App to be installed on any account or only on the account it is being created in and click on _Create GitHub App:_
 
@@ -153,8 +153,8 @@ The Check view provides high-level information about the changes introduced by t
 
 From this view you can also perform two types of Spacelift actions:
 
-* **Preview** - execute a [proposed run](../../concepts/run/proposed.md) against the tested commit;
-* **Deploy** - execute a tracked run against the tested commit;
+- **Preview** - execute a [proposed run](../../concepts/run/proposed.md) against the tested commit;
+- **Deploy** - execute a tracked run against the tested commit;
 
 #### PR (Pre-merge) Deployments
 

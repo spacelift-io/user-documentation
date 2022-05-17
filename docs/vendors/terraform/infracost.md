@@ -8,8 +8,8 @@ This allows you to understand how infrastructure changes will impact costs, and 
 
 To enable Infracost on any stack you need to do the following:
 
-* Add the `infracost` label to the stack.
-* Add an `INFRACOST_API_KEY` [environment variable](../../concepts/configuration/environment.md) containing your Infracost API key.
+- Add the `infracost` label to the stack.
+- Add an `INFRACOST_API_KEY` [environment variable](../../concepts/configuration/environment.md) containing your Infracost API key.
 
 !!! info
     Creating a [context](../../concepts/configuration/context.md) for your Infracost API key means you can attach your key to any stacks that need to have Infracost enabled.

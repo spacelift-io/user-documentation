@@ -8,9 +8,9 @@ Unless you're using Spacelift only to host and test private [Terraform modules](
 
 Here's a few helpful articles about stacks:
 
-* In [this article](creating-a-stack.md), you can learn how to create a new stack;
-* [Here](stack-settings.md) you can see all the settings that are available for the stack;
-* [Here](stack-locking.md#stack-locking) you can learn about stack locking;
+- In [this article](creating-a-stack.md), you can learn how to create a new stack;
+- [Here](stack-settings.md) you can see all the settings that are available for the stack;
+- [Here](stack-locking.md#stack-locking) you can learn about stack locking;
 
 ## Stack state
 

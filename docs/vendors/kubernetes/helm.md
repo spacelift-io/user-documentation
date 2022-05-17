@@ -4,8 +4,8 @@ There is no native support within Spacelift for Helm, but you can use the [`helm
 
 Please note, the following caveats apply:
 
-* Using `helm template` means that you are not using the full Helm workflow, which may cause limitations or prevent certain Charts from working.
-* You need to use a custom [Spacelift worker image](../../integrations/docker.md#customizing-the-runner-image) that has Helm installed, or alternatively you can install Helm using a _before init_ hook.
+- Using `helm template` means that you are not using the full Helm workflow, which may cause limitations or prevent certain Charts from working.
+- You need to use a custom [Spacelift worker image](../../integrations/docker.md#customizing-the-runner-image) that has Helm installed, or alternatively you can install Helm using a _before init_ hook.
 
 The rest of this page will go through an example of deploying the [Spacelift Workerpool Helm Chart](https://github.com/spacelift-io/spacelift-workerpool-k8s) using the Kubernetes integration. See [here](https://github.com/spacelift-io/kubernetes-helm-example) for an example repository.
 
@@ -13,8 +13,8 @@ The rest of this page will go through an example of deploying the [Spacelift Wor
 
 The following prerequisites are required to follow the rest of this guide:
 
-* A Kubernetes cluster that you can authenticate to from a Spacelift stack.
-* A namespace called `spacelift-worker` that exists within that cluster.
+- A Kubernetes cluster that you can authenticate to from a Spacelift stack.
+- A namespace called `spacelift-worker` that exists within that cluster.
 
 ## Repository Creation
 
@@ -57,9 +57,9 @@ Once you've completed both steps, you should see something like this:
 
 Once you have successfully created your Stack, add values for the following environment variables to your Stack environment:
 
-* `SPACELIFT_WORKER_REPLICAS` - the number of worker pool replicas to create**.**
-* `SPACELIFT_WORKER_POOL_TOKEN` - the token downloaded when creating your worker pool.
-* `SPACELIFT_WORKER_POOL_PRIVATE_KEY` - your base64-encoded private key.
+- `SPACELIFT_WORKER_REPLICAS` - the number of worker pool replicas to create**.**
+- `SPACELIFT_WORKER_POOL_TOKEN` - the token downloaded when creating your worker pool.
+- `SPACELIFT_WORKER_POOL_PRIVATE_KEY` - your base64-encoded private key.
 
 Your Stack environment should look something like this:
 

@@ -24,9 +24,9 @@ In the first step you will need to tell Spacelift where to look for the Terrafor
 
 A few things worth noting:
 
-* you can point multiple Spacelift stacks to the same repository, even the same branch;
-* the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/git-push-policy.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
-* in order to learn what exactly our Git hosting provider integration means, please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) integration documentation;
+- you can point multiple Spacelift stacks to the same repository, even the same branch;
+- the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/git-push-policy.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
+- in order to learn what exactly our Git hosting provider integration means, please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) integration documentation;
 
 !!! info
     If you're using our default GitHub App integration, we only list the repositories you've given us access to. If some repositories appear to be missing in the selection dropdown, it's likely that you've installed the app on a few selected repositories. That's fine, too, just [whitelist the desired repositories](../../integrations/source-control/github.md) and retry.
@@ -39,18 +39,18 @@ Regardless of which of the supported backends (Terraform, Pulumi etc.) you're se
 
 The basic settings are:
 
-* whether the stack is [administrative](./#administrative);
-* project root (optional), i.e. where inside the repository Spacelift should look for the infra project source code;
-* [worker pool](../worker-pools.md) to use, if applicable;
+- whether the stack is [administrative](./#administrative);
+- project root (optional), i.e. where inside the repository Spacelift should look for the infra project source code;
+- [worker pool](../worker-pools.md) to use, if applicable;
 
 ![](<../../assets/screenshots/New_stack_·_spacelift-io (11).png>)
 
 The advanced settings are:
 
-* whether the changes should [automatically deploy](./#autodeploy);
-* whether obsolete tests should be [automatically retried](./#autoretry);
-* list of commands to run before project initialization;
-* Docker image to use to for your job container;
+- whether the changes should [automatically deploy](./#autodeploy);
+- whether obsolete tests should be [automatically retried](./#autoretry);
+- list of commands to run before project initialization;
+- Docker image to use to for your job container;
 
 ## Configure backend
 

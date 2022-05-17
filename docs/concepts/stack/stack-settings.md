@@ -32,11 +32,11 @@ Autoretry is only supported for [Stacks](./) with a private [Worker Pool](../wor
 
 Spacelift workflow can be customized by adding extra commands to be executed before and after each of the following phases:
 
-* [Initialization](../run/#initializing) (`before_init` and `after_init`, respectively)
-* [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
-* [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
-* [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
-* [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
+- [Initialization](../run/#initializing) (`before_init` and `after_init`, respectively)
+- [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
+- [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
+- [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
+- [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
 
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec), [`tflint`](https://github.com/terraform-linters/tflint) or `terraform fmt`.
 
@@ -65,8 +65,8 @@ Environment variables can be persisted between steps by writing them to the `.en
 
 Note that the environment persisted this way is uploaded (with RSA wrapped AES encryption) to external storage when the tracked run requires manual review. If you don't feel comfortable with it, you have 2 options:
 
-* use [private workers](../worker-pools.md) where we don't have the key to decrypt the payload;
-* do not persist sensitive environment variables between steps - instead, retrieve them before each step that needs them;
+- use [private workers](../worker-pools.md) where we don't have the key to decrypt the payload;
+- do not persist sensitive environment variables between steps - instead, retrieve them before each step that needs them;
 
 ### Enable local preview
 

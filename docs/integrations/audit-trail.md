@@ -24,11 +24,11 @@ If you choose to automatically enable the functionality, clicking the _Save_ but
 
 Every audit trail payload conforms to the same schema:
 
-* `account`: name (subdomain) of the affected Spacelift account;
-* `action`: name of the performed action;
-* `actor`: actor performing the action - the `::` format shows both the actor identity (second element), and the source of the identity (first element)
-* `context`: some contextual metadata about the request;
-* `data`: action-specific payload showing arguments passed to the request. Any sensitive arguments (like secrets) are sanitized;
+- `account`: name (subdomain) of the affected Spacelift account;
+- `action`: name of the performed action;
+- `actor`: actor performing the action - the `::` format shows both the actor identity (second element), and the source of the identity (first element)
+- `context`: some contextual metadata about the request;
+- `data`: action-specific payload showing arguments passed to the request. Any sensitive arguments (like secrets) are sanitized;
 
 Below is a sample:
 
