@@ -72,9 +72,7 @@ The second group of policies ([initialization](run-initialization-policy.md), [p
 
 Here's a practical difference between the two types:
 
-{% tabs %}
-{% tab title="boolean.rego" %}
-```opa
+```opa title="boolean.rego"
 package spacelift
 
 # This is a simple deny rule.
@@ -83,10 +81,8 @@ deny {
   true
 }
 ```
-{% endtab %}
 
-{% tab title="string.rego" %}
-```opa
+```opa title="string.rego"
 package spacelift
 
 # This is a deny rule with string value.
@@ -95,8 +91,6 @@ deny["the user will see this"] {
   true
 }
 ```
-{% endtab %}
-{% endtabs %}
 
 For the policies that generate a set of strings, you want these strings to be both informative and relevant, so you'll see this pattern a lot in the examples:
 
