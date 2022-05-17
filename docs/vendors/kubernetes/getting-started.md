@@ -128,7 +128,7 @@ To Trigger a Run, select _**Trigger**_ on the right side of the Stacks view.
 
 ### Triggered Run Status
 
-Please review the [documentation](broken-reference) for a detailed view of each Run Phase and Status associated with Kubernetes.
+Please review the [documentation](../../concepts/run/README.md#common-run-states) for a detailed view of each Run Phase and Status associated with Kubernetes.
 
 #### Unconfirmed
 

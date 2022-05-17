@@ -20,7 +20,7 @@ The below guide walks through an example of generating your Spacelift token and 
 Spacelift provides a GraphQL API for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
 !!! info
-    For example, if your Spacelift account is called "example" you would be able to access your GraphQL by sending **POST** requests to: _**https://example.app.spacelift.io/graphql**_
+    For example, if your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
 
     All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
 
@@ -54,7 +54,7 @@ Click _API Keys._
 
 The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
-For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#team-based-access) or [SAML assertions](single-sign-on.md#setting-up-the-integration) can work with your API keys just as they do with regular users.
+For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#team-based-access) or [SAML assertions](single-sign-on/README.md#setting-up-the-integration) can work with your API keys just as they do with regular users.
 
 Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
 
@@ -94,10 +94,10 @@ In order to use your newly generated API key in a program, you will first need t
 
 **Request Details:**
 
-**POST** to _**https://example.app.spacelift.io/graphql**_
+**POST** to `https://example.app.spacelift.io/graphql`
 
 !!! info
-    Replace "example" with the name of your Spacelift account.
+    Replace `example` with the name of your Spacelift account.
 
 **Query:**
 
@@ -133,7 +133,7 @@ The received JWT is valid for an hour, so if you're accessing Spacelift API from
 ### Personal GitHub Token > Token
 
 !!! info
-    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single sign-on methods](single-sign-on.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
+    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single sign-on methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
 
 **Steps:**
 
@@ -142,7 +142,7 @@ The received JWT is valid for an hour, so if you're accessing Spacelift API from
 
 **Request Details:**
 
-**POST** to _**https://example.app.spacelift.io/graphql**_
+**POST** to `https://example.app.spacelift.io/graphql`
 
 !!! info
     Replace "example" with the name of your Spacelift account.

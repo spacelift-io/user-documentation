@@ -39,7 +39,7 @@ In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll h
 ![Configure backend.](<../../../assets/screenshots/image (34).png>)
 
 !!! info
-    You can use https://api.pulumi.com as the Login URL to use the official Pulumi state backend. You'll also need to provide your Pulumi access token through the PULUMI\_ACCESS\_TOKEN environment variable.
+    You can use `https://api.pulumi.com` as the Login URL to use the official Pulumi state backend. You'll also need to provide your Pulumi access token through the `PULUMI_ACCESS_TOKEN` environment variable.
 
 You'll now have to set up the AWS integration for the Stack, as is described in [AWS](../../../integrations/cloud-providers/aws.md#setting-up-aws-integration).
 

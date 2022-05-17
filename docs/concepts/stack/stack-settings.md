@@ -48,7 +48,7 @@ These commands may serve one of two general purposes - either to make some modif
 
 The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack) or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
 
-![](<../../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
 
 
 
@@ -61,7 +61,7 @@ Perhaps worth noting is the fact that these commands run in the same shell sessi
 
 Environment variables can be persisted between steps by writing them to the `.env` file in the project root. In this example, we're using two hooks - one _before_ the initialization and one _after_ the initialization phase. We use the first command to retrieve a secret from external storage and put it in the environment to be used by the initialization phase. We use the second command to persist the secret to the environment so that subsequent steps can access it:
 
-![](<../../../assets/screenshots/Mouse_Highlight_Overlay (8).png>)
+![](<../../assets/screenshots/Mouse_Highlight_Overlay (8).png>)
 
 Note that the environment persisted this way is uploaded (with RSA wrapped AES encryption) to external storage when the tracked run requires manual review. If you don't feel comfortable with it, you have 2 options:
 

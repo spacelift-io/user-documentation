@@ -6,7 +6,7 @@ description: >-
 
 # Single Sign-On
 
-By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a single sign-on approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports single sign-on using [SAML 2.0](single-sign-on.md#setting-up-saml) or [OIDC](single-sign-on.md#setting-up-oidc).
+By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a single sign-on approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports single sign-on using [SAML 2.0](#setting-up-saml) or [OIDC](#setting-up-oidc).
 
 ## Managing integrations
 
