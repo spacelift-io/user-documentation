@@ -11,6 +11,9 @@ theme:
 markdown_extensions:
   - admonition
   - pymdownx.details
+  - pymdownx.highlight:
+      auto_title: false
+      linenums: true
   - pymdownx.superfences
   - toc:
       baselevel: 2
