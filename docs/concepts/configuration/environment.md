@@ -98,7 +98,7 @@ Similar to environment variables, mounted files can have different visibility se
 !!! info
     Mounted files are limited to 128kB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
 
-#### Project structure
+### Project structure
 
 When discussing mounted files, it is important to understand the structure of the Spacelift workspace. Every Spacelift workload gets a dedicated directory `/mnt/workspace/`, which also serves as a root for all the mounted files.
 

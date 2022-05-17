@@ -8,37 +8,37 @@ description: >-
 
 If you'd like to set up the ability to sign in to your Spacelift account using an OIDC integration with Azure AD, you've come to the right place. This example will walk you through the steps to get this setup, and you'll have single sign-on running in no time!
 
-### Pre-requisites
+## Pre-requisites
 
 * Spacelift account, with access to admin permissions
 * Azure account, with an existing Azure Active Directory
   * You'll need permissions to create an **App Registration** within your Azure AD
 
-### Configure Account Settings
+## Configure Account Settings
 
 You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
 
 ![](../../assets/screenshots/1-spacelift-account-settings.png)
 
-### Setup OIDC
+## Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from Azure. For now, **copy the authorized redirect URL** as we will need to provide Azure this URL when configuring our Azure App Registration within your Azure AD.
 
 ![](../../assets/screenshots/2-spacelift-copy-exchange-url.png)
 
-### Azure Portal: Navigate to Azure Active Directory
+## Azure Portal: Navigate to Azure Active Directory
 
 Within your Azure Account, navigate to your Azure Active Directory where you'd like to setup the OIDC integration for. In this guide, we are using a Default Directory for example purposes.
 
 ![Navigate to your Azure Active Directory.](../../assets/screenshots/1-azure-navigate-to-azure-ad.png)
 
-### Azure AD: Create an App Registration
+## Azure AD: Create an App Registration
 
 While you are within your Active Directory's settings, click on **App registrations** from the navigation, and then select **New registration**.
 
 ![Click on App Registrations, then click New Registration.](../../assets/screenshots/2-azure-ad-new-registration.png)
 
-### Azure AD: App Registration Configuration
+## Azure AD: App Registration Configuration
 
 Give your application a name - Spacelift sounds like a good one :clap:
 
@@ -50,7 +50,7 @@ Click **Register**.
 
 ![Give your App Registration a name. Configure the redirect URI.](../../assets/screenshots/3-azure-create-app-integration-step-1.png)
 
-### Azure AD: Add UPN Claim
+## Azure AD: Add UPN Claim
 
 Start by navigating to the **Token configuration** section of your application.
 
@@ -64,7 +64,7 @@ Click the **Add** button, making sure to enable the **Turn on the Microsoft Grap
 
 ![](<../../assets/screenshots/image (113).png>)
 
-### Azure AD: Configure App Credentials
+## Azure AD: Configure App Credentials
 
 Navigate to the **Certificates & secrets** section of your application.
 
@@ -115,6 +115,6 @@ The result should look something like this in Spacelift:
 
 Click **Save.**
 
-### Azure AD OIDC Setup Completed
+## Azure AD OIDC Setup Completed
 
 That's it! Your OIDC integration with Azure AD should now be configured (as per this example). Feel free to make any changes to your liking within your Azure AD App Registration configuration for the app that you just created.

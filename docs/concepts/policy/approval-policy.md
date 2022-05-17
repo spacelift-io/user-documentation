@@ -36,7 +36,7 @@ While the 'approve' rule must be defined in order for the run to be able to prog
 
 It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided' and more reviews will be necessary to reach the conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true'.
 
-#### How it works
+### How it works
 
 When a user reviews the run, Spacelift persists their review and passes it to the approval policy, along with other reviews, plus some information about the run and its stack. The same user can review the same run as many times as they want, but only their newest review will be presented to the approval policy. This mechanism allows you to change your mind, very similar to Pull Request reviews.
 

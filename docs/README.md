@@ -10,13 +10,13 @@ At the same time, Spacelift is super easy to get started with - you can go from 
 
 If you're new to Spacelift, please spend some time browsing through the articles in the same order as they appear in the menu - start with the main concepts and follow with integrations. If you're more advanced, you can navigate directly to the article you need, or use the search feature to find a specific piece of information. If you still have questions, feel free to [reach out to us.](https://spacelift.io/contact)
 
-### Do I need another CI/CD for my infrastructure?
+## Do I need another CI/CD for my infrastructure?
 
 Yes, we believe it's a good idea. While in an ideal world one CI system would be enough to cover all use cases, we don't live in an ideal world. Regular CI tools can get you started easily, but Terraform has a rather unusual execution model and a highly stateful nature. Also, mind the massive blast radius when things go wrong. We believe Spacelift offers a perfect blend of regular CI's versatility and methodological rigor of a specialized, security-conscious infrastructure tool - enough to give it a shot even if you're currently happy with your infra-as-code CI/CD setup.
 
 In the following sections, we'll try to present the main challenges of running Terraform in a general purpose CI system, as well as show how Spacelift addresses those. At the end of the day, it's mostly about two things - collaboration and security.
 
-#### Collaboration
+### Collaboration
 
 > Wait, aren't CIs built for collaboration?
 
@@ -36,7 +36,7 @@ And that's just _applying_ changes. By default, running `terraform plan` locks t
 
 And we haven't even discussed security yet.
 
-#### Security
+### Security
 
 Terraform is used to manage infrastructure, which normally requires credentials. Usually, very powerful credentials. Administrative credentials, sometimes. And these can do _a lot of damage_. The thing with CIs is that you need to provide those credentials statically, and once you do, there's no way you can control how they're used.
 

@@ -8,7 +8,7 @@ During the preparing phase of a run, Spacelift creates a configuration file at t
 
 Extending the Terraform CLI behavior can be done by using [mounted files](../../concepts/configuration/environment.md#mounted-files):
 
-#### Using mounted files
+### Using mounted files
 
 Any mounted files with names ending in `.terraformrc` will be appended to `~/.terraformrc`.
 

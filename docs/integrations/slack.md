@@ -6,7 +6,7 @@ description: Integrating Spacelift with your favorite messaging platform
 
 At Spacelift we're using Slack for internal communication. And we know that other tech companies do the same, so we've created a first class integration that we ourselves enjoy using.
 
-### Linking your Spacelift account to the Slack workspace
+## Linking your Spacelift account to the Slack workspace
 
 As a Spacelift and Slack admin, you can link your Spacelift account to the Slack workspace by going to the _Slack_ section of the _Settings_ screen.
 
@@ -20,7 +20,7 @@ Installing the Slack app doesn't automatically cause Spacelift to flood your Sla
 
 Though before that happens, you need to allow requests coming from Slack to access Spacelift stacks.
 
-### Managing access to Stacks with policies
+## Managing access to Stacks with policies
 
 Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. In this case, we're using [stack access policies](../concepts/policy/stack-access-policy.md). If you haven't had a chance to review the relevant documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
 
@@ -77,7 +77,7 @@ Any Stack with this policy attached will be accessible for writing from this Sla
 !!! info
     Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a _#devops_ channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
 
-### Available slash commands
+## Available slash commands
 
 Three slash commands are currently available:
 
@@ -85,7 +85,7 @@ Three slash commands are currently available:
 * `/spacelift unsubscribe $stackId` - unsubscribes a particular Slack channel from run state changes for a given Stack;
 * `/spacelift trigger $stackId` - triggers a tracked run for the specified Stack;
 
-### Available actions
+## Available actions
 
 Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a_Write_ level on the user Slack info.
 

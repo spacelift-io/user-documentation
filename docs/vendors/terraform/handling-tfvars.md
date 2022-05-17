@@ -8,7 +8,7 @@ Spacelift supports this approach, but does not provide a separate mechanism, dep
 * [mounted files](../../concepts/configuration/environment.md#mounted-files)
 * [`before_init` ](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
 
-### Using environment variables
+## Using environment variables
 
 In Terraform, special environment variables can be used to pass extra flags to executed commands like _plan_ or _apply_. These are the more generic [`TF_CLI_ARGS` __ and `TF_CLI_ARGS_name`](https://www.terraform.io/docs/cli/config/environment-variables.html#tf_cli_args-and-tf_cli_args_name) that only affects a specific command. In Spacelift, environment variables can be defined directly on stacks and modules, as well as on [contexts](../../concepts/configuration/context.md) attached to those. As an example, let's declare the following environment variable:
 
@@ -20,7 +20,7 @@ In our particular case we don't have this file checked in, so the run will fail:
 
 But we can supply this file dynamically using [mounted files](../../concepts/configuration/environment.md#mounted-files) functionality.
 
-### Using mounted files
+## Using mounted files
 
 If the variable definitions file is not part of the repo, we can inject it dynamically. The above example can be fixed by supplying the variables file at the requested path:
 
@@ -33,7 +33,7 @@ Note that there are "magical" names you can give to your variable definitions fi
 
 The above can be used in conjunction with another Spacelift building block, [`before_init` hooks](../../concepts/configuration/runtime-configuration/#before_init-scripts).
 
-### Using `before_init` hooks
+## Using `before_init` hooks
 
 If you need to use different variable definitions files for different projects, would like to have them checked in to the repo, but would also want to avoid supplying extra CLI arguments, you could just dynamically move files - whether as a move, copy or a symlink to one of the autoloaded locations. This should happen in one of the `before_init` steps. Example:
 

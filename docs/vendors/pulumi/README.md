@@ -20,9 +20,9 @@ In case you're just getting started with Pulumi, we'd recommend you to start wit
 
 The high level concepts of Spacelift don't change when used with Pulumi. Below, we'll cover a few lower level details, which may be of interest.
 
-### Run Execution
+## Run Execution
 
-#### Initialization
+### Initialization
 
 Previously described in [Run Initializing](../../concepts/run/#initializing), in Pulumi the initialization will run:
 
@@ -31,15 +31,15 @@ Previously described in [Run Initializing](../../concepts/run/#initializing), in
 
 It will then commence to run all pre-initialization hooks.
 
-#### Planning
+### Planning
 
 We run `pulumi preview --refresh --diff --show-replacement-steps` in order to show planned changes.
 
-#### Applying
+### Applying
 
 We run `pulumi up --refresh --diff --show-replacement-steps` in order to apply changes.
 
-### Policies
+## Policies
 
 Most policies don't change at all. The one that changes most is the plan policy. Instead of the terraform raw plan in the `terraform` field, you'll get a `pulumi` field with the raw Pulumi plan and the following schema:
 
@@ -81,6 +81,6 @@ Most policies don't change at all. The one that changes most is the plan policy.
 
 Pulumi secrets are detected and encoded as "\[secret]" instead of the actual value, that's why there's no other string sanitization going on with Pulumi plans.
 
-### Modules
+## Modules
 
 Spacelift module CI/CD isn't currently available for Pulumi.

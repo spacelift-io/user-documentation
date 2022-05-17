@@ -6,7 +6,7 @@ description: Receiving Spacelift notifications using webhooks
 
 Spacelift can optionally be set to send webhooks - POST requests about run state changes - to an HTTP endpoint of your choice.
 
-### Setting up webhooks
+## Setting up webhooks
 
 Webhooks can be set up by Spacelift administrators on per-stack basis. In order to do that, navigate to the _Integrations_ section of the stack settings view. From the list of available integrations, select the _Add webhook_ option:
 
@@ -28,7 +28,7 @@ Once saved, the webhook will appear on the list of integrations:
 !!! info
     Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
 
-### Enabling and disabling webhooks
+## Enabling and disabling webhooks
 
 By default webhooks are enabled which means that they are triggered every time there's a run state change event on the Stack they're attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
 
@@ -44,7 +44,7 @@ Reversing this action is equally simple - just follow the same steps making sure
 
 ![](<../assets/screenshots/Mouse_Highlight_Overlay (3).png>)
 
-### Interpreting webhook payload
+## Interpreting webhook payload
 
 Here's an example webhook payload for a notification about a manually triggered run having finished:
 
@@ -93,7 +93,7 @@ The payload consists of a few fields:
 * `run` contains information about the run, its associated commit and delta (if any);
 * stack contains some basic information about the parent [Stack](../concepts/stack/) of the `run`;
 
-### Validating payload
+## Validating payload
 
 In order to validate the incoming payload, you will need to have the secret handy - the one you've generated yourself when creating or updating the webhook.
 

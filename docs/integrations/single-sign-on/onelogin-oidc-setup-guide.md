@@ -6,30 +6,30 @@ description: >-
 
 # OneLogin OIDC Setup Guide
 
-### Pre-requisites
+## Pre-requisites
 
 * Spacelift account, with access to admin permissions
 * OneLogin account, with permission to create OneLogin Applications
 
-### Configure Account Settings
+## Configure Account Settings
 
 You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
 
 ![Click on Settings](../../assets/screenshots/account-settings.png)
 
-### Setup OIDC
+## Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from OneLogin. For now **copy the authorized redirect URL** as we will need to provide OneLogin this URL when configuring our OneLogin application.
 
 ![Click on Set Up](../../assets/screenshots/1-setup-oidc.png)
 
-### OneLogin: Select Applications
+## OneLogin: Select Applications
 
 In a new browser tab, open your OneLogin account and visit the **Administration** page. Select the **Applications** link from the navigation.
 
 ![Select Applications from the OneLogin Administration page.](../../assets/screenshots/1-onelogin-select-applications.png)
 
-### OneLogin: Add Application
+## OneLogin: Add Application
 
 Click the **Add App** button.
 

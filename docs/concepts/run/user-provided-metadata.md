@@ -2,7 +2,7 @@
 
 Occasionally you might want to add additional information to your Runs which isn’t handled on a first-class basis by Spacelift. You can attach this kind of information using the run metadata parameter, which is available through [spacectl](https://github.com/spacelift-io/spacectl) as well as the GraphQL API.
 
-### Usage
+## Usage
 
 Let’s start with a small example. You’ll need a private worker for this.
 
@@ -124,7 +124,7 @@ In the policy sample log for the relevant metadata key we’ll see an additional
 
 And that's basically it! It's a very flexible building block which lets you build various automation and compliance helper tooling.
 
-### Run signatures
+## Run signatures
 
 A standard use case for this feature would be to sign your runs when you’re creating them.
 

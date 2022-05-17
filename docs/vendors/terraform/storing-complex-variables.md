@@ -10,7 +10,7 @@ Terraform supports a variety of variable types such as `string`, `number`, `list
 
 When using "complex" variable types with Spacelift such as `map` and `list` you'll need to utilize Terraform's [jsonencode](https://www.terraform.io/language/functions/jsonencode) function when storing these variables as an environment variable in your Spacelift Stack [environment](../../concepts/configuration/environment.md) or [context](../../concepts/configuration/context.md).
 
-### Usage Example
+## Usage Example
 
 ```terraform
 locals {
@@ -44,6 +44,6 @@ Notice the use of the `jsonencode` function when storing these complex variable 
 
 ![](../../assets/screenshots/store-complex-variable-types.png)
 
-### Consuming Stored Variables
+## Consuming Stored Variables
 
-When consuming complex variable types in your environment, there is no need to use the `jsondecode()` **** function.
+When consuming complex variable types in your environment, there is no need to use the `jsondecode()` function.

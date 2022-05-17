@@ -45,7 +45,7 @@ This is the schema of the data input that each policy request will receive:
 
 Two fields in the session object may require further explanation: _member_ and _teams_.
 
-#### Account membership
+### Account membership
 
 When you first log in to Spacelift, we use GitHub as the identity provider and thus we're able to get some of your details from there with username (login) being the most important one. However, each Spacelift account is linked to one and only one GitHub account. Thus, when you log in to a Spacelift account, we're checking if you're a member of that GitHub account.
 

@@ -1,6 +1,6 @@
 # Terragrunt
 
-### Using Terragrunt
+## Using Terragrunt
 
 Whether a Terraform stack is using Terragrunt or not is controlled by the presence of `terragrunt` label on the stack:
 
@@ -14,12 +14,12 @@ During the _Initialization_ phase we're showing you the exact binary that will p
 
 ![](../../assets/screenshots/Update_main_tf_·_GitLab__Terragrunt_with_autodeploy.png)
 
-### Versioning with Terragrunt
+## Versioning with Terragrunt
 
 When working with Terragrunt, you will still specify the Terraform version to be used to process your job. We don't do it for Terragrunt, which is [way more relaxed in terms](https://terragrunt.gruntwork.io/docs/getting-started/supported-terraform-versions/) of how it interacts with Terraform versions, especially since we're only using a very stable subset of its API.
 
 On our runner image, we install a version of Terragrunt that will work with the latest version of Terraform that we support. If you need a specific version of Terragrunt, feel free to create a custom runner image and install the Terragrunt version of your choosing.
 
-### Scope of support
+## Scope of support
 
 We're currently using Terragrunt the same way we're using Terraform, running `init`, `plan`, and `apply` commands. This means we're not supporting [executing Terraform commands on multiple modules at once](https://terragrunt.gruntwork.io/docs/features/execute-terraform-commands-on-multiple-modules-at-once/) (`run-all`). This functionality was designed to operate in a very different mode and environment, and is strictly outside our scope.

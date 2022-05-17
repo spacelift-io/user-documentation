@@ -8,24 +8,24 @@ description: >-
 
 If you'd like to set up the ability to sign in to your Spacelift account using an OIDC integration with GitLab, you've come to the right place. This example will walk you through the steps to get this setup, and you'll have single sign-on running in no time!
 
-### Pre-requisites
+## Pre-requisites
 
 * Spacelift account, with access to admin permissions
 * GitLab account, with permission to create GitLab Applications
 
-### Configure Account Settings
+## Configure Account Settings
 
 You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
 
 ![Click on Settings](../../assets/screenshots/account-settings.png)
 
-### Setup OIDC
+## Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from GitLab. For now **copy the authorized redirect URL** as we will need to provide GitLab this URL when configuring our GitLab application.
 
 ![Click on Set Up](../../assets/screenshots/1-setup-oidc.png)
 
-### GitLab: Create GitLab Application
+## GitLab: Create GitLab Application
 
 Within your GitLab account, visit the **Applications** section of your account.
 
@@ -41,7 +41,7 @@ Click **Save Application**.
 
 ![Complete the GitLab Application Configuration](../../assets/screenshots/2-gitlab-create-application-settings.png)
 
-### Configure OIDC Settings
+## Configure OIDC Settings
 
 Now that we have the GitLab Application setup, we'll need to take the **Application ID** and **Secret** to configure the Spacelift OIDC Settings.
 
@@ -55,8 +55,6 @@ In Spacelift, the **Provider URL** depends on where you are using GitLab, if you
     When setting your Provider URL within Spacelift, **do not include a trailing slash** "/" at the end of your URL or you may receive an error.
 
 ![Copy the Application ID and Secret values to your Spacelift OIDC configuration](../../assets/screenshots/3-gitlab-copy-values.png)
-
-
 
 ![Copy the values from GitLab into your Spacelift OIDC Settings.](../../assets/screenshots/4-spacelift-oidc-configuration.png)
 
