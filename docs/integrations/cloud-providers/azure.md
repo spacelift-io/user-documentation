@@ -31,7 +31,7 @@ Click on the _Add Integration_ button to start configuring your integration:
 
 ![](https://lh3.googleusercontent.com/eRpQfxiWazqKWfnHTmLYcIYL1hvcm4R_Wi3tqaEVZw0WfpFJWQqYo7OoqDhpZppamrWjZBpl41i1ZtftBxcoYN1YSvok9p7gtpOFQhnPau9HousE4tghTDPQWZXQ7NXn0ADAzq21=s0)
 
-Give **** your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
+Give your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
 !!! info
     You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade) section of the Azure portal.

@@ -25,7 +25,7 @@ To get started, create a drift detection configuration from the Integrations sec
 
 We generally suggest turning reconciliation "on" as it ensures that you get the most out of drift detection. Reconciliation jobs are equivalent to manually triggering [tracked runs](../run/tracked.md) and obey the same rules and constraints. In particular, they respect their stacks' auto-deploy setting and trigger plan policies - see [this section](drift-detection.md#policy-input) for more details.
 
-However, if you choose not to reconcile changes, you can still get value out of drift detection - in this case, drifted resources can be seen in the Resources view, both on the stack and account level. **** Also, drift detection jobs trigger [webhooks](../../integrations/webhooks.md) like regular runs, where they're clearly marked as such (`driftDetection` field).
+However, if you choose not to reconcile changes, you can still get value out of drift detection - in this case, drifted resources can be seen in the Resources view, both on the stack and account level. Also, drift detection jobs trigger [webhooks](../../integrations/webhooks.md) like regular runs, where they're clearly marked as such (`driftDetection` field).
 
 ![Resource marked as drifted in the stack's Resources view](<../../assets/screenshots/Spacelift (4).png>)
 
