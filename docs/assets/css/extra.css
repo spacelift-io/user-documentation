@@ -1,0 +1,9 @@
+[data-md-color-scheme="spacelift"] {
+  --md-primary-fg-color: #131417;
+  --md-accent-fg-color: #7C47FC;
+}
+
+/* Hide the "Spacelift" primary menu title */
+.md-nav--primary > .md-nav__title {
+  visibility: hidden;
+}

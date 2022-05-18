@@ -3,6 +3,7 @@
 #################################################################################
 site_name: Spacelift
 theme:
+  favicon: assets/images/favicon.png
   features:
     - content.code.annotate
     - navigation.indexes
@@ -10,7 +11,10 @@ theme:
     - navigation.sections
     - navigation.tracking
   language: en
+  logo: assets/images/logo.png
   name: material
+  palette:
+    scheme: spacelift
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -25,6 +29,8 @@ markdown_extensions:
   - toc:
       permalink: »
       permalink_title: Anchor link to this section
+extra_css:
+  - assets/css/extra.css
 extra:
   generator: false
   social:
