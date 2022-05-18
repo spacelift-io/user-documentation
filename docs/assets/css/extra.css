@@ -1,6 +1,15 @@
+/*
+Spacelift color scheme
+
+See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/master/src/assets/stylesheets/main/_colors.scss
+*/
 [data-md-color-scheme="spacelift"] {
-  --md-primary-fg-color: #131417;
-  --md-accent-fg-color: #7C47FC;
+  --md-primary-fg-color:#7C47FC;
+}
+
+/* Change the header background color */
+.md-header {
+  background-color: #131417;
 }
 
 /* Hide the "Spacelift" primary menu title */
