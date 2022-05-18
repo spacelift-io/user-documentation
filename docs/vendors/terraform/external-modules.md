@@ -48,7 +48,7 @@ chmod 400 ~/.ssh/id_ed25519
 ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 ```
 
-The above example warrants a little explanation. First, we're making sure that the `~/.ssh` directory exists - otherwise, we won't be able to put anything in there. Then we copy the private key file mounted in our workspace to the SSH configuration directory and give it proper permissions. Last but not least, we're using the `ssh-keyscan` utility to retrieve the public SSH host key for github.com and add it to the list of known hosts - this will avoid your code checkout failing due to what would otherwise be an interactive prompt asking you whether to trust that key.
+The above example warrants a little explanation. First, we're making sure that the `~/.ssh` directory exists - otherwise, we won't be able to put anything in there. Then we copy the private key file mounted in our workspace to the SSH configuration directory and give it proper permissions. Last but not least, we're using the `ssh-keyscan` utility to retrieve the public SSH host key for `github.com` and add it to the list of known hosts - this will avoid your code checkout failing due to what would otherwise be an interactive prompt asking you whether to trust that key.
 
 ## Dedicated third-party registries
 

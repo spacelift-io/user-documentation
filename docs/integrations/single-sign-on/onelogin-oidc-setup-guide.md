@@ -1,6 +1,6 @@
 ---
 description: >-
-  Example instructions for setting up OneLogin as a single sign-on source via
+  Example instructions for setting up OneLogin as a Single Sign-On source via
   OIDC.
 ---
 

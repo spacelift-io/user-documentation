@@ -51,7 +51,7 @@ When you first log in to Spacelift, we use GitHub as the identity provider and t
 
 When that GitHub account is an organization, we can explicitly query for your organization membership. If you're a member, you get the member field set to _true_. If you're not - it's _false_. For private accounts it's different - they can only have one member, so the check is even simpler - if your login is the same as the name of the linked GitHub account, you get the member field set to _true_. If it isn't - it's _false_.
 
-When using single sign-on with SAML, every successful login attempt will necessarily require that the _member_ field is set to _true -_ if the linked IdP could verify you, you **must** be a member.
+When using Single Sign-On with SAML, every successful login attempt will necessarily require that the _member_ field is set to _true -_ if the linked IdP could verify you, you **must** be a member.
 
 !!! warning
     Watch this field very closely - it may be _very_ useful for your **deny** rules.
@@ -62,7 +62,7 @@ When using the default identity provider (GitHub), Teams are only queried for or
 
 Note that Spacelift treats GitHub team membership as transitive - for example let's assume Charlie is a member of the _Badass_ team, which is a child of team _Awesome_. Charlie's list of teams includes both _Awesome_ and _Badass_, even though he's not a **direct** member of the team _Awesome_.
 
-For single sign-on, the list of teams is pretty much arbitrary and depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see the [relevant article](../../integrations/single-sign-on/README.md#setting-up-the-integration) for more details.
+For Single Sign-On, the list of teams is pretty much arbitrary and depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see the [relevant article](../../integrations/single-sign-on/README.md#setting-up-the-integration) for more details.
 
 !!! warning
     Watch this field very closely - it may be _very_ useful for your **allow** and **admin** rules.
@@ -89,12 +89,12 @@ deny  { not input.session.member }
 
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
 
-This is also important for single sign-on integrations: only the [integration creator](../../integrations/single-sign-on/README.md#setting-up-the-integration) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
+This is also important for Single Sign-On integrations: only the [integration creator](../../integrations/single-sign-on/README.md#setting-up-the-integration) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
 
 ### Granting access to external contributors
 
 !!! danger
-    This feature is not available when using [single sign-on](../../integrations/single-sign-on/README.md) - your identity provider **must** be able to successfully validate each user trying to log in to Spacelift.
+    This feature is not available when using [Single Sign-On](../../integrations/single-sign-on/README.md) - your identity provider **must** be able to successfully validate each user trying to log in to Spacelift.
 
 Sometimes you have folks (short-term consultants, most likely) who are not members of your organization but need access to your Spacelift account - either as regular members or perhaps even as admins. There's also the situation where a bunch of friends is working on a hobby project in a personal GitHub account and they could use access to Spacelift. Here's an example of a policy that allows a bunch of whitelisted folks to get regular access and one to get admin privileges:
 

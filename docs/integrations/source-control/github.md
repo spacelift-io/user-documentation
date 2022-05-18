@@ -78,7 +78,7 @@ This will download a file onto your machine containing the private key for your 
 Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), the _App ID_, and paste the contents of your private key file into the Private key box:
 
 !!! info
-    If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com){: rel="nofollow"}
+    If you are using `github.com` set your API host URL as:  [https://api.github.com](https://api.github.com){: rel="nofollow"}
 
 ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 

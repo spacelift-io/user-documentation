@@ -1,6 +1,6 @@
-# Integrating with the serverless framework
+# Integrating with the Serverless Framework
 
-In order to use the [serverless framework](https://www.serverless.com){: rel="nofollow"} in a CloudFormation Stack you'll need to do a few things: create a Docker image with the serverless framework included, invoke the serverless CLI in `before_init` hook, sync your artifacts with S3, and make sure the serverless config has your [template bucket](reference.md#stack-settings) configured as the artifact location.
+In order to use the [Serverless Framework](https://www.serverless.com){: rel="nofollow"} in a CloudFormation Stack you'll need to do a few things: create a Docker image with the Serverless Framework included, invoke the serverless CLI in `before_init` hook, sync your artifacts with S3, and make sure the serverless config has your [template bucket](reference.md#stack-settings) configured as the artifact location.
 
 The first one can be done using a Dockerfile akin to this one:
 

@@ -134,7 +134,7 @@ The received JWT is valid for an hour, so if you're accessing Spacelift API from
 ### Personal GitHub Token > Token
 
 !!! info
-    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single sign-on methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
+    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single Sign-On methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
 
 **Steps:**
 

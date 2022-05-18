@@ -76,4 +76,4 @@ You can also switch to the **Resources** tab to explore the resources you've cre
 
 ## Conclusion
 
-That's it! You can find more details about the available configuration settings in the [reference](reference.md), or you can check out how to use [SAM](integrating-with-sam.md) or the [serverless framework](integrating-with-the-serverless-framework.md) to generate your CloudFormation templates.
+That's it! You can find more details about the available configuration settings in the [reference](reference.md), or you can check out how to use [SAM](integrating-with-sam.md) or the [Serverless Framework](integrating-with-the-serverless-framework.md) to generate your CloudFormation templates.

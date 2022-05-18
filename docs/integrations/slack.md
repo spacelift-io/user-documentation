@@ -75,7 +75,7 @@ As you can see, that's quite a bit of data you can base your decisions on. For e
 Any Stack with this policy attached will be accessible for writing from this Slack channel - but no other!
 
 !!! info
-    Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a _#devops_ channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
+    Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a `#devops` channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
 
 ## Available slash commands
 

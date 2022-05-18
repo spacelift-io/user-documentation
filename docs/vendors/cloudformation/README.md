@@ -9,7 +9,7 @@ You can find more details in the subpages:
 - [Getting Started](getting-started.md)
 - [Reference](reference.md)
 - [Integrating with SAM](integrating-with-sam.md)
-- [Integrating with the serverless framework](integrating-with-the-serverless-framework.md)
+- [Integrating with the Serverless Framework](integrating-with-the-serverless-framework.md)
 
 ## Why use CloudFormation?
 
@@ -25,4 +25,4 @@ You can also use Spacelift to mix and match Terraform, Pulumi, and CloudFormatio
 
 ## Does Spacelift support CloudFormation frameworks?
 
-Yes! We support [SAM](https://aws.amazon.com/serverless/sam/){: rel="nofollow"} and the [serverless framework](https://www.serverless.com){: rel="nofollow"}. You can read more about it in the relevant subpages of this document. [CDK](https://github.com/aws/aws-cdk){: rel="nofollow"} is not yet supported but will be in the future.
+Yes! We support [SAM](https://aws.amazon.com/serverless/sam/){: rel="nofollow"} and the [Serverless Framework](https://www.serverless.com){: rel="nofollow"}. You can read more about it in the relevant subpages of this document. [AWS CDK](https://github.com/aws/aws-cdk){: rel="nofollow"} is not yet supported but will be in the future.

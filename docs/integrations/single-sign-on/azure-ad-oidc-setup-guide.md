@@ -1,12 +1,12 @@
 ---
 description: >-
-  Example instructions for setting up Azure AD as a single sign-on source via
+  Example instructions for setting up Azure AD as a Single Sign-On source via
   OIDC.
 ---
 
 # Azure AD OIDC Setup Guide
 
-If you'd like to set up the ability to sign in to your Spacelift account using an OIDC integration with Azure AD, you've come to the right place. This example will walk you through the steps to get this setup, and you'll have single sign-on running in no time!
+If you'd like to set up the ability to sign in to your Spacelift account using an OIDC integration with Azure AD, you've come to the right place. This example will walk you through the steps to get this setup, and you'll have Single Sign-On running in no time!
 
 ## Pre-requisites
 

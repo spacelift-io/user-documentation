@@ -6,11 +6,11 @@ description: >-
 
 # Single Sign-On
 
-By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a single sign-on approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports single sign-on using [SAML 2.0](#setting-up-saml) or [OIDC](#setting-up-oidc).
+By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a Single Sign-On approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports Single Sign-On using [SAML 2.0](#setting-up-saml) or [OIDC](#setting-up-oidc).
 
 ## Managing integrations
 
-In order to manage single sign-on integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single sign-on_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
+In order to manage Single Sign-On integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single Sign-On_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
 
 ![These URLs will be different for your account](../../assets/screenshots/sso_settings.png)
 

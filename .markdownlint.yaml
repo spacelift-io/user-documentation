@@ -17,7 +17,7 @@ MD029:
 MD033:
   allowed_elements: [br]
 MD044:
-  names: [Javascript]
+  names: [AWS CDK, Bitbucket, DevOps, GitHub, GitLab, GraphQL, Javascript, Serverless Framework, Single Sign-On]
   code_blocks: false
 MD048:
   style: backtick

@@ -72,7 +72,7 @@ When using GitHub as an authentication provider, your Spacelift accounts are ass
 
 #### GitHub was used as a sign-in option:
 
-1. [Install the Spacelift Github App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
+1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 17-39-51 Build software better together copy.png>)
@@ -123,7 +123,7 @@ Click on _Confirm_ and your changes will be applied. Your output will look diffe
 
 1. Learn how to [integrate with AWS](integrations/cloud-providers/aws.md) as a cloud provider for your infrastructure
 2. Try [creating and attaching policies](concepts/policy/#creating-policies) with stacks for common use cases
-3. [Spacelift workflow with Github change requests (PR)](integrations/source-control/github.md#pull-requests)
+3. [Spacelift workflow with GitHub change requests (PR)](integrations/source-control/github.md#pull-requests)
 4. [Setting up private workers for Spacelift](concepts/worker-pools.md)
 5. Using [environment variables](concepts/configuration/environment.md#environment-variables) and [contexts](concepts/configuration/context.md) with stacks
 6. [Configuring stack behavior with common settings](concepts/stack/stack-settings.md)
