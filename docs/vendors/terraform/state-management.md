@@ -5,7 +5,7 @@ For those of you who don't want to manage Terraform state, Spacelift offers an o
 As you can see, it's also possible to import an existing Terraform state at this point, which is useful for users who want to upgrade their previous Terraform workflow.
 
 !!! info
-    If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html) whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
+    If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html){: rel="nofollow"} whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/) and [task](../../concepts/run/task.md).
 
 ## Do. Or do not. There is no try.
 
@@ -20,7 +20,7 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 ### Don't
 
-1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html). This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.\
+1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.\
 
 2. We'll let you in on a little secret now - behind the pixie dust it's still S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.\
 
@@ -33,11 +33,11 @@ S3, like half of the Internet. The pixie dust we're adding on top of it involves
 !!! warning
     If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
-The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html). Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
+The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}. Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
 
 ## Importing resources into your Terraform State
 
-So you have an existing resource that was created by other means and would like that resource to be reflected in your terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import) command. When you're managing your own terraform state, you would typically run this command locally to import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask? Spacelift [Task](https://docs.spacelift.io/concepts/run/task) to the rescue!
+So you have an existing resource that was created by other means and would like that resource to be reflected in your terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="nofollow"} command. When you're managing your own terraform state, you would typically run this command locally to import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask? Spacelift [Task](https://docs.spacelift.io/concepts/run/task){: rel="nofollow"} to the rescue!
 
 To do this, use the following steps:
 

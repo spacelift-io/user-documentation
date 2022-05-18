@@ -91,7 +91,7 @@ In order to use your newly generated API key in a program, you will first need t
 **Steps:**
 
 1. Create a Spacelift API Key in your account, take note of the API Key ID (found next to the name of your API Key), and the API Key Secret (found within the file downloaded upon creation of the API Key).
-2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest) or [GraphiQL](https://github.com/skevy/graphiql-app)). Make a GraphQL query to your account's GraphQL endpoint (example below).
+2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}). Make a GraphQL query to your account's GraphQL endpoint (example below).
 
 **Request Details:**
 
@@ -138,8 +138,8 @@ The received JWT is valid for an hour, so if you're accessing Spacelift API from
 
 **Steps:**
 
-1. Using a GitHub Account that has access to your Spacelift account, [create a GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). Copy the value of this token to a secure location, as you'll need it in the next step.
-2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest) or [GraphiQL](https://github.com/skevy/graphiql-app)). Make a GraphQL POST request to your account's GraphQL endpoint (example below).
+1. Using a GitHub Account that has access to your Spacelift account, [create a GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token){: rel="nofollow"}. Copy the value of this token to a secure location, as you'll need it in the next step.
+2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}). Make a GraphQL POST request to your account's GraphQL endpoint (example below).
 
 **Request Details:**
 
@@ -173,7 +173,7 @@ Assuming all went well, the result of the above query will return your JWT beare
 
 ## Viewing the GraphQL Schema
 
-Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest) or [GraphiQL](https://github.com/skevy/graphiql-app). _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
+Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}. _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
 
 !!! warning
     Please replace the URL in the below examples with the one pointing to **your** Spacelift account.

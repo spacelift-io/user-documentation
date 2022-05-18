@@ -35,9 +35,9 @@ In order to specify the InstanceTypeParameter add an environment variable to you
 
 ### CloudFormation Stack Capabilities
 
-Some functionalities available to CloudFormation Stacks need to be explicitly acknowledged using [capabilities](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#using-iam-capabilities). You can configure capabilities in Spacelift using environment variables of the form **`CF_CAPABILITY_xyz`** and set them to 1.
+Some functionalities available to CloudFormation Stacks need to be explicitly acknowledged using [capabilities](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#using-iam-capabilities){: rel="nofollow"}. You can configure capabilities in Spacelift using environment variables of the form **`CF_CAPABILITY_xyz`** and set them to 1.
 
-As of the time of writing this page, available capabilities are `CF_CAPABILITY_IAM`, `CF_CAPABILITY_NAMED_IAM,` and `CF_CAPABILITY_AUTO_EXPAND`. Detailed descriptions can be found in the [AWS API documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html).
+As of the time of writing this page, available capabilities are `CF_CAPABILITY_IAM`, `CF_CAPABILITY_NAMED_IAM,` and `CF_CAPABILITY_AUTO_EXPAND`. Detailed descriptions can be found in the [AWS API documentation](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateChangeSet.html){: rel="nofollow"}.
 
 ## Available Computed Environment Variables
 

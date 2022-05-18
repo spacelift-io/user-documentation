@@ -6,7 +6,7 @@ description: From this article you can learn how Kubernetes is integrated into S
 
 ## What is Kubernetes?
 
-Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available. For more information about Kubernetes, see the [reference documentation](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/).
+Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available. For more information about Kubernetes, see the [reference documentation](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/){: rel="nofollow"}.
 
 ## How does Spacelift work with Kubernetes?
 
@@ -14,7 +14,7 @@ Spacelift supports Kubernetes via `kubectl`.
 
 ## What is `kubectl`?
 
-The Kubernetes command-line tool, [`kubectl`](https://kubernetes.io/docs/reference/kubectl/kubectl/), allows you to run commands against Kubernetes clusters. You can use `kubectl` to deploy applications, inspect and manage cluster resources, and view logs. For more information including a complete list of `kubectl` operations, see the [`kubectl` reference documentation](https://kubernetes.io/docs/reference/kubectl/).
+The Kubernetes command-line tool, [`kubectl`](https://kubernetes.io/docs/reference/kubectl/kubectl/){: rel="nofollow"}, allows you to run commands against Kubernetes clusters. You can use `kubectl` to deploy applications, inspect and manage cluster resources, and view logs. For more information including a complete list of `kubectl` operations, see the [`kubectl` reference documentation](https://kubernetes.io/docs/reference/kubectl/){: rel="nofollow"}.
 
 ## Why use Spacelift with Kubernetes?
 
@@ -24,4 +24,4 @@ You can also use Spacelift to mix and match Terraform, Pulumi, CloudFormation, a
 
 **Anything that can be run via `kubectl` can be run within a Spacelift stack.**
 
-To find out more about Kubernetes Workload Resources, read the [reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/).
+To find out more about Kubernetes Workload Resources, read the [reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/){: rel="nofollow"}.

@@ -91,7 +91,7 @@ package spacelift
 read { input.session.teams[_] == "Engineering" }
 ```
 
-OK, that was simple. But let's also see it in the [Rego playground](https://play.openpolicyagent.org/p/JfvU6EmuMB).
+OK, that was simple. But let's also see it in the [Rego playground](https://play.openpolicyagent.org/p/JfvU6EmuMB){: rel="nofollow"}.
 
 ### In case things go wrong, we want you to be there
 
@@ -113,7 +113,7 @@ deny_write { clock[0] > 17 }
 deny_write { not net.cidr_contains("12.34.56.0/24", ip) }
 ```
 
-Here is this example in [Rego playground](https://play.openpolicyagent.org/p/IDqCBBtZ0n).
+Here is this example in [Rego playground](https://play.openpolicyagent.org/p/IDqCBBtZ0n){: rel="nofollow"}.
 
 ### Protect administrative stacks
 
@@ -125,4 +125,4 @@ package spacelift
 deny_write { input.stack.administrative }
 ```
 
-And here's the necessary [Rego playground example](https://play.openpolicyagent.org/p/JG0MwLyyeQ).
+And here's the necessary [Rego playground example](https://play.openpolicyagent.org/p/JG0MwLyyeQ){: rel="nofollow"}.

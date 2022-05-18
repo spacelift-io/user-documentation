@@ -4,7 +4,7 @@ At Spacelift, your security is our first and foremost priority. We're aware of t
 
 ## Encryption
 
-All of our data is encrypted at rest and in transit. With the exception of intra-VPC traffic between the web server and the load balancer protected by a restrictive [AWS security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html), all other traffic is handled using secure transport protocols. All the data sources (S3, database, SNS topics and SQS queues) are encrypted at rest using [AWS KMS](https://aws.amazon.com/kms/) keys with restricted and audited access.
+All of our data is encrypted at rest and in transit. With the exception of intra-VPC traffic between the web server and the load balancer protected by a restrictive [AWS security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html), all other traffic is handled using secure transport protocols. All the data sources (S3, database, SNS topics and SQS queues) are encrypted at rest using [AWS KMS](https://aws.amazon.com/kms/){: rel="nofollow"} keys with restricted and audited access.
 
 [Customer secrets](../concepts/configuration/environment.md#a-note-on-visibility) are extra encrypted at rest in a way that should withstand even an internal attacker.
 

@@ -27,11 +27,11 @@ Now you'll have to fill in the Organization URL, which is the main URL of your A
 
     * `https://{my-organization-name}.visualstudio.com`
 
-    You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration).
+    You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration){: rel="nofollow"}.
 
 ### Creating a Personal Access Token
 
-In order to create a [Personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate) you need to:
+In order to create a [Personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate){: rel="nofollow"} you need to:
 
 1\. Go to **User settings** -> **Personal access tokens** (in the top right section of the Azure DevOps page)
 

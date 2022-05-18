@@ -1,6 +1,6 @@
 # Integrating with SAM
 
-In order to use [SAM](https://aws.amazon.com/serverless/sam/) in a CloudFormation Stack you'll need to do two things: create a Docker image with SAM included and invoke SAM in `before_init` hooks.
+In order to use [SAM](https://aws.amazon.com/serverless/sam/){: rel="nofollow"} in a CloudFormation Stack you'll need to do two things: create a Docker image with SAM included and invoke SAM in `before_init` hooks.
 
 The first one can be done using a Dockerfile akin to this one:
 
@@ -23,7 +23,7 @@ RUN sam --version
 USER spacelift
 ```
 
-You should build it, push it to a repository and set it as the [Runner Image](https://docs.spacelift.io/concepts/stack/stack-settings#runner-image) of your Stack.
+You should build it, push it to a repository and set it as the [Runner Image](../../concepts/stack/stack-settings.md#runner-image) of your Stack.
 
 You'll also have to invoke SAM in order to generate raw CloudFormation files and upload Lambda artifacts to S3. You can do this by adding the following to your before initialization hooks:
 

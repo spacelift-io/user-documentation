@@ -6,13 +6,13 @@ description: From this article you can learn how to setup a Pulumi Go Stack in S
 
 In order to follow along with this article, you'll need an AWS account.
 
-Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples), we'll be setting up an example directory from there, namely [aws-go-s3-folder](https://github.com/pulumi/examples/tree/master/aws-go-s3-folder).
+Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-go-s3-folder](https://github.com/pulumi/examples/tree/master/aws-go-s3-folder){: rel="nofollow"}.
 
 Now let's open Spacelift and create a new Stack, choose the examples repo you just forked. In the second step you'll have to change multiple default values:
 
 - Set the project root to `aws-go-s3-folder`, as we want to run Pulumi in this subdirectory only.
 - Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-golang:latest`
-- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-golang).
+- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-golang){: rel="nofollow"}.
 
 ![Define behavior.](<../../../assets/screenshots/image (42).png>)
 

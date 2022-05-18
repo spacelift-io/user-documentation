@@ -14,7 +14,7 @@ This should open a form like this one:
 
 Now you'll have to fill in the Username, which is a username of your Bitbucket Cloud account.
 
-In order to get the [App password](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/) you'll need to go to the Bitbucket Cloud site and navigate to **Personal settings** -> **App passwords** (it's under Access management) -> **Create app password**. There, you will need to give your new app password a label and give it read access to repositories and pull requests:
+In order to get the [App password](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/){: rel="nofollow"} you'll need to go to the Bitbucket Cloud site and navigate to **Personal settings** -> **App passwords** (it's under Access management) -> **Create app password**. There, you will need to give your new app password a label and give it read access to repositories and pull requests:
 
 ![App password creation](<../../assets/screenshots/Screenshot from 2021-06-10 16-16-53.png>)
 
@@ -34,7 +34,7 @@ For each repository you want to use with Spacelift, you now have to go into its 
 
 ![Webhooks configuration](<../../assets/screenshots/Screenshot 2022-02-16 at 14.57.25.png>)
 
-The last step is to install the **Pull Request Commit Links** app to be able to use [this](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bcommit%7D/pullrequests) API. This is done automatically when you go to the commit's details and then click "Pull requests" link.
+The last step is to install the **Pull Request Commit Links** app to be able to use [this](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bcommit%7D/pullrequests){: rel="nofollow"} API. This is done automatically when you go to the commit's details and then click "Pull requests" link.
 
 ![Commit's details](<../../assets/screenshots/Screenshot from 2021-06-15 11-19-56.png>)
 

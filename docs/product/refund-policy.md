@@ -33,7 +33,7 @@ The time taken to return the Funds may be affected by the operation of the payme
 
 ## FINAL PROVISIONS
 
-The current version of the Policy is available at [https://docs.spacelift.io/product/refund-policy](https://docs.spacelift.io/product/refund-policy)
+The current version of the Policy is available [here](./refund-policy.md)
 
 This Policy is valid from 1st November 2021.
 

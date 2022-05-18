@@ -2,18 +2,18 @@
 
 ## About the integration
 
-Spacelift GCP integration allows Spacelift to manage your Google Cloud resources without the need for long-lived static credentials. In order to achieve that Spacelift create a [service account](https://cloud.google.com/iam/docs/service-accounts) inside our project dedicated for your Stack. We show you the globally unique email of this service account, which you can add to your GCP organizations and/or projects with the right level of access.
+Spacelift GCP integration allows Spacelift to manage your Google Cloud resources without the need for long-lived static credentials. In order to achieve that Spacelift create a [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} inside our project dedicated for your Stack. We show you the globally unique email of this service account, which you can add to your GCP organizations and/or projects with the right level of access.
 
-With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1) for the Google Terraform provider, so you can define it like this:
+With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1){: rel="nofollow"} for the Google Terraform provider, so you can define it like this:
 
 ```terraform
 provider "google" {}
 ```
 
 !!! info
-    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#project-1)identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
+    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#project-1){: rel="nofollow"}identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
 
-You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes) that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
+You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes){: rel="nofollow"} that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
 
 - `https://www.googleapis.com/auth/compute`
 - `https://www.googleapis.com/auth/cloud-platform`
@@ -21,7 +21,7 @@ You can customize the list of [OAuth scopes](https://developers.google.com/ident
 - `https://www.googleapis.com/auth/devstorage.full_control`
 - `https://www.googleapis.com/auth/userinfo.email`
 
-This list is consistent with the [defaults requested by the Terraform provider](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#scopes-1).
+This list is consistent with the [defaults requested by the Terraform provider](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#scopes-1){: rel="nofollow"}.
 
 ## Setting up in Spacelift
 
@@ -73,7 +73,7 @@ resource "google_project_iam_member" "k8s-core" {
 
 ## Setting up access in GCP
 
-In order to make the integration work, you'll have to make the dedicated service account a member of your organization and/or project, with an appropriate level of access. This is done in the [IAM & Admin](https://console.cloud.google.com/iam-admin/iam) view of GCP's web UI. First, let's show an example of adding a service account as a member on the organization level:
+In order to make the integration work, you'll have to make the dedicated service account a member of your organization and/or project, with an appropriate level of access. This is done in the [IAM & Admin](https://console.cloud.google.com/iam-admin/iam){: rel="nofollow"} view of GCP's web UI. First, let's show an example of adding a service account as a member on the organization level:
 
 ![](../../assets/screenshots/IAM_–_IAM___admin_–_spacelift_io_–_Google_Cloud_Platform.png)
 

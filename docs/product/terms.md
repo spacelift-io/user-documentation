@@ -25,7 +25,7 @@ The Services may include automatically recurring payments for periodic charges (
 In Subscription Service:
 
 - Seat means each user who actively logged in to the Site in the last month.
-- Private worker is a single worker installed on-premise that allows you to execute Spacelift workflows on your end. You can read more about it [here](https://docs.spacelift.io/concepts/private-worker-pools).
+- Private worker is a single worker installed on-premise that allows you to execute Spacelift workflows on your end. You can read more about it [here](../concepts/worker-pools.md).
 
 **1.8** Additional policies which also apply to your use of the Site include:
 

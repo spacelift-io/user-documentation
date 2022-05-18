@@ -138,7 +138,7 @@ These values can also be passed using environment variables, though this will on
 - `SPACELIFT_API_KEY_ID` for `api_key_id`;
 - `SPACELIFT_API_KEY_SECRET` for `api_key_secret`;
 
-If you want to talk to multiple Spacelift accounts, you just need to set up [provider aliases](https://www.terraform.io/docs/configuration/providers.html#alias-multiple-provider-configurations) like this:
+If you want to talk to multiple Spacelift accounts, you just need to set up [provider aliases](https://www.terraform.io/docs/configuration/providers.html#alias-multiple-provider-configurations){: rel="nofollow"} like this:
 
 ```terraform
 variable "spacelift_first_key_id" {}

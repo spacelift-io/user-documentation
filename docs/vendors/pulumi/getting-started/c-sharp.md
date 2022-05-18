@@ -6,7 +6,7 @@ description: From this article you can learn how to setup a Pulumi C# Stack in S
 
 In order to follow along with this article, you'll need an AWS account.
 
-Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples), we'll be setting up an example directory from there, namely [aws-cs-webserver](https://github.com/pulumi/examples/tree/master/aws-cs-webserver).
+Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-cs-webserver](https://github.com/pulumi/examples/tree/master/aws-cs-webserver){: rel="nofollow"}.
 
 In the root of the repository (not the aws-cs-webserver directory), add a new file:
 

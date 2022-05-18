@@ -78,7 +78,7 @@ This will download a file onto your machine containing the private key for your 
 Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), the _App ID_, and paste the contents of your private key file into the Private key box:
 
 !!! info
-    If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com)
+    If you are using github.com set your API host URL as:  [https://api.github.com](https://api.github.com){: rel="nofollow"}
 
 ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 
@@ -185,7 +185,7 @@ This is is an important part of our proposed workflow - please refer to [this se
 
 ### Deployment status notifications
 
-[Deployments](https://developer.github.com/v3/guides/delivering-deployments/) and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
+[Deployments](https://developer.github.com/v3/guides/delivering-deployments/){: rel="nofollow"} and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (1).png>)
 
@@ -220,10 +220,10 @@ Once a Pull Request is closed, whether with or merging or without merging, it di
 
 ## Proposed workflow
 
-In this section, we'd like to propose a workflow that has worked for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html).
+In this section, we'd like to propose a workflow that has worked for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html){: rel="nofollow"}.
 
 !!! info
-    These are mere suggestions and Spacelift will fit pretty much any Git workflow. If you find a different process or a distinct variation of one of the described approaches works better for you, please [let us know](https://forms.gle/eFEcsLr5gaiWxSE5A).
+    These are mere suggestions and Spacelift will fit pretty much any Git workflow. If you find a different process or a distinct variation of one of the described approaches works better for you, please [let us know](https://forms.gle/eFEcsLr5gaiWxSE5A){: rel="nofollow"}.
 
 ### Single stack version
 
@@ -239,7 +239,7 @@ We're almost there, but let's also consider a scenario where our coworkers are a
 
 One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
 
-If you're in that group, you can create two long-lived Git branches, each linked to a different stack - the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack. Most development thus occurs on the staging branch and once the code is perfected there over a few iterations, a Pull Request can be opened from the `staging` to `production` branch, incorporating all the changes. That's essentially how we've seen most teams implement [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html). This approach keeps the history of the `production` branch clear and allows plenty of experimentation in the `staging` branch.
+If you're in that group, you can create two long-lived Git branches, each linked to a different stack - the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack. Most development thus occurs on the staging branch and once the code is perfected there over a few iterations, a Pull Request can be opened from the `staging` to `production` branch, incorporating all the changes. That's essentially how we've seen most teams implement [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html){: rel="nofollow"}. This approach keeps the history of the `production` branch clear and allows plenty of experimentation in the `staging` branch.
 
 With the above GitFlow-like setup, we propose protecting both `staging` and `production` branches in GitHub. To maximize flexibility, `staging` branch may require a green commit status from its associated stack but not necessarily a manual review. In the meantime, `production` branch should probably require both a manual approval and a green commit status from its associated stack.
 

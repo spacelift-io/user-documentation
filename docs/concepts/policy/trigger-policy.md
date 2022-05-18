@@ -92,7 +92,7 @@ This is the schema of the data input that each policy request will receive:
 
 ## Use cases
 
-Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life), but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
+Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life){: rel="nofollow"}, but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
 
 ### Interdependent stacks
 
@@ -112,7 +112,7 @@ finished {
 
 ```
 
-Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/gz547MYtfN). But it's **far from ideal**. We can't be guaranteed that stacks with these IDs still exist in this account. Spacelift will handle that just fine, but you'll likely find if confusing. Also, for any new Stack that appears you will need to explicitly add it to the list. That's annoying.
+Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/gz547MYtfN){: rel="nofollow"}. But it's **far from ideal**. We can't be guaranteed that stacks with these IDs still exist in this account. Spacelift will handle that just fine, but you'll likely find if confusing. Also, for any new Stack that appears you will need to explicitly add it to the list. That's annoying.
 
 We can do better, and to do that, we'll use Stack [labels](../stack/#labels). Labels are completely arbitrary strings that you can attach to individual Stacks, and we can use them to do something magical - have "client" Stacks "subscribe" to "parent" ones.
 
@@ -129,7 +129,7 @@ trigger[stack.id] {
 }
 ```
 
-Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/2fFcGNXycg). The benefit of this policy is that you can attach it to all your stacks, and it will just work for your entire organization.
+Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/2fFcGNXycg){: rel="nofollow"}. The benefit of this policy is that you can attach it to all your stacks, and it will just work for your entire organization.
 
 Can we do better? Sure, we can even have stacks use labels to decide which types of runs or state changes they care about. Here's a mind-bending example:
 
@@ -146,7 +146,7 @@ trigger[stack.id] {
 }
 ```
 
-[Another Rego example to play with](https://play.openpolicyagent.org/p/R35tO7nvCB). Now, how cool is that?
+[Another Rego example to play with](https://play.openpolicyagent.org/p/R35tO7nvCB){: rel="nofollow"}. Now, how cool is that?
 
 ### Automated retries
 

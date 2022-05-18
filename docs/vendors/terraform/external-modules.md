@@ -4,11 +4,11 @@ Those of our customers who are not yet using our private module registry may wan
 
 ## Cloud storage
 
-The easiest ones to handle are cloud sources - [S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket) and [GCS](https://www.terraform.io/docs/language/modules/sources.html#gcs-bucket) buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools.md) hosted on either of these clouds, you may not require any authentication at all!
+The easiest ones to handle are cloud sources - [S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket){: rel="nofollow"} and [GCS](https://www.terraform.io/docs/language/modules/sources.html#gcs-bucket){: rel="nofollow"} buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools.md) hosted on either of these clouds, you may not require any authentication at all!
 
 ## Git repositories
 
-Git is by far the most popular external module source. This example will focus on [GitHub](https://www.terraform.io/docs/language/modules/sources.html#github) as the most popular one, but the advice applies to other VCS providers. In general, Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSL. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
+Git is by far the most popular external module source. This example will focus on [GitHub](https://www.terraform.io/docs/language/modules/sources.html#github){: rel="nofollow"} as the most popular one, but the advice applies to other VCS providers. In general, Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSL. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
 
 ### Using HTTPS
 
@@ -35,7 +35,7 @@ chmod 600 ~/.netrc
 
 ### Using SSH
 
-Using SSH isn't much more complex, but it requires a bit more preparation. Once you have a public-private key pair (whether it's a [personal](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) SSH key or a single-repo [deploy key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys)), you will need to pass it to Spacelift and make sure it's used to access your VCS provider. Once again, we're going to use the [mounted file](../../concepts/configuration/environment.md#mounted-files) functionality to pass the _private_ key called `id_ed25519` to your stack's environment:
+Using SSH isn't much more complex, but it requires a bit more preparation. Once you have a public-private key pair (whether it's a [personal](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account){: rel="nofollow"} SSH key or a single-repo [deploy key](https://docs.github.com/en/developers/overview/managing-deploy-keys#deploy-keys){: rel="nofollow"}), you will need to pass it to Spacelift and make sure it's used to access your VCS provider. Once again, we're going to use the [mounted file](../../concepts/configuration/environment.md#mounted-files) functionality to pass the _private_ key called `id_ed25519` to your stack's environment:
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay (5).png>)
 
@@ -52,7 +52,7 @@ The above example warrants a little explanation. First, we're making sure that t
 
 ## Dedicated third-party registries
 
-For users storing their modules in dedicated external private registries, like [Terraform Cloud's one](https://www.terraform.io/docs/cloud/registry/index.html), you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [official documentation](https://www.terraform.io/docs/cli/config/config-file.html#credentials).
+For users storing their modules in dedicated external private registries, like [Terraform Cloud's one](https://www.terraform.io/docs/cloud/registry/index.html){: rel="nofollow"}, you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [official documentation](https://www.terraform.io/docs/cli/config/config-file.html#credentials){: rel="nofollow"}.
 
 In order to faciliate that, we've introduced a special mechanism for extending the CLI configuration that does not even require using before\_init hooks. You can read more about it [here](cli-configuration.md).
 
@@ -62,7 +62,7 @@ That is the question. And there isn't a single right answer. Instead, there is a
 
 So if you don't want to mount these credentials, what are your options? First, you can put these credentials directly into your [private runner image](../../integrations/docker.md#using-private-docker-images). But that means that anyone in your organization who uses the private runner image gets access to your credentials - and that may or may not be what you wanted.
 
-The other option is to store the credentials externally in one of the secrets stores - like [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/) or [HashiCorp Vault](https://www.vaultproject.io) and retrieve them in one of your [`before_init`](../../concepts/stack/stack-settings.md#before-init-scripts) scripts before putting them in the right place (`~/.netrc` file, `~/.ssh` directory, etc.).
+The other option is to store the credentials externally in one of the secrets stores - like [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"} or [HashiCorp Vault](https://www.vaultproject.io){: rel="nofollow"} and retrieve them in one of your [`before_init`](../../concepts/stack/stack-settings.md#before-init-scripts) scripts before putting them in the right place (`~/.netrc` file, `~/.ssh` directory, etc.).
 
 !!! info
     If you decide to mount, we advise that you store credentials in [contexts](../../concepts/configuration/context.md) and attach these to stacks that need them. This way you can avoid credentials sprawl and leak.

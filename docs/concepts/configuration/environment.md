@@ -14,10 +14,10 @@ If you take a look at the Environment screen of a stack you will notice it's pre
 
 ## Environment variables
 
-The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables)_input variables_.
+The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"} _input variables_.
 
 !!! info
-    Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html) because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
+    Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
@@ -66,13 +66,13 @@ The Spacelift flow can be broken down into a number of stages - most importantly
 - [Planning](../run/proposed.md#planning), which calculates the changes;
 - [Applying](../run/tracked.md#applying), which makes the actual changes;
 
-In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any actual changes to your resources and your state and needs the credentials that support it. Yet frequently, the practice is to pass the same credentials to all stages. The reason for that is either the lack of awareness or - more often - the limitations in the tooling. Depending on your flow, this may be a potential security issue because even if you [manually review every job](../run/tracked.md#approval-flow) before it reaches the [_Applying_](../run/tracked.md#applying) stage, [the Planning phase can do a lot of damage](https://alex.kaskaso.li/post/terraform-plan-rce).
+In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any actual changes to your resources and your state and needs the credentials that support it. Yet frequently, the practice is to pass the same credentials to all stages. The reason for that is either the lack of awareness or - more often - the limitations in the tooling. Depending on your flow, this may be a potential security issue because even if you [manually review every job](../run/tracked.md#approval-flow) before it reaches the [_Applying_](../run/tracked.md#applying) stage, [the Planning phase can do a lot of damage](https://alex.kaskaso.li/post/terraform-plan-rce){: rel="nofollow"}.
 
 Spacelift supports a more security-conscious approach by allowing users to define variables that are passed to read (in practice, everything except for [Applying](../run/tracked.md#applying)) and write stages. By default, we pass an environment variable to all stages, but prefixes can be used to change the default behavior.
 
 An environment variable whose name starts with the _ro\__ prefix is only passed to read stages but not to the write ([_Applying_](../run/tracked.md#applying)) stage. On the other hand, an environment variable whose name starts with the _wo\__ prefix is only passed to the write ([_Applying_](../run/tracked.md#applying)) stage but not to the read ones.
 
-Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs) variable split into two separate environment variables:
+Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs){: rel="nofollow"} variable split into two separate environment variables:
 
 ![](../../assets/screenshots/Environment_·_Bacon_bacon.png)
 
@@ -82,7 +82,7 @@ A similar approach can be used for AWS, GCP, Azure, or any other cloud provider 
 
 ## Mounted files
 
-Every now and then an environment variable is not what you need - you need a file instead. Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path) which needs to be present in your workspace as well.
+Every now and then an environment variable is not what you need - you need a file instead. Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path){: rel="nofollow"} which needs to be present in your workspace as well.
 
 It's almost like creating an environment variable, though instead of typing (or pasting) the value you'll be uploading a file:
 

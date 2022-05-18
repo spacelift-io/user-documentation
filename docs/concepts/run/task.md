@@ -6,8 +6,8 @@ While tasks enjoy the privilege of having their own GUI screen, they're just ano
 
 ## The purpose of tasks
 
-The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html), or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html).\
-\
+The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html){: rel="nofollow"}, or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}.
+
 Given that thanks to the [Docker integration](../../integrations/docker.md) you have full control over the execution environment of your workloads, there's hardly a limit to what you can do.
 
 !!! danger

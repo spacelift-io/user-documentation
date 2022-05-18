@@ -8,14 +8,14 @@ description: >-
 
 In order to follow along with this article, you'll need an AWS account.
 
-Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples), we'll be setting up an example directory from there, namely [aws-js-webserver](https://github.com/pulumi/examples/tree/master/aws-js-webserver).
+Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-js-webserver](https://github.com/pulumi/examples/tree/master/aws-js-webserver){: rel="nofollow"}.
 
 Now let's open Spacelift and create a new Stack, choose the examples repo you just forked. In the second step you'll have to change multiple default values:
 
 - Set the project root to `aws-js-webserver`, as we want to run Pulumi in this subdirectory only.
 - Add one before init script: `npm install`, which will install all necessary dependencies, before initializing Pulumi itself. The outputs will be persisted in the workspace and be there for the [Planning](../../../concepts/run/#planning) and [Applying](../../../concepts/run/#applying) phases.
 - Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-javascript:latest`
-- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-javascript).
+- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-javascript){: rel="nofollow"}.
 
 ![Define behavior.](<../../../assets/screenshots/image (43).png>)
 

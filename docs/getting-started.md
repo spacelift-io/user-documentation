@@ -22,7 +22,7 @@ Spacelift provides public and private worker pools that execute Spacelift workfl
 
 ### Policies
 
-Spacelift policies provide a way to express rules as code, rules that manage your Infrastructure as Code (IaC) environment, and help make common decisions such as login, access, and execution. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org) project and can be defined using its rule language _Rego_. You can learn more about policies [here](concepts/policy/).
+Spacelift policies provide a way to express rules as code, rules that manage your Infrastructure as Code (IaC) environment, and help make common decisions such as login, access, and execution. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org){: rel="nofollow"} project and can be defined using its rule language _Rego_. You can learn more about policies [here](concepts/policy/).
 
 ### Cloud Integration
 
@@ -72,7 +72,7 @@ When using GitHub as an authentication provider, your Spacelift accounts are ass
 
 #### GitHub was used as a sign-in option:
 
-1. [Install the Spacelift Github App](https://github.com/apps/spacelift-io/installations/new) if you have not already installed it.
+1. [Install the Spacelift Github App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 17-39-51 Build software better together copy.png>)

@@ -1,6 +1,6 @@
 # Integrating with the serverless framework
 
-In order to use the [serverless framework](https://www.serverless.com) in a CloudFormation Stack you'll need to do a few things: create a Docker image with the serverless framework included, invoke the serverless CLI in `before_init` hook, sync your artifacts with S3, and make sure the serverless config has your [template bucket](reference.md#stack-settings) configured as the artifact location.
+In order to use the [serverless framework](https://www.serverless.com){: rel="nofollow"} in a CloudFormation Stack you'll need to do a few things: create a Docker image with the serverless framework included, invoke the serverless CLI in `before_init` hook, sync your artifacts with S3, and make sure the serverless config has your [template bucket](reference.md#stack-settings) configured as the artifact location.
 
 The first one can be done using a Dockerfile akin to this one:
 
@@ -14,7 +14,7 @@ RUN serverless --version
 USER spacelift
 ```
 
-You should build it, push it to a repository and set it as the [Runner Image](https://docs.spacelift.io/concepts/stack/stack-settings#runner-image) of your Stack.
+You should build it, push it to a repository and set it as the [Runner Image](../../concepts/stack/stack-settings.md#runner-image) of your Stack.
 
 You'll also have to invoke the serverless CLI in order to generate raw CloudFormation files. You can do this by adding the following to your before initialization hooks:
 

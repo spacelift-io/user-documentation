@@ -1,6 +1,6 @@
 # Stack
 
-_Stack_ is one of the core concepts in Spacelift. A stack is an isolated, independent entity and the choice of the word mirrors products like [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html), or [Pulumi](https://www.pulumi.com/docs/intro/concepts/stack/) (which we both support). You can think about a stack as a combination of source code, current state of the managed infrastructure (eg. Terraform state file) and configuration in the form of [environment](../configuration/environment.md) variables and mounted files.
+_Stack_ is one of the core concepts in Spacelift. A stack is an isolated, independent entity and the choice of the word mirrors products like [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html){: rel="nofollow"}, or [Pulumi](https://www.pulumi.com/docs/intro/concepts/stack/){: rel="nofollow"} (which we both support). You can think about a stack as a combination of source code, current state of the managed infrastructure (eg. Terraform state file) and configuration in the form of [environment](../configuration/environment.md) variables and mounted files.
 
 Unless you're using Spacelift only to host and test private [Terraform modules](../../vendors/terraform/module-registry.md), your account should probably contain one or more stacks to be of any use. For example:
 

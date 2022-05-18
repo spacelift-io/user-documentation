@@ -90,7 +90,7 @@ There are two main use cases for run initialization policies - [protecting your 
 
 ### Protect your stack from unwanted changes
 
-While specialized, Spacelift is still a CI/CD platform and thus allows running custom code before Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/#before_init-scripts)scripts. This is a very powerful feature, but as always, with great power comes great responsibility. Since those scripts get full access to your Terraform environment, how hard is it to create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html)? Sure, all Spacelift runs are tracked and this prank will sooner or later be tracked down to the individual who ran it, but at that point do you still have a business?
+While specialized, Spacelift is still a CI/CD platform and thus allows running custom code before Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/#before_init-scripts)scripts. This is a very powerful feature, but as always, with great power comes great responsibility. Since those scripts get full access to your Terraform environment, how hard is it to create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}? Sure, all Spacelift runs are tracked and this prank will sooner or later be tracked down to the individual who ran it, but at that point do you still have a business?
 
 That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/#before_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
 
@@ -105,7 +105,7 @@ deny[sprintf("don't use Terraform please (%s)", [command])] {
 }
 ```
 
-Feel free to play with this example in [the Rego playground](https://play.openpolicyagent.org/p/V0sr5abgWI).
+Feel free to play with this example in [the Rego playground](https://play.openpolicyagent.org/p/V0sr5abgWI){: rel="nofollow"}.
 
 OK, but what if someone gets clever and creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? Well, you have two choices - you could replace a blacklist with a whitelist, but a clever attacker can be really clever. So the other choice is to make sure that a known good Docker is used to execute the run. Here's an example:
 
@@ -119,7 +119,7 @@ deny[sprintf("unexpected runner image (%s)", [image])] {
 }
 ```
 
-Here's the above example in [the Rego playground](https://play.openpolicyagent.org/p/VxIREPOS0d).
+Here's the above example in [the Rego playground](https://play.openpolicyagent.org/p/VxIREPOS0d){: rel="nofollow"}.
 
 !!! danger
     Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
@@ -128,7 +128,7 @@ Here's the above example in [the Rego playground](https://play.openpolicyagent.o
 
 While the previous section was all about making sure that bad stuff does not get executed, this use case presents run initialization policies as a way to ensure best practices - ensuring that the right things get executed the right way and at the right time.
 
-One of the above examples explicitly whitelisted Terraform formatting check. Keeping your code formatted in a standard way is generally a good idea, so let's make sure that this command always gets executed first. Note that as per [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle) this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
+One of the above examples explicitly whitelisted Terraform formatting check. Keeping your code formatted in a standard way is generally a good idea, so let's make sure that this command always gets executed first. Note that as per [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"} this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
 
 ```opa
 package spacelift
@@ -143,7 +143,7 @@ formatting_first {
 }
 ```
 
-Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/ghtWZGhbgP).
+Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/ghtWZGhbgP){: rel="nofollow"}.
 
 This time we'll skip the mandatory "don't deploy on weekends" check because while it could also be implemented here, there are probably better places to do it. Instead, let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can go fancy and require references to Jira tickets or even look at commit messages:
 
@@ -158,4 +158,4 @@ deny[sprintf("invalid feature branch name (%s)", [branch])] {
 }
 ```
 
-Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/qNMygC4i9K).
+Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/qNMygC4i9K){: rel="nofollow"}.

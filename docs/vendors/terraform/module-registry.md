@@ -6,7 +6,7 @@ description: This article shows how Spacelift can help you manage Terraform Modu
 
 ## Intro
 
-In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html) help you abstract away common functionality in your infrastructure.
+In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html){: rel="nofollow"} help you abstract away common functionality in your infrastructure.
 
 The name of a module managed by Spacelift is of the following form:
 
@@ -197,4 +197,4 @@ This can also be accomplished programmatically using our [Terraform provider](te
 
 ### Using modules outside of Spacelift
 
-Spacelift modules can be used outside of Spacelift by providing access credentials from generated from [API keys](../../integrations/api.md#api-key-management). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html).
+Spacelift modules can be used outside of Spacelift by providing access credentials from generated from [API keys](../../integrations/api.md#api-key-management). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.

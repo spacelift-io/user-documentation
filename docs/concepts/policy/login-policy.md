@@ -87,7 +87,7 @@ allow { teams[_] == "Engineering" }
 deny  { not input.session.member }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
 
 This is also important for single sign-on integrations: only the [integration creator](../../integrations/single-sign-on/README.md#setting-up-the-integration) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
 
@@ -110,7 +110,7 @@ allow { allowed[login] }
 deny  { not admins[login]; not allowed[login] }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw){: rel="nofollow"}.
 
 !!! warning
     Note that granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your GitHub org, they automatically lose access to Spacelift. But when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift login policy, too.
@@ -136,7 +136,7 @@ deny { clock[0] > 17 }
 deny { not net.cidr_contains("12.34.56.0/24", ip) }
 ```
 
-There's a lot to digest here, so a [playground example](https://play.openpolicyagent.org/p/4J3Nz6pYgC) may be helpful.
+There's a lot to digest here, so a [playground example](https://play.openpolicyagent.org/p/4J3Nz6pYgC){: rel="nofollow"} may be helpful.
 
 ### Rewriting teams
 
@@ -182,7 +182,7 @@ devops     { input.session.teams[_] == "DevOps" }
 office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
 ```
 
-A playground example of the above is available [here](https://play.openpolicyagent.org/p/dM8P83sk4l).
+A playground example of the above is available [here](https://play.openpolicyagent.org/p/dM8P83sk4l){: rel="nofollow"}.
 
 ## Default login policy
 

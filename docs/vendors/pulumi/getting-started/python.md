@@ -8,7 +8,7 @@ description: >-
 
 In order to follow along with this article, you'll need an AWS account.
 
-Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples), we'll be setting up an example directory from there, namely [aws-py-webserver](https://github.com/pulumi/examples/tree/master/aws-py-webserver).
+Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-py-webserver](https://github.com/pulumi/examples/tree/master/aws-py-webserver){: rel="nofollow"}.
 
 In the root of the repository (not the aws-py-webserver directory), add a new file:
 

@@ -2,7 +2,7 @@
 
 ## About the integration
 
-Spacelift provides support for managing Azure resources via the Terraform [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs). The documentation for the Azure Provider outlines the different authentication methods it supports, and it should always be considered the ultimate source of truth.
+Spacelift provides support for managing Azure resources via the Terraform [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs){: rel="nofollow"}. The documentation for the Azure Provider outlines the different authentication methods it supports, and it should always be considered the ultimate source of truth.
 
 This page explains how to configure the following authentication methods in Spacelift:
 
@@ -19,7 +19,7 @@ The Spacelift managed integration is great for situations where you want to get 
 
 ### Credential storage and rotation
 
-When an Azure integration is created, an associated Azure AD Application is created within Azure. We automatically create a client secret for that application, and rotate it roughly once every 24 hours. The secret is stored securely, encrypted using AWS [Key Management Service](https://aws.amazon.com/kms/).
+When an Azure integration is created, an associated Azure AD Application is created within Azure. We automatically create a client secret for that application, and rotate it roughly once every 24 hours. The secret is stored securely, encrypted using AWS [Key Management Service](https://aws.amazon.com/kms/){: rel="nofollow"}.
 
 ### Creating an integration
 
@@ -34,7 +34,7 @@ Click on the _Add Integration_ button to start configuring your integration:
 Give your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
 !!! info
-    You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade) section of the Azure portal.
+    You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview){: rel="nofollow"} section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade){: rel="nofollow"} section of the Azure portal.
 
 ### Providing admin consent
 
@@ -60,7 +60,7 @@ Click on the Accept button to complete the admin consent process, at which point
 
 ### Configuring Azure permissions
 
-Now that you have granted admin consent, a new Enterprise Application will be created for your integration in Azure. You can view this in the [Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/) section of Azure Active Directory:
+Now that you have granted admin consent, a new Enterprise Application will be created for your integration in Azure. You can view this in the [Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/){: rel="nofollow"} section of Azure Active Directory:
 
 ![](https://lh4.googleusercontent.com/Gfv5uKYvNuVQ9_CgZXO_aYA8m52m9zQ_aw3vG6BEDOVYNrXTczR6BkPBpYIU8JcpRuY8keionc4zIV-d99Ogkfar28CU6wyIOQ3kjSDBSLoURQsRVto0nwxBmbdbHW9SP9ygoFf1=s0)
 
@@ -121,7 +121,7 @@ This will output something like the following:
 ```bash
 Changing "spacelift-sp" to a valid URI of "http://spacelift-sp", which is the required format used for service principal names
 Creating 'Contributor' role assignment under scope '/subscriptions/458fd769-5a4c-4df2-a339-8981094d8899'
-The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see https://aka.ms/azadsp-cli
+The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see [Create an Azure service principal with the Azure CLI](https://aka.ms/azadsp-cli){: rel="nofollow"}
 {
   "appId": "5ffa3670-74db-4a9d-b213-179d2d315888",
   "displayName": "spacelift-sp",
@@ -189,13 +189,13 @@ When using static credentials, you are in charge of managing credential rotation
 
 ## Managed identities
 
-Azure [Managed Identities](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/) allow you to assign an identity to an Azure virtual machine, and then use that identity for role assignment. This means that you can grant your Spacelift private workers permission to manage your Azure resources,without having to store any credentials in Spacelift, or deal with credential rotation.
+Azure [Managed Identities](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/){: rel="nofollow"} allow you to assign an identity to an Azure virtual machine, and then use that identity for role assignment. This means that you can grant your Spacelift private workers permission to manage your Azure resources,without having to store any credentials in Spacelift, or deal with credential rotation.
 
 To use a managed identity, you need to take the following steps:
 
 - Follow the [instructions](../../concepts/worker-pools.md) to setup a private worker pool.
 - Create an Azure VM with a managed identity, and install the worker binary on it.
-- Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity) to use the managed identity for authentication.
+- Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity){: rel="nofollow"} to use the managed identity for authentication.
 
 To configure the Azure provider to use the managed identity, add the following environment variables to your stack:
 

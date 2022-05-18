@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Spacelift tasks are a handy feature that allows an arbitrary command to be executed within the context of your fully initialized stack. This feature is designed to make running one-off administrative tasks (eg. [resource tainting](https://www.terraform.io/docs/commands/taint.html)) safer and more convenient. It can also be an attack vector allowing evil people to do bad things, or simply a footgun allowing well-meaning people to err in a spectacular way.
+Spacelift tasks are a handy feature that allows an arbitrary command to be executed within the context of your fully initialized stack. This feature is designed to make running one-off administrative tasks (eg. [resource tainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}) safer and more convenient. It can also be an attack vector allowing evil people to do bad things, or simply a footgun allowing well-meaning people to err in a spectacular way.
 
 Enter task policies. The sole purpose of task policies is to prevent certain commands from being executed, to prevent certain groups or individuals from executing any commands, or to prevent certain commands from being executed by certain groups or individuals.
 
@@ -75,9 +75,9 @@ package spacelift
 deny["only admins can run tasks"] { not input.session.admin }
 ```
 
-Let's look at an example of this simple policy in [the Rego playground](https://play.openpolicyagent.org/p/wKLPjJ4dEF).
+Let's look at an example of this simple policy in [the Rego playground](https://play.openpolicyagent.org/p/wKLPjJ4dEF){: rel="nofollow"}.
 
-That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html). Let's try then, and please excuse the regex:
+That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}. Let's try then, and please excuse the regex:
 
 ```opa
 package spacelift
@@ -90,7 +90,7 @@ deny[sprintf("command not allowed (%s)", [command])] {
 }
 ```
 
-Feel free to play with the above example in [the Rego playground](https://play.openpolicyagent.org/p/MPoP9yQpEp).
+Feel free to play with the above example in [the Rego playground](https://play.openpolicyagent.org/p/MPoP9yQpEp){: rel="nofollow"}.
 
 If you want to keep whitelisting different commands, it may be more elegant to flip the rule logic, create a series of _allowed_ rules, and define one _deny_ rule as `not allowed`. Let's have a look at this approach, and while we're at it let's remind everyone not to run anything during the weekend:
 
@@ -113,4 +113,4 @@ allowed { re_match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
 allowed { re_match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
 ```
 
-As usual, this example is [available to play around with](https://play.openpolicyagent.org/p/FP7xz7oWGp).
+As usual, this example is [available to play around with](https://play.openpolicyagent.org/p/FP7xz7oWGp){: rel="nofollow"}.

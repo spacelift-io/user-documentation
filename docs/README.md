@@ -4,7 +4,7 @@ description: Take your Infrastructure as Code to the next level
 
 # 👋 Hello, Spacelift!
 
-Spacelift is a specialized, continuous integration and deployment (CI/CD) platform for _infrastructure-as-code,_ currently supporting [Terraform](https://www.terraform.io), [Pulumi](https://www.pulumi.com), [CloudFormation](https://aws.amazon.com/cloudformation/), and [Kubernetes](https://kubernetes.io). It's designed and implemented by long-time DevOps practitioners based on previous experience with large-scale installations - dozens of teams, hundreds of engineers, and tens of thousands of cloud resources.
+Spacelift is a specialized, continuous integration and deployment (CI/CD) platform for _infrastructure-as-code,_ currently supporting [Terraform](https://www.terraform.io){: rel="nofollow"}, [Pulumi](https://www.pulumi.com){: rel="nofollow"}, [CloudFormation](https://aws.amazon.com/cloudformation/){: rel="nofollow"}, and [Kubernetes](https://kubernetes.io){: rel="nofollow"}. It's designed and implemented by long-time DevOps practitioners based on previous experience with large-scale installations - dozens of teams, hundreds of engineers, and tens of thousands of cloud resources.
 
 At the same time, Spacelift is super easy to get started with - you can go from zero to fully managing your cloud resources within less than a minute, with no pre-requisites. It integrates nicely with the large players in the field - notably [GitHub](integrations/source-control/github.md) and [AWS](integrations/cloud-providers/aws.md).
 
@@ -20,7 +20,7 @@ In the following sections, we'll try to present the main challenges of running T
 
 > Wait, aren't CIs built for collaboration?
 
-Yes, assuming stateless tools and processes. Running stateless builds and tests is what regular CIs are exceptionally good at. But many of us have noticed that deployments are actually trickier to get right. And that's hardly a surprise. They're more stateful, they may depend on what's already running. Terraform and your infrastructure, in general, is an **extreme example of a stateful system**. It's so stateful that it actually has something called [**state**](https://www.terraform.io/docs/state/index.html) (see what we just did there?) as one of its core concepts.
+Yes, assuming stateless tools and processes. Running stateless builds and tests is what regular CIs are exceptionally good at. But many of us have noticed that deployments are actually trickier to get right. And that's hardly a surprise. They're more stateful, they may depend on what's already running. Terraform and your infrastructure, in general, is an **extreme example of a stateful system**. It's so stateful that it actually has something called [**state**](https://www.terraform.io/docs/state/index.html){: rel="nofollow"} (see what we just did there?) as one of its core concepts.
 
 CIs generally struggle with that. They don't really _understand_ the workflows they run, so they can't for example serialize certain types of jobs. Like `terraform apply`, which introduces actual changes to your infrastructure. As far as your CI system is concerned, running those in parallel is fair game. But what it does to Terraform is nothing short of a disaster - your state is confused and no longer represents any kind of reality. Untangling this mess can take forever.
 
@@ -28,7 +28,7 @@ CIs generally struggle with that. They don't really _understand_ the workflows t
 
 Yes, you can. But the whole point of your CI/CD system is to automate your work. First of all, becoming a human semaphore for a software tool isn't the best use of a highly skilled and motivated professional. Also, over-reliance on humans to oversee software processes will inevitably lead to costly mistakes because we, humans, are infinitely more fallible than well-programmed machines. It's ultimately much cheaper to use the right tool for the job than turn yourself into a part of a tool.
 
-> But you can do [state locking](https://www.terraform.io/docs/state/locking.html)!
+> But you can do [state locking](https://www.terraform.io/docs/state/locking.html){: rel="nofollow"}!
 
 Yup, we hear you. In theory, it's a great feature. In practice, it has its limitations. First, it's a massive pain when working as a team. Your CI won't serialize jobs that can write state, and state locking means that all but one of the parallel jobs will simply fail. It's a safe default, that's for sure, but not a great developer experience. And the more people work on your infrastructure, the more frustrating the process will become.
 

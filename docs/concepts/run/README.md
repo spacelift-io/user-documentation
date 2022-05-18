@@ -33,7 +33,7 @@ If you run or task is **currently blocked** by something else holding the lock o
 
 ![](../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing.png)
 
-The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io/). In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
+The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io/){: rel="nofollow"}. In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
 
 ![](../../assets/screenshots/Spacelift_Status.png)
 
@@ -55,7 +55,7 @@ Here's an example of one such handover:
 
 ![](<../../assets/screenshots/Screenshot from 2021-04-01 15-53-59.png>)
 
-Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg). The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
+Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg){: rel="nofollow"}. The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
 Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](./#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](./#failed).
 

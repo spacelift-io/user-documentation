@@ -2,11 +2,11 @@
 
 ## Drift happens
 
-In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired and the actual state of the infrastructure managed by your tool of choice - [Terraform](https://www.terraform.io), [Pulumi](https://www.pulumi.com), [CloudFormation](https://aws.amazon.com/cloudformation/), etc. In practice, there are two sources of _drift_.
+In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired and the actual state of the infrastructure managed by your tool of choice - [Terraform](https://www.terraform.io){: rel="nofollow"}, [Pulumi](https://www.pulumi.com){: rel="nofollow"}, [CloudFormation](https://aws.amazon.com/cloudformation/){: rel="nofollow"}, etc. In practice, there are two sources of _drift_.
 
 The first source covers changes directly introduced by external actors - either humans or machines (scripts). If an on-call SRE changes your database parameters otherwise controlled by Terraform, you've introduced _drift_. If an external script updates your Kubernetes cluster in a way that conflicts with its Pulumi definition, it's _drift_ as well.
 
-The other source of drift comes from the dependency of your resources on external data sources. For example, if your load balancer only expects to receive traffic from [Cloudflare](https://www.cloudflare.com/en-gb/), you may want to restrict ingress to a predefined range of IPs. However, that range may be dynamic, and your IaC tool queries it every time it runs. If there's any change to the external data source, it's showing up as drift, too.
+The other source of drift comes from the dependency of your resources on external data sources. For example, if your load balancer only expects to receive traffic from [Cloudflare](https://www.cloudflare.com/en-gb/){: rel="nofollow"}, you may want to restrict ingress to a predefined range of IPs. However, that range may be dynamic, and your IaC tool queries it every time it runs. If there's any change to the external data source, it's showing up as drift, too.
 
 In the first scenario, drift is an unwanted by-product of emergencies or broken processes. In the latter, it's both desired and inevitable - it's proof that your otherwise declarative system responds to external changes. In other words - drift happens, so deal with it. 😎
 

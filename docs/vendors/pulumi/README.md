@@ -7,7 +7,7 @@ description: From this article you can learn how Pulumi is integrated into Space
 !!! info
     Feature previews are subject to change, may contain bugs, and have not yet been ironed out based on real production usage.
 
-On a high level, [Pulumi](https://github.com/pulumi/pulumi) has a very similar flow to Terraform. It uses a state backend, provides dry run functionality, reconciles the actual world with the desired state. In this article we'll dive into how each of the concepts in Spacelift translates into working with Pulumi.
+On a high level, [Pulumi](https://github.com/pulumi/pulumi){: rel="nofollow"} has a very similar flow to Terraform. It uses a state backend, provides dry run functionality, reconciles the actual world with the desired state. In this article we'll dive into how each of the concepts in Spacelift translates into working with Pulumi.
 
 However, if you're the type that prefers to start with doing, instead of reading too much, there are quickstarts for each of the runtimes supported by Pulumi:
 

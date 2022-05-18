@@ -202,7 +202,7 @@ Ignoring changes to certain paths is something you'd find useful both with class
 !!! info
     This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
 
-Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html)  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
+Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html){: rel="nofollow"}  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
 
 ```opa
 package spacelift
@@ -224,13 +224,13 @@ affected {
 }
 ```
 
-As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle). A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM).
+As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"}. A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM){: rel="nofollow"}.
 
 ### Status checks and ignored pushes
 
 By default when the push policy instructs Spacelift to ignore a certain change, no commit status check is sent back to the VCS. This behavior is explicitly designed to prevent noise in monorepo scenarios where a large number of stacks are linked to the same Git repo.
 
-However, in certain cases one may still be interested in learning that the push was ignored, or just getting a commit status check for a given stack when it's set as required as part of [GitHub branch protection](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule) set of rules, or simply your internal organization rules.
+However, in certain cases one may still be interested in learning that the push was ignored, or just getting a commit status check for a given stack when it's set as required as part of [GitHub branch protection](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule){: rel="nofollow"} set of rules, or simply your internal organization rules.
 
 In that case, you may find the `notify` rule useful. The purpose of this rule is to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:
 

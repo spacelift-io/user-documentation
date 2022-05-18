@@ -157,9 +157,9 @@ deny[sprintf(message, [resource.address])] {
 }
 ```
 
-Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/kNUYOa4vX4).
+Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/kNUYOa4vX4){: rel="nofollow"}.
 
-If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy) or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html), among others. So here it is:
+If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy) or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among others. So here it is:
 
 ```opa
 package spacelift
@@ -183,7 +183,7 @@ deny[sprintf(message, [resource.address])] {
 }
 ```
 
-Here's the obligatory [Rego playground example](https://play.openpolicyagent.org/p/9XaB9PDHez).
+Here's the obligatory [Rego playground example](https://play.openpolicyagent.org/p/9XaB9PDHez){: rel="nofollow"}.
 
 While in most cases you'll want your rules to only look at resources affected by the change, you're not limited to doing so. You can also look at all resources and force teams to remove certain resources. Here's an example - until all AWS resources are removed all in one go, no further changes can take place:
 
@@ -201,7 +201,7 @@ deny[sprintf(message, [resource.address])] {
 }
 ```
 
-Feel free to play with a minimal example of this policy in [the Rego playground](https://play.openpolicyagent.org/p/LUokYD0NoU).
+Feel free to play with a minimal example of this policy in [the Rego playground](https://play.openpolicyagent.org/p/LUokYD0NoU){: rel="nofollow"}.
 
 ### Automated code review
 
@@ -249,7 +249,7 @@ Cool, let's merge it and see what happens:
 
 Cool, so the run stopped in its tracks and awaits human decision. At this point we still have a choice to either [confirm](../run/#discarded) or [discard](../run/#discarded) the run. In the latter case, you will likely want to revert the commit that caused the problem - otherwise all subsequent runs will be affected.
 
-The minimal example for the above rule is available in the [Rego playground](https://play.openpolicyagent.org/p/IpwP5nWB6f).
+The minimal example for the above rule is available in the [Rego playground](https://play.openpolicyagent.org/p/IpwP5nWB6f){: rel="nofollow"}.
 
 ## Cookbook
 
@@ -273,7 +273,7 @@ warn[sprintf(message, [action, resource.address])] {
 }
 ```
 
-[Here's](https://play.openpolicyagent.org/p/w1RIAu6RgG) a minimal example to play with.
+[Here's](https://play.openpolicyagent.org/p/w1RIAu6RgG){: rel="nofollow"} a minimal example to play with.
 
 ### Automatically deploy changes from selected individuals
 
@@ -291,7 +291,7 @@ warn[sprintf(message, [author])] {
 }
 ```
 
-Here's the [playground example](https://play.openpolicyagent.org/p/IW8EfP7rwj) for your enjoyment.
+Here's the [playground example](https://play.openpolicyagent.org/p/IW8EfP7rwj){: rel="nofollow"} for your enjoyment.
 
 ### Require commits to be reasonably sized
 
@@ -316,7 +316,7 @@ too_many_changes[msg] {
 }
 ```
 
-Here's the above example in the [Rego playground](https://play.openpolicyagent.org/p/fhLBskzd13), with threshold set to 1 for simplicity.
+Here's the above example in the [Rego playground](https://play.openpolicyagent.org/p/fhLBskzd13){: rel="nofollow"}, with threshold set to 1 for simplicity.
 
 ### Back-of-the-envelope blast radius
 
@@ -360,8 +360,8 @@ blast_radius_for_type(type) = ret {
 }
 ```
 
-You can play with a minimal example of this policy in [The Rego Playground](https://play.openpolicyagent.org/p/8pzR7jHAWU).
+You can play with a minimal example of this policy in [The Rego Playground](https://play.openpolicyagent.org/p/8pzR7jHAWU){: rel="nofollow"}.
 
 ### Cost management
 
-Thanks to our Infracost integration, [you can take cost information into account](https://docs.spacelift.io/vendors/terraform/infracost#plan-policies) when deciding whether to ask for human approval or to block changes entirely.
+Thanks to our Infracost integration, [you can take cost information into account](https://docs.spacelift.io/vendors/terraform/infracost#plan-policies){: rel="nofollow"} when deciding whether to ask for human approval or to block changes entirely.

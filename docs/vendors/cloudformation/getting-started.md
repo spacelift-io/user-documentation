@@ -6,7 +6,7 @@ description: Creating your first CloudFormation Stack with Spacelift, step by st
 
 ## Initial Setup
 
-Start by forking our CloudFormation example repository: [https://github.com/spacelift-io/cloudformation-example](https://github.com/spacelift-io/cloudformation-example)
+Start by forking our [CloudFormation example repository](https://github.com/spacelift-io/cloudformation-example)
 
 Looking at the code, you'll find that it creates two simple Lambda Functions in nested Stacks and a common API Gateway REST API, which provides access to both of them.
 

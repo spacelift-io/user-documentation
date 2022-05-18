@@ -116,7 +116,7 @@ approve {
 }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/Xhn6OL9OUP).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/Xhn6OL9OUP){: rel="nofollow"}.
 
 ### Two to approve, two to reject
 
@@ -130,7 +130,7 @@ approve { count(input.reviews.current.approvals) > 1 }
 reject  { count(input.reviews.current.rejections) > 1 }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/swoLeAV4zq).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/swoLeAV4zq){: rel="nofollow"}.
 
 ### Require approval for a task command not on the allowlist
 
@@ -149,7 +149,7 @@ approve { input.run.command == allowlist[_] }
 approve { count(input.reviews.current.approvals) > 1 }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/iKwd84nfjR).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/iKwd84nfjR){: rel="nofollow"}.
 
 ### Combining multiple rules
 
@@ -178,7 +178,7 @@ approve {
 }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/lvLa713Cyq).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/lvLa713Cyq){: rel="nofollow"}.
 
 ### Role-based approval
 
@@ -207,4 +207,4 @@ approve { director_approval }
 approve { devops_approval; security_approval }
 ```
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/GHcGbz1S8H).
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/GHcGbz1S8H){: rel="nofollow"}.

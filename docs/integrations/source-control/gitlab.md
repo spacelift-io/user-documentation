@@ -1,6 +1,6 @@
 # GitLab
 
-In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps) feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (gitlab.com) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
+In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps){: rel="nofollow"} feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (gitlab.com) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
 
 ## Setting up the integration
 
@@ -43,7 +43,7 @@ Spacelift is interested in pushes, tags and merge requests, so make sure you add
 
 ![](../../assets/screenshots/Webhooks_·_Settings_·_spacelift-test___demo_·_GitLab.png)
 
-If that sounds like hassle (it sure does to us), you can do the same thing automatically using [GitLab's Terraform provider](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/resources/project_hook).
+If that sounds like hassle (it sure does to us), you can do the same thing automatically using [GitLab's Terraform provider](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/resources/project_hook){: rel="nofollow"}.
 
 !!! warning
     Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
@@ -56,7 +56,7 @@ Spacelift provides feedback to GitLab in a number of ways.
 
 ### Commits and merge requests
 
-When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/) functionality. When viewed from a merge request, the pipeline looks like this:
+When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/){: rel="nofollow"} functionality. When viewed from a merge request, the pipeline looks like this:
 
 ![](../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab.png)
 
@@ -72,7 +72,7 @@ Also, for every merge request affected by the commit there will be a comment sho
 
 ### Environments
 
-Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/) in GitLab where we report the status of each [tracked run](../../concepts/run/):
+Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/):
 
 ![](../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
 

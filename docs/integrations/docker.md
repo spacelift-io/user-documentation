@@ -24,7 +24,7 @@ RUN curl -O -L https://github.com/mrolla/terraform-provider-circleci/releases/do
   && chmod +x /bin/terraform-provider-circleci
 ```
 
-For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/) to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops) [provider](https://github.com/carlpett/terraform-provider-sops) from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
+For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 
 The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the Terraform binary are automatically used.
 
@@ -76,7 +76,7 @@ terraform {
 }
 ```
 
-Note that the source as defined above and the plugin path as defined in the Dockerfile are entirely arbitrary but **must match**. You can read more in the [official Terraform 0.13 upgrade documentation](https://www.terraform.io/upgrade-guides/0-13.html#in-house-providers).
+Note that the source as defined above and the plugin path as defined in the Dockerfile are entirely arbitrary but **must match**. You can read more in the [official Terraform 0.13 upgrade documentation](https://www.terraform.io/upgrade-guides/0-13.html#in-house-providers){: rel="nofollow"}.
 
 ## Using private Docker images
 

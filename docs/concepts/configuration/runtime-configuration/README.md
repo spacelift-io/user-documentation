@@ -85,7 +85,7 @@ Project root is the path of your project directory inside the Hub repository. Yo
 ### `runner_image` setting
 
 !!! info
-    Defaults to [**`public.ecr.aws/spacelift/runner-terraform:latest`**](https://gallery.ecr.aws/spacelift/runner-terraform)
+    Defaults to [**`public.ecr.aws/spacelift/runner-terraform:latest`**](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"}
 
 The runner image is the Docker image used to run your workloads. By making it a runtime setting, Spacelift allows testing the image before it modifies your infrastructure.
 

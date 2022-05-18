@@ -46,7 +46,7 @@ The stacks section is a map using stack public ID (slug) as keys and stack setti
 
 ### `module_version`
 
-Module version is a **required string** value that must conform to the [semantic versioning scheme](https://semver.org). Note that pre-releases and builds/nightlies are not supported - only the standard `$major.$minor.$patch` format will work.
+Module version is a **required string** value that must conform to the [semantic versioning scheme](https://semver.org){: rel="nofollow"}. Note that pre-releases and builds/nightlies are not supported - only the standard `$major.$minor.$patch` format will work.
 
 ### `test_defaults`
 
