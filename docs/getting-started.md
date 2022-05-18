@@ -85,7 +85,7 @@ Now login to the Spacelift console, you are ready to create your first stack!
 2. Follow the guide for [setting up the GitHub integration](integrations/source-control/github.md#setting-up-the-integration).
 3. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-###  Step 3: Create your first Stack
+### Step 3: Create your first Stack
 
 1. Click on the Add **Stack** button.
 

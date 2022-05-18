@@ -13,6 +13,7 @@ The below guide walks through an example of generating your Spacelift token and 
 - Insomnia downloaded and installed
 - Spacelift account with admin access (for ability to create API Keys)
 
+<!-- markdownlint-disable-next-line MD033 -->
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/0f86be4d783c4bcfacb65c53be6bb1c1" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## API Usage
@@ -66,7 +67,7 @@ Once you click the _Add Key_ button, the API Key will be generated and a file wi
 
 The config file looks something like this:
 
-```
+```text
 Please use the following API secret when communicating with Spacelift
 programmatically:
 
@@ -183,10 +184,10 @@ Our GraphQL schema is self-documenting. The best way to view the latest document
 
 ### GraphiQL Example
 
-_Input your GraphQL Endpoint for your Spacelift Account._
+Input your GraphQL Endpoint for your Spacelift Account.
 
 ![Click Docs.](../assets/screenshots/1-graphiql.png)
 
-_Use the Documentation Explorer within GraphiQL_
+Use the Documentation Explorer within GraphiQL
 
 ![](../assets/screenshots/2-graphiql-view-docs.png)

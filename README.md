@@ -7,5 +7,5 @@ Arm64: docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/af
 
 ## Checks
 
-- Install https://pre-commit.com/#installation
+- Install [pre-commit](https://pre-commit.com/#installation)
 - Install the git hook scripts: `pre-commit install`

@@ -34,7 +34,7 @@ Finally, you can run the launcher binary by setting two environment variables:
 - `SPACELIFT_POOL_PRIVATE_KEY` - the contents of the private key file you generated, in base64.
 
 !!! info
-    You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run something like <mark style="color:purple;">`cat spacelift.key | base64 -w 0`</mark>in your command line. For Mac users, the command will be something like <mark style="color:purple;">cat spacelift.key | base64 -b 0</mark>
+    You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run something like `cat spacelift.key | base64 -w 0` in your command line. For Mac users, the command will be something like `cat spacelift.key | base64 -b 0`.
 
 Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.
 

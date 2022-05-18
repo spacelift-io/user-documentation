@@ -30,7 +30,7 @@ spec:
         - containerPort: 80
 ```
 
-You can learn more about this example deployment by navigating to the [Run a Stateless Application Using a Deployment ](https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/)website from the official Kubernetes documentation.
+You can learn more about this example deployment by navigating to the [Run a Stateless Application Using a Deployment](https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/)website from the official Kubernetes documentation.
 
 Looking at the code, you will find that it deploys a single instance of Nginx.
 

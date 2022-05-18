@@ -14,7 +14,7 @@ If you take a look at the Environment screen of a stack you will notice it's pre
 
 ## Environment variables
 
-The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform ](https://www.terraform.io/docs/configuration/variables.html#environment-variables)_input variables_.
+The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables)_input variables_.
 
 !!! info
     Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html) because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.

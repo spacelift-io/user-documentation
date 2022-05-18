@@ -13,10 +13,10 @@ However, if you're the type that prefers to start with doing, instead of reading
 
 - [C#](getting-started/c-sharp.md)
 - [Go](getting-started/golang.md)
-- [JavaScript](getting-started/javascript.md)
+- [Javascript](getting-started/javascript.md)
 - [Python](getting-started/python.md)
 
-In case you're just getting started with Pulumi, we'd recommend you to start with JavaScript. Believe it or not, it's actually the most pleasant experience we had with Pulumi! Later you can also easily switch to languages which compile to JavaScript, like TypeScript or ClojureScript.
+In case you're just getting started with Pulumi, we'd recommend you to start with Javascript. Believe it or not, it's actually the most pleasant experience we had with Pulumi! Later you can also easily switch to languages which compile to Javascript, like TypeScript or ClojureScript.
 
 The high level concepts of Spacelift don't change when used with Pulumi. Below, we'll cover a few lower level details, which may be of interest.
 
@@ -79,7 +79,7 @@ Most policies don't change at all. The one that changes most is the plan policy.
 }
 ```
 
-Pulumi secrets are detected and encoded as "\[secret]" instead of the actual value, that's why there's no other string sanitization going on with Pulumi plans.
+Pulumi secrets are detected and encoded as `[secret]` instead of the actual value, that's why there's no other string sanitization going on with Pulumi plans.
 
 ## Modules
 

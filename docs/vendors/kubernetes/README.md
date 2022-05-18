@@ -24,4 +24,4 @@ You can also use Spacelift to mix and match Terraform, Pulumi, CloudFormation, a
 
 **Anything that can be run via `kubectl` can be run within a Spacelift stack.**
 
-To find out more about Kubernetes Workload Resources, read the[ reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/).
+To find out more about Kubernetes Workload Resources, read the [reference documentation](https://kubernetes.io/docs/concepts/workloads/controllers/).

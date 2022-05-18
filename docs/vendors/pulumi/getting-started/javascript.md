@@ -4,7 +4,7 @@ description: >-
   Spacelift
 ---
 
-# JavaScript
+# Javascript
 
 In order to follow along with this article, you'll need an AWS account.
 

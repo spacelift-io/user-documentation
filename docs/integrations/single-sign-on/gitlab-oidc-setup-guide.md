@@ -49,7 +49,7 @@ Now that we have the GitLab Application setup, we'll need to take the **Applicat
 
 **Secret** = Spacelift's Secret
 
-In Spacelift, the **Provider URL** depends on where you are using GitLab, if you are using **GitLab.com** this value can be set as **https://gitlab.com**
+In Spacelift, the **Provider URL** depends on where you are using GitLab, if you are using **GitLab.com** this value can be set as `https://gitlab.com`
 
 !!! info
     When setting your Provider URL within Spacelift, **do not include a trailing slash** "/" at the end of your URL or you may receive an error.

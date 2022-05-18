@@ -10,7 +10,7 @@ In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html
 
 The name of a module managed by Spacelift is of the following form:
 
-```
+```text
 spacelift.io/<organization>/<module_name>/<provider>
 ```
 

@@ -6,7 +6,7 @@ Spacelift supports this approach, but does not provide a separate mechanism, dep
 
 - [environment variables](../../concepts/configuration/environment.md#environment-variables);
 - [mounted files](../../concepts/configuration/environment.md#mounted-files)
-- [`before_init` ](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
+- [`before_init`](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
 
 ## Using environment variables
 

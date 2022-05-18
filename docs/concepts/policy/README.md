@@ -60,11 +60,11 @@ Policies must be self-contained and cannot refer to external resources (e.g., fi
 
 There are currently eight types of supported policies and while each of them is different, they have a lot in common. In particular, they can fall into one of the two groups based on what rules are expected to return.
 
-**Boolean**
+### Boolean
 
-****[Login](login-policy.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative - that is, they can explicitly **allow** or **deny** access.
+[Login](login-policy.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative - that is, they can explicitly **allow** or **deny** access.
 
-**Set of Strings**
+### Set of Strings
 
 The second group of policies ([initialization](run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets) that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions - it's only their lack that counts as an implicit success.
 

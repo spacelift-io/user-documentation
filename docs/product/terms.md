@@ -2,7 +2,7 @@
 
 ## 1. Agreement to Terms
 
-**1.1** These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (**you**), and Spacelift Inc., registered at 651 N. Broad Street, Suite 206B Middletown, County of New Castle DE 19709 United States, doing business as **Spacelift** (**we, us**), concerning your access to and use of the Spacelift (https://spacelift.io) website as well as any related applications (the Site).
+**1.1** These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (**you**), and Spacelift Inc., registered at 651 N. Broad Street, Suite 206B Middletown, County of New Castle DE 19709 United States, doing business as **Spacelift** (**we, us**), concerning your access to and use of the Spacelift (<https://spacelift.io>) website as well as any related applications (the Site).
 
 The Site provides the following services: a specialized, Terraform-compatible continuous integration and deployment (CI/CD) platform for infra-as-code (Services). You agree that by accessing the Site and/or Services, you have read, understood, and agree to be bound by all of these Terms and Conditions.
 

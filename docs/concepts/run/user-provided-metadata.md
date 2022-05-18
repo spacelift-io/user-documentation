@@ -101,7 +101,7 @@ And in the private worker logs we should suitably see (formatted for readability
 }
 ```
 
-1.  The metadata string
+1. The metadata string
 
 Great!
 
