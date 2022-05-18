@@ -50,6 +50,7 @@ nav:
       - vendors/terraform/infracost.md
       - vendors/terraform/resource-sanitization.md
       - vendors/terraform/storing-complex-variables.md
+      - vendors/terraform/debugging-guide.md
     - Pulumi:
       - vendors/pulumi/README.md
       - Getting Started:

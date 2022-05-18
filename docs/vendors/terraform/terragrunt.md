@@ -23,3 +23,15 @@ On our runner image, we install a version of Terragrunt that will work with the 
 ## Scope of support
 
 We're currently using Terragrunt the same way we're using Terraform, running `init`, `plan`, and `apply` commands. This means we're not supporting [executing Terraform commands on multiple modules at once](https://terragrunt.gruntwork.io/docs/features/execute-terraform-commands-on-multiple-modules-at-once/){: rel="nofollow"} (`run-all`). This functionality was designed to operate in a very different mode and environment, and is strictly outside our scope.
+
+## Debugging Terragrunt
+
+Similar to Terraform, Terragrunt provides an advanced logging mode, and as of the writing of this documentation, there are currently two ways it can be enabled:
+
+1. Using the `--terragrunt-log-level debug` CLI flag (You'll need to set this flag using the `TF_CLI_ARGS` environment variable. For example, `TF_CLI_ARGS="--terragrunt-log-level debug"`
+
+2. Using the `TERRAGRUNT_LOG_LEVEL` environment variable. Logging levels supported: `info` (default), `panic` `fatal` `error` `warn` `debug` `trace`
+
+Please refer to the [Setting Environment Variables](./debugging-guide.md#setting-environment-variables) section within our Terraform Debugging Guide for more information on how to set these variables on your Spacelift Stack(s).
+
+For more information on logging with Terragrunt, please refer to the Terragrunt [documentation](https://terragrunt.gruntwork.io/docs/features/debugging/#debugging).
