@@ -12,7 +12,7 @@ theme:
     - navigation.sections
     - navigation.tracking
   language: en
-  logo: assets/images/logo.png
+  logo: assets/images/logo.svg
   name: material
   palette:
     scheme: spacelift
