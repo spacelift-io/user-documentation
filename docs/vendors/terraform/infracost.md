@@ -1,6 +1,6 @@
 # Cost Estimation
 
-The [Infracost](https://www.infracost.io){: rel="nofollow"} integration allows you to run an Infracost breakdown during Spacelift runs, providing feedback on PRs, and allowing you to integrate cost data with [plan policies](../../concepts/policy/terraform-plan-policy.md).
+The [Infracost](https://www.infracost.io/){: rel="nofollow"} integration allows you to run an Infracost breakdown during Spacelift runs, providing feedback on PRs, and allowing you to integrate cost data with [plan policies](../../concepts/policy/terraform-plan-policy.md).
 
 This allows you to understand how infrastructure changes will impact costs, and to build automatic guards to help prevent costs from spiraling out of control.
 

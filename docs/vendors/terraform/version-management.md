@@ -8,7 +8,7 @@ description: >-
 
 ## Intro to Terraform versioning
 
-Terraform is an [actively developed](https://github.com/hashicorp/terraform/pulse){: rel="nofollow"} open-source product with a [mighty sponsor](https://www.hashicorp.com){: rel="nofollow"}. This means frequent releases - in fact, over the last few months (since minor version `0.12`) we've been seeing [nearly weekly releases](https://github.com/hashicorp/terraform/releases){: rel="nofollow"}. While that's all great news for us as Terraform users, we need to be aware of how version management works in order not to be caught off-guard.
+Terraform is an [actively developed](https://github.com/hashicorp/terraform/pulse){: rel="nofollow"} open-source product with a [mighty sponsor](https://www.hashicorp.com/){: rel="nofollow"}. This means frequent releases - in fact, over the last few months (since minor version `0.12`) we've been seeing [nearly weekly releases](https://github.com/hashicorp/terraform/releases){: rel="nofollow"}. While that's all great news for us as Terraform users, we need to be aware of how version management works in order not to be caught off-guard.
 
 Historically (until 0.15.x), once the state was written to (applied) with a higher version of Terraform, there was no way back. Hence, you had to be very careful when updating your current Terraform versions. If you're still using an older version of Terraform with Spacelift, you will likely want to use the [runtime configuration](../../concepts/configuration/runtime-configuration/#terraform_version-setting) to preview the intended changes before you make the jump.
 

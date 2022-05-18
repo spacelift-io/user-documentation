@@ -62,7 +62,7 @@ That is the question. And there isn't a single right answer. Instead, there is a
 
 So if you don't want to mount these credentials, what are your options? First, you can put these credentials directly into your [private runner image](../../integrations/docker.md#using-private-docker-images). But that means that anyone in your organization who uses the private runner image gets access to your credentials - and that may or may not be what you wanted.
 
-The other option is to store the credentials externally in one of the secrets stores - like [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"} or [HashiCorp Vault](https://www.vaultproject.io){: rel="nofollow"} and retrieve them in one of your [`before_init`](../../concepts/stack/stack-settings.md#before-init-scripts) scripts before putting them in the right place (`~/.netrc` file, `~/.ssh` directory, etc.).
+The other option is to store the credentials externally in one of the secrets stores - like [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"} or [HashiCorp Vault](https://www.vaultproject.io/){: rel="nofollow"} and retrieve them in one of your [`before_init`](../../concepts/stack/stack-settings.md#before-init-scripts) scripts before putting them in the right place (`~/.netrc` file, `~/.ssh` directory, etc.).
 
 !!! info
     If you decide to mount, we advise that you store credentials in [contexts](../../concepts/configuration/context.md) and attach these to stacks that need them. This way you can avoid credentials sprawl and leak.

@@ -30,7 +30,7 @@ Please refer to the following table for information on what each policy types re
 
 ## How it works
 
-Spacelift uses an open-source project called [**Open Policy Agent**](https://www.openpolicyagent.org){: rel="nofollow"} and its rule language, [**Rego**](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}**,** to execute user-defined pieces of code we call **Policies** at various decision points. Policies come in different flavors that we call **types**, with each type being executed at a different decision point.
+Spacelift uses an open-source project called [**Open Policy Agent**](https://www.openpolicyagent.org/){: rel="nofollow"} and its rule language, [**Rego**](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}**,** to execute user-defined pieces of code we call **Policies** at various decision points. Policies come in different flavors that we call **types**, with each type being executed at a different decision point.
 
 You can think of policies as snippets of code that receive some JSON-formatted input and are allowed to produce some output in a predefined form. This input normally represents the data that should be enough to make some decision in its context. Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
 
@@ -40,7 +40,7 @@ Multiple policies of the same type can be attached to a single stack, in which c
 
 ### Policy language
 
-[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) - the language that we're using to execute policies - is a very elegant, Turing incomplete data query language. It takes a few hours (tops) to get your head around all of its quirks but if you can handle SQL and the likes of [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you'll find Rego pretty familiar. For each policy, we also give you plenty of examples that you can tweak to achieve your goals, and each of those examples comes with a link allowing you to execute it in [the Rego playground](https://play.openpolicyagent.org){: rel="nofollow"}.
+[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/) - the language that we're using to execute policies - is a very elegant, Turing incomplete data query language. It takes a few hours (tops) to get your head around all of its quirks but if you can handle SQL and the likes of [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you'll find Rego pretty familiar. For each policy, we also give you plenty of examples that you can tweak to achieve your goals, and each of those examples comes with a link allowing you to execute it in [the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}.
 
 ### Constraints
 
@@ -251,7 +251,7 @@ Last but not least, the policy workbench - including access to previous inputs -
 ## Testing policies
 
 !!! info
-    In the examples for each type of policy we invite you to play around with the policy and its input [in the Rego playground](https://play.openpolicyagent.org){: rel="nofollow"}. While certainly useful, we won't consider it proper unit testing.
+    In the examples for each type of policy we invite you to play around with the policy and its input [in the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}. While certainly useful, we won't consider it proper unit testing.
 
 The whole point of policy-as-code is being able to handle it as code, which involves everyone's favorite bit - testing. Testing policies is crucial because you don't want them accidentally allow the wrong crowd to do the wrong things.
 
