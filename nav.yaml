@@ -2,7 +2,7 @@ nav:
   - README.md
   - getting-started.md
   - ⭐ Main Concepts:
-    - Stacks:
+    - Stack:
       - concepts/stack/README.md
       - concepts/stack/creating-a-stack.md
       - concepts/stack/stack-settings.md
