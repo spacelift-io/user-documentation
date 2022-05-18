@@ -1,5 +1,5 @@
 ---
-description: Take your infra-as-code to the next level
+description: Take your Infrastructure as Code to the next level
 ---
 
 # 👋 Hello, Spacelift!

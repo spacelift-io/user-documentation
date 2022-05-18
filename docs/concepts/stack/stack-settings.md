@@ -125,7 +125,7 @@ Results of both tracked and proposed runs are displayed in the source control pr
 
 Since every Spacelift job (which we call [runs](../run/)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
 
-Additionally, for our Pulumi integration overriding the default runner image is the canonical way of selecting the exact Pulumi version and its corresponding language SDK. You can learn more about it [here](../../vendors/pulumi/version-management.md).
+Additionally, for our Pulumi integration overriding the default runner image is the canonical way of selecting the exact Pulumi version and its corresponding language SDK.
 
 You can find more information about our use of Docker in [this dedicated help article](../../integrations/docker.md).
 

@@ -1,13 +1,17 @@
 #################################################################################
 # Settings                                                                      #
 #################################################################################
+copyright: © 2022 Spacelift, Inc. All rights reserved
+site_author: Spacelift
+site_description: Collaborative Infrastructure For Modern Software Teams
 site_name: Spacelift
+# strict: true
 theme:
   favicon: assets/images/favicon.png
   features:
     - content.code.annotate
     - navigation.indexes
-    - navigation.instant
+    # - navigation.instant
     - navigation.sections
     - navigation.tracking
   language: en
