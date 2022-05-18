@@ -74,7 +74,9 @@ Doing so will set your EC2 instance ID as _instance\_id_ tag in your worker.
 
 ### VCS Agents
 
-If you're using VCS Agents with a privately accessible VCS instance then your private workers will also need to have direct network access to that VCS instance. You'll also need to inform the private workers of the target network address for each of your VCS Agent Pools:
+VCS Agents are intended for users who have privately accessible version control systems (VCS), if your VCS is not private, then you do not need to use a VCS Agent.
+
+ When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System. Additionally, you will need to inform the private workers of the target network address for each of your VCS Agent Pools. To do this, setup a variable mapping similar to the following example below, for each private VCS you are seeking to integrate.
 
 ```bash
 export SPACELIFT_PRIVATEVCS_MAPPING_NAME_0=bitbucket_pool
