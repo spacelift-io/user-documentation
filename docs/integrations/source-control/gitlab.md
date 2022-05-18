@@ -2,15 +2,17 @@
 
 In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps){: rel="nofollow"} feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
 
-## Setting up the integration
+## Setup Guide
 
-In order to set up the integration from the Spacelift side, please navigate to the VCS Providers section of the admin Settings page and click the _Set up_ button next to the GitLab integration:
+In order to set up the GitLab integration from the Spacelift side, please navigate to the VCS Providers section of the Spacelift Account Settings page and click the _Set up_ button next to the GitLab:
 
-![](<../../assets/screenshots/image (104).png>)
+![Click on Settings from the Left Navigation Sidebar to access your Spacelift account Settings.](../../assets/screenshots/Screen Shot 2022-05-18 at 1.07.24 PM.png)
+
+ ![Click on the Set Up button next to GitLab.](../../.gitbook/assets/image (104).png)
 
 This should open a form like this one:
 
-![](<../../assets/screenshots/image (105).png>)
+![](../../assets/screenshots/image (105).png)
 
 In this step you will need to provide the API host URL of your GitLab server, and an API token generated for Spacelift to communicate with the GitLab API. Let's assume we don't have token handy, so let's navigate to our GitLab server (we'll just use `gitlab.com`) to create one from the Access Tokens section of your User Settings page:
 
@@ -35,7 +37,7 @@ Congrats, you've just linked your GitLab account to Spacelift. You should be tak
 
 If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS provider to use. GitLab will always come first, assuming that you've integrated it with Spacelift for a good reason:
 
-![](../../assets/screenshots/New_stack_·_marcinwyszynski.png)
+![](../../assets/screenshots/Screen Shot 2022-05-18 at 1.19.49 PM.png)
 
 The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
 
@@ -49,6 +51,16 @@ If that sounds like hassle (it sure does to us), you can do the same thing autom
     Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
 
 Regardless of whether you've created it manually or programmatically, once your project webhook is set up, your GitLab-powered stack or module is ready to use.
+
+### Namespaces
+
+When utilizing the Terraform provider to provision Spacelift Stacks for GitLab, you are required to specify a `namespace`.
+
+The `namespace` value should be set to the the grouping mechanism the your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
+
+If your project lives within a group, then the namespace should be set to the group slug that the project is within. For example, if you have `project-a` within `group-1` the namespace would be `group-1`. When using subgroups, you will also need to include these within your namespace references.
+
+GitLab provides a [Namespaces API](https://docs.gitlab.com/ee/api/namespaces.html)which you can use to find information about your project's namespace. The `full_url` attribute value is what you'll want to reference as this namespace for a given project.
 
 ## Spacelift in GitLab
 
