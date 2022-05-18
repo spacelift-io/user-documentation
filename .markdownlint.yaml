@@ -1,49 +1,24 @@
-# KLUDGE: Enable the rules individually below for the time being
-# to avoid being overwhelmed with errors.
-default: false
+# Enable all rules
+default: true
 
-MD001: true
+# Disable some rules
+MD013: false
+MD026: false
+MD045: false
+MD046: false
+
+# Configure some rules
 MD003:
   style: atx
 MD004:
   style: dash
-MD005: true
-MD007: true
-MD009: true
-MD010: true
-MD011: true
-MD012: true
-MD014: true
-MD018: true
-MD019: true
-MD020: true
-MD021: true
-MD022: true
-MD023: true
-MD024: true
-MD025: true
-MD027: true
-MD028: true
 MD029:
   style: ordered
-MD030: true
-MD031: true
-MD032: true
 MD033:
-  allowed_elements: ["br"]
-MD034: true
-MD035: true
-MD036: true
-MD037: true
-MD038: true
-MD039: true
-MD040: true
-MD041: true
-MD042: true
+  allowed_elements: [br]
 MD044:
   names: [Javascript]
   code_blocks: false
-MD047: true
 MD048:
   style: backtick
 MD049:
