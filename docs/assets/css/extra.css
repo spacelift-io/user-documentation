@@ -37,7 +37,7 @@ header .md-ellipsis {
 
 /* Hide the "Spacelift" primary menu title */
 .md-nav--primary > .md-nav__title {
-  visibility: hidden;
+  display: none;
 }
 
 .md-search__input {
