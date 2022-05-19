@@ -96,21 +96,39 @@ This is also important for Single Sign-On integrations: only the [integration cr
 !!! danger
     This feature is not available when using [Single Sign-On](../../integrations/single-sign-on/README.md) - your identity provider **must** be able to successfully validate each user trying to log in to Spacelift.
 
-Sometimes you have folks (short-term consultants, most likely) who are not members of your organization but need access to your Spacelift account - either as regular members or perhaps even as admins. There's also the situation where a bunch of friends is working on a hobby project in a personal GitHub account and they could use access to Spacelift. Here's an example of a policy that allows a bunch of whitelisted folks to get regular access and one to get admin privileges:
+Sometimes you have folks (short-term consultants, most likely) who are not members of your organization but need access to your Spacelift account - either as regular members or perhaps even as admins. There's also the situation where a bunch of friends is working on a hobby project in a personal GitHub account and they could use access to Spacelift. Here are examples of a policy that allows a bunch of whitelisted folks to get regular access and one to get admin privileges:
 
-```opa
-package spacelift
+=== "GitHub"
 
-admins  := { "alice" }
-allowed := { "bob", "charlie", "danny" }
-login   := input.session.login
+    This example uses GitHub usernames to grant access to Spacelift.
 
-admin { admins[login] }
-allow { allowed[login] }
-deny  { not admins[login]; not allowed[login] }
-```
+    ```opa
+    package spacelift
 
-Here's a [minimal example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw){: rel="nofollow"}.
+    admins  := { "alice" }
+    allowed := { "bob", "charlie", "danny" }
+    login   := input.session.login
+
+    admin { admins[login] }
+    allow { allowed[login] }
+    deny  { not admins[login]; not allowed[login] }
+    ```
+
+    Here's a [minimal example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw){: rel="nofollow"}.
+
+=== "Google"
+    This example uses email addresses managed by Google to grant access to Spacelift.
+
+    ```rego
+    package spacelift
+
+    admins  := { "alice@example.com" }
+    login   := input.session.login
+
+    admin { admins[login] }
+    allow { endswith(input.session.login, "@example.com") }
+    deny  { not admins[login]; not allow }
+    ```
 
 !!! warning
     Note that granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your GitHub org, they automatically lose access to Spacelift. But when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift login policy, too.
