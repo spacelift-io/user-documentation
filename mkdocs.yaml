@@ -3,7 +3,9 @@ copyright: © 2022 Spacelift, Inc. All rights reserved
 site_author: Spacelift
 site_description: Collaborative Infrastructure For Modern Software Teams
 site_name: Spacelift
+site_url: https://docs.spacelift.io
 theme:
+  custom_dir: overrides
   favicon: assets/images/favicon.png
   features:
     - content.code.annotate
@@ -18,6 +20,8 @@ theme:
   name: material
   palette:
     scheme: spacelift
+watch:
+  - overrides
 markdown_extensions:
   - admonition
   - attr_list
@@ -39,6 +43,7 @@ extra_css:
   - assets/css/extra.css
 extra:
   generator: false
+  environment: !ENV [DOC_ENV, "dev"]
   social:
     - icon: fontawesome/brands/facebook
       link: https://www.facebook.com/spaceliftio-103558488009736/
