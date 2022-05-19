@@ -25,11 +25,11 @@ When an Azure integration is created, an associated Azure AD Application is crea
 
 To add a new integration, go to the _Azure_ page under your account settings_._ When you go there for the first time, the page will be empty, but will prompt you to add an integration:
 
-![](https://lh5.googleusercontent.com/Twj5iwxAe9OdTL3zofwjh7DIutsg8NKJub0Y6zvNwmdDwqngYALmWHSSszTOaYfarVBdxmS7EzkbwuJIKbdbwb86_SF2cz_l9h5vgwY8-8g-OLAliM0S7OwqXNMai6loPz2XoQXF=s0)
+![](../../assets/screenshots/azure1.png)
 
 Click on the _Add Integration_ button to start configuring your integration:
 
-![](https://lh3.googleusercontent.com/eRpQfxiWazqKWfnHTmLYcIYL1hvcm4R_Wi3tqaEVZw0WfpFJWQqYo7OoqDhpZppamrWjZBpl41i1ZtftBxcoYN1YSvok9p7gtpOFQhnPau9HousE4tghTDPQWZXQ7NXn0ADAzq21=s0)
+![](../../assets/screenshots/azure2.png)
 
 Give your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
@@ -40,11 +40,11 @@ Give your integration a name, and enter your Active Directory Tenant ID. You can
 
 Once your integration has been created successfully, you will be taken to the integration details. It should look something like this:
 
-![](https://lh5.googleusercontent.com/_WAQuO6SvW0fNVQ2IeFu46K4DLluDbuG96v1SjMKbw1Y_c0xWfa0CynIO5UHdNgiWiFc1qchVympyMuU9-0PtBN2nqhaV6JDCvev2KE4aLOo_R1Yf8s7q-zEBRFdeFJOlpybv9IY=s0)
+![](../../assets/screenshots/azure3.png)
 
 To install the Azure AD application for your Spacelift integration into your Azure account, click on the _Provide Consent_ button, which will redirect you to Azure. After logging into your Azure account, you should see a permissions screen like the following:
 
-![](https://lh6.googleusercontent.com/sEumQpyMVV6BSJJZbdNlZbKRJskpskk7zRebcK6V9HU3NoR-04TYMllNiDqzUcnDzzn6JQNT1UWtyPoetRSmYUUX_GLex9M65lgrJRMmFNtWYk3OSyrVZGCqw5gqHijmzqmYPb7F=s0)
+![](../../assets/screenshots/azure4.png)
 
 Click on the Accept button to complete the admin consent process, at which point you should be redirected to your integration settings.
 
@@ -54,7 +54,7 @@ Click on the Accept button to complete the admin consent process, at which point
 !!! warning
     Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
 
-    ![](https://lh4.googleusercontent.com/lMmG294KwgxorLySgfwTJTV1NCD_AmzogTK_akgb-X6OhzZuw3s9xEZ9xlJujx4SSuRwdaVmICLwP73TaOz5okC9wgO7Z6aePq4FT8-qs9YMnj9jgNbVZg_H41DLG8LPHxbxgJFB=s0)
+    ![](../../assets/screenshots/azure5.png)
 
     This isn’t a problem. Just wait a few minutes and try again.
 
@@ -62,11 +62,11 @@ Click on the Accept button to complete the admin consent process, at which point
 
 Now that you have granted admin consent, a new Enterprise Application will be created for your integration in Azure. You can view this in the [Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/){: rel="nofollow"} section of Azure Active Directory:
 
-![](https://lh4.googleusercontent.com/Gfv5uKYvNuVQ9_CgZXO_aYA8m52m9zQ_aw3vG6BEDOVYNrXTczR6BkPBpYIU8JcpRuY8keionc4zIV-d99Ogkfar28CU6wyIOQ3kjSDBSLoURQsRVto0nwxBmbdbHW9SP9ygoFf1=s0)
+![](../../assets/screenshots/azure6.png)
 
 If you go to the Access Control (IAM) section of the Azure subscription or resource group you want the integration to have access to, you should be able to add a new role assignment for the integration:
 
-![](https://lh6.googleusercontent.com/epsMyvwvup1nlfsiYj8AVjBo58W82eg3KkbgC6n8Ebf3lHElT4MDa3dB_OiiOs2gYX_8s8zI5aHUMkzeQpT-VkhSzs5yY_rC92hd4Z0xCoaawCAiLVLzlf3be3NgdVtdFjwPWNQp=s0)
+![](../../assets/screenshots/azure7.png)
 
 !!! info
     The integration has no access to any of your Azure infrastructure unless you explicitly grant it the appropriate permissions.
@@ -75,11 +75,11 @@ If you go to the Access Control (IAM) section of the Azure subscription or resou
 
 To attach an integration to a Stack, edit the _Integrations_ settings for your stack, and choose the Azure option from the list:
 
-![](https://lh4.googleusercontent.com/y5JlOLbGNy3CHq31t-WD7R7-FEHfdoKlVTBkAGVO68JKBWzBuUQ5gU8CVMfJYftu-S7lGuA_GMPMv41waSzVQoPr1-kjBaC93ABw0SociL2TzVcLHekiPusoiITRRguOsFgqv2K5=s0)
+![](../../assets/screenshots/azure8.png)
 
 Choose the integration you want to attach, specify a subscription ID if the integration you’ve chosen doesn’t have a default or you want to override the default, and specify whether the integration should be used for read, write or read and write operations:
 
-![](https://lh6.googleusercontent.com/UoPoD0kQNWM4ft2POzbgfQyyussD0eqQUI35ARkW0mBbcI06bKaaVTPvbGvEJwmcKRYenb_0_r_cIu-52gOE7mRmckixzO7ShHWADDEJyH9gMo-yPWrMsv-1izaL5ANbt-SyZWZo=s0)
+![](../../assets/screenshots/azure9.png)
 
 Click on the Attach button to add the integration to your stack.
 
@@ -87,13 +87,13 @@ Click on the Attach button to add the integration to your stack.
 
 If you want to detach an integration from a stack, just click the Detach button next to the integration:
 
-![](https://lh6.googleusercontent.com/9tKS3lPLHCga2CeguEi_6JFnaPBEnb-xj4Lem5r3P1Xx0KxSJGyH_hECzl3_4XWQl8E5rAI7fqYlUuFFjo4MNAoj775y3TRB1-Dbirn2UKyB2d4fuP_Ln6LT2PIuP5pBRhHlLmSs=s0)
+![](../../assets/screenshots/azure10.png)
 
 ### Deleting an integration
 
 You can delete an Azure integration if you don’t need it anymore. To do that, go to the Azure Integrations settings screen, and click the Delete button next to the integration you want to remove:
 
-![](https://lh4.googleusercontent.com/DAbsLUKrZJfbbltKK52CIMtJ9_GilBjAMxIp9spuKz6b6H0Gwhr-Q63rQxFiPvoCqToNcwaIDKty1CmkRBezI2e2mkri27QkY9PbL135YxQznBS6Ur_iQiOJEMSoMxoXkyAMRsjH=s0)
+![](../../assets/screenshots/azure11.png)
 
 !!! info
     You can only delete an integration if it is not being used by any stacks, so you may have to detach the integration from any stacks it is attached to first.
