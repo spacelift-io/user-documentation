@@ -11,6 +11,8 @@ theme:
     - navigation.instant
     - navigation.sections
     - navigation.tracking
+  font:
+    text: Nunito Sans
   language: en
   logo: assets/images/logo.svg
   name: material

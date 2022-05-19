@@ -4,15 +4,79 @@ Spacelift color scheme
 See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/master/src/assets/stylesheets/main/_colors.scss
 */
 [data-md-color-scheme="spacelift"] {
-  --md-primary-fg-color:#7C47FC;
+  --md-accent-fg-color: #2E89F3;
+  --md-typeset-a-color: #0B75F2;
+  --md-typeset-color: #131417;
 }
 
-/* Change the header background color */
-.md-header {
+header.md-header {
   background-color: #131417;
+  height: 88px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+header.md-header > nav {
+  height: 88px;
+  padding: 0;
+}
+
+header.md-header > nav > a.md-logo {
+  height: 42px;
+  padding: 0;
+}
+
+header.md-header > nav > a.md-logo > img {
+  height: 42px !important;
+}
+
+/* Hide the current page title in the header */
+header .md-ellipsis {
+  visibility: hidden;
 }
 
 /* Hide the "Spacelift" primary menu title */
 .md-nav--primary > .md-nav__title {
   visibility: hidden;
+}
+
+.md-search__input {
+  border-color: #4A4D57;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.md-typeset {
+  font-size: 17px;
+  line-height: 28px;
+}
+
+.md-typeset h1 {
+  color: #131417;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.md-typeset h2 {
+  color: #131417;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+.md-typeset h3 {
+  color: #131417;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+.md-typeset h4 {
+  color: #131417;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
