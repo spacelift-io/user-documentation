@@ -8,7 +8,7 @@ In order to set up the GitLab integration from the Spacelift side, please naviga
 
 ![Click on Settings from the Left Navigation Sidebar to access your Spacelift account Settings.](../../assets/screenshots/Screen Shot 2022-05-18 at 1.07.24 PM.png)
 
- ![Click on the Set Up button next to GitLab.](../../.gitbook/assets/image (104).png)
+ ![Click on the Set Up button next to GitLab.](../../assets/screenshots/image (104).png)
 
 This should open a form like this one:
 
