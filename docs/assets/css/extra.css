@@ -6,7 +6,7 @@ See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/
 [data-md-color-scheme="spacelift"] {
   --md-accent-fg-color: #2E89F3;
   --md-typeset-a-color: #0B75F2;
-  --md-typeset-color: #131417;
+  --md-typeset-color: #4A4D57;
 }
 
 header.md-header {
@@ -40,6 +40,10 @@ header .md-ellipsis {
   display: none;
 }
 
+.md-nav__list {
+  color: #131417;
+}
+
 .md-search__input {
   border-color: #4A4D57;
   border-style: solid;
@@ -48,7 +52,8 @@ header .md-ellipsis {
 
 .md-typeset {
   font-size: 17px;
-  line-height: 28px;
+  line-height: 30px;
+  font-weight: 400;
 }
 
 .md-typeset h1 {
