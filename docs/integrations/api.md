@@ -39,7 +39,7 @@ One approach to generating this token is using the Spacelift [spacectl](https://
 
 1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl) to install the CLI on your machine.
 2. Authenticate to your Spacelift account using `spacectl profile login`
-3. Once authenticated, run `spacelift profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
+3. Once authenticated, run `spacectl profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
 
 ### Spacelift API Key > Token
 
