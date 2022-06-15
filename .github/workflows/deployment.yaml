@@ -39,5 +39,9 @@ jobs:
       - name: Copy files to the test website with the AWS CLI
         run: aws s3 sync --delete --quiet ./site s3://${{ secrets.BUCKET_NAME }}
 
-      # - name: Invalidate CloudFront cache
-      #   run: aws
+      # KLUDGE: Clearing the whole cache is overkill but determining what items to invalidate is hard
+      - name: Invalidate CloudFront cache
+        run: |
+              aws cloudfront create-invalidation \
+                --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+                --paths "/*"
