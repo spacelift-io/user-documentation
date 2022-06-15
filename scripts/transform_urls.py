@@ -18,18 +18,6 @@ def read_src_file_content(path):
 def save_content_to_dest_file(path, content):
   Path(path).write_text(content)
 
-# def transform_internal_urls(content):
-#   matches = re.finditer('href="([^"]*)"', content, flags=re.MULTILINE)
-#   for match in matches:
-#     old_url = match.group(1)
-#     url_components = urlparse(old_url)
-#     if url_components.scheme == "" and url_components.path.endswith("/"):
-#       new_path = url_components.path.rstrip("/")
-#       new_url = url_components._replace(path=new_path).geturl()
-#       content = content.replace(f'href="{old_url}"', f'href="{new_url}"')
-
-#   return content
-
 def transform_internal_urls(filename, content):
   if filename.endswith("/sitemap.xml"):
     matches = re.finditer('<loc>([^<]*)<\/loc>', content, flags=re.MULTILINE)
