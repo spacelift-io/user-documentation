@@ -50,7 +50,7 @@ More specifically, we may need to process your data or share your personal infor
 
 ## 3. Do we use cookies and other tracking technologies?
 
-We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our [Cookie Policy](cookies.md).
+We may use cookies and similar tracking technologies (like web beacons and pixels) to access or store information. Specific information about how we use such technologies and how you can refuse certain cookies is set out in our [Cookie Policy](./cookie-policy.md).
 
 ## 4. How do we handle your social logins?
 

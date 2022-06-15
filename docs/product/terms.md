@@ -31,7 +31,7 @@ In Subscription Service:
 
 - Our [Privacy Notice](privacy.md), which sets out the terms on which we process any personal data we collect from you, or that you provide to us. By using the Site, you consent to such processing and you warrant that all data provided by you is accurate.
 
-- Our [Cookie Policy](cookies.md), which sets out information about the cookies on the Site.
+- Our [Cookie Policy](cookie-policy.md), which sets out information about the cookies on the Site.
 
 ## 2. Acceptable Use
 

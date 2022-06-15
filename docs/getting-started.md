@@ -1,10 +1,12 @@
 ---
-description: Spacelift Getting Started Guide
+description: >-
+   A quick start on creating a Spacelift account, linking it to a VCS, and
+   creating your first Spacelift stack.
 ---
 
 # 🚀 Getting Started
 
-Hello and Welcome to Spacelift! In this guide we will briefly introduce some key concepts that you need to know to work with Spacelift. These concepts will be followed by [detailed instructions](getting-started.md#step-by-step) to help you create and configure your first run with Spacelift.
+Hello and welcome to Spacelift! In this guide we will briefly introduce some key concepts that you need to know to work with Spacelift. These concepts will be followed by [detailed instructions](getting-started.md#step-by-step) to help you create and configure your first run with Spacelift.
 
 ## Introduction to Main Concepts
 
@@ -14,11 +16,11 @@ A stack is a central entity in Spacelift. It connects with your source control r
 
 ### State Management
 
-State can be managed by your backend or can be imported into Spacelift for Terraform projects. It is not required to let Spacelift manage your infrastructure state.
+State can be managed by your backend, or for Terraform projects - can be imported into Spacelift. It is not required to let Spacelift manage your infrastructure state.
 
 ### Worker Pools
 
-Spacelift provides public and private worker pools that execute Spacelift workflows. Public worker pools are managed by Spacelift whereas private pools are hosted by you. Due to security and compliance requirements, several of our customers choose private pools to manage their infrastructure. You can learn more about worker pools [here](concepts/worker-pools.md).
+Spacelift provides two options for managing the underlying compute used by Spacelift: public or private worker pools. Public worker pools are managed by Spacelift whereas private pools are hosted by you. Due to security and compliance requirements, several of our customers choose private pools to manage their infrastructure. You can learn more about worker pools [here](concepts/worker-pools.md).
 
 ### Policies
 
@@ -32,40 +34,32 @@ Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). In
 
 Spacelift deeply integrates with your Version Control System (VCS). Pull requests are evaluated by Spacelift to provide a preview of the changes being made to infrastructure; these changes are deployed automatically when PRs are merged. You can learn more about [VCS integration](integrations/source-control/github.md) here.
 
-## Step-by-step
+## Step by Step
 
 This section provides step-by-step instructions to help you set up and get the most out of Spacelift. If you want to learn about core concepts, please have a look at the [main concepts](getting-started.md#introduction-to-main-concepts) section.
 
-You can get started with either forking our Terraform Starter repository and testing all Spacelift capabilities in under 15 minutes or you can explore Spacelift on your own by adding your own repository and going from zero to fully managing your cloud resources.
-
-- [Use our starter repository to play with Spacelift (guide)](https://github.com/spacelift-io/terraform-starter)
-- [Use your own repository (guide)](getting-started.md#first-stack-run)
-
 ## First Stack Run
 
-This tutorial will help you complete your first stack and run. It assumes you use your own repository.
+You can get started with either forking our [Terraform Starter repository](https://github.com/spacelift-io/terraform-starter) and testing all Spacelift capabilities in under 15 minutes or you can explore Spacelift on your own by adding your own repository and going from zero to fully managing your cloud resources.
 
-### Step 1: Setup your Spacelift account
+### Step 1: Create your Spacelift account
 
-- On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get Started" button.
+- On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get started" button:
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 12-35-55 Collaborative Infrastructure For Modern Software Teams Spacelift.png>)
 
-- Sign Up with Google, GitLab or GitHub
+Select from the options available to create your Spacelift account:
 
-![](<./assets/screenshots/Screenshot 2022-04-27 at 12-37-48 Get started with Spacelift Free Trial Spacelift.png>)
-
-**Note:**
-
-When using GitHub as an authentication provider, your Spacelift accounts are associated with your selected GitHub account or GitHub Organization. After clicking "Sign Up", you'll need to choose an organization you are a member of, your personal account, or create a new GitHub Organization.
+![](<./assets/screenshots/Screen Shot 2022-05-19 at 12.09.26 PM.png>)
 
 !!! info
-    The GitHub Organization/account name selected will be used as your Spacelift account name.
+    For users who select GitHub: The GitHub Organization/account name selected will be used as your Spacelift account name.
 
-### Step 2: Connecting with GitHub
+### Step 2: Connect your Version Control System (VCS)
 
-!!! info
-    In this guide, we will be using GitHub to host our repositories. You can find more information about other supported VCS providers [here](integrations/source-control/).
+In this section we will be connecting GitHub as our VCS. You can find more information about other supported VCS providers [here](./integrations/source-control/github.md).
+
+ If you created your Spacelift account using GitHub, see please follow the "[GitHub was used as a sign-in option](getting-started.md#github-was-used-as-a-sign-in-option)" sub-section. If you created your account using Google or GitLab, please see the "[Google or GitLab was used as a sign-in option](getting-started.md#google-or-gitlab-was-used-as-a-sign-in-option)" sub-section.
 
 !!! info
     The flow for connecting GitHub as a VCS provider is slightly different when using GitHub to sign in compared to the other sign-in options (GitLab, Google). Follow the section that is applicable to you.
@@ -75,51 +69,56 @@ When using GitHub as an authentication provider, your Spacelift accounts are ass
 1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-![](<./assets/screenshots/Screenshot 2022-04-27 at 17-39-51 Build software better together copy.png>)
+![](<./assets/screenshots/Screen Shot 2022-05-19 at 12.14.59 PM.png>)
 
 Now login to the Spacelift console, you are ready to create your first stack!
 
 #### Google or GitLab was used as a sign-in option:
 
-1. You should have arrived on the Spacelift console.
-2. Follow the guide for [setting up the GitHub integration](integrations/source-control/github.md#setting-up-the-integration).
-3. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
+This sub-section is intended for users who created their Spacelift account using Google or GitLab.
 
-### Step 3: Create your first Stack
+ 1. To connect GitHub as your VCS, follow the guide for [setting up the GitHub integration](./integrations/source-control/github.md#setting-up-the-integration).
+ 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-1. Click on the Add **Stack** button.
+ Please refer to the [Source Control](./integrations/source-control/github.md) section of the documentation to connect a different VCS.
 
-![](./assets/screenshots/2.png)
+### Step 3: Create Your First Spacelift Stack
 
-1. In the **Integrate VCS** form, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack.
+Click on the Add **Stack** button.
 
-![](./assets/screenshots/3.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 11.56.03 AM.png)
+
+In the **Integrate VCS** tab, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack. **Click Continue.**
+
+![](./assets/screenshots/Screen Shot 2022-05-19 at 11.57.20 AM.png)
 
 Click on _Continue_ to configure the backend.
 
-1. Choose Terraform as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack.
+Choose **Terraform** as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack.
 
-![](./assets/screenshots/4.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 11.58.11 AM.png)
 
-1. Leave the default options checked for **Define Behavior** and click continue.
+Leave the default options checked for Define Behavior and click **Continue**.
 
-![](./assets/screenshots/5.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 11.59.14 AM.png)
 
-1. Give a name to your stack and save.
+Give your stack a name and click **Save Stack**.
 
-![](./assets/screenshots/6.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 12.02.25 PM.png)
 
-### Step 4: Trigger your first Run
+### Step 4: Trigger your First Run
 
-Saving the stack will lead you to the **Runs** screen. Click on _Trigger_ to kick start a Spacelift job that will check out the source code, run terraform commands on it and then present you with an option to apply (confirm) these changes.
+Click on _Trigger_ to kick start a Spacelift run that will check out the source code, run terraform commands on it and then present you with an option to apply (confirm) these changes.
 
-![](./assets/screenshots/7.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 12.02.41 PM.png)
 
-Click on _Confirm_ and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
+After clicking Trigger, you will be taken directly into the run. Click on **Confirm** and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
 
-![](./assets/screenshots/8.png)
+![](./assets/screenshots/Screen Shot 2022-05-19 at 12.04.44 PM.png)
 
-## Further Reading
+Congratulation! 🚀 You've just created your first Spacelift stack and completed your first deployment!
+
+## Additional Reading
 
 1. Learn how to [integrate with AWS](integrations/cloud-providers/aws.md) as a cloud provider for your infrastructure
 2. Try [creating and attaching policies](concepts/policy/#creating-policies) with stacks for common use cases
