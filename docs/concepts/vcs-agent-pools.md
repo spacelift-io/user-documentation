@@ -16,7 +16,7 @@ Open the VCS Agent Pools panel, click **Add VCS Agent Pool**, give it a name and
 
 ![Creation of VCS Agent Pool](<../assets/screenshots/image (45).png>)
 
-You can now run the launcher binary (downloaded from [here](https://downloads.spacelift.io/spacelift-vcs-agent)) by setting three environment variables:
+You can now run the agent binary (downloaded from [here](https://downloads.spacelift.io/spacelift-vcs-agent)) by setting three environment variables:
 
 - `SPACELIFT_VCS_AGENT_POOL_TOKEN` - the token you’ve received from Spacelift on worker pool creation
 - `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` - internal endpoint of your VCS system, including the protocol, as well as port, if applicable. i.e. `http://169.254.0.10:7990`
@@ -51,7 +51,7 @@ When the VCS Agent from a VCS Agent Pool is connecting to the gateway, you can s
 export SPACELIFT_METADATA_instance_id=$(ec2-metadata --instance-id | cut -d ' ' -f2)
 ```
 
-Doing so will set your EC2 instance ID as _instance\_id_ tag in your VCS Agent connections.
+Doing so will set your EC2 instance ID as _instance_id_ tag in your VCS Agent connections.
 
 ### Private Workers
 
