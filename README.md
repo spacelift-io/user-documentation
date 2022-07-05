@@ -64,6 +64,8 @@ pre-commit
 
 Once you are happy with your changes, just open a pull request and ask for a review.
 
+The pull request can be merged by its author after getting at least one approval.
+
 ### Deploying Changes
 
 Changes are automatically deployed by GitHub Action when they are pushed to the `main` branch. It usually takes about a minute for changes to go live after the pull request has been merged.
