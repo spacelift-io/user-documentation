@@ -12,9 +12,9 @@ If you can't find an answer to your question, or you are affected by an outage, 
 
 ### Issues with billing, purchasing, or subscriptions
 
-| Plan                    | Support level (First Response Time) | How to get in touch                                                                                                             |
-| ----------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| All plans and purchases | First reply within 8 hours, 24x5    | Open a Support Ticket on the Spacelift Support Portal and select "Licensing and Renewals Problems" or email to ar@spacelifet.io |
+| Plan                    | Support level (First Response Time) | How to get in touch   |
+| ----------------------- | ----------------------------------- | --------------------- |
+| All plans and purchases | First reply within 8 hours, 24x5    | Email ar@spacelift.io |
 
 ### Spacelift
 
