@@ -154,9 +154,9 @@ Once you're done, click on the _Create policy_ button to save it. Don't worry, p
 
 ### Automatically
 
-Policies, with the exception of [Login policies](login-policy.md), can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks.
+Policies, with the exception of [Login policies](login-policy.md), can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account.
 
-In the example below, the policy will be automatically attached to all the stacks with the label `production`.
+In the example below, the policy will be automatically attached to all stacks/modules with the label `production`.
 
 ![](<../../assets/screenshots/CleanShot 2022-03-10 at 16.03.48@2x.png>)
 
