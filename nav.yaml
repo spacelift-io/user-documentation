@@ -24,6 +24,7 @@ nav:
       - concepts/run/test-case.md
       - concepts/run/user-provided-metadata.md
       - concepts/run/run-promotion.md
+      - concepts/run/pull-request-comments.md
     - Policy:
       - concepts/policy/README.md
       - concepts/policy/login-policy.md
