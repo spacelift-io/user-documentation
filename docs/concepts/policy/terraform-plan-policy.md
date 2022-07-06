@@ -109,8 +109,10 @@ If you need to compare a string property to a constant, you can use the `sanitiz
 
 ```opa
 deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
-  some resource
-  affected_resources[resource]
+  resource := input.terraform.resource_changes[_]
+
+  actions := {"create", "delete", "update"}
+  actions[resource.change.actions[_]]
 
   resource.change.after.endpoint == sanitized("forbidden.endpoint/webhook")
 }
@@ -118,11 +120,11 @@ deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
 
 ## Use cases
 
-Since plan policies get access to the changes to your infrastructure that are about to be introduced, they are the right place to run all sorts of checks against those changes. We believe that that there are two main use cases for those checks - [hard rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) preventing shooting yourself in the foot and [automated code review](terraform-plan-policy.md#automated-code-review) that augments human decision-making.
+Since plan policies get access to the changes to your infrastructure that are about to be introduced, they are the right place to run all sorts of checks against those changes. We believe that there are two main use cases for those checks - [hard rule enforcement](terraform-plan-policy.md#organizational-rule-enforcement) preventing shooting yourself in the foot and [automated code review](terraform-plan-policy.md#automated-code-review) that augments human decision-making.
 
 ### Organizational rule enforcement
 
-In every organization there are things you just don't do. Hard-won knowledge embodied by lengthy comments explaining that if you touch this particular line the site will go hard down and the on-call folks will be after you. Potential security vulnerabilities that can expose all your infra to the wrong crowd. Spacelift allows turning them into policies that simply can't be broken. In this case you will most likely want to exclusively use **deny** rules.
+In every organization, there are things you just don't do. Hard-won knowledge embodied by lengthy comments explaining that if you touch this particular line the site will go hard down and the on-call folks will be after you. Potential security vulnerabilities that can expose all your infra to the wrong crowd. Spacelift allows turning them into policies that simply can't be broken. In this case, you will most likely want to exclusively use **deny** rules.
 
 Let's start by introducing a very simple and reasonable rule - never create static AWS credentials:
 
@@ -135,10 +137,8 @@ package spacelift
 deny[sprintf(message, [resource.address])] {
   message := "static AWS credentials are evil (%s)"
 
-  some resource
-  # created_resources is a helper provided by Spacelift that captures
-  # all resources with "create" action (including recreated ones).
-  created_resources[resource]
+  resource := input.terraform.resource_changes[_]
+  resource.change.actions[_] == "create"
 
   # This is what decides whether the rule captures a resource.
   # There may be an arbitrary number of conditions, and they all must
@@ -207,7 +207,7 @@ The best way to use warn and deny rules together depends on your preferred Git w
 
 As a general rule when using plan policies for code review, **deny** when run type is _PROPOSED_ and **warn** when it is _TRACKED_. Denying tracked runs unconditionally may be a good idea for most egregious violations for which you will not consider an exception, but when this approach is taken to an extreme it can make your life difficult.
 
-We thus suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, but will give the reviewer a chance to approve the change nevertheless. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/#autodeploy) to _false_, or explicitly **warn** about potential violations. Here's an example how to reuse the same rule to **deny** or **warn** depending on the run type:
+We thus suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, but will give the reviewer a chance to approve the change nevertheless. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/#autodeploy) to _false_, or explicitly **warn** about potential violations. Here's an example of how to reuse the same rule to **deny** or **warn** depending on the run type:
 
 ```opa
 package spacelift
@@ -218,8 +218,8 @@ deny[reason] { proposed; reason := iam_user_created[_] }
 warn[reason] { not proposed; reason := iam_user_created[_] }
 
 iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
-  some resource
-  created_resources[resource]
+  resource := input.terraform.resource_changes[_]
+  resource.change.actions[_] == "create"
 
   resource.type == "aws_iam_user"
 }
@@ -243,11 +243,11 @@ The minimal example for the above rule is available in the [Rego playground](htt
 
 ## Cookbook
 
-Below are a few examples of policies that accomplish some common business goals. Feel free to copy them verbatim, or use as an inspiration.
+Below are a few examples of policies that accomplish some common business goals. Feel free to copy them verbatim, or use them as an inspiration.
 
 ### Require human review when resources are deleted or updated
 
-Adding resources may ultimately cost a lot of money but it's generally pretty safe from an operational perspective. Let's use a warn rule to allow changes with only added resources to get automatically applied, and require all others to get a human review:
+Adding resources may ultimately cost a lot of money but it's generally pretty safe from an operational perspective. Let's use a `warn` rule to allow changes with only added resources to get automatically applied, and require all others to get a human review:
 
 ```opa
 package spacelift
@@ -267,7 +267,7 @@ warn[sprintf(message, [action, resource.address])] {
 
 ### Automatically deploy changes from selected individuals
 
-Sometimes there are folks who really know what they're doing and changes they introduce can get deployed automatically, especially if they already went through code review. Below is an example that allows commits from whitelisted individuals to be deployed automatically (assumes Stack set to [autodeploy](../stack/#autodeploy)):
+Sometimes there are folks who really know what they're doing and changes they introduce can get deployed automatically, especially if they already went through code review. Below is an example that allows commits from whitelisted individuals to be deployed automatically (assumes Stack is set to [autodeploy](../stack/#autodeploy)):
 
 ```opa
 package spacelift
@@ -306,7 +306,7 @@ too_many_changes[msg] {
 }
 ```
 
-Here's the above example in the [Rego playground](https://play.openpolicyagent.org/p/fhLBskzd13){: rel="nofollow"}, with threshold set to 1 for simplicity.
+Here's the above example in the [Rego playground](https://play.openpolicyagent.org/p/fhLBskzd13){: rel="nofollow"}, with the threshold set to 1 for simplicity.
 
 ### Back-of-the-envelope blast radius
 
