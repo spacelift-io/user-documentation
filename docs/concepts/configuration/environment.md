@@ -8,9 +8,7 @@ description: >-
 
 If you take a look at the Environment screen of a stack you will notice it's pretty busy - in fact it's the second busiest view in Spacelift ([run](../run/) being the undisputed winner). Ultimately though, all the records here are either [environment variables](environment.md#environment-variables) or [mounted files](environment.md#mounted-files). The main part of the view represents the synthetic outcome determining what your run will "see" when executed. If this does not make sense yet, please hang on and read the remainder of this article.
 
-![](<../../assets/screenshots/Environment_·_Managed_stack (1).png>)
-
-![](../../assets/screenshots/Editing_environment_·_Managed_stack.png)
+![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.26.10 PM.png>)
 
 ## Environment variables
 
@@ -21,13 +19,13 @@ The concept of environment variables is instinctively understood by all programm
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
-![](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (1).png>)
+![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.27.13 PM.png>)
 
 ...and so is editing:
 
-![Environment variable in the viewing mode](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (2).png>)
+![Environment variable in the viewing mode](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.28.17 PM.png>)
 
-![Environment variable in the editing mode ](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (3).png>)
+![Environment variable in the editing mode ](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.27.56 PM.png>)
 
 ### Computed values
 
@@ -111,7 +109,7 @@ Your Git repository is cloned into `/mnt/workspace/source/`, which also serves a
 
 While contexts are important enough to [warrant their own dedicated article](context.md), it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/), as well as with [computed values](environment.md#computed-values). Perhaps you've noticed the blue labels on one of the earlier screenshots. If you haven't, here they are again, with a proper highlight:
 
-![](<../../assets/screenshots/Environment_·_Stack_managed_by_Spacelift (1).png>)
+![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.30.34 PM.png>)
 
 The highlighted label is the name of the [attached context](context.md#attaching-contexts) that supplies those values. The sorted list of attached contexts is located below the calculated environment view, and each entry can be unfurled to see its exact content.
 
