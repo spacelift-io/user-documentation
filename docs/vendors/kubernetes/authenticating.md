@@ -31,12 +31,7 @@ aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 
 ## Azure
 
-The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/){: rel="nofollow"} to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the Azure CLI installed, and needs to run two _before init_ hooks:
-
-- `az login` - logs into the Azure CLI.
-- `az aks get-credentials` - adds credentials for your cluster to the kubeconfig file.
-
-Depending on your exact use-case, you may need to use slightly different versions of the `az login` command. This guide outlines two main scenarios.
+The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli) and [kubelogin](https://github.com/Azure/kubelogin) installed, and needs to run some _before init_ hooks to authenticate with your cluster. Depending on your exact use-case, you may need to use slightly different commands. This guide outlines two main scenarios.
 
 !!! info
     Please note that both examples assume that your stack has an `$AKS_CLUSTER_NAME` and `$AKS_RESOURCE_GROUP` environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.
@@ -48,6 +43,9 @@ When using our [Azure integration](../../integrations/cloud-providers/azure.md#s
 ```bash
 az login --service-principal -u "$ARM_CLIENT_ID" -t "$ARM_TENANT_ID" -p "$ARM_CLIENT_SECRET"
 az aks get-credentials --name "$AKS_CLUSTER_NAME" --resource-group "$AKS_RESOURCE_GROUP"
+kubelogin convert-kubeconfig -l spn
+export AAD_SERVICE_PRINCIPAL_CLIENT_ID="$ARM_CLIENT_ID"
+export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET="$ARM_CLIENT_SECRET"
 ```
 
 ### Using private workers with Managed Identities
@@ -57,6 +55,7 @@ When using [private workers with a managed identity](../../integrations/cloud-pr
 ```bash
 az login --identity
 az aks get-credentials --name "$AKS_CLUSTER_NAME" --resource-group "$AKS_RESOURCE_GROUP"
+kubelogin convert-kubeconfig -l msi
 ```
 
 ## GCP
