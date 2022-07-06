@@ -14,6 +14,10 @@ Using this policy it is possible to create a very sophisticated, custom-made set
 
 Each stack and module points at a particular Git branch called a [tracked branch](../stack/#repository-and-branch). By default, any push to the tracked branch triggers a tracked [Run](../run/) that can be [applied](../run/#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
 
+![The tracked branch head commit is behind the head commit of the stack.](<../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
+
+When a push policy does not track a new push, the head commit of the stack/module will not be set to the tracked branch head commit. We can address this by navigating to that stack and pressing the sync button (this syncs the tracked branch head commit with the head commit of the stack/module).
+
 ### Push and Pull Request events
 
 Spacelift can currently react to two types of events - _push_ and _pull request_ (also called _merge request_ by GitLab). Push events are the default - even if you don't have a push policy set up, we will respond to those events. Pull request events are supported for some VCS providers and are generally received when you open, synchronize (push a new commit), label, or merge the pull request.

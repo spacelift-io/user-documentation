@@ -114,7 +114,7 @@ Thanks to the strong integration between GitHub and Spacelift, the link between 
 
     Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
-_Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/git-push-policy.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run.
+_Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/git-push-policy.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run. More information about git push policies, tracked branches, and head commits can be found [here](../policy/git-push-policy.md#git-push-policy-and-tracked-branch).
 
 Results of both tracked and proposed runs are displayed in the source control provider using their specific APIs - please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively to understand how Spacelift feedback is provided for your infrastructure changes.
 
