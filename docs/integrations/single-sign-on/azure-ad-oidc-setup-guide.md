@@ -58,7 +58,7 @@ Start by navigating to the **Token configuration** section of your application.
 
 Click the **Add optional claim** button, choose the **ID** token type, and select the **upn** claim:
 
-![](<../../assets/screenshots/image (118).png>)
+![](<../../assets/screenshots/image (118) (1).png>)
 
 Click the **Add** button, making sure to enable the **Turn on the Microsoft Graph profile permission** checkbox on the popup that appears:
 

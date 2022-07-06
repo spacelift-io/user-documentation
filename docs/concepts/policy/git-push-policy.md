@@ -158,6 +158,51 @@ propose { true }
 track { input.push.tag != "" }
 ```
 
+### Allow forks
+
+By default, we don't trigger runs when a forked repository opens a pull request against your repository. This is because of a security concern: if let's say your infrastructure is open source, someone forks it, implements some unwanted junk in there, then opens a pull request for the original repository, it'd run automatically with the prankster's code included.
+
+!!! info
+    The cause is very similar to GitHub Actions where they don't expose repository secrets when forked repositories open pull requests.
+
+If you still want to allow it, you can explicitly do it with `allow_fork` rule. For example, if you trust certain people or organizations:
+
+```opa
+propose { true }
+allow_fork {
+  validOwners := {"johnwayne", "microsoft"}
+  validOwners[input.pull_request.head_owner]
+}
+```
+
+In the above case, we'll allow a forked repository to run, **only** if the owner of the forked repository is either `johnwayne` or `microsoft`.
+
+`head_owner` field means different things in different VCS providers:
+
+#### GitHub
+
+In GitHub, `head_owner` is the organization or the person owning the forked repository. It's typically in the URL: `https://github.com/<head_owner>/<forked_repository>`
+
+#### GitLab
+
+In GitLab, it is the group of the repository which is typically the URL of the repository: `https://gitlab.com/<head_owner>/<forked_repository>`
+
+#### Azure DevOps
+
+Azure DevOps is a special case because they don't provide us the friendly name of the `head_owner`. In this case, we need to refer to `head_owner` as the ID of the forked repository's project which is a UUID. One way to figure out this UUID is to open `https://dev.azure.com/<organization>/_apis/projects` website which lists all projects with their unique IDs. You don't need any special access to this API, you can just simply open it in your browser.
+
+[Official documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list) of the API.
+
+#### Bitbucket Cloud
+
+In Bitbucket Cloud, `head_owner` means [workspace](https://support.atlassian.com/bitbucket-cloud/docs/what-is-a-workspace/). It's in the URL of the repository: `https://www.bitbucket.org/<workspace>/<forked_repository>`.
+
+#### Bitbucket Datacenter/Server
+
+In Bitbucket Datacenter/Server, it is the project key of the repository. The project key is not the display name of the project, but the abbreviation in all caps.
+
+![Bitbucket Datacenter/Server project key](<../../assets/screenshots/image (118).png>)
+
 ## Data input
 
 As input, Git push policy receives the following document:
@@ -183,6 +228,7 @@ As input, Git push policy receives the following document:
       "message": "string",
       "tag": "string"
     },
+    "head_owner": "string",
     "labels": ["string"],
     "title": "string"
   }
