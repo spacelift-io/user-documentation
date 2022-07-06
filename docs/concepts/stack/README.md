@@ -4,7 +4,7 @@ _Stack_ is one of the core concepts in Spacelift. A stack is an isolated, indepe
 
 Unless you're using Spacelift only to host and test private [Terraform modules](../../vendors/terraform/module-registry.md), your account should probably contain one or more stacks to be of any use. For example:
 
-![](<../../assets/screenshots/Stacks_·_spacelift-io (3).png>)
+![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.47.11 PM.png>)
 
 Here's a few helpful articles about stacks:
 
