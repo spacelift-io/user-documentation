@@ -101,16 +101,6 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
-### Helpers
-
-In addition to our [global helper functions](./#helper-functions), we also provide the following helpers for plan policies:
-
-- `affected_resources[resource]` - any created, updated or deleted resources. Taken from `input.terraform.resource_changes` where `change.actions` contains `create`, `delete` or `update`.
-- `created_resources[resource]` - any created resources.
-- `deleted_resources[resource]` - any deleted resources.
-- `recreated_resources[resource]` - any resources that are being deleted and created.
-- `updated_resources[resource]` - any updated resources.
-
 ## String Sanitization
 
 String properties in `"before"` and `"after"` objects will be sanitized in order to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
