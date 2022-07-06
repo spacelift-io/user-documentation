@@ -4,7 +4,7 @@ Spacelift supports locking the stack for one person's exclusive use. This can be
 
 The owner of the lock is the only one who can trigger [runs](../run/) and [tasks](../run/task.md) for the entire duration of the lock. Locks never expire, and only its creator and Spacelift admins can release it.
 
-![My precious!](../../assets/screenshots/Runs_·_End-to-end_testing_and_Redirecting_to_OAuth_provider___.png)
+![](../../assets/screenshots/Screen Shot 2022-06-29 at 5.25.52 PM.png)
 
 !!! info
     Note that while a stack is locked, [auto deploy](stack-settings.md#autodeploy) is disabled to prevent accidental deployments.
