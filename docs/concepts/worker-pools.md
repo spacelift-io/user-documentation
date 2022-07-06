@@ -12,19 +12,35 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
 ## Setting up
 
+### Generate Worker Private Key
+
 To make sure that we have no access to your private key, you will need to generate it on your end, and use it to create a certificate signing request to give to Spacelift. We'll generate a certificate for you, so that workers can use it to authenticate with the Spacelift backend. The following command will generate the key and CSR:
 
 ```bash
 openssl req -new -newkey rsa:4096 -nodes -keyout spacelift.key -out spacelift.csr
 ```
 
-You should now store the `spacelift.key` file in a secure place. You’ll need it later, when launching workers in your worker pool.
-
-Now you can submit the `spacelift.csr` file in the worker pool creation form. In response, you’ll receive a **Spacelift token**. It contains configuration for your worker pool launchers, as well as the certificate we generated for you based on the certificate signing request.
+!!! warning
+    Don't forget to store the `spacelift.key` file (private key) in a secure location. You’ll need it later, when launching workers in your worker pool.
 
 You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift Terraform provider](../vendors/terraform/terraform-provider.md).
 
-![](<../assets/screenshots/Screen Shot 2022-02-17 at 3.13.38 PM.png>)
+### Navigate to Worker Pools
+
+![](<../assets/screenshots/Screen Shot 2022-06-29 at 6.45.15 PM (1).png>)
+
+### Add Worker Pool Entity
+
+Give your worker pool a name, and submit the `spacelift.csr` file in the worker pool creation form. After creation of the worker pool, you’ll receive a **Spacelift token**. This token contains configuration for your worker pool launchers, as well as the certificate we generated for you based on the certificate signing request.
+
+!!! warning
+    After clicking create, you will receive a token for the worker pool. Don't forget to save your **Spacelift token** in a secure location as you'll need this later when launching the worker pool.
+
+![Upload the certificate you generated previously and create a worker pool.](<../assets/screenshots/Screen Shot 2022-06-29 at 6.47.40 PM.png>)
+
+![](<../assets/screenshots/Screen Shot 2022-06-29 at 6.49.01 PM.png>)
+
+### Launch Private Worker Pool
 
 The launcher binary is available [here](https://downloads.spacelift.io/spacelift-launcher). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed.
 
