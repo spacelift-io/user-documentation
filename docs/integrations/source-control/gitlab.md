@@ -20,6 +20,9 @@ In this step you will need to provide the API host URL of your GitLab server, an
 
 Please give the personal access token a descriptive name and grant it  `api` scope_._ Note that while we will only **write** commit statuses, merge request comments and environment deployments, GitLab's permissions are coarse enough to require us to take _write_ on the whole thing.
 
+!!! warning
+    Please note, when creating tokens bound to a GitLab user, the user is required to have "Maintainer" level access to any projects you require Spacelift to be able to access.
+
 Once you've created your personal API token, please pass it - along with the server API host - to the integration form in Spacelift and click the Save button:
 
 ![](<../../assets/screenshots/image (106).png>)
