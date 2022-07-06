@@ -64,6 +64,9 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 
 In addition, the [spacelift-workerpool-k8s](https://github.com/spacelift-io/spacelift-workerpool-k8s) repository contains a Helm chart for deploying workers to Kubernetes.
 
+!!! info
+    AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a Terraform module for this setup.
+
 ### Configuration options
 
 A number of configuration variables is available to customize how your launcher behaves:
