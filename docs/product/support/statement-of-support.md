@@ -23,7 +23,7 @@ We recommend that all Spacelift.com customers use our status page at [https://sp
 
 ### Free Users
 
-Technical and general support for those using the Free version of Spacelift is “Community First”. Like many other free SaaS products, users are first directed to find support through community sources such as the following:
+Technical and general support for those using the Free version of Spacelift is “Community First”. Like many other free SaaS products, users are first directed to find support through community resources such as the following:
 
 - Spacelift Documentation: Extensive documentation on anything and everything Spacelift.
 - Stack Overflow: Please search for similar issues before posting your own, as there's a good chance someone else had the same issue as you and has already found a solution.
