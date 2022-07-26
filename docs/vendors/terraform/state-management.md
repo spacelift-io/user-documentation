@@ -9,7 +9,7 @@ As you can see, it's also possible to import an existing Terraform state at this
 
 ## Do. Or do not. There is no try.
 
-In this section we'd like to give you a few reasons why it could be useful to trust Spacelift to take care of your Terraform state. To keep things level, we'll also give you a few reasons no to.
+In this section we'd like to give you a few reasons why it could be useful to trust Spacelift to take care of your Terraform state. To keep things level, we'll also give you a few reasons not to.
 
 ### Do
 
