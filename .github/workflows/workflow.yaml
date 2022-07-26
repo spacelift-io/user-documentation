@@ -1,0 +1,112 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      # - main
+      - gh-workflow-update
+
+jobs:
+  BuildPreprod:
+    runs-on: ubuntu-latest
+    env:
+      DOC_ENV: preprod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set Python up
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install Material for MkDocs
+        run: pip install --requirement requirements.txt
+      - name: Build documentation
+        run: mkdocs build
+      - name: Transform the URLs
+        run: python ./scripts/transform_urls.py
+      - name: Cache generated documentation
+        uses: actions/cache@v2
+        with:
+          path: ./site
+          key: build-cache-user-doc-${{ env.DOC_ENV }}-${{ github.sha }}
+
+  DeployPreprod:
+    name: Deploy to Pre-Production
+    needs: [BuildPreprod]
+    runs-on: ubuntu-latest
+    env:
+      DOC_ENV: preprod
+    environment:
+      name: Pre-Production
+      url: 'https://docs.spacelift.dev/'
+    steps:
+      - name: Restore generated documentation
+        uses: actions/cache@v2
+        with:
+          path: ./site
+          key: build-cache-user-doc-${{ env.DOC_ENV }}-${{ github.sha }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${{ secrets.PREPROD_AWS_REGION }}
+          aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
+      - name: Copy files to the test website with the AWS CLI
+        run: aws s3 sync --delete --quiet ./site s3://${{ secrets.PREPROD_BUCKET_NAME }}
+      # KLUDGE: Clearing the whole cache is overkill but determining what items to invalidate is hard
+      - name: Invalidate CloudFront cache
+        run: |
+              aws cloudfront create-invalidation \
+                --distribution-id ${{ secrets.PREPROD_CLOUDFRONT_DISTRIBUTION_ID }} \
+                --paths "/*"
+
+  # BuildProd:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     DOC_ENV: prod
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Set Python up
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.x
+  #     - name: Install Material for MkDocs
+  #       run: pip install --requirement requirements.txt
+  #     - name: Build documentation
+  #       run: mkdocs build
+  #     - name: Transform the URLs
+  #       run: python ./scripts/transform_urls.py
+  #     - name: Cache generated documentation
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ./site
+  #         key: build-cache-user-doc-${{ env.DOC_ENV }}-${{ github.sha }}
+
+  # DeployProd:
+  #   name: Deploy to production
+  #   needs: [BuildProd]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: Production
+  #     url: 'https://docs.spacelift.io/'
+  #   steps:
+  #     - name: Restore generated documentation
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: ./site
+  #         key: build-cache-user-doc-${{ github.sha }}
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-region: ${{ secrets.PROD_AWS_REGION }}
+  #         aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+  #     - name: Copy files to the test website with the AWS CLI
+  #       run: aws s3 sync --delete --quiet ./site s3://${{ secrets.PROD_BUCKET_NAME }}
+  #     # KLUDGE: Clearing the whole cache is overkill but determining what items to invalidate is hard
+  #     - name: Invalidate CloudFront cache
+  #       run: |
+  #             aws cloudfront create-invalidation \
+  #               --distribution-id ${{ secrets.PROD_CLOUDFRONT_DISTRIBUTION_ID }} \
+  #               --paths "/*"
