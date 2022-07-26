@@ -9,6 +9,22 @@ By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/r
 !!! info
     Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
 
+## Allowed registries on public worker pools
+
+On public worker pools, only Docker images from the following registries are allowed to be used for runner images:
+
+- azurecr.io
+- dkr.ecr.\<region>.amazonaws.com (All regions are supported)
+- docker.io
+- docker.pkg.dev
+- gcr.io
+- ghcr.io
+- public.ecr.aws
+- quay.io
+<!-- markdownlint-disable-next-line MD044 -->
+- registry.gitlab.com
+- registry.hub.docker.com
+
 ## Customizing the runner image
 
 The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/#runner_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.

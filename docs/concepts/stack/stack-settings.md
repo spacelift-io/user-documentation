@@ -132,6 +132,9 @@ You can find more information about our use of Docker in [this dedicated help ar
 !!! info
     Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/#runner_image-setting) specified in the `.spacelift/config.yml` file.
 
+!!! warning
+    On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.
+
 ### Worker pool
 
 ## Terraform-specific settings
