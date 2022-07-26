@@ -31,7 +31,7 @@ Adding an environment variable is rather straightforward - don't worry yet about
 
 You will possibly notice some environment variables being marked as `<computed>`, which means that their value is only computed at runtime. These are not directly set on the stack but come from various integrations - for example, AWS credentials (`AWS_ACCESS_KEY_ID` and friends) are set by the [AWS integration](../../integrations/cloud-providers/aws.md) and `SPACELIFT_API_TOKEN` is injected into each run to serve a number of purposes.
 
-You cannot set a computed value but you can override it - that is, explicitly set an environment variable on a stack that has the same name as the variable that comes from integration. This is due to precedence rules that warrant its own [dedicated section](environment.md#a-note-on-precedence).
+You cannot set a computed value but you can override it - that is, explicitly set an environment variable on a stack that has the same name as the variable that comes from integration. This is due to precedence rules that warrant its own [dedicated section](environment.md#a-note-on-visibility).
 
 Overriding a computed value is almost like editing a regular stack variable, although worth noticing is _Override_ replacing _Edit_ and the lack of _Delete_ action:
 
