@@ -87,4 +87,4 @@ Three slash commands are currently available:
 
 ## Available actions
 
-Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a_Write_ level on the user Slack info.
+Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a _Write_ level on the user Slack info.
