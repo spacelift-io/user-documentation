@@ -14,17 +14,20 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 - Azure account, with an existing Azure Active Directory
 - You'll need permissions to create an **App Registration** within your Azure AD
 
+!!! info
+    Please note you'll need to be an admin on the Spacelift account to access the account settings to configure Single Sign-On.
+
 ## Configure Account Settings
 
-You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
+You'll need to visit the Spacelift account settings page to set up this integration, from the navigation side bar menu, select "Settings."
 
-![](../../assets/screenshots/1-spacelift-account-settings.png)
+![](../../assets/screenshots/Screen Shot 2022-07-01 at 4.12.30 PM (1).png)
 
 ## Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from Azure. For now, **copy the authorized redirect URL** as we will need to provide Azure this URL when configuring our Azure App Registration within your Azure AD.
 
-![](../../assets/screenshots/2-spacelift-copy-exchange-url.png)
+![](../../assets/screenshots/Screen Shot 2022-07-01 at 4.16.00 PM.png)
 
 ## Azure Portal: Navigate to Azure Active Directory
 
@@ -100,16 +103,15 @@ On this page **Application (client) ID.** Copy this value to Spacelift as the Cl
 
 Next, Click **Endpoints** which should expand a page with the endpoints for your App.
 
-Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot.
-
-!!! info
-    You should remove the **/.well-known/openid-configuration** suffix from the URL and paste this over to the Provider URL within Spacelift. **IMPORTANT:** Ensure that the you do not have a trailing / at the end of your URL when the value is copied into Spacelift.
+Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot, and paste the value into Spacelift as the **Provider URL**.
 
 ![Copy the OpenID Connect metadata document URL.](../../assets/screenshots/6-azure-obtain-provider-url.png)
 
-The result should look something like this in Spacelift:
+In summary, here are the values that should be copied over to Spacelift:
 
-![](<../../assets/screenshots/7-spacelift-oidc-setup-result (1).png>)
+- Application (client) ID within Azure AD => Client ID on Spacelift
+- Secret Value you generated => Secret input on Spacelift
+- OpenID Connect metadata document URL => Provider URL on Spacelift
 
 Click **Save.**
 

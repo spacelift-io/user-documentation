@@ -11,17 +11,20 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 - Spacelift account, with access to admin permissions
 - Okta account, with permission to create Okta App Integrations
 
+!!! info
+    Please note you'll need to be an admin on the Spacelift account to access the account settings to configure Single Sign-On.
+
 ## Configure Account Settings
 
-You'll need to visit the Spacelift account settings page to set up this integration, from the account menu, select "Settings."
+You'll need to visit the Spacelift account settings page to set up this integration, from the navigation side bar menu, select "Settings."
 
-![Click on Settings](../../assets/screenshots/account-settings.png)
+![](../../assets/screenshots/Screen Shot 2022-07-01 at 4.12.30 PM (1).png)
 
 ## Setup OIDC
 
 Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from Okta. For now **copy the authorized redirect URL** as we will need to provide Okta this URL when configuring our Okta App Integration.
 
-![Click on Set Up](../../assets/screenshots/1-setup-oidc.png)
+![Click on Set Up](../../assets/screenshots/Screen Shot 2022-07-01 at 4.16.00 PM (1).png)
 
 ## Okta: Select Applications
 
@@ -62,9 +65,9 @@ Switch back to the **General** tab. Now that we have the Okta App Integration se
 !!! info
     The Okta Domain will be set as the "Provider URL" in your Spacelift OIDC settings. **Ensure that you prefix this URL with https://**
 
-![Copy the 3 Values back to Spacelift](../../assets/screenshots/6-configure-spacelift-oidc-settings.png)
+![](../../assets/screenshots/Screen Shot 2022-07-01 at 4.22.43 PM.png)
 
-![Copy/Paste the values into your Spacelift OIDC Settings, Click Save](../../assets/screenshots/7-configure-spacelift-oidc-settings-part-2.png)
+![Copy/Paste the values into your Spacelift OIDC Settings](../../assets/screenshots/7-configure-spacelift-oidc-settings-part-2.png)
 
 ## Okta OIDC Setup Completed
 
