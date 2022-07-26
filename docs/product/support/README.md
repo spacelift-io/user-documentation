@@ -56,7 +56,7 @@ Enterprise Support receive the following tiered support response times:
 | Support Impact   | First Response Time SLA | Hours |
 | ---------------- | ----------------------- | ----- |
 | Critical         | 60 minutes              | 24x7  |
-| Major            | 24 hrs                  | 8x5   |
+| Major            | 8 hrs                   | 8x5   |
 | Minor            | 48 hrs                  | 8x5   |
 | General Guidance | 72 hrs                  | 8x5   |
 
