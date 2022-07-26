@@ -145,7 +145,7 @@ After a successful planning phase, you can check the log to see the planned chan
     A slightly different dry run mode depending on the scenario:
 
     - `--dry-run=server`: Utilized when resources are available
-    - `--dry-run-client`: Utilized when **no** resources are available
+    - `--dry-run=client`: Utilized when **no** resources are available
 
 To confirm the Triggered run, click the _**CONFIRM**_ button.
 
