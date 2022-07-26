@@ -27,7 +27,7 @@ Now let's open Spacelift and create a new Stack, choose the examples repo you ju
 - Set the project root to `aws-py-webserver`, as we want to run Pulumi in this subdirectory only.
 - Add one before init script: `pip install -r requirements.txt`, which will install all necessary dependencies, before initializing Pulumi itself. This will need to run both when [initializing](../../../concepts/run/#initializing) and before [applying](../../../concepts/run/#applying).
 - Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-python:latest`
-- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions here.
+- Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-python){: rel="nofollow"}.
 
 ![Define behavior.](<../../../assets/screenshots/image (44).png>)
 
