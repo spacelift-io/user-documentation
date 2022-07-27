@@ -1,0 +1,37 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-preprod:
+    name: Deploy to pre-production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    with:
+      environment_code: preprod
+      environment_name: Pre-Production
+      environment_url: https://docs.spacelift.dev/
+    secrets:
+      # KLUDGE: We are not actually passing the secrets here.
+      # What we’re really doing is passing the key to the secret that we want the reusable workflow to use.
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
+  deploy-to-prod:
+    name: Deploy to production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    with:
+      environment_code: prod
+      environment_name: Production
+      environment_url: https://docs.spacelift.io/
+    secrets:
+      # KLUDGE: We are not actually passing the secrets here.
+      # What we’re really doing is passing the key to the secret that we want the reusable workflow to use.
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
