@@ -22,7 +22,7 @@ When setting up Spacelift on your identity provider, you may want to add three a
 - `LastName` is used to build human-friendly user name;
 - `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
 
-Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [GSuite](https://support.google.com/a/answer/6327792?hl=en){: rel="nofollow"} and as a courtesy, we will flush your login history.
+Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [GSuite](https://support.google.com/a/answer/6327792?hl=en){: rel="nofollow"}) and as a courtesy, we will flush your login history.
 
 Some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will allow you to provide a custom per-user SAML 2.0 _Subject_ for SAML assertions. You could use this feature to map GitHub usernames to your identity provider users and thus get the exact same experience as when using GitHub as your identity provider.
 
