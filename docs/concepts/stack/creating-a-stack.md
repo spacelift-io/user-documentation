@@ -69,7 +69,7 @@ Regardless of which of the supported backends (Terraform, Pulumi etc.) you're se
 
 The basic settings are:
 
-- whether the stack is [administrative](./#administrative);
+- whether the stack is [administrative](./stack-settings.md#administrative);
 - [worker pool](../worker-pools.md) to use, if applicable (default uses the Spacelift public worker pool);
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.52.07 PM.png>)
