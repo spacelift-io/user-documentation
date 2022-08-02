@@ -105,6 +105,27 @@ export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
 // ...
 ```
 
+### Network Security
+
+Private workers need to be able to make outbound connections in order to communicate with Spacelift, as well as to access any resources required by your runs. If you have policies in place that require you to limit the outbound traffic allowed from your workers, you can use the following lists as a guide.
+
+#### AWS Services
+
+Your worker needs access to the following AWS services in order to function correctly. You can refer to the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) for their IP address ranges.
+
+- Access to the public Elastic Container Registry if using our default runner image.
+- Access to app.spacelift.io, and \<your account name>.app.spacelift.io, which point at CloudFront.
+- Access to the AWS IoT Core endpoints in eu-west-1 for worker communication via MQTT.
+- Access to S3 in eu-west-1 for uploading run logs.
+
+#### Other
+
+In addition, you will also need to allow access to the following:
+
+- Your VCS provider.
+- Access to any custom container registries you use if using custom runner images.
+- Access to any other infrastructure required as part of your runs.
+
 ## Using worker pools
 
 Worker pools must be explicitly attached to [stacks](stack/) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
