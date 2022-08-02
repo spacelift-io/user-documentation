@@ -39,6 +39,14 @@ If your identity provider does not allow the NameID format to be configured at t
 - Email Address - an email address.
 - Persistent - an opaque identifier that remains the same between logins.
 
+### SAML Setup Guides
+
+The following are links to example implementations you can use as a reference/guide for setting up your own SAML integration.
+
+- [AWS IAM Identity Center](./aws-iam-identity-saml-2.0-setup-guide.md) (formerly known as AWS SSO)
+
+If you can't find your SAML provider in the list above, don't worry - we do support all SAML 2.0 providers.
+
 ## Setting up OIDC
 
 When setting up Spacelift on your identity provider, you must make sure it supports the `email` scope and returns the corresponding `email`
@@ -50,7 +58,7 @@ Spacelift dynamically checks integrated Identity Provider's Well-Known OpenID co
 !!! warning
     In order to populate the `input.session.teams` value in the Login Policies Spacelift tries to fetch the `groups` claim. For many Identity Providers, this claim has to be manually set and configured. Bear in mind that some providers such as GSuite do not support retrieving groups of given users.
 
-### OIDC Setup Guide Examples:
+### OIDC Setup Guides
 
 The following are links to example implementations you can use as a reference/guide for setting up your own OIDC integration.
 
@@ -58,7 +66,8 @@ The following are links to example implementations you can use as a reference/gu
 - [Okta](./okta-oidc-setup-guide.md)
 - [OneLogin](./onelogin-oidc-setup-guide.md)
 - [Azure AD](./azure-ad-oidc-setup-guide.md)
-- If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
+
+If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
 
 ## IdP-initiated SSO
 
