@@ -1,4 +1,4 @@
-# AWS IAM Identity SAML 2.0 Setup Guide
+# AWS IAM Identity SAML Setup Guide
 
 If you'd like to set up the ability to sign in to your Spacelift account using a SAML 2.0 integration with AWS IAM Identity Center (formerly known as AWS SSO), you've come to the right place. This example will walk you through the steps to get this set up, and you'll have Single Sign-On running in no time!
 

@@ -43,7 +43,7 @@ If your identity provider does not allow the NameID format to be configured at t
 
 The following are links to example implementations you can use as a reference/guide for setting up your own SAML integration.
 
-- [AWS IAM Identity Center](./aws-iam-identity-saml-2.0-setup-guide.md) (formerly known as AWS SSO)
+- [AWS IAM Identity Center](./aws-iam-identity-saml-setup-guide.md) (formerly known as AWS SSO)
 
 If you can't find your SAML provider in the list above, don't worry - we do support all SAML 2.0 providers.
 
