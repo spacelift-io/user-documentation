@@ -37,7 +37,7 @@ The state server is an HTTP endpoint implementing the Terraform [standard state 
 
 ## Importing resources into your Terraform State
 
-So you have an existing resource that was created by other means and would like that resource to be reflected in your terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="nofollow"} command. When you're managing your own terraform state, you would typically run this command locally to import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask? Spacelift [Task](https://docs.spacelift.io/concepts/run/task){: rel="nofollow"} to the rescue!
+So you have an existing resource that was created by other means and would like that resource to be reflected in your terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="nofollow"} command. When you're managing your own terraform state, you would typically run this command locally to import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask? Spacelift [Task](../../concepts/run/task.md) to the rescue!
 
 To do this, use the following steps:
 

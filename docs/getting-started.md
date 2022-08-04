@@ -44,7 +44,7 @@ You can get started with either forking our [Terraform Starter repository](https
 
 ### Step 1: Create your Spacelift account
 
-- On the [Spacelift home page](https://docs.spacelift.io/), click on the "Get started" button:
+- On the [Spacelift home page](https://spacelift.io/), click on the "Get started" button:
 
 ![](<./assets/screenshots/Screenshot 2022-04-27 at 12-35-55 Collaborative Infrastructure For Modern Software Teams Spacelift.png>)
 

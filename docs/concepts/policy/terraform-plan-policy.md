@@ -354,4 +354,4 @@ You can play with a minimal example of this policy in [The Rego Playground](http
 
 ### Cost management
 
-Thanks to our Infracost integration, [you can take cost information into account](https://docs.spacelift.io/vendors/terraform/infracost#plan-policies){: rel="nofollow"} when deciding whether to ask for human approval or to block changes entirely.
+Thanks to our Infracost integration, [you can take cost information into account](../../vendors/terraform/infracost.md#plan-policies) when deciding whether to ask for human approval or to block changes entirely.

@@ -34,7 +34,7 @@ Spacelift supports the ability to host the underlying compute resources that are
 
 ### Access Private Version Control Systems
 
-For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or [other VCS providers](https://docs.spacelift.io/integrations/source-control), Spacelift provides the ability to access your on-premise VCS securely using [VCS Agent Pools](../concepts/vcs-agent-pools.md).
+For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or [other VCS providers](../integrations/source-control/github.md), Spacelift provides the ability to access your on-premise VCS securely using [VCS Agent Pools](../concepts/vcs-agent-pools.md).
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
 
