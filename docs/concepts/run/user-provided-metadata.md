@@ -21,7 +21,7 @@ SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY=/path/to/your/policy.rego
 
 This policy will make our launcher sample each [initialization policy](../policy/run-initialization-policy.md) evaluation and print it as a log on stderr.
 
-We’ll also need a [Stack](../stack/) to which [this worker is attached](../worker-pools.md).
+We’ll also need a [Stack](../stack/README.md) to which [this worker is attached](../worker-pools.md).
 
 We can now trigger a run and provide an arbitrary metadata string:
 
@@ -130,4 +130,4 @@ A standard use case for this feature would be to sign your runs when you’re cr
 
 You'll have to bring the infrastructure for managing keys and signatures yourself - usually you'll already have something like that internally. But in short you can create a cryptographic signature of the parameters for a run you’re about to create - based on the commit SHA, run type, stack, date, etc. - and then you can pass that signature to Spacelift when creating the run.
 
-Later, in the initialization policy you can use the [exec function](../policy/#helper-functions) to run your custom binary for verifying that signature. This way - for your most sensitive stacks - you can verify whether runs you are receiving from the Spacelift backend are legit, intentionally created by an employee of your company.
+Later, in the initialization policy you can use the [exec function](../policy/README.md#helper-functions) to run your custom binary for verifying that signature. This way - for your most sensitive stacks - you can verify whether runs you are receiving from the Spacelift backend are legit, intentionally created by an employee of your company.

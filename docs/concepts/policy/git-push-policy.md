@@ -2,17 +2,17 @@
 
 ## Purpose
 
-Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../stack/) or [Module](../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
+Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../stack/README.md) or [Module](../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
-- **track**: set the new head commit on the [stack](../stack/) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/#where-do-runs-come-from) [Run](../run/), ie. one that can be [applied](../run/#applying);
-- **propose**: create a [proposed Run](../run/#where-do-runs-come-from) against a proposed version of infrastructure;
+- **track**: set the new head commit on the [stack](../stack/README.md) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/README.md#where-do-runs-come-from) [Run](../run/README.md), ie. one that can be [applied](../run/README.md#applying);
+- **propose**: create a [proposed Run](../run/README.md#where-do-runs-come-from) against a proposed version of infrastructure;
 - **ignore**: do not schedule a new Run;
 
 Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
 
 ### Git push policy and tracked branch
 
-Each stack and module points at a particular Git branch called a [tracked branch](../stack/#repository-and-branch). By default, any push to the tracked branch triggers a tracked [Run](../run/) that can be [applied](../run/#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
+Each stack and module points at a particular Git branch called a [tracked branch](../stack/README.md#repository-and-branch). By default, any push to the tracked branch triggers a tracked [Run](../run/README.md) that can be [applied](../run/README.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
 
 ![The tracked branch head commit is behind the head commit of the stack.](<../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
 
@@ -78,7 +78,7 @@ When events are deduplicated and you're sampling policy evaluations, you may not
 
 ### Canceling in-progress runs
 
-The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../run/#queued) or are [awaiting human confirmation](../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
+The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../run/README.md#queued) or are [awaiting human confirmation](../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
 ```opa
 cancel[run.id] { run := input.in_progress[_] }
@@ -99,7 +99,7 @@ cancel[run.id] {
 
 ### Corner case: track, don't trigger
 
-The `track` decision sets the new head commit on the affected stack or [module](../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../run/#where-do-runs-come-from), or a [task](../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
+The `track` decision sets the new head commit on the affected stack or [module](../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../run/README.md#where-do-runs-come-from), or a [task](../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
 
 Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
 

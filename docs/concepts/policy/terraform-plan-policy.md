@@ -4,7 +4,7 @@
 
 Plan policies are evaluated during a planning phase after vendor-specific change preview command (eg. `terraform plan`) executes successfully. The body of the change is exported to JSON and parts of it are combined with Spacelift metadata to form the data input to the policy.
 
-Plan policies are the only ones that have access to the actual changes to the managed resources, so this is probably the best place to enforce organizational rules and best practices as well as do automated code review. There are two types of rules here that Spacelift will care about: **deny** and **warn**.  Each of them must come with an appropriate message that will be shown in the logs. Any **deny** rules will print in red and will automatically fail the run, while **warn** rules will print in yellow and will at most mark the run for human review if the change affects the tracked branch and the Stack is set to [autodeploy](../stack/#autodeploy).
+Plan policies are the only ones that have access to the actual changes to the managed resources, so this is probably the best place to enforce organizational rules and best practices as well as do automated code review. There are two types of rules here that Spacelift will care about: **deny** and **warn**.  Each of them must come with an appropriate message that will be shown in the logs. Any **deny** rules will print in red and will automatically fail the run, while **warn** rules will print in yellow and will at most mark the run for human review if the change affects the tracked branch and the Stack is set to [autodeploy](../stack/README.md#autodeploy).
 
 Here is a super simple policy that will show both types of rules in action:
 
@@ -201,13 +201,13 @@ You've already seen **warn** rules in the [first section of this article](terraf
 
 ![](<../../assets/screenshots/Revert__Attempt_to_create_an_IAM_user_agains_a_policy___10_____11__·_We_test_in_prod (1).png>)
 
-It won't fail your plan and it looks relatively benign, but this little yellow note can provide great help to a human reviewer, especially when multiple changes are introduced. Also, if a stack is set to [autodeploy](../stack/#autodeploy), the presence of a single warning is enough to flag the run for a human review.
+It won't fail your plan and it looks relatively benign, but this little yellow note can provide great help to a human reviewer, especially when multiple changes are introduced. Also, if a stack is set to [autodeploy](../stack/README.md#autodeploy), the presence of a single warning is enough to flag the run for a human review.
 
 The best way to use warn and deny rules together depends on your preferred Git workflow. We've found short-lived feature branches with Pull Requests to the tracked branch to work relatively well. In this scenario, the `type` of the `run` is important - it's _PROPOSED_ for commits to feature branches, and _TRACKED_ on commits to the tracked branch. You will probably want at least some of your rules to take that into account and use this mechanism to balance comprehensive feedback on Pull Requests and flexibility of being able to deploy things that humans deem appropriate.
 
 As a general rule when using plan policies for code review, **deny** when run type is _PROPOSED_ and **warn** when it is _TRACKED_. Denying tracked runs unconditionally may be a good idea for most egregious violations for which you will not consider an exception, but when this approach is taken to an extreme it can make your life difficult.
 
-We thus suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, but will give the reviewer a chance to approve the change nevertheless. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/#autodeploy) to _false_, or explicitly **warn** about potential violations. Here's an example of how to reuse the same rule to **deny** or **warn** depending on the run type:
+We thus suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, but will give the reviewer a chance to approve the change nevertheless. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/README.md#autodeploy) to _false_, or explicitly **warn** about potential violations. Here's an example of how to reuse the same rule to **deny** or **warn** depending on the run type:
 
 ```opa
 package spacelift
@@ -237,7 +237,7 @@ Cool, let's merge it and see what happens:
 
 ![](../../assets/screenshots/Attempt_to_create_an_IAM_user_agains_a_policy___10__·_We_test_in_prod.png)
 
-Cool, so the run stopped in its tracks and awaits human decision. At this point we still have a choice to either [confirm](../run/#discarded) or [discard](../run/#discarded) the run. In the latter case, you will likely want to revert the commit that caused the problem - otherwise all subsequent runs will be affected.
+Cool, so the run stopped in its tracks and awaits human decision. At this point we still have a choice to either [confirm](../run/README.md#discarded) or [discard](../run/README.md#discarded) the run. In the latter case, you will likely want to revert the commit that caused the problem - otherwise all subsequent runs will be affected.
 
 The minimal example for the above rule is available in the [Rego playground](https://play.openpolicyagent.org/p/IpwP5nWB6f){: rel="nofollow"}.
 
@@ -267,7 +267,7 @@ warn[sprintf(message, [action, resource.address])] {
 
 ### Automatically deploy changes from selected individuals
 
-Sometimes there are folks who really know what they're doing and changes they introduce can get deployed automatically, especially if they already went through code review. Below is an example that allows commits from whitelisted individuals to be deployed automatically (assumes Stack is set to [autodeploy](../stack/#autodeploy)):
+Sometimes there are folks who really know what they're doing and changes they introduce can get deployed automatically, especially if they already went through code review. Below is an example that allows commits from whitelisted individuals to be deployed automatically (assumes Stack is set to [autodeploy](../stack/README.md#autodeploy)):
 
 ```opa
 package spacelift

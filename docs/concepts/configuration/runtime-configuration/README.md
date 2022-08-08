@@ -34,7 +34,7 @@ stacks:
 
 ```
 
-The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/#name-and-description) to the [stack configuration block](./#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
+The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 
 !!! info
     Since we adopted everyone's favorite data serialization format, you can use all the YAML shenanigans you can think of - things like anchors and inline JSON can keep your config DRY and neat.
@@ -43,7 +43,7 @@ The top level of the file contains three keys - `version` which in practice is c
 
 The whole concept of runtime configuration may initially sound unnecessary, but it ultimately allows flexibility that would otherwise be hard to achieve. In general, its purpose is to **preview effects of changes not related to the source code** (eg. Terraform or Pulumi version upgrades, variable changes etc.), before they become an established part of your infra.
 
-While stack environment applies both to tracked and non-tracked branches, a runtime configuration change can be pushed to a feature branch, which triggers [proposed runs](../../run/#where-do-runs-come-from) allowing you to preview the changes before they have a chance to affect your state.
+While stack environment applies both to tracked and non-tracked branches, a runtime configuration change can be pushed to a feature branch, which triggers [proposed runs](../../run/README.md#where-do-runs-come-from) allowing you to preview the changes before they have a chance to affect your state.
 
 !!! info
     If the runtime configuration file is not present or does not contain your stack, default values are used - refer to each setting for its respective default.

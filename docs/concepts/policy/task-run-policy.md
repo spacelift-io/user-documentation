@@ -59,7 +59,7 @@ This is the schema of the data input that each policy request will receive:
 
 ### Helpers
 
-In addition to our [global helper functions](./#helper-functions), we also provide the following helpers for task policies:
+In addition to our [global helper functions](./README.md#helper-functions), we also provide the following helpers for task policies:
 
 - `request` - an alias for `input.request`.
 - `session` - an alias for `input.session`.

@@ -1,8 +1,8 @@
 # Approval policy
 
-The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
+The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
 
-Runs can be reviewed when they enter one of the two states - [queued](../run/#queued) or [unconfirmed](../run/tracked.md#unconfirmed). When a [queued](../run/#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/#queued) run that's pending approval can be [canceled](../run/#canceled) at any point.
+Runs can be reviewed when they enter one of the two states - [queued](../run/README.md#queued) or [unconfirmed](../run/tracked.md#unconfirmed). When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
 
 Here's an example of a queued run waiting for a human review - note how the last approval policy evaluation returned an _Undecided_ decision. There's also a review button next to the cancelation one:
 
@@ -32,7 +32,7 @@ Your approval policy can define the following boolean rules:
 - **approve**: the run is approved and no longer requires (or allows) review;
 - **reject**: the run fails immediately;
 
-While the 'approve' rule must be defined in order for the run to be able to progress, it's perfectly valid to not define the 'reject' rule. In that case, runs that look invalid can be cleaned up ([canceled](../run/#canceled) or [discarded](../run/tracked.md#discarded)) manually.
+While the 'approve' rule must be defined in order for the run to be able to progress, it's perfectly valid to not define the 'reject' rule. In that case, runs that look invalid can be cleaned up ([canceled](../run/README.md#canceled) or [discarded](../run/tracked.md#discarded)) manually.
 
 It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided' and more reviews will be necessary to reach the conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true'.
 

@@ -1,6 +1,6 @@
 # YAML reference
 
-This document is a reference for the Spacelift configuration keys that are used in the _.spacelift/config.yml_ file to configure one or more [Stacks](../../stack/).
+This document is a reference for the Spacelift configuration keys that are used in the _.spacelift/config.yml_ file to configure one or more [Stacks](../../stack/README.md).
 
 ## Stack settings
 

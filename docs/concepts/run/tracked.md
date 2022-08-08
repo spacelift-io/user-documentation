@@ -46,7 +46,7 @@ Trigger policies can be used to create sophisticated workflows representing arbi
 
 ## Handling no-op changes
 
-If the planning phase detects no changes to the resources and outputs managed by the stack, the tracked run is considered a no-op. In that case it transitions directly from [planning](proposed.md#planning) to [finished](./#finished) state, just like a [proposed run](proposed.md). Otherwise, it will go through the [approval flow](tracked.md#approval-flow).
+If the planning phase detects no changes to the resources and outputs managed by the stack, the tracked run is considered a no-op. In that case it transitions directly from [planning](proposed.md#planning) to [finished](./README.md#finished) state, just like a [proposed run](proposed.md). Otherwise, it will go through the [approval flow](tracked.md#approval-flow).
 
 ## Approval flow
 
@@ -81,23 +81,23 @@ Discarded is a _passive state_ meaning no operations are performed while a run i
 
 ### Confirmed
 
-Confirmed state follows [Unconfirmed](tracked.md#unconfirmed) indicates that a user has accepted the plan generated in the Planning phase and wants to [apply](tracked.md#applying) it but no worker has picked up the job yet. This state is similar to [Queued](./#queued) in a sense that shows only temporarily until one of the workers picks up the associated job and changes the state to [Applying](./#applying). On the other hand, there is no way to [stop](./#stopped) a run once it's confirmed.
+Confirmed state follows [Unconfirmed](tracked.md#unconfirmed) indicates that a user has accepted the plan generated in the Planning phase and wants to [apply](tracked.md#applying) it but no worker has picked up the job yet. This state is similar to [Queued](./README.md#queued) in a sense that shows only temporarily until one of the workers picks up the associated job and changes the state to [Applying](#applying). On the other hand, there is no way to stop a run once it's confirmed.
 
 Confirmed is a _passive state_ meaning no operations are performed while a run is in this state.
 
 ## Applying
 
-If the run required a manual approval step, this phase is preceded by another handover ([preparing](./#preparing) phase) since the run again needs to be yielded to a worker node. This preparing phase is subtly different internally but ultimately serves the same purpose from the user perspective. Here's an example:
+If the run required a manual approval step, this phase is preceded by another handover ([preparing](./README.md#preparing) phase) since the run again needs to be yielded to a worker node. This preparing phase is subtly different internally but ultimately serves the same purpose from the user perspective. Here's an example:
 
 ![](../../assets/screenshots/Retract_the_test_·_Datadog_Pulumi.png)
 
-This preparation phase is very unlikely to fail, but if it does (eg. the worker node becomes unavailable during the transition), the run will transition to the terminal [failed](./#failed) state. If the handover succeeds, or the run does not go through the manual approval process, the applying phase begins and attempts to deploy the changes. Here's an example:
+This preparation phase is very unlikely to fail, but if it does (eg. the worker node becomes unavailable during the transition), the run will transition to the terminal [failed](./README.md#failed) state. If the handover succeeds, or the run does not go through the manual approval process, the applying phase begins and attempts to deploy the changes. Here's an example:
 
 ![](../../assets/screenshots/Use_config_for_target_repo__·_Vendor_Releases_Watcher.png)
 
 ## Success criteria
 
-If the run is a [no-op](tracked.md#handling-no-op-changes) or the applying phase succeeds, the run transitions to the [finished](./#finished) state. On the other hand, if anything goes wrong, the run is marked as [failed](./#failed).
+If the run is a [no-op](tracked.md#handling-no-op-changes) or the applying phase succeeds, the run transitions to the [finished](./README.md#finished) state. On the other hand, if anything goes wrong, the run is marked as [failed](./README.md#failed).
 
 ## Reporting
 

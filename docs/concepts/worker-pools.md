@@ -128,7 +128,7 @@ In addition, you will also need to allow access to the following:
 
 ## Using worker pools
 
-Worker pools must be explicitly attached to [stacks](stack/) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
+Worker pools must be explicitly attached to [stacks](stack/README.md) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
 ![Example when editing the existing stack](../assets/screenshots/Edit_stack_·_Managed_stack.png)
 

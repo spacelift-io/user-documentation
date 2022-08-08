@@ -1,6 +1,6 @@
 # GitLab
 
-In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps){: rel="nofollow"} feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
+In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps){: rel="nofollow"} feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
 
 ## Setup Guide
 
@@ -42,7 +42,7 @@ If your Spacelift account is integrated with GitLab, the stack or module creatio
 
 ![](../../assets/screenshots/Screen Shot 2022-05-18 at 1.19.49 PM.png)
 
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
+The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/README.md#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
 
 Spacelift is interested in pushes, tags and merge requests, so make sure you add triggers for all these types of events:
 
@@ -71,7 +71,7 @@ Spacelift provides feedback to GitLab in a number of ways.
 
 ### Commits and merge requests
 
-When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/){: rel="nofollow"} functionality. When viewed from a merge request, the pipeline looks like this:
+When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/README.md). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/){: rel="nofollow"} functionality. When viewed from a merge request, the pipeline looks like this:
 
 ![](../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab.png)
 
@@ -87,7 +87,7 @@ Also, for every merge request affected by the commit there will be a comment sho
 
 ### Environments
 
-Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/):
+Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/README.md):
 
 ![](../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
 

@@ -118,7 +118,7 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 ## Team-based access
 
-In order to spare you the need to separately manage access to Spacelift, you can reuse GitHub's native teams. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/).
+In order to spare you the need to separately manage access to Spacelift, you can reuse GitHub's native teams. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/README.md).
 
 !!! info
     The list of teams is empty for individual/private GitHub accounts.
@@ -129,7 +129,7 @@ In order to spare you the need to separately manage access to Spacelift, you can
 
 Commit status notifications are triggered for [_proposed_ runs](../../concepts/run/proposed.md) to provide feedback on the proposed changes to your stack - running a preview command (eg. `terraform plan` for Terraform) with the source code of a short-lived feature branch with the state and config of the stack that's pointing to another, long-lived branch. Here's what such a notification looks like:
 
-...when the run is in progress ([initializing](../../concepts/run/#initializing)):
+...when the run is in progress ([initializing](../../concepts/run/README.md#initializing)):
 
 ![](../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end.png)
 
@@ -189,7 +189,7 @@ This is is an important part of our proposed workflow - please refer to [this se
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (1).png>)
 
-If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
+If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/README.md#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/README.md#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (2).png>)
 
@@ -237,7 +237,7 @@ We're almost there, but let's also consider a scenario where our coworkers are a
 
 ### Multi-stack version
 
-One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
+One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/README.md#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
 
 If you're in that group, you can create two long-lived Git branches, each linked to a different stack - the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack. Most development thus occurs on the staging branch and once the code is perfected there over a few iterations, a Pull Request can be opened from the `staging` to `production` branch, incorporating all the changes. That's essentially how we've seen most teams implement [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html){: rel="nofollow"}. This approach keeps the history of the `production` branch clear and allows plenty of experimentation in the `staging` branch.
 
@@ -249,7 +249,7 @@ Below is the list of some of the GitHub webhooks we subscribe to with a brief ex
 
 ### Push events
 
-Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/#where-do-runs-come-from). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
+Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/README.md#where-do-runs-come-from). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
 
 ### App installation created or deleted
 
@@ -268,4 +268,4 @@ Whenever a Pull Request is opened or reopened, we generate a record in our datab
 
 ### Repository renamed
 
-If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/#repository-and-branch) pointing to it.
+If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/README.md#repository-and-branch) pointing to it.

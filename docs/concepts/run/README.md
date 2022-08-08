@@ -2,7 +2,7 @@
 
 Every job that can touch your Spacelift-managed infrastructure is called a Run. There are four main types of runs, and each of them warrants a separate section.
 
-Three of them are children of [Stacks](../stack/):
+Three of them are children of [Stacks](../stack/README.md):
 
 - [task](task.md), which is a freeform command you can execute on your infrastructure;
 - [proposed run](proposed.md), which serves as a preview of introduced changes;
@@ -39,11 +39,11 @@ The other scenario is just **running out of available workers**. If you're using
 
 If you're using private workers, please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
 
-Queued is a _passive state_ meaning no operations are performed while a run is in this state. When a run is eligible for processing and a worker is available to pick it up, the state will automatically transition to [Preparing](./#preparing). The user can cancel the run while it's still queued, transitioning it to the terminal [Canceled](./#canceled) state.
+Queued is a _passive state_ meaning no operations are performed while a run is in this state. When a run is eligible for processing and a worker is available to pick it up, the state will automatically transition to [Preparing](#preparing). The user can cancel the run while it's still queued, transitioning it to the terminal [Canceled](#canceled) state.
 
 ### Canceled
 
-Canceled state means that the user has manually stopped a [Queued](./#queued) run or task even before it had the chance to be picked up by the worker.
+Canceled state means that the user has manually stopped a [Queued](#queued) run or task even before it had the chance to be picked up by the worker.
 
 Canceled is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can follow it.
 
@@ -57,7 +57,7 @@ Here's an example of one such handover:
 
 Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg){: rel="nofollow"}. The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
-Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](./#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](./#failed).
+Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](#failed).
 
 ### Initializing
 
@@ -65,7 +65,7 @@ The last phase where actual work is done and which is common to all types of run
 
 Important thing to note with regards to pre-initialization hooks and the rest of the initialization process is that all these run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process, but are gone and cannot be retrieved afterwards. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
 
-If this phase fails for whatever reason, the run is marked as [failed](./#failed). Otherwise, the next step is determined by the type of the run being executed.
+If this phase fails for whatever reason, the run is marked as [failed](#failed). Otherwise, the next step is determined by the type of the run being executed.
 
 ### Failed
 
@@ -90,9 +90,9 @@ Finished is a _passive state_ meaning no operations are performed while a run is
 
 Some types of runs in some phases may safely be interrupted. We allow sending a stop signal from the GUI and API to the run, which is then passed to the worker handling the job. It's then up to the worker to handle or ignore that signal.
 
-Stopped state indicates that a run has been stopped while [Initializing](./#initializing) or [Planning](./#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
+Stopped state indicates that a run has been stopped while [Initializing](#initializing) or [Planning](./proposed.md#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
 
-Here's an example of a run manually stopped while [Initializing](./#initializing):
+Here's an example of a run manually stopped while [Initializing](#initializing):
 
 ![](<../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing (2).png>)
 

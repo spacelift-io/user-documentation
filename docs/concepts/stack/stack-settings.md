@@ -1,6 +1,6 @@
 # Stack settings
 
-This article covers all settings that are set **directly on the stack**. It's important to note that these are not the only settings that affect how [runs](../run/) and [tasks](../run/task.md) within a given stack are processed - [environment](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/) and various integrations will all play a role here, too.
+This article covers all settings that are set **directly on the stack**. It's important to note that these are not the only settings that affect how [runs](../run/README.md) and [tasks](../run/task.md) within a given stack are processed - [environment](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md) and various integrations will all play a role here, too.
 
 ## Common settings
 
@@ -8,7 +8,7 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 This setting indicates whether a stack has administrative privileges. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our[Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
 
-The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools.md) etc. in order to avoid ClickOps.
+The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools.md) etc. in order to avoid ClickOps.
 
 Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
@@ -16,23 +16,23 @@ If this sounds interesting and you want to give it a try, please refer to the [h
 
 ### Autodeploy
 
-Indicates whether changes to the stack can be [applied](../run/#applying) automatically. When autodeploy is set to _true_, any change to the [tracked branch](./#repository-and-branch) will automatically be [applied](../run/#applying) if the [planning](../run/#planning) phase was successful and there are no plan policy warnings.
+Indicates whether changes to the stack can be [applied](../run/README.md#applying) automatically. When autodeploy is set to _true_, any change to the [tracked branch](#repository-and-branch) will automatically be [applied](../run/README.md#applying) if the [planning](../run/README.md#planning) phase was successful and there are no plan policy warnings.
 
 Consider setting it to _true_ if you always do a code review before merging to the tracked branch, and/or want to rely on [plan policies](../policy/terraform-plan-policy.md) to automatically flag potential problems. If each candidate change goes through a meaningful human code review with stack [writers](../policy/stack-access-policy.md#readers-and-writers) as reviewers, having a separate step to confirm deployment may be overkill. You may also want to refer to a [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code review.
 
 ### Autoretry
 
-Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](./#repository-and-branch) conflicting with that change will be reevaluated based on the changed state.
+Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](#repository-and-branch) conflicting with that change will be reevaluated based on the changed state.
 
 This saves you from manually retrying runs on Pull Requests when the state changes. This way it also gives you more confidence, that the proposed changes will actually be the actual changes you get after merging the Pull Request.
 
-Autoretry is only supported for [Stacks](./) with a private [Worker Pool](../worker-pools.md) attached.
+Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools.md) attached.
 
 ### Customizing workflow
 
 Spacelift workflow can be customized by adding extra commands to be executed before and after each of the following phases:
 
-- [Initialization](../run/#initializing) (`before_init` and `after_init`, respectively)
+- [Initialization](../run/README.md#initializing) (`before_init` and `after_init`, respectively)
 - [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
 - [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
 - [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
@@ -53,7 +53,7 @@ The workflow can be customized either using our [Terraform provider](https://reg
 Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts, but these variables will not be persisted between steps unless explicitly requested. This is particularly useful for retrieving one-off initialization secrets (eg. sensitive credentials).
 
 !!! info
-    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/#before_init-scripts) specified in the `.spacelift/config.yml` file.
+    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
 
 #### Persisting environment variables between steps
 
@@ -94,14 +94,14 @@ The optional _description_ is completely free-form and it supports [Markdown](ht
 
 ### Labels
 
-Labels are arbitrary, user-defined tags that can be attached to Stacks. A single Stack can have an arbitrary number of these, but they **must** be unique. Labels can be used for any purpose, including UI filtering, but one area where they shine most is user-defined [policies](../policy/#policies-and-stack-labels) which can modify their behavior based on the presence (or lack thereof) of a particular label.
+Labels are arbitrary, user-defined tags that can be attached to Stacks. A single Stack can have an arbitrary number of these, but they **must** be unique. Labels can be used for any purpose, including UI filtering, but one area where they shine most is user-defined [policies](../policy/README.md#policies-and-stack-labels) which can modify their behavior based on the presence (or lack thereof) of a particular label.
 
 ### Project root
 
 Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/git-push-policy.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
 
 !!! info
-    The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/#project_root-setting) specified in the `.spacelift/config.yml` file.
+    The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
 
 ### Repository and branch
 
@@ -110,7 +110,7 @@ _Repository_ and _branch_ point to the location of the source code for a stack. 
 Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
 
 !!! info
-    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while [recreating the stack](./#babys-first-stack) (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
+    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while recreating the stack (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
 
     Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
@@ -123,14 +123,14 @@ Results of both tracked and proposed runs are displayed in the source control pr
 
 ### Runner image
 
-Since every Spacelift job (which we call [runs](../run/)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
+Since every Spacelift job (which we call [runs](../run/README.md)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
 
 Additionally, for our Pulumi integration overriding the default runner image is the canonical way of selecting the exact Pulumi version and its corresponding language SDK.
 
 You can find more information about our use of Docker in [this dedicated help article](../../integrations/docker.md).
 
 !!! info
-    Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/#runner_image-setting) specified in the `.spacelift/config.yml` file.
+    Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#runner_image-setting) specified in the `.spacelift/config.yml` file.
 
 !!! warning
     On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.

@@ -26,7 +26,7 @@ In addition to the default login providers (currently GitHub, GitLab, and Google
 
 ### Environment Variables
 
-Spacelift allows for granular control of environment variables on your [Stacks](../concepts/stack/) either by setting [environment](../concepts/configuration/environment.md) variables on a per-stack basis, or creating collections of variables as a [Context](../concepts/configuration/context.md). These environment variables can be created in two types: **plain** or **secret**.
+Spacelift allows for granular control of environment variables on your [Stacks](../concepts/stack/README.md) either by setting [environment](../concepts/configuration/environment.md) variables on a per-stack basis, or creating collections of variables as a [Context](../concepts/configuration/context.md). These environment variables can be created in two types: **plain** or **secret**.
 
 ### Private Worker Pools
 
@@ -42,7 +42,7 @@ Spacelift VCS Agent Pools utilize gRPC on HTTP2 for secure, high-performance con
 
 ### Policies
 
-Spacelift policies provide a way to express rules as code to manage your infrastructure as a code environment. Users can build policies to control Spacelift login permissions, access controls, deployment workflows, and even govern the infrastructure itself to be deployed. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/) project and can be defined using its rule language _Rego_. You can learn more about policies [here](../concepts/policy/).
+Spacelift policies provide a way to express rules as code to manage your infrastructure as a code environment. Users can build policies to control Spacelift login permissions, access controls, deployment workflows, and even govern the infrastructure itself to be deployed. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/) project and can be defined using its rule language _Rego_. You can learn more about policies [here](../concepts/policy/README.md).
 
 ## Responsible disclosure
 

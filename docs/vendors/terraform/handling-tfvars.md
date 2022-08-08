@@ -6,7 +6,7 @@ Spacelift supports this approach, but does not provide a separate mechanism, dep
 
 - [environment variables](../../concepts/configuration/environment.md#environment-variables);
 - [mounted files](../../concepts/configuration/environment.md#mounted-files)
-- [`before_init`](../../concepts/configuration/runtime-configuration/#before_init-scripts)scripts;
+- [`before_init`](../../concepts/configuration/runtime-configuration/README.md#before_init-scripts)scripts;
 
 ## Using environment variables
 
@@ -31,7 +31,7 @@ Note that there are "magical" names you can give to your variable definitions fi
 - Files named exactly `terraform.tfvars` or `terraform.tfvars.json`.
 - Any files with names ending in `.auto.tfvars` or `.auto.tfvars.json`.
 
-The above can be used in conjunction with another Spacelift building block, [`before_init` hooks](../../concepts/configuration/runtime-configuration/#before_init-scripts).
+The above can be used in conjunction with another Spacelift building block, [`before_init` hooks](../../concepts/configuration/runtime-configuration/README.md#before_init-scripts).
 
 ## Using `before_init` hooks
 

@@ -22,11 +22,11 @@ Please refer to the following table for information on what each policy types re
 | [Login](login-policy.md)                       | Allow or deny login, grant admin access                                               | Positive and negative | `boolean`     | _allow, admin, deny, deny\_admin_                  |
 | [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                       | Positive and negative | `boolean`     | _read, write, deny, deny\_write_                   |
 | [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                         | Positive and negative | `boolean`     | _approve, reject_                                  |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/) before they [start](../run/#initializing)           | Negative              | `set<string>` | _deny_                                             |
-| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>` | _deny_, _warn_                                     |
+| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)           | Negative              | `set<string>` | _deny_                                             |
+| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>` | _deny_, _warn_                                     |
 | [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                        | Positive and negative | `boolean`     | _track, propose, ignore, ignore\_track, notrigger_ |
 | [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                | Negative              | `set<string>` | _deny_                                             |
-| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>` | _trigger_                                          |
+| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>` | _trigger_                                          |
 
 ## How it works
 
@@ -34,7 +34,7 @@ Spacelift uses an open-source project called [**Open Policy Agent**](https://www
 
 You can think of policies as snippets of code that receive some JSON-formatted input and are allowed to produce some output in a predefined form. This input normally represents the data that should be enough to make some decision in its context. Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
 
-Except for [login policies](login-policy.md) that are global, all other policy types operate on the [stack](../stack/) level, and they can be attached to multiple stacks, just as [contexts](../configuration/context.md) are, which both facilitates code reuse and allows flexibility. Policies only affect stacks they're attached to. Please refer to the [relevant section of this article](./#attaching-policies) for more information about attaching policies.
+Except for [login policies](login-policy.md) that are global, all other policy types operate on the [stack](../stack/README.md) level, and they can be attached to multiple stacks, just as [contexts](../configuration/context.md) are, which both facilitates code reuse and allows flexibility. Policies only affect stacks they're attached to. Please refer to the [relevant section of this article](#attaching-policies) for more information about attaching policies.
 
 Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. However, once these policies are evaluated against the same input, their results are combined. So if you allow user login from one policy but deny it from another, the result will still be a denial.
 
@@ -52,7 +52,7 @@ To keep policies functionally pure and relatively snappy, we disabled some Rego 
 - `time.now_ns`
 - `trace`
 
-Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](./#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `request.timestamp_ns` in every policy payload, so please use it instead.
+Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `request.timestamp_ns` in every policy payload, so please use it instead.
 
 Policies must be self-contained and cannot refer to external resources (e.g., files in a VCS repository).
 
@@ -117,7 +117,7 @@ The following helper functions can be used in Spacelift policies:
 
 ## Creating policies
 
-There are two ways of creating policies - through the web UI and through the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](./#testing-policies). Here's how you'd define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration for completeness):
+There are two ways of creating policies - through the web UI and through the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](#testing-policies). Here's how you'd define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration for completeness):
 
 ```opa
 resource "spacelift_stack" "example-stack" {
@@ -176,7 +176,7 @@ In the web UI attaching policies is done in the stack management view, in the Po
 
 One thing we've noticed while working with policies in practice is that it takes a while to get them right. This is not only because the concept or the underlying language introduce a learning curve, but also because the feedback cycle can be slow: write a plan policy, make a code change, trigger a run, verify policy behavior... rinse and repeat. This can easily take hours.
 
-Enter **policy workbench**. Policy workbench allows you to capture policy evaluation events so that you can adjust the policy independently and therefore shorten the entire cycle. In order to make use of the workbench, you will first need to [sample policy inputs](./#sampling-policy-inputs).
+Enter **policy workbench**. Policy workbench allows you to capture policy evaluation events so that you can adjust the policy independently and therefore shorten the entire cycle. In order to make use of the workbench, you will first need to [sample policy inputs](#sampling-policy-inputs).
 
 ### Sampling policy inputs
 

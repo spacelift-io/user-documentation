@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Initialization policy can prevent a [Run](../run/) or a [Task](../run/task.md) from being [initialized](../run/#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
+Initialization policy can prevent a [Run](../run/README.md) or a [Task](../run/task.md) from being [initialized](../run/README.md#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
 !!! warning
     Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
@@ -77,7 +77,7 @@ This is the schema of the data input that each policy request will receive:
 
 ### Helpers
 
-In addition to our [global helper functions](./#helper-functions), we also provide the following helpers for initialization policies:
+In addition to our [global helper functions](./README.md#helper-functions), we also provide the following helpers for initialization policies:
 
 - `commit` - an alias for `input.commit`.
 - `run` - an alias for `input.run`.
@@ -90,9 +90,9 @@ There are two main use cases for run initialization policies - [protecting your 
 
 ### Protect your stack from unwanted changes
 
-While specialized, Spacelift is still a CI/CD platform and thus allows running custom code before Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/#before_init-scripts)scripts. This is a very powerful feature, but as always, with great power comes great responsibility. Since those scripts get full access to your Terraform environment, how hard is it to create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}? Sure, all Spacelift runs are tracked and this prank will sooner or later be tracked down to the individual who ran it, but at that point do you still have a business?
+While specialized, Spacelift is still a CI/CD platform and thus allows running custom code before Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/README.md#before_init-scripts)scripts. This is a very powerful feature, but as always, with great power comes great responsibility. Since those scripts get full access to your Terraform environment, how hard is it to create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}? Sure, all Spacelift runs are tracked and this prank will sooner or later be tracked down to the individual who ran it, but at that point do you still have a business?
 
-That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/#before_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
+That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/README.md#before_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
 
 ```opa
 package spacelift

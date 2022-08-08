@@ -2,7 +2,7 @@
 
 ## Purpose
 
-By default, non-admin users have no access to any [Stacks](../stack/) or [Modules](../../vendors/terraform/module-registry.md) and must be granted that explicitly. There are two levels of non-admin access - reader and writer, and the exact meaning of these roles is covered in a [separate section](stack-access-policy.md#readers-and-writers). For now all we need to care about is that access policies are what we use to give appropriate level of access to individual stacks to non-admin users in your account.
+By default, non-admin users have no access to any [Stacks](../stack/README.md) or [Modules](../../vendors/terraform/module-registry.md) and must be granted that explicitly. There are two levels of non-admin access - reader and writer, and the exact meaning of these roles is covered in a [separate section](stack-access-policy.md#readers-and-writers). For now all we need to care about is that access policies are what we use to give appropriate level of access to individual stacks to non-admin users in your account.
 
 This type of access control is typically done either by building a separate user management system on your end or piggy-backing on one created by your identity provider. Both solutions have their limitations - a separate user management system makes it more difficult for organizations to onboard and offboard users, and the last thing we want is for a guy that was just fired to log in to Spacelift and have their revenge. User management systems are also pretty difficult to get right, too, especially if granular and sophisticated access controls are required.
 
@@ -27,9 +27,9 @@ Another thing to keep in mind when defining access policies is that they are exe
 
 There are two levels of non-admin access to a [Spacelift stack](../stack/README.md) or module - reader and writer. These are pretty intuitive for most developers, but this section will cover them in more detail to avoid any possible confusion. But first, let's try to understand the use case for different levels of access.
 
-In every non-trivial organization there will be different roles - folks who build and manage shared infrastructure, folks who build and manage their team or project-level infrastructure, and folks who use this infrastructure to build great things. The first group is probably the people who manage your Spacelift accounts - the **admins**. They need to be able to set up everything - create [stacks](../stack/), [contexts](../configuration/context.md) and [policies](./), and attach them accordingly. You'd normally use [login policies](login-policy.md) to manage their access.
+In every non-trivial organization there will be different roles - folks who build and manage shared infrastructure, folks who build and manage their team or project-level infrastructure, and folks who use this infrastructure to build great things. The first group is probably the people who manage your Spacelift accounts - the **admins**. They need to be able to set up everything - create [stacks](../stack/README.md), [contexts](../configuration/context.md) and [policies](./README.md), and attach them accordingly. You'd normally use [login policies](login-policy.md) to manage their access.
 
-The second group - folks who manage their team or project-level infrastructure - should have a reasonable level of access to their project. They should be able to define the [environment](../configuration/environment.md), set up various integrations, trigger and confirm [runs](../run/), execute [tasks](../run/task.md). This level of access is granted by the **writer** permission. However, **writers** should still operate within the boundaries defined by **admins**, who do that mainly by attaching [contexts](../configuration/context.md) and [policies](./) to the [stacks](../stack/).
+The second group - folks who manage their team or project-level infrastructure - should have a reasonable level of access to their project. They should be able to define the [environment](../configuration/environment.md), set up various integrations, trigger and confirm [runs](../run/README.md), execute [tasks](../run/task.md). This level of access is granted by the **writer** permission. However, **writers** should still operate within the boundaries defined by **admins**, who do that mainly by attaching [contexts](../configuration/context.md) and [policies](./README.md) to the [stacks](../stack/README.md).
 
 Last but not least the third group - folks who build things on top of existing infra - don't necessarily need to define the infra, but they need to understand what's available and when things are changing. You'll probably want to allow them to contribute to infra definitions, too, and allow them to see feedback from proposed runs. They can't _do_ anything, but they can _see_ everything. These are the **readers**. Most modern organizations tend to provide this level of access to as many stakeholders as possible to maintain transparency and facilitate collaboration.
 
@@ -117,7 +117,7 @@ Here is this example in [Rego playground](https://play.openpolicyagent.org/p/IDq
 
 ### Protect administrative stacks
 
-[Administrative](../stack/#administrative) stacks are powerful - getting **write** access to one is almost as good as being an **admin** - you can define and attach [contexts](../configuration/context.md) and [policies](./). So let's deny **write** access to them entirely. This works since access policies are not evaluated for **admin** users.
+[Administrative](../stack/README.md#administrative) stacks are powerful - getting **write** access to one is almost as good as being an **admin** - you can define and attach [contexts](../configuration/context.md) and [policies](./README.md). So let's deny **write** access to them entirely. This works since access policies are not evaluated for **admin** users.
 
 ```opa
 package spacelift

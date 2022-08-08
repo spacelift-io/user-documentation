@@ -12,7 +12,7 @@ Hello and welcome to Spacelift! In this guide we will briefly introduce some key
 
 ### Stacks
 
-A stack is a central entity in Spacelift. It connects with your source control repository and manages the state of infrastructure. It facilitates integration with cloud providers (AWS, Azure, Google Cloud) and other important Spacelift components. You can learn more about Stacks in Spacelift [detailed documentation](concepts/stack/).
+A stack is a central entity in Spacelift. It connects with your source control repository and manages the state of infrastructure. It facilitates integration with cloud providers (AWS, Azure, Google Cloud) and other important Spacelift components. You can learn more about Stacks in Spacelift [detailed documentation](concepts/stack/README.md).
 
 ### State Management
 
@@ -24,11 +24,11 @@ Spacelift provides two options for managing the underlying compute used by Space
 
 ### Policies
 
-Spacelift policies provide a way to express rules as code, rules that manage your Infrastructure as Code (IaC) environment, and help make common decisions such as login, access, and execution. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/){: rel="nofollow"} project and can be defined using its rule language _Rego_. You can learn more about policies [here](concepts/policy/).
+Spacelift policies provide a way to express rules as code, rules that manage your Infrastructure as Code (IaC) environment, and help make common decisions such as login, access, and execution. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/){: rel="nofollow"} project and can be defined using its rule language _Rego_. You can learn more about policies [here](concepts/policy/README.md).
 
 ### Cloud Integration
 
-Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). Integration with other cloud providers is also possible via programmatic connection with their identity services. You can learn more about [cloud provider integration](integrations/cloud-providers/) in Spacelift detailed documentation.
+Spacelift provides native integration with AWS, Azure and Google Cloud (GCP). Integration with other cloud providers is also possible via programmatic connection with their identity services. You can learn more about [cloud provider integration](integrations/cloud-providers/README.md) in Spacelift detailed documentation.
 
 ### Change Workflow
 
@@ -121,7 +121,7 @@ Congratulation! 🚀 You've just created your first Spacelift stack and complete
 ## Additional Reading
 
 1. Learn how to [integrate with AWS](integrations/cloud-providers/aws.md) as a cloud provider for your infrastructure
-2. Try [creating and attaching policies](concepts/policy/#creating-policies) with stacks for common use cases
+2. Try [creating and attaching policies](concepts/policy/README.md#creating-policies) with stacks for common use cases
 3. [Spacelift workflow with GitHub change requests (PR)](integrations/source-control/github.md#pull-requests)
 4. [Setting up private workers for Spacelift](concepts/worker-pools.md)
 5. Using [environment variables](concepts/configuration/environment.md#environment-variables) and [contexts](concepts/configuration/context.md) with stacks

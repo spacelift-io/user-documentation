@@ -4,7 +4,7 @@
 
 Spacelift GCP integration allows Spacelift to manage your Google Cloud resources without the need for long-lived static credentials. In order to achieve that Spacelift create a [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} inside our project dedicated for your Stack. We show you the globally unique email of this service account, which you can add to your GCP organizations and/or projects with the right level of access.
 
-With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1){: rel="nofollow"} for the Google Terraform provider, so you can define it like this:
+With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/README.md) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1){: rel="nofollow"} for the Google Terraform provider, so you can define it like this:
 
 ```terraform
 provider "google" {}
@@ -29,7 +29,7 @@ If you're setting up the integration through the web UI, please go to the _Integ
 
 ![](../../assets/screenshots/Edit_stack_·_Spacelift_development.png)
 
-Once there, you'll be presented with a form allowing you to customize the list of OAuth scopes for the temporary token we'll generate for each [Run](../../concepts/run/) and [Task](../../concepts/run/task.md):
+Once there, you'll be presented with a form allowing you to customize the list of OAuth scopes for the temporary token we'll generate for each [Run](../../concepts/run/README.md) and [Task](../../concepts/run/task.md):
 
 ![](<../../assets/screenshots/Edit_stack_·_Spacelift_development (1).png>)
 

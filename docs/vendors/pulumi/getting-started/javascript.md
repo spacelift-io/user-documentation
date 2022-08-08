@@ -13,7 +13,7 @@ Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples
 Now let's open Spacelift and create a new Stack, choose the examples repo you just forked. In the second step you'll have to change multiple default values:
 
 - Set the project root to `aws-js-webserver`, as we want to run Pulumi in this subdirectory only.
-- Add one before init script: `npm install`, which will install all necessary dependencies, before initializing Pulumi itself. The outputs will be persisted in the workspace and be there for the [Planning](../../../concepts/run/#planning) and [Applying](../../../concepts/run/#applying) phases.
+- Add one before init script: `npm install`, which will install all necessary dependencies, before initializing Pulumi itself. The outputs will be persisted in the workspace and be there for the [Planning](../../../concepts/run/README.md#planning) and [Applying](../../../concepts/run/README.md#applying) phases.
 - Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-javascript:latest`
 - Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-javascript){: rel="nofollow"}.
 

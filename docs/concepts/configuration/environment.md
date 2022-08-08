@@ -6,7 +6,7 @@ description: >-
 
 # Environment
 
-If you take a look at the Environment screen of a stack you will notice it's pretty busy - in fact it's the second busiest view in Spacelift ([run](../run/) being the undisputed winner). Ultimately though, all the records here are either [environment variables](environment.md#environment-variables) or [mounted files](environment.md#mounted-files). The main part of the view represents the synthetic outcome determining what your run will "see" when executed. If this does not make sense yet, please hang on and read the remainder of this article.
+If you take a look at the Environment screen of a stack you will notice it's pretty busy - in fact it's the second busiest view in Spacelift ([run](../run/README.md) being the undisputed winner). Ultimately though, all the records here are either [environment variables](environment.md#environment-variables) or [mounted files](environment.md#mounted-files). The main part of the view represents the synthetic outcome determining what your run will "see" when executed. If this does not make sense yet, please hang on and read the remainder of this article.
 
 ![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.26.10 PM.png>)
 
@@ -60,7 +60,7 @@ The _Spacelift environment_ section lists a special subset of [computed values](
 
 The Spacelift flow can be broken down into a number of stages - most importantly:
 
-- [Initializing](../run/#initializing), where we prepare the workspace;
+- [Initializing](../run/README.md#initializing), where we prepare the workspace;
 - [Planning](../run/proposed.md#planning), which calculates the changes;
 - [Applying](../run/tracked.md#applying), which makes the actual changes;
 
@@ -91,7 +91,7 @@ It's almost like creating an environment variable, though instead of typing (or 
 !!! info
     Notice how you can your file give a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
 
-Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/) executed for the [stack](../stack/).
+Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/README.md) executed for the [stack](../stack/README.md).
 
 !!! info
     Mounted files are limited to 128kB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
@@ -100,14 +100,14 @@ Similar to environment variables, mounted files can have different visibility se
 
 When discussing mounted files, it is important to understand the structure of the Spacelift workspace. Every Spacelift workload gets a dedicated directory `/mnt/workspace/`, which also serves as a root for all the mounted files.
 
-Your Git repository is cloned into `/mnt/workspace/source/`, which also serves as the working directory for your project, unless explicitly overridden by the project root configuration setting (either on the [stack level](../stack/stack-settings.md#project-root) or on in the [runtime configuration](runtime-configuration/#project_root-setting)).
+Your Git repository is cloned into `/mnt/workspace/source/`, which also serves as the working directory for your project, unless explicitly overridden by the project root configuration setting (either on the [stack level](../stack/stack-settings.md#project-root) or on in the [runtime configuration](runtime-configuration/README.md#project_root-setting)).
 
 !!! warning
     Mounted files may be put into `/mnt/workspace/source/` as well and it's a legitimate use case, for example, to dynamically inject backend settings or even add extra infra definitions. Just **beware of path clashes** as mounted files will **override your project source code** in case of conflict. Sometimes this is what you want, sometimes not.
 
 ## Attached contexts
 
-While contexts are important enough to [warrant their own dedicated article](context.md), it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/), as well as with [computed values](environment.md#computed-values). Perhaps you've noticed the blue labels on one of the earlier screenshots. If you haven't, here they are again, with a proper highlight:
+While contexts are important enough to [warrant their own dedicated article](context.md), it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/README.md), as well as with [computed values](environment.md#computed-values). Perhaps you've noticed the blue labels on one of the earlier screenshots. If you haven't, here they are again, with a proper highlight:
 
 ![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.30.34 PM.png>)
 
@@ -136,7 +136,7 @@ Perhaps you may have noticed how [environment variables](environment.md#environm
 
 ![](<../../assets/screenshots/Editing_environment_·_Managed_stack (4).png>)
 
-Functionally, the difference between the two is pretty simple - plain values are accessible in the web GUI and through the [API](../../integrations/api.md), and secret ones aren't - they're only made available to [Runs](../run/) and [Tasks](../run/task.md). Here's an example of two environment variables in the GUI - one plain, and one secret (also referred to as _write-only_):
+Functionally, the difference between the two is pretty simple - plain values are accessible in the web GUI and through the [API](../../integrations/api.md), and secret ones aren't - they're only made available to [Runs](../run/README.md) and [Tasks](../run/task.md). Here's an example of two environment variables in the GUI - one plain, and one secret (also referred to as _write-only_):
 
 ![Note the asterisks for the secret (write-only) variable](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (15).png>)
 

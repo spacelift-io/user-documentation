@@ -24,10 +24,10 @@ The high level concepts of Spacelift don't change when used with Pulumi. Below, 
 
 ### Initialization
 
-Previously described in [Run Initializing](../../concepts/run/#initializing), in Pulumi the initialization will run:
+Previously described in [Run Initializing](../../concepts/run/README.md#initializing), in Pulumi the initialization will run:
 
 - `pulumi login` with your configured login URL
-- `pulumi stack select --create --select` with your configured Pulumi stack name (the one you set in vendor-specific settings, not the Spacelift [Stack](../../concepts/stack/) name)
+- `pulumi stack select --create --select` with your configured Pulumi stack name (the one you set in vendor-specific settings, not the Spacelift [Stack](../../concepts/stack/README.md) name)
 
 It will then commence to run all pre-initialization hooks.
 

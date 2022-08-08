@@ -18,7 +18,7 @@ The Kubernetes command-line tool, [`kubectl`](https://kubernetes.io/docs/referen
 
 ## Why use Spacelift with Kubernetes?
 
-Spacelift helps you manage the complexities and compliance challenges of using Kubernetes. It brings with it a GitOps flow, so your Kubernetes Deployments are synced with your Kubernetes Stacks, and pull requests show you a preview of what they're planning to change. It also has an extensive selection of [policies](../../concepts/policy/), which lets you [automate compliance checks](../../concepts/policy/terraform-plan-policy.md) and [build complex multi-stack workflows](../../concepts/policy/trigger-policy.md).
+Spacelift helps you manage the complexities and compliance challenges of using Kubernetes. It brings with it a GitOps flow, so your Kubernetes Deployments are synced with your Kubernetes Stacks, and pull requests show you a preview of what they're planning to change. It also has an extensive selection of [policies](../../concepts/policy/README.md), which lets you [automate compliance checks](../../concepts/policy/terraform-plan-policy.md) and [build complex multi-stack workflows](../../concepts/policy/trigger-policy.md).
 
 You can also use Spacelift to mix and match Terraform, Pulumi, CloudFormation, and Kubernetes Stacks and have them talk to one another. For example, you can set up Terraform Stacks to provision the required infrastructure (like an ECS/EKS cluster with all its dependencies) and then deploy the following via a Kubernetes Stack.
 

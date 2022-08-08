@@ -9,8 +9,8 @@ Unless you're defining a stack programmatically using our [Terraform provider](.
 
 The stack creation process involves four simple steps:
 
-1. [Creating a link between your new stack and an existing Git repository](./#integrate-vcs);
-2. [Defining common behavior of the stack](./#define-behavior);
+1. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
+2. [Defining common behavior of the stack](#define-behavior);
 3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), Pulumi)
 4. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 
@@ -76,8 +76,8 @@ The basic settings are:
 
 The advanced settings are:
 
-- whether the changes should [automatically deploy](./#autodeploy);
-- whether obsolete tests should be [automatically retried](./#autoretry);
+- whether the changes should [automatically deploy](./stack-settings.md#autodeploy);
+- whether obsolete tests should be [automatically retried](./stack-settings.md#autoretry);
 - whether or not to protect the stack from deletion;
 - whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl) CLI feature;
 - whether or not [run promotion](../run/run-promotion.md) is enabled;

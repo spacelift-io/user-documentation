@@ -1,6 +1,6 @@
 # Provider
 
-What would you say if you could manage Spacelift resources - that is [stacks](../../concepts/stack/), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md) - using Spacelift? We hate ClickOps as much as anyone, so we designed everything from the ground up to be easily managed using a Terraform provider. We hope that advanced users will define most of their resources programmatically.
+What would you say if you could manage Spacelift resources - that is [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md) - using Spacelift? We hate ClickOps as much as anyone, so we designed everything from the ground up to be easily managed using a Terraform provider. We hope that advanced users will define most of their resources programmatically.
 
 ## Taking it for a spin
 
@@ -18,7 +18,7 @@ resource "spacelift_stack" "managed-stack" {
 }
 ```
 
-That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/#access-readers-and-writers-teams), so why don't we define some?
+That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/README.md#access-readers-and-writers-teams), so why don't we define some?
 
 ```terraform title="stack-and-teams.tf"
 resource "github_team" "stack-readers" {
@@ -113,7 +113,7 @@ terraform {
 
 ### Using inside Spacelift
 
-Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to [stacks](../../concepts/stack/) **marked as** [**administrative**](../../concepts/stack/#administrative). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/) responsible for generating it is in [_Planning_](../../concepts/run/#planning), [_Applying_](../../concepts/run/#applying) or [Performing](../../concepts/run/task.md#performing) (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides full administrative access to Spacelift entities [that can be managed by Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
+Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to [stacks](../../concepts/stack/README.md) **marked as** [**administrative**](../../concepts/stack/README.md#administrative). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/README.md) responsible for generating it is in [_Planning_](../../concepts/run/README.md#planning), [_Applying_](../../concepts/run/README.md#applying) or [Performing](../../concepts/run/task.md#performing) (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides full administrative access to Spacelift entities [that can be managed by Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
 
 ### Using outside of Spacelift
 
@@ -194,7 +194,7 @@ If you want to share data between stacks, please consider programmatically creat
 
 ## Boundaries of programmatic management
 
-Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#graphql-schema-s). They allow managing the lifecycles of [stacks](../../concepts/stack/), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/) or [tasks](../../concepts/run/task.md), or their associated logs.
+Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#graphql-schema-s). They allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
 
 Administrative tokens have no superpowers either. They can't read write-only configuration elements any more than you can as a user. Unlike human users with user tokens, administrative tokens won't allow you to run `env` in a [task](../../concepts/run/task.md) and read back the logs.
 

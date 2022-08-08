@@ -2,7 +2,7 @@
 
 ## About the integration
 
-The AWS integration allows either Spacelift or a private worker controlled by you to [assume an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in your AWS account and thus generate a set of temporary credentials that are then exposed to your [run](../../concepts/run/) or [task](../../concepts/run/task.md) as the following [computed environment variables](../../concepts/configuration/environment.md#computed-values):
+The AWS integration allows either Spacelift or a private worker controlled by you to [assume an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in your AWS account and thus generate a set of temporary credentials that are then exposed to your [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) as the following [computed environment variables](../../concepts/configuration/environment.md#computed-values):
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
@@ -83,7 +83,7 @@ Instead of creating a new, separate role for each stack which we generally advis
 
 ### Programmatic setup
 
-You can use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to set up the AWS integration programmatically from an [administrative stack](../../concepts/stack/#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
+You can use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to set up the AWS integration programmatically from an [administrative stack](../../concepts/stack/README.md#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
 
 Here's a little example of what that might look like:
 
@@ -132,7 +132,7 @@ Assuming role and generating credentials **on the private worker** is **perfectl
 
 Probably safer than storing static credentials in your stack environment. Unlike user keys that you'd normally have to use, role credentials are dynamically created and short-lived. We use the default expiration which is **1 hour**, and do not store them anywhere. Leaking them **accidentally** through the logs is not an option either because we mask AWS credentials.
 
-The most tangible safety feature of the AWS integration is the breadcrumb trail it leaves in [CloudTrail](https://aws.amazon.com/cloudtrail/){: rel="nofollow"}. Every resource change can be mapped to an individual Terraform [run](../../concepts/run/) or [task](../../concepts/run/task.md) whose ID automatically becomes the username as the [`sts:AssumeRole`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html){: rel="nofollow"} API call with that ID as `RoleSessionName`. In conjunction with AWS tools like [Config](https://aws.amazon.com/config/){: rel="nofollow"}, it can be a very powerful compliance tool.
+The most tangible safety feature of the AWS integration is the breadcrumb trail it leaves in [CloudTrail](https://aws.amazon.com/cloudtrail/){: rel="nofollow"}. Every resource change can be mapped to an individual Terraform [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) whose ID automatically becomes the username as the [`sts:AssumeRole`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html){: rel="nofollow"} API call with that ID as `RoleSessionName`. In conjunction with AWS tools like [Config](https://aws.amazon.com/config/){: rel="nofollow"}, it can be a very powerful compliance tool.
 
 Let's have a look at a CloudTrail event showing an IAM role being created by what seems to be a Spacelift run:
 
@@ -150,7 +150,7 @@ OK, we get it. Using everyone's favorite Inception meme:
 
 Indeed, AWS Terraform provider allows you to [assume an IAM role during setup](https://www.terraform.io/docs/providers/aws/index.html#assume-role){: rel="nofollow"}, effectively doing the same thing over again. This approach is especially useful if you want to control resources in multiple AWS accounts from a single Spacelift stack. This is totally fine - in IAM, roles can assume other roles, though what you need to do on your end is set up the trust relationship between the role you have Spacelift assume and the role for each provider instance to assume. But let's face it - at this level of sophistication, you sure know what you're doing.
 
-One bit you might not want to miss though, is the guaranteed ability to map the change to a particular [run](../../concepts/run/) or [task](../../concepts/run/task.md) that we described in the [previous section](aws.md#is-it-safe). One way of fixing that would be to use the `TF_VAR_spacelift_run_id` [computed environment variable](../../concepts/configuration/environment.md#computed-values) available to each Spacelift workflow. Conveniently, it's already a [Terraform variable](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"}, so a setup like this should do the trick:
+One bit you might not want to miss though, is the guaranteed ability to map the change to a particular [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) that we described in the [previous section](aws.md#is-it-safe). One way of fixing that would be to use the `TF_VAR_spacelift_run_id` [computed environment variable](../../concepts/configuration/environment.md#computed-values) available to each Spacelift workflow. Conveniently, it's already a [Terraform variable](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"}, so a setup like this should do the trick:
 
 ```terraform title="aws.tf"
 variable "spacelift_run_id" {}

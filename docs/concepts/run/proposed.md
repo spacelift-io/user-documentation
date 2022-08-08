@@ -8,9 +8,9 @@ The purpose of proposed runs is not to make changes to your infrastructure but t
 
 ## Planning
 
-Once the workspace is prepared by the [Initializing](./#initializing) phase, planning runs a vendor-specific preview command and interprets the results. For Terraform that command is `terraform plan`, for Pulumi - `pulumi preview`. The result of the planning phase is the collection of currently managed resources and outputs as well as planned changes. This is used as an input to [plan policies](proposed.md#plan-policies) (optional) and to [calculate the delta](proposed.md#delta) - always.
+Once the workspace is prepared by the [Initializing](./README.md#initializing) phase, planning runs a vendor-specific preview command and interprets the results. For Terraform that command is `terraform plan`, for Pulumi - `pulumi preview`. The result of the planning phase is the collection of currently managed resources and outputs as well as planned changes. This is used as an input to [plan policies](proposed.md#plan-policies) (optional) and to [calculate the delta](proposed.md#delta) - always.
 
-Note that the Planning phase can be safely [stopped by the user](./#stopping-runs).
+Note that the Planning phase can be safely [stopped by the user](./README.md#stopping-runs).
 
 ## Plan policies
 
@@ -35,7 +35,7 @@ The planning phase will fail if:
 - plan policies return one or more _deny_ reasons;
 - a worker node crashes - eg. you kill a private worker node while it's executing the job;
 
-If that happens, the run will transition to the [failed](./#failed) state. Otherwise, the proposed run terminates in the [finished](./#finished) state.
+If that happens, the run will transition to the [failed](./README.md#failed) state. Otherwise, the proposed run terminates in the [finished](./README.md#finished) state.
 
 ## Reporting
 
