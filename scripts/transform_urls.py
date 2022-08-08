@@ -28,11 +28,16 @@ def transform_internal_urls(filename, content):
     old_url = match.group(1)
     url_components = urlparse(old_url)
 
+    # Empty string is to relative links. "docs.spacelift.io" is for canonical URLs.
     if url_components.netloc in ["", "docs.spacelift.io"] and url_components.path.endswith(".html"):
       if url_components.path.endswith("index.html"):
         new_path = url_components.path.removesuffix("index.html")
       else:
         new_path = url_components.path.removesuffix(".html")
+
+      # To avoid new path to be empty for "index.html"
+      if not new_path:
+        new_path = "/"
 
       new_url = url_components._replace(path=new_path).geturl()
 
