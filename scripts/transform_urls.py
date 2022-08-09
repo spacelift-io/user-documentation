@@ -18,8 +18,8 @@ def read_src_file_content(path):
 def save_content_to_dest_file(path, content):
   Path(path).write_text(content)
 
-def transform_internal_urls(filename, content):
-  if filename.endswith("/sitemap.xml"):
+def transform_internal_urls(path, content):
+  if path.endswith("/sitemap.xml"):
     matches = re.finditer('<loc>([^<]*)<\/loc>', content, flags=re.MULTILINE)
   else:
     matches = re.finditer('href="([^"]*)"', content, flags=re.MULTILINE)
@@ -29,14 +29,19 @@ def transform_internal_urls(filename, content):
     url_components = urlparse(old_url)
 
     if url_components.netloc in ["", "docs.spacelift.io"] and url_components.path.endswith(".html"):
-      if url_components.path.endswith("index.html"):
+      # Same level default page
+      if url_components.path == "index.html":
+        new_path = "./"
+      # Other level default page
+      elif url_components.path.endswith("index.html"):
         new_path = url_components.path.removesuffix("index.html")
+      # Other pages
       else:
         new_path = url_components.path.removesuffix(".html")
 
       new_url = url_components._replace(path=new_path).geturl()
 
-      if filename.endswith("/sitemap.xml"):
+      if path.endswith("/sitemap.xml"):
         content = content.replace(f'<loc>{old_url}</loc>', f'<loc>{new_url}</loc>')
       else:
         content = content.replace(f'href="{old_url}"', f'href="{new_url}"')
