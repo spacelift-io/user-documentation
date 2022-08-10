@@ -1,4 +1,4 @@
-# GCP
+# Google Cloud Platform (GCP)
 
 ## About the integration
 
