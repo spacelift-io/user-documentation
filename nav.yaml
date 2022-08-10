@@ -87,7 +87,7 @@ nav:
       - vendors/ansible/ansible-galaxy.md
   - ⚙️ Integrations:
     - integrations/audit-trail.md
-    - Cloud Providers:
+    - Cloud Integrations:
       - integrations/cloud-providers/README.md
       - integrations/cloud-providers/aws.md
       - integrations/cloud-providers/azure.md

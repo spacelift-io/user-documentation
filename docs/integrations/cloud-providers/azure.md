@@ -1,4 +1,4 @@
-# Azure
+# Microsoft Azure
 
 ## About the integration
 
