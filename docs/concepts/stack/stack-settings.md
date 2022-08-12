@@ -139,11 +139,11 @@ You can find more information about our use of Docker in [this dedicated help ar
 
 ## Terraform-specific settings
 
-### Version
+### Version {: #terraform-version}
 
 The Terraform version is set when a stack is created to indicate the version of Terraform that will be used with this project. However, Spacelift covers the entire [Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
 
-### Workspace
+### Workspace {: #terraform-workspace}
 
 [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html){: rel="nofollow"} are supported by Spacelift, too, as long as your state backend supports them. If the workspace is set, Spacelift will try to first [_select_, and then - should that fail - automatically _create_](https://www.terraform.io/docs/language/state/workspaces.html#using-workspaces){: rel="nofollow"} the required workspace on the state backend.
 
@@ -151,12 +151,12 @@ If you're [managing Terraform state through Spacelift](../../vendors/terraform/s
 
 ## Pulumi-specific settings
 
-### Login URL
+### Login URL {: #pulumi-login-url}
 
 Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend){: rel="nofollow"}).
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 
-### Stack name
+### Stack name{: #pulumi-stackname}
 
 The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](stack-settings.md#stack-name) - they _may_ be different, though it's probably good if you can keep them identical.
