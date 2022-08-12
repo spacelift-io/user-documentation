@@ -22,6 +22,7 @@ theme:
     scheme: spacelift
 use_directory_urls: false
 watch:
+  - nav.yaml
   - overrides
 markdown_extensions:
   - admonition
