@@ -52,6 +52,7 @@ nav:
       - vendors/terraform/resource-sanitization.md
       - vendors/terraform/storing-complex-variables.md
       - vendors/terraform/debugging-guide.md
+      - vendors/terraform/dependency-lock-file.md
     - Pulumi:
       - vendors/pulumi/README.md
       # KLUDGE: The default value for navigation items come from the H1 heading for the page.
