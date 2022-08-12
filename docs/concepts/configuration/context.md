@@ -27,8 +27,8 @@ The required _name_ is what you'll see in the context list and in the dropdown w
 The optional _description_ is completely free-form and it supports [Markdown](https://daringfireball.net/projects/markdown/){: rel="nofollow"}. This is a good place perhaps for a thorough explanation of the purpose of the stack, perhaps a link or two, and/or a funny GIF. In the web GUI this description will only show on the Contexts screen so it's not a big deal anyway.
 
 !!! warning
-    Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this context. If the name and the slug diverge significantly, things may become confusing.\
-    \
+    Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this context. If the name and the slug diverge significantly, things may become confusing.
+
     So even though you can change the context name at any point, we strongly discourage all non-trivial changes.
 
 ### Editing

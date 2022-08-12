@@ -13,16 +13,15 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 ### Do
 
-1. It's **super simple** - just two clicks during stack setup. Otherwise there's nothing to set up on your end, so one fewer sensitive thing to worry about. Feel free to refer to [how it works on our end](state-management.md#how-it-works), but overall we believe it to be a rather sensible and secure setup, at least on par with anything you could set up on your end.\
-   \
+1. It's **super simple** - just two clicks during stack setup. Otherwise there's nothing to set up on your end, so one fewer sensitive thing to worry about. Feel free to refer to [how it works on our end](state-management.md#how-it-works), but overall we believe it to be a rather sensible and secure setup, at least on par with anything you could set up on your end.
 
 2. It's **protected against accidental or malicious access**. Again, you can refer to the more technical section on the inner workings of the state server, but the gist is that we're able to map state access and state changes to legitimate Spacelift runs, thus automatically blocking all other unauthorized traffic. As far as we know, no other backend is capable of that, which is one more reason to give us a go.
 
 ### Don't
 
-1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.\
+1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.
 
-2. We'll let you in on a little secret now - behind the pixie dust it's still S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.\
+2. We'll let you in on a little secret now - behind the pixie dust it's still S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.
 
 3. If you want to **frequently access your state offline** for analytical or compliance purposes and aren't happy doing it using Spacelift [tasks](../../concepts/run/task.md) (BTW, let us know why) then again you're better off managing the state on your end.
 
