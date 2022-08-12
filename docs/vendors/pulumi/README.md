@@ -11,10 +11,10 @@ On a high level, [Pulumi](https://github.com/pulumi/pulumi){: rel="nofollow"} ha
 
 However, if you're the type that prefers to start with doing, instead of reading too much, there are quickstarts for each of the runtimes supported by Pulumi:
 
-- [C#](getting-started/c-sharp.md)
-- [Go](getting-started/golang.md)
-- [Javascript](getting-started/javascript.md)
-- [Python](getting-started/python.md)
+- [C#](./c-sharp.md)
+- [Go](./golang.md)
+- [Javascript](./javascript.md)
+- [Python](./python.md)
 
 In case you're just getting started with Pulumi, we'd recommend you to start with Javascript. Believe it or not, it's actually the most pleasant experience we had with Pulumi! Later you can also easily switch to languages which compile to Javascript, like TypeScript or ClojureScript.
 

@@ -54,15 +54,14 @@ nav:
       - vendors/terraform/debugging-guide.md
     - Pulumi:
       - vendors/pulumi/README.md
-      - Getting Started:
-        # KLUDGE: The default value for navigation items come from the H1 heading for the page.
-        # Here the value for the H1 heading needs to be C\# to avoid parsing issues.
-        # Unfortunately, the valid value for the H1 heading causes an issue with the navigation item.
-        # Hence the override.
-        - C#: vendors/pulumi/getting-started/c-sharp.md
-        - vendors/pulumi/getting-started/golang.md
-        - vendors/pulumi/getting-started/javascript.md
-        - vendors/pulumi/getting-started/python.md
+      # KLUDGE: The default value for navigation items come from the H1 heading for the page.
+      # Here the value for the H1 heading needs to be C\# to avoid parsing issues.
+      # Unfortunately, the valid value for the H1 heading causes an issue with the navigation item.
+      # Hence the override.
+      - C#: vendors/pulumi/c-sharp.md
+      - vendors/pulumi/golang.md
+      - vendors/pulumi/javascript.md
+      - vendors/pulumi/python.md
     - CloudFormation:
       - vendors/cloudformation/README.md
       - vendors/cloudformation/getting-started.md
