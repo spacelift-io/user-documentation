@@ -1,0 +1,31 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  pre-commit:
+    name: pre-commit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v26.1
+
+      - name: Set Python up
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit
+        run: pre-commit run --files ${{ steps.changed-files.outputs.all_changed_files }}
