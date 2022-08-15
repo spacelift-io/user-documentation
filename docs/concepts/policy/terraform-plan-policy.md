@@ -4,7 +4,7 @@
 
 Plan policies are evaluated during a planning phase after vendor-specific change preview command (eg. `terraform plan`) executes successfully. The body of the change is exported to JSON and parts of it are combined with Spacelift metadata to form the data input to the policy.
 
-Plan policies are the only ones that have access to the actual changes to the managed resources, so this is probably the best place to enforce organizational rules and best practices as well as do automated code review. There are two types of rules here that Spacelift will care about: **deny** and **warn**.  Each of them must come with an appropriate message that will be shown in the logs. Any **deny** rules will print in red and will automatically fail the run, while **warn** rules will print in yellow and will at most mark the run for human review if the change affects the tracked branch and the Stack is set to [autodeploy](../stack/README.md#autodeploy).
+Plan policies are the only ones that have access to the actual changes to the managed resources, so this is probably the best place to enforce organizational rules and best practices as well as do automated code review. There are two types of rules here that Spacelift will care about: **deny** and **warn**. Each of them must come with an appropriate message that will be shown in the logs. Any **deny** rules will print in red and will automatically fail the run, while **warn** rules will print in yellow and will at most mark the run for human review if the change affects the tracked branch and the Stack is set to [autodeploy](../stack/README.md#autodeploy).
 
 Here is a super simple policy that will show both types of rules in action:
 
@@ -38,35 +38,52 @@ This is the schema of the data input that each policy request will receive:
       "author": "string - GitHub login if available, name otherwise",
       "branch": "string - branch to which the commit was pushed",
       "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "hash": "string - the commit hash",
       "message": "string - commit message"
     },
     "request": {
       "timestamp_ns": "number - current Unix timestamp in nanoseconds"
     },
     "run": {
-      "based_on_local_workspace": "boolean - wether the run stems from a local preview",
+      "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+      "branch": "string - the branch the run was triggered from",
       "changes": [
         {
           "action": "string enum - added | changed | deleted",
           "entity": {
             "address": "string - full address of the entity",
             "name": "string - name of the entity",
-            "type": "string - full resource type or \"output\" for outputs"
+            "type": "string - full resource type or \"output\" for outputs",
+            "entity_vendor": "string - the name of the vendor",
+            "entity_type": "string - the type of entity, possible values depend on the vendor",
+            "data": "object - detailed information about the entity, shape depends on the vendor and type"
           },
           "phase": "string enum - plan | apply"
         }
       ],
+      "commit": {
+        "author": "string - GitHub login if available, name otherwise",
+        "branch": "string - branch to which the commit was pushed",
+        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "hash": "string - the commit hash",
+        "message": "string - commit message"
+      },
       "created_at": "number - creation Unix timestamp in nanoseconds",
+      "drift_detection": "boolean - is this a drift detection run",
+      "id": "string - the run ID",
       "runtime_config": {
         "before_init": ["string - command to run before run initialization"],
         "project_root": "string - root of the Terraform project",
         "runner_image": "string - Docker image used to execute the run",
         "terraform_version": "string - Terraform version used to for the run"
       },
+      "state": "string - the current run state",
       "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
-      "type": "string - PROPOSED or TRACKED",
+      "type": "string - type of the run",
       "updated_at": "number - last update Unix timestamp in nanoseconds",
-      "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
+      "user_provided_metadata": [
+        "string - blobs of metadata provided using spacectl or the API when interacting with this run"
+      ]
     },
     "stack": {
       "administrative": "boolean - is the stack administrative",

@@ -47,17 +47,42 @@ This is the schema of the data input that each policy request will receive:
   },
   "run": {
     "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+    "changes": [
+      {
+        "action": "string enum - added | changed | deleted",
+        "entity": {
+          "address": "string - full address of the entity",
+          "name": "string - name of the entity",
+          "type": "string - full resource type or \"output\" for outputs",
+          "entity_vendor": "string - the name of the vendor",
+          "entity_type": "string - the type of entity, possible values depend on the vendor",
+          "data": "object - detailed information about the entity, shape depends on the vendor and type"
+        },
+        "phase": "string enum - plan | apply"
+      }
+    ],
+    "commit": {
+      "author": "string - GitHub login if available, name otherwise",
+      "branch": "string - branch to which the commit was pushed",
+      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "hash": "string - the commit hash",
+      "message": "string - commit message"
+    },
     "created_at": "number - creation Unix timestamp in nanoseconds",
+    "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],
       "project_root": "string - root of the Terraform project",
       "runner_image": "string - Docker image used to execute the run",
       "terraform_version": "string - Terraform version used to for the run"
     },
+    "state": "string - the current run state",
     "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
     "type": "string - PROPOSED or TRACKED",
-    "updated_at": "number - last update Unix timestamp in nanoseconds"
-    "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
+    "updated_at": "number - last update Unix timestamp in nanoseconds",
+    "user_provided_metadata": [
+      "string - blobs of metadata provided using spacectl or the API when interacting with this run"
+    ]
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",

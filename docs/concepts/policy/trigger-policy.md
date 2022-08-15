@@ -21,7 +21,9 @@ This is the schema of the data input that each policy request will receive:
 
 ```json
 {
-  "run": {
+  "run": { // the run metadata
+    "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+    "branch": "string - the branch the run was triggered from",
     "changes": [
       {
         "action": "string enum - added | changed | deleted",
@@ -29,26 +31,36 @@ This is the schema of the data input that each policy request will receive:
           "address": "string - full address of the entity",
           "name": "string - name of the entity",
           "type": "string - full resource type or \"output\" for outputs",
-          "entity_vendor": "string - terraform or pulumi",
-          "entity_type": "string - resource, output or module for Terraform; resource, output or stack for Pulumi",
+          "entity_vendor": "string - the name of the vendor",
+          "entity_type": "string - the type of entity, possible values depend on the vendor",
           "data": "object - detailed information about the entity, shape depends on the vendor and type"
         },
         "phase": "string enum - plan | apply"
       }
     ],
+    "commit": {
+      "author": "string - GitHub login if available, name otherwise",
+      "branch": "string - branch to which the commit was pushed",
+      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "hash": "string - the commit hash",
+      "message": "string - commit message"
+    },
     "created_at": "number - creation Unix timestamp in nanoseconds",
-    "id": "Unique ID of the Run",
+    "drift_detection": "boolean - is this a drift detection run",
+    "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],
       "project_root": "string - root of the Terraform project",
       "runner_image": "string - Docker image used to execute the run",
       "terraform_version": "string - Terraform version used to for the run"
     },
-    "state": "one of the terminal states of the Run",
+    "state": "string - the current run state",
     "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
-    "type": "string - TRACKED or TASK",
+    "type": "string - type of the run",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
-    "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
+    "user_provided_metadata": [
+      "string - blobs of metadata provided using spacectl or the API when interacting with this run"
+    ]
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",
@@ -64,26 +76,30 @@ This is the schema of the data input that each policy request will receive:
     "state": "string - current state of the stack",
     "terraform_version": "string or null - last Terraform version used to apply changes"
   },
-  "stacks": [{
-    "administrative": "boolean - is the stack administrative",
-    "autodeploy": "boolean - is the stack currently set to autodeploy",
-    "branch": "string - tracked branch of the stack",
-    "id": "string - unique stack identifier",
-    "labels": ["string - list of arbitrary, user-defined selectors"],
-    "locked_by": "optional string - if the stack is locked, this is the name of the user who did it",
-    "name": "string - name of the stack",
-    "namespace": "string - repository namespace, only relevant to GitLab repositories",
-    "project_root": "optional string - project root as set on the Stack, if any",
-    "repository": "string - name of the source GitHub repository",
-    "state": "string - current state of the stack",
-    "terraform_version": "string or null - last Terraform version used to apply changes"
-  }],
-  "workflow": [{
-    "id": "string - Unique ID of the Run",
-    "stack_id": "string - unique stack identifier",
-    "state": "state - one of the states of the Run",
-    "type": "string - TRACKED or TASK"
-  }]
+  "stacks": [
+    {
+      "administrative": "boolean - is the stack administrative",
+      "autodeploy": "boolean - is the stack currently set to autodeploy",
+      "branch": "string - tracked branch of the stack",
+      "id": "string - unique stack identifier",
+      "labels": ["string - list of arbitrary, user-defined selectors"],
+      "locked_by": "optional string - if the stack is locked, this is the name of the user who did it",
+      "name": "string - name of the stack",
+      "namespace": "string - repository namespace, only relevant to GitLab repositories",
+      "project_root": "optional string - project root as set on the Stack, if any",
+      "repository": "string - name of the source GitHub repository",
+      "state": "string - current state of the stack",
+      "terraform_version": "string or null - last Terraform version used to apply changes"
+    }
+  ],
+  "workflow": [
+    {
+      "id": "string - Unique ID of the Run",
+      "stack_id": "string - unique stack identifier",
+      "state": "state - one of the states of the Run",
+      "type": "string - TRACKED or TASK"
+    }
+  ]
 }
 ```
 
@@ -170,7 +186,7 @@ trigger[stack.id] {
 
 The diamond problem happens when your stacks and their dependencies form a shape like in the following diagram:
 
-``` mermaid
+```mermaid
 graph LR
   1  --> 2a;
   1  --> 2b;
