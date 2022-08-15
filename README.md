@@ -1,75 +1,23 @@
 # Spacelift User Documentation
 
-## Architecture Overview
-
-The Spacelift User Documentation uses [MkDocs](https://www.mkdocs.org), a static website generated, with the [Material](https://squidfunk.github.io/mkdocs-material/) theme. The content is written as [Markdown](https://daringfireball.net/projects/markdown/).
-
-The generated HTML files as well as the assets (images, CSS, Javascript, etc.) are hosted in an AWS S3 bucket. An AWS CloudFront distribution serves those files.
+This repository contains the documentation website code and Markdown source files for [docs.spacelift.io](https://docs.spacelift.io/).
 
 ## Contributing
 
-The following is a set of guidelines for contributing to the Spacelift User Documentation. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+See [the contributing guide](./CONTRIBUTING.md) for detailed instructions on how to get started with this project.
 
-### Editing Content
+If you're looking for a way to contribute, you can scan through our [existing issues](https://github.com/github/docs/issues) for something to work on.
 
-The content is stored in the `docs`folder as Markdown files. To edit content, just open the Markdown file in your favorite editor. If you need to add a new page, make sure to add it to the `nav.yaml` file.
+For more complex contributions, we recommend that you open an issue to describe the changes you'd like to see.
 
-Screenshots should be added to the `docs/assets/screenshots` folder.
+## For more information
 
-### Editing Look and Feel
+<!-- markdownlint-disable MD001 MD034 -->
+- Live user documentation is at https://docs.spacelift.io/.
+- Spacelift website is at https://spacelift.io/.
+- Start a free trial at https://spacelift.io/free-trial.
+<!-- markdownlint-enable MD001 MD034 -->
 
-To tweak the look and feel of the user documentation, you can:
+## License
 
-- Edit MkDocs settings in the `mkdocs.yaml` file.
-- Edit the CSS selectors in the `docs/assets/css/extra.css` file.
-- Edit the images in the `docs/assets/images` folder.
-- Edit the theme templates in the `overrides`folder.
-
-### Previewing Changes
-
-You can preview changes locally by running MkDocs in a Docker container:
-
-```bash
-# Intel/AMD CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
-
-# Arm CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material
-```
-
-<!-- markdownlint-disable-next-line MD034 -->
-This command will generate the documentation and serve it at http://localhost:8000/.
-
-The documentation automatically reloads when changes to the source files are detected.
-
-### Validating Changes
-
-There are some tests to ensure the consistency and the quality of the user documentation.
-
-You will need to install the git hook for  [pre-commit](https://pre-commit.com) on your local clone:
-
-```bash
-pre-commit install
-```
-
-From now on, when you create a new commit the tests will be run against the modified files.
-
-You can also manually trigger the tests at any time by running:
-
-```bash
-pre-commit
-```
-
-### Submitting Changes
-
-Once you are happy with your changes, just open a pull request and ask for a review.
-
-The pull request can be merged by its author after getting at least one approval.
-
-### Deploying Changes
-
-Changes are automatically deployed by GitHub Action when they are pushed to the `main` branch. It usually takes about a minute for changes to go live after the pull request has been merged.
-
-## External Resources
-
-- [Markdown Guide](https://www.markdownguide.org)
+The Spacelift user documentation is licensed under the [MIT license](./LICENSE).
