@@ -6,7 +6,7 @@ This repository contains the documentation website code and Markdown source file
 
 See [the contributing guide](./CONTRIBUTING.md) for detailed instructions on how to get started with this project.
 
-If you're looking for a way to contribute, you can scan through our [existing issues](https://github.com/github/docs/issues) for something to work on.
+If you're looking for a way to contribute, you can scan through our [existing issues](https://github.com/spacelift-io/user-documentation/issues) for something to work on.
 
 For more complex contributions, we recommend that you open an issue to describe the changes you'd like to see.
 
