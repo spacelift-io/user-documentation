@@ -14,7 +14,7 @@ By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/r
 On public worker pools, only Docker images from the following registries are allowed to be used for runner images:
 
 - azurecr.io
-- dkr.ecr.\<region>.amazonaws.com (All regions are supported)
+- dkr.ecr.<region\>.amazonaws.com (All regions are supported)
 - docker.io
 - docker.pkg.dev
 - gcr.io
