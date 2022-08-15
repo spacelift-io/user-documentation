@@ -66,6 +66,8 @@ pre-commit
 
 Once you are happy with your changes, just open a pull request and ask for a review from `@spacelift-io/solutions-engineering`.
 
+By submitting a pull request for this project, you agree to license your contribution under the [MIT license](./LICENSE) to Spacelift.
+
 ## Deploying Changes
 
 Changes are automatically deployed by GitHub Action when they are pushed to the `main` branch. It usually takes about a minute for changes to go live after the pull request has been merged.
