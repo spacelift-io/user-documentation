@@ -58,6 +58,7 @@ Enter your Webhook URL and secret:
 
 - Organization
 - Pull request
+- Pull request review
 - Push
 - Repository
 
@@ -265,6 +266,10 @@ If a GitHub organization name is changed, we change the name of the correspondin
 ### Pull Request events
 
 Whenever a Pull Request is opened or reopened, we generate a record in our database to show it on the Stack's _PRs_ page. When it's closed, we delete that record. When it's synchronized (eg. new push) or renamed, we update the record accordingly. This way, what you see in Spacelift should be consistent with what you see in GitHub.
+
+### Pull Request Review events
+
+Whenever a review is added or dismissed from a Pull Request, we check whether a new run should be triggered based on any push policies attached to your stacks. This allows you to make decisions about whether or not to trigger runs based on the approval status of your Pull Request.
 
 ### Repository renamed
 
