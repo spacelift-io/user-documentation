@@ -5,9 +5,11 @@ description: Creating your first Ansible Stack with Spacelift, step by step.
 # Getting Started
 
 ## Prerequisites
+
 In order to follow this tutorial you should have an EC2 instance together with SSH private key that can be used to access the instance ready.
 
 ## Initial Setup
+
 Start by forking our [Ansible example repository](https://github.com/spacelift-io-examples/ansible-example)
 
 Looking at the code, you'll find that it configures a simple Apache HTTP Server on an EC2 instance. We are also using [AWS EC2 inventory plugin](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html) to find the hosts to configure. Feel free to modify [`aws_ec2.yml` inventory file](https://github.com/spacelift-io-examples/ansible-example/blob/main/aws_ec2.yml) to fit your needs.
@@ -15,6 +17,7 @@ Looking at the code, you'll find that it configures a simple Apache HTTP Server 
 Also, please take notice of [Spacelift runtime config file](https://github.com/spacelift-io-examples/ansible-example/blob/main/.spacelift/config.yml), that defines runner image used on this stack and [`ANSIBLE_CONFIG`](../ansible/reference.md#ansiblecfg) environment variable. Remember you can always define runner image in [stack settings](../../concepts/stack/stack-settings.md#runner-image), and environment variables within [environment settings](../../concepts/configuration/environment.md#environment-variables).
 
 ## Creating a stack
+
 In Spacelift, go ahead and click the **Add Stack** button to create a Stack in Spacelift.
 
 In the first screen, you should select the repository you've just forked, as can be seen in the picture.
@@ -38,6 +41,7 @@ Finally, choose a name for your Spacelift Stack on the last page. We'll use _clo
 ## Triggering the Stack
 
 ### Making sure inventory plugin works
+
 You can now click Trigger to create a new Spacelift Run.
 
 You should see the run finishing with no hosts matched. This is because AWS EC2 inventory plugin did not detect valid AWS credentials.
@@ -47,8 +51,8 @@ You should see the run finishing with no hosts matched. This is because AWS EC2 
 !!! info
     **You need to configure the AWS integration to give Spacelift access to your AWS account.** You can find the details here: [AWS](../../integrations/cloud-providers/aws.md)
 
-
 ### Configuring SSH keys
+
 After triggering a run again you will see we could succesfully find EC2 hosts (provided they could be localized with _aws_ec2.yml_ inventory file filters), but we cannot connect to them using SSH. The reason for that is we did not configure SSH keys yet.
 
 ![Missing SSH key configuration](../../assets/screenshots/ansible/ansible-6-no-ssh.png)
@@ -62,6 +66,8 @@ Go to Environment tab and add the private key that can be used to access the mac
 You should also specify the location of SSH private key for Ansible, and you can do that using [`ANSIBLE_PRIVATE_KEY_FILE`](./reference.md#ssh-private-key-location) environment variable.
 
 ![Ansible stack environment with SSH config](../../assets/screenshots/ansible/ansible-8-env-config-complete.png)
+
+### Investigating planned changes
 
 Triggering a run again, you should successfully see it get through the planning phase and end up in the unconfirmed state.
 

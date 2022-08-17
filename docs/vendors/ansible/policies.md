@@ -24,6 +24,7 @@ Please find an example policy evaluation below:
 ![Ansible example policy evaluation](../../assets/screenshots/ansible/ansible-12-plan-policy.png)
 
 ## Linking Terraform and Ansible workflows
+
 You can use our [Trigger Policy](../../concepts/policy/trigger-policy.md) to link multiple stacks together. This applies also to stacks from different vendors.
 
 One of the [use cases](https://spacelift.io/blog/spacelift-ansible-integration-beta) is to link Terraform and Ansible workflows, so that you could use Ansible to configure EC2 instances you've just created using Terraform.
