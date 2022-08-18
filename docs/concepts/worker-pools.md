@@ -114,7 +114,7 @@ Private workers need to be able to make outbound connections in order to communi
 Your worker needs access to the following AWS services in order to function correctly. You can refer to the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) for their IP address ranges.
 
 - Access to the public Elastic Container Registry if using our default runner image.
-- Access to app.spacelift.io, and \<your account name>.app.spacelift.io, which point at CloudFront.
+- Access to `app.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
 - Access to the AWS IoT Core endpoints in eu-west-1 for worker communication via MQTT.
 - Access to S3 in eu-west-1 for uploading run logs.
 
