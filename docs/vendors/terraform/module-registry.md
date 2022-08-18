@@ -90,7 +90,7 @@ Last but not least, you will be able to add a **name**, **provider**, [labels](.
 
 ![](<../../assets/screenshots/image (77).png>)
 
-The name and provider will be inferred from your repository name if it follows the terraform-\<provider>-\<name> convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name.
+The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name.
 
 ### Environment, contexts and policies
 
