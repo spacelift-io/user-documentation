@@ -77,6 +77,12 @@ nav:
       - vendors/kubernetes/custom-resources.md
       - vendors/kubernetes/helm.md
       - vendors/kubernetes/kustomize.md
+    - Ansible:
+      - vendors/ansible/README.md
+      - vendors/ansible/ansible-galaxy.md
+      - vendors/ansible/getting-started.md
+      - vendors/ansible/policies.md
+      - vendors/ansible/reference.md
   - ⚙️ Integrations:
     - integrations/audit-trail.md
     - Cloud Providers:
