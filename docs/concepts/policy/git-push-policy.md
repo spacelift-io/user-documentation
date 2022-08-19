@@ -257,26 +257,11 @@ As input, Git push policy receives the following document:
   },
   "in_progress": [{
     "based_on_local_workspace": "boolean - whether the run stems from a local preview",
-    "changes": [
-      {
-        "action": "string enum - added | changed | deleted",
-        "entity": {
-          "address": "string - full address of the entity",
-          "name": "string - name of the entity",
-          "type": "string - full resource type or \"output\" for outputs"
-        },
-        "phase": "string enum - plan | apply"
-      }
-    ],
+    "branch": "string - the branch this run is based on",
     "created_at": "number - creation Unix timestamp in nanoseconds",
-    "runtime_config": {
-      "before_init": ["string - command to run before run initialization"],
-      "project_root": "string - root of the Terraform project",
-      "runner_image": "string - Docker image used to execute the run",
-      "terraform_version": "string - Terraform version used to for the run"
-    },
     "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
-    "type": "string - PROPOSED or TRACKED",
+    "type": "string - run type: proposed, tracked, task, etc.",
+    "state": "string - run state: queued, unconfirmed, etc."
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
   }]
