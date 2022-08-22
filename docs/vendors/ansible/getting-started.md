@@ -12,7 +12,7 @@ To follow this tutorial, you should have an EC2 instance together with an SSH pr
 
 Start by forking our [Ansible example repository](https://github.com/spacelift-io-examples/ansible-example)
 
-Looking at the code, you'll find that it configures a simple Apache HTTP Server on an EC2 instance. We are also using the [AWS EC2 inventory plugin](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html) to find the hosts to configure. Feel free to modify [`aws_ec2.yml` inventory file](https://github.com/spacelift-io-examples/ansible-example/blob/main/aws_ec2.yml) to fit your needs.
+Looking at the code, you'll find that it configures a simple Apache HTTP Server on an EC2 instance. We are also using the [AWS EC2 inventory plugin](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html){: rel="nofollow"} to find the hosts to configure. Feel free to modify [`aws_ec2.yml` inventory file](https://github.com/spacelift-io-examples/ansible-example/blob/main/aws_ec2.yml) to fit your needs.
 
 Also, please take notice of the [Spacelift runtime config file](https://github.com/spacelift-io-examples/ansible-example/blob/main/.spacelift/config.yml), that defines the runner image used on this stack and the [`ANSIBLE_CONFIG`](../ansible/reference.md#ansiblecfg) environment variable. Remember you can always define runner image in [stack settings](../../concepts/stack/stack-settings.md#runner-image), and environment variables within [environment settings](../../concepts/configuration/environment.md#environment-variables).
 
