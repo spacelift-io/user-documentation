@@ -67,7 +67,7 @@ The following are links to example implementations you can use as a reference/gu
 - [OneLogin](./onelogin-oidc-setup-guide.md)
 - [Azure AD](./azure-ad-oidc-setup-guide.md)
 
-If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do :sunglasses:
+If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do.
 
 ## IdP-initiated SSO
 
