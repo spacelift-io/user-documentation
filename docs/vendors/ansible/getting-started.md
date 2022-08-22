@@ -83,7 +83,7 @@ When you're happy with the planned changes, click **Confirm** to apply them.
 
 At this point, the machine should be configured with a simple Apache HTTP server with a sample website on port 8000.
 
-You can switch to the **Resources** tab to see the hosts you have configured together with the history of when the host was last created and updated.
+You can switch to the **Resources** tab to see the hosts you have configured, together with the history of when the host was last created and updated.
 
 ![Exploring the created resources.](../../assets/screenshots/ansible/ansible-11-resources.png)
 
