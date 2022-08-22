@@ -53,7 +53,7 @@ You should see the run finishing with no hosts matched. This is because the AWS 
 
 ### Configuring SSH keys
 
-After triggering a run again you will see we could successfully find EC2 hosts (provided they could be localized with _aws_ec2.yml_ inventory file filters), but we cannot connect to them using SSH. The reason for that is we did not configure SSH keys yet.
+After triggering a run again, you will see we could successfully find EC2 hosts (provided they could be localized with _aws_ec2.yml_ inventory file filters), but we cannot connect to them using SSH. The reason for that is we did not configure SSH keys yet.
 
 ![Missing SSH key configuration](../../assets/screenshots/ansible/ansible-6-no-ssh.png)
 
