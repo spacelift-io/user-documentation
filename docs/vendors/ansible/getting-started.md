@@ -40,7 +40,7 @@ Finally, choose a name for your Spacelift Stack on the last page. We'll use _Ans
 
 ## Triggering the Stack
 
-### Making sure inventory plugin works
+### Making sure the inventory plugin works
 
 You can now click Trigger to create a new Spacelift Run.
 
