@@ -157,6 +157,6 @@ Login URL is the address Pulumi should log into during Run initialization. Since
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 
-### Stack name{: #pulumi-stackname}
+### Stack name {: #pulumi-stackname}
 
 The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](stack-settings.md#stack-name) - they _may_ be different, though it's probably good if you can keep them identical.
