@@ -79,4 +79,4 @@ This step needs to happen before the [Initializing phase](../../concepts/run/REA
     === "Python"
         Add the following command after the hooks mentioned above:
 
-        `cat <<< $(jq '.terraform.backend.local = null' cdk.tf.json) > cdk.tf.json` (Make sure to replace `<STACK NAME>` with the name of the stack)
+        `cat <<< $(jq '.terraform.backend.local = null' cdk.tf.json) > cdk.tf.json`
