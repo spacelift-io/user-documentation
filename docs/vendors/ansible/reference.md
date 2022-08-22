@@ -7,7 +7,7 @@ description: Details about all available Ansible-specific configuration options.
 ## Stack Settings
 
 - **Playbook** - A playbook file to run on a stack.
-- **Skip Plan** - Runs on Spacelift stacks typically have a planning and an applying phase. In Ansible for the planning phase we are running Ansible in [check mode](https://docs.ansible.com/ansible/latest/user_guide/playbooks_checkmode.html#using-check-mode). However, not all Ansible modules support check mode and it can result in a run failure. You could configure your playbook to ignore certain errors (e.g. using `ignore_errors: "{{ ansible_check_mode }}"`) or choose to skip the planning phase whatsoever (e.g. in situations when handling check failures at the playbook level is not an option).
+- **Skip Plan** - Runs on Spacelift stacks typically have a planning and an applying phase. In Ansible for the planning phase we are running Ansible in [check mode](https://docs.ansible.com/ansible/latest/user_guide/playbooks_checkmode.html#using-check-mode){: rel="nofollow"}. However, not all Ansible modules support check mode and it can result in a run failure. You could configure your playbook to ignore certain errors (e.g. using `ignore_errors: "{{ ansible_check_mode }}"`) or choose to skip the planning phase entirely (e.g. in situations when handling check failures at the playbook level is not an option).
 
 ## Other settings
 
