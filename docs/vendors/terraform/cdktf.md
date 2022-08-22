@@ -55,6 +55,7 @@ This step needs to happen before the [Initializing phase](../../concepts/run/REA
 
     - `pipenv install`
     - `cdktf synth`
+    - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
 
 !!! warning
     If the [Terraform state](./state-management.md) is managed by Spacelift, make sure to disable the local backend that CDKTF automatically adds if none is configured.
@@ -78,4 +79,4 @@ This step needs to happen before the [Initializing phase](../../concepts/run/REA
     === "Python"
         Add the following command after the hooks mentioned above:
 
-        `jq '.terraform.backend.local = null' cdktf.out/stacks/<STACK NAME>/cdk.tf.json > cdk.tf.json` (Make sure to replace `<STACK NAME>` with the name of the stack)
+        `cat <<< $(jq '.terraform.backend.local = null' cdk.tf.json) > cdk.tf.json` (Make sure to replace `<STACK NAME>` with the name of the stack)
