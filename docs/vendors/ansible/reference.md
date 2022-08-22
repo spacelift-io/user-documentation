@@ -15,7 +15,7 @@ For most of the settings below, there is usually more than one way to configure 
 
 ### SSH private key location
 
-If you want to use SSH to connect to your hosts you will need to provide a path to  the SSH private key. You can do that using the [`ANSIBLE_PRIVATE_KEY_FILE`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-private-key-file) environment variable.
+If you want to use SSH to connect to your hosts you will need to provide a path to  the SSH private key. You can do that using the [`ANSIBLE_PRIVATE_KEY_FILE`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-private-key-file){: rel="nofollow"} environment variable.
 
 ### Forcing color mode for Ansible
 
