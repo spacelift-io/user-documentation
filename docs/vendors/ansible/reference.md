@@ -29,7 +29,7 @@ When running into issues with Ansible playbooks a good way to debug the runs is 
 
 Ansible uses `ControlMaster` and `ControlPath` SSH options to speed up playbook execution. On some occasions, you might want to modify default values to make them compatible with your execution environment. Depending on your exact setup, you might want to adjust some of the SSH settings Ansible uses.
 
-On the Spacelift Ansible stack we are setting [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#ansible-ssh-control-path-dir) to `/tmp/.ansible/cp` if not configured by the user otherwise.
+The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#ansible-ssh-control-path-dir) is `/tmp/.ansible/cp`.
 
 ## File permissions
 
