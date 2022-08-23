@@ -58,25 +58,8 @@ This step needs to happen before the [Initializing phase](../../concepts/run/REA
     - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
 
 !!! warning
-    If the [Terraform state](./state-management.md) is managed by Spacelift, make sure to disable the local backend that CDKTF automatically adds if none is configured.
+    If the [Terraform state](./state-management.md) is managed by Spacelift, make sure to disable the local backend that CDKTF automatically adds if none is configured by adding the following command after the hooks mentioned above:
 
-    === "TypeScript"
-
-        ```typescript
-        class ExampleStack extends TerraformStack {
-          constructor(scope: Construct, name: string) {
-            super(scope, name);
-
-            // This is required if Spacelift manages the state as CDKTF defaults to
-            // the local backend if none is configured, which conflicts with Spacelift's backend
-            this.addOverride("terraform.backend.local", null);
-
-            // Other code
-          }
-        }
-        ```
-
-    === "Python"
-        Add the following command after the hooks mentioned above:
-
-        `cat <<< $(jq '.terraform.backend.local = null' cdk.tf.json) > cdk.tf.json`
+    ```shell
+    jq '.terraform.backend.local = null' cdk.tf.json > cdk.tf.json.tmp && mv cdk.tf.json.tmp cdk.tf.json
+    ```
