@@ -23,7 +23,7 @@ By default, Ansible will not color the output when running without TTY. You coul
 
 ### Debugging Ansible runs
 
-When running into issues with Ansible playbooks a good way to debug the runs is to increase the Ansible verbosity level using the [`ANSIBLE_VERBOSITY`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-verbosity) environment variable.
+When running into issues with Ansible playbooks a good way to debug the runs is to increase the Ansible verbosity level using the [`ANSIBLE_VERBOSITY`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-verbosity){: rel="nofollow"} environment variable.
 
 ### Controlling SSH ControlPath parameter
 
@@ -37,7 +37,7 @@ There are a few nuances with certain files' permissions when using Ansible.
 
 ### ansible.cfg
 
-If you use `ansible.cfg` file within a repository (or - more generally - within the current working directory) make sure that permissions on that file (and parent directory) are set properly. You can find more details in official Ansible documentation in the section on [avoiding security risks with `ansible.cfg`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory)
+If you use `ansible.cfg` file within a repository (or - more generally - within the current working directory) make sure that permissions on that file (and parent directory) are set properly. You can find more details in official Ansible documentation in the section on [avoiding security risks with `ansible.cfg`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#avoiding-security-risks-with-ansible-cfg-in-the-current-directory){: rel="nofollow"}
 
 ### SSH private key files
 
