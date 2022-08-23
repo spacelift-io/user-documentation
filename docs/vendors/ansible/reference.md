@@ -11,7 +11,7 @@ description: Details about all available Ansible-specific configuration options.
 
 ## Other settings
 
-For most of the settings below, there is usually more than one way to configure it (usually either through environment variables or through `ansible.cfg` file). More on Ansible configuration can be found in [official Ansible docs](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
+For most of the settings below, there is usually more than one way to configure it (usually either through environment variables or through `ansible.cfg` file). More on Ansible configuration can be found in [official Ansible docs](https://docs.ansible.com/ansible/latest/reference_appendices/config.html){: rel="nofollow"}.
 
 ### SSH private key location
 
@@ -29,7 +29,7 @@ When running into issues with Ansible playbooks a good way to debug the runs is 
 
 Ansible uses `ControlMaster` and `ControlPath` SSH options to speed up playbook execution. On some occasions, you might want to modify default values to make them compatible with your execution environment. Depending on your exact setup, you might want to adjust some of the SSH settings Ansible uses.
 
-The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#ansible-ssh-control-path-dir) is `/tmp/.ansible/cp`.
+The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#ansible-ssh-control-path-dir){: rel="nofollow"} is `/tmp/.ansible/cp`.
 
 ## File permissions
 
