@@ -39,6 +39,17 @@ Luckily, extending the default runner Docker image to include these dependencies
     ENV PATH="/home/spacelift/.local/bin:$PATH"
     ```
 
+=== "Go"
+
+    ```docker
+    FROM public.ecr.aws/spacelift/runner-terraform:latest
+
+    USER root
+    RUN apk add --no-cache go nodejs npm
+    RUN npm install --global cdktf-cli@latest
+    USER spacelift
+    ```
+
 ## Synthesizing Terraform code
 
 Before Terraform can plan and apply changes to your infrastructure, CDKTF must turn your C#, Python, TypeScript, Java, or Go code into Terraform configuration code. That process is called synthesizing.
@@ -54,6 +65,11 @@ This step needs to happen before the [Initializing phase](../../concepts/run/REA
 === "Python"
 
     - `pipenv install`
+    - `cdktf synth`
+    - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
+
+=== "Go"
+
     - `cdktf synth`
     - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
 
