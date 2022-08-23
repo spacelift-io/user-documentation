@@ -11,7 +11,7 @@ description: Details about all available Ansible-specific configuration options.
 
 ## Other settings
 
-For most of the settings below, there is usually more than one way to configure it (usually either through environment variables or through _ansible.cfg_ file). More on Ansible configuration can be found in [official Ansible docs](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
+For most of the settings below, there is usually more than one way to configure it (usually either through environment variables or through `ansible.cfg` file). More on Ansible configuration can be found in [official Ansible docs](https://docs.ansible.com/ansible/latest/reference_appendices/config.html).
 
 ### SSH private key location
 
