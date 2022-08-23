@@ -20,11 +20,11 @@ Also, please take notice of the [Spacelift runtime config file](https://github.c
 
 In Spacelift, go ahead and click the **Add Stack** button to create a Stack in Spacelift.
 
-On the first screen, you should select the repository you've just forked, as can be seen in the picture.
+In the first tab, you should select the repository you've just forked, as can be seen in the picture.
 
 ![Configuring the VCS settings.](../../assets/screenshots/ansible/ansible-1-create-new-stack.png)
 
-In the next screen, you should choose the **Ansible** backend. There, fill in the **Playbook** field with the playbook you want to run. In the case of our example, it is _playbook.yml_. You could also configure an option to [skip the planning phase](reference.md#stack-settings), but we will leave that disabled for now.
+In the next tab, you should choose the **Ansible** backend. There, fill in the **Playbook** field with the playbook you want to run. In the case of our example, it is _playbook.yml_. You could also configure an option to [skip the planning phase](reference.md#stack-settings), but we will leave that disabled for now.
 
 ![Configuring the backend settings.](../../assets/screenshots/ansible/ansible-2-configure-backend.png)
 
@@ -49,7 +49,7 @@ You should see the run finishing with no hosts matched. This is because the AWS 
 ![Creating change set failed: Requires AWS configuration](../../assets/screenshots/ansible/ansible-5-no-aws-error.png)
 
 !!! info
-    **You need to configure the AWS integration to give Spacelift access to your AWS account.** You can find the details here: [AWS](../../integrations/cloud-providers/aws.md)
+    **You need to configure the AWS integration to give Spacelift access to your AWS account.** You can find the details [here](../../integrations/cloud-providers/aws.md).
 
 ### Configuring SSH keys
 
@@ -75,13 +75,13 @@ Triggering a run again, you should successfully see it get through the planning 
 
 In the plan, you can see detailed information about each resource that is supposed to be created.
 
-At this point you can investigate the changes Ansible playbook will apply and to which hosts.
+At this point, you can investigate the changes Ansible playbook will apply and to which hosts.
 
 When you're happy with the planned changes, click **Confirm** to apply them.
 
 ![Ansible stack finished a run](../../assets/screenshots/ansible/ansible-10-finished.png)
 
-At this point, the machine should be configured with a simple Apache HTTP server with a sample website on port 8000.
+By now, the machine should be configured with a simple Apache HTTP server with a sample website on port 8000.
 
 You can switch to the **Resources** tab to see the hosts you have configured, together with the history of when the host was last created and updated.
 
