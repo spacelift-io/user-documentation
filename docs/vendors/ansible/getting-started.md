@@ -28,7 +28,7 @@ In the next screen, you should choose the **Ansible** backend. There, fill in th
 
 ![Configuring the backend settings.](../../assets/screenshots/ansible/ansible-2-configure-backend.png)
 
-On the next page (**Define Behavior**) setting up a runner image with Ansible dependencies is required. You may use your image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible). In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): _public.ecr.aws/spacelift/runner-ansible-aws:latest_.
+On the next tab (**Define Behavior**), setting up a runner image with Ansible dependencies is required. You may use your image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible). In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): `public.ecr.aws/spacelift/runner-ansible-aws:latest`.
 
 If you have a private worker pool you'd like to use, you can specify it there instead of the default public one as well.
 
