@@ -40,6 +40,7 @@ nav:
     - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
     - Terraform:
+      - vendors/terraform/README.md
       - vendors/terraform/module-registry.md
       - vendors/terraform/external-modules.md
       - vendors/terraform/terraform-provider.md
