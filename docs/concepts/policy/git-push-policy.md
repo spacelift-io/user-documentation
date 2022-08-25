@@ -261,7 +261,7 @@ As input, Git push policy receives the following document:
     "created_at": "number - creation Unix timestamp in nanoseconds",
     "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
     "type": "string - run type: proposed, tracked, task, etc.",
-    "state": "string - run state: queued, unconfirmed, etc."
+    "state": "string - run state: queued, unconfirmed, etc.",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
   }]
