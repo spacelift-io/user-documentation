@@ -1,6 +1,7 @@
 nav:
   - README.md
   - getting-started.md
+  - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:
     - Stack:
       - concepts/stack/README.md
