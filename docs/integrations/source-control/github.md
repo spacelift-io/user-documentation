@@ -24,7 +24,7 @@ Before you can complete this step you need to create a GitHub App within GitHub.
 
 You will need the Webhook endpoint and Webhook secret while creating your App, so take a note of them.
 
-You can either create the App in an individual user account or within an organization account_:_
+You can either create the App in an individual user account or within an organization account:
 
 ![](<../../assets/screenshots/image (52).png>)
 
@@ -70,7 +70,7 @@ Once your App has been created, make a note of the _App ID_ in the _About_ secti
 
 ![](<../../assets/screenshots/image (56).png>)
 
-Now scroll down to the _Private keys_ section __ of the page and click on _Generate a private key:_
+Now scroll down to the _Private keys_ section of the page and click on _Generate a private key:_
 
 ![](<../../assets/screenshots/image (57).png>)
 
