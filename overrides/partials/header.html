@@ -1,0 +1,103 @@
+{% set class = "md-header" %}
+{% if "navigation.tabs.sticky" in features %}
+  {% set class = class ~ " md-header--lifted" %}
+{% endif %}
+<header class="{{ class }}" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header.title') }}">
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
+      {% include "partials/logo.html" %}
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      {% include ".icons/material/menu" ~ ".svg" %}
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            {{ config.site_name }}
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            {% if page.meta and page.meta.title %}
+              {{ page.meta.title }}
+            {% else %}
+              {{ page.title }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    {% if not config.theme.palette is mapping %}
+      <form class="md-header__option" data-md-component="palette">
+        {% for option in config.theme.palette %}
+          {% set primary = option.primary | replace(" ", "-") | lower %}
+          {% set accent  = option.accent  | replace(" ", "-") | lower %}
+          <input class="md-option" data-md-color-media="{{ option.media }}" data-md-color-scheme="{{ option.scheme }}" data-md-color-primary="{{ primary }}" data-md-color-accent="{{ accent }}" {% if option.toggle %} aria-label="{{ option.toggle.name }}" {% else %} aria-hidden="true" {% endif %} type="radio" name="__palette" id="__palette_{{ loop.index }}">
+          {% if option.toggle %}
+            <label class="md-header__button md-icon" title="{{ option.toggle.name }}" for="__palette_{{ loop.index0 or loop.length }}" hidden>
+              {% include ".icons/" ~ option.toggle.icon ~ ".svg" %}
+            </label>
+          {% endif %}
+        {% endfor %}
+      </form>
+    {% endif %}
+    {% if config.extra.alternate %}
+      <div class="md-header__option">
+        <div class="md-select">
+          {% set icon = config.theme.icon.alternate or "material/translate" %}
+          <button class="md-header__button md-icon" aria-label="{{ lang.t('select.language.title') }}">
+            {% include ".icons/" ~ icon ~ ".svg" %}
+          </button>
+          <div class="md-select__inner">
+            <ul class="md-select__list">
+              {% for alt in config.extra.alternate %}
+                <li class="md-select__item">
+                  <a href="{{ alt.link | url }}" hreflang="{{ alt.lang }}" class="md-select__link">
+                    {{ alt.name }}
+                  </a>
+                </li>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if "search" in config["plugins"] %}
+      <label class="md-header__button md-icon" for="__search">
+        {% include ".icons/material/magnify.svg" %}
+      </label>
+      {% include "partials/search.html" %}
+    {% endif %}
+    <div class="header__links">
+      <a href="https://spacelift.io" class="header__link" target="_blank" rel='noreferrer'>
+        spacelift.io
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="header__link-icon">
+          <g clip-path="url(#clip0_1505_28312)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.76562 1.33339C8.76562 1.02043 9.01933 0.766724 9.33229 0.766724H14.6656C14.9786 0.766724 15.2323 1.02043 15.2323 1.33339V6.66672C15.2323 6.97969 14.9786 7.23339 14.6656 7.23339C14.3527 7.23339 14.099 6.97969 14.099 6.66672V2.70144L7.73299 9.06742C7.51169 9.28872 7.15289 9.28872 6.9316 9.06742C6.7103 8.84612 6.7103 8.48733 6.9316 8.26603L13.2976 1.90006H9.33229C9.01933 1.90006 8.76562 1.64635 8.76562 1.33339ZM1.26354 3.26464C1.58236 2.94583 2.01476 2.76672 2.46563 2.76672H5.29896C5.61192 2.76672 5.86563 3.02043 5.86563 3.33339C5.86563 3.64635 5.61192 3.90006 5.29896 3.90006H2.46563C2.31534 3.90006 2.1712 3.95976 2.06493 4.06603C1.95866 4.1723 1.89896 4.31643 1.89896 4.46672V13.5334C1.89896 13.6837 1.95866 13.8278 2.06493 13.9341C2.1712 14.0404 2.31534 14.1001 2.46563 14.1001H11.5323C11.6826 14.1001 11.8267 14.0404 11.933 13.9341C12.0393 13.8278 12.099 13.6837 12.099 13.5334V10.7001C12.099 10.3871 12.3527 10.1334 12.6656 10.1334C12.9786 10.1334 13.2323 10.3871 13.2323 10.7001V13.5334C13.2323 13.9843 13.0532 14.4167 12.7344 14.7355C12.4156 15.0543 11.9832 15.2334 11.5323 15.2334H2.46563C2.01476 15.2334 1.58235 15.0543 1.26354 14.7355C0.944732 14.4167 0.765625 13.9843 0.765625 13.5334V4.46672C0.765625 4.01586 0.944732 3.58345 1.26354 3.26464Z" fill="currentColor"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_1505_28312">
+          <rect width="16" height="16" fill="currentColor"/>
+          </clipPath>
+          </defs>
+        </svg>
+      </a>
+      <a href="https://spacelift.io/login" class="header__link" target="_blank" rel='noreferrer'>
+        Login
+      </a>
+      <a href="https://spacelift.io/schedule-demo" class="header__button header__button--outlined" target="_blank" rel='noreferrer'>Book a demo</a>
+      <a href="https://spacelift.io/free-trial" class="header__button header__button--contained" target="_blank" rel='noreferrer'>Start for free</a>
+    </div>
+    {% if config.repo_url %}
+      <div class="md-header__source">
+        {% include "partials/source.html" %}
+      </div>
+    {% endif %}
+  </nav>
+  {% if "navigation.tabs.sticky" in features %}
+    {% if "navigation.tabs" in features %}
+      {% include "partials/tabs.html" %}
+    {% endif %}
+  {% endif %}
+</header>
