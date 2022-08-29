@@ -10,6 +10,7 @@ See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/
   --color-primary-light: #9A70FF;
   --color-default-primary: #131417;
   --color-default-outline: #D1D2D9;
+  --bg-dark: #171721;
 }
 
 
@@ -24,6 +25,71 @@ header.md-header {
   height: 88px;
   padding-left: 100px;
   padding-right: 100px;
+}
+
+.md-header__button.md-logo.logo--small {
+  display: none;
+}
+
+@media (max-width: 1219px) {
+  header.md-header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .md-header__button.md-logo.logo--small {
+    display: flex;
+    align-items: center;
+    order: 1;
+    margin-right: auto;
+  }
+
+  nav.md-header__inner {
+    display: flex;
+  }
+
+  label[for=__drawer] {
+    order: 3;
+  }
+
+  label[for=__search] {
+    order: 2;
+  }
+
+  .md-search {
+    order: 2;
+  }
+
+  .md-header__title {
+    display: none;
+  }
+
+  .md-sidebar--primary {
+    width: 100%;
+  }
+
+  [dir=ltr] .md-sidebar--primary {
+    left: -100%;
+  }
+
+  [data-md-toggle=drawer]:checked~.md-container .md-sidebar--primary {
+    transform: translateX(100%);
+  }
+}
+
+.close-button {
+  font-size: 40px;
+  width: 24px;
+  color: var(--color-default-white);
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: var(--color-default-outline);
+}
+
+.close-button svg {
+  width: 24px;
 }
 
 header.md-header > nav {
@@ -43,6 +109,7 @@ header.md-header > nav > a.md-logo > img {
 /* Hide the current page title in the header */
 header .md-ellipsis {
   visibility: hidden;
+  display: none;
 }
 
 header .md-search__form {
@@ -110,7 +177,7 @@ header .md-search__input {
   margin-left: 24px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 1219px) {
   .header__links {
     display: none;
   }
@@ -118,8 +185,8 @@ header .md-search__input {
 
 .header__link {
   font-weight: 400;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 17px;
+  line-height: 24px;
   color: var(--color-default-white);
   display: flex;
   align-items: center;
@@ -141,8 +208,8 @@ header .md-search__input {
 .header__button {
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
-  line-height: 18px;
+  font-size: 17px;
+  line-height: 24px;
   color: var(--color-default-white);
   white-space: nowrap;
   text-align: center;
@@ -151,7 +218,7 @@ header .md-search__input {
   align-items: center;
   border-radius: 6px;
   transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-  padding: 8px 12px;
+  padding: 7px 16px;
   margin-left: 16px;
 }
 
@@ -173,3 +240,59 @@ header .md-search__input {
   background: var(--color-primary-light);
   border: 1px solid var(--color-primary-light);
 }
+
+@media (max-width: 1219px) {
+  .md-sidebar--primary {
+    background-color: var(--color-default-primary);
+  }
+
+  .md-nav--primary .md-nav__title~.md-nav__list {
+    background-color: var(--color-default-primary);
+  }
+
+  .md-nav--primary :is(.md-nav__title,.md-nav__item) {
+    color: var(--color-default-white);
+    font-size: 17px;
+    line-height: 33px;
+  }
+
+  .md-nav--primary .md-nav__item--active>.md-nav__link,
+  .md-nav--primary .md-nav__item--active>.md-nav__link:is(:focus,:hover),
+  .md-nav__link:is(:focus,:hover) {
+    color: var(--color-default-outline);
+  }
+
+  .md-nav--primary, .md-nav--primary .md-nav {
+    background-color: var(--color-default-primary);
+  }
+}
+
+@media (max-width: 959px) {
+  .md-nav__link--passed,
+  .md-nav__item .md-nav__link--active {
+    color: var(--color-default-white);
+  }
+}
+
+.mobile-nav-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  height: 88px;
+  left: 0;
+  right: 0;
+  background-color: var(--color-default-primary);
+  z-index: 5;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px 12px 12px;
+}
+
+[data-md-toggle=drawer]:checked~.md-container .mobile-nav-wrapper {
+  display: flex;
+}
+
+.md-sidebar--primary {
+  top: 88px;
+}
+
