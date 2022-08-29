@@ -7,6 +7,9 @@
     <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo" aria-label="{{ config.site_name }}" data-md-component="logo">
       {% include "partials/logo.html" %}
     </a>
+    <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo logo--small" aria-label="{{ config.site_name }}" data-md-component="logo">
+      {% include "partials/logoMobile.html" %}
+    </a>
     <label class="md-header__button md-icon" for="__drawer">
       {% include ".icons/material/menu" ~ ".svg" %}
     </label>
