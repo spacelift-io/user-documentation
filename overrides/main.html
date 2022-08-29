@@ -25,3 +25,21 @@
     <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/7706335.js"></script>
   {% endif %}
 {% endblock %}
+
+
+
+{% block content %}
+  <div>
+    <div class="mobile-nav-wrapper" {{ hidden }}>
+      <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}" title="{{ config.site_name | e }}" class="md-header__button md-logo logo--small" aria-label="{{ config.site_name }}" data-md-component="logo">
+        {% include "partials/logoMobile.html" %}
+      </a>
+      <label for="__drawer" class="close-button">
+        {% include "partials/close.html" %}
+      </label>
+    </div>
+
+    {{ super() }}
+  </div>
+{% endblock %}
+
