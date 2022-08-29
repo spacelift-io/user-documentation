@@ -2,7 +2,7 @@ INHERIT: ./nav.yaml
 copyright: © 2022 Spacelift, Inc. All rights reserved
 site_author: Spacelift
 site_description: Collaborative Infrastructure For Modern Software Teams
-site_name: Spacelift
+site_name: Spacelift Documentation
 site_url: https://docs.spacelift.io
 theme:
   custom_dir: overrides
