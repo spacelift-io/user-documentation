@@ -12,7 +12,6 @@ theme:
     - navigation.indexes
     - navigation.instant
     - navigation.sections
-    - navigation.tracking
   font:
     text: Nunito Sans
   language: en
