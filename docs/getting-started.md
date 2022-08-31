@@ -50,7 +50,7 @@ You can get started with either forking our [Terraform Starter repository](https
 
 Select from the options available to create your Spacelift account:
 
-![](<./assets/screenshots/Screen Shot 2022-05-19 at 12.09.26 PM.png>)
+![](<./assets/screenshots/CleanShot 2022-08-31 at 12.12.43.png>)
 
 !!! info
     For users who select GitHub: The GitHub Organization/account name selected will be used as your Spacelift account name.
@@ -59,12 +59,12 @@ Select from the options available to create your Spacelift account:
 
 In this section we will be connecting GitHub as our VCS. You can find more information about other supported VCS providers [here](./integrations/source-control/github.md).
 
- If you created your Spacelift account using GitHub, see please follow the "[GitHub was used as a sign-in option](getting-started.md#github-was-used-as-a-sign-in-option)" sub-section. If you created your account using Google or GitLab, please see the "[Google or GitLab was used as a sign-in option](getting-started.md#google-or-gitlab-was-used-as-a-sign-in-option)" sub-section.
+ If you created your Spacelift account using GitHub, see please follow the "[GitHub was used as a sign-in option](getting-started.md#github-was-used-as-a-sign-in-option)" sub-section. If you created your account using another option than GitHub, please see the "[GitHub was not used to sign in](getting-started.md#github-was-not-used-to-sign-in)" sub-section.
 
 !!! info
     The flow for connecting GitHub as a VCS provider is slightly different when using GitHub to sign in compared to the other sign-in options (GitLab, Google). Follow the section that is applicable to you.
 
-#### GitHub was used as a sign-in option:
+#### GitHub was used as a sign-in option
 
 1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
@@ -73,9 +73,9 @@ In this section we will be connecting GitHub as our VCS. You can find more infor
 
 Now login to the Spacelift console, you are ready to create your first stack!
 
-#### Google or GitLab was used as a sign-in option:
+#### GitHub was not used to sign in
 
-This sub-section is intended for users who created their Spacelift account using Google or GitLab.
+This sub-section is intended for users who created their Spacelift account using Google, Microsoft or GitLab.
 
  1. To connect GitHub as your VCS, follow the guide for [setting up the GitHub integration](./integrations/source-control/github.md#setting-up-the-integration).
  2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
