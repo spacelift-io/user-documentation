@@ -44,9 +44,12 @@ This is the schema of the data input that each policy request will receive:
     "timestamp_ns": "number - current Unix timestamp in nanoseconds"
   },
   "session": {
+    "admin": "boolean - is the current user a Spacelift admin",
+    "creator_ip": "string - IP address of the user who created the session",
     "login": "string - GitHub username of the logged in user",
     "name":  "string - full name of the logged in GitHub user - may be empty",
-    "teams": ["string - names of org teams the user is a member of"]
+    "teams": ["string - names of org teams the user is a member of"],
+    "machine": "boolean - whether the creator is a machine or a user"
   },
   "stack": { // when access to a stack is being evaluated
     "id": "string - unique ID of the stack",
