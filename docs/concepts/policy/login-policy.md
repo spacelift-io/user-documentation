@@ -35,6 +35,7 @@ This is the schema of the data input that each policy request will receive:
     "timestamp_ns": "number - current Unix timestamp in nanoseconds"
   },
   "session": {
+    "creator_ip": "string - IP address of the user who created the session",
     "login": "string - username of the user trying to log in",
     "member": "boolean - is the user a member of the account",
     "name": "string - full name of the user trying to log in - may be empty",

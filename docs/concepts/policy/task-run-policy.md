@@ -37,9 +37,11 @@ This is the schema of the data input that each policy request will receive:
   },
   "session": {
     "admin": "boolean - is the current user a Spacelift admin",
+    "creator_ip": "string - IP address of the user who created the session",
     "login": "string - GitHub username of the current user",
     "name": "string - full name of the current user",
-    "teams": ["string - names of org teams the current user is a member of"]
+    "teams": ["string - names of org teams the current user is a member of"],
+    "machine": "boolean - whether the creator is a machine or a user"
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",

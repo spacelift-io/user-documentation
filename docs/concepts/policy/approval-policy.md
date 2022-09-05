@@ -94,6 +94,14 @@ This is the schema of the data input that each policy request will receive:
       "message": "string - commit message"
     },
     "created_at": "number - creation Unix timestamp in nanoseconds",
+    "creator_session": {
+      "admin": "boolean - is the current user a Spacelift admin",
+      "creator_ip": "string - IP address of the user who created the session",
+      "login": "string - username of the creator",
+      "name": "string - full name of the creator",
+      "teams": ["string - names of teams the creator was a member of"],
+      "machine": "boolean - whether the run was initiated by a human or a machine"
+    },
     "drift_detection": "boolean - is this a drift detection run",
     "id": "string - the run ID",
     "runtime_config": {
