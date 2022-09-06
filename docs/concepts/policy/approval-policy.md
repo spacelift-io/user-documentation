@@ -129,7 +129,13 @@ This is the schema of the data input that each policy request will receive:
     "project_root": "optional string - project root as set on the Stack, if any",
     "repository": "string - name of the source GitHub repository",
     "state": "string - current state of the stack",
-    "terraform_version": "string or null - last Terraform version used to apply changes"
+    "terraform_version": "string or null - last Terraform version used to apply changes",
+    "worker_pool": {
+      "id": "string - the worker pool ID, if it is private",
+      "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+      "name": "string - name of the worker pool, if it is private",
+      "public": "boolean - is the worker pool public"
+    }
   }
 }
 ```
@@ -246,3 +252,19 @@ approve { devops_approval; security_approval }
 ```
 
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/GHcGbz1S8H){: rel="nofollow"}.
+
+### Require private worker pool
+
+You might want to ensure that your runs always get scheduled on a private worker pool, and do not fall back to the public worker pool.
+
+You could use an Approval policy similar to this one to achieve this:
+
+```opa
+package spacelift
+
+reject { input.stack.worker_pool.public }
+```
+
+Here's a [minimal example to play with](https://play.openpolicyagent.org/p/o8e5NxhsSh){: rel="nofollow"}.
+
+You probably want to [auto-attach this policy](./README.md#automatically) to some, if not all, of your stacks.
