@@ -14,6 +14,17 @@
   {% if config.extra.environment == "prod" %}
     {# Leadfeeder #}
     <script> (function(ss,ex){ window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));}; (function(d,s){ fs=d.getElementsByTagName(s)[0]; function ce(src){ var cs=d.createElement(s); cs.src=src; cs.async=1; fs.parentNode.insertBefore(cs,fs); }; ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js'); })(document,'script'); })('3P1w24dxn2k4mY5n'); </script>
+
+    {# Mouseflow #}
+    <script type="text/javascript">
+      window._mfq = window._mfq || [];
+      (function() {
+        var mf = document.createElement("script");
+        mf.type = "text/javascript"; mf.defer = true;
+        mf.src = "//cdn.mouseflow.com/projects/00dd0e5e-d30d-4b59-a7cc-fbacc9ea1f57.js";
+        document.getElementsByTagName("head")[0].appendChild(mf);
+      })();
+    </script>
   {% endif %}
 {% endblock %}
 
