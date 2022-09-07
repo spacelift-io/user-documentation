@@ -21,7 +21,7 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.
 
-2. We'll let you in on a little secret now - behind the pixie dust it's still S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.
+2. We'll let you in on a little secret now - behind the pixie dust it's still Amazon S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.
 
 3. If you want to **frequently access your state offline** for analytical or compliance purposes and aren't happy doing it using Spacelift [tasks](../../concepts/run/task.md) (BTW, let us know why) then again you're better off managing the state on your end.
 

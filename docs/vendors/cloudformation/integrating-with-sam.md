@@ -1,6 +1,6 @@
-# Integrating with SAM
+# Integrating with AWS Serverless Application Model (SAM)
 
-In order to use [SAM](https://aws.amazon.com/serverless/sam/){: rel="nofollow"} in a CloudFormation Stack you'll need to do two things: create a Docker image with SAM included and invoke SAM in `before_init` hooks.
+In order to use [AWS Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/){: rel="nofollow"} in an AWS CloudFormation Stack you'll need to do two things: create a Docker image with SAM included and invoke SAM in `before_init` hooks.
 
 The first one can be done using a Dockerfile akin to this one:
 

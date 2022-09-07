@@ -153,7 +153,7 @@ If you're [managing Terraform state through Spacelift](../../vendors/terraform/s
 
 ### Login URL {: #pulumi-login-url}
 
-Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend){: rel="nofollow"}).
+Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [Amazon S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend){: rel="nofollow"}).
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 

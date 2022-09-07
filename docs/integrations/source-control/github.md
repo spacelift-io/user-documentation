@@ -227,7 +227,7 @@ In this section, we'd like to propose a workflow that has worked for us and many
 
 ### Single stack version
 
-Let's say you have a single stack called _Infra_. Let's have it track the default `master` branch in the repository called... `infra`. Let's say you want to introduce some changes - define an S3 bucket, for example. What we suggest is opening a short-lived feature branch, making your change there, and opening a Pull Request from that branch to `master`.
+Let's say you have a single stack called _Infra_. Let's have it track the default `master` branch in the repository called... `infra`. Let's say you want to introduce some changes - define an Amazon S3 bucket, for example. What we suggest is opening a short-lived feature branch, making your change there, and opening a Pull Request from that branch to `master`.
 
 At this point, a proposed run is triggered by the push notification, and the result of running `terraform plan` with the new code but existing state and config is reported to the Pull Request. First, we should ensure that the Pull Request does not get merged to master without a successful run, so we'd protect the branch by **requiring a successful status check** from your stack.
 

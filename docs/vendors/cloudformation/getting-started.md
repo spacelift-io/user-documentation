@@ -1,12 +1,12 @@
 ---
-description: Creating your first CloudFormation Stack with Spacelift, step by step.
+description: Creating your first AWS CloudFormation Stack with Spacelift, step by step.
 ---
 
 # Getting Started
 
 ## Initial Setup
 
-Start by forking our [CloudFormation example repository](https://github.com/spacelift-io/cloudformation-example)
+Start by forking our [AWS CloudFormation example repository](https://github.com/spacelift-io/cloudformation-example)
 
 Looking at the code, you'll find that it creates two simple Lambda Functions in nested Stacks and a common API Gateway REST API, which provides access to both of them.
 
@@ -16,7 +16,7 @@ In the first screen, you should select the repository you've just forked, as can
 
 ![Configuring the VCS settings.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.04.17.png>)
 
-In the next screen, you should choose the **CloudFormation** backend. There, fill in the **Region** field with the AWS region you want to create the CloudFormation Stack in. You should also create an S3 bucket for template storage and provide its name in the **Template Bucket** field. **We won't automatically create this bucket.**
+In the next screen, you should choose the **CloudFormation** backend. There, fill in the **Region** field with the AWS region you want to create the CloudFormation Stack in. You should also create an Amazon S3 bucket for template storage and provide its name in the **Template Bucket** field. **We won't automatically create this bucket.**
 
 The **Entry Template File** should be set to _main.yaml_ (based on the code in our repository) and the **Stack Name** to a unique CloudFormation Stack name in your AWS account. We'll use _cloudformation-example_ in the pictures.
 
@@ -76,4 +76,4 @@ You can also switch to the **Resources** tab to explore the resources you've cre
 
 ## Conclusion
 
-That's it! You can find more details about the available configuration settings in the [reference](reference.md), or you can check out how to use [SAM](integrating-with-sam.md) or the [Serverless Framework](integrating-with-the-serverless-framework.md) to generate your CloudFormation templates.
+That's it! You can find more details about the available configuration settings in the [reference](reference.md), or you can check out how to use [AWS Serverless Application Model (SAM)](integrating-with-sam.md) or the [Serverless Framework](integrating-with-the-serverless-framework.md) to generate your CloudFormation templates.

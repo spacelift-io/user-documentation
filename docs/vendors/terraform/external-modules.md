@@ -4,7 +4,7 @@ Those of our customers who are not yet using our private module registry may wan
 
 ## Cloud storage
 
-The easiest ones to handle are cloud sources - [S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket){: rel="nofollow"} and [GCS](https://www.terraform.io/docs/language/modules/sources.html#gcs-bucket){: rel="nofollow"} buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools.md) hosted on either of these clouds, you may not require any authentication at all!
+The easiest ones to handle are cloud sources - [Amazon S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket){: rel="nofollow"} and [GCS](https://www.terraform.io/docs/language/modules/sources.html#gcs-bucket){: rel="nofollow"} buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools.md) hosted on either of these clouds, you may not require any authentication at all!
 
 ## Git repositories
 
