@@ -55,7 +55,7 @@ Confirm the run to let it apply the changes, after applying it should look like 
 
 ![Applied](<../../assets/screenshots/image (14).png>)
 
-We can see the public\_dns stack output. If we try to curl it, lo and behold:
+We can see the `public_dns` stack output. If we try to curl it, lo and behold:
 
 ```bash
 ~> curl ec2-3-125-48-55.eu-central-1.compute.amazonaws.com

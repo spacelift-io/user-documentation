@@ -17,7 +17,7 @@ description: Details about all available AWS CloudFormation-specific configurati
 
 Use this if your CloudFormation template requires parameters to be specified.
 
-Each environment variable of the form **CF\_PARAM\_xyz** will be interpreted as the value for the parameter _xyz_.
+Each environment variable of the form `CF_PARAM_xyz` will be interpreted as the value for the parameter `xyz`.
 
 For example, with this template snippet:
 

@@ -54,7 +54,7 @@ The above example warrants a little explanation. First, we're making sure that t
 
 For users storing their modules in dedicated external private registries, like [Terraform Cloud's one](https://www.terraform.io/docs/cloud/registry/index.html){: rel="nofollow"}, you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [official documentation](https://www.terraform.io/docs/cli/config/config-file.html#credentials){: rel="nofollow"}.
 
-In order to faciliate that, we've introduced a special mechanism for extending the CLI configuration that does not even require using before\_init hooks. You can read more about it [here](cli-configuration.md).
+In order to faciliate that, we've introduced a special mechanism for extending the CLI configuration that does not even require using `before_init` hooks. You can read more about it [here](cli-configuration.md).
 
 ## To mount or not to mount?
 
