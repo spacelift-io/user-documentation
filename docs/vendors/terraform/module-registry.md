@@ -197,4 +197,16 @@ This can also be accomplished programmatically using our [Terraform provider](te
 
 ### Using modules outside of Spacelift
 
-Spacelift modules can be used outside of Spacelift by providing access credentials from generated from [API keys](../../integrations/api.md#api-key-management). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.
+Modules hosted in the private registry can be used outside of Spacelift.
+
+The easiest way is to have Terraform retrieve and store the credentials by run the following command in a terminal:
+
+```shell
+terraform login spacelift.io
+```
+
+After you confirmed, Terraform will open your default web browser and ask you to log in to your Spacelift account. Once this is done, Terraform will store the credentials in the `~/.terraform.d/credentials.tfrc.json` file for use by subsequent commands.
+
+!!! warning
+
+    The method above requires a web browser which is not always practical, for example on remote server with no GUI. In that case, you can use credentials generated from [API keys](../../integrations/api.md#api-key-management). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.
