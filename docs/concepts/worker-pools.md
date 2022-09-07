@@ -89,7 +89,7 @@ When the launcher from a private worker pool is registering with the mothership,
 export SPACELIFT_METADATA_instance_id=$(ec2-metadata --instance-id | cut -d ' ' -f2)
 ```
 
-Doing so will set your EC2 instance ID as _instance\_id_ tag in your worker.
+Doing so will set your EC2 instance ID as `instance_id` tag in your worker.
 
 ### VCS Agents
 

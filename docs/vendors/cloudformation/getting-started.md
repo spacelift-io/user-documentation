@@ -38,13 +38,13 @@ You can now click Trigger to create a new Spacelift Run.
 
 And... oh no! It failed! However, the error message is quite straightforward. We're lacking the relevant [capability](reference.md#cloudformation-stack-capabilities).
 
-![Creating change set failed: Requires capabilities : \[CAPABILITY\_IAM\]](<../../assets/screenshots/Screenshot 2021-12-08 at 15.19.52 (4).png>)
+![Creating change set failed: Requires capabilities : \[CAPABILITY_IAM\]](<../../assets/screenshots/Screenshot 2021-12-08 at 15.19.52 (4).png>)
 
 We can acknowledge this capability by setting the `CF_CAPABILITY_IAM` environment variable to `1`.
 
 There's a bunch of optional settings for CloudFormation Stacks we expose this way. You can read up on all of them in the [reference](reference.md#special-environment-variables).
 
-![Acknowledging the CAPABILITY\_IAM capability by setting the CF\_CAPABILITY\_IAM environment variable.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.25.59.png>)
+![Acknowledging the CAPABILITY_IAM capability by setting the CF_CAPABILITY_IAM environment variable.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.25.59.png>)
 
 Triggering a run again, you should successfully see it get through the planning phase and end up in the unconfirmed state.
 

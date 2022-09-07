@@ -32,7 +32,7 @@ Starting with the lower right hand corner, we have the vendor-specific represent
 
 ![](<../assets/screenshots/Runs_·_Vendor_Releases_Watcher (3).png>)
 
-More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our stripe\_price, and click on the ID of the run shown in the _Last updated by_ section. You will notice a little menu pop up:
+More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our stripe_price, and click on the ID of the run shown in the _Last updated by_ section. You will notice a little menu pop up:
 
 ![](<../assets/screenshots/Runs_·_Spacelift_preproduction (1).png>)
 

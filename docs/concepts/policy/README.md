@@ -19,14 +19,14 @@ Please refer to the following table for information on what each policy types re
 
 | Type                                           | Purpose                                                                               | Types                 | Returns       | Rules                                              |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------- | -------------------------------------------------- |
-| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                               | Positive and negative | `boolean`     | _allow, admin, deny, deny\_admin_                  |
-| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                       | Positive and negative | `boolean`     | _read, write, deny, deny\_write_                   |
-| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                         | Positive and negative | `boolean`     | _approve, reject_                                  |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)           | Negative              | `set<string>` | _deny_                                             |
-| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>` | _deny_, _warn_                                     |
-| [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                        | Positive and negative | `boolean`     | _track, propose, ignore, ignore\_track, notrigger_ |
-| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                | Negative              | `set<string>` | _deny_                                             |
-| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>` | _trigger_                                          |
+| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                               | Positive and negative | `boolean`     | `allow`, `admin`, `deny`, `deny_admin`                  |
+| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                       | Positive and negative | `boolean`     | `read`, `write`, `deny`, `deny_write`                   |
+| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                         | Positive and negative | `boolean`     | `approve, reject`                                  |
+| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)           | Negative              | `set<string>` | `deny`                                             |
+| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>` | `deny`, `warn`                                     |
+| [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                        | Positive and negative | `boolean`     | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
+| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                | Negative              | `set<string>` | `deny`                                             |
+| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>` | `trigger`                                          |
 
 ## How it works
 

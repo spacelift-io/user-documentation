@@ -68,7 +68,7 @@ In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any
 
 Spacelift supports a more security-conscious approach by allowing users to define variables that are passed to read (in practice, everything except for [Applying](../run/tracked.md#applying)) and write stages. By default, we pass an environment variable to all stages, but prefixes can be used to change the default behavior.
 
-An environment variable whose name starts with the _ro\__ prefix is only passed to read stages but not to the write ([_Applying_](../run/tracked.md#applying)) stage. On the other hand, an environment variable whose name starts with the _wo\__ prefix is only passed to the write ([_Applying_](../run/tracked.md#applying)) stage but not to the read ones.
+An environment variable whose name starts with the `ro_` prefix is only passed to read stages but not to the write ([_Applying_](../run/tracked.md#applying)) stage. On the other hand, an environment variable whose name starts with the `wo_` prefix is only passed to the write ([_Applying_](../run/tracked.md#applying)) stage but not to the read ones.
 
 Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs){: rel="nofollow"} variable split into two separate environment variables:
 
