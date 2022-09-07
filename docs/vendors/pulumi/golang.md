@@ -45,7 +45,7 @@ We can see the websiteUrl stack output. If we try to curl it, lo and behold:
 ```bash
 ~> curl s3-website-bucket-b47a23a.s3-website.eu-central-1.amazonaws.com
 <html><head>
-    <title>Hello S3</title><meta charset="UTF-8">
+    <title>Hello Amazon S3</title><meta charset="UTF-8">
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
 </head>
 <body><p>Hello, world!</p><p>Made with ❤️ with <a href="https://pulumi.com">Pulumi</a></p>

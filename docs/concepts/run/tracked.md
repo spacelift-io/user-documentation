@@ -63,7 +63,7 @@ Otherwise, the change will go through the manual flow described below.
 
 ### Unconfirmed
 
-If a change is detected and human approval is required, a tracked run will transition from the [planning](proposed.md#planning) state to _unconfirmed_. At that point the worker node encrypts uploads the entire workspace to a dedicated S3 location and finishes its involvement with the run.
+If a change is detected and human approval is required, a tracked run will transition from the [planning](proposed.md#planning) state to _unconfirmed_. At that point the worker node encrypts uploads the entire workspace to a dedicated Amazon S3 location and finishes its involvement with the run.
 
 The resulting changes are shown to the user for the final approval:
 

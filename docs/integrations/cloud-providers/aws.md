@@ -16,7 +16,7 @@ The AWS integration allows either Spacelift [runs](../../concepts/run/README.md)
 - `AWS_SECURITY_TOKEN`
 - `AWS_SESSION_TOKEN`
 
-This is enough for both the [AWS Terraform provider](https://www.terraform.io/docs/providers/aws/index.html#environment-variables){: rel="nofollow"} and/or [S3 state backend](https://www.terraform.io/docs/backends/types/s3.html){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration. However, you will likely need to select one of the available regions with the former.
+This is enough for both the [AWS Terraform provider](https://www.terraform.io/docs/providers/aws/index.html#environment-variables){: rel="nofollow"} and/or [Amazon S3 state backend](https://www.terraform.io/docs/backends/types/s3.html){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration. However, you will likely need to select one of the available regions with the former.
 
 ### Usage
 

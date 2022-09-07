@@ -16,7 +16,7 @@ The Terraform state file can be imported during the [creation of a stack](../con
 
 The Terraform state file can be pulled and then exported using a [Task](../concepts/run/task.md).
 
-For example, to export the state to an AWS S3 bucket, you would run the following command as a Task:
+For example, to export the state to an Amazon S3 bucket, you would run the following command as a Task:
 
 ```shell
 terraform state pull > state.json && aws s3 cp state.json s3://<PATH>

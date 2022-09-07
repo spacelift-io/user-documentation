@@ -2,13 +2,13 @@
 description: Managing CloudFormation Stacks through Spacelift.
 ---
 
-# CloudFormation
+# AWS CloudFormation
 
 You can find more details in the subpages:
 
 - [Getting Started](getting-started.md)
 - [Reference](reference.md)
-- [Integrating with SAM](integrating-with-sam.md)
+- [Integrating with AWS Serverless Application Model (SAM)](integrating-with-sam.md)
 - [Integrating with the Serverless Framework](integrating-with-the-serverless-framework.md)
 
 ## Why use CloudFormation?

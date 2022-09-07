@@ -66,7 +66,7 @@ nav:
       - vendors/pulumi/golang.md
       - vendors/pulumi/javascript.md
       - vendors/pulumi/python.md
-    - CloudFormation:
+    - AWS CloudFormation:
       - vendors/cloudformation/README.md
       - vendors/cloudformation/getting-started.md
       - vendors/cloudformation/reference.md

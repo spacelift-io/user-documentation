@@ -116,7 +116,7 @@ Your worker needs access to the following AWS services in order to function corr
 - Access to the public Elastic Container Registry if using our default runner image.
 - Access to `app.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
 - Access to the AWS IoT Core endpoints in eu-west-1 for worker communication via MQTT.
-- Access to S3 in eu-west-1 for uploading run logs.
+- Access to Amazon S3 in eu-west-1 for uploading run logs.
 
 #### Other
 
