@@ -262,6 +262,10 @@ You could use an Approval policy similar to this one to achieve this:
 ```opa
 package spacelift
 
+# Approve any runs on private workers
+approve { not input.stack.worker_pool.public }
+
+# Reject any runs on public workers
 reject { input.stack.worker_pool.public }
 ```
 
