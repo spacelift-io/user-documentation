@@ -111,6 +111,7 @@ nav:
     - integrations/slack.md
     - integrations/webhooks.md
   - 📖 Product:
+    - product/notifications.md
     - product/privacy.md
     - product/security.md
     - Support:
