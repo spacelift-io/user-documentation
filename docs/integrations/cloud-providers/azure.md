@@ -23,15 +23,15 @@ When an Azure integration is created, an associated Azure AD Application is crea
 
 ### Creating an integration
 
-To add a new integration, go to the _Azure_ page under your account settings_._ When you go there for the first time, the page will be empty, but will prompt you to add an integration:
+To add a new integration, go to the _Cloud Integrations_ section of your account. When you go there for the first time, the page will be empty, but will prompt you to add an integration:
 
 ![](../../assets/screenshots/azure1.png)
 
-Click on the _Add Integration_ button to start configuring your integration:
+Click on the _Add your first integration_ button to start configuring your integration:
 
 ![](../../assets/screenshots/azure2.png)
 
-Give your integration a name, and enter your Active Directory Tenant ID. You can also enter a default subscription ID at this point. You can specify the default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
+Give your integration a name, and enter your Active Directory Tenant ID. You can specify a default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
 !!! info
     You can find your Tenant ID by going to the [Azure Active Directory](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview){: rel="nofollow"} section of the Azure portal. You can also find your Azure subscriptions by going to the [Subscriptions](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade){: rel="nofollow"} section of the Azure portal.
