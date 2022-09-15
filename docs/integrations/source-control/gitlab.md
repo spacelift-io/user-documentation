@@ -1,6 +1,6 @@
 # GitLab
 
-In addition to our out-of-the-box [integration with GitHub](github.md) using their [app](https://docs.github.com/en/free-pro-team@latest/developers/apps){: rel="nofollow"} feature, Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
+Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
 
 ## Setup Guide
 

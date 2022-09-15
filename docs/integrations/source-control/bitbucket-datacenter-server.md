@@ -1,6 +1,6 @@
 # Bitbucket Datacenter/Server
 
-In addition to our out-of-the-box [integration with GitHub](github.md), Spacelift supports using an on-premises Bitbucket installation as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
+Spacelift supports using an on-premises Bitbucket installation as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
 
 ## Setting up the integration
 
