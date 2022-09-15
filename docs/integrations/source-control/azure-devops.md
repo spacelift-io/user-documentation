@@ -89,8 +89,15 @@ When creating a Stack, you will now be able to choose the Azure DevOps provider 
 
 ## Unlinking the Integration
 
-If you no-longer need the integration, you can remove it via the _Unlink_ button on the VCS settings page.
+If you no longer need the integration, you can remove it via the _Unlink_ button on the VCS settings page.
 
 ![VCS providers page](<../../assets/screenshots/image (94).png>)
 
 Please also remember to remove any Spacelift webhooks from your repositories.
+
+## Self-Hosted Azure DevOps Server
+
+You can use your self-hosted Azure DevOps Server with Spacelift.
+
+!!! warning
+     When a self-hosted VCS provider cannot be accessed directly by the workers, you generally can use a [VCS Agent pool](../../concepts/vcs-agent-pools.md) as a gateway but unfortunately, Azure DevOps Server is not supported by the VCS Agent at his time.
