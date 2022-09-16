@@ -12,7 +12,7 @@ This integration is typically set up automatically for users who have selected G
 
 ## Setting up the integration
 
-### Using the Marketplace application (Preferred)
+### Installing the Marketplace application (Preferred)
 
 The easiest way to connect your GitHub account (personal or organization) is to install the [Spacelift application](https://github.com/marketplace/spacelift-io){: rel="nofollow"} from the GitHub Marketplace.
 
@@ -30,9 +30,11 @@ On the last screen, you will be able to select which repositories should be avai
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
 
-### Using the custom application
+### Setting up the custom application
 
 In some cases, using the Spacelift application from the Marketplace is not an option, or you might already have it installed and want to link another GitHub account with your Spacelift account. For these advanced uses cases, you can use the custom Spacelift application.
+
+#### Creating the custom application
 
 In order to do so, navigate to the _Source Code_ section of the Account Settings page in your Spacelift account, then click the _Set Up_ button next to the GitHub (custom App) option:
 
@@ -130,7 +132,7 @@ Congratulations! You are almost done! 🎉
 
 The last step is to install the application you just created so that Spacelift can interact with GitHub. This is what the next section is about.
 
-### Installing the GitHub custom application
+#### Installing the custom application
 
 Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts or organizations you have access to. To do this, go back to GitHub, find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
 
