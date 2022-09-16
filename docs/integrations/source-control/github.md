@@ -342,6 +342,6 @@ You can use the [Setup Spacectl](https://github.com/marketplace/actions/setup-sp
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
 
-    If you no longer need the integration, you can remove it via the *Unlink* button on the *Source Code* page:
+    You can now remove the integration via the *Unlink* button on the *Source Code* page:
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.19.10.png>)
