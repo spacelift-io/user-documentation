@@ -125,6 +125,7 @@ In addition, you will also need to allow access to the following:
 - Your VCS provider.
 - Access to any custom container registries you use if using custom runner images.
 - Access to any other infrastructure required as part of your runs.
+- Access to `keys.openpgp.org` - required to download the PGP key used to sign Spacelift binaries.
 
 ## Using worker pools
 
