@@ -18,7 +18,7 @@ The easiest way to connect your GitHub account (personal or organization) is to 
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.27.12.png>)
 
-At the bottom of the page, select the GitHub account where to install the Spacelift application and then click on the _Install it for free_ button.
+At the bottom of the page, select the GitHub account where you want to install the Spacelift application and then click on the _Install it for free_ button.
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.44.49.png>)
 
@@ -26,7 +26,7 @@ On the next page click on the _Complete order and begin installation_ button.
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.46.56.png>)
 
-On the last screen, you will be able to select which repositories should be available to Spacelift, review the required permissions. When ready, click on the _Install_ button, and voilà!
+On the last screen, you will be able to select which repositories should be available to Spacelift, and review the required permissions. When ready, click on the _Install_ button, and voilà!
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
 
@@ -57,7 +57,7 @@ You will be presented with two options:
     !!! warning
         This should be used as a last resort when the other methods can not be used as it is more tedious and error-prone.
 
-    This should open a form like this one:
+    After selecting the option to enter your details manually, you should see the following form:
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png>)
 
@@ -132,7 +132,7 @@ The last step is to install the application you just created so that Spacelift c
 
 ### Installing the GitHub custom application
 
-Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts in your GitHub account. To do this, go back to GitHub, find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
+Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts or organizations you have access to. To do this, go back to GitHub, find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
 
 ![](<../../assets/screenshots/image (58).png>)
 
