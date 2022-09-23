@@ -37,6 +37,7 @@ A number of configuration variables is available to customize how your VCS Agent
 | `--bugsnag-api-key` | `SPACELIFT_VCS_AGENT_BUGSNAG_API_KEY` | Optional |  | Override the Bugsnag API key used for error reporting. |
 | `--parallelism` | `SPACELIFT_VCS_AGENT_PARALLELISM` | Optional | `4` | Number of streams to create. Each stream can handle one request simultaneously. |
 |  | `HTTPS_PROXY` | Optional |  | Hostname or IP address of the proxy server, including the protocol, as well as port, if applicable. (e.g., `http://10.10.1.1:8888`) |
+| | `NO_PROXY` | Optional | | Comma-separated list of host names that shouldn't go through any proxy is set in. |
 
 Congrats! Your VCS Agent should now connect to the Spacelift backend and start handling connections.
 
