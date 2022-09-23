@@ -4,7 +4,13 @@ description: Integrating Spacelift with your favorite messaging platform
 
 # Slack
 
-At Spacelift we're using Slack for internal communication. And we know that other tech companies do the same, so we've created a first class integration that we ourselves enjoy using.
+At Spacelift, we're using Slack for internal communication. And we know that other tech companies do the same, so we've created a first-class integration that we ourselves enjoy using.
+
+Here are examples of messages the Spacelift application sends to Slack;
+
+![](../assets/screenshots/CleanShot 2022-09-23 at 09.46.15.png)
+
+![](../assets/screenshots/CleanShot 2022-09-23 at 09.52.06.png)
 
 ## Linking your Spacelift account to the Slack workspace
 
