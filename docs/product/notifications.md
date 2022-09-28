@@ -2,7 +2,7 @@
 
 As nicely stated by [Murphy's law](https://en.wikipedia.org/wiki/Murphy%27s_law){: rel="nofollow"}: "Anything that can go wrong will go wrong.". Some issues will blow in your face and be obvious, and others will be sneakier.
 
-In the background, Spacelift interacts with different systems (VCS providers, cloud providers, Slack, etc.), which can fail in various ways. The Notifications section gives you visibility into issues arising from those interactions.
+In the background, Spacelift interacts with different systems (VCS providers, cloud providers, Slack, etc.), which can fail in various ways. The Notification Inbox section gives you visibility into issues arising from those interactions.
 
 ## Visibility
 
