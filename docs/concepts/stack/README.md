@@ -14,7 +14,9 @@ Here's a few helpful articles about stacks:
 
 ## Stack state
 
-Similar to [runs](../run/README.md) and [tasks](../run/task.md), stacks also have states. A stack's state is the last state of its most recently processed [tracked run](../run/README.md#where-do-runs-come-from). Only if the stack has no runs yet a special state "None" is applied:
+Similar to [runs](../run/README.md) and [tasks](../run/task.md), stacks also have states.
+A stack's state is the last state of its most recently processed [tracked run](../run/README.md#where-do-runs-come-from) that has progressed beyond the [queued](../run/README.md#queued) state and which was not [canceled](../run/README.md#canceled).
+Only if the stack has no runs yet a special state "None" is applied:
 
 ![](<../../assets/screenshots/Stacks_·_spacelift-io (1).png>)
 
