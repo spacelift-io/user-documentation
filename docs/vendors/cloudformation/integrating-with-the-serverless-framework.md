@@ -26,7 +26,7 @@ You can add the following script as a mounted file:
 #!/bin/bash
 
 set -eu
-set o pipefile
+set -o pipefail
 
 STATE_FILE=.serverless/serverless-state.json
 S3_PREFIX=$(jq -r '.package.artifactDirectoryName' < "$STATE_FILE")

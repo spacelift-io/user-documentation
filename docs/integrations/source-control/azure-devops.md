@@ -1,6 +1,6 @@
 # Azure DevOps
 
-In addition to our out-of-the-box [integration with GitHub](github.md) , Spacelift supports using Azure DevOps as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
+Spacelift supports using Azure DevOps as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
 
 ## Setting up the integration
 
@@ -89,7 +89,7 @@ When creating a Stack, you will now be able to choose the Azure DevOps provider 
 
 ## Unlinking the Integration
 
-If you no-longer need the integration, you can remove it via the _Unlink_ button on the VCS settings page.
+If you no longer need the integration, you can remove it via the _Unlink_ button on the VCS settings page.
 
 ![VCS providers page](<../../assets/screenshots/image (94).png>)
 
