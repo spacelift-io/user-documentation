@@ -242,6 +242,88 @@ resource "spacelift_aws_integration_attachment" "this" {
 !!! info
     Please always refer to the [provider documentation](https://github.com/spacelift-io/terraform-provider-spacelift) for the most up-to-date documentation.
 
+### Attaching a Role to Multiple Stacks
+
+The previous example explained how to use the `spacelift_aws_integration_attachment_external_id` data-source to generate the assume role policy for using the integration with a single stack, but what if you want to attach the integration to multiple stacks? The simplest option would be to create multiple instances of the data-source - one for each stack - but you can also use a Terraform `for_each` condition to reduce the amount of code required:
+
+```terraform
+locals {
+  role_name        = "multi-stack-integration"
+  role_arn         = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${local.role_name}"
+
+  # Define the stacks we want to attach the integration to
+  stacks_to_attach = ["stack-1", "stack-2", "stack-3"]
+}
+
+data "aws_caller_identity" "current" {}
+data "spacelift_account" "current" {}
+
+resource "spacelift_aws_integration" "integration" {
+  name = local.role_name
+  role_arn                       = local.role_arn
+  generate_credentials_in_worker = false
+}
+
+# Generate the External IDs required for creating our AssumeRole policy
+data "spacelift_aws_integration_attachment_external_id" "integration" {
+  for_each = toset(local.stacks_to_attach)
+
+  integration_id = spacelift_aws_integration.integration.id
+  stack_id       = each.key
+  read           = true
+  write          = true
+}
+
+resource "aws_iam_role" "role" {
+  name = local.role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow",
+        "Principal" = {
+          "AWS" : data.spacelift_account.current.aws_account_id
+        },
+        "Action" = "sts:AssumeRole",
+        "Condition" = {
+          "StringEquals" = {
+            # Allow the external ID for any of the stacks to assume our role
+            "sts:ExternalId" = [for i in values(data.spacelift_aws_integration_attachment_external_id.integration) : i.external_id],
+          }
+        }
+      }
+    ],
+  })
+}
+```
+
+This will generate a trust relationship that looks something like this:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::324880187172:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+                "StringEquals": {
+                    "sts:ExternalId": [
+                        "spacelifter@01GE7K9SR2DQBCRQ90DH70JF6Y@stack-1@write",
+                        "spacelifter@01GE7K9SR2DQBCRQ90DH70JF6Y@stack-2@write",
+                        "spacelifter@01GE7K9SR2DQBCRQ90DH70JF6Y@stack-3@write"
+                    ]
+                }
+            }
+        }
+    ]
+}
+```
+
 ## Is it safe?
 
 Assuming roles and generating credentials **on the private worker** is **perfectly safe**. Those credentials are never leaked to us in any shape or form. Hence, the rest of this section discusses the trust relationship established between the Spacelift account and your AWS account for the purpose of dynamically generating short-lived credentials. So, how safe is that?
