@@ -10,6 +10,7 @@ nav:
       - concepts/stack/organizing-stacks.md
       - concepts/stack/stack-locking.md
       - concepts/stack/drift-detection.md
+      - concepts/stack/scheduling.md
     - Configuration:
       - concepts/configuration/README.md
       - concepts/configuration/environment.md
