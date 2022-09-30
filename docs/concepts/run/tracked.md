@@ -95,6 +95,8 @@ This preparation phase is very unlikely to fail, but if it does (eg. the worker 
 
 ![](../../assets/screenshots/Use_config_for_target_repo__·_Vendor_Releases_Watcher.png)
 
+This phase can be skipped without execution by setting the `SPACELIFT_SKIP_APPLYING` environment variable to _true_ in the stack's [environment variables](../stack/stack-settings.md#environment-variables).
+
 ## Success criteria
 
 If the run is a [no-op](tracked.md#handling-no-op-changes) or the applying phase succeeds, the run transitions to the [finished](./README.md#finished) state. On the other hand, if anything goes wrong, the run is marked as [failed](./README.md#failed).

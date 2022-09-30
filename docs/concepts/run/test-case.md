@@ -8,6 +8,8 @@ In a nutshell, module test cases are almost identical to [autodeployed](../stack
 
 Note that the destroying phase will run regardless of whether the applying phase succeeds or fails. This is because the failure could have been partial, and some resources may still have been created.
 
+The destroying phase can be skipped without execution by setting the `SPACELIFT_SKIP_DESTROYING` environment variable to _true_ in the stack's [environment variables](../stack/stack-settings.md#environment-variables).
+
 ## Success criteria
 
 A module test case will only transition to the successful [finished](./README.md#finished) state if all the previous phases succeed. If any of the phases fails, the run will be marked as [failed](./README.md#failed).

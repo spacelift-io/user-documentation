@@ -12,6 +12,8 @@ Once the workspace is prepared by the [Initializing](./README.md#initializing) p
 
 Note that the Planning phase can be safely [stopped by the user](./README.md#stopping-runs).
 
+On Ansible stacks, this phase can be skipped without execution by setting the `SPACELIFT_SKIP_PLANNING` environment variable to _true_ in the stack's [environment variables](../stack/stack-settings.md#environment-variables).
+
 ## Plan policies
 
 If any [plan policies](../policy/terraform-plan-policy.md) are attached to the current stack, each of these policies is evaluated to automatically determine whether the change is acceptable according to the rules adopted by your organization. Here is an example of an otherwise successful planning phase that still fails due to policy violations:
