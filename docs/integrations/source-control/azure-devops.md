@@ -63,17 +63,25 @@ In order for Spacelift to be notified of any changes made in your Azure DevOps r
 
 ![Configured Azure DevOps integration](<../../assets/screenshots/image (92).png>)
 
-For each Azure DevOps project you want to use with Spacelift, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Webhook** and click **Next**.
+For each Azure DevOps project you want to use with Spacelift, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Web Hooks** and click **Next**.
 
 ![Creating a Webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks1.gif)
 
-We will need to create multiple integrations: **Code pushed,** **Pull request created, Pull request merge attempted** and **Pull request updated**. Let's first create **Code pushed** integration.
+You will need to create a Web Hooks Service Hook for the following events:
+
+- Code pushed.
+- Pull request created.
+- Pull request merge attempted.
+- Pull request updated.
+- Pull request commented on.
+
+Let's first create the **Code pushed** webhook.
 
 Once on the **Trigger** page of _New Service Hooks Subscription_ window, select **Code pushed** in the _Trigger on this type of event_ dropdown and click **Next**.
 
 ![Creating Code pushed webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks2.png)
 
-After clicking **Next** you should see the Action page. Under the **Settings** section fill in the Spacelift **Webhook endpoint** URL**.** Leave _Basic authentication username_ empty and put the **Webhook password** under _Basic authentication password_ and click **Finish**.
+After clicking **Next** you should see the Action page. Under the **Settings** section fill in the Spacelift **Webhook endpoint** URL. Leave _Basic authentication username_ empty and put the **Webhook password** under _Basic authentication password_ and click **Finish**.
 
 ![Configuring webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks3.png)
 
