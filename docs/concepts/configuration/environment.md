@@ -27,6 +27,10 @@ Adding an environment variable is rather straightforward - don't worry yet about
 
 ![Environment variable in the editing mode ](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.27.56 PM.png>)
 
+### Environment variable interpolation
+
+Note that environment variables can refer to other environment variables using simple interpolation. For example, if you have an environment variable `FOO` with a value of `bar` you can use it to define another environment variable `BAZ` as `${FOO}-baz` which will result in `bar-baz` being set as the value of `BAZ`. This interpolation is lazily and dynamically evaluated on the worker, and will work between environment variables defined in different ways, including [contexts](context.md).
+
 ### Computed values
 
 You will possibly notice some environment variables being marked as `<computed>`, which means that their value is only computed at runtime. These are not directly set on the stack but come from various integrations - for example, AWS credentials (`AWS_ACCESS_KEY_ID` and friends) are set by the [AWS integration](../../integrations/cloud-providers/aws.md) and `SPACELIFT_API_TOKEN` is injected into each run to serve a number of purposes.
