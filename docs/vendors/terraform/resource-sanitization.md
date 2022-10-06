@@ -111,7 +111,7 @@ Spacelift will supply something similar to the following to any plan policies:
 
 As you can see in the example above, with the Default Sanitization all string values are hashed which makes it difficult to comprehend logs, work with outputs/created resources, and write policies against the changes in your stacks. With Smart Sanitization, only sensitive values are hashed.
 
-Smart Sanitization allows to author [Plan policies](../../concepts/policy/terraform-plan-policy.md) against non-sensitive string values without the need for a call to the `sanitized()` function.
+Smart Sanitization allows you to author [Plan policies](../../concepts/policy/terraform-plan-policy.md) against non-sensitive string values without the need for a call to the `sanitized()` function.
 
 === "Default Sanitization"
 
