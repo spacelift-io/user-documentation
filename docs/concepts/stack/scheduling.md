@@ -7,7 +7,7 @@
 
 Scheduling allows you to trigger a stack deletion or task at a specific time or periodically based on the cron rules defined.
 
-The terraform provider and the API are (currently) the only ways to create scheduling configurations. We will add the UI for this feature in the upcoming weeks.
+The [Terraform provider](../../vendors/terraform/terraform-provider.md) and the [API](../../integrations/api.md) are (currently) the only ways to create scheduling configurations. We will add the UI for this feature in the upcoming weeks.
 
 ## Scheduled Delete Stack (TTL)
 
