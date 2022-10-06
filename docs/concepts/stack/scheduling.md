@@ -16,12 +16,12 @@ The terraform provider and the API are (currently) the only ways to create sched
 
 A delete stack schedule allows you to delete the stack and (optionally) its resources at the specific timestamp (UNIX timestamp).
 
-```
+```terraform title="scheduled_delete_stack.tf"
 resource "spacelift_stack" "k8s-core" {
   // ...
 }
 
-resource "spacelift_scheduled_task" "k8s-core-delete" {
+resource "spacelift_scheduled_delete_stack" "k8s-core-delete" {
   stack_id = spacelift_stack.k8s-core.id
 
   at               = "1663336895"
@@ -38,7 +38,7 @@ A scheduled task enables you to run a command at a specific timestamp or periodi
 
 The following example shows that you can destroy and create resources at the beginning and the end of the workday.
 
-```
+```terraform title="scheduled_tasks.tf"
 // create the resources of a stack on a given schedule
 resource "spacelift_scheduled_task" "k8s-core-create" {
   stack_id = spacelift_stack.k8s-core.id
