@@ -12,7 +12,7 @@ Spacelift helps you manage the complexities and compliance challenges of using T
 
 You can also use Spacelift to mix and match Terraform, Pulumi, and CloudFormation Stacks and have them talk to one another. For example, you can set up Terraform Stacks to provision required infrastructure (like an ECS/EKS cluster with all its dependencies) and then connect that to a CloudFormation Stack which then transactionally deploys your services there using [trigger policies](../../concepts/policy/trigger-policy.md) and the Spacelift provider [run resources](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/run){: rel="nofollow"} for workflow orchestration and [Contexts](../../concepts/configuration/context.md#remote-state-alternative-terraform-specific) to export Terraform outputs as CloudFormation input parameters.
 
-## Does Spacelift support Terraforn wrappers?
+## Does Spacelift support Terraform wrappers?
 
 Yes! We support [Terragrunt](https://terragrunt.gruntwork.io){: rel="nofollow"} and [Cloud Development Kit for Terraform (CDKTF)](https://www.terraform.io/cdktf){: rel="nofollow"}. You can read more about it in the relevant subpages of this document.
 
