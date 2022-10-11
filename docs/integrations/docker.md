@@ -72,6 +72,11 @@ RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 
     Depending on your image flavor, the exact command to add the user may be different.
 
+!!! tip
+    Any `ENTRYPOINT` and `CMD` customization will be ignored because the Spacelift worker binary must be the root process in the container.
+
+    If you need to customize the shell (e.g., dynamically set environment variables or export functions), you can do so in a [`before_init` hook](../concepts/stack/stack-settings.md#customizing-workflow).
+
 ### Custom providers from Terraform 0.13 onwards
 
 Since Terraform 0.13, custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13 if the following stanza is added to the `Dockerfile`.
