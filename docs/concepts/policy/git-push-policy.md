@@ -278,6 +278,11 @@ Each source control provider has slightly different features, and because of thi
 - `approved` means that the PR has at least one approval, and also meets any minimum approval requirements for the repo.
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any branch protection rules have been met.
 
+#### GitLab
+
+- `approved` means that the PR has at least one approval. If approvals are required, it is only `true` when all required approvals have been made.
+- `mergeable` means that the PR branch has no conflicts with the target branch, any blocking discussions have been resolved, and any required approvals have been made.
+
 ## Data input
 
 As input, Git push policy receives the following document:
