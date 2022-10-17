@@ -203,6 +203,81 @@ In Bitbucket Datacenter/Server, it is the project key of the repository. The pro
 
 ![Bitbucket Datacenter/Server project key](<../../assets/screenshots/image (118).png>)
 
+### Approval and Mergeability
+
+The `pull_request` property on the input to a push policy contains the following fields:
+
+- `approved` - indicates whether the PR has been approved.
+- `mergeable` - indicates whether the PR can be merged.
+- `undiverged` - indicates that the PR branch is not behind the target branch.
+
+The following example shows a push policy that will automatically deploy a PR's changes once it has been approved, any required checks have completed, and the PR has a `deploy` label added to it:
+
+```rego
+package spacelift
+
+# Trigger a tracked run if a change is pushed to the stack branch
+track {
+  affected
+  input.push.branch == input.stack.branch
+}
+
+# Trigger a tracked run if a PR is approved, mergeable, undiverged and has a deploy label
+track {
+  is_pr
+  is_clean
+  is_approved
+  is_marked_for_deploy
+}
+
+# Trigger a proposed run if a PR is opened
+propose {
+  is_pr
+}
+
+is_pr {
+  not is_null(input.pull_request)
+}
+
+is_clean {
+  input.pull_request.mergeable
+  input.pull_request.undiverged
+}
+
+is_approved {
+  input.pull_request.approved
+}
+
+is_marked_for_deploy {
+  input.pull_request.labels[_] == "deploy"
+}
+```
+
+Each source control provider has slightly different features, and because of this the exact definition of `approved` and `mergeable` varies slightly between providers. The following sections explain the differences.
+
+#### Azure DevOps
+
+- `approved` means the PR has at least one approving review (including approved with suggestions).
+- `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
+
+!!! info
+    Please note that we are unable to calculate divergance across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
+
+#### Bitbucket Cloud
+
+- `approved` means that the PR has at least one approving review from someone other than the PR author.
+- `mergeable` means that the PR branch has no conflicts with the target branch.
+
+#### Bitbucket Datacenter/Server
+
+- `approved` means that the PR has at least one approving review from someone other than the PR author.
+- `mergeable` means that the PR branch has no conflicts with the target branch.
+
+#### GitHub / GitHub Enterprise
+
+- `approved` means that the PR has at least one approval, and also meets any minimum approval requirements for the repo.
+- `mergeable` means that the PR branch has no conflicts with the target branch, and any branch protection rules have been met.
+
 ## Data input
 
 As input, Git push policy receives the following document:
@@ -230,7 +305,10 @@ As input, Git push policy receives the following document:
     },
     "head_owner": "string",
     "labels": ["string"],
-    "title": "string"
+    "title": "string",
+    "approved": "boolean - indicates whether the PR has been approved",
+    "mergeable": "boolean - indicates whether the PR can be merged",
+    "undiverged": "boolean - indicates whether the PR is up to date with the target branch"
   }
   "push": {
     // For Git push events, this contains the pushed commit.
