@@ -30,9 +30,19 @@ After saving, you'll receive your webhook endpoint:
 
 ![Configured integration](<../../assets/screenshots/Screenshot from 2021-06-11 14-52-40.png>)
 
-For each repository you want to use with Spacelift, you now have to go into its **Repository settings -> Webhooks -> Add webhook**, and configure the webhook accordingly, by activating Push, Pull Request Created, Pull Request Updated and Pull Request Merged events.
+For each repository you want to use with Spacelift, you now have to go into its **Repository settings -> Webhooks -> Add webhook**, and configure the webhook accordingly, by activating the following events:
 
-![Webhooks configuration](<../../assets/screenshots/Screenshot 2022-02-16 at 14.57.25.png>)
+- Repository > Push
+- Pull Request > Created
+- Pull Request > Updated
+- Pull Request > Approved
+- Pull Request > Approval removed
+- Pull Request > Merged
+- Pull Request > Comment created
+
+It should look something like the following:
+
+![Webhooks configuration](<../../assets/screenshots/bitbucket-cloud-webhook-settings.png>)
 
 The last step is to install the **Pull Request Commit Links** app to be able to use [this](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bcommit%7D/pullrequests){: rel="nofollow"} API. This is done automatically when you go to the commit's details and then click "Pull requests" link.
 
