@@ -151,7 +151,7 @@ The data will be available in the policy input as `input.third_party_metadata.cu
 
 ### Example: passing custom tool output to the plan policy
 
-For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec). What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook]((../stack/stack-settings.md#customizing-workflow)) and save the output to a file:
+For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec). What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
 
 ```bash
 tfsec --format=json . > tfsec.custom.spacelift.json
