@@ -32,9 +32,20 @@ After saving, you'll receive your webhook secret and endpoint:
 
 ![](<../../assets/screenshots/image (103).png>)
 
-For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating Push and Pull Request Opened events.
+For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating the following events:
 
-![Configuring Webhooks](<../../assets/screenshots/Screenshot 2022-02-04 at 12.02.27.png>)
+- Repository > Push
+- Pull Request > Opened
+- Pull Request > Source branch updated
+- Pull Request > Modified
+- Pull Request > Approved
+- Pull Request > Unapproved
+- Pull Request > Merged
+- Pull Request > Comment added
+
+It should look something like this:
+
+![Configuring Webhooks](<../../assets/screenshots/bitbucket-datacenter-webhook-settings.png>)
 
 When creating a Stack, you will now be able to choose the Bitbucket Datacenter provider and a repository inside of it:
 
