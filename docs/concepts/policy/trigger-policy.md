@@ -8,7 +8,7 @@ description: Create complex workflows using trigger policies
 
 Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.
 
-Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
+Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) as well as on module version releases and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
 
 !!! warning
     Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/README.md#canceled), [Discarded](../run/tracked.md#discarded), [Stopped](../run/README.md#stopping-runs) or [Failed](../run/README.md#failed) in addition to the more obvious [Finished](../run/README.md#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
@@ -17,7 +17,7 @@ All runs triggered - directly or indirectly - by trigger policies as a result of
 
 ## Data input
 
-This is the schema of the data input that each policy request will receive:
+When triggered by a _run_, this is the schema of the data input that each policy request will receive:
 
 ```json
 {
@@ -113,6 +113,42 @@ This is the schema of the data input that each policy request will receive:
 
 !!! info
     Note the presence of two similar keys: `stack` and `stacks`. The former is the Stack that the newly finished Run belongs to. The other is a list of all Stacks in the account. The schema for both is the same.
+
+When triggered by a _new module version_, this is the schema of the data input that each policy request will receive:
+
+```json
+{
+  "module": { // Module for which the new version was released
+    "id": "string - unique ID of the module",
+    "administrative": "boolean - is the stack administrative",
+    "branch": "string - tracked branch of the module",
+    "labels": ["string - list of arbitrary, user-defined selectors"],
+    "namespace": "string - repository namespace, only relevant to GitLab repositories",
+    "repository": "string - name of the source repository",
+    "terraform_provider": "string - name of the main Terraform provider used by the module",
+    "version": { // Newly released module version
+      "number": "string - semver version number",
+      "created_at": "number - creation Unix timestamp in nanoseconds",
+    }
+  }
+  "stacks": [ // List of consumers of the newest available module version
+    {
+      "administrative": "boolean - is the stack administrative",
+      "autodeploy": "boolean - is the stack currently set to autodeploy",
+      "branch": "string - tracked branch of the stack",
+      "id": "string - unique stack identifier",
+      "labels": ["string - list of arbitrary, user-defined selectors"],
+      "locked_by": "optional string - if the stack is locked, this is the name of the user who did it",
+      "name": "string - name of the stack",
+      "namespace": "string - repository namespace, only relevant to GitLab repositories",
+      "project_root": "optional string - project root as set on the Stack, if any",
+      "repository": "string - name of the source GitHub repository",
+      "state": "string - current state of the stack",
+      "terraform_version": "string or null - last Terraform version used to apply changes"
+    }
+  ],
+}
+```
 
 ## Use cases
 
@@ -275,3 +311,7 @@ trigger[stack.id] {
   count(finished_dependencies) == count(dependencies)
 }
 ```
+
+### Module updates
+
+Trigger policies can be attached to modules as well. Modules track the consumers of each of their versions. When a new module version is released, the consumers of the previously newest version are assumed to be potential consumers of the newly released one. Hence, the trigger policy for a module can be used to trigger a run on all of these stacks. The module version will be updated as long as the version constraints allow the newest version to be used.
