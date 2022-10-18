@@ -82,7 +82,20 @@ When triggered by a _run_, this is the schema of the data input that each policy
     "project_root": "optional string - project root as set on the Stack, if any",
     "repository": "string - name of the source GitHub repository",
     "state": "string - current state of the stack",
-    "terraform_version": "string or null - last Terraform version used to apply changes"
+    "terraform_version": "string or null - last Terraform version used to apply changes",
+    "tracked_commit": {
+      "author": "string - GitHub login if available, name otherwise",
+      "branch": "string - branch to which the commit was pushed",
+      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "hash": "string - the commit hash",
+      "message": "string - commit message"
+    },
+    "worker_pool": {
+      "id": "string - the worker pool ID, if it is private",
+      "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+      "name": "string - name of the worker pool, if it is private",
+      "public": "boolean - is the worker pool public"
+    }
   },
   "stacks": [
     {
@@ -97,7 +110,20 @@ When triggered by a _run_, this is the schema of the data input that each policy
       "project_root": "optional string - project root as set on the Stack, if any",
       "repository": "string - name of the source GitHub repository",
       "state": "string - current state of the stack",
-      "terraform_version": "string or null - last Terraform version used to apply changes"
+      "terraform_version": "string or null - last Terraform version used to apply changes",
+      "tracked_commit": {
+        "author": "string - GitHub login if available, name otherwise",
+        "branch": "string - branch to which the commit was pushed",
+        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "hash": "string - the commit hash",
+        "message": "string - commit message"
+      },
+      "worker_pool": {
+        "id": "string - the worker pool ID, if it is private",
+        "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+        "name": "string - name of the worker pool, if it is private",
+        "public": "boolean - is the worker pool public"
+      }
     }
   ],
   "workflow": [
@@ -124,6 +150,7 @@ When triggered by a _new module version_, this is the schema of the data input t
     "branch": "string - tracked branch of the module",
     "labels": ["string - list of arbitrary, user-defined selectors"],
     "namespace": "string - repository namespace, only relevant to GitLab repositories",
+    "project_root": "optional string - project root as set on the Module, if any",
     "repository": "string - name of the source repository",
     "terraform_provider": "string - name of the main Terraform provider used by the module",
     "version": { // Newly released module version
@@ -144,9 +171,22 @@ When triggered by a _new module version_, this is the schema of the data input t
       "project_root": "optional string - project root as set on the Stack, if any",
       "repository": "string - name of the source GitHub repository",
       "state": "string - current state of the stack",
-      "terraform_version": "string or null - last Terraform version used to apply changes"
+      "terraform_version": "string or null - last Terraform version used to apply changes",
+      "tracked_commit": {
+        "author": "string - GitHub login if available, name otherwise",
+        "branch": "string - branch to which the commit was pushed",
+        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "hash": "string - the commit hash",
+        "message": "string - commit message"
+      },
+      "worker_pool": {
+        "id": "string - the worker pool ID, if it is private",
+        "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+        "name": "string - name of the worker pool, if it is private",
+        "public": "boolean - is the worker pool public"
+      }
     }
-  ],
+  ]
 }
 ```
 
@@ -315,3 +355,11 @@ trigger[stack.id] {
 ### Module updates
 
 Trigger policies can be attached to modules as well. Modules track the consumers of each of their versions. When a new module version is released, the consumers of the previously newest version are assumed to be potential consumers of the newly released one. Hence, the trigger policy for a module can be used to trigger a run on all of these stacks. The module version will be updated as long as the version constraints allow the newest version to be used.
+
+Here is a simple trigger policy that will trigger a run on all stacks that use the latest version of the module when a new version is released:
+
+```opa
+package spacelift
+
+trigger[stack.id] { stack := input.stacks[_] }
+```

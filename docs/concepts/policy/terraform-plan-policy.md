@@ -93,7 +93,20 @@ This is the schema of the data input that each policy request will receive:
       "name": "string - name of the stack",
       "repository": "string - name of the source GitHub repository",
       "state": "string - current state of the stack",
-      "terraform_version": "string or null - last Terraform version used to apply changes"
+      "terraform_version": "string or null - last Terraform version used to apply changes",
+      "tracked_commit": {
+        "author": "string - GitHub login if available, name otherwise",
+        "branch": "string - branch to which the commit was pushed",
+        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "hash": "string - the commit hash",
+        "message": "string - commit message"
+      },
+      "worker_pool": {
+        "id": "string - the worker pool ID, if it is private",
+        "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+        "name": "string - name of the worker pool, if it is private",
+        "public": "boolean - is the worker pool public"
+      }
     }
   },
   "terraform": {
