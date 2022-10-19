@@ -1,6 +1,6 @@
 # Creating a stack
 
-<iframe src="https://player.vimeo.com/video/754434842?h=fbaba4baf5&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Creating a Stack"></iframe>
+<iframe width="950" height="600" src="https://docs.google.com/presentation/d/1XhxN6qjvcRHNt0nk5MFEDYp8gmD4WSdLwPTzXL0E1YA/edit?usp=sharing"></iframe>
 
 Unless you're defining a stack programmatically using our [Terraform provider](../../vendors/terraform/terraform-provider.md), you will be creating one from the root of your Spacelift account:
 
