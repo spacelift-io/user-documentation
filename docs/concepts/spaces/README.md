@@ -1,4 +1,4 @@
-# Space (Feature Preview)
+# Spaces (Feature Preview)
 
 ## Introduction
 With increased usage comes a bigger need for access control and self-service.  Having a single team of admins doesn't scale when you start having tens or hundreds of people using Spacelift daily. You'd like to defer partial admin rights to those teams, enable them to manage their own limited environments, but without giving them keys to the whole account and other teams' environments.
