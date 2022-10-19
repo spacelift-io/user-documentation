@@ -39,6 +39,8 @@ nav:
       - concepts/policy/trigger-policy.md
     - concepts/resources.md
     - concepts/worker-pools.md
+    - Space:
+        - concepts/space/README.md
     - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
     - Terraform:
