@@ -17,7 +17,7 @@ MD007:
 MD029:
   style: ordered
 MD033:
-  allowed_elements: [br]
+  allowed_elements: [br, div, iframe, script]
 MD044:
   names: [AWS CDK, Bitbucket, CDKTF, DevOps, GitHub, GitLab, GraphQL, Javascript, Serverless Framework, Single Sign-On]
   code_blocks: false
