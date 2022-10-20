@@ -2,6 +2,10 @@
 
 This article covers all settings that are set **directly on the stack**. It's important to note that these are not the only settings that affect how [runs](../run/README.md) and [tasks](../run/task.md) within a given stack are processed - [environment](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md) and various integrations will all play a role here, too.
 
+## Video Walkthrough
+
+<iframe src="https://player.vimeo.com/video/755645223?h=74912655ff" width="640" height="564" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
 ## Common settings
 
 ### Administrative

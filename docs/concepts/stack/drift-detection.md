@@ -10,6 +10,10 @@ The other source of drift comes from the dependency of your resources on externa
 
 In the first scenario, drift is an unwanted by-product of emergencies or broken processes. In the latter, it's both desired and inevitable - it's proof that your otherwise declarative system responds to external changes. In other words - drift happens, so deal with it. 😎
 
+## Video Walkthrough
+
+<iframe src="https://player.vimeo.com/video/761467641?h=017928bdbc" width="640" height="564" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+
 ## How Spacelift helps
 
 Spacelift comes with a built-in mechanism to detect and - optionally - reconcile drift. We do it by periodically executing [proposed runs](../run/proposed.md) on your stable infrastructure (in Spacelift, we generally represent it by the [FINISHED stack state](./README.md#stack-state)) and checking for any changes.
