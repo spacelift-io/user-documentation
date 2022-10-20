@@ -42,6 +42,7 @@ nav:
     - Spaces:
         - concepts/spaces/README.md
         - concepts/spaces/permissions.md
+        - concepts/spaces/structuring-your-spaces-tree.md
     - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
     - Terraform:
