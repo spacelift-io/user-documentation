@@ -133,11 +133,13 @@ This is the schema of the data input that each policy request will receive:
 
 ## String Sanitization
 
-String properties in `"before"` and `"after"` objects will be sanitized in order to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
+Sensitive properties in `"before"` and `"after"` objects will be sanitized to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
 
 If you need to compare a string property to a constant, you can use the `sanitized(string)` helper function.
 
 ```opa
+package spacelift
+
 deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
   resource := input.terraform.resource_changes[_]
 
@@ -187,7 +189,7 @@ package spacelift
 
 # Note that the message here is dynamic and captures resource address to provide
 # appropriate context to anyone affected by this policy. For the sake of your
-# sanity and that of your colleagues, please a
+# sanity and that of your colleagues, please always add a message when denying a change.
 deny[sprintf(message, [resource.address])] {
   message := "static AWS credentials are evil (%s)"
 
