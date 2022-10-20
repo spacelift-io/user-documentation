@@ -41,6 +41,7 @@ nav:
     - concepts/worker-pools.md
     - Spaces:
         - concepts/spaces/README.md
+        - concepts/spaces/permissions.md
     - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
     - Terraform:
