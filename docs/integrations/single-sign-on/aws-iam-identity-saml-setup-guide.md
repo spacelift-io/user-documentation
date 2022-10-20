@@ -29,7 +29,7 @@ From the navigation side bar menu, select "Settings."
 
 ![](<../../assets/screenshots/CleanShot 2022-08-01 at 17.56.01.png>)
 
-Next, you'll want to click the Set Up button underneath the "SAML Settings" section.&#x20;
+Next, you'll want to click the Set Up button underneath the "SAML Settings" section.
 
 ![](<../../assets/screenshots/CleanShot 2022-08-01 at 18.22.14.png>)
 
