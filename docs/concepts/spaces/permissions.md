@@ -21,19 +21,19 @@ Any Root Space Admin is perceived to be an admin of the whole account. Only them
 
 A comparison table of what users with given roles are capable of can be found below:
 
-| Action\Who                            | Root Space Admin   | Space Admin        | Writer             | Reader             |
-|---------------------------------------|--------------------|--------------------|--------------------|--------------------|
-| Setup SSO                             | :white_check_mark: | :x:                | :x:                | :x:                |
-| Setup VCS                             | :white_check_mark: | :x:                | :x:                | :x:                |
-| Manage Sessions                       | :white_check_mark: | :x:                | :x:                | :x:                |
-| Create\Modify Spaces                  | :white_check_mark: | :x:                | :x:                | :x:                |
-| Create\Modify Login Policies          | :white_check_mark: | :x:                | :x:                | :x:                |
-| Create\Modify Stacks                  | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
-| Create\Modify Worker Pools, Contexts  | :white_check_mark: | :white_check_mark: | :x:                | :x:                |
-| Trigger runs                          | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:                |
-| View Stacks                           | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| View Spaces                           | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| View Worker Pools, Policies, Contexts | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Action\Who                            | Root Space Admin | Space Admin | Writer | Reader |
+|---------------------------------------|------------------|-------------|--------|--------|
+| Setup SSO                             | ✅                | ❌           | ❌      | ❌      |
+| Setup VCS                             | ✅                | ❌           | ❌      | ❌      |
+| Manage Sessions                       | ✅                | ❌           | ❌      | ❌      |
+| Create\Modify Spaces                  | ✅                | ❌           | ❌      | ❌      |
+| Create\Modify Login Policies          | ✅                | ❌           | ❌      | ❌      |
+| Create\Modify Stacks                  | ✅                | ✅           | ❌      | ❌      |
+| Create\Modify Worker Pools, Contexts  | ✅                | ✅           | ❌      | ❌      |
+| Trigger runs                          | ✅                | ✅           | ✅      | ❌      |
+| View Stacks                           | ✅                | ✅           | ✅      | ✅      |
+| View Spaces                           | ✅                | ✅           | ✅      | ✅      |
+| View Worker Pools, Policies, Contexts | ✅                | ✅           | ✅      | ✅      |
 
 
 
