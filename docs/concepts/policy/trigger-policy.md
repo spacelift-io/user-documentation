@@ -209,7 +209,6 @@ finished {
   input.run.state == "FINISHED"
   input.run.type == "TRACKED"
 }
-
 ```
 
 Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/gz547MYtfN){: rel="nofollow"}. But it's **far from ideal**. We can't be guaranteed that stacks with these IDs still exist in this account. Spacelift will handle that just fine, but you'll likely find if confusing. Also, for any new Stack that appears you will need to explicitly add it to the list. That's annoying.

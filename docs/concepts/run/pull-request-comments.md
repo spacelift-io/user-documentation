@@ -17,12 +17,12 @@ Once enabled, on any future pull request activity, the result of the plan will b
 
 ## Pull Request Comment-Driven Actions
 
-To enable support for pull request comment events in Spacelift, you will need to ensure the following permissions are enabled within your VCS app integration. Note that if your VCS integration was created using the Spacelift VCS setup wizard, then these permissions have already been setup automatically, and no action is needed.
+To enable support for pull request comment events in Spacelift, you will need to ensure the following permissions are enabled within your VCS app integration. Note that if your VCS integration was created using the Spacelift VCS setup wizard, then these permissions have already been set up automatically, and no action is needed.
 
 - Read access to `issues` repository permissions
 - Subscribe to `issues:comments` event
 
-Assuming the above permissions are configured on your VCS application, you can then access pull request comment event data from within your Push policy, and build customizable workflows using this data.&#x20;
+Assuming the above permissions are configured on your VCS application, you can then access pull request comment event data from within your Push policy, and build customizable workflows using this data.
 
 !!! warning
     Please note that Spacelift will only evaluate comments that begin with`/spacelift` to prevent users from unintended actions against their resources managed by Spacelift. Furthermore, Spacelift only processes event data for **new** comments, and will not receive event data for edited or deleted comments.

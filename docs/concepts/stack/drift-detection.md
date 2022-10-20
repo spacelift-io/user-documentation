@@ -42,6 +42,8 @@ But once your job detects drift (and you've enabled [reconciliation](drift-detec
 The only real difference between a drift detection job and one triggered manually is that the run section of your policy input will have the `drift_detection` field set to `true` - and this applies to both [plan](../policy/terraform-plan-policy.md) and [trigger](../policy/trigger-policy.md) policies. You can use this mechanism to add extra controls to your drift detection strategy. For example, if you're automatically deploying your changes but want a human to look at drift before reconciling it, you can add the following section to your [plan policy](../policy/terraform-plan-policy.md) body:
 
 ```opa
+package spacelift
+
 warn["Drift reconciliation requires manual approval"] {
   input.spacelift.run.drift_detection
 }

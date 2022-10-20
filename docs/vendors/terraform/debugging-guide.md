@@ -6,7 +6,7 @@
 
 ## Setting Environment Variables
 
-Environment variables are commonly used for enabling advanced logging levels for Terraform and Terragrunt. There are two ways environment variables can be set for runs.&#x20;
+Environment variables are commonly used for enabling advanced logging levels for Terraform and Terragrunt. There are two ways environment variables can be set for runs.
 
 1. Set Environment Variable(s) directly on a Stack's [Environment](../../concepts/configuration/environment.md) (easiest method).
 
