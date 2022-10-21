@@ -41,13 +41,13 @@ A comparison table of what users with given roles are capable of can be found be
 
 
 !!! info
-  Administrative stacks get Admin role in the space they belong to.
-
+    Administrative stacks get Admin role in the space they belong to.
 
 ## Login policies
 
 The way you are able to control access to Spaces in your Spacelift account is by using [Login Policies](../policy/login-policy.md).
 We have introduced new boolean rules that allow you to assign access to spaces:
+
 - **space_reader**
 - **space_writer**
 - **space_admin**
@@ -57,7 +57,7 @@ Here is a valid login policy that uses all of them:
 ```opa
 package spacelift
 
-developers := { "mac.dlugoszek@gmail.com" }
+developers := { "bob" }
 login   := input.session.login
 is_developer { developers[login] }
 allow { is_developer }
@@ -97,7 +97,9 @@ In a scenario when inheritance between spaces is turned off, the roles are propa
 On the other hand, when inheritance is enabled user with any role in the child space also gets **Read** role in its parent.
 
 Bellow is a diagram that demonstrates how this all work in practice.
+Dashed lines indicate disabled inheritance, while when it's enabled lines are solid.
 This is a space diagram for a user that was given following roles by Login Policies:
+
 - **Read** in 'read-access-space'
 - **Write** in 'write-access-space'
 - **Admin** in 'admin-access-space'
@@ -116,4 +118,5 @@ This makes sense, as we want to allow admins to still manage their spaces subtre
 Finally, user was given **Read** role in the 'read-access-space' space. Because inheritance is off, they did not receive **Read** role in the 'legacy' space.
 
 !!! info
-  The inheritance works well with Policy Autoattachment. By creating a policy with `autoattach:*` label you enforce it on all the stacks in all the spaces that inherit the space where policy resides.
+    The inheritance works well with Policy Autoattachment. By creating a policy with `autoattach:*` label you enforce it on all the stacks in all the spaces that inherit the space where policy resides.
+
