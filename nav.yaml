@@ -42,6 +42,9 @@ nav:
     - Spaces:
         - concepts/spaces/README.md
         - concepts/spaces/access-control.md
+        - concepts/spaces/creating-a-space.md
+        - concepts/spaces/moving-a-space-or-an-entity.md
+        - concepts/spaces/deleting-a-space.md
         - concepts/spaces/structuring-your-spaces-tree.md
         - concepts/spaces/migrating-out-of-the-legacy-space.md
     - concepts/vcs-agent-pools.md
