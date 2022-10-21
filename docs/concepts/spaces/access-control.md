@@ -27,6 +27,9 @@ Any Root Space Admin is perceived to be an admin of the whole account. Only them
 !!! info
     Administrative stacks get Admin role in the space they belong to.
 
+!!! warning
+    Administrative stacks in the legacy space get admin access to the root space, for backwards-compatibility reasons.
+
 A comparison table of what users with given roles are capable of can be found below.
 
 | Action\Who                    | Root Space Admin | Admin | Writer | Reader |
@@ -84,7 +87,10 @@ space_admin["root"] {
 ```
 
 !!! warning
-    Please note that Login Policies are only allowed to be created in the root space, therefore only root space admins can create or modify them.
+    Please note that Login Policies are only allowed to be created in the root space, therefore only root space admins, as well as legacy space administrative stacks can create or modify them.
+
+!!! warning
+    A logged-in user's access levels only get updated when they log out and in again, so newly added spaces might not be visible to some users. An exception is that the space creator immediately gets access to it.
 
 ## Inheritance
 
