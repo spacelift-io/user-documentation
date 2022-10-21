@@ -41,7 +41,7 @@ nav:
     - concepts/worker-pools.md
     - Spaces:
         - concepts/spaces/README.md
-        - concepts/spaces/permissions.md
+        - concepts/spaces/access-control.md
         - concepts/spaces/structuring-your-spaces-tree.md
         - concepts/spaces/migrating-out-of-the-legacy-space.md
     - concepts/vcs-agent-pools.md
