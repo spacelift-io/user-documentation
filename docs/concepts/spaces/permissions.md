@@ -23,6 +23,10 @@ There are 3 roles that you can assign to users on the space-by-space basis:
 A special case is someone who is given Admin permissions to the root space - we would call that person a "Root Space Admin".
 Any Root Space Admin is perceived to be an admin of the whole account. Only them can modify the space tree or access account-wide settings.
 
+
+!!! info
+    Administrative stacks get Admin role in the space they belong to.
+
 A comparison table of what users with given roles are capable of can be found below.
 
 | Action\Who                    | Root Space Admin | Admin | Writer | Reader |
@@ -39,9 +43,6 @@ A comparison table of what users with given roles are capable of can be found be
 | View Spaces                   | ✅                | ✅     | ✅      | ✅      |
 | View Worker Pools, Contexts   | ✅                | ✅     | ✅      | ✅      |
 
-
-!!! info
-    Administrative stacks get Admin role in the space they belong to.
 
 ## Login policies
 
@@ -82,8 +83,8 @@ space_admin["root"] {
 }
 ```
 
-!!! info
-  Please note that Login Policies are only allowed to be created in the root space, therefore only root space admins can create or modify them.
+!!! warning
+    Please note that Login Policies are only allowed to be created in the root space, therefore only root space admins can create or modify them.
 
 ## Inheritance
 
@@ -96,18 +97,18 @@ Inheritance, also modifies how roles propagate between spaces.
 In a scenario when inheritance between spaces is turned off, the roles are propagated only down the space tree.
 On the other hand, when inheritance is enabled user with any role in the child space also gets **Read** role in its parent.
 
-Bellow is a diagram that demonstrates how this all work in practice.
-Dashed lines indicate disabled inheritance, while when it's enabled lines are solid.
-This is a space diagram for a user that was given following roles by Login Policies:
+Bellow is a diagram that demonstrates how this all work in practice. This is a view for a user at was given following roles by Login Policies:
 
 - **Read** in 'read-access-space'
 - **Write** in 'write-access-space'
 - **Admin** in 'admin-access-space'
 
+Dashed lines indicate disabled inheritance, while when it's enabled lines are solid.
 
 ![](<../../assets/screenshots/spaces_access_propagation.png>)
 
 Let's analyze the tree starting from the left.
+
 As mentioned, user has been given **Write** role in the 'write-access-space' space.
 Because inheritance is enabled, they also received **Read** role in the 'access propagates up' space and the 'root' space.
 The reason for that is to allow users to see resources that their space can now use.
