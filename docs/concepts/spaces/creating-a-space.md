@@ -4,7 +4,7 @@ Creating and modifying spaces takes place in the *Spaces* tab in the UI.
 
 ![](<../../assets/screenshots/spaces-tab.png>)
 
-## Space overview
+## Spaces View
 
 The view shows a tree of all the spaces visible to you in your account.
 The immutable root space is at the top, and from that point you can build any tree structure you want.
