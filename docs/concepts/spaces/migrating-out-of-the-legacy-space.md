@@ -8,10 +8,10 @@ However, doing that you'll have to keep a few things in mind.
 
 First, moving entities can't break any relationships between them. For example, if you have a policy attached to a stack, you can't move the policy to a stack where it won't be accessible to the stack.
 
-Second, you have to move entities one by one, which means that moving stacks with their attachments (policies, contextes, worker pools, etc.) needs to be done in a couple of steps.
+Second, you have to move entities one by one, which means that moving stacks with their attachments (policies, contexts, worker pools, etc.) needs to be done in a couple of steps.
 
 1. Create your new space as a child of the root space with inheritance enabled.
-2. Move all the attachables (policies, contextes, worker pools, etc.) from the legacy space to the root space. This way they're accessible from both the legacy space and your new space.
+2. Move all the attachables (policies, contexts, worker pools, etc.) from the legacy space to the root space. This way they're accessible from both the legacy space and your new space.
 3. Move the stacks to your new space.
 4. Move the attachables to your new space.
 
