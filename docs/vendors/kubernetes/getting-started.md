@@ -114,6 +114,7 @@ The following links will help you set up the necessary integration with your Clo
 - [AWS](../../integrations/cloud-providers/aws.md)
 - [Azure](../../integrations/cloud-providers/azure.md)
 - [GCP](../../integrations/cloud-providers/gcp.md)
+- [OIDC](../../integrations/cloud-providers/oidc.md)
 
 Once you have configured the necessary integration, navigate the Stack landing page and Trigger a Run.
 

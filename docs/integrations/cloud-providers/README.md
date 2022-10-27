@@ -4,7 +4,9 @@ Cloud integrations allow Spacelift to manage your resources without the need for
 
 That's why Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
 
-Currently, [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) are fully supported.
+Currently, [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) are natively supported.
 
 !!! hint
     This feature is designed for clients using the shared public worker pool. When hosting Spacelift workers on your infrastructure you can use your cloud providers' ambient credentials (eg. EC2 instance role or EKS worker role on AWS).
+
+As an attractive alternative, a generic [OpenID Connect](oidc.md) integration is also available to work with any compatible service provider.
