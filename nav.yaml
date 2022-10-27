@@ -93,6 +93,7 @@ nav:
       - integrations/cloud-providers/aws.md
       - integrations/cloud-providers/azure.md
       - integrations/cloud-providers/gcp.md
+      - integrations/cloud-providers/oidc.md
     - Source Control:
       - integrations/source-control/README.md
       - integrations/source-control/github.md
