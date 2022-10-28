@@ -60,7 +60,9 @@ Test defaults are runtime settings following [this scheme](runtime-yaml-referenc
 
 The `tests` section represents a list of test cases for a module, each containing the [standard runtime settings](runtime-yaml-reference.md#stack_defaults) in addition to the test-specific settings:
 
-| Key      | Required | Type   | Description                                                 |
-| -------- | -------- | ------ | ----------------------------------------------------------- |
-| name     | Y        | string | Unique name of the test case                                |
-| negative | N        | bool   | Indicates whether the test is _negative_ (expected to fail) |
+| Key        | Required | Type          | Description                                                                    |
+| ---------- | -------- | ------------- | ------------------------------------------------------------------------------ |
+| name       | Y        | string        | Unique name of the test case                                                   |
+| negative   | N        | bool          | Indicates whether the test is _negative_ (expected to fail)                    |
+| id         | N        | string        | Unique identifier of the test case which can be used to refer to the test case |
+| depends_on | N        | list<string\> | List of test case `id`s this test depends on                                   |
