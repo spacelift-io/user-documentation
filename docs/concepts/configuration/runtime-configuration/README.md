@@ -67,6 +67,7 @@ These scripts allow customizing the Spacelift workflow - see the relevant docume
 - `after_perform`
 - `before_destroy`
 - `after_destroy`
+- `after_run`
 
 ### `environment` map
 

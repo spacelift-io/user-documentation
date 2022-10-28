@@ -33,6 +33,7 @@ The version property is optional and currently ignored but for the sake of compl
 | `after_init`        | N        | list<string\>        | List of commands executed [after first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. terraform init).    |
 | `after_perform`     | N        | list<string\>        | List of commands executed after [performing a custom task](../../run/task.md#performing-a-task)                                                  |
 | `after_plan`        | N        | list<string\>        | List of commands executed after [planning changes](../../run/proposed.md#planning)                                                               |
+| `after_run`        | N        | list<string\>        | List of commands executed after every run, regardless of its outcome                                                               |
 | `before_apply`      | N        | list<string\>        | List of commands executed [before applying changes](../../stack/stack-settings.md#before-apply-scripts).                                         |
 | `before_destroy`    | N        | list<string\>        | List of commands executed before destroying managed resources.                                                                                   |
 | `before_init`       | N        | list<string\>        | List of commands executed [before first interacting with the backend](../../stack/stack-settings.md#before-init-scripts) (eg. `terraform init`). |
