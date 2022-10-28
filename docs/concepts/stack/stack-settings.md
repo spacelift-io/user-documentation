@@ -41,10 +41,8 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 - [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
 - [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
 - [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
-- After each actively processed run, regardless of its outcome (`after_run`)
 
-!!! warning
-    All hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
+You can also set up hooks (`after_run`) that will execute after each actively processed run, regardless of its outcome. Note here that all hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
 
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
 
