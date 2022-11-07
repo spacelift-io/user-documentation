@@ -69,3 +69,15 @@ Doing so will set your EC2 instance ID as _instance_id_ tag in your VCS Agent co
 ### Private Workers
 
 VCS agents are only supported when using private worker pools. Because your source code is downloaded directly by Spacelift workers, you need to configure your workers to know how to reach your VCS instance. Information on how to do this is provided on the [worker pools](worker-pools.md#vcs-agents) page.
+
+## Debug Information
+
+Sometimes, it is helpful to display additional information to troubleshoot an issue. When that is needed, set the following environment variables:
+
+```shell
+export GODEBUG=http2debug=2
+export GRPC_GO_LOG_SEVERITY_LEVEL=info
+export GRPC_GO_LOG_VERBOSITY_LEVEL=99
+```
+
+You may want to tweak the values to increase or decrease verbosity.
