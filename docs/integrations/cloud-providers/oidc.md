@@ -173,6 +173,8 @@ In order to enable Spacelift runs to access Azure resources, you need to set up 
 
   On the overview page, take a note of the _Application (client) ID_ and _Directory (tenant) ID_ - you will need them later when configuring the Terraform provider.
 
+  ![App registration overview](<../../assets/screenshots/oidc-federation-azure-app-registration-overview.png>)
+
   Next, go to the _Certificates & secrets_ section, select the _Federated credentials_ tab and click on the _Add credential_ button:
 
   ![Add credential](<../../assets/screenshots/oidc-federation-azure-add-credential.png>)
