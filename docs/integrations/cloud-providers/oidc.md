@@ -57,25 +57,25 @@ In order to be able to do that, you will need to set up Spacelift as a valid ide
 
 1. Click on the "Identity providers" link in the left-hand menu;
 
-1. Click on the "Add provider" button in the top bar ![Add provider](./screenshots/aws-iam-add-provider.png)
+1. Click on the "Add provider" button in the top bar ![Add provider](../../assets/screenshots/oidc/aws-iam-add-provider.png)
 
-1. Select "OpenID Connect" as the provider type ![Configure provider](./screenshots/aws-iam-configure-provider.png)
+1. Select "OpenID Connect" as the provider type ![Configure provider](../../assets/screenshots/oidc/aws-iam-configure-provider.png)
 
 1. Make sure to get the host thumbprint by clicking the "Get thumbprint" button. This is required by AWS and protects you from a certain class of MitM attacks.
 
 Once created, the identity provider will be listed in the "Identity providers" table. You can click on the provider name to see the details. From here, you will also be able to assign an IAM role to this new identity provider:
 
-![Provider details](./screenshots/aws-iam-provider-details.png)
+![Provider details](../../assets/screenshots/oidc/aws-iam-provider-details.png)
 
 A dialog will pop up, asking you to select whether you want to create a new role or use an existing one. Let's create a brand new role. The most important thing for us is to select the right trusted entity - the new Spacelift OIDC provider. Make sure you select the audience from the dropdown - there should be just one option to choose from:
 
-![Choosing role provider](./screenshots/aws-iam-choosing-role-provider.png)
+![Choosing role provider](../../assets/screenshots/oidc/aws-iam-choosing-role-provider.png)
 
 The rest of the process is the same as for any other role creation. You will be asked to select the policies that you want to attach to the role. You can also add tags and a description. Once you're done, click the "Create role" button.
 
 If you go to your new role's details page, in the _Trust relationships_ section you will notice that it is now associated with the Spacelift OIDC provider:
 
-![Trust relationship](./screenshots/aws-iam-trust-relationship.png)
+![Trust relationship](../../assets/screenshots/oidc/aws-iam-trust-relationship.png)
 
 This trust relationship is very relaxed and will allow any stack or module in the `demo` Spacelift account to assume this role. If you want to be more restrictive, you will want to add more conditions. For example, we can restrict the role to be only assumable by stacks in the `production` space by adding the following condition:
 
@@ -124,21 +124,21 @@ To do this you need to perform a number of steps within GCP:
 
 Let's go through these steps one by one. First, you will want to go to the [GCP console](https://console.cloud.google.com/) and select the IAM service, then click on the "Workload Identity Federation" link in the left-hand menu:
 
-![GCP Workload Identity Federation](./screenshots/gcp-workload-identity-federation.png)
+![GCP Workload Identity Federation](../../assets/screenshots/oidc/gcp-workload-identity-federation.png)
 
 There, you will want to click on the _Create pool_ button, which will take you to the pool creation form. First, give your new identity pool a name and optionally set a description. The next step is more interesting - you will need to set up an identity provider. The name is pretty much arbitrary but the rest of the fields are important to get right. The Issuer URL needs to be set to the URL of your Spacelift account (including the scheme). You will want to manually specify allowed audiences. There's just one you need - the hostname of your Spacelift account. Here is what a properly filled out form would look like:
 
-![Adding workload identity provider to GCP](./screenshots/gcp-add-provider.png)
+![Adding workload identity provider to GCP](../../assets/screenshots/oidc/gcp-add-provider.png)
 
 In the last step, you will need to configure a mapping between provider Spacelift token claims (assertions) and Google attributes. `google.subject` is a required mapping and should generally map to `assertion.sub`. [Custom claims](#custom-claims) can be mapped to custom attributes, which need to start with the `attribute.` prefix. In the below example, we are also mapping Spacelift's `spaceId` claim to GCP's custom `space` attribute:
 
-![GCP provider attribute mapping](./screenshots/gcp-provider-attributes.png)
+![GCP provider attribute mapping](../../assets/screenshots/oidc/gcp-provider-attributes.png)
 
 To restrict which identities can authenticate using your workload identity pool you can specify extra [conditions](https://cloud.google.com/iam/docs/workload-identity-federation#conditions) using Google's [Common Expression Language](https://github.com/google/cel-spec).
 
 Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts) we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
 
-![GCP granting access to service account](./screenshots/gcp-grant-access.png)
+![GCP granting access to service account](../../assets/screenshots/oidc/gcp-grant-access.png)
 
 #### Configuring the Terraform Provider
 
@@ -162,7 +162,7 @@ Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform p
 
 Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../concepts/configuration/context.md) that is then attached to the stack. Note that you will also need to tell the provider how to find this configuration file. This bit is nicely documented in the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials). And here is an example of us using a Spacelift [context](../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
 
-![GCP Spacelift settings](./screenshots/gcp-spacelift-settings.png)
+![GCP Spacelift settings](../../assets/screenshots/oidc/gcp-spacelift-settings.png)
 
 ### Azure
 
