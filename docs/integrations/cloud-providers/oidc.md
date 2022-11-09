@@ -282,7 +282,7 @@ vault write auth/jwt/role/infra-preprod -<<EOF
 {
   "role_type": "jwt",
   "user_claim": "actor",
-  "bound_audiences": "https://demo.app.spacelift.io",
+  "bound_audiences": "demo.app.spacelift.io",
   "bound_claims": { "space": "preprod" },
   "policies": ["infra-preprod"],
   "ttl": "10m"
@@ -306,4 +306,4 @@ provider "vault"
 }
 ```
 
-Next, the `TERRAFORM_VAULT_AUTH_JWT` environment variable to `${SPACELIFT_OIDC_TOKEN}`, either directly on your stack, or on one of the attached [contexts](../../concepts/configuration/context.md). This approach uses [interpolation](../../concepts/configuration/environment#environment-variable-interpolation) to dynamically set the value of the variable the provider is looking for to the value of the environment variable that Spacelift provides.
+Next, set the `TERRAFORM_VAULT_AUTH_JWT` environment variable to `${SPACELIFT_OIDC_TOKEN}`, either directly on your stack, or on one of the attached [contexts](../../concepts/configuration/context.md). This approach uses [interpolation](../../concepts/configuration/environment#environment-variable-interpolation) to dynamically set the value of the variable the provider is looking for to the value of the environment variable that Spacelift provides.
