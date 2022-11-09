@@ -48,16 +48,7 @@ In this section we will show you how to use the Spacelift OIDC token to authenti
 
 ### AWS
 
-Once the Spacelift-AWS OIDC integration is set up, the provider can be configured without the need for any static credentials. The `aws_role_arn` variable should be set to the ARN of the role that you want to assume:
-
-```hcl
-provider "aws" {
-  assume_role_with_web_identity {
-    role_arn = var.aws_role_arn
-    web_identity_token_file = "/mnt/workspace/spacelift.oidc"
-  }
-}
-```
+#### Configuring Spacelift as an Identity Provider
 
 In order to be able to do that, you will need to set up Spacelift as a valid identity provider for your AWS account. This is done by creating an [OpenID Connect identity provider
 ](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html). You can do it declaratively using any of the IaC providers, programmatically using the [AWS CLI](https://aws.amazon.com/cli/) or simply use the console. For illustrative purposes, we will use the console:
@@ -107,7 +98,49 @@ You can also restrict the role to be assumable only by a specific stack by match
 
 You can mix and match these to get the exact constraints you need. It is not the purpose of this guide to go into the intricacies of AWS IAM conditions - you can learn all about these in the [official doc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html). One important thing to remember though is that AWS does not seem to support custom claims so you will need to use the standard ones to do the matching - primarily `sub`, as shown above.
 
+#### Configuring the Terraform Provider
+
+Once the Spacelift-AWS OIDC integration is set up, the provider can be configured without the need for any static credentials. The `aws_role_arn` variable should be set to the ARN of the role that you want to assume:
+
+```hcl
+provider "aws" {
+  assume_role_with_web_identity {
+    role_arn = var.aws_role_arn
+    web_identity_token_file = "/mnt/workspace/spacelift.oidc"
+  }
+}
+```
+
 ### GCP
+
+#### Configuring Workload Identity
+
+In order to enable Spacelift runs to access GCP resources, you need to set up Spacelift as a valid identity provider for your account.
+To do this you need to perform a number of steps within GCP:
+
+- Create a [workload identity pool](https://cloud.google.com/iam/docs/configuring-workload-identity-federation#oidc) and set up the Spacelift OIDC provider as an identity provider for it;
+- Create a [service account](https://cloud.google.com/iam/docs/service-accounts) that will be used by Spacelift;
+- Connect the service account to the workload identity pool;
+
+Let's go through these steps one by one. First, you will want to go to the [GCP console](https://console.cloud.google.com/) and select the IAM service, then click on the "Workload Identity Federation" link in the left-hand menu:
+
+![GCP Workload Identity Federation](./screenshots/gcp-workload-identity-federation.png)
+
+There, you will want to click on the _Create pool_ button, which will take you to the pool creation form. First, give your new identity pool a name and optionally set a description. The next step is more interesting - you will need to set up an identity provider. The name is pretty much arbitrary but the rest of the fields are important to get right. The Issuer URL needs to be set to the URL of your Spacelift account (including the scheme). You will want to manually specify allowed audiences. There's just one you need - the hostname of your Spacelift account. Here is what a properly filled out form would look like:
+
+![Adding workload identity provider to GCP](./screenshots/gcp-add-provider.png)
+
+In the last step, you will need to configure a mapping between provider Spacelift token claims (assertions) and Google attributes. `google.subject` is a required mapping and should generally map to `assertion.sub`. [Custom claims](#custom-claims) can be mapped to custom attributes, which need to start with the `attribute.` prefix. In the below example, we are also mapping Spacelift's `spaceId` claim to GCP's custom `space` attribute:
+
+![GCP provider attribute mapping](./screenshots/gcp-provider-attributes.png)
+
+To restrict which identities can authenticate using your workload identity pool you can specify extra [conditions](https://cloud.google.com/iam/docs/workload-identity-federation#conditions) using Google's [Common Expression Language](https://github.com/google/cel-spec).
+
+Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts) we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
+
+![GCP granting access to service account](./screenshots/gcp-grant-access.png)
+
+#### Configuring the Terraform Provider
 
 Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs) can be configured without the need for any static credentials. You will however want to provide a configuration file telling the provider how to authenticate. The configuration file can be created manually or generated by the [`gcloud` utility](https://cloud.google.com/sdk/gcloud/reference/iam/workload-identity-pools/create-cred-config) and would look like this:
 
@@ -130,30 +163,6 @@ Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform p
 Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../concepts/configuration/context.md) that is then attached to the stack. Note that you will also need to tell the provider how to find this configuration file. This bit is nicely documented in the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials). And here is an example of us using a Spacelift [context](../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
 
 ![GCP Spacelift settings](./screenshots/gcp-spacelift-settings.png)
-
-In order for that to work, you will need to do a few things in GCP:
-
-- create a [workload identity pool](https://cloud.google.com/iam/docs/configuring-workload-identity-federation#oidc) and set up the Spacelift OIDC provider as an identity provider for it;
-- create a [service account](https://cloud.google.com/iam/docs/service-accounts) that will be used by Spacelift;
-- connect the service account to the workload identity pool;
-
-Let's go through these steps one by one. First, you will want to go to the [GCP console](https://console.cloud.google.com/) and select the IAM service, then click on the "Workload Identity Federation" link in the left-hand menu:
-
-![GCP Workload Identity Federation](./screenshots/gcp-workload-identity-federation.png)
-
-There, you will want to click on the _Create pool_ button, which will take you to the pool creation form. First, give your new identity pool a name and optionally set a description. The next step is more interesting - you will need to set up an identity provider. The name is pretty much arbitrary but the rest of the fields are important to get right. The Issuer URL needs to be set to the URL of your Spacelift account (including the scheme). You will want to manually specify allowed audiences. There's just one you need - the hostname of your Spacelift account. Here is what a properly filled out form would look like:
-
-![Adding workload identity provider to GCP](./screenshots/gcp-add-provider.png)
-
-In the last step, you will need to configure a mapping between provider Spacelift token claims (assertions) and Google attributes. `google.subject` is a required mapping and should generally map to `assertion.sub`. [Custom claims](#custom-claims) can be mapped to custom attributes, which need to start with the `attribute.` prefix. In the below example, we are also mapping Spacelift's `spaceId` claim to GCP's custom `space` attribute:
-
-![GCP provider attribute mapping](./screenshots/gcp-provider-attributes.png)
-
-To restrict which identities can authenticate using your workload identity pool you can specify extra [conditions](https://cloud.google.com/iam/docs/workload-identity-federation#conditions) using Google's [Common Expression Language](https://github.com/google/cel-spec).
-
-Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts) we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
-
-![GCP granting access to service account](./screenshots/gcp-grant-access.png)
 
 ### Azure
 
