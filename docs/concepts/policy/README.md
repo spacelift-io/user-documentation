@@ -14,19 +14,21 @@ Spacelift as a development platform is built around this concept and allows defi
 - Push: [how Git push events are interpreted](git-push-policy.md);
 - Task: [which one-off commands can be executed](task-run-policy.md);
 - Trigger: [what happens when blocking runs terminate](trigger-policy.md);
+- Notification: [routing and filtering notifications](notification-policy.md);
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
 
-| Type                                           | Purpose                                                                               | Types                 | Returns       | Rules                                              |
-| ---------------------------------------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------- | -------------------------------------------------- |
-| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                               | Positive and negative | `boolean`     | `allow`, `admin`, `deny`, `deny_admin`                  |
-| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                       | Positive and negative | `boolean`     | `read`, `write`, `deny`, `deny_write`                   |
-| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                         | Positive and negative | `boolean`     | `approve, reject`                                  |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)           | Negative              | `set<string>` | `deny`                                             |
-| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>` | `deny`, `warn`                                     |
-| [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                        | Positive and negative | `boolean`     | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
-| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                | Negative              | `set<string>` | `deny`                                             |
-| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>` | `trigger`                                          |
+| Type                                           | Purpose                                                                                        | Types                 | Returns            | Rules                                                     |
+|------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------|--------------------|-----------------------------------------------------------|
+| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                                        | Positive and negative | `boolean`          | `allow`, `admin`, `deny`, `deny_admin`                    |
+| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                                | Positive and negative | `boolean`          | `read`, `write`, `deny`, `deny_write`                     |
+| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                                  | Positive and negative | `boolean`          | `approve, reject`                                         |
+| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
+| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
+| [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
+| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
+| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
+| [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
 
 ## How it works
 
@@ -58,7 +60,7 @@ Policies must be self-contained and cannot refer to external resources (e.g., fi
 
 ## Return Types
 
-There are currently eight types of supported policies and while each of them is different, they have a lot in common. In particular, they can fall into one of the two groups based on what rules are expected to return.
+There are currently nine types of supported policies and while each of them is different, they have a lot in common. In particular, they can fall into a few groups based on what rules are expected to return.
 
 ### Boolean
 
@@ -103,6 +105,26 @@ deny[sprintf("some rule violated (%s)", [resource.address])] {
   created_resources[resource]
 
   we_dont_create[resource.type]
+}
+```
+
+### Complex objects 
+
+Final group of policies ([notification](notification-policy.md)) will generate and return more complex objects. These are typically JSON objects.
+In terms of syntax they are still very similar to other policies which return sets of strings, but they provide additional information
+inside the returned decision. For example here is a rule which will return a JSON object to be used when creating a custom notification:
+
+```opa
+package spacelift
+
+inbox[{
+  "title": "Tracked run finished!",
+  "body": sprintf("Run ID: %s", [run.id]),
+  "severity": "INFO",
+}] {
+  run := input.run_updated.run
+  run.type == "TRACKED"
+  run.state == "FINISHED"
 }
 ```
 

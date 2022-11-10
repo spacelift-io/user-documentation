@@ -38,6 +38,7 @@ nav:
       - concepts/policy/git-push-policy.md
       - concepts/policy/task-run-policy.md
       - concepts/policy/trigger-policy.md
+      - concepts/policy/notification-policy.md
     - concepts/resources.md
     - concepts/worker-pools.md
     - Spaces:

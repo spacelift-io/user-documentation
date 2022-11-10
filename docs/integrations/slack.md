@@ -83,14 +83,19 @@ Any Stack with this policy attached will be accessible for writing from this Sla
 !!! info
     Note that different commands may have different required levels of access, so you can create a more granular policies - for example giving a `#devops` channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
 
+## Available actions
+
+Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a _Write_ level on the user Slack info.
+
 ## Available slash commands
+
+!!! warning
+    It's recomended to instead use the [notification policy](../concepts/policy/notification-policy.md) in order to 
+    manage slack messages received from Spacelift. These slash commands are considered as **deprecated**.
+
 
 Three slash commands are currently available:
 
 - `/spacelift subscribe $stackId` - subscribes a particular Slack channel to run state changes for a given Stack - requires ;
 - `/spacelift unsubscribe $stackId` - unsubscribes a particular Slack channel from run state changes for a given Stack;
 - `/spacelift trigger $stackId` - triggers a tracked run for the specified Stack;
-
-## Available actions
-
-Currently confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a _Write_ level on the user Slack info.
