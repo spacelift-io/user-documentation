@@ -16,7 +16,7 @@ A login policy can define the following types of boolean rules:
 - **admin** - allows the user to log in as an account-wide _admin_ - note that you don't need to explicitly **allow** admin users;
 - **deny** - denies login attempt, no matter the result of other (**allow** and **admin**) rules;
 - **deny_admin** - denies the current user **admin** access to the stack, no matter the outcome of other rules;
-- **space_admin/space_write/space_read** - manages access levels to spaces. More on that in [Spaces Access Control](../spaces/access-control.md)
+- **space_admin/space_write/space_read** - manages access levels to spaces. More on that in [Spaces Access Control](../spaces/access-control.md);
 
 If no rules match, the default action will be to deny a login attempt.
 
