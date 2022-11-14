@@ -13,10 +13,7 @@ Stacks can be moved to a different space using the *Name* tab in the Stack's set
 In order for the move operation to succeed, the stack has to maintain access to any attachable resources it uses (worker pools, contexts, cloud integrations, etc.).
 In other words, the new space that the stack will be in must either inherit (directly or indirectly via parental chain) from the spaces that the used attachable resources are in or those resources have to be defined in the new space.
 
-
 ## Moving an Attachable Entity (Worker Pool, Context, etc.)
-
-
 
 All the attachable entities can be moved to a different space either in the UI or via the API.
 The following image shows how to move a context to a different space in the UI.

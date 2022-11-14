@@ -1,17 +1,6 @@
 # Access Control
 
-When introducing Spaces we had to redefine the Account permission model.
-
-Until now, you could use Login Policies to allow or deny access to Spacelift, while also assigning account admins.
-You would then have to use Access Policies to manage access to individual stacks for the non-admin users.
-Every other entity such as worker pools, policies or contexts was available only to account admins.
-
-With Spaces, we decided that it doesn't make sense anymore to define access on stack-by-stack basis, but instead, we should focus on assigning access to particular Spaces.
-Therefore, in the Spaces world we are deprecating Access Policies.
-Instead, the whole permission management process will be done solely within Login Policies where you can now specify what type of role a user gets within the given spaces.
-
-A core concept of access control with spaces is inheritance. Each space has a toggle that defines whether it inherits resources from its parent space or not.
-This toggle also affects how roles propagate between spaces.
+With Spaces, the whole permission management process is done within Login Policies where you can specify what type of role a user gets within the given spaces.
 
 ## Roles
 
