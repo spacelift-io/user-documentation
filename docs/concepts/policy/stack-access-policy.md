@@ -1,5 +1,8 @@
 # Access policy
 
+!!! danger
+    Access policies are deprecated in favour of Space access rules in the login policy. See [Spaces](../spaces/README.md) for more details.
+
 ## Purpose
 
 By default, non-admin users have no access to any [Stacks](../stack/README.md) or [Modules](../../vendors/terraform/module-registry.md) and must be granted that explicitly. There are two levels of non-admin access - reader and writer, and the exact meaning of these roles is covered in a [separate section](stack-access-policy.md#readers-and-writers). For now all we need to care about is that access policies are what we use to give appropriate level of access to individual stacks to non-admin users in your account.

@@ -13,13 +13,14 @@ Login policies can allow users to log in to the account, and optionally give the
 A login policy can define the following types of boolean rules:
 
 - **allow** - allows the user to log in as a _non-admin_;
-- **admin** - allows the user to log in as an _admin_ - note that you don't need to explicitly **allow** admin users;
+- **admin** - allows the user to log in as an account-wide _admin_ - note that you don't need to explicitly **allow** admin users;
 - **deny** - denies login attempt, no matter the result of other (**allow** and **admin**) rules;
-- **deny_admin**:  denies the current user **admin** access to the stack, no matter the outcome of other rules;
+- **deny_admin** - denies the current user **admin** access to the stack, no matter the outcome of other rules;
+- **space_admin/space_write/space_read** - manages access levels to spaces. More on that in [Spaces Access Control](../spaces/access-control.md)
 
 If no rules match, the default action will be to deny a login attempt.
 
-Note that giving folks admin access is a big thing. Admins can do pretty much everything in Spacelift - create and delete stacks, trigger runs or tasks, create, delete and attach contexts and policies, etc.
+Note that giving folks admin access is a big thing. Admins can do pretty much everything in Spacelift - create and delete stacks, trigger runs or tasks, create, delete and attach contexts and policies, etc. Instead, you can give users limited admin access using the **space_admin** rule.
 
 !!! danger
     In practice, any time you define an **allow** or **admin** rule, you should probably think of restricting access using a **deny** rule, too. Please see the examples below to get a better feeling for it.
@@ -40,7 +41,14 @@ This is the schema of the data input that each policy request will receive:
     "member": "boolean - is the user a member of the account",
     "name": "string - full name of the user trying to log in - may be empty",
     "teams": ["string - names of teams the user is a member of"]
-  }
+  },
+  "spaces": [
+    {
+      "id": "string - ID of the space",
+      "name": "string - name of the space",
+      "labels": ["string - label of the space"]
+    }
+  ]
 }
 ```
 
@@ -156,6 +164,9 @@ deny { not net.cidr_contains("12.34.56.0/24", ip) }
 ```
 
 There's a lot to digest here, so a [playground example](https://play.openpolicyagent.org/p/4J3Nz6pYgC){: rel="nofollow"} may be helpful.
+
+### Granting limited admin access
+Very often you'd like to give a user admin access limited to a certain set of resources, so that they can manage them without having access to all other resources in that account. You can find more on that use case in [Spaces](../spaces/README.md).
 
 ### Rewriting teams
 
