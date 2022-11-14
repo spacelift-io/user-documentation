@@ -94,6 +94,8 @@ cancel[run.id] {
 }
 ```
 
+Please note that you cannot cancel module test runs. Only proposed and tracked stack runs can be canceled.
+
 !!! info
     Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
 
@@ -179,7 +181,7 @@ In the above case, we'll allow a forked repository to run, **only** if the owner
 
 `head_owner` field means different things in different VCS providers:
 
-#### GitHub
+#### GitHub / GitHub Enterprise
 
 In GitHub, `head_owner` is the organization or the person owning the forked repository. It's typically in the URL: `https://github.com/<head_owner>/<forked_repository>`
 
@@ -255,7 +257,7 @@ is_marked_for_deploy {
 
 Each source control provider has slightly different features, and because of this the exact definition of `approved` and `mergeable` varies slightly between providers. The following sections explain the differences.
 
-#### Azure DevOps
+#### Azure DevOps <!-- markdownlint-disable-line MD024 -->
 
 - `approved` means the PR has at least one approving review (including approved with suggestions).
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
@@ -263,22 +265,22 @@ Each source control provider has slightly different features, and because of thi
 !!! info
     Please note that we are unable to calculate divergance across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
 
-#### Bitbucket Cloud
+#### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
 
 - `approved` means that the PR has at least one approving review from someone other than the PR author.
 - `mergeable` means that the PR branch has no conflicts with the target branch.
 
-#### Bitbucket Datacenter/Server
+#### Bitbucket Datacenter/Server <!-- markdownlint-disable-line MD024 -->
 
 - `approved` means that the PR has at least one approving review from someone other than the PR author.
 - `mergeable` means that the PR branch has no conflicts with the target branch.
 
-#### GitHub / GitHub Enterprise
+#### GitHub / GitHub Enterprise <!-- markdownlint-disable-line MD024 -->
 
 - `approved` means that the PR has at least one approval, and also meets any minimum approval requirements for the repo.
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any branch protection rules have been met.
 
-#### GitLab
+#### GitLab <!-- markdownlint-disable-line MD024 -->
 
 - `approved` means that the PR has at least one approval. If approvals are required, it is only `true` when all required approvals have been made.
 - `mergeable` means that the PR branch has no conflicts with the target branch, any blocking discussions have been resolved, and any required approvals have been made.
