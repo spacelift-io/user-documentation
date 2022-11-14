@@ -156,6 +156,36 @@ Tests run both on [proposed and tracked changes](../../concepts/run/README.md#wh
 !!! info
     Each test case will have its own commit status in GitHub / GitLab.
 
+## Test case ordering
+
+You can specify the order in which test cases should be executed by setting the `depends_on` property on a test case. This property accepts a list of test case `id`s that must be executed before the current test case. For example:
+
+```yaml
+version: 1
+module_version: 1.0.0
+
+tests:
+  # This one is executed first.
+  - name: Test the module with 0.12.7
+    id: test-0.12.7
+    terraform_version: 0.12.7
+
+  # This is executed second, because it depends on the first test case.
+  - name: Test the submodule with 0.13.0
+    id: test-0.13.0
+    project_root: submodule
+    terraform_version: 0.13.0
+    depends_on: ["test-0.12.7"]
+
+  # This is executed third, because it depends on the second test case.
+  - name: Ensure that the submodule can fail
+    depends_on: ["test-0.13.0"]
+    negative: true
+    project_root: submodule
+```
+
+Note that in order to refer to a test case, you need to set a unique `id` to it.
+
 ## Versions
 
 Whenever tests succeed on a [tracked change](../../concepts/run/README.md#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.

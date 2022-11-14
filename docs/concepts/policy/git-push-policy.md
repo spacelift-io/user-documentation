@@ -55,7 +55,7 @@ Here's another example where you respond to a particular PR label ("deploy") to 
 ```opa
 package spacelift
 
-track   { is_pr, labeled }
+track   { is_pr; labeled }
 propose { true }
 is_pr   { not is_null(input.pull_request) }
 labeled { input.pull_request.labels[_] = "deploy" }

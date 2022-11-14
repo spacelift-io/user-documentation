@@ -1,59 +1,32 @@
 # Scheduling
 
-!!! info
-    Scheduling is currently in beta. If you are interested in trying out this feature reach out to us through our support channel or slack.
-
 ## What is scheduling?
+
+!!! info
+    Note that, at least currently, scheduling only works on private workers.
 
 Scheduling allows you to trigger a stack deletion or task at a specific time or periodically based on the cron rules defined.
 
-The [Terraform provider](../../vendors/terraform/terraform-provider.md) and the [API](../../integrations/api.md) are (currently) the only ways to create scheduling configurations. We will add the UI for this feature in the upcoming weeks.
-
 ## Scheduled Delete Stack (TTL)
 
-!!! info
-    Note that, at least currently, scheduling only works on private workers.
+A Delete Stack schedule allows you to delete the stack and (optionally) its resources at the specific timestamp (UNIX timestamp).
 
-A delete stack schedule allows you to delete the stack and (optionally) its resources at the specific timestamp (UNIX timestamp).
+Add a schedule with the Delete Stack type from the Scheduling section of your stack settings.
 
-```terraform title="scheduled_delete_stack.tf"
-resource "spacelift_stack" "k8s-core" {
-  // ...
-}
+Actions when the schedule defines that the resources should be deleted:
 
-resource "spacelift_scheduled_delete_stack" "k8s-core-delete" {
-  stack_id = spacelift_stack.k8s-core.id
+- a destruction run will be triggered at the specified time.
+- after this run is successful, the stack will be deleted.
 
-  at               = "1663336895"
-  delete_resources = true
-}
-```
+When the resources should not be deleted, we will delete the stack at the specified time.
 
-## Scheduled Tasks
+![](../../assets/screenshots/scheduling/create_delete_stack.png)
 
-!!! info
-    Note that, at least currently, scheduling only works on private workers.
+## Scheduled Task
 
 A scheduled task enables you to run a command at a specific timestamp or periodically based on the cron rules defined.
 
-The following example shows that you can destroy and create resources at the beginning and the end of the workday.
+Add a schedule with the Task type from the Scheduling section of your stack settings.
+After creating this schedule, a task will be triggered with the defined command (at a specific timestamp or periodically based on the cron rules defined).
 
-```terraform title="scheduled_tasks.tf"
-// create the resources of a stack on a given schedule
-resource "spacelift_scheduled_task" "k8s-core-create" {
-  stack_id = spacelift_stack.k8s-core.id
-
-  command = "terraform apply -auto-approve"
-  every = ["0 7 * * 1-5"]
-  timezone = "CET"
-}
-
-// destroy the resources of a stack on a given schedule
-resource "spacelift_scheduled_task" "k8s-core-destroy" {
-  stack_id = spacelift_stack.k8s-core.id
-
-  command = "terraform destroy -auto-approve"
-  every = ["0 21 * * 1-5"]
-  timezone = "CET"
-}
-```
+![](../../assets/screenshots/scheduling/create_task.png)

@@ -10,6 +10,10 @@ The other source of drift comes from the dependency of your resources on externa
 
 In the first scenario, drift is an unwanted by-product of emergencies or broken processes. In the latter, it's both desired and inevitable - it's proof that your otherwise declarative system responds to external changes. In other words - drift happens, so deal with it. 😎
 
+## Video Walkthrough
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/761467641?h=017928bdbc&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Drift Detection"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
 ## How Spacelift helps
 
 Spacelift comes with a built-in mechanism to detect and - optionally - reconcile drift. We do it by periodically executing [proposed runs](../run/proposed.md) on your stable infrastructure (in Spacelift, we generally represent it by the [FINISHED stack state](./README.md#stack-state)) and checking for any changes.
@@ -42,6 +46,8 @@ But once your job detects drift (and you've enabled [reconciliation](drift-detec
 The only real difference between a drift detection job and one triggered manually is that the run section of your policy input will have the `drift_detection` field set to `true` - and this applies to both [plan](../policy/terraform-plan-policy.md) and [trigger](../policy/trigger-policy.md) policies. You can use this mechanism to add extra controls to your drift detection strategy. For example, if you're automatically deploying your changes but want a human to look at drift before reconciling it, you can add the following section to your [plan policy](../policy/terraform-plan-policy.md) body:
 
 ```opa
+package spacelift
+
 warn["Drift reconciliation requires manual approval"] {
   input.spacelift.run.drift_detection
 }

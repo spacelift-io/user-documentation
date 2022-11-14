@@ -2,6 +2,10 @@
 
 This article covers all settings that are set **directly on the stack**. It's important to note that these are not the only settings that affect how [runs](../run/README.md) and [tasks](../run/task.md) within a given stack are processed - [environment](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md) and various integrations will all play a role here, too.
 
+## Video Walkthrough
+
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/755645223?h=74912655ff&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Stack Settings"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
 ## Common settings
 
 ### Administrative
@@ -37,6 +41,10 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 - [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
 - [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
 - [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
+
+You can also set up hooks (`after_run`) that will execute after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
+
+Note here that all hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
 
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
 

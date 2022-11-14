@@ -245,6 +245,8 @@ That's what it looks like for our test repo, with just a singe stack pointing at
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (4).png>)
 
+GitHub deployment environment names are derived from their respective stack names. This can be customized by setting the `ghenv:` label on the stack. For example, if you have a stack named `Production` and you want to name the deployment environment `I love bacon`, you can set the `ghenv:I love bacon` label on the stack. You can also disable the creation of a GitHub deployments by setting the `ghenv:-` label on the stack.
+
 !!! info
     The _Deployed_ links lead to their corresponding Spacelift [tracked runs](../../concepts/run/tracked.md).
 
