@@ -5,7 +5,7 @@ With increased usage comes a bigger need for access control and self-service.  H
 
 In Spacelift, this can be achieved by splitting your account into multiple Spaces.
 
-Spaces are logical permission boundaries to which you can assign various kinds of Spacelift entities: Stacks, Policies, Contexts, Modules, Worker Pools, and Cloud Integrations.
+Spaces are sets that can be filled with various kinds of Spacelift entities: Stacks, Policies, Contexts, Modules, Worker Pools, and Cloud Integrations.
 
 Initially, you start with a root and a legacy space. The root space is the top-level space of your account, while the legacy space exists for backwards compatibility with pre-spaces RBAC. You can then create more spaces, ending up with a big tree of segregated environments.
 
