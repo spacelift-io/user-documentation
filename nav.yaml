@@ -9,6 +9,7 @@ nav:
       - concepts/stack/stack-settings.md
       - concepts/stack/organizing-stacks.md
       - concepts/stack/stack-locking.md
+      - concepts/stack/stack-dependencies.md
       - concepts/stack/drift-detection.md
       - concepts/stack/scheduling.md
     - Configuration:

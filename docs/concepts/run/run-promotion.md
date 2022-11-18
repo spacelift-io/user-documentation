@@ -23,16 +23,16 @@ Promoting a proposed run is triggering a tracked run for the same Git commit.
 <!-- markdownlint-disable-next-line MD036 -->
 **Stack Settings > Behavior > Advanced Options > Allow Run Promotion**
 
-![Enable the Allow run promotion feature within the Spacelift Stack's Settings.](../../../../assets/screenshots/Screen Shot 2022-05-17 at 1.01.36 PM.png)
+![Enable the Allow run promotion feature within the Spacelift Stack's Settings.](../../assets/screenshots/Screen%20Shot%202022-05-17%20at%201.01.36%20PM.png)
 
 #### Promote from Proposed Run View
 
 Assuming you've enabled Run Promotion within the stack settings, and the commit to be promoted is newer than the stack's current commit. On a given proposed run, you will then see the "Promote" button as seen in the screenshot below. You simply need to click this button to promote the proposed run into a tracked run.
 
-![Promote a proposed run within Spacelift using the Promote button.](../../../../assets/screenshots/Screen Shot 2022-05-17 at 1.09.56 PM.png)
+![Promote a proposed run within Spacelift using the Promote button.](../../assets/screenshots/Screen%20Shot%202022-05-17%20at%201.09.56%20PM.png)
 
 #### Promote from a Pull Request
 
 For Spacelift users utilizing GitHub, a similar feature is available directly from the GitHub Pull Request. Assuming the same criteria is met as mentioned previously: 1) The commit to be promoted is newer than the stack's current commit 2) Run Promotion is enabled on the stack - Then, you will see a `Deploy` button available within the Checks tab of the pull request. This button will promote your proposed run into a tracked run.
 
-![Promote a run from a GitHub Pull Request using the Deploy button.](../../../../assets/screenshots/Screen Shot 2022-05-17 at 1.17.11 PM.png)
+![Promote a run from a GitHub Pull Request using the Deploy button.](../../assets/screenshots/Screen%20Shot%202022-05-17%20at%201.17.11%20PM.png)
