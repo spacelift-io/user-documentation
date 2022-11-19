@@ -48,6 +48,11 @@ In this section we will show you how to use the Spacelift OIDC token to authenti
 
 ### AWS
 
+!!! warning
+    While the [Terraform AWS provider supports authenticating with OIDC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration){: rel="nofollow"}, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} does not support it yet.
+
+    If you need to use the AWS S3 state backend, you should use the dedicated [AWS Cloud Integration](./aws.md).
+
 #### Configuring Spacelift as an Identity Provider
 
 In order to be able to do that, you will need to set up Spacelift as a valid identity provider for your AWS account. This is done by creating an [OpenID Connect identity provider
