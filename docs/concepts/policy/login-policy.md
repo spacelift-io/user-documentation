@@ -166,11 +166,12 @@ deny { not net.cidr_contains("12.34.56.0/24", ip) }
 There's a lot to digest here, so a [playground example](https://play.openpolicyagent.org/p/4J3Nz6pYgC){: rel="nofollow"} may be helpful.
 
 ### Granting limited admin access
+
 Very often you'd like to give a user admin access limited to a certain set of resources, so that they can manage them without having access to all other resources in that account. You can find more on that use case in [Spaces](../spaces/README.md).
 
 ### Rewriting teams
 
-In addition to boolean rules regulating access to your Spacelift account, the login policy exposes the **team** rule, which allows one to dynamically rewrite the list of teams received from the identity provider. This operation allows one to define Spacelift roles independent of the identity provider. To illustrate this use case, let's imagine you want to define a _Superwriter_ role for someone who's:
+In addition to boolean rules regulating access to your Spacelift account, the login policy exposes the **team** rule, which allows one to dynamically rewrite the list of teams received from the identity provider. This operation allows one to define Spacelift roles independent of the identity provider. To illustrate this use case, let's imagine you want to define a `Superwriter` role for someone who's:
 
 - logging in from an office VPN;
 - is a member of the DevOps team, as defined by your IdP;
@@ -190,7 +191,7 @@ devops     { input.session.teams[_] == "DevOps" }
 office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
 ```
 
-What's important here is that the **team** rule overwrites the original list of teams, meaning that if it evaluates to a non-empty collection, it will **replace** the original list of teams in the session. In the above example, the Superadmin role will become the only team for the evaluated user session.
+What's important here is that the **team** rule overwrites the original list of teams, meaning that if it evaluates to a non-empty collection, it will **replace** the original list of teams in the session. In the above example, the `Superwriter` role will become the only team for the evaluated user session.
 
 If the above is not what you want, and you still would like to retain the original list of teams, you can modify the above example the following way:
 
@@ -213,6 +214,9 @@ office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
 ```
 
 A playground example of the above is available [here](https://play.openpolicyagent.org/p/dM8P83sk4l){: rel="nofollow"}.
+
+!!! hint
+    Because the user session is updated, the rewritten teams are available in the data input provided to the policy types that receive user information. For example, the rewritten teams can be used in [Access policies](./stack-access-policy.md).
 
 ## Default login policy
 
