@@ -63,17 +63,6 @@ Perhaps worth noting is the fact that these commands run in the same shell sessi
 !!! info
     These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
 
-#### Persisting environment variables between steps
-
-Environment variables can be persisted between steps by writing them to the `.env` file in the project root. In this example, we're using two hooks - one _before_ the initialization and one _after_ the initialization phase. We use the first command to retrieve a secret from external storage and put it in the environment to be used by the initialization phase. We use the second command to persist the secret to the environment so that subsequent steps can access it:
-
-![](<../../assets/screenshots/Mouse_Highlight_Overlay (8).png>)
-
-Note that the environment persisted this way is uploaded (with RSA wrapped AES encryption) to external storage when the tracked run requires manual review. If you don't feel comfortable with it, you have 2 options:
-
-- use [private workers](../worker-pools.md) where we don't have the key to decrypt the payload;
-- do not persist sensitive environment variables between steps - instead, retrieve them before each step that needs them;
-
 ### Enable local preview
 
 Indicates whether creating [proposed Runs](../run/proposed.md) based on user-uploaded local workspaces is allowed.
