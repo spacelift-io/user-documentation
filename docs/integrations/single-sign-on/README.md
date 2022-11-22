@@ -33,7 +33,6 @@ Some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) wi
 !!! info
     Spacelift uses both HTTP-Redirect and HTTP-POST bindings for SAML 2.0. Most of the IdPs enable both by default, but if you run into any issues, please check your application settings.
 
-
 ### NameID format
 
 The NameID format specifies the format that Spacelift requests user identifiers from your identity provider. The user identifier is used as the Spacelift login, and each unique identifier will count against your seat quota. Some identity providers allow you to configure this format, but certain providers (eg. Azure AD) do not.
