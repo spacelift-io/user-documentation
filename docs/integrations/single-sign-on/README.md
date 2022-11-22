@@ -29,7 +29,6 @@ Some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) wi
 !!! warning
     When setting up SSO without this GitHub mapping, your future logins will appear as new users since Spacelift has no way of mapping those without your assistance. New users will count against your seat quota and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact).
 
-
 !!! info
     Spacelift uses both HTTP-Redirect and HTTP-POST bindings for SAML 2.0. Most of the IdPs enable both by default, but if you run into any issues, please check your application settings.
 
