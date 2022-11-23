@@ -6,13 +6,13 @@ description: Receiving Spacelift notifications using webhooks
 
 Spacelift can optionally be set to send webhooks - POST requests about run state changes - to an HTTP endpoint of your choice.
 
-## Setting up webhooks 
+## Setting up webhooks
 
 ### TO BE ADDED...
 
 ## Interpreting webhook payload
 
-#### Run events 
+### Run events
 
 Here's an example of the default webhook payload for a notification about a manually triggered run having finished:
 
@@ -61,25 +61,25 @@ The payload consists of a few fields:
 - `run` contains information about the run, its associated commit and delta (if any);
 - stack contains some basic information about the parent [Stack](../concepts/stack/README.md) of the `run`;
 
-#### Internal error events 
+### Internal error events
 
 ```json
 {
-  "title":"Invalid Stack Slug Triggered",
-  "body":"policy tried to trigger Stack 'this-is-not-a-stack' which either doesn't exist or this policy doesn't have access to",
-  "error":"policy triggered for Stack that doesn't exist",
-  "severity":"ERROR",
-  "account":"spacelift-io"
+  "title": "Invalid Stack Slug Triggered",
+  "body": "policy tried to trigger Stack 'this-is-not-a-stack' which either doesn't exist or this policy doesn't have access to",
+  "error": "policy triggered for Stack that doesn't exist",
+  "severity": "ERROR",
+  "account": "spacelift-io"
 }
 ```
 
 Internal errors will always have the same fields set and some of them will be static for an event:
 
 - `title` is the title (summary) of the error that happened.
-- `body` is the is the full explation of what went wrong. 
-- `error` is a static field for each error and should not change between errors of the same type. 
+- `body` is the is the full explation of what went wrong.
+- `error` is a static field for each error and should not change between errors of the same type.
 - `severity` can be one of three different constants: `INFO`, `WARNING`, `ERROR`.
-- `account` is the account for which the error happened. 
+- `account` is the account for which the error happened.
 
 ## Validating payload
 
@@ -115,7 +115,7 @@ Once saved, the webhook will appear on the list of integrations:
 
 ### Enabling and disabling webhooks
 
-By default webhooks are enabled which means that they are triggered every time there's a run state change event on the Stack they're attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
+By default webhooks are enabled which means that they are triggered every time there's a run state change event on the Stack they are attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
 
 To do that, just click on the Edit button on the desired webhook integration section:
 

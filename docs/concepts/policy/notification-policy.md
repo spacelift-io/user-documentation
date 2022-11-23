@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](LINK TO SPACES HERE. NOT YET MERGED)
+Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md)
 meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if it can be accessed.
 It's also important to note that all notifications go through the notification policy evaluation,
 so depending on the rules defined any message can be directed to any provided route.
@@ -82,7 +82,7 @@ This is the schema of the data input that each policy request can receive:
 ```
 
 !!! warning
-    The final JSON object received as input will depend on the type of the notification being sent. For example you will always receive `webhook_endpoints` data
+    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data
     but will only receive `interal_error` object if the notification is an internal error or `run_updated` object if notification is about
     a [run](../run/README.md) being updated.
 
@@ -93,7 +93,7 @@ the policy works for each of the defined routes.
 
 ### Inbox notifications
 
-Inbox notifications are what you receive in your Spacelift notification inbox. By default these are errors that happened during
+Inbox notifications are what you receive in your Spacelift notification inbox. By default, these are errors that happened during
 some kind of action execution inside Spacelift and are always sent even if you do not have a policy created.
 However using the policy allows you to alter the body of those errors to add additional context, or even more importantly
 it allows you to create your own unique notifications.
@@ -114,7 +114,7 @@ package spacelift
 
  inbox[{
   "title": "Tracked run finished!",
-  "body": sprintf("http://spc.app.spacelift.dev/stack/%s/run/%s has finished", [stack.id, run.id]),
+  "body": sprintf("http://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
   "severity": "INFO",
  }] {
    stack := input.run_updated.stack
@@ -137,7 +137,7 @@ you will need to [add the slack integration to your Spacelift account](../../int
 
 Another important point to mention is that the rules for slack require a `channel_id` to be defined, it can be easily found at the bottom of a channel's details section:
 
-![](../../assets/screenshots/slack_channel_details.png)
+![](../../assets/screenshots/slack-channel-info.png)
 
 Now you should be ready to define rules for routing slack messages. Slack rules allow you to do the same filtering
 decisions as any other rule in the policy. They also allow you to edit the message bodies themselves in order to create custom messages.
@@ -174,7 +174,7 @@ package spacelift
 
 slack[{
   "channel_id": "C0000000000",
-  "message": sprintf("http://spc.app.spacelift.tf/stack/%s/run/%s is trying to attach a policy!", [stack.id, run.id]),
+  "message": sprintf("http://example.app.spacelift.io/stack/%s/run/%s is trying to attach a policy!", [stack.id, run.id]),
 }] {
   stack := input.run_updated.stack
   run := input.run_updated.run

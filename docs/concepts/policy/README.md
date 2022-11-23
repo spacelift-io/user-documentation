@@ -10,11 +10,11 @@ Spacelift as a development platform is built around this concept and allows defi
 - Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
 - Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
 - Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
+- Notification: [routing and filtering notifications](notification-policy.md);
 - Plan: [which changes can be applied](terraform-plan-policy.md);
 - Push: [how Git push events are interpreted](git-push-policy.md);
 - Task: [which one-off commands can be executed](task-run-policy.md);
 - Trigger: [what happens when blocking runs terminate](trigger-policy.md);
-- Notification: [routing and filtering notifications](notification-policy.md);
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
 
@@ -24,11 +24,11 @@ Please refer to the following table for information on what each policy types re
 | [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                                | Positive and negative | `boolean`          | `read`, `write`, `deny`, `deny_write`                     |
 | [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                                  | Positive and negative | `boolean`          | `approve, reject`                                         |
 | [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
+| [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
 | [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
 | [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
 | [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
 | [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
-| [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
 
 ## How it works
 
@@ -108,11 +108,10 @@ deny[sprintf("some rule violated (%s)", [resource.address])] {
 }
 ```
 
-### Complex objects 
+### Complex objects
 
 Final group of policies ([notification](notification-policy.md)) will generate and return more complex objects. These are typically JSON objects.
-In terms of syntax they are still very similar to other policies which return sets of strings, but they provide additional information
-inside the returned decision. For example here is a rule which will return a JSON object to be used when creating a custom notification:
+In terms of syntax they are still very similar to other policies which return sets of strings, but they provide additional information inside the returned decision. For example here is a rule which will return a JSON object to be used when creating a custom notification:
 
 ```opa
 package spacelift
