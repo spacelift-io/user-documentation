@@ -90,9 +90,8 @@ Currently confirming and discarding tracked runs is available through the Slack 
 ## Available slash commands
 
 !!! warning
-    It's recomended to instead use the [notification policy](../concepts/policy/notification-policy.md) in order to 
+    It's recomended to instead use the [notification policy](../concepts/policy/notification-policy.md) in order to
     manage slack messages received from Spacelift. These slash commands are considered as **deprecated**.
-
 
 Three slash commands are currently available:
 
