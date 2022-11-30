@@ -116,4 +116,4 @@ Poland
 
 ## 12. How can you review, update, or delete the data we collect from you?
 
-Based on the laws of some countries, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please submit a request form by [clicking here](https://forms.gle/eFEcsLr5gaiWxSE5A){: rel="nofollow"}. We will respond to your request within 30 days.
+Based on the laws of some countries, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please email us at privacy@spacelift.io. We will respond to your request within 30 days.
