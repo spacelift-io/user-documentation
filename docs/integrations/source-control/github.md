@@ -264,8 +264,8 @@ Once a Pull Request is closed, whether with or merging or without merging, it di
 
 In this section, we'd like to propose a workflow that has worked for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://datasift.github.io/gitflow/IntroducingGitFlow.html){: rel="nofollow"}.
 
-!!! info
-    These are mere suggestions and Spacelift will fit pretty much any Git workflow. If you find a different process or a distinct variation of one of the described approaches works better for you, please [let us know](https://forms.gle/eFEcsLr5gaiWxSE5A){: rel="nofollow"}.
+!!! tip
+    These are mere suggestions and Spacelift will fit pretty much any Git workflow, but feel free to experiment and find what works best for you.
 
 ### Single stack version
 
