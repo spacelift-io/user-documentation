@@ -4,7 +4,7 @@ description: Receiving Spacelift notifications using webhooks
 
 # Webhooks
 
-Spacelift can optionally be set to send webhooks - POST requests about run state changes - to an HTTP endpoint of your choice.
+Spacelift can be configured to send webhook notifications about various events to an HTTP endpoint of your choice.
 
 ## Setting up webhooks
 
@@ -12,9 +12,11 @@ Spacelift can optionally be set to send webhooks - POST requests about run state
 
 ## Interpreting webhook payload
 
+The following section documents the default webhook payloads sent for each event type. However if required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
+
 ### Run events
 
-Here's an example of the default webhook payload for a notification about a manually triggered run having finished:
+Here's an example of the default webhook payload for a notification about a finished tracked run:
 
 ```json
 {
@@ -75,9 +77,9 @@ The payload consists of a few fields:
 
 Internal errors will always have the same fields set and some of them will be static for an event:
 
-- `title` is the title (summary) of the error that happened.
-- `body` is the is the full explation of what went wrong.
-- `error` is a static field for each error and should not change between errors of the same type.
+- `title` is the title (summary) of the error.
+- `body` is the is the full explanation of what went wrong.
+- `error` is description of the error that happened.
 - `severity` can be one of three different constants: `INFO`, `WARNING`, `ERROR`.
 - `account` is the account for which the error happened.
 
@@ -85,13 +87,13 @@ Internal errors will always have the same fields set and some of them will be st
 
 In order to validate the incoming payload, you will need to have the secret handy - the one you've generated yourself when creating or updating the webhook.
 
-Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [this article](https://medium.com/@vampiire/how-to-verify-the-authenticity-of-a-github-apps-webhook-payload-8d63ccc81a24){: rel="nofollow"} for details.
+Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
 
 ## Attaching webhooks to stacks
 
 !!! warning
-    It's recomended to instead use the [notification policy](../concepts/policy/notification-policy.md) in order to
-    consumer webhook data received from Spacelift.
+    We recommend that you use [notification policies](../concepts/policy/notification-policy.md) to
+    route stack events to your webhooks. Stack webhook integrations are provided for backwards compatibility.
 
 Webhooks can be set up by Spacelift administrators on per-stack basis. In order to do that, navigate to the _Integrations_ section of the stack settings view. From the list of available integrations, select the _Add webhook_ option:
 
