@@ -98,6 +98,31 @@ This is the schema of the data input that each policy request can receive:
 Using the notification policy, you can completely re-write notifications or control where and when they are sent. Let's look into how
 the policy works for each of the defined routes.
 
+### Choosing a space for your policy
+
+When creating notification policies you should take in to account the space in which you're creating the them.
+Generally the policy follows the same conventions as any other Spacelift componenet, with a few small caviats.
+
+#### Determining space for run update notifications
+
+Run update messages will rely on the space that the run is happening in.
+It will check any policies in that space including policies inherited from other spaces.
+
+#### Determining space for internal errors
+
+Most internal errors will check for a notification policies inside of the root space.
+However if the policy is reporting about a componenet that belongs to a certain space
+and it can determine to which one it is, then it will check for policies in that or any inherited space.
+Here is a list of componenets it will check in order:
+
+- Stack
+- Worker pool
+- AWS integration
+- Policy
+
+!!! info
+    If you are new to spaces, consider further exploring our documentation about them [here](../spaces/README.md)
+
 ### Inbox notifications
 
 Inbox notifications are what you receive in your [Spacelift notification inbox](../../product/notifications.md). By default, these are errors that happened during
