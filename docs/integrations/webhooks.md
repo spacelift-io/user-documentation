@@ -8,7 +8,35 @@ Spacelift can be configured to send webhook notifications about various events t
 
 ## Setting up webhooks
 
-### TO BE ADDED...
+Webhooks can be set up by Spacelift administrators. They can be easily created or modified in the `Webhooks` section.
+
+### Navigate to the webhooks section
+
+![](<../assets/screenshots/named-hooks-nav.png>)
+
+### Fill required fields
+
+![](<../assets/screenshots/named-hooks1.png>)
+
+!!! info
+    The `Secret` parameter is optional and is used to validate the received payload.
+    You can learn more about it in the [validating payload](webhooks.md#validating-payload) section.
+
+### Reference webhooks in policy rules
+
+Webhook messages are delivered using the [notification policy](../concepts/policy/notification-policy.md).
+When defining rules, the policy expects you to reference the webhook by its `ID` which you
+can copy from the webhook list view:
+
+![](<../assets/screenshots/named-hooks2.png>)
+
+### Exploring deliveries
+
+Webhook deliveries and their reponse statuses are stored and can be explored by selecting a specific webhook
+and viewing its details. You'll be presented with a list of deliveres, their status codes and when they happened.
+You can also click on each delivery to view more details about it:
+
+![](<../assets/screenshots/named-hooks3.png>)
 
 ## Interpreting webhook payload
 
@@ -114,8 +142,6 @@ Once saved, the webhook will appear on the list of integrations:
 
 !!! info
     Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
-
-### Enabling and disabling webhooks
 
 By default webhooks are enabled which means that they are triggered every time there's a run state change event on the Stack they are attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
 
