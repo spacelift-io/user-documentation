@@ -12,7 +12,7 @@ Using this policy it is possible to create a very sophisticated, custom-made set
 
 ### Git push policy and tracked branch
 
-Each stack and module points at a particular Git branch called a [tracked branch](../stack/README.md#repository-and-branch). By default, any push to the tracked branch triggers a tracked [Run](../run/README.md) that can be [applied](../run/README.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
+Each stack and module points at a particular Git branch called a [tracked branch](../stack/README.md#repository-and-branch). By default, any push to the tracked branch that changes a file in the project root triggers a tracked [Run](../run/README.md) that can be [applied](../run/README.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
 
 ![The tracked branch head commit is behind the head commit of the stack.](<../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
 
