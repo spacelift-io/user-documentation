@@ -107,7 +107,7 @@ Internal errors will always have the same fields set and some of them will be st
 
 - `title` is the title (summary) of the error.
 - `body` is the is the full explanation of what went wrong.
-- `error` is description of the error that happened.
+- `error` is a description of the error that happened.
 - `severity` can be one of three different constants: `INFO`, `WARNING`, `ERROR`.
 - `account` is the account for which the error happened.
 
