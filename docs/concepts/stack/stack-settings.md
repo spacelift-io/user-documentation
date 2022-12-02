@@ -58,7 +58,9 @@ The workflow can be customized either using our [Terraform provider](https://reg
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
 
-Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts, but these variables will not be persisted between steps unless explicitly requested. This is particularly useful for retrieving one-off initialization secrets (eg. sensitive credentials).
+Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts.
+
+Environment variables are preserved from one phase to the next.
 
 !!! info
     These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
