@@ -38,7 +38,7 @@ You can also click on each delivery to view more details about it:
 
 ![](<../assets/screenshots/named-hooks3.png>)
 
-## Interpreting webhook payload
+## Default webhook payloads
 
 The following section documents the default webhook payloads sent for each event type. However if required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
 
