@@ -5,7 +5,7 @@
 Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md)
 meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space its in can be accessed by whatever action is being evaluated.
 It's also important to note that all notifications go through the policy evaluation.
-This means any of the can be redirected to routes defined in the policy.
+This means any of them can be redirected to the routes defined in the policy.
 
 A notification policy can define the following rules:
 
