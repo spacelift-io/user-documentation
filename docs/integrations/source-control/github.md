@@ -200,7 +200,7 @@ From this view you can also perform two types of Spacelift actions:
 
 The _Deploy_ functionality has been introduced in response to customers used to the Atlantis approach, where the deployment happens from within a Pull Request itself rather than on merge, which we see as the default and most typical workflow.
 
-If you want to prevent users from deploying directly from GitHub, you can add a simple [push policy](../../concepts/policy/git-push-policy.md) to that effect, based on the fact that the run trigger always indicates GitHub as the source (the exact format is `github/$username`).
+If you want to prevent users from deploying directly from GitHub, you can add a simple [plan policy](../../concepts/policy/terraform-plan-policy.md) to that effect, based on the fact that the run trigger always indicates GitHub as the source (the exact format is `github/$username`).
 
 ```opa
 package spacelift
