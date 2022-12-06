@@ -3,7 +3,7 @@
 ## Purpose
 
 Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md)
-meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space its in can be accessed by whatever action is being evaluated.
+meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space it's in can be accessed by whatever action is being evaluated.
 It's also important to note that all notifications go through the policy evaluation.
 This means any of them can be redirected to the routes defined in the policy.
 
@@ -228,7 +228,7 @@ by some third party.
 
 The notification policy relies on named webhooks which can be created and managed in the [Webhooks section of Spacelift](../../integrations/webhooks.md).
 Any policy evaluation will always receive a list of possible webhooks together with their labels as input.
-The data received in policy input should be used to determine which webhook will be used when sending the request.
+The data received in the policy input should be used to determine which webhook will be used when sending the request.
 
 !!! info
     This section of documentation requires you have configured at least one [Named Webhook](../../integrations/webhooks.md).
