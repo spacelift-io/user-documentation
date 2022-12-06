@@ -89,7 +89,7 @@ The payload consists of a few fields:
 - `stateVersion` is the ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed;
 - `timestamp` is the unix timestamp of the state transition;
 - `run` contains information about the run, its associated commit and delta (if any);
-- stack contains some basic information about the parent [Stack](../concepts/stack/README.md) of the `run`;
+- `stack` contains some basic information about the parent [Stack](../concepts/stack/README.md) of the `run`;
 
 ### Internal error events
 
