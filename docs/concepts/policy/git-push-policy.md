@@ -291,8 +291,21 @@ As input, Git push policy receives the following document:
 
 ```json
 {
+  "in_progress": [{
+    "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+    "branch": "string - the branch this run is based on",
+    "created_at": "number - creation Unix timestamp in nanoseconds",
+    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+    "type": "string - run type: proposed, tracked, task, etc.",
+    "state": "string - run state: queued, unconfirmed, etc.",
+    "updated_at": "number - last update Unix timestamp in nanoseconds",
+    "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
+  }],
   "pull_request": {
     "action": "string - opened, reopened, closed, merged, edited, labeled, synchronize, unlabeled",
+    "action_initiator": "string",
+    "approved": "boolean - indicates whether the PR has been approved",
+    "author": "string",
     "base": {
       "affected_files": ["string"],
       "author": "string",
@@ -301,7 +314,9 @@ As input, Git push policy receives the following document:
       "message": "string",
       "tag": "string"
     },
+    "closed": "boolean",
     "diff": ["string - list of files changed between base and head commit"],
+    "draft": "boolean - indicates whether the PR is marked as draft",
     "head": {
       "affected_files": ["string"],
       "author": "string",
@@ -311,10 +326,10 @@ As input, Git push policy receives the following document:
       "tag": "string"
     },
     "head_owner": "string",
+    "id": "number",
     "labels": ["string"],
-    "title": "string",
-    "approved": "boolean - indicates whether the PR has been approved",
     "mergeable": "boolean - indicates whether the PR can be merged",
+    "title": "string",
     "undiverged": "boolean - indicates whether the PR is up to date with the target branch"
   }
   "push": {
@@ -330,7 +345,9 @@ As input, Git push policy receives the following document:
   },
   "stack": {
     "administrative": "boolean",
+    "autodeploy": "boolean",
     "branch": "string",
+    "id": "string",
     "labels": ["string - list of arbitrary, user-defined selectors"],
     "locked_by": "optional string - if the stack is locked, this is the name of the user who did it",
     "name": "string",
@@ -338,18 +355,18 @@ As input, Git push policy receives the following document:
     "project_root": "optional string - project root as set on the Stack, if any",
     "repository": "string",
     "state": "string",
-    "terraform_version": "string or null"
-  },
-  "in_progress": [{
-    "based_on_local_workspace": "boolean - whether the run stems from a local preview",
-    "branch": "string - the branch this run is based on",
-    "created_at": "number - creation Unix timestamp in nanoseconds",
-    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
-    "type": "string - run type: proposed, tracked, task, etc.",
-    "state": "string - run state: queued, unconfirmed, etc.",
-    "updated_at": "number - last update Unix timestamp in nanoseconds",
-    "user_provided_metadata": ["string - blobs of metadata provided using spacectl or the API when interacting with this run"]
-  }]
+    "terraform_version": "string or null",
+    "tracked_commit": {
+      "author": "string",
+      "branch": "string",
+      "created_at": "number (timestamp in nanoseconds)",
+      "hash": "string",
+      "message": "string"
+    },
+    "worker_pool": {
+      "public": "boolean - indicates whether the worker pool is public or not"
+    }
+  }
 }
 ```
 
