@@ -10,7 +10,7 @@ By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some 
 
 ## Managing integrations
 
-In order to manage Single Sign-On integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single Sign-On_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (GSuite, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
+In order to manage Single Sign-On integrations on your Spacelift account, please go to the _Settings_ section of your account view. Next, navigate to the _Single Sign-On_ tab_._ If SSO is not enabled for your account, all you're going to see is instructions on how to get started. The first steps are always taken in your identity provider (Google Workspace, Okta, Auth0, ActiveDirectory, etc.). Navigate to your identity provider and create a dedicated SSO application filled with appropriate URLs taken from the Spacelift settings page presented below.
 
 ![These URLs will be different for your account](../../assets/screenshots/sso_settings.png)
 
@@ -22,7 +22,7 @@ When setting up Spacelift on your identity provider, you may want to add three a
 - `LastName` is used to build human-friendly user name;
 - `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
 
-Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [GSuite](https://support.google.com/a/answer/6327792?hl=en){: rel="nofollow"}) and as a courtesy, we will flush your login history.
+Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [Google Workspace](https://support.google.com/a/answer/6327792?hl=en){: rel="nofollow"}) and as a courtesy, we will flush your login history.
 
 Some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will allow you to provide a custom per-user SAML 2.0 _Subject_ for SAML assertions. You could use this feature to map GitHub usernames to your identity provider users and thus get the exact same experience as when using GitHub as your identity provider.
 
@@ -59,7 +59,7 @@ When setting up Spacelift on your identity provider, you must make sure it suppo
 Spacelift dynamically checks integrated Identity Provider's Well-Known OpenID configuration for a list of supported scopes and, optionally, asks for `profile` and `groups` scopes if those are available.
 
 !!! warning
-    In order to populate the `input.session.teams` value in the Login Policies Spacelift tries to fetch the `groups` claim. For many Identity Providers, this claim has to be manually set and configured. Bear in mind that some providers such as GSuite do not support retrieving groups of given users.
+    In order to populate the `input.session.teams` value in the Login Policies Spacelift tries to fetch the `groups` claim. For many Identity Providers, this claim has to be manually set and configured. Bear in mind that some providers such as Google Workspace do not support retrieving groups of given users.
 
 ### OIDC Setup Guides
 
