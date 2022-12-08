@@ -160,28 +160,28 @@ package spacelift
 
 ### Slack messages
 
-[Slack](../../integrations/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with slack
+[Slack](../../integrations/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack
 you will need to [add the slack integration to your Spacelift account](../../integrations/slack.md#linking-your-spacelift-account-to-the-slack-workspace).
 
 !!! info
     The documentation section about [Slack](../../integrations/slack.md) includes additional information like: available actions,
     slack access policies and more. Consider exploring that part of documentation first.
 
-Another important point to mention is that the rules for slack require a `channel_id` to be defined. This can be found at the bottom of a channel's _About_ section in Slack:
+Another important point to mention is that the rules for Slack require a `channel_id` to be defined. This can be found at the bottom of a channel's _About_ section in Slack:
 
 ![](../../assets/screenshots/slack-channel-info.png)
 
-Now you should be ready to define rules for routing slack messages. Slack rules allow you to make the same filtering
+Now you should be ready to define rules for routing Slack messages. Slack rules allow you to make the same filtering
 decisions as any other rule in the policy. They also allow you to edit the message bodies themselves in order to create custom messages.
 
-The slack rules accept multiple configurable parameters:
+The Slack rules accept multiple configurable parameters:
 
-- `channel_id` - the slack channel to which the message will be delivered (**Required**)
+- `channel_id` - the Slack channel to which the message will be delivered (**Required**)
 - `message` - a custom message to be sent (**Optional**)
 
 #### Filtering and routing messages
 
-For example if you wanted to receive only finished runs on a specific slack channel you would define a rule like this:
+For example if you wanted to receive only finished runs on a specific Slack channel you would define a rule like this:
 
 ```opa
 package spacelift
@@ -222,17 +222,17 @@ slack[{
 
 ### Webhook requests
 
-Webhook notifications are a very powerful part of the notification policy. Using them one is able to not only
+!!! info
+    This section of documentation requires you have configured at least one [Named Webhook](../../integrations/webhooks.md).
+    Consider exploring that part of documentation first.
+
+Webhook notifications are a very powerful part of the notification policy. Using them, one is able to not only
 receive webhooks on specific events that happen in Spacelift, but also craft unique requests to be consumed
-by some third party.
+by some third-party.
 
 The notification policy relies on named webhooks which can be created and managed in the [Webhooks section of Spacelift](../../integrations/webhooks.md).
 Any policy evaluation will always receive a list of possible webhooks together with their labels as input.
 The data received in the policy input should be used to determine which webhook will be used when sending the request.
-
-!!! info
-    This section of documentation requires you have configured at least one [Named Webhook](../../integrations/webhooks.md).
-    Consider exploring that part of documentation first.
 
 The webhook policy accepts multiple configurable parameters:
 
@@ -263,9 +263,9 @@ webhook[{"endpoint_id": endpoint.id}] {
 #### Creating a custom webhook request
 
 All requests sent will always include the default headers for verification, a payload which is
-appropriate for the message type and the `method` set as `POST`. However by using the webhook rule
+appropriate for the message type and the `method` set as `POST`. However, by using the webhook rule
 we can modify the body of the request, change the method or add additional headers.
-For example if we wanted to define a completely custom request for a [tracked run](../run/README.md) we would define a rule like this:
+For example, if we wanted to define a completely custom request for a [tracked run](../run/README.md) we would define a rule like this:
 
 ```opa
 package spacelift
