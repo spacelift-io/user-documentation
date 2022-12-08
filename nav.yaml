@@ -33,8 +33,8 @@ nav:
       - concepts/policy/login-policy.md
       - concepts/policy/stack-access-policy.md
       - concepts/policy/approval-policy.md
-      - concepts/policy/notification-policy.md
       - concepts/policy/run-initialization-policy.md
+      - concepts/policy/notification-policy.md
       - concepts/policy/terraform-plan-policy.md
       - concepts/policy/git-push-policy.md
       - concepts/policy/task-run-policy.md

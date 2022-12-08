@@ -4,7 +4,7 @@ description: Receiving Spacelift notifications using webhooks
 
 # Webhooks
 
-Spacelift can be configured to send webhook notifications about various events to an HTTP endpoint of your choice.
+Spacelift can be configured to send webhook notifications for various events to an HTTP endpoint of your choice.
 
 ## Setting up webhooks
 
@@ -40,7 +40,7 @@ You can also click on each delivery to view more details about it:
 
 ## Default webhook payloads
 
-The following section documents the default webhook payloads sent for each event type. However if required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
+The following section documents the default webhook payloads sent for each event type. However, if required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
 
 ### Run events
 
