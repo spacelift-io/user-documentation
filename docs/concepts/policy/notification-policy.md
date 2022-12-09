@@ -2,8 +2,8 @@
 
 ## Purpose
 
-Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md)
-meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space it's in can be accessed by whatever action is being evaluated.
+Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [Space level](../spaces/README.md)
+meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the Space it's in can be accessed by whatever action is being evaluated.
 It's also important to note that all notifications go through the policy evaluation.
 This means any of them can be redirected to the routes defined in the policy.
 
@@ -98,21 +98,21 @@ This is the schema of the data input that each policy request can receive:
 Using the notification policy, you can completely re-write notifications or control where and when they are sent. Let's look into how
 the policy works for each of the defined routes.
 
-### Choosing a space for your policy
+### Choosing a Space for your policy
 
-When creating notification policies you should take into account the space in which you're creating them.
+When creating notification policies you should take into account the Space in which you're creating them.
 Generally the policy follows the same conventions as any other Spacelift component, with a few small caveats.
 
-#### Determining space for run update notifications
+#### Determining Space for run update notifications
 
-Run update messages will rely on the space that the run is happening in.
-It will check any policies in that space including policies inherited from other spaces.
+Run update messages will rely on the Space that the run is happening in.
+It will check any policies in that Space including policies inherited from other Spaces.
 
-#### Determining space for internal errors
+#### Determining Space for internal errors
 
-Most internal errors will check for notification policies inside of the root space.
-However if the policy is reporting about a component that belongs to a certain space
-and it can determine to which one it is, then it will check for policies in that or any inherited space.
+Most internal errors will check for notification policies inside of the root Space.
+However if the policy is reporting about a component that belongs to a certain Space
+and it can determine to which one it is, then it will check for policies in that or any inherited Space.
 Here is a list of components it will check in order:
 
 - Stack
