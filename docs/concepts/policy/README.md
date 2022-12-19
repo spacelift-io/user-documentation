@@ -384,14 +384,11 @@ approve {
 ```
 
 There are a few things worth knowing about flags:
+
 - They are **arbitrary strings** and Spacelift makes no assumptions about their format or content.
-
 - They are **immutable**. Once set, they cannot be changed or unset;
-
 - They are **passed between policy types**. If you have multiple policies of the same type, they will not be able to see each other's flags;
-
 - They can be set by any policies that explicitly **touch a run**: [push](./git-push-policy.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
-
 - They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document;
 
 Also worth noting is the fact that flags are shown in the GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Below is an example of an approval policy exposing decision-making details:
