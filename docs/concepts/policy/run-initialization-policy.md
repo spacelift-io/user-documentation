@@ -69,6 +69,7 @@ This is the schema of the data input that each policy request will receive:
       "message": "string - commit message"
     },
     "created_at": "number - creation Unix timestamp in nanoseconds",
+    "flags" : ["string - list of flags set on the run by other policies" ],
     "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],

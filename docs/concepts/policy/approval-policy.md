@@ -103,6 +103,7 @@ This is the schema of the data input that each policy request will receive:
       "machine": "boolean - whether the run was initiated by a human or a machine"
     },
     "drift_detection": "boolean - is this a drift detection run",
+    "flags" : ["string - list of flags set on the run by other policies" ],
     "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],

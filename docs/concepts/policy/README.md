@@ -345,3 +345,51 @@ PASS: 2/2
 
 !!! success
     We suggest you always unit test your policies and apply the same continuous integration principles as with your application code. You can set up a CI project using the vendor of your choice for the same repository that's linked to the Spacelift project that's defining those policies, to get an external validation.
+
+## Policy flags
+
+By default, each policy is completely self-contained and does not depend on the result of previous policies. There are at times situations where you want to introduce a chain of policies passing some data to one another. Different types of policies have access to different types of data required to make a decision, and you can use policy flags to pass that data (or more likely, a useful digest of that data) between them.
+
+Let's take a look at a simple example. Let's say you have a [push policy](./git-push-policy.md) with access to the list of files affected by a push or a PR event. You want to introduce a form of ownership control where changes to different files need approval from different users. For example, a change in the `network` directory may require approval from the network team, while a change in the `database` directory needs an approval from the DBAs.
+
+Approvals are handled by an [approval policy](./approval-policy.md) but the problem is that it no longer retains access to the list of affected files. This is a great use case to use flags. Let's have the push policy set arbitrary review flags on the run. This can be a separate push policy as in this example, or part of one of your pre-existing push policies. For the sake of simplicity, the example below will only focus on the `network` bit.
+
+```rego title="flag_for_review.rego"
+package spacelift
+
+network_review_flag = "review:network"
+
+flag[network_review_flag] {
+  startswith(input.push.affected_files[_], "network/")
+}
+
+flag[network_review_flag] {
+  startswith(input.pull_request.diff[_], "network/*")
+}
+```
+
+Now, we can introduce a network approval policies using this flag.
+
+```rego title="network-review.rego"
+package spacelift
+
+network_review_required {
+  input.run.flags[_] == "review:network"
+}
+
+approve { not network_review_required }
+approve {
+  input.reviews.current.approvals[_].session.teams[_] == "DBA"
+}
+```
+
+There are a few things worth knowing about flags:
+- They are **arbitrary strings** and Spacelift makes no assumptions about their format or content.
+- They are **immutable**. Once set, they cannot be changed or unset;
+- They are **passed between policy types(()). If you have multiple policies of the same type, they will not be able to see each other's flags;
+- They can be set by any policies that explicitly **touch a run**: [push](./git-push-policy.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
+- They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document;
+
+Also worth noting is the fact that flags are shown in the GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Below is an example of an approval policy exposing decision-making details:
+
+![Approval policy with flags](../../assets/screenshots/policy_flags_gui_example.png)
