@@ -449,7 +449,17 @@ If no Git push policies are attached to a stack or a module, the default behavio
 ```opa
 package spacelift
 
-track   { input.push.branch == input.stack.branch }
-propose { input.push.branch != "" }
+track   {
+  affected
+  input.push.branch == input.stack.branch
+}
+propose {
+  affected
+  input.push.branch != ""
+}
 ignore  { input.push.branch == "" }
+
+affected {
+  strings.any_prefix_match(input.push.affected_files, input.stack.project_root)
+}
 ```
