@@ -133,7 +133,7 @@ The following Push policy does not trigger any run within Spacelift. Using this 
 
 ```opa
 fail { true }
-message["I love bacon"] ( true )
+message["I love bacon"] { true }
 ```
 
 As a result of the above policy, users would then see this behavior within their GitHub status check:
