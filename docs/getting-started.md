@@ -117,6 +117,58 @@ After clicking Trigger, you will be taken directly into the run. Click on **Conf
 ![](./assets/screenshots/Screen Shot 2022-05-19 at 12.04.44 PM.png)
 
 Congratulation! 🚀 You've just created your first Spacelift stack and completed your first deployment!
+Now it is time to add new members to your application!
+
+## Add people to your application
+Now comes the moment when you want to show your app to your colleagues. There are some ways to add people to your app but in the beginning, we are going to add them as single users. 
+
+### Create a Login policy 
+Go to the "Policies" option that can be found on the left sidebar and click the "Add policy" button in the top-right corner.
+![](./assets/screenshots/add-policy.png)
+
+If you created your account using GitHub, please see the "[If GitHub was used as a sign-up option](getting-started.md#if-github-was-used-as-a-sign-up-option)" section. If you chose any other way, please see "[If Google, GitLab or Microsoft was used as a sign-up option](getting-started.md#if-google-gitlab-or-microsoft-was-used-as-a-sign-up-option)".
+
+#### If GitHub was used as a sign-up option
+You need to name your policy in "Name:" field and choose the "Type:" as "Login policy".
+Then you need to paste this code snippet and change the GitHub usernames for the users that you want to add.
+```
+package spacelift
+
+admins  := { "GitHubName1" } #Change for GitHub usernames you want to add
+allowed := { "GitHubName2", "GitHubName3" } #Change for GitHub usernames you want to add
+login   := input.session.login
+
+admin { admins[login] }
+allow { allowed[login] }
+deny  { not admins[login]; not allowed[login] }
+
+```
+![](./assets/screenshots/create-policy-github.png)
+Lastly, click the "Create policy" button in the top right corner to create your policy. 
+
+Now your colleagues should be able to access your application as well!
+Please refer to the [Login Policy](./concepts/policy/login-policy.md) section of the documentation to discover more ways of managing application access.
+
+#### If Google, GitLab or Microsoft was used as a sign-up option
+You need to name your policy in the "Name:" field and choose "Type:" as "Login policy".
+Then you need to paste this code snippet and change the email addresses for the users that you want to add as well as the email domain on line 8.
+```
+package spacelift
+
+admins  := { "alice@example.com" } #Change the address email
+allowed := { "damian@example.com" } #Change the address email
+login   := input.session.login
+
+admin { admins[login] }
+allow { endswith(input.session.login, "@example.com") } #Change the domain you use e.g. "@gmail.com"
+deny  { not admins[login]; not allow }
+```
+![](./assets/screenshots/create-policy-other.png)
+
+Lastly, click the "Create policy" button in the top right corner to create your policy. 
+
+Now your colleagues should be able to access your application as well!
+Please refer to the [Login Policy](./concepts/policy/login-policy.md) section of the documentation to discover more ways of managing application access.
 
 ## Additional Reading
 
