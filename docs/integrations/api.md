@@ -126,10 +126,10 @@ Assuming all went well, the result of the above query will return your JWT token
 
 Note that the key ID is the alphanumeric identifier shown in the GUI in fixed-width font next to the key name. The key secret can be found in the file that gets automatically generated when the API key is created.
 
-The received JWT is valid for an hour, so if you're accessing Spacelift API from a long-running process you will need to make sure that the key is recreated every time it expires. In order to help with that, you can retrieve the `validUntil` field (Unix timestamp of the expiration, in seconds) of the `apiKeyUser` along with the raw JWT.
+The received JWT is valid for 10 hours. If you're accessing Spacelift API from a very long-running process you will need to make sure that the key is recreated every time it expires. In order to help with that, you can retrieve the `validUntil` field (Unix timestamp of the expiration, in seconds) of the `apiKeyUser` along with the raw JWT.
 
 !!! info
-    API keys are in fact **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged to a token) during any given billing cycle counts against the total number of users.
+    API keys are in fact **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
 
 ### Personal GitHub Token > Token
 
