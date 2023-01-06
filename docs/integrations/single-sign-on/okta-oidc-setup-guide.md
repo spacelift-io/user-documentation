@@ -42,7 +42,7 @@ Click the "Create App Integration" button. For the sign in type, ensure you sele
 
 ## Okta: Configure App Integration
 
-Give your app integration a name - Spacelift sounds like a good one :clap:
+Give your app integration a name - Spacelift sounds like a good one.
 
 Remember the **authorized redirect URL** we copied earlier from Spacelift? We'll need that in this step. You'll want to paste that URL into the **Sign-in redirect URIs** input as shown.
 
