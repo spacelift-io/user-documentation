@@ -43,7 +43,7 @@ While you are within your Active Directory's settings, click on **App registrati
 
 ## Azure AD: App Registration Configuration
 
-Give your application a name - Spacelift sounds like a good one :clap:
+Give your application a name - Spacelift sounds like a good one.
 
 Configure your supported account types as per your login requirements. In this example, we are allowing Accounts in this organizational directory access to Spacelift.
 

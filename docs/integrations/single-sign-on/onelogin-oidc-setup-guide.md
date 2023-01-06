@@ -42,7 +42,7 @@ Search for **OpenId Connect** and select the result as shown.
 
 ![Search for OpenId Connect then Select the Result.](../../assets/screenshots/3-onelogin-search-openidc.png)
 
-Give your new OneLogin App a name, Spacelift sounds like a good one :clap:
+Give your new OneLogin App a name, Spacelift sounds like a good one.
 
 In regards to "Visible in portal" this is a OneLogin configuration decision that's up to you. In this example, we are enabled this value.
 

@@ -34,7 +34,7 @@ Within your GitLab account, visit the **Applications** section of your account.
 
 ![Navigate to GitLab Applications within your account.](../../assets/screenshots/1-gitlab-applications.png)
 
-Create your GitLab Application as shown, the application's **Name** can be whatever you'd like. Spacelift sounds like a great name to use though :clap:.
+Create your GitLab Application as shown, the application's **Name** can be whatever you'd like. Spacelift sounds like a great name to use though.
 
 Remember the **authorized redirect URL** we copied earlier from Spacelift? We'll need that in this step. You'll want to paste that URL into the **Redirect URI** input as shown.
 
