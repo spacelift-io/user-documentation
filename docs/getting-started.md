@@ -117,58 +117,60 @@ After clicking Trigger, you will be taken directly into the run. Click on **Conf
 ![](./assets/screenshots/Screen Shot 2022-05-19 at 12.04.44 PM.png)
 
 Congratulation! 🚀 You've just created your first Spacelift stack and completed your first deployment!
-Now it is time to add new members to your application!
 
-## Add people to your application
-Now comes the moment when you want to show your app to your colleagues. There are some ways to add people to your app but in the beginning, we are going to add them as single users. 
+Now it is time to add other users to your Spacelift account.
 
-### Create a Login policy 
-Go to the "Policies" option that can be found on the left sidebar and click the "Add policy" button in the top-right corner.
+## Adding Users
+
+Now comes the moment when you want to show Spacelift to your colleagues. There are a few different ways to grant users access to your Spacelift account but in the beginning, we are going to add them as single users.
+
+Go to the "Policies" page that can be found on the left sidebar and click the "Add policy" button in the top-right corner.
+
 ![](./assets/screenshots/add-policy.png)
 
-If you created your account using GitHub, please see the "[If GitHub was used as a sign-up option](getting-started.md#if-github-was-used-as-a-sign-up-option)" section. If you chose any other way, please see "[If Google, GitLab or Microsoft was used as a sign-up option](getting-started.md#if-google-gitlab-or-microsoft-was-used-as-a-sign-up-option)".
+Name the policy and select "Login policy" as the type.
 
-#### If GitHub was used as a sign-up option
-You need to name your policy in "Name:" field and choose the "Type:" as "Login policy".
-Then you need to paste this code snippet and change the GitHub usernames for the users that you want to add.
-```
-package spacelift
+Then copy/paste and edit the example below that matches the identity provider you used to sign up for the Spacelift account.
 
-admins  := { "GitHubName1" } #Change for GitHub usernames you want to add
-allowed := { "GitHubName2", "GitHubName3" } #Change for GitHub usernames you want to add
-login   := input.session.login
+=== "GitHub"
+    This example uses GitHub usernames to grant access to Spacelift.
 
-admin { admins[login] }
-allow { allowed[login] }
-deny  { not admins[login]; not allowed[login] }
+    ```opa
+    package spacelift
 
-```
-![](./assets/screenshots/create-policy-github.png)
-Lastly, click the "Create policy" button in the top right corner to create your policy. 
+    admins  := { "alice" }
+    allowed := { "bob", "charlie", "danny" }
+    login   := input.session.login
 
-Now your colleagues should be able to access your application as well!
-Please refer to the [Login Policy](./concepts/policy/login-policy.md) section of the documentation to discover more ways of managing application access.
+    admin { admins[login] }
+    allow { allowed[login] }
+    deny  { not admin; not allow }
+    ```
+    !!! tip
+        GitHub organization admins are automatically Spacelift admins. There is no need to grant them permissions in the Login policy.
 
-#### If Google, GitLab or Microsoft was used as a sign-up option
-You need to name your policy in the "Name:" field and choose "Type:" as "Login policy".
-Then you need to paste this code snippet and change the email addresses for the users that you want to add as well as the email domain on line 8.
-```
-package spacelift
+=== "GitLab, Google, Microsoft"
+    This example uses email addresses to grant access to Spacelift.
 
-admins  := { "alice@example.com" } #Change the address email
-allowed := { "damian@example.com" } #Change the address email
-login   := input.session.login
+    ```rego
+    package spacelift
 
-admin { admins[login] }
-allow { endswith(input.session.login, "@example.com") } #Change the domain you use e.g. "@gmail.com"
-deny  { not admins[login]; not allow }
-```
-![](./assets/screenshots/create-policy-other.png)
+    admins  := { "alice@example.com" }
+    allowed := { "bob@example.com" }
+    login   := input.session.login
 
-Lastly, click the "Create policy" button in the top right corner to create your policy. 
+    admin { admins[login] }
+    allow { allowed[login] }
+    # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
+    deny  { not admin; not allow }
+    ```
 
-Now your colleagues should be able to access your application as well!
-Please refer to the [Login Policy](./concepts/policy/login-policy.md) section of the documentation to discover more ways of managing application access.
+Now your colleagues should be able to access your Spacelift account as well!
+
+!!! note
+    While the approach above is fine to get started and try Spacelift, granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your organization, they automatically lose access to Spacelift while when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift Login policy, too.
+
+    Before you go live in production with Spacelift, we recommend that you switch to using teams in [Login policies](./concepts/policy/login-policy.md) and consider configuring the [Single Sign-On (SSO) integration](./integrations/single-sign-on/README.md), if applicable.
 
 ## Additional Reading
 
