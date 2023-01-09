@@ -96,7 +96,7 @@ The name and provider will be inferred from your repository name if it follows t
 
 [Environment](../../concepts/configuration/environment.md) and [context](../../concepts/configuration/context.md) management in modules is identical to that for [stacks](../../concepts/stack/README.md). The only thing worth noting here is the fact that environment variables and mounted files set either through the module environment directly, or via one of its attached stacks will be passed to each of the [test cases](module-registry.md#tests) for the module.
 
-Attaching policies works similar, too, though there are 2 types of policies that cannot be attached to modules: [task](../../concepts/policy/task-run-policy.md) and [trigger](../../concepts/policy/trigger-policy.md). [Task](../../concepts/policy/task-run-policy.md) policies are only applicable to [tasks](../../concepts/run/task.md), which make no sense for modules that are essentially stateless. [Trigger policies](../../concepts/policy/trigger-policy.md) are highly dependent on state changes, too, and so far we haven't seen a use case for making them available to modules. That said, feel free to prove us wrong.
+Attaching policies works in a similar way. One thing worth pointing out is that the behavior of [Trigger policies](../../concepts/policy/trigger-policy.md#module-updates) are slightly different for modules. Instead of being provided with the list of all other accessible stacks, module trigger policies receive a list of the current consumers of the module. This allows you to automatically trigger dependent stacks when new module versions are published.
 
 ## Module configuration
 
@@ -219,7 +219,7 @@ In order to use modules, you have to source them from the Spacelift module regis
 
 Unlike Stacks, modules can be shared between Spacelift accounts in a sense that while they're always **managed** by a single account, they can be made accessible to an arbitrary number of other accounts.
 
-In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings' Sharing section:
+In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings Sharing section:
 
 ![](../../assets/screenshots/Edit_module_·_eggs.png)
 
@@ -229,14 +229,14 @@ This can also be accomplished programmatically using our [Terraform provider](te
 
 Modules hosted in the private registry can be used outside of Spacelift.
 
-The easiest way is to have Terraform retrieve and store the credentials by run the following command in a terminal:
+The easiest way is to have Terraform retrieve and store the credentials by running the following command in a terminal:
 
 ```shell
 terraform login spacelift.io
 ```
 
-After you confirmed, Terraform will open your default web browser and ask you to log in to your Spacelift account. Once this is done, Terraform will store the credentials in the `~/.terraform.d/credentials.tfrc.json` file for use by subsequent commands.
+After you confirm that you want to proceed, Terraform will open your default web browser and ask you to log in to your Spacelift account. Once this is done, Terraform will store the credentials in the `~/.terraform.d/credentials.tfrc.json` file for use by subsequent commands.
 
 !!! warning
 
-    The method above requires a web browser which is not always practical, for example on remote server with no GUI. In that case, you can use credentials generated from [API keys](../../integrations/api.md#api-key-management). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.
+    The method above requires a web browser which is not always practical, for example on remote server with no GUI. In that case, you can use credentials generated from [API keys](../../integrations/api.md#spacelift-api-key-token). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.
