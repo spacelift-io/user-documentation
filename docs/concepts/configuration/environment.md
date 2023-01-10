@@ -93,7 +93,7 @@ It's almost like creating an environment variable, though instead of typing (or 
 ![File uploaded](<../../assets/screenshots/Editing_environment_·_Managed_stack (3).png>)
 
 !!! info
-    Notice how you can your file give a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
+    Notice how you can give your file a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
 
 Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/README.md) executed for the [stack](../stack/README.md).
 
