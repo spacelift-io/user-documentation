@@ -17,11 +17,11 @@ While in beta, this feature comes without a GUI, so you will be interacting with
 
 ### Assumptions
 
-We will not be covering the process of writing a Terraform provider in this article. If you are interested in that, please refer to the [official documentation](https://www.terraform.io/docs/extend/writing-custom-providers.html). In this article, we will assume that you **already have a provider** that you want to publish.
+We will not be covering the process of writing a Terraform provider in this article. If you are interested in that, please refer to the [official documentation](https://www.terraform.io/docs/extend/writing-custom-providers.html){: rel="nofollow"}. In this article, we will assume that you **already have a provider** that you want to publish.
 
-We will also focus on providing step-by-step instructions for [GitHub Actions](https://github.com/features/actions) users. If you are using a different CI/CD tool, you will need to adapt the steps accordingly based on its documentation. Note that you don't need to use a CI/CD tool to publish a provider - you could do it from your laptop. However, we recommend using a CI/CD tool to automate the process and provide an audit trail of what's been done, when, and by whom.
+We will also focus on providing step-by-step instructions for [GitHub Actions](https://github.com/features/actions){: rel="nofollow"} users. If you are using a different CI/CD tool, you will need to adapt the steps accordingly based on its documentation. Note that you don't need to use a CI/CD tool to publish a provider - you could do it from your laptop. However, we recommend using a CI/CD tool to automate the process and provide an audit trail of what's been done, when, and by whom.
 
-Last but not least, we assume you're going to use GoReleaser to build your provider. This is by far the most common way of managing Terraform providers which need to be available for different operating systems and architectures. If you're not familiar with GoReleaser, please refer to the [official documentation](https://goreleaser.com/). You can also check out Terraform's official [`terraform-provider-scaffolding` template repository](https://github.com/hashicorp/terraform-provider-scaffolding) for an example of using GoReleaser with Terraform providers.
+Last but not least, we assume you're going to use GoReleaser to build your provider. This is by far the most common way of managing Terraform providers which need to be available for different operating systems and architectures. If you're not familiar with GoReleaser, please refer to the [official documentation](https://goreleaser.com/){: rel="nofollow"}. You can also check out Terraform's official [`terraform-provider-scaffolding` template repository](https://github.com/hashicorp/terraform-provider-scaffolding){: rel="nofollow"} for an example of using GoReleaser with Terraform providers.
 
 ### Creating a provider
 
@@ -36,16 +36,16 @@ resource "spacelift_terraform_provider" "provider" {
 }
 ```
 
-Note that we've put the provider in the "root" space. This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources). You can read more about spaces [here](../../concepts/spaces/README.md).
+Note that we've put the provider in the `root` space. This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources). You can read more about spaces [here](../../concepts/spaces/README.md).
 
-It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public) attribute to `true`.
+It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public){: rel="nofollow"} attribute to `true`.
 
 ### Registering a GPG key
 
 !!! warning
     Only Spacelift root admins can manage account GPG keys. If you're not a root admin, you will need to ask one to do it for you.
 
-Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. You can do that either using the [API](../../integrations/api.md) (`gpgKeyCreate` mutation) or - preferably - our CLI tool called [`spacectl`](https://github.com/spacelift-io/spacectl). One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. `spacectl` will let you register a GPG key without storing the private key anywhere outside of your system.
+Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. You can do that either using the [API](../../integrations/api.md) (`gpgKeyCreate` mutation) or - preferably - our CLI tool called [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"}. One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. `spacectl` will let you register a GPG key without storing the private key anywhere outside of your system.
 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
@@ -111,7 +111,7 @@ release:
 This setup assumes that the name of your project (repository) is `terraform-provider-$name`. If it is not (maybe you're using a monorepo?) then you will need to change the config accordingly, presumably by hardcoding the project name.
 
 
-Next, let's make sure you have an API key for the Spacelift account you want to publish the provider to. You can refer to the [API key management](../../integrations/api.md#spacelift-api-key--token) section of the API documentation for more information on how to do that. Note that the key you're generating **must** have admin access to the space that the provider lives in. If the provider is in the "root" space, then the key must have root admin access.
+Next, let's make sure you have an API key for the Spacelift account you want to publish the provider to. You can refer to the [API key management](../../integrations/api.md#spacelift-api-key--token) section of the API documentation for more information on how to do that. Note that the key you're generating **must** have admin access to the space that the provider lives in. If the provider is in the `root` space, then the key must have root admin access.
 
 We can now add a GitHub Actions workflow definition to our repository:
 
@@ -183,7 +183,7 @@ jobs:
           spacectl provider create-version --type=TYPE-change-me!!!
 ```
 
-If everything is fine, pushing a tag like `v0.0.1` should create a new **draft** version of the provider in Spacelift. You can list the versions of your provider using `spacectl`:
+If everything is fine, pushing a tag like `v0.1.0` should create a new **draft** version of the provider in Spacelift. You can list the versions of your provider using `spacectl`:
 
 ```bash
 $ spacectl provider list-versions --type=YOUR_PROVIDER_TYPE
@@ -211,7 +211,7 @@ terraform {
 }
 ```
 
-The above example does not refer to a specific version, meaning that you are going to always use the latest available (published) version of your provider. That said, you can use any versioning syntax supported by the Terraform Registry - learn more about it [here](https://developer.hashicorp.com/terraform/language/expressions/version-constraints).
+The above example does not refer to a specific version, meaning that you are going to always use the latest available (published) version of your provider. That said, you can use any versioning syntax supported by the Terraform Registry - learn more about it [here](https://developer.hashicorp.com/terraform/language/expressions/version-constraints){: rel="nofollow"}.
 
 ### Using providers inside Spacelift
 
