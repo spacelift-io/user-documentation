@@ -40,7 +40,7 @@ Note that we've put the provider in the `root` space. This is because we want to
 
 It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public){: rel="nofollow"} attribute to `true`.
 
-### Registering a GPG key
+### Adding a GPG key
 
 !!! warning
     Only Spacelift root admins can manage account GPG keys. If you're not a root admin, you will need to ask one to do it for you.
@@ -50,7 +50,7 @@ Terraform uses GPG keys to verify the authenticity of providers. Before you can 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
 ```bash
-$ spacectl provider create-gpg-key \
+$ spacectl provider add-gpg-key \
     --import \
     --name="My first GPG key" \
     --path="Path to the ASCII-armored private key"
@@ -59,7 +59,7 @@ $ spacectl provider create-gpg-key \
 Alternatively, `spacectl` can generate a new key for you. Note that `spacectl` generates GPG keys without a passphrase:
 
 ```bash
-$ spacectl provider create-gpg-key \
+$ spacectl provider add-gpg-key \
     --generate \
     --name="My first GPG key" \
     --email="Your email address" \
