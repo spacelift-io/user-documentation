@@ -186,13 +186,13 @@ jobs:
 If everything is fine, pushing a tag like `v0.1.0` should create a new **draft** version of the provider in Spacelift. You can list the versions of your provider using `spacectl`:
 
 ```bash
-$ spacectl provider list-versions --type=YOUR_PROVIDER_TYPE
+$ spacectl provider list-versions --type=$YOUR_PROVIDER_TYPE
 ```
 
 Note the version status. Versions start their life as drafts, and you can publish them by grabbing their ID (first column) and using `spacectl`:
 
 ```bash
-$ spacectl provider publish-version --id=YOUR_VERSION_ID
+$ spacectl provider publish-version --id=$YOUR_VERSION_ID
 ```
 
 Once published, your version is ready to use. See the next section for more information.
