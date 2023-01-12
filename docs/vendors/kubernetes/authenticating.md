@@ -31,7 +31,7 @@ aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 
 ## Azure
 
-The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/) to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli) and [kubelogin](https://github.com/Azure/kubelogin) installed, and needs to run some _before init_ hooks to authenticate with your cluster. Depending on your exact use-case, you may need to use slightly different commands. This guide outlines two main scenarios.
+The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/){: rel="nofollow"} to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli){: rel="nofollow"} and [kubelogin](https://github.com/Azure/kubelogin){: rel="nofollow"} installed, and needs to run some _before init_ hooks to authenticate with your cluster. Depending on your exact use case, you may need to use slightly different commands. This guide outlines two main scenarios.
 
 !!! info
     Please note that both examples assume that your stack has an `$AKS_CLUSTER_NAME` and `$AKS_RESOURCE_GROUP` environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.
@@ -60,7 +60,7 @@ kubelogin convert-kubeconfig -l msi
 
 ## GCP
 
-You can use the gcloud CLI to authenticate with a GKE cluster when using the [Spacelift GCP integration](../../integrations/cloud-providers/gcp.md) using the `gcloud container clusters get-credentials` command. For this to work, you need to use a custom runner image that has the [gcloud CLI](https://cloud.google.com/sdk/gcloud) and [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl){: rel="nofollow"} installed.
+You can use the gcloud CLI to authenticate with a GKE cluster when using the [Spacelift GCP integration](../../integrations/cloud-providers/gcp.md) using the `gcloud container clusters get-credentials` command. For this to work, you need to use the `spacelift-io/runner-terraform:gcp-latest` runner image or a custom one that has the [gcloud CLI](https://cloud.google.com/sdk/gcloud){: rel="nofollow"} installed.
 
 The Spacelift GCP integration automatically generates an access token for your GCP service account, and this token can be used for getting your cluster credentials as well as accessing the cluster. To do this, add the following _before init_ hooks to your Stack:
 
