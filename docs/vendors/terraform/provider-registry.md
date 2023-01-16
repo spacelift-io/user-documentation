@@ -50,7 +50,7 @@ Terraform uses GPG keys to verify the authenticity of providers. Before you can 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
 ```bash
-$ spacectl provider add-gpg-key \
+spacectl provider add-gpg-key \
     --import \
     --name="My first GPG key" \
     --path="Path to the ASCII-armored private key"
@@ -59,7 +59,7 @@ $ spacectl provider add-gpg-key \
 Alternatively, `spacectl` can generate a new key for you. Note that `spacectl` generates GPG keys without a passphrase:
 
 ```bash
-$ spacectl provider add-gpg-key \
+spacectl provider add-gpg-key \
     --generate \
     --name="My first GPG key" \
     --email="Your email address" \
@@ -69,7 +69,7 @@ $ spacectl provider add-gpg-key \
 You can list all your GPG keys using `spacectl`:
 
 ```bash
-$ spacectl provider list-gpg-keys
+spacectl provider list-gpg-keys
 ```
 
 ### CI/CD setup
@@ -109,7 +109,6 @@ release:
 ```
 
 This setup assumes that the name of your project (repository) is `terraform-provider-$name`. If it is not (maybe you're using a monorepo?) then you will need to change the config accordingly, presumably by hardcoding the project name.
-
 
 Next, let's make sure you have an API key for the Spacelift account you want to publish the provider to. You can refer to the [API key management](../../integrations/api.md#spacelift-api-key--token) section of the API documentation for more information on how to do that. Note that the key you're generating **must** have admin access to the space that the provider lives in. If the provider is in the `root` space, then the key must have root admin access.
 
@@ -186,13 +185,13 @@ jobs:
 If everything is fine, pushing a tag like `v0.1.0` should create a new **draft** version of the provider in Spacelift. You can list the versions of your provider using `spacectl`:
 
 ```bash
-$ spacectl provider list-versions --type=$YOUR_PROVIDER_TYPE
+spacectl provider list-versions --type=$YOUR_PROVIDER_TYPE
 ```
 
 Note the version status. Versions start their life as drafts, and you can publish them by grabbing their ID (first column) and using `spacectl`:
 
 ```bash
-$ spacectl provider publish-version --id=$YOUR_VERSION_ID
+spacectl provider publish-version --version=$YOUR_VERSION_ID
 ```
 
 Once published, your version is ready to use. See the next section for more information.
@@ -232,7 +231,7 @@ Beyond creating and publishing new versions, there are a few other tasks you can
 If you lose control over your GPG key, you will want to revoke it. Revoking a key has no automatic impact on provider versions already published, but it will prevent you from publishing new versions signed with that key. You can revoke a key using `spacectl`:
 
 ```bash
-$ spacectl provider revoke-gpg-key --key=$ID_OF_YOUR_KEY
+spacectl provider revoke-gpg-key --key=$ID_OF_YOUR_KEY
 ```
 
 If you want to also revoke any of the provider versions signed with this key, refer to the section on [revoking provider versions](#revoking-provider-versions).
@@ -242,7 +241,7 @@ If you want to also revoke any of the provider versions signed with this key, re
 You can permanently delete any **draft** provider version using `spacectl`:
 
 ```bash
-$ spacectl provider delete-version --id=$ID_OF_YOUR_VERSION
+spacectl provider delete-version --version=$ID_OF_YOUR_VERSION
 ```
 
 A deleted version disappears from the list of versions, and you can reuse its number in the future.
@@ -254,7 +253,7 @@ You cannot delete published versions. If you want to disable a published version
 You can revoke any published provider version using `spacectl`:
 
 ```bash
-$ spacectl provider revoke-version --id=$ID_OF_YOUR_VERSION
+spacectl provider revoke-version --version=$ID_OF_YOUR_VERSION
 ```
 
 This will prevent anyone from using the version in the future, but it will not delete it. The version will remain on the list of versions, and will never be available again. You will not be able to reuse the version number of a revoked version.
