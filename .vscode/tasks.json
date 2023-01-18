@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Start Mkdocs container (arm64)",
+            "command": "docker run --rm -it -p 8000:8000 -v ${workspaceFolder}:/docs ghcr.io/afritzler/mkdocs-material",
+        },
+        {
+            "type": "shell",
+            "label": "Start Mkdocs container (amd64)",
+            "command": "docker run --rm -it -p 8000:8000 -v ${workspaceFolder}:/docs squidfunk/mkdocs-material",
+        }
+    ]
+}

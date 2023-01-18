@@ -41,6 +41,8 @@ docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-
 docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt)
 ```
 
+> 💡 These commands are [set up](.vscode/tasks.json) as [VS Code tasks](https://code.visualstudio.com/docs/editor/tasks), so you can just run them from the VS Code command palette. Or even better: download the [Task Explorer](https://marketplace.visualstudio.com/items?itemName=spmeesseman.vscode-taskexplorer) extension and you can run them from the sidebar.
+
 <!-- markdownlint-disable-next-line MD034 -->
 This command will generate the documentation and serve it at http://localhost:8000/. The documentation automatically reloads when changes to the source files are detected.
 
