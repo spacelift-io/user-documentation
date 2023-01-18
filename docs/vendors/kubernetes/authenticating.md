@@ -2,24 +2,22 @@
 
 The Kubernetes integration relies on using `kubectl`'s native authentication to connect to your cluster. You can use the `$KUBECONFIG` environment variable to find the location of the Kubernetes configuration file, and configure any credentials required.
 
-You should perform any custom authentication as part of a _before init_ hook to make sure that `kubectl` is configured correctly before any commands are run, as shown in the following example:
+You should perform any custom authentication as part of a _after init_ hook to make sure that `kubectl` is configured correctly before any commands are run.
 
-![](<../../assets/screenshots/image (110).png>)
-
-The following sections provide examples of how to configure the integration manually, as well as using Cloud-specific tooling.
+The following sections provide examples of how to configure the integration manually, as well as using cloud provider-specific tooling.
 
 ## Manual Configuration
 
 Manual configuration allows you to connect to any Kubernetes cluster accessible by your Spacelift workers, regardless of whether your cluster is on-prem or hosted by a cloud provider. The Kubernetes integration automatically sets the `$KUBECONFIG` environment variable to point at `/mnt/workspace/.kube/config`, giving you a number of options:
 
 - You can use a [mounted file](../../concepts/configuration/environment.md#mounted-files) to mount a pre-prepared config file into your workspace at `/mnt/workspace/.kube/config`.
-- You can use a _before init_ hook to create a kubeconfig file, or to download it from a trusted location.
+- You can use a _after init_ hook to create a kubeconfig file, or to download it from a trusted location.
 
 Please refer to the [Kubernetes documentation](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/){: rel="nofollow"} for more information on configuring kubectl.
 
 ## AWS
 
-The simplest way to connect to an AWS EKS cluster is using the AWS CLI tool. To do this, add the following _before init_ hook to your Stack:
+The simplest way to connect to an AWS EKS cluster is using the AWS CLI tool. To do this, add the following _after init_ hook to your Stack:
 
 ```bash
 aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
@@ -31,7 +29,7 @@ aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
 
 ## Azure
 
-The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/){: rel="nofollow"} to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli){: rel="nofollow"} and [kubelogin](https://github.com/Azure/kubelogin){: rel="nofollow"} installed, and needs to run some _before init_ hooks to authenticate with your cluster. Depending on your exact use case, you may need to use slightly different commands. This guide outlines two main scenarios.
+The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/){: rel="nofollow"} to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli){: rel="nofollow"} and [kubelogin](https://github.com/Azure/kubelogin){: rel="nofollow"} installed, and needs to run some _after init_ hooks to authenticate with your cluster. Depending on your exact use case, you may need to use slightly different commands. This guide outlines two main scenarios.
 
 !!! info
     Please note that both examples assume that your stack has an `$AKS_CLUSTER_NAME` and `$AKS_RESOURCE_GROUP` environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.
@@ -62,7 +60,7 @@ kubelogin convert-kubeconfig -l msi
 
 You can use the gcloud CLI to authenticate with a GKE cluster when using the [Spacelift GCP integration](../../integrations/cloud-providers/gcp.md) using the `gcloud container clusters get-credentials` command. For this to work, you need to use the `spacelift-io/runner-terraform:gcp-latest` runner image or a custom one that has the [gcloud CLI](https://cloud.google.com/sdk/gcloud){: rel="nofollow"} installed.
 
-The Spacelift GCP integration automatically generates an access token for your GCP service account, and this token can be used for getting your cluster credentials as well as accessing the cluster. To do this, add the following _before init_ hooks to your Stack:
+The Spacelift GCP integration automatically generates an access token for your GCP service account, and this token can be used for getting your cluster credentials as well as accessing the cluster. To do this, add the following _after init_ hooks to your Stack:
 
 ```bash
 # Output the token into a temporary file, use gcloud to get
