@@ -6,5 +6,6 @@
         "Spacelift",
         "sprintf",
         "tfsec"
-    ]
+    ],
+    "markdown.validate.enabled": true
 }

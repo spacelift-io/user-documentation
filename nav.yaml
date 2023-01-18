@@ -12,6 +12,8 @@ nav:
       - concepts/stack/stack-dependencies.md
       - concepts/stack/drift-detection.md
       - concepts/stack/scheduling.md
+    - Blueprint:
+      - concepts/blueprint/README.md
     - Configuration:
       - concepts/configuration/README.md
       - concepts/configuration/environment.md
