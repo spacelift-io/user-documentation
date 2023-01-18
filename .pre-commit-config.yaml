@@ -7,17 +7,16 @@ repos:
         # KLUDGE: Required for the mermaid support extension not to trigger an error in mkdocs.yaml
         args: [--unsafe]
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.32.1
+    rev: v0.33.0
     hooks:
       - id: markdownlint
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.10.2
+    rev: v3.10.3
     hooks:
       - id: markdown-link-check
         args: [--config=markdown-link-check.json, --quiet]
   - repo: https://github.com/shssoichiro/oxipng
-    # KLUDGE: No published release with pre-commit support yet
-    rev: 703a25efadb7717507e8030831939add634ffb41
+    rev: v8.0.0
     hooks:
       - id: oxipng
         args: [--opt=4, --preserve, --strip=safe]
