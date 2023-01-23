@@ -4,54 +4,118 @@ description: Describes how to authenticate and use the Spacelift GraphQL API.
 
 # GraphQL API
 
-## Spacelift GraphQL API Usage Demo
+## GraphQL
 
-The below guide walks through an example of generating your Spacelift token and using it to communicate with Spacelift.
+> GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
-**Pre-requisites:**
+Spacelift provides a [GraphQL API](https://graphql.org/) for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
-- Insomnia downloaded and installed
+<details>
+<summary>An example of request and response</summary>
+
+```
+$ curl --request POST \
+  --url http://<account-name>.app.spacelift.io/graphql \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
+```
+
+The request body looks like this when formatted a bit nicer:
+
+```graphql
+{ 
+	stacks
+	{
+		id
+		name,
+		administrative,
+		createdAt,
+		description
+	}
+}
+```
+
+And the response looks like this:
+
+```json
+{
+	"data": {
+		"stacks": [
+			{
+				"id": "my-stack-1",
+				"name": "My Stack 1",
+				"administrative": false,
+				"createdAt": 1672916942,
+				"description": "The is my first stack"
+			},
+			{
+				"id": "my-stack-2",
+				"name": "My Stack 2",
+				"administrative": false,
+				"createdAt": 1674218834,
+				"description": "The is my second stack"
+			}
+		]
+	}
+}
+```
+
+</details>
+
+## Recommendation
+
+Our recommendation is to use the [Spacelift API Key](#spacelift-api-key-token) to authenticate with the GraphQL API.
+
+As of today, Postman does not support GraphQL natively, so our choice of tool is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}. Insomnia is a free, open-source tool that allows you to easily create and manage API requests.
+
+## Usage Demo
+
+The below guide walks through an example of generating your Spacelift token with spacectl and using it to communicate with Spacelift.
+
+**Prerequisites:**
+
+- [Insomnia](https://insomnia.rest/download){: rel="nofollow"} downloaded and installed
 - Spacelift account with admin access (for ability to create API Keys)
 
 <!-- markdownlint-disable-next-line MD033 -->
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/1cefc584b1bc41d7bc75d767afaf3916" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
-## API Usage
+## Authenticating with the GraphQL API
 
-Spacelift provides a GraphQL API for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
+If your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
 
-!!! info
-    For example, if your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
+All requests need to be authenticated using a [JWT](https://jwt.io/) bearer token, which we will discuss in more detail below.
 
-    All requests need to be authenticated using a bearer token, which we will discuss in more detail below.
+There are currently three ways of obtaining this token:
 
-In order to use the API, you will need a **bearer token** to authenticate your requests. There are currently three ways of obtaining this token:
+1. [Spacelift API Key > Token](#spacelift-api-key-token) - for long-term usage (**recommended**)
+2. [SpaceCTL CLI > Token](#spacectl-cli-token) - for temporary usage
+3. [Personal GitHub Token > Token](#personal-github-token-token)
 
-1. [SpaceCTL CLI > Token](api.md#spacectl-cli-greater-than-token) (easiest method)
-2. [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-token)
-3. [Personal GitHub Token > Token](api.md#personal-github-token-greater-than-token)
-
-### SpaceCTL CLI > Token
-
-One approach to generating this token is using the Spacelift [spacectl](https://github.com/spacelift-io/spacectl) CLI. We consider this the easiest method, as the heavy lifting to obtain the token is done for you.
-
-**Steps:**
-
-1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl) to install the CLI on your machine.
-2. Authenticate to your Spacelift account using `spacectl profile login`
-3. Once authenticated, run `spacectl profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
 
 ### Spacelift API Key > Token
 
 Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel.
 
-In order to create a new API Key, please navigate to the _API Keys_ section of the _Account Settings_ panel in your account.
+!!! note
+    API keys are **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
 
-![Click Settings.](../assets/screenshots/1-cilck-settings.png)
+Steps to create API key in the UI:
 
-Click _API Keys._
+Click on Settings in the bottom left corner of the UI
 
-![Click API Keys.](../assets/screenshots/2-click-api-keys.png)
+<p align="center">
+  <img src="../assets/screenshots/api-key-creation-01.png"/>
+</p>
+
+
+Choose API Keys menu and click on Add new API key
+
+<p align="center">
+  <img src="../assets/screenshots/api-key-creation-02.png"/>
+</p>
+
 
 The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
@@ -59,11 +123,15 @@ For non-administrative keys, you may want to add a **virtual** list of teams tha
 
 Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
 
-![Create and Configure your new API Key.](../assets/screenshots/3-create-api-key.png)
+<p align="center">
+  <img src="../assets/screenshots/api-key-creation-03.png"/>
+</p>
 
 Once you click the _Add Key_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
 
-![Download your API Key.](../assets/screenshots/4-download-api-key.png)
+<p align="center">
+  <img src="../assets/screenshots/api-key-creation-04.png"/>
+</p>
 
 The config file looks something like this:
 
@@ -84,52 +152,15 @@ credentials "spacelift.io" {
 !!! warning
     Make sure you persist this data somewhere on your end - we don't store the token and it cannot be retrieved or recreated afterwards.
 
-#### Using the API key
+### SpaceCTL CLI > Token
 
-In order to use your newly generated API key in a program, you will first need to exchange it for a JWT token using a GraphQL mutation:
+One approach to generating this token is using the Spacelift [spacectl](https://github.com/spacelift-io/spacectl) CLI. We consider this the easiest method, as the heavy lifting to obtain the token is done for you.
 
 **Steps:**
 
-1. Create a Spacelift API Key in your account, take note of the API Key ID (found next to the name of your API Key), and the API Key Secret (found within the file downloaded upon creation of the API Key).
-2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}). Make a GraphQL query to your account's GraphQL endpoint (example below).
-
-**Request Details:**
-
-**POST** to `https://example.app.spacelift.io/graphql`
-
-!!! info
-    Replace `example` with the name of your Spacelift account.
-
-**Query:**
-
-```graphql
-mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {
-  apiKeyUser(id: $keyId, secret: $keySecret) {
-    jwt
-  }
-}
-```
-
-!!! info
-    You'll need to pass in the values of **keyId** and **keySecret** as input query variables for the above example query to work. In your API Client you should see a section called "Query Variables" where you can pass in an input variables for your query.
-
-**Query Variables Input:**
-
-```graphql
-{
-    "keyId": "PASTE_API_KEY_ID_HERE",
-    "keySecret": "PASTE_API_KEY_SECRET_HERE"
-}
-```
-
-Assuming all went well, the result of the above query will return your JWT token, which you will now be able to use to authenticate for other queries.
-
-Note that the key ID is the alphanumeric identifier shown in the GUI in fixed-width font next to the key name. The key secret can be found in the file that gets automatically generated when the API key is created.
-
-The received JWT is valid for 10 hours. If you're accessing Spacelift API from a very long-running process you will need to make sure that the key is recreated every time it expires. In order to help with that, you can retrieve the `validUntil` field (Unix timestamp of the expiration, in seconds) of the `apiKeyUser` along with the raw JWT.
-
-!!! info
-    API keys are in fact **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
+1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl) to install the CLI on your machine.
+2. Authenticate to your Spacelift account using `spacectl profile login`
+3. Once authenticated, run `spacectl profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
 
 ### Personal GitHub Token > Token
 
@@ -171,6 +202,191 @@ mutation GetSpaceliftToken($token: String!) {
 
 Assuming all went well, the result of the above query will return your JWT bearer token, which you will now be able to use to authenticate other queries. Once acquired, ensure you use this bearer token in your requests. If you want to access the API reliably in an automated way, we suggest using the [Spacelift API Key > JWT Token](api.md#spacelift-api-key-greater-than-jwt-token) approach as Spacelift tokens expire after 1 hour.
 
+## Insomnia setup
+
+You can create request libraries in Insomnia to make it easier to work with the Spacelift API. You can also automate the JWT token generation process using the [Environment Variables](https://docs.insomnia.rest/insomnia/environment-variables){: rel="nofollow"} feature.
+
+Copy the following JSON to your clipboard:
+
+??? note "Click here to expand"
+	```json
+	{
+      "_type": "export",
+      "__export_format": 4,
+      "__export_date": "2023-01-23T19:49:05.605Z",
+      "__export_source": "insomnia.desktop.app:v2022.7.0",
+      "resources": [
+     {
+            "_id": "req_d7fb83c13cc945da9e21cd9b94722d3d",
+            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "modified": 1674497188638,
+            "created": 1656577781496,
+            "url": "{{ _.BASE_URL }}/graphql",
+            "name": "Authentication - Get JWT",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/graphql",
+                "text": "{\"query\":\"mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {\\n  apiKeyUser(id: $keyId, secret: $keySecret) {\\n    id\\n\\t\\tjwt\\n  }\\n}\",\"variables\":{\"keyId\":\"{{ _.API_KEY_ID }}\",\"keySecret\":\"{{ _.API_KEY_SECRET }}\"},\"operationName\":\"GetSpaceliftToken\"}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_85e4a9afc2e6491ca59b52f77d94e81f"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1656577781496,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "parentId": null,
+            "modified": 1656576979763,
+            "created": 1656576979763,
+            "name": "Spacelift",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_83de84158a16459fa4bfce6042859df6",
+            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "modified": 1674497166036,
+            "created": 1656577541263,
+            "url": "{{ _.BASE_URL }}/graphql",
+            "name": "Get Stacks",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/graphql",
+                "text": "{\"query\":\"{ \\n\\tstacks\\n\\t{\\n\\t\\tid\\n\\t\\tname,\\n\\t\\tadministrative,\\n\\t\\tcreatedAt,\\n\\t\\tdescription\\n\\t}\\n}\"}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_80893dda7c0f4266b48bd09d0eaa3222"
+                }
+            ],
+            "authentication": {
+                "type": "bearer",
+                "token": "{{ _.API_TOKEN }}"
+            },
+            "metaSortKey": -1656577721437.75,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "modified": 1660646140956,
+            "created": 1656576979773,
+            "name": "Base Environment",
+            "data": {},
+            "dataPropertyOrder": {},
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1656576979773,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "modified": 1656576979775,
+            "created": 1656576979775,
+            "name": "Default Jar",
+            "cookies": [],
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_dbcf993f70b44bb18eee1b2362bb5bdc",
+            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+            "modified": 1656576979770,
+            "created": 1656576979770,
+            "fileName": "Spacelift",
+            "contents": "",
+            "contentType": "yaml",
+            "_type": "api_spec"
+        },
+        {
+            "_id": "env_ea5c30c23af449f792c71d160678eff5",
+            "parentId": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+            "modified": 1669716444669,
+            "created": 1669716373608,
+            "name": "Spacelift",
+            "data": {
+                "BASE_URL": "https://ACCOUNT_NAME.app.spacelift.io",
+                "API_KEY_ID": "insert-your-real-api-key-here",
+                "API_KEY_SECRET": "insert-your-real-api-secret-here",
+                "API_TOKEN": "{% response 'body', 'req_d7fb83c13cc945da9e21cd9b94722d3d', 'b64::JC5kYXRhLmFwaUtleVVzZXIuand0::46b', 'never', 60 %}"
+            },
+            "dataPropertyOrder": {
+                "&": [
+                    "BASE_URL",
+                    "API_KEY_ID",
+                    "API_KEY_SECRET",
+                    "API_TOKEN"
+                ]
+            },
+            "color": "#6b84ff",
+            "isPrivate": false,
+            "metaSortKey": 828288489886.5,
+            "_type": "environment"
+        	}
+    	]
+	}
+	```
+
+In the home screen of Insomnia, click on `Import From` then click on `Clipboard`.
+
+<p align="center">
+  <img src="../assets/screenshots/graphql-insomnia-01-import.png"/>
+</p>
+
+The `Spacelift` collection will appear. Click on it.
+
+On the top left corner, click the `🔵 Spacelift` icon, then choose `Manage Environments`.
+
+<p align="center">
+  <img src="../assets/screenshots/graphql-insomnia-02-manage-envs.png"/>
+</p>
+
+Here, make sure you fill the first three variables properly:
+
+- `BASE_URL` should be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io`
+- `API_KEY_ID` is the ID of the API key you created in [the previous step](#spacelift-api-key-token). It should be a 26-character [ULID](https://github.com/ulid/spec){: rel="nofollow"}.
+- `API_KEY_SECRET` can be found in the file that was downloaded when you created the API key.
+
+Don't worry about the 4th.
+
+<p align="center">
+  <img src="../assets/screenshots/graphql-insomnia-fill-vars.png"/>
+</p>
+
+That's it! Now just send an `Authentication - Get JWT` request which populates `API_TOKEN` environment variable, then send the other `Get Stacks` request to see the list of stacks in your account.
+
+If you want to create another request, just right click on `Get Stacks` and duplicate it. Then, change the query to whatever you want.
+
+!!! hint
+    Don't forget that the JWT expires after 10 hours. Run the authentication request again to get a new one.
+
 ## Viewing the GraphQL Schema
 
 Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}. _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
@@ -178,11 +394,11 @@ Our GraphQL schema is self-documenting. The best way to view the latest document
 !!! warning
     Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
 
-### Insomnia Example
+### Insomnia
 
 ![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift_–_GraphQL.png)
 
-### GraphiQL Example
+### GraphiQL
 
 Input your GraphQL Endpoint for your Spacelift Account.
 
