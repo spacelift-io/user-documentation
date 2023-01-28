@@ -132,6 +132,18 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
+### Aliases
+
+In addition to our [helper functions](./README.md#helper-functions), we provide aliases for commonly used parts of the input data:
+
+| Alias                 | Description |
+|-----------------------|-------------|
+| `affected_resources`  | List of the resources that will be created, deleted, and updated by Terraform |
+| `created_resources`   | List of the resources that will be created by Terraform |
+| `deleted_resources`   | List of the resources that will be deleted by Terraform |
+| `recreated_resources` | List of the resources that will be deleted and then created by Terraform |
+| `updated_resources`   | List of the resources that will be updated by Terraform |
+
 ## String Sanitization
 
 Sensitive properties in `"before"` and `"after"` objects will be sanitized to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
