@@ -298,9 +298,12 @@ Cool, so the run stopped in its tracks and awaits human decision. At this point 
 
 The minimal example for the above rule is available in the [Rego playground](https://play.openpolicyagent.org/p/IpwP5nWB6f){: rel="nofollow"}.
 
-## Cookbook
+## Examples
 
-Below are a few examples of policies that accomplish some common business goals. Feel free to copy them verbatim, or use them as an inspiration.
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/plan) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 ### Require human review when resources are deleted or updated
 

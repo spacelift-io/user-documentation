@@ -76,7 +76,12 @@ For Single Sign-On, the list of teams is pretty much arbitrary and depends on ho
 !!! warning
     Watch this field very closely - it may be _very_ useful for your **allow** and **admin** rules.
 
-## Use cases
+## Examples
+
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/login) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 There are three possible use cases for login policies - granting access to folks in your org who would otherwise not have it, managing access for external contributors or restricting access to specific circumstances. Let's look into these use cases one by one.
 

@@ -191,7 +191,12 @@ When triggered by a _new module version_, this is the schema of the data input t
 }
 ```
 
-## Use cases
+## Examples
+
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/trigger) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life){: rel="nofollow"}, but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
 
