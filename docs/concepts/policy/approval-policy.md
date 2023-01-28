@@ -22,7 +22,7 @@ When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you wil
 
 In principle, the run review and approval process are very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
 
-!!! success
+!!! tip
     If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged". A run approval means "I'm OK with that action being executed".
 
 ## Rules
@@ -142,6 +142,11 @@ This is the schema of the data input that each policy request will receive:
 ```
 
 ## Examples
+
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/approval) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 ### Two approvals and no rejections to approve an Unconfirmed run
 
