@@ -18,6 +18,9 @@ Another pattern we've seen is stacks exporting their outputs as a [context](../c
 
 If this sounds interesting and you want to give it a try, please refer to the [help article exclusively dedicated to Spacelift's Terraform provider](../../vendors/terraform/terraform-provider.md).
 
+!!! warning
+    Administrative stacks in the legacy space get admin access to the root space for backward compatibility reasons.
+
 ### Autodeploy
 
 Indicates whether changes to the stack can be [applied](../run/README.md#applying) automatically. When autodeploy is set to _true_, any change to the [tracked branch](#repository-and-branch) will automatically be [applied](../run/README.md#applying) if the [planning](../run/README.md#planning) phase was successful and there are no plan policy warnings.
