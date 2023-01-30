@@ -3,6 +3,7 @@ default: true
 
 # Disable some rules
 MD013: false
+MD024: false # Allow the same header to be repeated multiple times within a page
 MD026: false
 MD045: false
 MD046: false
@@ -19,7 +20,19 @@ MD029:
 MD033:
   allowed_elements: [br, div, iframe, script]
 MD044:
-  names: [AWS CDK, Bitbucket, CDKTF, DevOps, GitHub, GitLab, GraphQL, Javascript, Serverless Framework, Single Sign-On]
+  names:
+    [
+      AWS CDK,
+      Bitbucket,
+      CDKTF,
+      DevOps,
+      GitHub,
+      GitLab,
+      GraphQL,
+      Javascript,
+      Serverless Framework,
+      Single Sign-On,
+    ]
   code_blocks: false
 MD048:
   style: backtick

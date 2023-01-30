@@ -292,3 +292,42 @@ webhook[wbdata] {
 ```
 
 [View the example in the rego playground](https://play.openpolicyagent.org/p/fbfiiYEots){: rel="nofollow"}.
+
+Using custom webhook requests also makes it quite easy to integrate Spacelift with any third-party webhook consumer.
+
+#### Custom webhook requests in action
+
+##### Discord integration
+
+Discord can be integrated to receive updates about Spacelift by simply creating a new webhook endpoint in your Discord server's integrations
+section and providing that as the endpoint when creating a new [named webhook](../../integrations/webhooks.md).
+
+!!! info
+    <!-- markdown-link-check-disable -->
+    For more information about making Discord webhooks follow their [official webhook guide](https://support.discord.com/hc/en-us/articles/228383668){: rel="nofollow"}.
+
+After creating the webhook on both Discord and Spacelift you can define a new webhook rule like this:
+
+```opa
+# Send updates about tracked runs to discord.
+webhook[wbdata] {
+  endpoint := input.webhook_endpoints[_]
+  endpoint.id == "YOUR_WEBHOOK_ID_HERE"
+  stack := input.run_updated.stack
+  run := input.run_updated.run
+  wbdata := {
+    "endpoint_id": endpoint.id,
+    "payload": {
+      "embeds": [{
+        "title": "Tracked run triggered!",
+        "description": sprintf("Stack: [%s](http://example.app.spacelift.tf/stack/%s)\nRun ID: [%s](http://example.app.spacelift.tf/stack/%s/run/%s)\nRun state: %s", [stack.name,stack.id,run.id,stack.id, run.id,run.state]),
+        }]
+     }
+  }
+  input.run_updated.run.type == "TRACKED"
+}
+```
+
+And that's it! You should now be receiving updates about tracked runs to your Discord server:
+
+![](../../assets/screenshots/discord.png)

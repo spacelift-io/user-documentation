@@ -61,7 +61,7 @@ Select the arrow next to _Show Advanced Options_ to expose the advanced configur
 
 To ensure the success of a Kubernetes deployment, the following options should be reviewed and validated.
 
-- Runner Image: By Default, Spacelift will add the necessary binary to run `kubectl` if not found. Including runner images not provided by Spacelift.
+- Runner Image: Use a custom one that has `kubectl` installed.
 - Customize workflow: During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
 
 !!! info

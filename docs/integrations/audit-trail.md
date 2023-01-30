@@ -14,7 +14,25 @@ You will then need to provide a webhook endpoint and an arbitrary secret that yo
 
 If you choose to automatically enable the functionality, clicking the _Save_ button will verify that payloads can be delivered (the endpoint returns a 2xx status code). This gives us an opportunity to look at the payload:
 
-![](../assets/screenshots/ngrok_-_Inspect.png)
+```json
+{
+  "account": "example",
+  "action": "audit_trail_webhook.set",
+  "actor": "github::name",
+  "context": {
+    "mutation": "auditTrailSetWebhook"
+  },
+  "data": {
+    "args": {
+      "Enabled": true,
+      "Endpoint": "https://example-audithook.com/",
+      "SecretSHA": "xxxfffdddwww"
+    }
+  },
+  "remoteIP": "0.0.0.0",
+  "timestamp": 1674124447947
+}
+```
 
 ...and the headers - the interesting ones are highlighted:
 
@@ -32,13 +50,87 @@ Every audit trail payload conforms to the same schema:
 
 Below is a sample:
 
-![](<../assets/screenshots/ngrok_-_Inspect (2).png>)
+```json
+{
+  "account": "example",
+  "action": "stack.create",
+  "actor": "github::name",
+  "context": {
+    "mutation": "stackCreate"
+  },
+  "data": {
+    "ID": "audit-trail-demo",
+    "args": {
+      "Input": {
+        "Administrative": false,
+        "AfterApply": [],
+        "AfterDestroy": [],
+        "AfterInit": [],
+        "AfterPerform": [],
+        "AfterPlan": [],
+        "AfterRun": [],
+        "Autodeploy": false,
+        "Autoretry": false,
+        "BeforeApply": [],
+        "BeforeDestroy": [],
+        "BeforeInit": [],
+        "BeforePerform": [],
+        "BeforePlan": [],
+        "Branch": "showcase",
+        "Description": "",
+        "GithubActionDeploy": true,
+        "IsDisabled": null,
+        "Labels": [],
+        "LocalPreviewEnabled": false,
+        "Name": "audit-trail-demo",
+        "Namespace": "spacelift-io",
+        "ProjectRoot": "",
+        "ProtectFromDeletion": false,
+        "Provider": "SHOWCASE",
+        "Repository": "terraform-starter",
+        "RunnerImage": null,
+        "Space": "legacy",
+        "TerraformVersion": null,
+        "VendorConfig": {
+          "Ansible": null,
+          "CloudFormation": null,
+          "Kubernetes": null,
+          "Pulumi": null,
+          "Terraform": {
+            "use_smart_sanitization": null,
+            "version": "1.3.7",
+            "workspace": null
+          }
+        },
+        "WorkerPool": null
+      },
+      "ManageState": true,
+      "Slug": null,
+      "StackObjectID": null
+    }
+  },
+  "remoteIP": "0.0.0.0",
+  "timestamp": 1674124447947
+}
+```
 
 ## Disabling and deleting the audit trail
 
 The audit trail can be disabled and deleted at any point, but for both events we will send the appropriate payload. We suggest that you always treat these at least as important security signals, if not alerting conditions:
 
-![](<../assets/screenshots/ngrok_-_Inspect (3).png>)
+```json
+{
+  "account": "example",
+  "action": "audit_trail_webhook.delete",
+  "actor": "github::user",
+  "context": {
+    "mutation": "auditTrailDeleteWebhook"
+  },
+  "data": {},
+  "remoteIP": "0.0.0.0",
+  "timestamp": 1674124447947
+}
+```
 
 ## Verifying payload
 

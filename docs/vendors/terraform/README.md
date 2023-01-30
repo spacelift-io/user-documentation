@@ -19,6 +19,7 @@ Yes! We support [Terragrunt](https://terragrunt.gruntwork.io){: rel="nofollow"} 
 ## Additional resources
 
 - [Module registry](./module-registry.md)
+- [Provider registry (beta)](./provider-registry.md)
 - [External modules](./external-modules.md)
 - [Provider](./terraform-provider.md)
 - [State management](./state-management.md)
