@@ -80,9 +80,14 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
-## Cookbook
+## Examples
 
-With all the above theory in mind, let's jump straight to the code and define some access policies. This section will cover some common examples that can be copied more or less directly, and some contrived ones to serve as an inspiration.
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/access) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
+
+With all the above theory in mind, let's jump straight to the code and define some access policies. This section will cover some common exaxmples that can be copied more or less directly, and some contrived ones to serve as an inspiration.
 
 !!! info
     Remember that access policies must be attached to a stack or a module to take effect.

@@ -132,6 +132,18 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
+### Aliases
+
+In addition to our [helper functions](./README.md#helper-functions), we provide aliases for commonly used parts of the input data:
+
+| Alias                 | Description |
+|-----------------------|-------------|
+| `affected_resources`  | List of the resources that will be created, deleted, and updated by Terraform |
+| `created_resources`   | List of the resources that will be created by Terraform |
+| `deleted_resources`   | List of the resources that will be deleted by Terraform |
+| `recreated_resources` | List of the resources that will be deleted and then created by Terraform |
+| `updated_resources`   | List of the resources that will be updated by Terraform |
+
 ## String Sanitization
 
 Sensitive properties in `"before"` and `"after"` objects will be sanitized to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
@@ -298,9 +310,12 @@ Cool, so the run stopped in its tracks and awaits human decision. At this point 
 
 The minimal example for the above rule is available in the [Rego playground](https://play.openpolicyagent.org/p/IpwP5nWB6f){: rel="nofollow"}.
 
-## Cookbook
+## Examples
 
-Below are a few examples of policies that accomplish some common business goals. Feel free to copy them verbatim, or use them as an inspiration.
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/plan) that are ready to use or that you could tweak to meet your specific needs.
+
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 ### Require human review when resources are deleted or updated
 

@@ -54,6 +54,7 @@ nav:
     - Terraform:
       - vendors/terraform/README.md
       - vendors/terraform/module-registry.md
+      - vendors/terraform/provider-registry.md
       - vendors/terraform/external-modules.md
       - vendors/terraform/terraform-provider.md
       - vendors/terraform/state-management.md

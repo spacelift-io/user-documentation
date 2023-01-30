@@ -71,14 +71,10 @@ In order to be able to do that, you will need to set up Spacelift as a valid ide
 ](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html). You can do it declaratively using any of the IaC providers, programmatically using the [AWS CLI](https://aws.amazon.com/cli/) or simply use the console. For illustrative purposes, we will use the console:
 
 1. Go to the [AWS console](https://console.aws.amazon.com/iam/home#/home) and select the IAM service;
-
-1. Click on the "Identity providers" link in the left-hand menu;
-
-1. Click on the "Add provider" button in the top bar ![Add provider](../../assets/screenshots/oidc/aws-iam-add-provider.png)
-
-1. Select "OpenID Connect" as the provider type ![Configure provider](../../assets/screenshots/oidc/aws-iam-configure-provider.png)
-
-1. Make sure to get the host thumbprint by clicking the "Get thumbprint" button. This is required by AWS and protects you from a certain class of MitM attacks.
+2. Click on the "Identity providers" link in the left-hand menu;
+3. Click on the "Add provider" button in the top bar ![Add provider](../../assets/screenshots/oidc/aws-iam-add-provider.png)
+4. Select "OpenID Connect" as the provider type ![Configure provider](../../assets/screenshots/oidc/aws-iam-configure-provider.png)
+5. Make sure to get the host thumbprint by clicking the "Get thumbprint" button. This is required by AWS and protects you from a certain class of MitM attacks.
 
 Once created, the identity provider will be listed in the "Identity providers" table. You can click on the provider name to see the details. From here, you will also be able to assign an IAM role to this new identity provider:
 
@@ -218,7 +214,7 @@ Take a look at the following screenshot for an example allowing a proposed run t
 
 ![Proposed run reader](<../../assets/screenshots/oidc-federation-azure-proposed-run-reader.png>)
 
-Workload federation in Azure requires the subject claim of the OIDC token to exactly match the federated credential, and doesn't allow wildcards. Because of this you will need to repeat the same process and add a number of different federated credentials in order to support all the different types of runs for your Stack or module. For example for a stack you need to add credentials for the following subjects:
+Workload federation in Azure requires the subject claim of the OIDC token to exactly match the federated credential, and doesn't allow wildcards. Because of this you will need to repeat the same process and add a number of different federated credentials in order to support all the different types of runs for your Stack or module. For example for a stack called `azure-oidc-test` in the `legacy` space you need to add credentials for the following subjects:
 
 ```text
 space:legacy:stack:azure-oidc-test:run_type:TRACKED:scope:read
@@ -228,16 +224,19 @@ space:legacy:stack:azure-oidc-test:run_type:TASK:scope:write
 space:legacy:stack:azure-oidc-test:run_type:DESTROY:scope:write
 ```
 
-And for a module you need to add the following:
+And for a module called `my-module` in the `development` space you need to add the following:
 
 ```text
-space:legacy:stack:my-module:run_type:TESTING:scope:read
-space:legacy:stack:my-module:run_type:TESTING:scope:write
+space:development:stack:my-module:run_type:TESTING:scope:read
+space:development:stack:my-module:run_type:TESTING:scope:write
 ```
 
 After adding all the credentials for a stack, it should look something like this:
 
 ![Stack credentials added](<../../assets/screenshots/oidc-federation-azure-stack-credentials.png>)
+
+!!! info
+    Please see the [Standard claims](#standard-claims) section for more information about the subject format.
 
 #### Configuring the Terraform Provider
 
