@@ -84,6 +84,7 @@ nav:
       - vendors/cloudformation/reference.md
       - vendors/cloudformation/integrating-with-sam.md
       - vendors/cloudformation/integrating-with-the-serverless-framework.md
+      - vendors/cloudformation/integrating-with-cdk.md
     - Kubernetes:
       - vendors/kubernetes/README.md
       - vendors/kubernetes/getting-started.md
