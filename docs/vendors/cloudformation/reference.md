@@ -8,7 +8,7 @@ description: Details about all available AWS CloudFormation-specific configurati
 
 - **Region** - AWS region in which to create and execute the AWS CloudFormation Stack.
 - **Stack Name** - The name for the CloudFormation Stack controlled by this Spacelift Stack.
-- **Entry Template File** - The path to the JSON or YAML file describing your root CloudFormation Stack. If you're generating CloudFormation code using a tool like AWS Serverless Application Model (SAM), point this to the file containing the generated template.
+- **Entry Template File** - The path to the JSON or YAML file describing your root CloudFormation Stack. If you're generating CloudFormation code using a tool like AWS Serverless Application Model (SAM) or AWS Cloud Development Kit (AWS CDK), point this to the file containing the generated template.
 - **Template Bucket** - Amazon S3 bucket to store CloudFormation templates in. Each created object will be prefixed by the current run ID like this: `<run id>/artifact_name`
 
 ## Special Environment Variables
