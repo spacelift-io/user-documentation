@@ -98,7 +98,7 @@ It's almost like creating an environment variable, though instead of typing (or 
 Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/README.md) executed for the [stack](../stack/README.md).
 
 !!! info
-    Mounted files are limited to 128kB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
+    Mounted files are limited to 2 MB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
 
 ### Project structure
 
