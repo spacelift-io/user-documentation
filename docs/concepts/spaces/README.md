@@ -10,7 +10,7 @@ In Spacelift, this can be achieved by splitting your account into multiple Space
 
 Spaces are sets that can be filled with various kinds of Spacelift entities: [Stacks](../stack/README.md), [Policies](../policy/README.md), [Contexts](../configuration/context.md), [Modules](../../vendors/terraform/module-registry.md), [Worker Pools](../worker-pools.md), and [Cloud Integrations](../../integrations/cloud-providers/README.md).
 
-Initially, you start with a `root` and a `legacy` space. The `root` space is the top-level space of your account, while the `legacy` space exists for backward compatibility with pre-spaces RBAC. [You can then create more spaces](https://docs.spacelift.io/concepts/spaces/creating-a-space), ending up with a big tree of segregated environments.
+Initially, you start with a `root` and a `legacy` space. The `root` space is the top-level space of your account, while the `legacy` space exists for backward compatibility with pre-spaces RBAC. [You can then create more spaces](./creating-a-space.md), ending up with a big tree of segregated environments.
 
 ## What problems do Spaces solve?
 
