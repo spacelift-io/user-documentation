@@ -172,7 +172,7 @@ Sometimes you might want to pass some additional data to your policy input. For 
 Let's say you want to expose the Terraform configuration to the plan policy to ensure that only the "blessed" modules are used to provision resources. You would then add the following command to the list of [`after_plan` hooks](../stack/stack-settings.md#customizing-workflow):
 
 ```bash
-terraform show -json spacelift.plan | jq '.configuration' > configuration.custom.spacelift.json
+terraform show -json spacelift.plan | jq -c '.configuration' > configuration.custom.spacelift.json
 ```
 
 The data will be available in the policy input as `input.third_party_metadata.custom.configuration`. Note that this depends on the `jq` tool being available in the runner image (it is installed by default on our standard image).
