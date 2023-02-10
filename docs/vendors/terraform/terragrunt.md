@@ -24,6 +24,8 @@ On our runner image, we install a version of Terragrunt that will work with the 
 
 We're currently using Terragrunt the same way we're using Terraform, running `init`, `plan`, and `apply` commands. This means we're not supporting [executing Terraform commands on multiple modules at once](https://terragrunt.gruntwork.io/docs/features/execute-terraform-commands-on-multiple-modules-at-once/){: rel="nofollow"} (`run-all`). This functionality was designed to operate in a very different mode and environment, and is strictly outside our scope.
 
+We also support authentication with [Spacelift modules](./module-registry.md) by automatically filling the `TG_TF_REGISTRY_TOKEN` environment variable for each run. Terragrunt [uses this variable](https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/){: rel="nofollow"} to authenticate with private module registries.
+
 ## Debugging Terragrunt
 
 Similar to Terraform, Terragrunt provides an advanced logging mode, and as of the writing of this documentation, there are currently two ways it can be enabled:
