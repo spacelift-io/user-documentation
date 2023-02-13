@@ -49,3 +49,13 @@ For every folder label, a sidebar section is included in the _Folders_ menu, all
 Perhaps worth mentioning is the fact that folder labels can be nested, allowing you to create either hierarchies, or arbitrary classifications of your stacks.
 
 Also, a single stack can have any number of folder labels set, in which case it belongs to all the collections. In that, folder labels are like labels in Gmail rather than directories in your filesystem.
+
+## Saving filters in views
+
+It is possible to save your filters with a Views Tab. You can select all the filters that you would like to apply in the Filters Tab, add search query or sorting in the top right corner, go to the Views Tab, enter the name of the view and click Save. This view is now saved for this account. Next time you login, it is possible to quickly navigate to the saved view. 
+
+![](<../../assets/screenshots/saved-filters.png>)
+
+Views can be shared or private. While first creating the view, it is available only for your user. You can make it public for all the users of the account by hovering over the saved view and clicking small eye icon "Share within account". This way all the users within this application can see the saved view and who created it.
+
+If you want to quickly reset the filter to the default state, click "Default" view that is pinned on top of the views created by you. It is also possible to delete the saved view by hovering it and then clicking small red bin icon "Delete filter".
