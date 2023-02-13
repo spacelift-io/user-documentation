@@ -52,7 +52,7 @@ Also, a single stack can have any number of folder labels set, in which case it 
 
 ## Saving filters in views
 
-It is possible to save your filters with a Views Tab. In the Filters Tab, you can select all the filters that you would like to apply, go to the Views Tab, enter the name of the view and click Save. This view is now saved for this account. Next time you login, it is possible to quickly navigate to the saved view.
+It is possible to save your filters with a Views Tab. You can select all the filters that you would like to apply in the Filters Tab, add search query or sorting in the top right corner, go to the Views Tab, enter the name of the view and click Save. This view is now saved for this account. Next time you login, it is possible to quickly navigate to the saved view.
 
 ![](<../../assets/screenshots/saved-filters.png>)
 
