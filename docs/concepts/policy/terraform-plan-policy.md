@@ -182,10 +182,14 @@ The data will be available in the policy input as `input.third_party_metadata.cu
 For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec). What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
 
 ```bash
-tfsec --format=json . > tfsec.custom.spacelift.json
+tfsec -s --format=json . > tfsec.custom.spacelift.json
 ```
 
 The data will be available in the policy input as `input.third_party_metadata.custom.tfsec`. Note that this depends on the `tfsec` tool being available in the runner image - you will need to install it yourself, either directly on the image, or as part of your `before_init` hook.
+
+Some vulnerability scanning tools, like tfsec, will return a non-zero exit code when they encounter vulnerabilities, which will result in a stack failure. As the majority of these tools provide a soft scanning option that will show all the vulnerabilities without considering the command as failed, we can leverage those.
+
+However, if there is a tool that doesn't offer that possibility, you can easily overcome this by appending `|| true` at the end of the command as this will always return a zero exit code.
 
 ## Use cases
 
