@@ -10,6 +10,9 @@ If it comes to Ansible stacks, during that phase we try to auto-detect the _requ
 - `roles/requirements.yml` for roles requirements
 - `collections/requirements.yml` for collections requirements
 
+!!! tip
+    We also check for the alternative `.yaml` extension for the paths listed above.
+
 As an example, try using an example `requirements.yml` file.
 
 ```yaml title="Example requirements.yml file"
