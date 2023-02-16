@@ -52,3 +52,19 @@ To do this, use the following steps:
 - Follow the status of your task's execution to ensure it was executed successfully. When completed, you should see an output similar to the following within the "Performing" step of your task.
 
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)
+
+## Exporting Spacelift-managed Terraform state file
+
+If a Terraform stack's state is managed by Spacelift and you need to export it you can do so by running the following command in a [Task](../../concepts/run/task.md#performing-a-task):
+
+```shell
+terraform state pull > terraform.tfstate
+```
+
+The local workspace is discarded after the Task has finished so you most likely want to combine this command with another one that pushes the `terraform.tfstate` file to some remote location.
+
+Here is an example of pushing the state file to an AWS S3 bucket (without using an intermediary file):
+
+```shell
+terraform state pull | aws s3 cp - s3://example-bucket/folder/sub-folder/terraform.tfstate
+```
