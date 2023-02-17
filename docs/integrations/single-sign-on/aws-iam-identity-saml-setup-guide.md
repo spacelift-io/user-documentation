@@ -1,4 +1,4 @@
-# AWS IAM Identity SAML Setup Guide
+# AWS IAM Identity Center SAML Setup Guide
 
 If you'd like to set up the ability to sign in to your Spacelift account using a SAML 2.0 integration with AWS IAM Identity Center (formerly known as AWS SSO), you've come to the right place. This example will walk you through the steps to get this set up, and you'll have Single Sign-On running in no time!
 
@@ -69,6 +69,11 @@ Go to the "Attribute mappings" tab, set the values as described below and click 
 | Subject                           | ${user:subject}                                                    | persistent |
 | FirstName                         | ${user:givenName}                                                  | basic      |
 | LastName                          | ${user:familyName}                                                 | basic      |
+| Teams                             | ${user:groups}                                                     | basic      |
+
+!!! warning
+    Please note that while available, `${user:groups}` [is not officially supported by AWS IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html#supportedssoattributes){: rel="nofollow"} and it will return the group ID (GUUID) and not the group name. There is currently no way to get the group name.
+    <!-- KLUDGE: https://repost.aws/questions/QULRCugKTtSqyi1SnZtW-pjQ/sso-passing-group-via-assertion -->
 
 ## Assign users and groups to the application
 
@@ -80,4 +85,4 @@ Make sure to assign users and/or groups to the SAML application in the "Assigned
 
 Back to Spacelift for the final step. You can finally click on the "Save" button on the SAML integration page.
 
-The page will reload and am AWS login page will be displayed. Use the credentials for a user that has access to the SAML application and you should be able to log into Spacelift.
+The page will reload and the AWS login page will be displayed. Use the credentials for a user that has access to the SAML application and you should be able to log into Spacelift.
