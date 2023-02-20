@@ -35,10 +35,10 @@ You can preview changes locally by running MkDocs in a Docker container:
 
 ```shell
 # Intel/AMD CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt
+docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt)
 
 # Arm CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt
+docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt)
 ```
 
 <!-- markdownlint-disable-next-line MD034 -->
