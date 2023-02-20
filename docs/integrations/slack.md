@@ -28,11 +28,128 @@ Though before that happens, you need to allow requests coming from Slack to acce
 
 ## Managing access to Stacks with policies
 
-Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. In this case, we're using [stack access policies](../concepts/policy/stack-access-policy.md). If you haven't had a chance to review the relevant documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
+Our Slack integration allows users in the Slack workspace to interact with stacks by adding the ability
+to change their run state or view changes that are planned or were applied.
+
+Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. If you haven't had a chance to review the [policy](../concepts/policy/README.md) and [Spaces](../concepts/spaces/README.md) documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
+
+### Available actions
+
+Currently, we allow:
+
+- Confirming and discarding tracked runs.
+- Viewing planned and actual changes.
+
+Both of these actions require specific permissions to be configured using the login or access policies.
+Confirming or discarding runs requires _Write_ level permissions while viewing changes requires _Read_ level permissions. The documention sections about policies below describe how to setup and manage these permissions.
 
 !!! info
-    The default stack access policy for Slack requests is to deny all access.
+    The default stack access and login policy decision for Slack requests is to deny all access.
 
+### Login policy
+
+Using [login policies](../concepts/policy/login-policy.md) is the preferred way to control access for the Slack interation. Using them you can control who can access stacks which are in a specific [Space](../concepts/spaces/README.md).
+
+They allow for granular stack access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
+would allow to have _Read_ or _Write_ level permissions for certain actions.
+
+Login policies also don't need to be attached to a specific stack in order to work but are instead
+evaluated during every stack mutation or read attempt from the integration.
+
+!!! warning
+    It's important to know that if you have multiple login policies, failing to evaluate one of them or
+    having at least one of them result in a deny decision after the evaluation is done, will result in the
+    overal decision being a `deny all`.
+
+Here is an example of data which the login policy receives when evaluating stack access for the integration:
+
+```json
+{
+  "request": {
+    "timestamp_ns": "<int> - a unix timestamp for when this request happened"
+  },
+  "slack": {
+    "channel": {
+      "id": "<string> - a channel ID, example: C042YPN0000",
+      "name": "<string> - a channel name, example: spc-finished"
+    },
+    "command": "<string>",
+    "team": {
+      "id": "<string> - a team ID for which this user belongs, example: T0431750000",
+      "name": "<string> - a team name represented as string, example: slack-workspace-name"
+    },
+    "user": {
+      "deleted": "<boolean>",
+      "display_name": "<string>",
+      "enterprise": {
+        "enterprise_id": "<string>",
+        "enterprise_name": "<string>",
+        "id": "<string>",
+        "is_admin": "<boolean>",
+        "is_owner": "<boolean>",
+      },
+      "teams": {
+         "id": "<string>",
+         "name": "<string>"
+      },
+      "id": "<string> - a user which initially request ID, example: C042YPN1111",
+      "is_admin": "<boolean> - is the user an admin",
+      "is_owner": "<boolean> - is the workspace owner",
+      "is_primary_owner": "<boolean>",
+      "is_restricted": "<boolean>",
+      "is_stranger": "<boolean>",
+      "is_ultra_restricted": "<boolean>",
+      "has_2fa": "<boolean>"
+      "real_name": "<string>",
+      "tz": "<string>"
+    }
+  },
+  "spaces": [{
+    "id": "<string> - an ID for a Space in spacelift",
+    "labels": "<stringArray> - a list of labels attached to this space",
+    "name": "<string> - name for a Space in spacelift"
+  }, {
+    "id": "<string>",
+    "labels": "<stringArray>",
+    "name": "<string>"
+  }]
+}
+```
+
+!!! info
+    The `slack` object in the policy input data is built using Slack provided data. See [their official documentation](https://api.slack.com/types/user){: rel="nofollow"} for always up-to-date and full explanation of the `slack` object fields.
+  
+Using the above data we can write policies which only allow for a specific user or slack team to access specific spaces in which your stacks reside.
+
+For example here is a policy which would allow anyone from a specific slack team to alter stacks in a particular space:
+
+```opa
+package spacelift
+
+# Allow access for anyone in team X
+allow {
+  input.slack.team.id == "X"
+}
+
+# Deny access for everyone except team X
+deny {
+  input.slack.team.id != ""
+  input.slack.team.id != "X"
+}
+
+# Grant write access to stacks in Space Y for anyone in team X
+space_write["Y"] {
+  input.slack.team.id == "X"
+}
+```
+
+### Access policy
+
+!!! warning
+    It's recommended to instead use the [login policies](../concepts/policy/login-policy.md) in order to
+    manage slack access as [stack access policies](../concepts/policy/stack-access-policy.md) are **deprecated**.
+
+In this case, we're using [stack access policies](../concepts/policy/stack-access-policy.md).
 Unlike HTTP requests, policy inputs representing Slack interactions replace `"request"` and `"session"` sections with a single `"slack"` section, containing the following payload:
 
 ```json
@@ -82,10 +199,6 @@ Any Stack with this policy attached will be accessible for writing from this Sla
 
 !!! info
     Note that different commands may have different required levels of access, so you can create more granular policies - for example giving a `#devops` channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
-
-## Available actions
-
-Currently, confirming and discarding tracked runs is available through the Slack interface. The ability to trigger those actions is subject to a [stack access policy](../concepts/policy/stack-access-policy.md) check with a _Write_ level on the user Slack info.
 
 ## Available slash commands
 
