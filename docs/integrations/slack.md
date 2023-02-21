@@ -40,17 +40,17 @@ Currently, we allow:
 - Confirming and discarding tracked runs.
 - Viewing planned and actual changes.
 
-Both of these actions require specific permissions to be configured using the login or access policies.
+Both of these actions require specific permissions to be configured using the login policy.
 Confirming or discarding runs requires _Write_ level permissions while viewing changes requires _Read_ level permissions. The documention sections about policies below describe how to setup and manage these permissions.
 
 !!! info
-    The default stack access and login policy decision for Slack requests is to deny all access.
+    The default login policy decision for Slack requests is to deny all access.
 
 ### Login policy
 
 Using [login policies](../concepts/policy/login-policy.md) is the preferred way to control access for the Slack interation. Using them you can control who can access stacks which are in a specific [Space](../concepts/spaces/README.md).
 
-They allow for granular stack access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
+They allow for granular space access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
 would allow to have _Read_ or _Write_ level permissions for certain actions.
 
 Login policies also don't need to be attached to a specific stack in order to work but are instead
@@ -142,63 +142,6 @@ space_write["Y"] {
   input.slack.team.id == "X"
 }
 ```
-
-### Access policy
-
-!!! warning
-    It's recommended to instead use the [login policies](../concepts/policy/login-policy.md) in order to
-    manage slack access as [stack access policies](../concepts/policy/stack-access-policy.md) are **deprecated**.
-
-In this case, we're using [stack access policies](../concepts/policy/stack-access-policy.md).
-Unlike HTTP requests, policy inputs representing Slack interactions replace `"request"` and `"session"` sections with a single `"slack"` section, containing the following payload:
-
-```json
-{
-  "command": "<string> - command received, if any",
-  "user": {
-    "id": "<string> - Slack user ID who generated the request",
-    "deleted": "<bool> - is the user deleted",
-    "display_name": "<string> - user display name",
-    "has_2fa": "<bool> - does the user has 2FA enabled",
-    "is_admin": "<bool> - is the user a workspace admin",
-    "is_owner": "<bool> - is the user a workspace owner",
-    "is_primary_owner": "<bool> - is the Slack user a workspace primary owner",
-    "is_restricted": "<bool> - is this a guest user",
-    "is_ultra_restricted": "<bool> - is this a single-channel guest",
-    "is_stranger": "<bool> - does the belong to a different workspace",
-    "real_name": "<string> - user real name",
-    "tz": "<string> - user timezone",
-    "enterprise": {
-      "id": "<string> - Slack enterprise user ID, may be different from user.id",
-      "enterprise_id": "<string> - unique ID for the Enterprise Grid organization this user belongs to",
-      "enterprise_name": "<string> - display name for the Enterprise Grid organization",
-      "is_admin": "<bool> - is the user user an Admin of the Enterprise Grid organization",
-      "is_owner": "<bool> - is the user user an Owner of the Enterprise Grid organization",
-      "teams": "<list<string> - an array of workspace IDs that are in the Enterprise Grid organization"
-    }
-  },
-  "team": {
-    "id": "<string> ID of the Slack team that generated the request",
-    "name": "<string> Name of the Slack team"
-  },
-  "channel": {
-    "id": "<string> ID of the Slack channel that generated the request",
-    "name": "<string> Name of the Slack channel"
-  }
-}
-```
-
-!!! info
-    For the most up-to-date explanation of Slack user intricacies, please always refer to [Slack's own documentation](https://api.slack.com/types/user){: rel="nofollow"}.
-
-As you can see, that's quite a bit of data you can base your decisions on. For example, you can map some Slack channels as having certain level of access to certain Stacks - just make sure to keep these Slack channels private / invite-only. Here's an example stack access policy allowing Write level of access to requests coming from Slack's _#dev-notifications_ channel:
-
-![](../assets/screenshots/Manage_stacks_from__dev-notifications_·_spacelift-io.png)
-
-Any Stack with this policy attached will be accessible for writing from this Slack channel - but no other!
-
-!!! info
-    Note that different commands may have different required levels of access, so you can create more granular policies - for example giving a `#devops` channel _Write_ access, while giving only _Read_ access to various "notifications" channels.
 
 ## Available slash commands
 
