@@ -10,6 +10,13 @@ By default, Spacelift uses a managed worker pool hosted and operated by us. This
 
 In order to enjoy the maximum level of flexibility and security with a private worker pool, temporary run state is encrypted end-to-end, so only the workers in your worker pool can look inside it. We use asymmetric encryption to achieve this and only you ever have access to the private key.
 
+!!! tip
+    A worker is a logical entity that processes a single [run](./run/README.md) at a time. As a result, your number of workers is equal to your maximum concurrency.
+
+    Typically, a virtual server (AWS EC2 or Azure/GCP VM) hosts a single worker to keep things simple and avoid coordination and resource management overhead.
+
+    Containerized workers can share the same virtual server because the management is handled by the orchestrator.
+
 ## Setting up
 
 ### Generate Worker Private Key
