@@ -8,8 +8,18 @@ description: >-
 
 By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some organizations however prefer a Single Sign-On approach, where access to resources is centralized. To accommodate this use-case, Spacelift supports Single Sign-On using [SAML 2.0](#setting-up-saml) or [OIDC](#setting-up-oidc).
 
+## Managed Identity Provider vs SSO
+
 !!! tip
     The SSO integration can only be configured once the [Spacelift account has been created using one of the supported Identity Providers](../../getting-started.md#step-1-create-your-spacelift-account).
+
+To create a Spacelift account, a user needs to choose one of the supported managed identity providers. That user then becomes the "Managed IdP Admin".
+
+If SSO is configured, the managed identity provider used to create the account and the associated admin are disabled and the first user to successfully log in becomes the "SSO Admin".
+
+Login policies are not evaluated for Managed IdP and SSO admins so that they cannot lock themselves out. As a side effect, there won’t be any [Login policy samples](../../concepts/policy/README.md#sampling-policy-inputs) for them in the [Policy Workbench](../../concepts/policy/README.md#policy-workbench-in-practice).
+
+If SSO is disabled later, the managed identity provider and associated admin are re-enabled automatically.
 
 ## Managing integrations
 
