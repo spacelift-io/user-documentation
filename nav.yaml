@@ -122,6 +122,7 @@ nav:
       - integrations/single-sign-on/onelogin-oidc-setup-guide.md
       - integrations/single-sign-on/azure-ad-oidc-setup-guide.md
       - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
+      - integrations/single-sign-on/backup-credentials.md
     - integrations/slack.md
     - integrations/webhooks.md
   - 📖 Product:
