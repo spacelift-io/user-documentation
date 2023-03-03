@@ -14,16 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.3.0
         with:
           fetch-depth: 0
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v26.1
+        uses: tj-actions/changed-files@v35.6.1
+        with:
+          separator: ","
 
       - name: Set Python up
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4.5.0
         with:
           python-version: 3.x
 
@@ -31,4 +33,4 @@ jobs:
         run: pip install pre-commit
 
       - name: Run pre-commit
-        run: pre-commit run --files "${{ steps.changed-files.outputs.all_changed_files }}"
+        run: pre-commit run --files ${{ steps.changed-files.outputs.all_changed_files }}
