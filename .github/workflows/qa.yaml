@@ -28,11 +28,14 @@ jobs:
 
       - name: Set Python up
         uses: actions/setup-python@v4.5.0
+        id: set-python-up
         with:
           python-version: 3.x
+          cache: pip
+          cache-dependency-path: requirements-qa.txt
 
       - name: Install pre-commit
-        run: pip install pre-commit
+        run: pip install -r requirements-qa.txt
 
       - name: Run pre-commit
         run: |
