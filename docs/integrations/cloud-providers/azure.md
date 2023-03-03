@@ -6,7 +6,7 @@ Spacelift provides support for managing Azure resources via the Terraform [Azure
 
 This page explains how to configure the following authentication methods in Spacelift:
 
-- [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation, but is only supported on public workers.
+- [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation.
 - [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
 - [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools.md) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
 
