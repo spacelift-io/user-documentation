@@ -30,9 +30,9 @@ jobs:
         uses: actions/setup-python@v4.5.0
         id: set-python-up
         with:
-          python-version: 3.x
           cache: pip
           cache-dependency-path: requirements-qa.txt
+          python-version-file: .python-version
 
       - name: Install pre-commit
         run: pip install -r requirements-qa.txt
