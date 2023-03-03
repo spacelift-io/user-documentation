@@ -37,6 +37,12 @@ jobs:
       - name: Install pre-commit
         run: pip install -r requirements-qa.txt
 
+      - name: Cache pre-commit environments
+        uses: actions/cache@v3.2.6
+        with:
+          path: ~/.cache/pre-commit/
+          key: pre-commit-${{ env.pythonLocation }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
       - name: Run pre-commit
         run: |
           pre-commit run --color=always --files '${{ steps.changed-files.outputs.all_changed_files }}'
