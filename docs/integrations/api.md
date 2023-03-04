@@ -10,62 +10,59 @@ description: Describes how to authenticate and use the Spacelift GraphQL API.
 
 Spacelift provides a [GraphQL API](https://graphql.org/) for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
-<details>
-<summary>An example of request and response</summary>
+??? note "An example of request and response"
 
-```
-$ curl --request POST \
-  --url http://<account-name>.app.spacelift.io/graphql \
-  --header 'Authorization: Bearer <token>' \
-  --header 'Content-Type: application/json' \
-  --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
-```
+    ```
+    $ curl --request POST \
+      --url http://<account-name>.app.spacelift.io/graphql \
+      --header 'Authorization: Bearer <token>' \
+      --header 'Content-Type: application/json' \
+      --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
+    ```
 
-The request body looks like this when formatted a bit nicer:
+    The request body looks like this when formatted a bit nicer:
 
-```graphql
-{ 
-	stacks
-	{
-		id
-		name,
-		administrative,
-		createdAt,
-		description
-	}
-}
-```
+    ```graphql
+    {
+      stacks
+      {
+        id
+        name,
+        administrative,
+        createdAt,
+        description
+      }
+    }
+    ```
 
-And the response looks like this:
+    And the response looks like this:
 
-```json
-{
-	"data": {
-		"stacks": [
-			{
-				"id": "my-stack-1",
-				"name": "My Stack 1",
-				"administrative": false,
-				"createdAt": 1672916942,
-				"description": "The is my first stack"
-			},
-			{
-				"id": "my-stack-2",
-				"name": "My Stack 2",
-				"administrative": false,
-				"createdAt": 1674218834,
-				"description": "The is my second stack"
-			}
-		]
-	}
-}
-```
-
-</details>
+    ```json
+    {
+      "data": {
+        "stacks": [
+          {
+            "id": "my-stack-1",
+            "name": "My Stack 1",
+            "administrative": false,
+            "createdAt": 1672916942,
+            "description": "The is my first stack"
+          },
+          {
+            "id": "my-stack-2",
+            "name": "My Stack 2",
+            "administrative": false,
+            "createdAt": 1674218834,
+            "description": "The is my second stack"
+          }
+        ]
+      }
+    }
+    ```
 
 ## Recommendation
 
-Our recommendation is to use the [Spacelift API Key](#spacelift-api-key-token) to authenticate with the GraphQL API.
+Our recommendation is to use the [Spacelift API Key](api.md#spacelift-api-key-token) to authenticate with the GraphQL API.
 
 As of today, Postman does not support GraphQL natively, so our choice of tool is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}. Insomnia is a free, open-source tool that allows you to easily create and manage API requests.
 
@@ -89,10 +86,9 @@ All requests need to be authenticated using a [JWT](https://jwt.io/) bearer toke
 
 There are currently three ways of obtaining this token:
 
-1. [Spacelift API Key > Token](#spacelift-api-key-token) - for long-term usage (**recommended**)
-2. [SpaceCTL CLI > Token](#spacectl-cli-token) - for temporary usage
-3. [Personal GitHub Token > Token](#personal-github-token-token)
-
+1. [Spacelift API Key > Token](api.md#spacelift-api-key-token) - for long-term usage (**recommended**)
+2. [SpaceCTL CLI > Token](api.md#spacectl-cli-token) - for temporary usage
+3. [Personal GitHub Token > Token](api.md#personal-github-token-token)
 
 ### Spacelift API Key > Token
 
@@ -109,13 +105,11 @@ Click on Settings in the bottom left corner of the UI
   <img src="../assets/screenshots/api-key-creation-01.png"/>
 </p>
 
-
 Choose API Keys menu and click on Add new API key
 
 <p align="center">
   <img src="../assets/screenshots/api-key-creation-02.png"/>
 </p>
-
 
 The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
@@ -209,8 +203,9 @@ You can create request libraries in Insomnia to make it easier to work with the 
 Copy the following JSON to your clipboard:
 
 ??? note "Click here to expand"
-	```json
-	{
+
+  ```json
+  {
       "_type": "export",
       "__export_format": 4,
       "__export_date": "2023-01-23T19:49:05.605Z",
@@ -349,14 +344,15 @@ Copy the following JSON to your clipboard:
             "isPrivate": false,
             "metaSortKey": 828288489886.5,
             "_type": "environment"
-        	}
-    	]
-	}
-	```
+          }
+      ]
+  }
+  ```
 
 In the home screen of Insomnia, click on `Import From` then click on `Clipboard`.
 
 <p align="center">
+  <!-- markdownlint-disable-next-line MD044 -->
   <img src="../assets/screenshots/graphql-insomnia-01-import.png"/>
 </p>
 
@@ -365,18 +361,20 @@ The `Spacelift` collection will appear. Click on it.
 On the top left corner, click the `🔵 Spacelift` icon, then choose `Manage Environments`.
 
 <p align="center">
+  <!-- markdownlint-disable-next-line MD044 -->
   <img src="../assets/screenshots/graphql-insomnia-02-manage-envs.png"/>
 </p>
 
 Here, make sure you fill the first three variables properly:
 
 - `BASE_URL` should be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io`
-- `API_KEY_ID` is the ID of the API key you created in [the previous step](#spacelift-api-key-token). It should be a 26-character [ULID](https://github.com/ulid/spec){: rel="nofollow"}.
+- `API_KEY_ID` is the ID of the API key you created in [the previous step](api.md#spacelift-api-key-token). It should be a 26-character [ULID](https://github.com/ulid/spec){: rel="nofollow"}.
 - `API_KEY_SECRET` can be found in the file that was downloaded when you created the API key.
 
 Don't worry about the 4th.
 
 <p align="center">
+  <!-- markdownlint-disable-next-line MD044 -->
   <img src="../assets/screenshots/graphql-insomnia-fill-vars.png"/>
 </p>
 
