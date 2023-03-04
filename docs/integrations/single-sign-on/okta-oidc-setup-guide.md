@@ -63,7 +63,7 @@ You'll need to edit the groups claim type to return groups you consider useful i
 Switch back to the **General** tab. Now that we have the Okta App Integration setup, we'll need to take the **Client ID**, **Client Secret**, and **Okta domain**, to configure the Spacelift OIDC Settings.
 
 !!! info
-    The Okta Domain will be set as the "Provider URL" in your Spacelift OIDC settings. **Ensure that you prefix this URL with https://**
+    The Okta Domain will be set as the "Provider URL" in your Spacelift OIDC settings. **Ensure that you prefix this URL with `https://`**.
 
 ![](../../assets/screenshots/Screen Shot 2022-07-01 at 4.22.43 PM.png)
 

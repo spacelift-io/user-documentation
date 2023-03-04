@@ -18,7 +18,7 @@ MD007:
 MD029:
   style: ordered
 MD033:
-  allowed_elements: [br, div, iframe, script]
+  allowed_elements: [br, div, iframe, img, p, script]
 MD044:
   names:
     [

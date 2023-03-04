@@ -7,6 +7,7 @@ To use [AWS Cloud Development Kit](https://docs.aws.amazon.com/cdk/v2/guide/home
 Since our base image doesn't support AWS CDK, you will have to build your image that includes it as well as any tooling needed to run whatever language your infrastructure declaration is written in.
 
 The example below shows a Dockerfile with attached `cdk` and `go`:
+
 ```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest
 USER root
@@ -32,6 +33,7 @@ You should build it, push it to a repository, and set it as the [Runner Image](.
 
 For the AWS CDK code to be properly interpreted by Spacelift, you have to customize the default stack workflow by [enriching them with hooks](https://docs.spacelift.io/concepts/configuration/runtime-configuration/index.html#before_-and-after_-hooks).
 To create a CloudFormation template that can be interpreted by Spacelift, you will have to add these hooks to the `before_plan` stage:
+
 - `cdk bootstrap` - to bootstrap your AWS CDK project.
 - `cdk synth` - to create a CloudFormation template.
 
@@ -46,5 +48,6 @@ To mitigate this, consider unifying the AWS CDK definition to generate a single 
 ### Deploying Lambdas
 
 Our integration doesn't use `cdk deploy`, but rather uses template definitions created by `cdk synth`.
+
 `cdk deploy` deploys Lambda assets to S3 which are used to deploy Lambdas by CloudFormation.
 Our process won't upload assets, so deploying Lambdas via a Spacelift stack configured to handle AWS CDK will result in errors.

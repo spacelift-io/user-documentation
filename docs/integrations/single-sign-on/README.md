@@ -22,6 +22,7 @@ Login policies are not evaluated for Managed IdP and SSO admins so that they can
 If SSO is disabled later, the managed identity provider and associated admin are re-enabled automatically.
 
 ## Backup Credentials
+
 Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the [Backup Credentials](./backup-credentials.md) section.
 
 ## Managing integrations
