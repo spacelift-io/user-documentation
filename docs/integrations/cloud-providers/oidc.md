@@ -322,4 +322,4 @@ provider "vault"
 }
 ```
 
-Next, set the `TERRAFORM_VAULT_AUTH_JWT` environment variable to `${SPACELIFT_OIDC_TOKEN}`, either directly on your stack, or on one of the attached [contexts](../../concepts/configuration/context.md). This approach uses [interpolation](../../concepts/configuration/environment#environment-variable-interpolation) to dynamically set the value of the variable the provider is looking for to the value of the environment variable that Spacelift provides.
+Next, set the `TERRAFORM_VAULT_AUTH_JWT` environment variable to `${SPACELIFT_OIDC_TOKEN}`, either directly on your stack, or on one of the attached [contexts](../../concepts/configuration/context.md). This approach uses [interpolation](../../concepts/configuration/environment.md#environment-variable-interpolation) to dynamically set the value of the variable the provider is looking for to the value of the environment variable that Spacelift provides.
