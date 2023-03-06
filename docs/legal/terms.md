@@ -1,8 +1,8 @@
 # Terms and Conditions
 
-Last updated: March 3, 2023
+Last updated: March 7, 2023
 
-This Terms and Conditions is between the entity you represent, or, if you do not indicate an entity in connection with the Services, you individually (“**Client**”, “**you**” or “**your**”), and Spacelift, Inc. with its principal office at 541 Jefferson Ave. Suite 100, Redwood City CA 94063, United States of America (“**Spacelift**”, “**the Company**” “**we**”, “**us**”, or “**our**”). It consists of the terms and conditions below, the Privacy Policy, the Data Processing Addendum, the Refund Policy and the Cookie Policy (together, the “**Agreement**”).
+This Terms and Conditions is between the entity you represent, or, if you do not indicate an entity in connection with the Services, you individually (“**Client**”, “**you**” or “**your**”), and Spacelift, Inc. with its principal office at 541 Jefferson Ave. Suite 100, Redwood City CA 94063, United States of America (“**Spacelift**”, “**the Company**” “**we**”, “**us**”, or “**our**”). It consists of the terms and conditions below, the Privacy Policy, the Refund Policy and the Cookie Policy (together, the “**Agreement**”).
 
 **The Agreement does not govern the use of:**
 
@@ -46,7 +46,7 @@ This Terms and Conditions is between the entity you represent, or, if you do not
 
 2.1. **Execution of the Agreement**. Accepting this Agreement is a condition of using the Services provided by Spacelift. ​​BY COMPLETING THE REGISTRATION PROCESS, ACCESSING OR USING THE SERVICES, YOU ACKNOWLEDGE AND AGREE THAT (I) YOU HAVE READ, UNDERSTOOD, AND ACCEPTED THIS AGREEMENT, AND (II) YOU HEREBY REPRESENT AND WARRANT THAT YOU ARE AUTHORIZED TO ENTER OR ACT ON BEHALF OF THE CLIENT, AND BIND TO THIS AGREEMENT. If you do not have the legal authority to enter this Agreement, do not understand this Agreement, or do not agree to the Agreement, you should not accept the Terms and Conditions, or use the Services.
 
-2.2. **Conflict of Provisions**. In the event of any inconsistencies or conflict between the documents that make up this Agreement, the documents will prevail in the following order: (a) any written amendment agreed upon by the parties (such as order forms); (b) Data Protection Agreement; (c) Privacy Policy; (d) these Terms and Conditions and (e) the Refund Policy.
+2.2. **Conflict of Provisions**. In the event of any inconsistencies or conflict between the documents that make up this Agreement, the documents will prevail in the following order: (a) any written amendment agreed upon by the parties (such as order forms); (b) Privacy Policy; (c) these Terms and Conditions and (d) the Refund Policy.
 
 2.3. **Compliance**. You are responsible for (a) compliance with the provisions of the Agreement by you and your Authorized Users and for any and all acts and omissions of Authorized Users connected with their use and access to the Services and for any breach of this Agreement by Authorized Users; and (b) any delay or failure of performance caused in whole or in part by your delay in performing, or failure to perform, any of your obligations under this Agreement. Without limiting the foregoing, you are solely responsible for ensuring that your use of the Services is compliant with all applicable laws and regulations, as well as any and all privacy policies, agreements, or other obligations you may maintain or enter into.
 
@@ -74,7 +74,7 @@ This Terms and Conditions is between the entity you represent, or, if you do not
 
 4.2. **Services Modifications**. We reserve the right to make any changes to the Services or Documentation that we deem necessary or useful to: (a) maintain or enhance: (i) the quality or delivery of Services to you and other clients; (ii) the competitive strength of or market for Services; or (iii) the Services' cost efficiency or performance; or (b) to comply with applicable law.
 
-4.3. **Privacy**. When applicable, we will comply with all applicable laws, regulations, and government orders relating to personally identifiable information and data privacy with respect to any such Client Data that we receive or have access to under the Agreement or in connection with the performance of the Services. In particular, regulations for the protection of personally identifiable information are indicated in the Data Processing Addendum incorporated herein by reference.
+4.3. **Privacy**. When applicable, we will comply with all applicable laws, regulations, and government orders relating to personally identifiable information and data privacy with respect to any such Client Data that we receive or have access to under the Agreement or in connection with the performance of the Services. In particular, regulations for the protection of personally identifiable information are indicated in the Privacy Policy incorporated herein by reference.
 
 4.4. **Access and Security**. You will employ all physical, administrative, and technical controls, screening, security procedures, and other safeguards necessary to: (a) securely administer the distribution and use of all access credentials and protect against any unauthorized access to or use of the Services; and (b) control the content and use of Client Data, including the uploading or other provision of Client Data for processing by the Services.
 
