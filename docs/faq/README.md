@@ -4,6 +4,17 @@ Spacelift has many features and hidden nuggets so it is easy to overlook some of
 
 If you still cannot find the answer to your question below, please reach out to our [support team](../product/support/README.md).
 
+## Product
+
+### How to submit a feature request?
+
+![](../assets/screenshots/feature-request.png)
+
+- Go to the "Product updates" section, in the bottom-left corner menu (1).
+- Go to the "Roadmap" tab to review the current roadmap (2) and to the "Feature Requests" tab (3) to see the feature requests pending review.
+
+If you see the feature you are looking for, you can vote for it (4), or leave a comment (5). Otherwise, you can submit a new feature request by clicking on "Suggest a feature" (6).
+
 ## Platforms
 
 ### Terraform
