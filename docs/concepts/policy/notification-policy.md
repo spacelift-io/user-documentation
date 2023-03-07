@@ -21,77 +21,127 @@ This is the schema of the data input that each policy request can receive:
 
 ```json
 {
-  "run_updated:":{
-    "state":"string",
-    "username":"string",
-    "note":"string",
+  "run_updated": {
+    "state": "string",
+    "username": "string",
+    "note": "string",
     "run":{
-      "creator_session":{
-        "admin":"boolean",
-        "creator_ip":"string",
-        "login":"string",
-        "name":"string",
-        "teams":[
-          "string"
-        ],
-        "machine":"boolean - whether the run was kicked off by a human or a machine"
-      },
-      "drift_detection":"boolean",
-      "created_at":"number (timestamp in nanoseconds)",
-      "id":"string",
-      "runtime_config":{
-        "before_init":[
-          "string"
-        ],
-        "environment":"map[string]string",
-        "project_root":"string",
-        "runner_image":"string",
-        "terraform_version":"string"
-      },
-      "state":"string",
-      "triggered_by":"string or null",
-      "type":"string - PROPOSED or TRACKED",
-      "updated_at":"number (timestamp in nanoseconds)"
-    },
-    "stack":{
-      "administrative":"boolean",
-      "autodeploy":"boolean",
-      "autoretry":"boolean",
-      "branch":"string",
-      "id":"string",
-      "labels":[
-        "string"
+      "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+      "branch": "string - the branch the run was triggered from",
+      "changes": [
+        {
+          "action": "string enum - added | changed | deleted",
+          "entity": {
+            "address": "string - full address of the entity",
+            "data": "object - detailed information about the entity, shape depends on the vendor and type",
+            "name": "string - name of the entity",
+            "type": "string - full resource type or \"output\" for outputs",
+            "entity_vendor": "string - the name of the vendor",
+            "entity_type": "string - the type of entity, possible values depend on the vendor"
+          },
+          "phase": "string enum - plan | apply"
+        }
       ],
-      "locked_by":"string or null",
-      "name":"string",
-      "namespace":"string or null",
-      "project_root":"string or null",
-      "repository":"string",
-      "state":"string",
-      "terraform_version":"string or null"
+      "command": "string",
+      "commit": {
+        "author": "string",
+        "branch": "string",
+        "created_at": "number (timestamp in nanoseconds)",
+        "hash": "string",
+        "message": "string"
+      },
+      "created_at": "number (timestamp in nanoseconds)",
+      "creator_session": {
+        "admin": "boolean",
+        "creator_ip": "string",
+        "login": "string",
+        "name": "string",
+        "teams": ["string"],
+        "machine": "boolean - whether the run was kicked off by a human or a machine"
+      },
+      "drift_detection": "boolean",
+      "flags": ["string"],
+      "id": "string",
+      "runtime_config": {
+        "after_apply": ["string"],
+        "after_destroy": ["string"],
+        "after_init": ["string"],
+        "after_perform": ["string"],
+        "after_plan": ["string"],
+        "after_run": ["string"],
+        "before_apply": ["string"],
+        "before_destroy": ["string"],
+        "before_init": ["string"],
+        "before_perform": ["string"],
+        "before_plan": ["string"],
+        "environment": "map[string]string",
+        "project_root": "string",
+        "runner_image": "string",
+        "terraform_version": "string"
+      },
+      "state": "string",
+      "triggered_by": "string or null",
+      "type": "string - PROPOSED or TRACKED",
+      "updated_at": "number (timestamp in nanoseconds)",
+      "user_provided_metadata": ["string"]
+    },
+    "stack": {
+      "administrative": "boolean",
+      "autodeploy": "boolean",
+      "autoretry": "boolean",
+      "branch": "string",
+      "id": "string",
+      "labels": ["string"],
+      "locked_by": "string or null",
+      "name": "string",
+      "namespace": "string or null",
+      "project_root": "string or null",
+      "repository": "string",
+      "space": {
+        "id": "string",
+        "labels": ["string"],
+        "name": "string"
+      },
+      "state": "string",
+      "terraform_version": "string or null",
+      "tracked_commit": {
+        "author": "string",
+        "branch": "string",
+        "created_at": "number (timestamp in nanoseconds)",
+        "hash": "string",
+        "message": "string"
+      }
     }
   },
-  "webhook_endpoints":[
+  "state": "string",
+  "timing": [
     {
-      "id":"custom-hook2",
-      "labels":[
+      "duration": "number (in nanoseconds)",
+      "state": "string"
+    }
+  ],
+  "username": "string",
+  "webhook_endpoints": [
+    {
+      "id": "custom-hook2",
+      "labels": [
         "example-label1",
         "example-label2"
       ]
     }
   ],
-  "internal_error":{
-    "error":"string",
-    "message":"string",
-    "severity":"string - INFO, WARNING, ERROR"
+  "internal_error": {
+    "error": "string",
+    "message": "string",
+    "severity": "string - INFO, WARNING, ERROR"
   }
 }
 ```
 
 !!! warning
-    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data
-    but will only receive the `internal_error` object if the notification is an internal error or the `run_updated` object if notification is about
-    a [run](../run/README.md) being updated.
+    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data but will only receive the `internal_error` object if the notification is an internal error or the `run_updated` object if notification is about a [run](../run/README.md) being updated.
+
+    The best way to see what your Notification policy is passed is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice).
 
 ## Policy in practice
 
