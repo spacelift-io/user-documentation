@@ -87,18 +87,18 @@ If You do not accept Our Cookies, You may experience some inconvenience in your 
 
 If You'd like to delete Cookies or instruct your web browser to delete or refuse Cookies, please visit the help pages of your web browser.
 
-- For the Chrome web browser, please visit this page from Google: [https://support.google.com/accounts/answer/32050](https://support.google.com/accounts/answer/32050)
-- For the Internet Explorer web browser, please visit this page from Microsoft: [http://support.microsoft.com/kb/278835](http://support.microsoft.com/kb/278835)
-- For the Firefox web browser, please visit this page from Mozilla: [https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored](https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored)
-- For the Safari web browser, please visit this page from Apple: [https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac)
+- For the Chrome web browser, please visit this page from Google: [https://support.google.com/accounts/answer/32050](https://support.google.com/accounts/answer/32050){: rel="nofollow"}
+- For the Internet Explorer web browser, please visit this page from Microsoft: [http://support.microsoft.com/kb/278835](http://support.microsoft.com/kb/278835){: rel="nofollow"}
+- For the Firefox web browser, please visit this page from Mozilla: [https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored](https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored){: rel="nofollow"}
+- For the Safari web browser, please visit this page from Apple: [https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac](https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac){: rel="nofollow"}
 
 For any other web browser, please visit your web browser's official web pages.
 
 ### More Information about Cookies
 
 <!-- markdown-link-check-disable-next-line -->
-You can learn more about cookies: [Cookies: What Do They Do?](https://www.freeprivacypolicy.com/blog/cookies/).
+You can learn more about cookies: [Cookies: What Do They Do?](https://www.freeprivacypolicy.com/blog/cookies/){: rel="nofollow"}.
 
 ### Contact Us
 
-If you have any questions about this Cookies Policy, You can contact us by email at privacy@spacelift.io.
+If you have any questions about this Cookies Policy, You can contact us by email at [privacy@spacelift.io](mailto:privacy@spacelift.io).
