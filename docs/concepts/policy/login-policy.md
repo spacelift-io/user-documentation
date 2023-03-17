@@ -52,6 +52,11 @@ This is the schema of the data input that each policy request will receive:
 }
 ```
 
+!!! tip
+    OPA string comparisons are case-sensitive so make sure to use the proper case, as defined in your Identity Provider when comparing values.
+
+    It might be helpful to [enable sampling on the policy](./README.md#sampling-policy-inputs) to see the exact values passed by the Identity Provider.
+
 Two fields in the session object may require further explanation: _member_ and _teams_.
 
 ### Account membership
