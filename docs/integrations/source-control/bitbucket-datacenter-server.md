@@ -4,6 +4,8 @@ Spacelift supports using an on-premises Bitbucket installation as the source of 
 
 ## Setting up the integration
 
+### Creating the integration
+
 In order to set up the integration from the Spacelift side, please navigate to the _VCS Providers_ section of the admin Settings page and click the _Set up_ button next to the Bitbucket Data Center integration:
 
 ![](<../../assets/screenshots/image (100).png>)
@@ -14,9 +16,16 @@ This should open a form like this one:
 
 Now you'll have to fill in the API host URL, which is the URL on which Spacelift will access the Bitbucket server. This may be a URL which uses [VCS Agent Pools](../../concepts/vcs-agent-pools.md), or a normal URL, if your Bitbucket instance is publicly available.
 
-The user facing host URL is the address on which users of you Bitbucket instance access it. This could be an internal address inside of your company network, but could also by a public address if your Bitbucket instance is publicly available.
+The user facing host URL is the address on which users of your Bitbucket instance access it. This could be an internal address inside of your company network, but could also be a public address if your Bitbucket instance is publicly available.
 
-In order to get the access token you'll need to go on your Bitbucket instance into **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it write access to repositories:
+### Creating an access token
+
+In order to use the integration, you need a user account for Spacelift to use, and you need to generate an access token for that account. The user account requires the following access:
+
+- _Read_ access to any projects Spacelift needs to be able to access.
+- _Write_ access to the repositories within those projects that Spacelift should have access to.
+
+Once you have a user account created, login as that user and go to **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it write access to repositories:
 
 ![Personal token creation](<../../assets/screenshots/image (65).png>)
 
@@ -24,13 +33,17 @@ This will give you an access token which you can put into the **Access token** f
 
 ![Created personal token](<../../assets/screenshots/image (66).png>)
 
-After doing all this you should have all fields filled in.
+### Saving the integration
+
+Once you have your access token, enter it into Spacelift. At this point all the fields should be filled out:
 
 ![](<../../assets/screenshots/image (102).png>)
 
 After saving, you'll receive your webhook secret and endpoint:
 
 ![](<../../assets/screenshots/image (103).png>)
+
+### Configuring webhooks
 
 For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating the following events:
 
@@ -46,6 +59,11 @@ For each repository you want to use with Spacelift, you need to go into its **Re
 It should look something like this:
 
 ![Configuring Webhooks](<../../assets/screenshots/bitbucket-datacenter-webhook-settings.png>)
+
+!!! warning
+    Don't forget to enter a secret when configuring your webhook. Bitbucket will allow you to create your webhook with no secret specified, but any webhook requests to Spacelift will fail without one configured.
+
+## Using the integration
 
 When creating a Stack, you will now be able to choose the Bitbucket Datacenter provider and a repository inside of it:
 
