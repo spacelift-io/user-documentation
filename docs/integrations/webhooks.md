@@ -32,8 +32,8 @@ can copy from the webhook list view:
 
 ### Exploring deliveries
 
-Webhook deliveries and their reponse statuses are stored and can be explored by selecting a specific webhook
-and viewing its details. You'll be presented with a list of deliveres, their status codes and when they happened.
+Webhook deliveries and their response statuses are stored and can be explored by selecting a specific webhook
+and viewing its details. You'll be presented with a list of deliveries, their status codes and when they happened.
 You can also click on each delivery to view more details about it:
 
 ![](<../assets/screenshots/named-hooks3.png>)
