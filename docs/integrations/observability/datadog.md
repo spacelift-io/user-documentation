@@ -23,6 +23,7 @@ Here's a very simple dashboard we've created based on this integration that show
 The Datadog integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing) subscription. While building a notification-based Datadog integration from scratch is possible, we've created a [Terraform module](https://registry.terraform.io/modules/spacelift-io/datadog/spacelift/latest) that will set up all the necessary integration elements for you.
 
 This module will only create Spacelift assets:
+
 - a [notification policy](../../concepts/policy/notification-policy.md) that will send data to Datadog;
 - a [webhook endpoint](../webhooks.md) that serve as a notification target for the policy;
 - a webhook secret header that will securely authenticate the payload with Datadog;
