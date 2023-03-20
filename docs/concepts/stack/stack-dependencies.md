@@ -22,6 +22,12 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 !!! info
     You can only create dependencies between stacks that you're both an admin of. See [Spaces Access Control](../spaces/access-control.md) for more information.
 
+## Dependencies overview
+
+In the `Dependencies` tab of the stack, there is a button called `Dependencies graph` to view the full dependency graph of the stack.
+
+![](../../assets/screenshots/Screenshot_Stack_Dependencies_Overview.png)
+
 ## How it works
 
 Stack dependencies are directed acyclic graphs ([DAGs](https://wikipedia.org/wiki/Directed_acyclic_graph)). This means that a stack
