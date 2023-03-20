@@ -33,6 +33,12 @@ Published means that the blueprint is ready to be used. You can publish a bluepr
 
 A published blueprint cannot be moved back to draft state. You need to clone the blueprint, edit it and publish it.
 
+## Permissions
+
+Blueprints permissions are managed by [Spaces](../spaces/README.md). You can only create, update and delete a blueprint in a Space you have **admin** access to but can be read by anyone with **read** access to the Space.
+
+Once the blueprint is published and you want to create a stack from it, the **read** access will be enough as long as you have **admin** access to the Space where the stack will be created.
+
 ## How to create a Blueprint
 
 Choose `Blueprints` on the left menu and click on `Create blueprint`. As of now, we only support YAML format. The template engine will be familiar for those who used GitHub Actions before.
@@ -57,18 +63,18 @@ stack:
 ```
 
 <p align="center" >
-    <img src="../../assets/screenshots/blueprint_preview.png"> 
+    <img src="../../assets/screenshots/blueprint_preview.png">
 </p>
-<figure markdown>
-  <figcaption>Preview of a Blueprint</figcaption>
+<figure markdown> <!-- markdownlint-disable-line MD033 -->
+  <figcaption>Preview of a Blueprint</figcaption> <!-- markdownlint-disable-line MD033 -->
 </figure>
 
 The `Create a stack` button is inactive because the blueprint is in draft state. You can publish it by clicking the `Publish` button. After that, you can create a stack from the blueprint.
 
 Now, let's look at a massive example that covers all the available configuration options:
 
-<details>
-<summary>Click to expand</summary>
+<details> <!-- markdownlint-disable-line MD033 -->
+<summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
 
 ```yaml
 inputs:
@@ -214,15 +220,16 @@ stack:
       stack_name: ${{ inputs.app }}-${{ inputs.environment }}
       login_url: https://app.pulumi.com
 ```
+
 </details>
 
 As you noticed if we attach an existing resource to the stack (such as Worker Pool, Cloud integration, Policy or Context) we use the unique identifier of the resource. Typically, there is a button for it in the UI but you can also find it in the URL of the resource.
 
 <p align="center" >
-    <img src="../../assets/screenshots/resource_ids.jpg"> 
+    <img src="../../assets/screenshots/resource_ids.jpg">
 </p>
-<figure markdown>
-  <figcaption>Example of resource IDs</figcaption>
+<figure markdown> <!-- markdownlint-disable-line MD033 -->
+  <figcaption>Example of resource IDs</figcaption> <!-- markdownlint-disable-line MD033 -->
 </figure>
 
 ## Template engine
@@ -243,10 +250,12 @@ There is one caveat to keep in mind: keep the YAML syntax valid.
 There are reserved characters in YAML, such as `>` (multiline string) `|` (multiline string), `:` (key-value pair marker), `?` (mapping key) [etc](https://www.tutorialspoint.com/yaml/yaml_syntax_characters.htm). If you use these characters as part of a CEL expression, you'll need to use quotes around the expression to escape it. For example:
 
 Invalid template:
+
 ```yaml
 stack:
   name: ${{ 2 > 1 ? "yes" : "no" }}-my-stack
 ```
+
 See how the syntax highlighter is confused?
 
 Valid template:
@@ -269,7 +278,7 @@ Since you probably don't want to create stacks with the exact same name and conf
 
 ### Inputs
 
-Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with ` }}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input.
+Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input.
 
 The input object has `id`, `name`, `description`, `type`, `default` and `options` fields. The mandatory fields are `id` and `name`.
 
@@ -369,6 +378,7 @@ stack:
 ```
 
 Results in:
+
 ```yaml
 stack:
   name: integration-tests-my-app-vG3j3a
@@ -411,13 +421,14 @@ stack:
 ```
 
 We cannot make sure that the input variable is indeed a proper 10 digit epoch timestamp, we will only find out once you supply the actual input.
+
 ### Schema
 
 The up-to-date schema of a Blueprint is available through a [GraphQL query](../../integrations/api.md) for authenticated users:
 
 ```graphql
 {
-	blueprintSchema
+  blueprintSchema
 }
 ```
 
@@ -426,8 +437,8 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 
 For simplicity, here is the current schema here, but it might change in the future:
 
-<details>
-<summary>Click to expand</summary>
+<details> <!-- markdownlint-disable-line MD033 -->
+<summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
 
 ```json
 {
@@ -1084,4 +1095,5 @@ For simplicity, here is the current schema here, but it might change in the futu
     }
 }
 ```
+
 </details>
