@@ -21,6 +21,23 @@ This is the schema of the data input that each policy request can receive:
 
 ```json
 {
+  "account": {
+    "name": "string"
+  },
+  "module_version": { 
+    "id": "string - unique ID of the module",
+    "administrative": "boolean - is the stack administrative",
+    "branch": "string - tracked branch of the module",
+    "labels": ["string - list of arbitrary, user-defined selectors"],
+    "namespace": "string - repository namespace, only relevant to GitLab repositories",
+    "project_root": "optional string - project root as set on the Module, if any",
+    "repository": "string - name of the source repository",
+    "terraform_provider": "string - name of the main Terraform provider used by the module",
+    "version": {
+      "number": "string - semver version number",
+      "created_at": "number - creation Unix timestamp in nanoseconds",
+    }
+  },
   "run_updated": {
     "state": "string",
     "username": "string",
@@ -48,7 +65,8 @@ This is the schema of the data input that each policy request can receive:
         "branch": "string",
         "created_at": "number (timestamp in nanoseconds)",
         "hash": "string",
-        "message": "string"
+        "message": "string",
+        "url": "string"
       },
       "created_at": "number (timestamp in nanoseconds)",
       "creator_session": {
@@ -79,6 +97,12 @@ This is the schema of the data input that each policy request can receive:
         "runner_image": "string",
         "terraform_version": "string"
       },
+      "policy_receipts": [{
+            "flags": ["string - flag assigned to the policy"],
+            "name": "string - name of the policy",
+            "outcome": "string - outcode of the policy",
+            "type": "string - type of the policy"
+          }],
       "state": "string",
       "triggered_by": "string or null",
       "type": "string - PROPOSED or TRACKED",
@@ -109,7 +133,8 @@ This is the schema of the data input that each policy request can receive:
         "branch": "string",
         "created_at": "number (timestamp in nanoseconds)",
         "hash": "string",
-        "message": "string"
+        "message": "string",
+        "url": "string"
       }
     }
   },
@@ -139,7 +164,7 @@ This is the schema of the data input that each policy request can receive:
 ```
 
 !!! warning
-    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data but will only receive the `internal_error` object if the notification is an internal error or the `run_updated` object if notification is about a [run](../run/README.md) being updated.
+    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data but the `internal_error`, `run_updated` and `module_version` objects will exist only if the notification is about an error that occured, a [run](../run/README.md) that was updated or a [module](../../vendors/terraform/module-registry.md) version published.
 
     The best way to see what your Notification policy is passed is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice).
 
