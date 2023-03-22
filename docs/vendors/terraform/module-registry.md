@@ -209,6 +209,14 @@ You can also use [Git push policies](../../concepts/policy/git-push-policy.md) t
 !!! info
     If no test cases are present, the version is immediately marked green.
 
+## Marking versions as bad
+
+If you don't want people to use a specific version of your module, you can mark it as bad. Currently, this feature **doesn't have any technical implications** - it is still downloadable and usable, but it's a good way to communicate to your users that a specific version is not recommended.
+
+You need to click on the version number and then click on the **Mark as bad** button on the right. Make sure to leave a note explaining why the version is bad.
+
+![](../../assets/screenshots/Version_mark_as_bad.png)
+
 ## Modules in practice
 
 In order to use modules, you have to source them from the Spacelift module registry. You can generate the necessary snippet, by opening the page of the specific module version, and clicking **show instructions**.
