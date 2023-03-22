@@ -80,7 +80,7 @@ In order to add a module to Spacelift, navigate to the _Modules_ section of the 
 
 The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
 
-![](<../../assets/screenshots/New_module_·_marcinwyszynski (2).png>)
+![](../../assets/screenshots/New_module.png)
 
 In the behavior section there are just three settings: [_administrative_](../../concepts/stack/README.md#administrative)_,_ [_worker pool_](../../concepts/worker-pools.md#using-worker-pools) __ and _ **project root**_. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root let's you specify the module source code root inside of your repository:
 
