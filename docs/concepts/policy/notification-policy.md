@@ -98,11 +98,11 @@ This is the schema of the data input that each policy request can receive:
         "terraform_version": "string"
       },
       "policy_receipts": [{
-            "flags": ["string - flag assigned to the policy"],
-            "name": "string - name of the policy",
-            "outcome": "string - outcode of the policy",
-            "type": "string - type of the policy"
-          }],
+         "flags": ["string - flag assigned to the policy"],
+         "name": "string - name of the policy",
+         "outcome": "string - outcode of the policy",
+         "type": "string - type of the policy"
+       }],
       "state": "string",
       "triggered_by": "string or null",
       "type": "string - PROPOSED or TRACKED",
@@ -163,10 +163,15 @@ This is the schema of the data input that each policy request can receive:
 }
 ```
 
-!!! warning
-    The final JSON object received as input will depend on the type of notification being sent. For example, you will always receive `webhook_endpoints` data but the `internal_error`, `run_updated` and `module_version` objects will exist only if the notification is about an error that occured, a [run](../run/README.md) that was updated or a [module](../../vendors/terraform/module-registry.md) version published.
+The final JSON object received as input will depend on the type of notification being sent. Event depedant objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
 
-    The best way to see what your Notification policy is passed is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice).
+| Object Received     | Event                                                                |
+|---------------------|----------------------------------------------------------------------|
+| `account`           | Any event                                                            |
+| `webhook_endpoints` | Any event                                                            |
+| `run_updated`       | [Run](../run/README.md) Updated                                      |
+| `internal_error`    | Internal error occured                                               |
+| `module_version`    | [Module](../../vendors/terraform/module-registry.md) version updated |
 
 ## Policy in practice
 
