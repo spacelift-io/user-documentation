@@ -108,16 +108,25 @@ Doing so will set your EC2 instance ID as `instance_id` tag in your worker.
 
 ### VCS Agents
 
-VCS Agents are intended for users who have privately accessible version control systems (VCS), if your VCS is not private, then you do not need to use a VCS Agent.
+!!! tip
+    VCS Agents are intended for users who have privately accessible version control systems (VCS). **If your VCS is not private, then you do not need to use a VCS Agent.**
 
- When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System. Additionally, you will need to inform the private workers of the target network address for each of your VCS Agent Pools. To do this, setup a variable mapping similar to the following example below, for each private VCS you are seeking to integrate.
+ When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System.
+
+ Additionally, you will need to inform the private workers of the target network address for each of your VCS Agent Pools by setting up the following variables:
+
+- `SPACELIFT_PRIVATEVCS_MAPPING_NAME_<NUMBER>`: Name of the [VCS Agent Pool](vcs-agent-pools.md).
+- `SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_<NUMBER>`: IP address or hostname, with protocol, for the VCS system.
+
+There can be multiple VCS systems so replace `<NUMBER>` with an integer. Start from `0` and increment it by one for each new VCS system.
+
+Here is an example that configures access to two VCS systems:
 
 ```bash
 export SPACELIFT_PRIVATEVCS_MAPPING_NAME_0=bitbucket_pool
 export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0=http://192.168.2.2
 export SPACELIFT_PRIVATEVCS_MAPPING_NAME_1=github_pool
 export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
-// ...
 ```
 
 ### Network Security
