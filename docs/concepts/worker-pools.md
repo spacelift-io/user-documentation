@@ -109,7 +109,9 @@ Doing so will set your EC2 instance ID as `instance_id` tag in your worker.
 ### VCS Agents
 
 !!! tip
-    VCS Agents are intended for users who have privately accessible version control systems (VCS). **If your VCS is not private, then you do not need to use a VCS Agent.**
+    VCS Agents are intended for version control systems (VCS) that are cannot be accessed over the network from the Spacelift backend.
+
+    **If your VCS can be accessed over the network, possibly after allowing the Spacelift backend IP addresses, then you do not need to use VCS Agents.**
 
  When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System.
 
