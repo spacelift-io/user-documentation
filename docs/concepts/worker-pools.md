@@ -49,7 +49,7 @@ Give your worker pool a name, and submit the `spacelift.csr` file in the worker 
 
 ### Launch Private Worker Pool
 
-The launcher binaries are available here: [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64) (amd64 CPU), [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64) (arm64 CPU). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed.
+The launcher binaries are available here: [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64) (amd64 CPU), [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64) (arm64 CPU). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed and running.
 
 Finally, you can run the launcher binary by setting two environment variables:
 
