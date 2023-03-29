@@ -25,17 +25,49 @@ This is the schema of the data input that each policy request can receive:
     "name": "string"
   },
   "module_version": { 
-    "id": "string - unique ID of the module",
-    "administrative": "boolean - is the stack administrative",
-    "branch": "string - tracked branch of the module",
-    "labels": ["string - list of arbitrary, user-defined selectors"],
-    "namespace": "string - repository namespace, only relevant to GitLab repositories",
-    "project_root": "optional string - project root as set on the Module, if any",
-    "repository": "string - name of the source repository",
-    "terraform_provider": "string - name of the main Terraform provider used by the module",
+    "module": {
+      "id": "string - unique ID of the module",
+      "administrative": "boolean - is the module administrative",
+      "branch": "string - tracked branch of the module",
+      "labels": ["string - list of arbitrary, user-defined selectors"],
+      "namespace": "string - repository namespace, only relevant to GitLab repositories",
+      "name": "string - name of the module",
+      "project_root": "optional string - project root as set on the Module, if any",
+      "repository": "string - name of the source repository",
+      "terraform_provider": "string - name of the main Terraform provider used by the module",
+      "space": {
+        "id": "string - id of a space",
+        "labels": ["string - list of arbitrary, user-defined selectors"],
+        "name": "string - name of a the space"
+      },
+      "worker_pool": {
+        "public": "boolean - worker pool information",
+        "id": "string - unique ID of the worker pool",
+        "name": "string - name of the worker pool",
+        "labels": ["string - list of arbitrary, user-defined selectors"]
+      }
+    },
     "version": {
-      "number": "string - semver version number",
+      "commit": {
+        "author": "string",
+        "branch": "string",
+        "created_at": "number (timestamp in nanoseconds)",
+        "hash": "string",
+        "message": "string",
+        "url": "string"
+      },
       "created_at": "number - creation Unix timestamp in nanoseconds",
+      "id": "string - id of the version being created",
+      "latest": "boolean - is the module version latest",
+      "number": "string - semver version number",
+      "state": "string - current module state: ACTIVE, FAILED",
+      "test_runs": [{
+        "created_at": "number (timestamp in nanoseconds)",
+        "id": "string - id of the test",
+        "state": "string - state of the test",
+        "title": "string - title of the test",
+        "updated_at": "number (timestamp in nanoseconds)",
+      }]
     }
   },
   "run_updated": {
