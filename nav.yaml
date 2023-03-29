@@ -60,6 +60,7 @@ nav:
       - vendors/terraform/external-modules.md
       - vendors/terraform/terraform-provider.md
       - vendors/terraform/state-management.md
+      - vendors/terraform/external-state-access.md
       - vendors/terraform/terragrunt.md
       - vendors/terraform/version-management.md
       - vendors/terraform/handling-tfvars.md
