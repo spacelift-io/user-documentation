@@ -23,6 +23,7 @@ Yes! We support [Terragrunt](https://terragrunt.gruntwork.io){: rel="nofollow"} 
 - [External modules](./external-modules.md)
 - [Provider](./terraform-provider.md)
 - [State management](./state-management.md)
+- [External state access](./external-state-access.md)
 - [Terragrunt](./terragrunt.md)
 - [Version management](./version-management.md)
 - [Handling .tfvars](./handling-tfvars.md)

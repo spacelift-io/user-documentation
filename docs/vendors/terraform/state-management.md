@@ -5,11 +5,12 @@ For those of you who don't want to manage Terraform state, Spacelift offers an o
 As you can see, it's also possible to import an existing Terraform state at this point, which is useful for users who want to upgrade their previous Terraform workflow.
 
 !!! info
+
     If you're using Spacelift to manage your stack, do not specify any [Terraform backend](https://www.terraform.io/docs/backends/index.html){: rel="nofollow"} whatsoever. The one-off config will be dynamically injected into every [run](../../concepts/run/README.md) and [task](../../concepts/run/task.md).
 
 ## Do. Or do not. There is no try.
 
-In this section we'd like to give you a few reasons why it could be useful to trust Spacelift to take care of your Terraform state. To keep things level, we'll also give you a few reasons not to.
+In this section we'd like to give you a few reasons why it could be useful to trust Spacelift to take care of your Terraform state. To keep things level, we'll also give you a reason not to.
 
 ### Do
 
@@ -19,17 +20,14 @@ In this section we'd like to give you a few reasons why it could be useful to tr
 
 ### Don't
 
-1. Unless you explicitly export it using a Spacelift [task](../../concepts/run/task.md), the **state can't be accessed outside** authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this makes sharing the state between stacks impossible using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. This is by design, and we believe that remote state is usually an anti-pattern, but hey, anti-patterns are sometimes super useful too. We offer an attractive alternative with [contexts](../../concepts/configuration/context.md) but if you **can't avoid accessing remote state**, you're better off managing the state on your end.
-
-2. We'll let you in on a little secret now - behind the pixie dust it's still Amazon S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.
-
-3. If you want to **frequently access your state offline** for analytical or compliance purposes and aren't happy doing it using Spacelift [tasks](../../concepts/run/task.md) (BTW, let us know why) then again you're better off managing the state on your end.
+1. We'll let you in on a little secret now - behind the pixie dust it's still Amazon S3 all the way down, and at this stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off managing the state on your end.
 
 ## How it works
 
 S3, like half of the Internet. The pixie dust we're adding on top of it involves generating one-off credentials for every [run](../../concepts/run/README.md) and [task](../../concepts/run/task.md) and injecting them directly into the root of your Terraform project as a `.tf` file.
 
 !!! warning
+
     If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
 The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}. Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
@@ -54,6 +52,10 @@ To do this, use the following steps:
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)
 
 ## Exporting Spacelift-managed Terraform state file
+
+!!! info
+
+    If you enable [external state access](external-state-access.md), you can export the stack's state from outside of Spacelift.
 
 If a Terraform stack's state is managed by Spacelift and you need to export it you can do so by running the following command in a [Task](../../concepts/run/task.md#performing-a-task):
 
