@@ -20,7 +20,7 @@ Based on this configuration, the module will send notifications that look like t
 
 ## Prerequisites
 
-In order to set up the integration, you'll to perform some manual steps in Microsoft Teams. The Spacelift end of the integration is handled programmatically, by a [Terraform module](https://registry.terraform.io/modules/spacelift-io/msteams/spacelift/latest).
+In order to set up the integration, you'll to perform some manual steps in Microsoft Teams. The Spacelift end of the integration is handled programmatically, by a [Terraform module](https://registry.terraform.io/modules/spacelift-io/msteams/spacelift/latest){: rel="nofollow"}.
 
 ### In Microsoft Teams
 
