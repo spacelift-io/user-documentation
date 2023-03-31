@@ -103,6 +103,9 @@ nav:
       - vendors/ansible/ansible-galaxy.md
   - ⚙️ Integrations:
     - integrations/audit-trail.md
+    - ChatOps:
+      - integrations/chatops/slack.md
+      - integrations/chatops/msteams.md
     - Cloud Integrations:
       - integrations/cloud-providers/README.md
       - integrations/cloud-providers/aws.md
@@ -128,7 +131,6 @@ nav:
       - integrations/single-sign-on/azure-ad-oidc-setup-guide.md
       - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
       - integrations/single-sign-on/backup-credentials.md
-    - integrations/slack.md
     - integrations/webhooks.md
   - 📖 Product:
     - product/notifications.md

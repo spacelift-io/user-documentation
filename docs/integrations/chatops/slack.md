@@ -20,7 +20,7 @@ The integration is an OAuth2 exchange which installs Slack Spacelift app in your
 
 Once you install the Spacelift app, the account-level integration is finished and the _Slack_ section of the _Settings_ screen informs you that the two are talking to one another:
 
-![](../assets/screenshots/Mouse_Highlight_Overlay_and_Slack_integration_·_spacelift-io.png)
+![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Slack_integration_·_spacelift-io.png)
 
 Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Slack commands](slack.md#available-commands) and the management uses the Slack interface.
 
@@ -31,7 +31,7 @@ Though before that happens, you need to allow requests coming from Slack to acce
 Our Slack integration allows users in the Slack workspace to interact with stacks by adding the ability
 to change their run state or view changes that are planned or were applied.
 
-Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. If you haven't had a chance to review the [policy](../concepts/policy/README.md) and [Spaces](../concepts/spaces/README.md) documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
+Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. If you haven't had a chance to review the [policy](../../concepts/policy/README.md) and [Spaces](../../concepts/spaces/README.md) documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
 
 ### Available actions
 
@@ -41,14 +41,14 @@ Currently, we allow:
 - Viewing planned and actual changes.
 
 Both of these actions require specific permissions to be configured using the login policy.
-Confirming or discarding runs requires _Write_ level permissions while viewing changes requires _Read_ level permissions. The documention sections about policies below describe how to setup and manage these permissions.
+Confirming or discarding runs requires _Write_ level permissions while viewing changes requires _Read_ level permissions. The documentation sections about policies below describe how to setup and manage these permissions.
 
 !!! info
     The default login policy decision for Slack requests is to deny all access.
 
 ### Login policy
 
-Using [login policies](../concepts/policy/login-policy.md) is the preferred way to control access for the Slack interation. Using them you can control who can access stacks which are in a specific [Space](../concepts/spaces/README.md).
+Using [login policies](../../concepts/policy/login-policy.md) is the preferred way to control access for the Slack integration. Using them you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md).
 
 They allow for granular space access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
 would allow to have _Read_ or _Write_ level permissions for certain actions.
@@ -59,7 +59,7 @@ evaluated during every stack mutation or read attempt from the integration.
 !!! warning
     It's important to know that if you have multiple login policies, failing to evaluate one of them or
     having at least one of them result in a deny decision after the evaluation is done, will result in the
-    overal decision being a `deny all`.
+    overall decision being a `deny all`.
 
 Here is an example of data which the login policy receives when evaluating stack access for the integration:
 
@@ -146,7 +146,7 @@ space_write["Y"] {
 ## Available slash commands
 
 !!! warning
-    It's recommended to instead use the [notification policy](../concepts/policy/notification-policy.md) in order to
+    It's recommended to instead use the [notification policy](../../concepts/policy/notification-policy.md) in order to
     manage slack messages received from Spacelift. These slash commands are **deprecated**.
 
 Three slash commands are currently available:
