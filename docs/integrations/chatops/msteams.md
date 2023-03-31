@@ -24,7 +24,7 @@ In order to set up the integration, you'll to perform some manual steps in Micro
 
 ### In Microsoft Teams
 
-In order to set up the integration, you'll need to create a [Microsoft Teams webhook](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook) and copy its URL. You can do this by following these steps:
+In order to set up the integration, you'll need to create a [Microsoft Teams webhook](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook){: rel="nofollow"} and copy its URL. You can do this by following these steps:
 
 1. Open the channel in which you want to receive notifications from Spacelift.
 2. Click the ellipsis (...) next to the channel name and select **Connectors**
