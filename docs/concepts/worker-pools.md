@@ -49,7 +49,7 @@ Give your worker pool a name, and submit the `spacelift.csr` file in the worker 
 
 ### Launch Private Worker Pool
 
-The launcher binaries are available here: [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64) (amd64 CPU), [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64) (arm64 CPU). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed and running.
+The launcher binaries are available here: [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64){: rel="nofollow"} (amd64 CPU), [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64){: rel="nofollow"} (arm64 CPU). In order to work, it expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed and running.
 
 Finally, you can run the launcher binary by setting two environment variables:
 
@@ -68,11 +68,11 @@ Congrats! Your launcher should now connect to the Spacelift backend and start ha
 
 For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image) contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
 
-- AWS: [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2).
-- Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool).
-- GCP: [terraform-google-spacelift-workerpool](https://github.com/spacelift-io/terraform-google-spacelift-workerpool).
+- AWS: [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}.
+- Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
+- GCP: [terraform-google-spacelift-workerpool](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"}.
 
-In addition, the [spacelift-workerpool-k8s](https://github.com/spacelift-io/spacelift-workerpool-k8s) repository contains a Helm chart for deploying workers to Kubernetes.
+In addition, the [spacelift-workerpool-k8s](https://github.com/spacelift-io/spacelift-workerpool-k8s){: rel="nofollow"} repository contains a Helm chart for deploying workers to Kubernetes.
 
 !!! tip
     Since the Launcher is getting downloaded during the instance startup, it is recommended to recycle the worker pool every once in a while to ensure that it is up to date. You don't want to miss out on the latest features and bug fixes! You can do this by draining all the workers one-by-one in the UI, then terminating the instances in your cloud provider.
