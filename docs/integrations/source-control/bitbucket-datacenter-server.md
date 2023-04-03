@@ -39,11 +39,13 @@ Once you have your access token, enter it into Spacelift. At this point all the 
 
 ![](<../../assets/screenshots/image (102).png>)
 
-After saving, you'll receive your webhook secret and endpoint:
-
-![](<../../assets/screenshots/image (103).png>)
+You can now save the integration.
 
 ### Configuring webhooks
+
+Once you have saved your integration, you'll receive your webhook secret and endpoint:
+
+![](<../../assets/screenshots/image (103).png>)
 
 For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating the following events:
 
