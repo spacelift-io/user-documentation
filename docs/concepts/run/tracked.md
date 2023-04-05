@@ -106,5 +106,5 @@ If the run is a [no-op](tracked.md#handling-no-op-changes) or the applying phase
 The results of tracked runs are reported in multiple ways:
 
 - as deployments in VCS unless the change is a [no-op](tracked.md#handling-no-op-changes) - please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation for the exact details;
-- through [Slack notifications](../../integrations/slack.md) - if set up;
+- through [Slack notifications](../../integrations/chatops/slack.md) - if set up;
 - through [webhooks](../../integrations/webhooks.md) - if set up;

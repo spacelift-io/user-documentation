@@ -24,7 +24,7 @@ This is the schema of the data input that each policy request can receive:
   "account": {
     "name": "string"
   },
-  "module_version": { 
+  "module_version": {
     "module": {
       "id": "string - unique ID of the module",
       "administrative": "boolean - is the module administrative",
@@ -272,11 +272,11 @@ package spacelift
 
 ### Slack messages
 
-[Slack](../../integrations/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack
-you will need to [add the slack integration to your Spacelift account](../../integrations/slack.md#linking-your-spacelift-account-to-the-slack-workspace).
+[Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack
+you will need to [add the slack integration to your Spacelift account](../../integrations/chatops/slack.md#linking-your-spacelift-account-to-the-slack-workspace).
 
 !!! info
-    The documentation section about [Slack](../../integrations/slack.md) includes additional information like: available actions,
+    The documentation section about [Slack](../../integrations/chatops/slack.md) includes additional information like: available actions,
     slack access policies and more. Consider exploring that part of documentation first.
 
 Another important point to mention is that the rules for Slack require a `channel_id` to be defined. This can be found at the bottom of a channel's _About_ section in Slack:
