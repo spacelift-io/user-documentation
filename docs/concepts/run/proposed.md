@@ -44,5 +44,5 @@ If that happens, the run will transition to the [failed](./README.md#failed) sta
 The results of proposed runs are reported in multiple ways:
 
 - always - in VCS, as commit statuses and pull request comments - please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation for the exact details;
-- through [Slack notifications](../../integrations/slack.md) - if set up;
+- through [Slack notifications](../../integrations/chatops/slack.md) - if set up;
 - through [webhooks](../../integrations/webhooks.md) - if set up;
