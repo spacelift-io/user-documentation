@@ -8,9 +8,9 @@ At Spacelift, we're using Slack for internal communication. And we know that oth
 
 Here are examples of messages the Spacelift application sends to Slack;
 
-![](../assets/screenshots/CleanShot 2022-09-23 at 09.46.15.png)
+![](../../assets/screenshots/CleanShot 2022-09-23 at 09.46.15.png)
 
-![](../assets/screenshots/CleanShot 2022-09-23 at 09.52.06.png)
+![](../../assets/screenshots/CleanShot 2022-09-23 at 09.52.06.png)
 
 ## Linking your Spacelift account to the Slack workspace
 
@@ -118,7 +118,7 @@ Here is an example of data which the login policy receives when evaluating stack
 
 !!! info
     The `slack` object in the policy input data is built using Slack provided data. See [their official documentation](https://api.slack.com/types/user){: rel="nofollow"} for always up-to-date and full explanation of the `slack` object fields.
-  
+
 Using the above data we can write policies which only allow for a specific user or slack team to access specific spaces in which your stacks reside.
 
 For example here is a policy which would allow anyone from a specific slack team to alter stacks in a particular space:
