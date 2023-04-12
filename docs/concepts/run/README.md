@@ -98,6 +98,10 @@ Here's an example of a run manually stopped while [Initializing](#initializing):
 
 Stopped is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
 
+## Logs Retention
+
+Run logs are kept for 60 days.
+
 ## Zero Trust Model
 
 For your most sensitive Stacks you can use additional verification of Runs based on arbitrary metadata you can provide to Runs when creating or confirming them.
