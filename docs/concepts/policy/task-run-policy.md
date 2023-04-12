@@ -1,7 +1,7 @@
 # Task policy
 
 !!! warning
-    This feature is deprecated. Using an [Approval policy](approval-policy.md) allows you to achieve the same goals in a more flexible and powerful way.
+    This feature is deprecated. New users should not use this feature and existing users are encouraged to migrate to the [approval policy](approval-policy.md), which offers a much more flexible and powerful way to control which tasks are allowed to proceed. A migration guide is available [here](#migration-guide).
 
 ## Purpose
 
@@ -118,3 +118,35 @@ allowed { re_match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
 ```
 
 As usual, this example is [available to play around with](https://play.openpolicyagent.org/p/FP7xz7oWGp){: rel="nofollow"}.
+
+## Migration guide
+
+A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
+
+### Migration example: only allow terraform taint and untaint
+
+```opa
+package spacelift
+
+reject {
+  command := input.run.command
+  not re_match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+}
+
+approve { not reject }
+```
+
+### Migration example: no tasks on weekends
+
+```opa
+package spacelift
+
+reject {
+  today   := time.weekday(input.run.created_at)
+  weekend := { "Saturday", "Sunday" }
+
+  weekend[today]
+}
+
+approve { not reject }
+```

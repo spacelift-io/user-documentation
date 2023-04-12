@@ -1,7 +1,7 @@
 # Initialization policy
 
 !!! warning
-    This feature is deprecated as we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious-looking jobs on their end.
+    This feature is deprecated. New users should not use this feature and existing users are encouraged to migrate to the [approval policy](./approval-policy.md), which offers a much more flexible and powerful way to control which runs are allowed to proceed. A migration guide is available [here](#migration-guide).
 
 ## Purpose
 
@@ -187,3 +187,61 @@ deny[sprintf("invalid feature branch name (%s)", [branch])] {
 ```
 
 Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/qNMygC4i9K){: rel="nofollow"}.
+
+## Migration guide
+
+A run initialization policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
+
+### Migration example: enforcing Terraform check
+
+```opa
+package spacelift
+
+reject { not formatting_first}
+
+approve { not reject }
+
+formatting_first {
+  input.run.runtime_config.before_init[i] == "terraform fmt -check"
+  i == 0
+}
+```
+
+### Migration example: disallowing before-init Terraform commands other than formatting
+
+```opa
+package spacelift
+
+reject {
+  command := input.run.runtime_config.before_init[_]
+  contains(command, "terraform"); command != "terraform fmt -check"
+}
+
+approve { not reject }
+```
+
+### Migration example: enforcing runner image
+
+```opa
+package spacelift
+
+reject {
+  input.run.runtime_config.runner_image != "spacelift/runner:latest"
+}
+
+approve { not reject }
+```
+
+### Migration example: enforcing feature branch naming convention
+
+```opa
+package spacelift
+
+reject {
+  branch := input.run.commit.branch
+  input.run.type == "PROPOSED"
+  not re_match("^(fix|feature)\/.*", branch)
+}
+
+approve { not reject }
+```
