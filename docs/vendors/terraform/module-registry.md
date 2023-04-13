@@ -248,3 +248,25 @@ After you confirm that you want to proceed, Terraform will open your default web
 !!! warning
 
     The method above requires a web browser which is not always practical, for example on remote server with no GUI. In that case, you can use credentials generated from [API keys](../../integrations/api.md#spacelift-api-key-token). The credentials file generated upon the creation of each API key contains a section explaining how a key can be used to set up credentials in the Terraform configuration file (`.terraformrc`). To learn more about this please [refer directly to Terraform documentation](https://www.terraform.io/docs/commands/cli-config.html){: rel="nofollow"}.
+
+### Dependabot
+
+If you want to use [Dependabot](https://github.com/dependabot){: rel="nofollow"} to automatically update your module versions, you can use the following `dependabot.yml` [configuration](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates){: rel="nofollow"}:
+
+```yaml
+version: 2
+registries:
+  spacelift-private-registry:
+    type: terraform-registry
+    url: https://app.spacelift.io
+    token: ${{ secrets.SPACELIFT_TOKEN }}
+updates:
+  - package-ecosystem: "terraform"
+    directory: "/"
+    registries:
+      - spacelift-private-registry
+    schedule:
+      interval: "daily"
+```
+
+It is important that the `url` must be set to `https://app.spacelift.io` and the `token` must be set to a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Admin access is not required.
