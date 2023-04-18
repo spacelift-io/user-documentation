@@ -9,10 +9,10 @@ Unless you're defining a stack programmatically using our [Terraform provider](.
 
 The stack creation process involves four simple steps:
 
-1. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
-2. [Defining common behavior of the stack](#define-behavior);
-3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), Pulumi)
-4. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
+1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
+2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
+3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md)
+4. [Defining common behavior of the stack](#define-behavior);
 
 ## Video Walkthrough
 
@@ -20,11 +20,25 @@ The stack creation process involves four simple steps:
 
 Please see below for a step-by-step walkthrough and explanation or watch the video for quick consumption.
 
+## Name your stack
+
+![](<../../assets/screenshots/Namestacksc.png>)
+
+Staring with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
+
+![](<../../assets/screenshots/LabelsSC.png>)
+
+You'll be able to change the name and description later, too - with one caveat. Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
+
+Here you will be able to choose which [space](../spaces/) your stack belongs to. Initially, you start with a root and a legacy space. The root space is the top-level space of your account, while the legacy space exists for backward compatibility with pre-spaces RBAC.
+
+Also, this is the opportunity to set a few [labels](stack-settings.md#labels). Labels are useful for searching and grouping things, but also work extremely well with policies.
+
 ## Integrate VCS
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.50.40 PM.png>)
+![](<../../assets/screenshots/integratevpcsc.png>)
 
-In the first step you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
+In this step, you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
 
  The project root configuration is where inside the repository Spacelift should look for the infra project source code (e.g. create a stack for a specific folder in the repository).
 
@@ -43,11 +57,11 @@ At this point you'll probably know whether you want to create a [Terraform](crea
 
 ### Terraform
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.51.12 PM (1).png>)
+![](<../../assets/screenshots/ConfigurebackendSC.png>)
 
 When selecting **Terraform**, you can choose which **version of Terraform** to start with - we support Terraform 0.12.0 and above. You don't need to dwell on this decision since you can change the version later - Spacelift supports full [Terraform version management](../../vendors/terraform/version-management.md) allowing you to even preview the impact of upgrading to a newer version.
 
-The next two decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
+The next decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
 
 !!! info
     If you want to bring your own backend, there's no point in doing additional [state locking](https://www.terraform.io/docs/state/locking.html){: rel="nofollow"} - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
@@ -57,26 +71,46 @@ If you choose not to use our state backend, feel free to proceed. If you do want
 !!! warning
     Remember - this is the only time you can ask Spacelift to be the state backend for a given stack, so choose wisely. You can read more about state management [here](../../vendors/terraform/state-management.md).
 
+In addition to these options, we also offer [external state access](../../vendors/terraform/external-state-access.md) for read-only purposes, this is available for administrative stacks or users with write permission to this Stack's space.
+
 ### Pulumi
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 3.01.31 PM.png>)
+![](<../../assets/screenshots/ConfigurebackendPSC.png>)
 
 When creating a Pulumi stack, you will need to provide two things. First, the login URL to your Pulumi state backend, as currently we don't provide one like we do for Terraform, so you will need to bring your own.
 
-Second, you need to specify the name of the Pulumi stack. This is separate from the name of the Spacelift stack, which you will specify in the [next step](creating-a-stack.md#name-your-stack). That said, nothing prevents you from keeping them in sync.
+Second, you need to specify the name of the Pulumi stack. This is separate from the name of the Spacelift stack, which you will specify in the [next step](creating-a-stack.md#define-behaviour). That said, nothing prevents you from keeping them in sync.
+
+### CloudFormation
+
+![](<../../assets/screenshots/Configurebackendcss.png>)
+
+If you're using CloudFormation with Spacelift, there are a few pieces of information you'll need to provide. First, you'll need to specify the region where your CloudFormation stack will be located.
+
+Additionally, you'll need to provide the name of the corresponding CloudFormation stack for this Spacelift stack. This will help us keep track of the different resources in your infrastructure.
+
+You'll also need to provide the path to the template file in your repository that describes the root CloudFormation stack and finally you'll need to specify the S3 bucket where your processed CloudFormation templates will be stored. This will enable us to manage your CloudFormation state and ensure that all changes are properly applied.
+
+### Kubernetes
+
+![](<../../assets/screenshots/Confirgurebackendkss.png>)
+
+When you create a Kubernetes stack in Spacelift, you have the option to specify the namespace of the Kubernetes cluster that you want to run commands on. You can leave this empty for multi-namespace Stacks.
+
+You can also provide the version of kubectl that you want the worker to download. This is useful if you need to work with a specific version of kubectl for compatibility or testing purposes. The worker will download the specified version of kubectl at runtime, ensuring that the correct version is available for executing commands on the cluster.
 
 ## Define behavior
 
 Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.59.31 PM.png>)
+![](<../../assets//screenshots/DefineBehaviourSC.png>)
 
 The basic settings are:
 
 - whether the stack is [administrative](./stack-settings.md#administrative);
 - [worker pool](../worker-pools.md) to use, if applicable (default uses the Spacelift public worker pool);
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 2.52.07 PM.png>)
+![](<../../assets/screenshots/advancedoptionsss.png>)
 
 The advanced settings are:
 
@@ -87,15 +121,3 @@ The advanced settings are:
 - whether or not [run promotion](../run/run-promotion.md) is enabled;
 - optionally specify a custom Docker image to use to for your job container;
 - list of commands to run before/after any of the workflow stages;
-
-## Name your stack
-
-![](<../../assets/screenshots/New_stack_·_spacelift-io (14).png>)
-
-We're almost there, but here comes the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
-
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 3.05.32 PM.png>)
-
-You'll be able to change the name and description later, too - with one caveat. Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
-
-Also, this is the opportunity to set a few [labels](stack-settings.md#labels). Labels are useful for searching and grouping things, but also work extremely well with policies.
