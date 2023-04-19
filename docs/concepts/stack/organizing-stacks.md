@@ -52,10 +52,28 @@ Also, a single stack can have any number of folder labels set, in which case it 
 
 ## Saving filters in views
 
-It is possible to save your filters with a Views Tab. You can select all the filters that you would like to apply in the Filters Tab, add search query or sorting in the top right corner, go to the Views Tab, enter the name of the view and click Save. This view is now saved for this account. Next time you login, it is possible to quickly navigate to the saved view.
+It is possible to save your filters with a Filters Tab. You can select all the filters that you would like to apply, add search query or sorting in the top right corner, click New View, enter the name of the view and click Save. This view is now saved for this account. During creation you can also mark your new view as your personal default view. Next time you login or navigate to stacks your personal default view will be applied.
 
-![](<../../assets/screenshots/saved-filters.png>)
+![](../../assets/screenshots/saved-views-filters-tab.png)
 
-Views can be shared or private. While first creating the view, it is available only for your user. You can make it public for all the users of the account by hovering over the saved view and clicking small eye icon "Share within account". This way all the users within this application can see the saved view and who created it.
+If you forgot to mark your view as default then you can easily do the same thing in the Views Tab.
 
-If you want to quickly reset the filter to the default state, click "Default" view that is pinned on top of the views created by you. It is also possible to delete the saved view by hovering it and then clicking small red bin icon "Delete filter".
+![](../../assets/screenshots/saved-views-default.png)
+
+### Shared views
+
+Views can be shared or private. While first creating the view, it is available only for your user. If you have an admin access you can make it public for all the users of the account by hovering over the saved view and clicking small eye icon "Share within account". This way all the users within this application can see the saved view and who created it.
+
+### Reseting
+
+If you want to quickly reset your default view to Spacelift default state, click "Reset to Spacelift default view" button. It will result in clearing all sorting, search and filter parameters, as well as manage filters settings.
+
+![](../../assets/screenshots/saved-views-reset.png)
+
+### Manage view
+
+- If you change your filter, search and/or sorting settings you can update the currently selected view by clicking on Update item under "Manage view" button. Blue icon on the manage view button indicates update possibility.
+- Edit name allows editing name of the current view
+- Delete allows removing your private view (Shared and Spacelift default views can not be removed). You can delete the view from the Views tab as well.
+
+![](../../assets/screenshots/saved-views-manage.png)
