@@ -62,7 +62,7 @@ If you forgot to mark your view as default then you can easily do the same thing
 
 ### Shared views
 
-Views can be shared or private. While first creating the view, it is available only for your user. If you have an admin access you can make it public for all the users of the account by hovering over the saved view and clicking small eye icon "Share within account". This way all the users within this application can see the saved view and who created it.
+Views can be shared or private. While first creating the view, it is available only to your user. If you have admin access, you can make it public for all the users of the account by hovering over the saved view and clicking the small eye icon "Share within account". This way, all the users within this application can see the saved view and who created it.
 
 ### Reseting
 
