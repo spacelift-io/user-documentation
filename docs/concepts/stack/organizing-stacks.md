@@ -72,7 +72,7 @@ To quickly reset your default view to Spacelift default state, click the "Reset 
 
 ### Manage view
 
-- If you change your filter, search and/or sorting settings you can update the currently selected view by clicking on Update item under "Manage view" button. Blue icon on the manage view button indicates update possibility.
+- If you change your filter, search and/or sorting settings, you can update the currently selected view by clicking on Update item under "Manage view" button. The blue icon on the manage view button indicates an update possibility.
 - Edit name allows editing name of the current view
 - Delete allows removing your private view (Shared and Spacelift default views can not be removed). You can delete the view from the Views tab as well.
 
