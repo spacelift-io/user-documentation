@@ -66,7 +66,7 @@ Views can be shared or private. While first creating the view, it is available o
 
 ### Reseting
 
-If you want to quickly reset your default view to Spacelift default state, click "Reset to Spacelift default view" button. It will result in clearing all sorting, search and filter parameters, as well as manage filters settings.
+To quickly reset your default view to Spacelift default state, click the "Reset to Spacelift default view" button. It will result in clearing all sorting, search, and filter parameters, as well as managed filter settings.
 
 ![](../../assets/screenshots/saved-views-reset.png)
 
