@@ -269,4 +269,4 @@ updates:
       interval: "daily"
 ```
 
-It is important that the `url` must be set to `https://app.spacelift.io` and the `token` must be set to a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Admin access is not required.
+It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Admin access is not required.
