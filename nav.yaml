@@ -101,6 +101,12 @@ nav:
       - vendors/ansible/reference.md
       - vendors/ansible/policies.md
       - vendors/ansible/ansible-galaxy.md
+  - 🏭 Self Hosted:
+    - Installation:
+      - concepts/self-hosted/installation/README.md
+      - concepts/self-hosted/installation/slack-configuration.md
+      - concepts/self-hosted/installation/worker-pool.md
+      - concepts/self-hosted/installation/uninstall.md
   - ⚙️ Integrations:
     - integrations/audit-trail.md
     - ChatOps:
