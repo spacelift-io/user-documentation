@@ -418,7 +418,7 @@ section and providing that as the endpoint when creating a new [named webhook](.
     <!-- markdown-link-check-disable -->
     For more information about making Discord webhooks follow their [official webhook guide](https://support.discord.com/hc/en-us/articles/228383668){: rel="nofollow"}.
 
-After creating the webhook on both Discord and Spacelift you can define a new webhook rule like this:
+After creating the webhook on both Discord and Spacelift you will need to define a new webhook rule like this:
 
 ```opa
 # Send updates about tracked runs to discord.
