@@ -6,6 +6,9 @@ description: Example instructions for setting up Okta as a Single Sign-On source
 
 If you'd like to set up the ability to sign in to your Spacelift account using an OIDC integration with Okta, you've come to the right place. This example will walk you through the steps to get this setup, and you'll have Single Sign-On running in no time!
 
+!!! warning
+    Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the [Backup Credentials](./backup-credentials.md) section.
+
 ## Pre-requisites
 
 - Spacelift account, with access to admin permissions

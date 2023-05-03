@@ -2,6 +2,9 @@
 
 If you'd like to set up the ability to sign in to your Spacelift account using a SAML 2.0 integration with AWS IAM Identity Center (formerly known as AWS SSO), you've come to the right place. This example will walk you through the steps to get this set up, and you'll have Single Sign-On running in no time!
 
+!!! warning
+    Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the [Backup Credentials](./backup-credentials.md) section.
+
 ## Pre-requisites
 
 - Spacelift account, with access to admin permissions.
