@@ -4,17 +4,17 @@ Spacelift supports using GitLab as the source of code for your [stacks](../../co
 
 ## Setup Guide
 
-In order to set up the GitLab integration from the Spacelift side, please navigate to the VCS Providers section of the Spacelift Account Settings page and click the _Set up_ button next to the GitLab:
+In order to set up the GitLab integration from the Spacelift side, please navigate to the Settings page of Spacelift, select source code and click the _Set up_ button next to the GitLab:
 
 ![Click on Settings from the Left Navigation Sidebar to access your Spacelift account Settings.](../../assets/screenshots/Screen Shot 2022-05-18 at 1.07.24 PM.png)
 
- ![Click on the Set Up button next to GitLab.](../../assets/screenshots/image (104).png)
+ ![Click on the Set Up button next to GitLab.](../../assets/screenshots/setupsc.png)
 
 This should open a form like this one:
 
-![](../../assets/screenshots/image (105).png)
+![](../../assets/screenshots/gitlabsetupsc.png)
 
-In this step you will need to provide the API host URL of your GitLab server, and an API token generated for Spacelift to communicate with the GitLab API. Let's assume we don't have token handy, so let's navigate to our GitLab server (we'll just use `gitlab.com`) to create one from the Access Tokens section of your User Settings page:
+In this step you will need to provide the API host URL of your GitLab server, the User facing host URL, and an API token generated for Spacelift to communicate with the GitLab API. Let's assume we don't have token handy, so let's navigate to our GitLab server (we'll just use `gitlab.com`) to create one from the Access Tokens section of your User Settings page:
 
 ![](../../assets/screenshots/Personal_Access_Tokens_·_User_Settings_·_GitLab_and_Slack___Zuzia___office-space.png)
 
