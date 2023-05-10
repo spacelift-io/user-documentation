@@ -137,7 +137,6 @@ nav:
     - product/security.md
     - Support:
       - product/support/README.md
-      - product/support/statement-of-support.md
     - product/disaster-continuity.md
     - Billing:
       - product/billing/stripe.md

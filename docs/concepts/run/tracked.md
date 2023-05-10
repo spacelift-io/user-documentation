@@ -22,7 +22,7 @@ Tracked runs can be triggered in of the three ways - manually by the user, by a 
 
 Any account admin or stack [writer](../policy/stack-access-policy.md) can trigger a tracked run on a stack:
 
-![](../../assets/screenshots/Runs_·_Terraform_starter_and_Slack___Threads___Spacelift.png)
+![](../../assets/screenshots/triggerrunsc.png)
 
 Runs triggered by individuals and [machine users](../../integrations/api.md#api-key-management) are marked accordingly:
 

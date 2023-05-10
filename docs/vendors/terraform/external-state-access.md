@@ -8,6 +8,9 @@ This feature is off by default.
 
 ## Enabling external access
 
+!!! info
+    Only administrative stacks or users with write permission to this Stack's space can access the state.
+
 You can enable the external access in a couple of ways.
 
 - through the UI
