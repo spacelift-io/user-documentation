@@ -31,7 +31,7 @@ If you can't find an answer to your question, or you are affected by an outage, 
 - Spacelift offers 8x5 standard support bound by the SLA times listed below.
 - The SLA times listed are the time frames in which you can expect the first response.
 - Spacelift Support will make a best effort to resolve any issues to your satisfaction as quickly as possible. However, the SLA times are not to be considered as an expected time-to-resolution.
-- Please submit your support request through the support web form or contact support@spacelift.io.
+- Please submit your support request through the support web chat or contact support@spacelift.io.
 - Our infrastructure team is on-call 24/7 - please check [https://spacelift.statuspage.io](https://spacelift.statuspage.io/) before contacting Support.
 
 #### Definitions of Spacelift Global Support Hours
