@@ -63,7 +63,7 @@ Once the worker is able to pull the Docker image and use it to start the contain
 
 The last phase where actual work is done and which is common to all types of run is the _initialization_. This phase is handled exclusively by the worker and involves running [pre-initialization hooks](../stack/stack-settings.md#customizing-workflow) and vendor-specific initialization process. For Terraform stacks it would mean running `terraform init`, in the right directory and with the right parameters.
 
-Important thing to note with regards to pre-initialization hooks and the rest of the initialization process is that all these run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process, but are gone and cannot be retrieved afterwards. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
+Important thing to note with regards to pre-initialization hooks and the rest of the initialization process is that all these run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
 
 If this phase fails for whatever reason, the run is marked as [failed](#failed). Otherwise, the next step is determined by the type of the run being executed.
 
