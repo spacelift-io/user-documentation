@@ -107,12 +107,26 @@ If the Terraform state is managed by Spacelift,perform the following actions, ot
 - Delete the `import_state_file` arguments from the Terraform code that manages your Spacelift resources.
 - After the manager stack has successfully run, the mounted Terraform state files are not needed anymore and can be deleted by setting the `import_state` argument to `false` in the `manager-stack.tfvars` file and run `terraform apply -auto-approve -var-file=../manager-stack.tfvars` in the `manager-stack` folder.
 
-## Known Limitations
+## Sources
+
+### Terraform Cloud/Enterprise
+
+#### Known Limitations
 
 The limitations listed below come from the original provider. We are actively looking for workarounds.
-
-### Terraform Cloud/Enterprise Exporter
 
 - The variable sets are not exposed so they cannot be listed and exported.
 - The name of the Version Control System (VCS) provider for a stack is not returned so it has to be set in the exporter configuration file.
 - When the branch for the stack is the repository default branch, the value is empty. You can set the value for the default branch in the exporter configuration file, or edit the generated Terraform code.
+
+#### Glossary
+
+| Terraform Cloud/Enterprise | Spacelift                                                    |
+| -------------------------- | ------------------------------------------------------------ |
+| Agent Pool                 | [Worker Pool](../concepts/worker-pools.md)                                              |
+| Organization               | Account                                                      |
+| Policy                     | [Policy](../concepts/policy/README.md)                                                   |
+| Project                    | [Space](../concepts/spaces/README.md)                                                    |
+| Variable                   | [Environment](../concepts/configuration/environment.md) |
+| Variable Set               | [Context](../concepts/configuration/context.md) |
+| Workspace                  | [Stack](../concepts/stack/README.md)                                                    |
