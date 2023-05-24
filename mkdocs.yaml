@@ -46,6 +46,7 @@ extra_css:
 extra:
   generator: false
   environment: !ENV [DOC_ENV, "dev"]
+  wp_options_api_url: !ENV WP_OPTIONS_API_URL
   social:
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/company/spacelift-io/
@@ -62,3 +63,5 @@ extra:
     - icon: fontawesome/brands/facebook
       link: https://www.facebook.com/spaceliftio-103558488009736/
       name: Spacelift on Facebook
+hooks:
+  - hooks/fetch_banner.py

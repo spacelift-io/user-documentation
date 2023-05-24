@@ -1,0 +1,20 @@
+<div class="helloBanner">
+  <div class="helloBannerContainer">
+    <div class="helloBannerWrapper">
+      {% if config.extra.banner.text %}
+      <p class="helloBannerText">{{ config.extra.banner.text }}</p>
+      {% endif %} {% if config.extra.banner.cta_text and
+      config.extra.banner.cta_url %}
+      <p class="helloBannerText helloBannerCta">
+        <a
+          href="{{ config.extra.banner.cta_url }}"
+          class="helloBannerLink"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+          >{{ config.extra.banner.cta_text }}</a
+        >
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
