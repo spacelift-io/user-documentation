@@ -94,7 +94,7 @@ The name and provider will be inferred from your repository name if it follows t
 
 ### Environment, contexts and policies
 
-[Environment](../../concepts/configuration/environment.md) and [context](../../concepts/configuration/context.md) management in modules is identical to that for [stacks](../../concepts/stack/README.md). The only thing worth noting here is the fact that environment variables and mounted files set either through the module environment directly, or via one of its attached stacks will be passed to each of the [test cases](module-registry.md#tests) for the module.
+[Environment](../../concepts/configuration/environment.md) and [context](../../concepts/configuration/context.md) management in modules is identical to that for [stacks](../../concepts/stack/README.md). The only thing worth noting here is the fact that environment variables and mounted files set either through the module environment directly, or via one of its attached contexts will be passed to each of the [test cases](module-registry.md#tests) for the module.
 
 Attaching policies works in a similar way. One thing worth pointing out is that the behavior of [Trigger policies](../../concepts/policy/trigger-policy.md#module-updates) are slightly different for modules. Instead of being provided with the list of all other accessible stacks, module trigger policies receive a list of the current consumers of the module. This allows you to automatically trigger dependent stacks when new module versions are published.
 
