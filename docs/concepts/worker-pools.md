@@ -43,9 +43,9 @@ Give your worker pool a name, and submit the `spacelift.csr` file in the worker 
 !!! warning
     After clicking create, you will receive a token for the worker pool. Don't forget to save your **Spacelift token** in a secure location as you'll need this later when launching the worker pool.
 
-![Upload the certificate you generated previously and create a worker pool.](<../assets/screenshots/Screen Shot 2022-06-29 at 6.47.40 PM.png>)
+![Upload the certificate you generated previously and create a worker pool.](<../assets/screenshots/worker_pool_create.png>)
 
-![](<../assets/screenshots/Screen Shot 2022-06-29 at 6.49.01 PM.png>)
+![](<../assets/screenshots/worker_pools.png>)
 
 ### Launch Private Worker Pool
 
@@ -159,6 +159,6 @@ In addition, you will also need to allow access to the following:
 
 Worker pools must be explicitly attached to [stacks](stack/README.md) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
-![Example when editing the existing stack](../assets/screenshots/Edit_stack_·_Managed_stack.png)
+![Example when editing the existing stack](../assets/screenshots/use-worker-pool-stack.png)
 
-![Example when setting up a new module](<../assets/screenshots/New_module_·_marcinwyszynski (1).png>)
+![Example when setting up a new module](<../assets/screenshots/use-worker-pool-module.png>)
