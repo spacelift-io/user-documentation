@@ -171,7 +171,7 @@ You can navigate to the worker pool of your choosing by clicking on the appropri
 
 ### Private Worker Pool
 
-The private worker pool is a worker pool for which you are managing the workers.
+A private worker pool is a worker pool for which you are responsible for managing the workers.
 
 ![private worker pool management view](<../assets/screenshots/management-view-private-worker-pool.png>)
 
@@ -181,9 +181,9 @@ The workers tab lists all workers for this worker pool and their status.
 
 ##### Status
 
-A worker can be in three states:
+A worker can have three possible statuses:
 
-- `DRAINED` which indicates not accepting new work.
+- `DRAINED` which indicates that the workers is not accepting new work.
 - `BUSY` which indicates that the worker is currently processing or about to process a run.
 - `IDLE` which indicates that the worker is available to start processing new runs.
 
@@ -197,7 +197,7 @@ In progress runs will be the first entries in the list when using the view witho
 
 #### Used by
 
-[Stacks](stack/README.md) and/or [Modules](../vendors/terraform/module-registry.md) that are using the public worker pool.
+[Stacks](stack/README.md) and/or [Modules](../vendors/terraform/module-registry.md) that are using the private worker pool.
 
 ### Public Worker Pool
 
