@@ -170,14 +170,17 @@ You can navigate to the worker pool of your choosing by clicking on the appropri
 ![](<../assets/screenshots/worker_pools.png>)
 
 ### Private Worker Pool
+
 The private worker pool is a worker pool for which you are managing the workers.
 
 ![private worker pool management view](<../assets/screenshots/management-view-private-worker-pool.png>)
 
 #### Workers
+
 The workers tab lists all workers for this worker pool and their status.
 
 ##### Status
+
 A worker can be in three states:
 
 - `DRAINED` which indicates not accepting new work.
@@ -185,6 +188,7 @@ A worker can be in three states:
 - `IDLE` which indicates that the worker is available to start processing new runs.
 
 #### Queued
+
 Queued lists all the run that can be scheduled and are currently in progress.
 In progress runs will be the first entries in the list when using the view without any filtering.
 
@@ -192,6 +196,7 @@ In progress runs will be the first entries in the list when using the view witho
     Reasons a run might not be shown in this list: a [tracked run](run/tracked.md) is waiting on a [tracked run](run/tracked.md), the run has is [dependent](stack/stack-dependencies.md) on other runs.
 
 #### Used by
+
 [Stacks](stack/README.md) and/or [Modules](../vendors/terraform/module-registry.md) that are using the public worker pool.
 
 ### Public Worker Pool
@@ -201,6 +206,7 @@ The Public worker pool is a worker pool managed by Spacelift. Due to security an
 ![public worker pool management view](<../assets/screenshots/management-view-public-worker-pool.png>)
 
 #### Queued
+
 Queued lists all the run that can be scheduled and are currently in progress.
 In progress runs will be the first entries in the list when using the view without any filtering.
 
@@ -208,5 +214,5 @@ In progress runs will be the first entries in the list when using the view witho
     Reasons a run might not be shown in this list: a [tracked run](run/tracked.md) is waiting on a [tracked run](run/tracked.md), the run has is [dependent](stack/stack-dependencies.md) on other runs.
 
 #### Used by
-[Stacks](stack/README.md) and/or [Modules](../vendors/terraform/module-registry.md) that are using the public worker pool.
 
+[Stacks](stack/README.md) and/or [Modules](../vendors/terraform/module-registry.md) that are using the public worker pool.
