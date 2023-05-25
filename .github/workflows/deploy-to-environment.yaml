@@ -34,6 +34,7 @@ jobs:
       id-token: write
     env:
       DOC_ENV: ${{ inputs.environment_code }}
+      WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -65,6 +66,6 @@ jobs:
       # KLUDGE: Clearing the whole cache is overkill but determining what items to invalidate is hard
       - name: Invalidate CloudFront cache
         run: |
-              aws cloudfront create-invalidation \
-                --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-                --paths "/*"
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
