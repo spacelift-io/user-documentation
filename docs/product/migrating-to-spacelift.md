@@ -123,10 +123,10 @@ The limitations listed below come from the original provider. We are actively lo
 
 | Terraform Cloud/Enterprise | Spacelift                                                    |
 | -------------------------- | ------------------------------------------------------------ |
-| Agent Pool                 | [Worker Pool](../concepts/worker-pools.md)                                              |
-| Organization               | Account                                                      |
-| Policy                     | [Policy](../concepts/policy/README.md)                                                   |
-| Project                    | [Space](../concepts/spaces/README.md)                                                    |
-| Variable                   | [Environment](../concepts/configuration/environment.md) |
-| Variable Set               | [Context](../concepts/configuration/context.md) |
-| Workspace                  | [Stack](../concepts/stack/README.md)                                                    |
+| Agent Pool                 | [Worker Pool](../concepts/worker-pools.md)                   |
+| Organization               | [Account](https://docs.spacelift.io/getting-started#step-1-create-your-spacelift-account) |
+| Policy                     | [Policy](../concepts/policy/README.md)                       |
+| Project                    | [Space](../concepts/spaces/README.md)                        |
+| Variable                   | [Environment Variable](https://docs.spacelift.io/concepts/configuration/environment#environment-variables) |
+| Variable Set               | [Context](../concepts/configuration/context.md)              |
+| Workspace                  | [Stack](../concepts/stack/README.md)                         |
