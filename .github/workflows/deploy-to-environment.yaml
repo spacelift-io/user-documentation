@@ -34,7 +34,7 @@ jobs:
       id-token: write
     env:
       DOC_ENV: ${{ inputs.environment_code }}
-      WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}}
+      WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
