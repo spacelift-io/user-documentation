@@ -58,7 +58,7 @@ Now this attached context will also contribute to the [stack environment](enviro
 
 ![](<../../assets/screenshots/Environment_·_Managed_stack (3).png>)
 
-...and be visible on the list of attached stacks:
+...and be visible on the list of attached contexts:
 
 ![](<../../assets/screenshots/Environment_·_Managed_stack (4).png>)
 
