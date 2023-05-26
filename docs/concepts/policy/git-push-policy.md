@@ -34,7 +34,7 @@ First, let's only trigger proposed runs if a PR exists, and allow any push to th
 ```opa
 package spacelift
 
-track   { input.push.branch = input.stack.branch }
+track   { input.push.branch == input.stack.branch }
 propose { not is_null(input.pull_request) }
 ignore  { not track; not propose }
 ```
@@ -44,7 +44,7 @@ If you want to enforce that tracked runs are _always_ created from PR merges (an
 ```opa
 package spacelift
 
-track   { is_pr; input.push.branch = input.stack.branch }
+track   { is_pr; input.push.branch == input.stack.branch }
 propose { is_pr }
 ignore  { not is_pr }
 is_pr   { not is_null(input.pull_request) }
@@ -58,7 +58,7 @@ package spacelift
 track   { is_pr; labeled }
 propose { true }
 is_pr   { not is_null(input.pull_request) }
-labeled { input.pull_request.labels[_] = "deploy" }
+labeled { input.pull_request.labels[_] == "deploy" }
 ```
 
 !!! info
