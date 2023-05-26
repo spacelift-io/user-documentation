@@ -54,7 +54,7 @@ Luckily, extending the default runner Docker image to include these dependencies
 
 Before Terraform can plan and apply changes to your infrastructure, CDKTF must turn your C#, Python, TypeScript, Java, or Go code into Terraform configuration code. That process is called synthesizing.
 
-This step needs to happen before the [Initializing phase](../../concepts/run/README.md#initializing) of a run. This can be easily done by adding a few [`before_init` hooks](../../concepts/stack/stack-settings.md#customizing-workflow):
+**This step needs to happen before the [Initializing phase](../../concepts/run/README.md#initializing) of a run.** This can be easily done by adding a few [`before_init` hooks](../../concepts/stack/stack-settings.md#customizing-workflow):
 
 === "TypeScript"
 
