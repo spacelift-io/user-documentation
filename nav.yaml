@@ -151,5 +151,7 @@ nav:
               - legal/cookie-policy.md
               - Archive:
                   - legal/archive/terms.md
-      - Self-Hosted:
+      - Self-Hosting:
+          - Overview: self-hosting.md
           - v0.0.6: "!include ./self-hosting/v0.0.6/mkdocs.yaml"
+          - v0.0.7: "!include ./self-hosting/v0.0.7/mkdocs.yaml"

@@ -1,0 +1,151 @@
+nav:
+  - README.md
+  - getting-started.md
+  - ✋ FAQ: faq/README.md
+  - ⭐ Main Concepts:
+      - Stack:
+          - concepts/stack/README.md
+          - concepts/stack/creating-a-stack.md
+          - concepts/stack/stack-settings.md
+          - concepts/stack/organizing-stacks.md
+          - concepts/stack/stack-locking.md
+          - concepts/stack/stack-dependencies.md
+          - concepts/stack/drift-detection.md
+          - concepts/stack/scheduling.md
+      - Blueprint:
+          - concepts/blueprint/README.md
+      - Configuration:
+          - concepts/configuration/README.md
+          - concepts/configuration/environment.md
+          - concepts/configuration/context.md
+          - Runtime Configuration:
+              - concepts/configuration/runtime-configuration/README.md
+              - concepts/configuration/runtime-configuration/runtime-yaml-reference.md
+      - Run:
+          - concepts/run/README.md
+          - concepts/run/task.md
+          - concepts/run/proposed.md
+          - concepts/run/tracked.md
+          - concepts/run/test-case.md
+          - concepts/run/user-provided-metadata.md
+          - concepts/run/run-promotion.md
+          - concepts/run/pull-request-comments.md
+      - Policy:
+          - concepts/policy/README.md
+          - concepts/policy/login-policy.md
+          - concepts/policy/stack-access-policy.md
+          - concepts/policy/approval-policy.md
+          - concepts/policy/run-initialization-policy.md
+          - concepts/policy/notification-policy.md
+          - concepts/policy/terraform-plan-policy.md
+          - concepts/policy/git-push-policy.md
+          - concepts/policy/task-run-policy.md
+          - concepts/policy/trigger-policy.md
+      - concepts/resources.md
+      - concepts/worker-pools.md
+      - Spaces:
+          - concepts/spaces/README.md
+          - concepts/spaces/access-control.md
+          - concepts/spaces/creating-a-space.md
+          - concepts/spaces/moving-a-space-or-an-entity.md
+          - concepts/spaces/deleting-a-space.md
+          - concepts/spaces/structuring-your-spaces-tree.md
+          - concepts/spaces/migrating-out-of-the-legacy-space.md
+      - concepts/vcs-agent-pools.md
+  - 🛰️ Platforms:
+      - Terraform:
+          - vendors/terraform/README.md
+          - vendors/terraform/module-registry.md
+          - vendors/terraform/provider-registry.md
+          - vendors/terraform/external-modules.md
+          - vendors/terraform/terraform-provider.md
+          - vendors/terraform/state-management.md
+          - vendors/terraform/external-state-access.md
+          - vendors/terraform/terragrunt.md
+          - vendors/terraform/version-management.md
+          - vendors/terraform/handling-tfvars.md
+          - vendors/terraform/cli-configuration.md
+          - vendors/terraform/infracost.md
+          - vendors/terraform/resource-sanitization.md
+          - vendors/terraform/storing-complex-variables.md
+          - vendors/terraform/debugging-guide.md
+          - vendors/terraform/dependency-lock-file.md
+          - vendors/terraform/cdktf.md
+      - Pulumi:
+          - vendors/pulumi/README.md
+          # KLUDGE: The default value for navigation items come from the H1 heading for the page.
+          # Here the value for the H1 heading needs to be C\# to avoid parsing issues.
+          # Unfortunately, the valid value for the H1 heading causes an issue with the navigation item.
+          # Hence the override.
+          - C#: vendors/pulumi/c-sharp.md
+          - vendors/pulumi/golang.md
+          - vendors/pulumi/javascript.md
+          - vendors/pulumi/python.md
+      - AWS CloudFormation:
+          - vendors/cloudformation/README.md
+          - vendors/cloudformation/getting-started.md
+          - vendors/cloudformation/reference.md
+          - vendors/cloudformation/integrating-with-sam.md
+          - vendors/cloudformation/integrating-with-the-serverless-framework.md
+          - vendors/cloudformation/integrating-with-cdk.md
+      - Kubernetes:
+          - vendors/kubernetes/README.md
+          - vendors/kubernetes/getting-started.md
+          - vendors/kubernetes/authenticating.md
+          - vendors/kubernetes/custom-resources.md
+          - vendors/kubernetes/helm.md
+          - vendors/kubernetes/kustomize.md
+      - Ansible:
+          - vendors/ansible/README.md
+          - vendors/ansible/getting-started.md
+          - vendors/ansible/reference.md
+          - vendors/ansible/policies.md
+          - vendors/ansible/ansible-galaxy.md
+  - ⚙️ Integrations:
+      - integrations/audit-trail.md
+      - ChatOps:
+          - integrations/chatops/slack.md
+          - integrations/chatops/msteams.md
+      - Cloud Integrations:
+          - integrations/cloud-providers/README.md
+          - integrations/cloud-providers/aws.md
+          - integrations/cloud-providers/azure.md
+          - integrations/cloud-providers/gcp.md
+          - integrations/cloud-providers/oidc.md
+      - Observability:
+          - integrations/observability/datadog.md
+      - Source Control:
+          - integrations/source-control/README.md
+          - integrations/source-control/github.md
+          - integrations/source-control/gitlab.md
+          - integrations/source-control/azure-devops.md
+          - integrations/source-control/bitbucket-cloud.md
+          - integrations/source-control/bitbucket-datacenter-server.md
+      - integrations/docker.md
+      - integrations/api.md
+      - Single Sign-On:
+          - integrations/single-sign-on/README.md
+          - integrations/single-sign-on/gitlab-oidc-setup-guide.md
+          - integrations/single-sign-on/okta-oidc-setup-guide.md
+          - integrations/single-sign-on/onelogin-oidc-setup-guide.md
+          - integrations/single-sign-on/azure-ad-oidc-setup-guide.md
+          - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
+          - integrations/single-sign-on/backup-credentials.md
+      - integrations/webhooks.md
+  - 📖 Product:
+      - product/notifications.md
+      - product/security.md
+      - product/migrating-to-spacelift.md
+      - Support:
+          - product/support/README.md
+      - product/disaster-continuity.md
+      - Billing:
+          - product/billing/stripe.md
+          - product/billing/aws-marketplace.md
+  - ⚖️ Legal:
+      - legal/terms.md
+      - legal/refund-policy.md
+      - legal/privacy.md
+      - legal/cookie-policy.md
+      - Archive:
+          - legal/archive/terms.md

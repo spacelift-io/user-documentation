@@ -1,0 +1,34 @@
+INHERIT: ./nav.yaml
+copyright: © 2022 Spacelift, Inc. All rights reserved
+site_author: Spacelift
+site_description: Collaborative Infrastructure For Modern Software Teams
+site_name: Self-Hosting v0.0.6
+site_url: https://docs.spacelift.io/self-hosting-v0.0.6
+# watch:
+#   - nav.yaml
+#   - overrides
+
+# extra:
+#   generator: false
+#   environment: !ENV [DOC_ENV, "dev"]
+#   wp_options_api_url: !ENV WP_OPTIONS_API_URL
+#   social:
+#     - icon: fontawesome/brands/linkedin
+#       link: https://www.linkedin.com/company/spacelift-io/
+#       name: Spacelift on LinkedIn
+#     - icon: fontawesome/brands/twitter
+#       link: https://twitter.com/spaceliftio
+#       name: Spacelift on Twitter
+#     - icon: fontawesome/brands/github
+#       link: https://github.com/spacelift-io
+#       name: Spacelift on GitHub
+#     - icon: fontawesome/brands/youtube
+#       link: https://www.youtube.com/channel/UCYKTi_SzykyIe6jqj3t_kXg
+#       name: Spacelift on YouTube
+#     - icon: fontawesome/brands/facebook
+#       link: https://www.facebook.com/spaceliftio-103558488009736/
+#       name: Spacelift on Facebook
+# hooks:
+#   - hooks/fetch_banner.py
+# plugins:
+#   - monorepo
