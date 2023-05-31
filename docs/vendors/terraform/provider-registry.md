@@ -76,6 +76,8 @@ spacectl provider list-gpg-keys
 
 Now that you have a provider and a GPG key, you can set up your CI/CD tool to publish provider versions. First, let's set up the GoReleaser config file in your provider repository:
 
+{% raw %}
+
 ```yaml title=".goreleaser.yml"
 builds:
   - env: ['CGO_ENABLED=0']
@@ -108,11 +110,15 @@ release:
   disable: true
 ```
 
+{% endraw %}
+
 This setup assumes that the name of your project (repository) is `terraform-provider-$name`. If it is not (maybe you're using a monorepo?) then you will need to change the config accordingly, presumably by hardcoding the project name.
 
 Next, let's make sure you have an API key for the Spacelift account you want to publish the provider to. You can refer to the [API key management](../../integrations/api.md#spacelift-api-key--token) section of the API documentation for more information on how to do that. Note that the key you're generating **must** have admin access to the space that the provider lives in. If the provider is in the `root` space, then the key must have root admin access.
 
 We can now add a GitHub Actions workflow definition to our repository:
+
+{% raw %}
 
 ```yaml title=".github/workflows/release.yml"
 name: release
@@ -181,6 +187,8 @@ jobs:
         run: # Don't forget to change the provider type!
           spacectl provider create-version --type=TYPE-change-me!!!
 ```
+
+{% endraw %}
 
 If everything is fine, pushing a tag like `v0.1.0` should create a new **draft** version of the provider in Spacelift. You can list the versions of your provider using `spacectl`:
 
