@@ -65,3 +65,7 @@ extra:
       name: Spacelift on Facebook
 hooks:
   - hooks/fetch_banner.py
+plugins:
+  - search
+  - monorepo
+  - macros
