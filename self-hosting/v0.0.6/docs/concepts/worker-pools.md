@@ -6,13 +6,7 @@ description: >-
 
 # Worker pools
 
-{% if page.file.src_uri.startswith('self-hosting-v') %}
-self-hosting!
-{% else %}
-SaaS!
-{% endif %}
-
-{% if isSaas %}
+{% if is_saas() %}
 
 By default, Spacelift uses a managed worker pool hosted and operated by us. This is very convenient, but often you may have special requirements regarding infrastructure, security or compliance, which aren't served by the public worker pool. This is why Spacelift also supports private worker pools, which you can use to host the workers which execute Spacelift workflows on your end.
 
