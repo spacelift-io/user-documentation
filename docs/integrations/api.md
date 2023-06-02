@@ -204,150 +204,150 @@ Copy the following JSON to your clipboard:
 
 ??? note "Click here to expand"
 
-  ```json
-  {
-      "_type": "export",
-      "__export_format": 4,
-      "__export_date": "2023-01-23T19:49:05.605Z",
-      "__export_source": "insomnia.desktop.app:v2022.7.0",
-      "resources": [
-     {
-            "_id": "req_d7fb83c13cc945da9e21cd9b94722d3d",
-            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "modified": 1674497188638,
-            "created": 1656577781496,
-            "url": "{{ _.BASE_URL }}/graphql",
-            "name": "Authentication - Get JWT",
-            "description": "",
-            "method": "POST",
-            "body": {
-                "mimeType": "application/graphql",
-                "text": "{\"query\":\"mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {\\n  apiKeyUser(id: $keyId, secret: $keySecret) {\\n    id\\n\\t\\tjwt\\n  }\\n}\",\"variables\":{\"keyId\":\"{{ _.API_KEY_ID }}\",\"keySecret\":\"{{ _.API_KEY_SECRET }}\"},\"operationName\":\"GetSpaceliftToken\"}"
-            },
-            "parameters": [],
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json",
-                    "id": "pair_85e4a9afc2e6491ca59b52f77d94e81f"
-                }
-            ],
-            "authentication": {},
-            "metaSortKey": -1656577781496,
-            "isPrivate": false,
-            "settingStoreCookies": true,
-            "settingSendCookies": true,
-            "settingDisableRenderRequestBody": false,
-            "settingEncodeUrl": true,
-            "settingRebuildPath": true,
-            "settingFollowRedirects": "global",
-            "_type": "request"
-        },
-        {
-            "_id": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "parentId": null,
-            "modified": 1656576979763,
-            "created": 1656576979763,
-            "name": "Spacelift",
-            "description": "",
-            "scope": "collection",
-            "_type": "workspace"
-        },
-        {
-            "_id": "req_83de84158a16459fa4bfce6042859df6",
-            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "modified": 1674497166036,
-            "created": 1656577541263,
-            "url": "{{ _.BASE_URL }}/graphql",
-            "name": "Get Stacks",
-            "description": "",
-            "method": "POST",
-            "body": {
-                "mimeType": "application/graphql",
-                "text": "{\"query\":\"{ \\n\\tstacks\\n\\t{\\n\\t\\tid\\n\\t\\tname,\\n\\t\\tadministrative,\\n\\t\\tcreatedAt,\\n\\t\\tdescription\\n\\t}\\n}\"}"
-            },
-            "parameters": [],
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json",
-                    "id": "pair_80893dda7c0f4266b48bd09d0eaa3222"
-                }
-            ],
-            "authentication": {
-                "type": "bearer",
-                "token": "{{ _.API_TOKEN }}"
-            },
-            "metaSortKey": -1656577721437.75,
-            "isPrivate": false,
-            "settingStoreCookies": true,
-            "settingSendCookies": true,
-            "settingDisableRenderRequestBody": false,
-            "settingEncodeUrl": true,
-            "settingRebuildPath": true,
-            "settingFollowRedirects": "global",
-            "_type": "request"
-        },
-        {
-            "_id": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
-            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "modified": 1660646140956,
-            "created": 1656576979773,
-            "name": "Base Environment",
-            "data": {},
-            "dataPropertyOrder": {},
-            "color": null,
-            "isPrivate": false,
-            "metaSortKey": 1656576979773,
-            "_type": "environment"
-        },
-        {
-            "_id": "jar_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
-            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "modified": 1656576979775,
-            "created": 1656576979775,
-            "name": "Default Jar",
-            "cookies": [],
-            "_type": "cookie_jar"
-        },
-        {
-            "_id": "spc_dbcf993f70b44bb18eee1b2362bb5bdc",
-            "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
-            "modified": 1656576979770,
-            "created": 1656576979770,
-            "fileName": "Spacelift",
-            "contents": "",
-            "contentType": "yaml",
-            "_type": "api_spec"
-        },
-        {
-            "_id": "env_ea5c30c23af449f792c71d160678eff5",
-            "parentId": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
-            "modified": 1669716444669,
-            "created": 1669716373608,
-            "name": "Spacelift",
-            "data": {
-                "BASE_URL": "https://ACCOUNT_NAME.app.spacelift.io",
-                "API_KEY_ID": "insert-your-real-api-key-here",
-                "API_KEY_SECRET": "insert-your-real-api-secret-here",
-                "API_TOKEN": "{% response 'body', 'req_d7fb83c13cc945da9e21cd9b94722d3d', 'b64::JC5kYXRhLmFwaUtleVVzZXIuand0::46b', 'never', 60 %}"
-            },
-            "dataPropertyOrder": {
-                "&": [
-                    "BASE_URL",
-                    "API_KEY_ID",
-                    "API_KEY_SECRET",
-                    "API_TOKEN"
-                ]
-            },
-            "color": "#6b84ff",
-            "isPrivate": false,
-            "metaSortKey": 828288489886.5,
-            "_type": "environment"
-          }
-      ]
-  }
-  ```
+    ```json
+    {
+        "_type": "export",
+        "__export_format": 4,
+        "__export_date": "2023-01-23T19:49:05.605Z",
+        "__export_source": "insomnia.desktop.app:v2022.7.0",
+        "resources": [
+      {
+              "_id": "req_d7fb83c13cc945da9e21cd9b94722d3d",
+              "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "modified": 1674497188638,
+              "created": 1656577781496,
+              "url": "{{ _.BASE_URL }}/graphql",
+              "name": "Authentication - Get JWT",
+              "description": "",
+              "method": "POST",
+              "body": {
+                  "mimeType": "application/graphql",
+                  "text": "{\"query\":\"mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {\\n  apiKeyUser(id: $keyId, secret: $keySecret) {\\n    id\\n\\t\\tjwt\\n  }\\n}\",\"variables\":{\"keyId\":\"{{ _.API_KEY_ID }}\",\"keySecret\":\"{{ _.API_KEY_SECRET }}\"},\"operationName\":\"GetSpaceliftToken\"}"
+              },
+              "parameters": [],
+              "headers": [
+                  {
+                      "name": "Content-Type",
+                      "value": "application/json",
+                      "id": "pair_85e4a9afc2e6491ca59b52f77d94e81f"
+                  }
+              ],
+              "authentication": {},
+              "metaSortKey": -1656577781496,
+              "isPrivate": false,
+              "settingStoreCookies": true,
+              "settingSendCookies": true,
+              "settingDisableRenderRequestBody": false,
+              "settingEncodeUrl": true,
+              "settingRebuildPath": true,
+              "settingFollowRedirects": "global",
+              "_type": "request"
+          },
+          {
+              "_id": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "parentId": null,
+              "modified": 1656576979763,
+              "created": 1656576979763,
+              "name": "Spacelift",
+              "description": "",
+              "scope": "collection",
+              "_type": "workspace"
+          },
+          {
+              "_id": "req_83de84158a16459fa4bfce6042859df6",
+              "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "modified": 1674497166036,
+              "created": 1656577541263,
+              "url": "{{ _.BASE_URL }}/graphql",
+              "name": "Get Stacks",
+              "description": "",
+              "method": "POST",
+              "body": {
+                  "mimeType": "application/graphql",
+                  "text": "{\"query\":\"{ \\n\\tstacks\\n\\t{\\n\\t\\tid\\n\\t\\tname,\\n\\t\\tadministrative,\\n\\t\\tcreatedAt,\\n\\t\\tdescription\\n\\t}\\n}\"}"
+              },
+              "parameters": [],
+              "headers": [
+                  {
+                      "name": "Content-Type",
+                      "value": "application/json",
+                      "id": "pair_80893dda7c0f4266b48bd09d0eaa3222"
+                  }
+              ],
+              "authentication": {
+                  "type": "bearer",
+                  "token": "{{ _.API_TOKEN }}"
+              },
+              "metaSortKey": -1656577721437.75,
+              "isPrivate": false,
+              "settingStoreCookies": true,
+              "settingSendCookies": true,
+              "settingDisableRenderRequestBody": false,
+              "settingEncodeUrl": true,
+              "settingRebuildPath": true,
+              "settingFollowRedirects": "global",
+              "_type": "request"
+          },
+          {
+              "_id": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+              "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "modified": 1660646140956,
+              "created": 1656576979773,
+              "name": "Base Environment",
+              "data": {},
+              "dataPropertyOrder": {},
+              "color": null,
+              "isPrivate": false,
+              "metaSortKey": 1656576979773,
+              "_type": "environment"
+          },
+          {
+              "_id": "jar_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+              "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "modified": 1656576979775,
+              "created": 1656576979775,
+              "name": "Default Jar",
+              "cookies": [],
+              "_type": "cookie_jar"
+          },
+          {
+              "_id": "spc_dbcf993f70b44bb18eee1b2362bb5bdc",
+              "parentId": "wrk_3b73a2a7403445a48acdc8396803c4e8",
+              "modified": 1656576979770,
+              "created": 1656576979770,
+              "fileName": "Spacelift",
+              "contents": "",
+              "contentType": "yaml",
+              "_type": "api_spec"
+          },
+          {
+              "_id": "env_ea5c30c23af449f792c71d160678eff5",
+              "parentId": "env_36e5a9fc63b6443ed4d0a656800d202bcd1f5286",
+              "modified": 1669716444669,
+              "created": 1669716373608,
+              "name": "Spacelift",
+              "data": {
+                  "BASE_URL": "https://ACCOUNT_NAME.app.spacelift.io",
+                  "API_KEY_ID": "insert-your-real-api-key-here",
+                  "API_KEY_SECRET": "insert-your-real-api-secret-here",
+                  "API_TOKEN": "{% response 'body', 'req_d7fb83c13cc945da9e21cd9b94722d3d', 'b64::JC5kYXRhLmFwaUtleVVzZXIuand0::46b', 'never', 60 %}"
+              },
+              "dataPropertyOrder": {
+                  "&": [
+                      "BASE_URL",
+                      "API_KEY_ID",
+                      "API_KEY_SECRET",
+                      "API_TOKEN"
+                  ]
+              },
+              "color": "#6b84ff",
+              "isPrivate": false,
+              "metaSortKey": 828288489886.5,
+              "_type": "environment"
+            }
+        ]
+    }
+    ```
 
 In the home screen of Insomnia, click on `Import From` then click on `Clipboard`.
 
