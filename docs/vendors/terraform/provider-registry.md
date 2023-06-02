@@ -26,6 +26,7 @@ Last but not least, we assume you're going to use GoReleaser to build your provi
 To create a provider in Spacelift, you have three options:
 
 #### 1. Use the [API](../../integrations/api.md) (`terraformProviderCreate` mutation).
+
 #### 2. Use our Terraform provider (preferable).
 
 This is the easiest way to do it, as it will let you manage your provider declaratively in the future:
