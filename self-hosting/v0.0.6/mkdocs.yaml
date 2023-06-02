@@ -1,6 +1,0 @@
-INHERIT: ./nav.yaml
-copyright: © 2023 Spacelift, Inc. All rights reserved
-site_author: Spacelift
-site_description: Collaborative Infrastructure For Modern Software Teams
-site_name: Self-Hosting v0.0.6
-site_url: https://docs.spacelift.io/self-hosting-v0.0.6
