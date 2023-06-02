@@ -11,8 +11,6 @@ description: This article shows how Spacelift can help you manage Terraform prov
 
 While the Terraform ecosystem is vast and growing, sometimes there is no official provider for your use case, especially if you need to interface with internal or niche tooling. This is where the Spacelift provider registry comes in. It's a place where you can publish your own providers. These providers can be used both inside, and outside of Spacelift.
 
-While in beta, this feature comes without a GUI, so you will be interacting with it programmatically. But for someone who was able to write a Terraform provider, this should be a piece of cake 😉
-
 ## Publishing a provider
 
 ### Assumptions
@@ -25,7 +23,12 @@ Last but not least, we assume you're going to use GoReleaser to build your provi
 
 ### Creating a provider
 
-To create a provider in Spacelift, you will either need to use the [API](../../integrations/api.md) (`terraformProviderCreate` mutation) or - preferably - our Terraform provider. The latter is the easiest way to do it, as it will let you manage your provider declaratively in the future:
+To create a provider in Spacelift, you have three options:
+
+#### 1. Use the [API](../../integrations/api.md) (`terraformProviderCreate` mutation).
+#### 2. Use our Terraform provider (preferable).
+
+This is the easiest way to do it, as it will let you manage your provider declaratively in the future:
 
 ```terraform title="provider.tf"
 resource "spacelift_terraform_provider" "provider" {
@@ -36,16 +39,33 @@ resource "spacelift_terraform_provider" "provider" {
 }
 ```
 
-Note that we've put the provider in the `root` space. This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources). You can read more about spaces [here](../../concepts/spaces/README.md).
-
 It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public){: rel="nofollow"} attribute to `true`.
 
-### Adding a GPG key
+#### 3. Create the provider manually in the UI.
+
+In order to create a provider in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _Providers_ tab and click the _Create provider_ button:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.12.49.png)
+
+In the _Create Terraform provider_ drawer, you will need to provide the type, space and optionally a description and/or labels:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.16.47.png)
+
+!!! info
+    Note that we've put the provider in the `root` space. This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources). You can read more about spaces [here](../../concepts/spaces/README.md).
+
+### Register a GPG key
 
 !!! warning
     Only Spacelift root admins can manage account GPG keys. If you're not a root admin, you will need to ask one to do it for you.
 
-Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. You can do that either using the [API](../../integrations/api.md) (`gpgKeyCreate` mutation) or - preferably - our CLI tool called [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"}. One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. `spacectl` will let you register a GPG key without storing the private key anywhere outside of your system.
+Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. Similarly to creating a provider, you have three options to register a GPG key:
+
+#### 1. Use the [API](../../integrations/api.md) (`gpgKeyCreate` mutation).
+
+#### 2. Use our CLI tool called [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"}.
+
+One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. `spacectl` will let you register a GPG key without storing the private key anywhere outside of your system.
 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
@@ -71,6 +91,16 @@ You can list all your GPG keys using `spacectl`:
 ```bash
 spacectl provider list-gpg-keys
 ```
+
+#### 3. Register the GPG key manually in the UI.
+
+In order to register a GPG key in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _GPG keys_ tab and click the _Add GPG key_ button:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.28.27.png)
+
+In the _Register GPG key_ drawer, you will need to provide the name, the ASCII-armored private key and optionally a description:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.31.37.png)
 
 ### CI/CD setup
 

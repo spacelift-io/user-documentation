@@ -74,9 +74,9 @@ You can check out an example module here: [https://github.com/spacelift-io/terra
 
 ### Spacelift setup
 
-In order to add a module to Spacelift, navigate to the _Modules_ section of the account view, and click the _Add module_ button:
+In order to add a module to Spacelift, navigate to the _Terraform registry_ section of the account view, and click the _Add module_ button:
 
-![](../../assets/screenshots/Modules_·_marcinwyszynski.png)
+![](../../assets/screenshots/Screenshot 2023-06-02 at 14.17.23.png)
 
 The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
 
