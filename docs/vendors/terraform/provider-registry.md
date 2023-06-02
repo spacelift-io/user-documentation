@@ -94,7 +94,7 @@ spacectl provider list-gpg-keys
 
 #### 3. Register the GPG key manually in the UI.
 
-In order to register a GPG key in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _GPG keys_ tab and click the _Add GPG key_ button:
+In order to register a GPG key in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _GPG keys_ tab and click the _Register GPG key_ button:
 
 ![](../../assets/screenshots/Screenshot 2023-06-02 at 16.28.27.png)
 
@@ -264,6 +264,10 @@ If you lose control over your GPG key, you will want to revoke it. Revoking a ke
 spacectl provider revoke-gpg-key --key=$ID_OF_YOUR_KEY
 ```
 
+... or by using the UI. In order to do that, click the _Revoke_ button inside the three dots menu next to the key you want to revoke:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.39.36.png)
+
 If you want to also revoke any of the provider versions signed with this key, refer to the section on [revoking provider versions](#revoking-provider-versions).
 
 ### Deleting provider versions
@@ -273,6 +277,10 @@ You can permanently delete any **draft** provider version using `spacectl`:
 ```bash
 spacectl provider delete-version --version=$ID_OF_YOUR_VERSION
 ```
+
+You can also do that in the UI, just navigate to the provider page, find the version you want to delete, and click the _Delete_ button inside the three dots menu next to the version you want to delete:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.38.09.png)
 
 A deleted version disappears from the list of versions, and you can reuse its number in the future.
 
@@ -285,5 +293,9 @@ You can revoke any published provider version using `spacectl`:
 ```bash
 spacectl provider revoke-version --version=$ID_OF_YOUR_VERSION
 ```
+
+Similarly to deleting a draft provider version, you can delete a published one in the UI by clicking the _Revoke_ button inside the three dots menu next to the version you want to revoke:
+
+![](../../assets/screenshots/Screenshot 2023-06-02 at 16.40.36.png)
 
 This will prevent anyone from using the version in the future, but it will not delete it. The version will remain on the list of versions, and will never be available again. You will not be able to reuse the version number of a revoked version.
