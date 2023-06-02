@@ -42,13 +42,26 @@ This means that:
 
 - We make changes to the docs as normal - fixing issues or documenting new features.
 - When adding new features, if they are only applicable to SaaS, we either don't add the new page to the navigation for self-hosting, or we conditionally hide sections of the documentation using macros. See [conditional content](#conditional-content) for more details.
-- When we want to create a new self-hosting release, we'll run a script (e.g. `create-self-hosting-release v0.0.9` which will create a new folder under the `self-hosting` directory).
+- When we want to create a new self-hosting release, we'll run a script (e.g. `create-self-hosting-release.sh -v v0.0.9` which will create a new folder under the `self-hosting` directory).
 
 ## Conditional Content
 
 ### Pages
 
+The main site navigation is defined in [nav.yaml](nav.yaml). There is a separate [nav.self-hosting.yaml](nav.self-hosting.yaml) file that is used to define the navigation for self-hosting. This allows us to choose what pages should be visible in self-hosting vs SaaS.
 
+Scenarios:
+
+- You want to add a page to both self-hosting and SaaS:
+    - Add it to both nav.yaml and nav.self-hosting.yaml.
+- You want to add a page to SaaS only:
+    - Add it to nav.yaml.
+- You want to add a page to self-hosting only:
+    - Add it to nav.self-hosting.yaml.
+- You want to document a feature that has been added to SaaS, but won't be available in the next self-hosting release:
+    - Add it to nav.yaml, then at the point it will become available in self-hosting add it to nav.self-hosting.yaml.
+- You want to add a page to an older version of the self-hosting docs:
+    - Add it to `self-hosting/vx.y.z/nav.yaml`.
 
 ### Sections within Pages
 
