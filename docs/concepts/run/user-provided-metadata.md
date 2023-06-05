@@ -1,6 +1,6 @@
 # User-Provided Metadata
 
-Occasionally you might want to add additional information to your Runs which isn’t handled on a first-class basis by Spacelift. You can attach this kind of information using the run metadata parameter, which is available through [spacectl](https://github.com/spacelift-io/spacectl) as well as the GraphQL API.
+Occasionally you might want to add additional information to your Runs which isn’t handled on a first-class basis by Spacelift. You can attach this kind of information using the run metadata parameter, which is available through [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} as well as the GraphQL API.
 
 ## Usage
 
@@ -131,3 +131,6 @@ A standard use case for this feature would be to sign your runs when you’re cr
 You'll have to bring the infrastructure for managing keys and signatures yourself - usually you'll already have something like that internally. But in short you can create a cryptographic signature of the parameters for a run you’re about to create - based on the commit SHA, run type, stack, date, etc. - and then you can pass that signature to Spacelift when creating the run.
 
 Later, in the initialization policy you can use the [exec function](../policy/README.md#helper-functions) to run your custom binary for verifying that signature. This way - for your most sensitive stacks - you can verify whether runs you are receiving from the Spacelift backend are legit, intentionally created by an employee of your company.
+
+!!! tip
+    We created a [reference implementation](https://github.com/spacelift-io/signed-run-reference-implementation){: rel="nofollow"} to demonstrate how to sign runs and verify signatures.
