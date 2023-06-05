@@ -315,7 +315,7 @@ header .md-search__input {
   position: sticky;
   top: 0;
   color: var(--color-default-white);
-  z-index: 1000;
+  z-index: 1;       
 }
 
 .helloBanner + header {
