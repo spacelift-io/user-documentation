@@ -25,9 +25,7 @@ Last but not least, we assume you're going to use GoReleaser to build your provi
 
 To create a provider in Spacelift, you have three options:
 
-#### 1. Use the [API](../../integrations/api.md) (`terraformProviderCreate` mutation).
-
-#### 2. Use our Terraform provider (preferable).
+#### Use our Terraform provider (preferable)
 
 This is the easiest way to do it, as it will let you manage your provider declaratively in the future:
 
@@ -42,7 +40,15 @@ resource "spacelift_terraform_provider" "provider" {
 
 It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public){: rel="nofollow"} attribute to `true`.
 
-#### 3. Create the provider manually in the UI.
+#### Use the API
+
+To create a Terraform Provider using the GraphQL API, you can use the `terraformProviderCreate` mutation. This mutation allows you to create a new provider with the specified inputs.
+
+After successfully creating the Terraform Provider, you will receive an output of type `TerraformProvider`, which contains various fields providing information about the provider. These fields include the ID, creation timestamp, description, labels, latest version number, public accessibility, associated space details, update timestamp, specific version details, and a list of all versions of the provider.
+
+For more detailed information about the GraphQL API and its integration, please refer to the [API documentation](../../integrations/api.md).
+
+#### Create the provider manually in the UI
 
 In order to create a provider in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _Providers_ tab and click the _Create provider_ button:
 
@@ -53,7 +59,7 @@ In the _Create Terraform provider_ drawer, you will need to provide the type, sp
 ![](../../assets/screenshots/Screenshot 2023-06-02 at 16.16.47.png)
 
 !!! info
-    Note that we've put the provider in the `root` space. This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources). You can read more about spaces [here](../../concepts/spaces/README.md).
+    Note that we've put the provider in the `root` [space](../../concepts/spaces/README.md). This is because we want to give everyone access to it. If you want to make it available only to a specific team, you can put it in a team-specific different space. In general, unless providers are made public, they can be accessed by all users and stacks belonging to the same space and its children (assuming they're set to inherit resources).
 
 ### Register a GPG key
 
@@ -62,11 +68,9 @@ In the _Create Terraform provider_ drawer, you will need to provide the type, sp
 
 Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. Similarly to creating a provider, you have three options to register a GPG key:
 
-#### 1. Use the [API](../../integrations/api.md) (`gpgKeyCreate` mutation).
+#### Use our CLI tool called `spacectl`
 
-#### 2. Use our CLI tool called [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"}.
-
-One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. `spacectl` will let you register a GPG key without storing the private key anywhere outside of your system.
+One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"} will let you register a GPG key without storing the private key anywhere outside of your system.
 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
@@ -93,7 +97,15 @@ You can list all your GPG keys using `spacectl`:
 spacectl provider list-gpg-keys
 ```
 
-#### 3. Register the GPG key manually in the UI.
+#### Use the API
+
+To register a GPG Key using the GraphQL API, you can utilize the `gpgKeyCreate` mutation. This mutation allows you to register a GPG key with the specified inputs.
+
+After successfully registering the GPG Key, you will receive an output of type `GpgKey`, which contains various fields providing information about the key. These fields include the creation timestamp, the user who created the key, the optional description, the ID, the name of the key, the revocation timestamp (if the key has been revoked), the user who revoked the key (if applicable), and the timestamp of the last update to the key.
+
+For more detailed information about the GraphQL API and its integration, please refer to the [API documentation](../../integrations/api.md).
+
+#### Register the GPG key manually in the UI
 
 In order to register a GPG key in the UI, navigate to the _Terraform registry_ section of the account view, switch to the _GPG keys_ tab and click the _Register GPG key_ button:
 
