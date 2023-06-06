@@ -4,9 +4,6 @@ description: Managing Ansible Stacks through Spacelift.
 
 # Ansible
 
-!!! info
-    We are currently running a closed beta of Ansible. To know more, sign up [here](https://spacelift.io/ansible-beta).
-
 You can find more details in the subpages:
 
 - [Getting Started](getting-started.md)
