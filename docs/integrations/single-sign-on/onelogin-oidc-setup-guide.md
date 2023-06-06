@@ -53,9 +53,11 @@ In regards to "Visible in portal" this is a OneLogin configuration decision that
 
 ![Enter a name for your App and click Save.](../../assets/screenshots/4-set-onelogin-app-name-and-save.png)
 
-In the app navigation, click on the **Configuration** section. Remember the **authorized redirect URL** we copied earlier from Spacelift? We'll need that in this step. You'll want to paste that URL into the **Login Url** AND **Redirect URI's** input as shown. **Click Save.**
+In the app navigation, navigate to the **Configuration** section. Input your **Login URL** for example "https://AccountName.app.spacelift.io" Make sure to replace AccountName with your actual account name.
 
-![Paste your authorized redirect URL from Spacelift into the Login Url and Redirect URI's input boxes. Click Save.](../../assets/screenshots/5-onelogin-app-configuration.png)
+Next, paste the previously copied **authorized redirect URL** into the **Redirect URI's** input field. Once done, remember to click on the **Save** button.
+
+![Paste your authorized redirect URL from Spacelift into the Login Url and Redirect URI's input boxes. Click Save.](../../assets/screenshots/5-onelogin-app-configuration1.png)
 
 In the app navigation, click on the **SSO** section. Now that we have the OneLogin App setup, we'll need to take the **Client ID**, **Client Secret**, and **Issuer URL**, to configure the Spacelift OIDC Settings
 
