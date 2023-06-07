@@ -36,6 +36,17 @@ stacks:
 
 The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 
+Considering the precedence of settings, below is the order that will be followed, starting from the most important to the least important:
+
+1. The configuration for a specified stack defined in config.yml
+2. The stack configuration set in the Spacelift UI.
+3. The stack defaults defined config.yml
+
+In cases where there is no stack slug defined in the config, only the first two sources are considered:
+
+1. The stack configuration set in the Spacelift UI
+2. The stack defaults defined in config.yml
+
 !!! info
     Since we adopted everyone's favorite data serialization format, you can use all the YAML shenanigans you can think of - things like anchors and inline JSON can keep your config DRY and neat.
 
