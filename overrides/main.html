@@ -39,6 +39,7 @@
       var middleware = function ({ payload, next, integrations }) {
         if(!payload.obj.userId) {
           payload.obj.integrations["Actions Amplitude"] = false;
+          payload.obj.integrations["Pendo"] = false;
         }
         next(payload);
       };
