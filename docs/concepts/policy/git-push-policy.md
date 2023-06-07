@@ -145,7 +145,7 @@ As a result of the above policy, users would then see this behavior within their
 
 ### Tag-driven Terraform Module Release Flow
 
-Some users prefer to manage their Terraform Module versions using git tags, and would like git tag events to push their module **** to the Spacelift module registry. Using a fairly simple Push policy, this is supported. To do this, you'll want to make sure of the `module_version` block within a Push policy attached your module, and then set the version using the tag information from the git push event.
+Some users prefer to manage their Terraform Module versions using git tags, and would like git tag events to push their module to the Spacelift module registry. Using a fairly simple Push policy, this is supported. To do this, you'll want to make sure of the `module_version` block within a Push policy attached your module, and then set the version using the tag information from the git push event.
 
 For example, the following example Push policy will trigger a tracked run when a tag event is detected. The policy then parses the tag event data and uses that value for the module version (in the below example we remove a git tag prefixed with `v` as the Terraform Module Registry only supports versions in a numeric `X.X.X` format.
 
