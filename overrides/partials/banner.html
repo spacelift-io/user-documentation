@@ -9,7 +9,7 @@
         <a
           href="{{ config.extra.banner.cta_url }}"
           class="helloBannerLink"
-          rel="noopener noreferrer nofollow"
+          rel="noopener noreferrer{{ ' nofollow' if config.extra.banner.add_rel_nofollow else '' }}"
           target="_blank"
           >{{ config.extra.banner.cta_text }}</a
         >
