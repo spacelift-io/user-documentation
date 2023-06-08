@@ -432,7 +432,7 @@ webhook[wbdata] {
     "payload": {
       "embeds": [{
         "title": "Tracked run triggered!",
-        "description": sprintf("Stack: [%s](http://example.app.spacelift.tf/stack/%s)\nRun ID: [%s](http://example.app.spacelift.tf/stack/%s/run/%s)\nRun state: %s", [stack.name,stack.id,run.id,stack.id, run.id,run.state]),
+        "description": sprintf("Stack: [%s](http://example.app.spacelift.io/stack/%s)\nRun ID: [%s](http://example.app.spacelift.io/stack/%s/run/%s)\nRun state: %s", [stack.name,stack.id,run.id,stack.id, run.id,run.state]),
         }]
      }
   }
