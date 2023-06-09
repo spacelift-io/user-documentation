@@ -11,6 +11,13 @@
 {% endblock %}
 
 {% block libs %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    location$.subscribe(function(url) {
+      console.log('url', url)
+    })
+  });
+</script>
   {% if config.extra.environment == "prod" %}
     {# Google Tag Manager #}
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -46,12 +53,6 @@
       analytics.addSourceMiddleware(middleware);
       analytics.load("WPnjYyyzDs7aCZdEvAX8ajH8Fvg5rbis");
       analytics.page();
-
-      document.addEventListener("DOMContentLoaded", function() {
-        location$.subscribe(function(url) {
-          console.log('url', url)
-        })
-      })
       }}();
     </script>
   {% endif %}
