@@ -46,12 +46,6 @@
       analytics.addSourceMiddleware(middleware);
       analytics.load("WPnjYyyzDs7aCZdEvAX8ajH8Fvg5rbis");
       analytics.page();
-
-      document.addEventListener("DOMContentLoaded", function() {
-        location$.subscribe(function(url) {
-          analytics.page();
-        })
-      });
       }}();
     </script>
   {% endif %}
