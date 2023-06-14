@@ -88,12 +88,17 @@ inputs:
     name: Description of the stack
     type: long_text
     # long_text means you'll have a bigger text area in the UI
+  - id: connstring
+    name: Connection string to the database
+    type: secret
+    # secret means the input will be masked in the UI
   - id: tf_version
     name: Terraform version of the stack
     type: select
     options:
-      - "0.12.0"
       - "1.3.0"
+      - "1.4.6"
+      - "1.5.0"
   - id: manage_state
     name: Should Spacelift manage the state of Terraform
     default: true
@@ -145,10 +150,10 @@ stack:
     variables:
       - name: MY_ENV_VAR
         value: my-env-var-value
-        description: This is my env var
-      - name: MY_SECRET_ENV_VAR
-        value: my-secret-env-var-value
-        description: This is my encrypted env var
+        description: This is my non-encrypted env var
+      - name: TF_VAR_CONNECTION_STRING
+        value: ${{ inputs.connstring }}
+        description: The connection string to the database
         secret: true
     mounted_files:
       - path: a.json
@@ -302,6 +307,7 @@ If the input `type` is not provided, it defaults to `short_text`. Other options 
 | ------------ | -------------------------------------------------------------------------------- |
 | `short_text` | A short text input.                                                              |
 | `long_text`  | A long text input. Typically used for multiline strings.                         |
+| `secret`     | A secret input. The value of the input will be masked in the UI.                 |
 | `number`     | An integer input.                                                                |
 | `boolean`    | A boolean input.                                                                 |
 | `select`     | A multi option input. In case of `select`, it is mandatory to provide `options`. |
@@ -317,6 +323,9 @@ inputs:
   - id: description
     name: The description of the stack
     type: long_text
+  - id: connstring
+    name: Connection string to the database
+    type: secret
   - id: number_of_instances
     name: The number of instances
     type: number
@@ -504,6 +513,7 @@ For simplicity, here is the current schema, but it might change in the future:
                             "enum": [
                                 "short_text",
                                 "long_text",
+                                "secret",
                                 "boolean",
                                 "number",
                                 "float"
@@ -618,7 +628,7 @@ For simplicity, here is the current schema, but it might change in the future:
                 },
                 "environment": {
                     "type": "object",
-                    "additionalPropertiess": false,
+                    "additionalProperties": false,
                     "properties": {
                         "mounted_files": {
                             "type": "array",
@@ -678,40 +688,81 @@ For simplicity, here is the current schema, but it might change in the future:
                 },
                 "vcs": {
                     "type": "object",
-                    "additionalProperties": false,
-                    "required": [
-                        "branch",
-                        "repository",
-                        "provider"
-                    ],
-                    "properties": {
-                        "branch": {
-                            "type": "string",
-                            "minLength": 1
+                    "oneOf": [
+                        {
+                            "additionalProperties": false,
+                            "required": [
+                                "branch",
+                                "provider",
+                                "repository"
+                            ],
+                            "properties": {
+                                "branch": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "project_root": {
+                                    "type": "string"
+                                },
+                                "provider": {
+                                    "type": "string",
+                                    "enum": [
+                                        "GITHUB",
+                                        "GITLAB",
+                                        "BITBUCKET_DATACENTER",
+                                        "BITBUCKET_CLOUD",
+                                        "GITHUB_ENTERPRISE",
+                                        "SHOWCASE",
+                                        "AZURE_DEVOPS"
+                                    ]
+                                },
+                                "namespace": {
+                                    "type": "string"
+                                },
+                                "repository": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The name of the repository."
+                                }
+                            }
                         },
-                        "project_root": {
-                            "type": "string"
-                        },
-                        "provider": {
-                            "type": "string",
-                            "enum": [
-                                "GITHUB",
-                                "GITLAB",
-                                "BITBUCKET_DATACENTER",
-                                "BITBUCKET_CLOUD",
-                                "GITHUB_ENTERPRISE",
-                                "SHOWCASE",
-                                "AZURE_DEVOPS"
-                            ]
-                        },
-                        "namespace": {
-                            "type": "string"
-                        },
-                        "repository": {
-                            "type": "string",
-                            "minLength": 1
+                        {
+                            "additionalProperties": false,
+                            "required": [
+                                "branch",
+                                "provider",
+                                "repository_url"
+                            ],
+                            "properties": {
+                                "branch": {
+                                    "type": "string",
+                                    "minLength": 1
+                                },
+                                "project_root": {
+                                    "type": "string"
+                                },
+                                "provider": {
+                                    "type": "string",
+                                    "enum": [
+                                        "RAW_GIT"
+                                    ]
+                                },
+                                "repository": {
+                                    "type": "string",
+                                    "description": "The name of the repository. If not provided, it'll be extracted from the repository_url."
+                                },
+                                "namespace": {
+                                    "type": "string",
+                                    "description": "The namespace of the repository. If not provided, it'll be extracted from the repository_url."
+                                },
+                                "repository_url": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The URL of the repository. This is only used for the 'GIT' provider."
+                                }
+                            }
                         }
-                    }
+                    ]
                 },
                 "vendor": {
                     "type": "object",
