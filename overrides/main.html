@@ -76,7 +76,9 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       location$.subscribe(function (url) {
-        analytics.page({url: url.href, path: url.pathname})
+        setTimeout(function () {
+          analytics.page({url: url.href, path: url.pathname})
+        }, 300)
       })
     });
   </script>
