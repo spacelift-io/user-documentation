@@ -23,7 +23,7 @@ Group is a group of users as provided by your Identity Provider. If you assign p
 
 ## Invitation process
 
-New users can be invited through email by account admins and owners. Detailed instructions can be found on [the Admin page](admin.md)](admin.md) of this documentation.
+New users can be invited through email by account admins and owners. Detailed instructions can be found on [the Admin page](admin.md) of this documentation.
 
 Once a user is invited, they will receive an email from Spacelift that will take them to your identity provider page.
 
