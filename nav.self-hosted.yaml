@@ -132,6 +132,11 @@ nav:
           - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
   - 📖 Product:
+      - Administration:
+          - product/administration/install.md
+          - product/administration/advanced-installations.md
+          - product/administration/slack-integration-setup.md
+          - product/administration/worker-pools.md
       - product/notifications.md
       - product/security.md
       - product/migrating-to-spacelift.md
