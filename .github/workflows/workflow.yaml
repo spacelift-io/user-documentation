@@ -13,6 +13,7 @@ jobs:
       environment_code: preprod
       environment_name: Pre-Production
       environment_url: https://docs.spacelift.dev/
+      deploy_self_hosted: true
     secrets:
       # KLUDGE: We are not actually passing the secrets here.
       # What we’re really doing is passing the key to the secret that we want the reusable workflow to use.
