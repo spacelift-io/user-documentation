@@ -64,6 +64,89 @@ You can also manually trigger the tests at any time by running:
 pre-commit
 ```
 
+## Self-Hosted
+
+Our self-hosted docs are built using a tool called [Mike](https://github.com/jimporter/mike). Mike allows us to snapshot multiple versions of the documentation in a separate Git branch. In our case this branch is called `self-hosted-releases`.
+
+You can mostly ignore this while editing the docs, although there are a few things worth understanding.
+
+### Mike Version
+
+Please use the development version of Mike. If you need to install Mike locally, you can use `pip install git+https://github.com/jimporter/mike.git`.
+
+### Adding Pages to the Navigation
+
+We have two navigation config files:
+
+- [nav.yaml](nav.yaml) - contains the SaaS navigation.
+- [nav.self-hosted.yaml](nav.self-hosted.yaml) - contains the Self-Hosted navigation.
+
+In general you should make changes to both files, unless either of the following is true:
+
+1. A page should only be displayed in the SaaS version - in that case just edit _nav.yaml_.
+2. A page should only be displayed in the self-hosted version - in that case just edit _nav.self-hosted.yaml_.
+
+### Conditional Content
+
+To conditionally display content within pages, we can use [jinja templating](https://jinja.palletsprojects.com/en/3.1.x/templates). There are two macros defined in the [main.py](main.py) file that help us figure out whether the context of the page is self-hosted or SaaS:
+
+- `is_self_hosted`
+- `is_saas`
+
+These macros use an environment variable called `SPACELIFT_DISTRIBUTION`, and if the site is built with this set to `SELF_HOSTED` the docs will be in "self-hosted mode".
+
+The following shows an example of using them in a page:
+
+```markdown
+# Worker pools
+
+{% if is_saas() %}
+
+By default, Spacelift uses a managed worker pool hosted and operated by us. This is very convenient, but often you may have special requirements regarding infrastructure, security or compliance, which aren't served by the public worker pool. This is why Spacelift also supports private worker pools, which you can use to host the workers which execute Spacelift workflows on your end.
+
+{% endif %}
+
+In order to enjoy the maximum level of flexibility and security with a private worker pool, temporary run state is encrypted end-to-end, so only the workers in your worker pool can look inside it. We use asymmetric encryption to achieve this and only you ever have access to the private key.
+```
+
+### Marking Blocks as Raw
+
+The jinja templating used by the macros plugin sometimes thinks that parts of our documentation are template expressions when they should just be treated as normal text. To fix this we just need to wrap the section in a `{% raw %}` block. Here's an example:
+
+````markdown
+{% raw %}
+
+```yaml
+inputs:
+  - id: stack_name
+    name: Stack name
+stack:
+  # Jinja would normally interpret the {{ inputs.stack_name }} block as a template.
+  name: ${{ inputs.stack_name }}
+  space: root
+  vcs:
+    branch: main
+    repository: my-repository
+    provider: GITHUB
+  vendor:
+    terraform:
+      manage_state: true
+      version: "1.3.0"
+```
+
+{% endraw %}
+````
+
+### Previewing Changes
+
+When you open a PR against the repo, a Render preview will automatically be generated. This preview also includes the latest version of the self-hosted docs. This allows you to preview any changes you are making to the self-hosted docs.
+
+If you would like to preview the self-hosted site locally, you can use the following command:
+
+```shell
+mike serve --branch self-hosted-releases
+```
+
 ## Submitting Changes
 
 Once you are happy with your changes, just open a pull request and ask for a review from `@spacelift-io/solutions-engineering`.
