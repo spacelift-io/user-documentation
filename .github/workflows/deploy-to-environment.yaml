@@ -12,6 +12,8 @@ on:
       environment_url:
         required: true
         type: string
+      deploy_self_hosted:
+        type: boolean
     secrets:
       AWS_REGION:
         required: true
@@ -39,6 +41,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Checkout Self-Hosted Releases
+        if: ${{ inputs.deploy_self_hosted }}
+        uses: actions/checkout@v3
+        with:
+          ref: self-hosted-releases
+          path: self-hosted-releases
+
       - name: Set Python up
         uses: actions/setup-python@v4
         with:
@@ -49,6 +58,14 @@ jobs:
 
       - name: Build documentation
         run: mkdocs build
+
+      - name: Copy self-hosted documentation
+        if: ${{ inputs.deploy_self_hosted }}
+        run: |
+          mkdir -p site/self-hosted
+          cp -r self-hosted-releases/latest site/self-hosted
+          cp -r self-hosted-releases/v* site/self-hosted
+          cp self-hosted-releases/versions.json site/self-hosted
 
       - name: Transform the URLs
         run: python ./scripts/transform_urls.py
