@@ -76,7 +76,6 @@ nav:
           - vendors/terragrunt/getting-started.md
           - vendors/terragrunt/reference.md
           - vendors/terragrunt/run-all.md
-          - vendors/terragrunt/resource-sanitization.md
           - vendors/terragrunt/limitations.md
       - Pulumi:
           - vendors/pulumi/README.md
