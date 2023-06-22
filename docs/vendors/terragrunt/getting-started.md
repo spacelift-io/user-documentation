@@ -12,7 +12,7 @@ This documentation will be using an example repository spacelift provides [Here]
 
 ## Creating a new stack
 
-In Spacelift, go ahead and click the **Add Stack** button to create a new Stack. 
+In Spacelift, go ahead and click the **Add Stack** button to create a new Stack.
 
 ### Naming the stack
 
@@ -21,7 +21,7 @@ Once in the stack creation wizard, Give your stack a name such as **terragrunt-e
 ### Linking to the terragrunt code
 
 <!-- TODO: @Yantrio, add screenshots -->
-On this VCS configuration screen, Select **Raw Git** as your Provider, and provide the following URL: **https://github.com/spacelift-io-examples/terragrunt-examples.git** and a Project Root of **single-project**.
+On this VCS configuration screen, Select **Raw Git** as your Provider, and provide the following URL: **<https://github.com/spacelift-io-examples/terragrunt-examples.git>** and a Project Root of **single-project**.
 
 Pressing next on this page will take you through to the backend configuration page.
 

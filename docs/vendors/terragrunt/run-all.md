@@ -20,4 +20,3 @@ When this option is enabled, Spacelift will run all terragrunt commands with the
 Due to the way terragrunt works, you may find that modules and projects create outputs or resources with the same names, and we want to make sure that you can determine the origin of all of your resources without getting confused about "Which project created output.password"?
 
 For this reason, we prepend the addresses of your outputs and resources in the Spacelift user interface with the project they originated from. This allows you to keep on top of your resources, understand at a glance how things were created, and identify issues faster, Giving you more control and visibility over the resources you create!
-
