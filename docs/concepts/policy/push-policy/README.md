@@ -103,9 +103,9 @@ Please note that you cannot cancel module test runs. Only proposed and tracked s
 
 The `track` decision sets the new head commit on the affected stack or [module](../../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../../run/README.md#where-do-runs-come-from), or a [task](../../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
 
-Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
+Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](../trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
 
-Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](trigger-policy.md):
+Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](../trigger-policy.md):
 
 ```opa
 track     { input.push.branch == input.stack.branch }
@@ -470,3 +470,10 @@ affected {
   strings.any_prefix_match(input.push.affected_files, input.stack.project_root)
 }
 ```
+
+
+## Waiting for CI/CD artifacts
+
+There are cases where you want pushes to your repo to trigger a run in Spacelift, but only after a CI/CD pipeline (or a part of it) has completed.
+An example would be when you want to trigger an infra deploy after some docker image has been built and pushed to a registry.
+This is achievable via push policies by using the [External Dependencies](run-external-dependencies.md) feature.
