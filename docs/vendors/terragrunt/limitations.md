@@ -18,7 +18,7 @@ This mocked data is only used if the output does not already exist in the state.
 
 ### Mocked outputs and Plan policies
 
-Due to the nature of the mocked outputs and the way that Spacelift uses the plan data to provide the input to [plan policies](concepts/policy/terraform-plan-policy.md), it is possible that these mocked output values could be used as input values for your [plan policies]((concepts/policy/terraform-plan-policy.md) and you should take precaution when writing policies that check against values that could be mocked.
+Due to the nature of the mocked outputs and the way that Spacelift uses the plan data to provide the input to [plan policies](../../concepts/policy/terraform-plan-policy.md), it is possible that these mocked output values could be used as input values for your [plan policies](../../concepts/policy/terraform-plan-policy.md) and you should take precaution when writing policies that check against values that could be mocked.
 
 ### Mocked outputs and the Apply phase
 
