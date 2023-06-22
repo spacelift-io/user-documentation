@@ -12,7 +12,7 @@ Spacelift as a development platform is built around this concept and allows defi
 - Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
 - Notification: [routing and filtering notifications](notification-policy.md);
 - Plan: [which changes can be applied](terraform-plan-policy.md);
-- Push: [how Git push events are interpreted](git-push-policy.md);
+- Push: [how Git push events are interpreted](push-policy/README.md);
 - Task: [which one-off commands can be executed](task-run-policy.md);
 - Trigger: [what happens when blocking runs terminate](trigger-policy.md);
 
@@ -26,7 +26,7 @@ Please refer to the following table for information on what each policy types re
 | [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
 | [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
 | [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
-| [Push](git-push-policy.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
+| [Push](push-policy/README.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger` |
 | [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
 | [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
 
@@ -355,7 +355,7 @@ PASS: 2/2
 
 By default, each policy is completely self-contained and does not depend on the result of previous policies. There are at times situations where you want to introduce a chain of policies passing some data to one another. Different types of policies have access to different types of data required to make a decision, and you can use policy flags to pass that data (or more likely, a useful digest of that data) between them.
 
-Let's take a look at a simple example. Let's say you have a [push policy](./git-push-policy.md) with access to the list of files affected by a push or a PR event. You want to introduce a form of ownership control where changes to different files need approval from different users. For example, a change in the `network` directory may require approval from the network team, while a change in the `database` directory needs an approval from the DBAs.
+Let's take a look at a simple example. Let's say you have a [push policy](./push-policy/README.md) with access to the list of files affected by a push or a PR event. You want to introduce a form of ownership control where changes to different files need approval from different users. For example, a change in the `network` directory may require approval from the network team, while a change in the `database` directory needs an approval from the DBAs.
 
 Approvals are handled by an [approval policy](./approval-policy.md) but the problem is that it no longer retains access to the list of affected files. This is a great use case to use flags. Let's have the push policy set arbitrary review flags on the run. This can be a separate push policy as in this example, or part of one of your pre-existing push policies. For the sake of simplicity, the example below will only focus on the `network` bit.
 
@@ -393,7 +393,7 @@ There are a few things worth knowing about flags:
 - They are **arbitrary strings** and Spacelift makes no assumptions about their format or content.
 - They are **immutable**. Once set, they cannot be changed or unset;
 - They are **passed between policy types**. If you have multiple policies of the same type, they will not be able to see each other's flags;
-- They can be set by any policies that explicitly **touch a run**: [push](./git-push-policy.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
+- They can be set by any policies that explicitly **touch a run**: [push](./push-policy/README.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
 - They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document;
 
 Also worth noting is the fact that flags are shown in the GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Below is an example of an approval policy exposing decision-making details:

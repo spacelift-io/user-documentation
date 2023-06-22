@@ -38,7 +38,9 @@ nav:
           - concepts/policy/run-initialization-policy.md
           - concepts/policy/notification-policy.md
           - concepts/policy/terraform-plan-policy.md
-          - concepts/policy/git-push-policy.md
+          - Push Policy:
+              - concepts/policy/push-policy/README.md
+              - concepts/policy/push-policy/run-external-dependencies.md
           - concepts/policy/task-run-policy.md
           - concepts/policy/trigger-policy.md
       - concepts/resources.md

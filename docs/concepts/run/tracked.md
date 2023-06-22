@@ -32,7 +32,7 @@ Runs triggered by individuals and [machine users](../../integrations/api.md#api-
 
 ### Triggering from Git events
 
-Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#repository-and-branch), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/git-push-policy.md).
+Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#repository-and-branch), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).
 
 Runs triggered by Git push and/or tag events can are marked accordingly:
 

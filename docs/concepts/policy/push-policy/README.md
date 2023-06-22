@@ -2,19 +2,19 @@
 
 ## Purpose
 
-Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../stack/README.md) or [Module](../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
+Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
-- **track**: set the new head commit on the [stack](../stack/README.md) / [module](../../vendors/terraform/module-registry.md) and create a [tracked](../run/README.md#where-do-runs-come-from) [Run](../run/README.md), ie. one that can be [applied](../run/README.md#applying);
-- **propose**: create a [proposed Run](../run/README.md#where-do-runs-come-from) against a proposed version of infrastructure;
+- **track**: set the new head commit on the [stack](../../stack/README.md) / [module](../../../vendors/terraform/module-registry.md) and create a [tracked](../../run/README.md#where-do-runs-come-from) [Run](../../run/README.md), ie. one that can be [applied](../../run/README.md#applying);
+- **propose**: create a [proposed Run](../../run/README.md#where-do-runs-come-from) against a proposed version of infrastructure;
 - **ignore**: do not schedule a new Run;
 
 Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
 
 ### Git push policy and tracked branch
 
-Each stack and module points at a particular Git branch called a [tracked branch](../stack/README.md#repository-and-branch). By default, any push to the tracked branch that changes a file in the project root triggers a tracked [Run](../run/README.md) that can be [applied](../run/README.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
+Each stack and module points at a particular Git branch called a [tracked branch](../../stack/README.md#repository-and-branch). By default, any push to the tracked branch that changes a file in the project root triggers a tracked [Run](../../run/README.md) that can be [applied](../../run/README.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
 
-![The tracked branch head commit is behind the head commit of the stack.](<../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
+![The tracked branch head commit is behind the head commit of the stack.](<../../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
 
 When a push policy does not track a new push, the head commit of the stack/module will not be set to the tracked branch head commit. We can address this by navigating to that stack and pressing the sync button (this syncs the tracked branch head commit with the head commit of the stack/module).
 
@@ -78,7 +78,7 @@ When events are deduplicated and you're sampling policy evaluations, you may not
 
 ### Canceling in-progress runs
 
-The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../run/README.md#queued) or are [awaiting human confirmation](../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
+The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued) or are [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
 ```opa
 cancel[run.id] { run := input.in_progress[_] }
@@ -101,11 +101,11 @@ Please note that you cannot cancel module test runs. Only proposed and tracked s
 
 ### Corner case: track, don't trigger
 
-The `track` decision sets the new head commit on the affected stack or [module](../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../run/README.md#where-do-runs-come-from), or a [task](../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
+The `track` decision sets the new head commit on the affected stack or [module](../../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is [manually triggered](../../run/README.md#where-do-runs-come-from), or a [task](../../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
 
 Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
 
-Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../run/tracked.md#triggering-manually), through [the API](../../integrations/api.md), or using a [trigger policy](trigger-policy.md):
+Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](trigger-policy.md):
 
 ```opa
 track     { input.push.branch == input.stack.branch }
@@ -115,7 +115,7 @@ notrigger { true }
 
 ### Take Action from Comment(s) on Pull Request(s)
 
-For more information on taking action from comments on Pull Requests, please view [the documentation on pull request comments](../run/pull-request-comments.md).
+For more information on taking action from comments on Pull Requests, please view [the documentation on pull request comments](../../run/pull-request-comments.md).
 
 ### Customize Spacelift Ignore Event Behavior
 
@@ -138,7 +138,7 @@ message["I love bacon"] { true }
 
 As a result of the above policy, users would then see this behavior within their GitHub status check:
 
-![](../../assets/screenshots/Screen Shot 2022-06-13 at 2.07.31 PM.png)
+![](../../../assets/screenshots/Screen Shot 2022-06-13 at 2.07.31 PM.png)
 
 !!! info
     Note that this behavior (customization of the message and failing of the check within the VCS), **is only applicable when runs do not take place within Spacelift.**
@@ -203,7 +203,7 @@ In Bitbucket Cloud, `head_owner` means [workspace](https://support.atlassian.com
 
 In Bitbucket Datacenter/Server, it is the project key of the repository. The project key is not the display name of the project, but the abbreviation in all caps.
 
-![Bitbucket Datacenter/Server project key](<../../assets/screenshots/image (118).png>)
+![Bitbucket Datacenter/Server project key](<../../../assets/screenshots/image (118).png>)
 
 ### Approval and Mergeability
 
@@ -382,7 +382,7 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 !!! tip
     We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/push) that are ready to use or that you could tweak to meet your specific needs.
 
-    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
+    If you cannot find what you are looking for below or in the library, please reach out to [our support](../../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 ### Ignoring certain paths
 
@@ -432,7 +432,7 @@ notify { ignore }
 ```
 
 !!! info
-    The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../run/proposed.md).
+    The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../../run/proposed.md).
 
 ## Applying from a tag
 

@@ -204,7 +204,7 @@ If you want more control over release schedules, you could go with the following
 
 Whenever you add a new functionality, you may want to create a feature branch and open Pull Request from it to the main branch. Whenever you want to release a new version, you merge the main branch into the release branch.
 
-You can also use [Git push policies](../../concepts/policy/git-push-policy.md) to further customize this.
+You can also use [Git push policies](../../concepts/policy/push-policy/README.md) to further customize this.
 
 !!! info
     If no test cases are present, the version is immediately marked green.
