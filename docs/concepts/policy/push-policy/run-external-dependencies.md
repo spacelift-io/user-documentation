@@ -8,6 +8,7 @@ A common use case of this feature is making Spacelift wait for a CI/CD pipeline 
 ## How it works
 
 Using this feature consists of two parts:
+
 - defining dependencies in push policies
 - marking dependencies as finished or failed using [spacectl](https://github.com/spacelift-io/spacectl)
 
@@ -41,7 +42,7 @@ spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build"
 
 !!! info
     Run will be eligible for execution only after all of its dependencies are marked as finished.
-    At the same time, if any of the dependencies is marked as failed, the run will be marked as failed as well.
+    At the same time, if any of the dependencies has failed, the run will be marked as failed as well.
 
 !!! warning
     In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl) needs to be authenticated and have *write* access to all the spaces that have runs with the given dependency defined.
@@ -163,11 +164,11 @@ As we can see a run was created in Spacelift, but it's in queued state. The run 
 
 After the binary-build dependency has been marked as completed the run is still queued, as the docker-image-build dependency is still not resolved.
 
-![](<../../../assets/screenshots/run-external-dependency-1-completed.png>)
+![](<../../../assets/screenshots/run-external-dependency-completed-1.png>)
 
 The run starts only after all the dependencies are marked as finished.
 
-![](<../../../assets/screenshots/run-external-dependency-2-completed.png>)
+![](<../../../assets/screenshots/run-external-dependency-completed-2.png>)
 
 
 We can also test what happens if a step in the pipeline fails.
