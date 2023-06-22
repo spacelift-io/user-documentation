@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# Make sure that we don't try to deploy from both this workflow and the self-hosted-release workflow
+concurrency:
+  group: "deployment"
+
 jobs:
   deploy-to-preprod:
     name: Deploy to pre-production
