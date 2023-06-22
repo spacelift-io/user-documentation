@@ -1,13 +1,7 @@
 ---
 description: Managing Terragrunt Stacks through Spacelift.
 ---
-
 # Terragrunt
-
-You can find more details in the subpages:
-
-- [Getting Started](getting-started.md)
-- [Reference](reference.md)
 
 ## Why use Terragrunt?
 
@@ -36,3 +30,10 @@ Firstly, Spacelift's automation capabilities can bring significant benefits when
 Spacelift provides a centralized platform for managing your IaC setup. Combined with Terragrunt's ability to effectively handle complex Terraform configurations and dependencies, you end up with a well-organized and optimized IaC environment that is easier to navigate and manage.
 
 Lastly, Spacelift is designed to integrate smoothly with your existing tech stack. Its compatibility with Terragrunt means that it can fit into your existing workflow without requiring substantial changes, ensuring a smooth transition and consistent operations.
+
+## Addtional Resources
+
+- [Getting Started](getting-started.md)
+- [Run-all](run-all.md)
+- [Limitations](limitations.md)
+- [Reference](reference.md)
