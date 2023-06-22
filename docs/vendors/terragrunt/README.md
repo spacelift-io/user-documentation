@@ -3,6 +3,9 @@ description: Managing Terragrunt Stacks through Spacelift.
 ---
 # Terragrunt
 
+!!! warning
+    Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
+
 ## Why use Terragrunt?
 
 Terragrunt serves as a valuable companion to Terraform, functioning as a thin wrapper that offers a suite of additional tools, ultimately enhancing the management and deployment of your infrastructure configurations.
