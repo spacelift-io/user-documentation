@@ -45,7 +45,7 @@ In this step, you will need to tell Spacelift where to look for the Terraform co
 A few things worth noting:
 
 - you can point multiple Spacelift stacks to the same repository, even the same branch;
-- the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/git-push-policy.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
+- the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/push-policy/README.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
 - in order to learn what exactly our Git hosting provider integration means, please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) integration documentation;
 
 !!! info
