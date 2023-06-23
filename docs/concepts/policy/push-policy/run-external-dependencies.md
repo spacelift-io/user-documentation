@@ -28,7 +28,6 @@ You can of course have more complex rules, that decide on the set of external de
 !!! warning
     Make sure to include unique strings such as commit hashes in the dependencies names, as this is the only way to ensure that the dependency is unique for each source control event.
 
-
 ### Marking dependencies as finished or failed
 
 To mark a dependency as finished or failed, you need to use the [spacectl](https://github.com/spacelift-io/spacectl) command line tool.
@@ -45,7 +44,7 @@ spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build"
     At the same time, if any of the dependencies has failed, the run will be marked as failed as well.
 
 !!! warning
-    In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl) needs to be authenticated and have *write* access to all the spaces that have runs with the given dependency defined.
+    In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl) needs to be authenticated and have _write_ access to all the spaces that have runs with the given dependency defined.
 
 ## Example with GH Actions
 
@@ -69,7 +68,7 @@ external_dependency[sprintf("%s-docker-image-build", [input.push.hash])] { true 
 We are defining two dependencies. One for a binary build and one for a docker image build.
 
 Next, we need to create a GitHub Action pipeline that will mark the dependencies as finished or failed.
-This pipeline will define two jobs, one for each dependency. We will use *sleep* to mock the build process.
+This pipeline will define two jobs, one for each dependency. We will use `sleep` to mock the build process.
 
 {% raw %}
 
@@ -154,7 +153,6 @@ jobs:
 !!! warning
     Make sure to replace `<youraccount>` with your Spacelift account name and fill in necessary secrets if you decide to use this example.
 
-
 ### Testing example
 
 Having the policy and the pipeline defined, we can now test it. Creating a new commit in the repository will trigger the pipeline.
@@ -170,9 +168,8 @@ The run starts only after all the dependencies are marked as finished.
 
 ![](<../../../assets/screenshots/run-external-dependency-completed-2.png>)
 
-
 We can also test what happens if a step in the pipeline fails.
-In order to test this, we can change the *build-binaries* job in the pipeline from
+In order to test this, we can change the `build-binaries` job in the pipeline from
 
 ```yaml
       - name: Build binaries
@@ -194,4 +191,3 @@ to
 Now, when we push a commit to the repo, after a while, we will see that the new run is marked as failed, with a note explaining that one of the dependencies is marked as failed.
 
 ![](<../../../assets/screenshots/run-external-dependency-failed.png>)
-
