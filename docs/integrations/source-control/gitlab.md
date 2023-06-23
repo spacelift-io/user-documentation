@@ -42,7 +42,7 @@ If your Spacelift account is integrated with GitLab, the stack or module creatio
 
 ![](../../assets/screenshots/Screen Shot 2022-05-18 at 1.19.49 PM.png)
 
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/README.md#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
+The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
 
 Spacelift is interested in pushes, tags and merge requests, so make sure you add triggers for all these types of events:
 
