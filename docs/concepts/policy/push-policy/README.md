@@ -471,7 +471,6 @@ affected {
 }
 ```
 
-
 ## Waiting for CI/CD artifacts
 
 There are cases where you want pushes to your repo to trigger a run in Spacelift, but only after a CI/CD pipeline (or a part of it) has completed.
