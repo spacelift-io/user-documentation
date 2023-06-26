@@ -7,8 +7,7 @@
 Please make sure that the proposed change checks all the boxes below before requesting a review:
 
 - [ ] I have reviewed the [guidelines for contributing](https://github.com/spacelift-io/user-documentation/blob/main/CONTRIBUTING.md) to this repository.
-<!-- TODO: re-add the preview once we setup Render again -->
-<!-- - [ ] The preview looks fine. -->
+- [ ] The preview looks fine.
 - [ ] The tests pass.
 - [ ] The commit history is clean and meaningful.
 - [ ] The pull request is opened against the `main` branch.
