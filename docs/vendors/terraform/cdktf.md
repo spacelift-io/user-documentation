@@ -60,18 +60,18 @@ Before Terraform can plan and apply changes to your infrastructure, CDKTF must t
 
     - `npm install`
     - `cdktf synth`
-    - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
+    - `cp cdktf.out/stacks/${TF_VAR_spacelift_stack_id}/cdk.tf.json .`
 
 === "Python"
 
     - `pipenv install`
     - `cdktf synth`
-    - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
+    - `cp cdktf.out/stacks/${TF_VAR_spacelift_stack_id}/cdk.tf.json .`
 
 === "Go"
 
     - `cdktf synth`
-    - `cp cdktf.out/stacks/<STACK NAME>/cdk.tf.json .` (Make sure to replace `<STACK NAME>` with the name of the stack)
+    - `cp cdktf.out/stacks/${TF_VAR_spacelift_stack_id}/cdk.tf.json .`
 
 !!! warning
     If the [Terraform state](./state-management.md) is managed by Spacelift, make sure to disable the local backend that CDKTF automatically adds if none is configured by adding the following command after the hooks mentioned above:
