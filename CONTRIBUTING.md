@@ -31,14 +31,10 @@ To tweak the look and feel of the user documentation, you can:
 
 ## Previewing Changes
 
-You can preview changes locally by running MkDocs in a Docker container:
+You can preview changes locally by running `mkdocs serve`. You can use the following command to run this inside a Docker container:
 
 ```shell
-# Intel/AMD CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt)
-
-# Arm CPU
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs ghcr.io/afritzler/mkdocs-material:$(awk -F '==' '/mkdocs-material/{print $NF}' requirements.txt)
+docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mkdocs serve -a '0.0.0.0:8000'"
 ```
 
 > 💡 These commands are [set up](.vscode/tasks.json) as [VS Code tasks](https://code.visualstudio.com/docs/editor/tasks), so you can just run them from the VS Code command palette. Or even better: download the [Task Explorer](https://marketplace.visualstudio.com/items?itemName=spmeesseman.vscode-taskexplorer) extension and you can run them from the sidebar.
@@ -141,10 +137,22 @@ stack:
 
 When you open a PR against the repo, a Render preview will automatically be generated. This preview also includes the latest version of the self-hosted docs. This allows you to preview any changes you are making to the self-hosted docs.
 
-If you would like to preview the self-hosted site locally, you can use the following command:
+If you would like to preview the self-hosted site locally, first fetch the `self-hosted-releases` branch, which Mike uses to serve its content:
+
+```shell
+git fetch origin self-hosted-releases
+```
+
+Next, use `mike serve` to preview the site:
 
 ```shell
 mike serve --branch self-hosted-releases
+```
+
+Or via Docker:
+
+```shell
+docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && git config --global --add safe.directory /docs && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mike serve --branch self-hosted-releases -a '0.0.0.0:8000'"
 ```
 
 ## Submitting Changes
