@@ -1,15 +1,15 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "type": "shell",
-            "label": "Start Mkdocs container (arm64)",
-            "command": "docker run --rm -it -p 8000:8000 -v ${workspaceFolder}:/docs ghcr.io/afritzler/mkdocs-material",
-        },
-        {
-            "type": "shell",
-            "label": "Start Mkdocs container (amd64)",
-            "command": "docker run --rm -it -p 8000:8000 -v ${workspaceFolder}:/docs squidfunk/mkdocs-material",
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Start Mkdocs container",
+      "command": "docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c \"apk add git && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mkdocs serve -a '0.0.0.0:8000'\""
+    },
+    {
+      "type": "shell",
+      "label": "Start Mkdocs (self-hosted) container",
+      "command": "git fetch origin self-hosted-releases && docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c \"apk add git && git config --global --add safe.directory /docs && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mike serve --branch self-hosted-releases -a '0.0.0.0:8000'\""
+    }
+  ]
 }
