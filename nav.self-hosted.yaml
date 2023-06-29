@@ -110,8 +110,6 @@ nav:
       - Cloud Integrations:
           - integrations/cloud-providers/README.md
           - integrations/cloud-providers/aws.md
-          - integrations/cloud-providers/azure.md
-          - integrations/cloud-providers/gcp.md
           - integrations/cloud-providers/oidc.md
       - Observability:
           - integrations/observability/datadog.md
@@ -138,7 +136,6 @@ nav:
           - product/administration/install.md
           - product/administration/advanced-installations.md
           - product/administration/slack-integration-setup.md
-          - product/administration/worker-pools.md
       - product/notifications.md
       - product/security.md
       - product/migrating-to-spacelift.md

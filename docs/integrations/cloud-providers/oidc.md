@@ -1,7 +1,12 @@
 # OpenID Connect (OIDC)
 
+{% if is_saas() %}
 !!! hint
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing) for more information.
+{% else %}
+!!! hint
+    For this feature to work, the service you are integrating with needs to be able to access your Spacelift instance. For example, if you have deployed your Spacelift instance with an internal rather than public-facing load balancer, you will not be able to use OIDC Federation for AWS role assumption.
+{% endif %}
 
 OpenID Connect is a federated identity technology that allows you to exchange short-lived Spacelift credentials for temporary credentials valid for external service providers like AWS, GCP, Azure, HashiCorp Vault etc. This allows you to use Spacelift to manage your infrastructure on these cloud providers without the need of using static credentials.
 
