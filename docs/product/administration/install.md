@@ -40,6 +40,12 @@ A worker pool is a group of workers that can be used to run workloads. During th
 
 ![Worker](./worker-infra.png)
 
+## Running Costs
+
+We estimate the baseline running costs of a Spacelift Self-Hosted instance to be around $15 per day (roughly $450 per month). Note that this is with no activity in your account, so your costs may be higher after factoring in things like bandwidth.
+
+These baseline costs include all of the resources deployed as part of your Spacelift install, for example Aurora RDS, Fargate cluster, and KMS keys.
+
 ## Installation
 
 This section explains the installation process for Spacelift. You may also be interested in the following pages that explain how to configure the Slack integration as well as advanced installations:
@@ -299,7 +305,7 @@ Once your DNS changes propagate, you should be able to login to your instance by
 
 ### Creating your first worker pool
 
-Before you can create stacks or trigger any runs, you need a worker pool. Please follow the instructions [here](./worker-pools.md) to create your first pool.
+Before you can create stacks or trigger any runs, you need a worker pool. For more information please see our [worker pools](../../concepts/worker-pools.md) page.
 
 ## Updating existing SSO configuration
 

@@ -12,6 +12,8 @@ This integration is typically set up automatically for users who have selected G
 
 ## Setting up the integration
 
+{% if is_saas() %}
+
 ### Installing the Marketplace application (Preferred)
 
 The easiest way to connect your GitHub account (personal or organization) is to install the [Spacelift application](https://github.com/marketplace/spacelift-io){: rel="nofollow"} from the GitHub Marketplace.
@@ -29,6 +31,8 @@ On the next page click on the _Complete order and begin installation_ button.
 On the last screen, you will be able to select which repositories should be available to Spacelift, and review the required permissions. When ready, click on the _Install_ button, and voilà!
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
+
+{% endif %}
 
 ### Setting up the custom application
 
