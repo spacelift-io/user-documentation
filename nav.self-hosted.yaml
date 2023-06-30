@@ -142,9 +142,6 @@ nav:
       - Support:
           - product/support/README.md
       - product/disaster-continuity.md
-      - Billing:
-          - product/billing/stripe.md
-          - product/billing/aws-marketplace.md
   - ⚖️ Legal:
       - legal/terms.md
       - legal/refund-policy.md
