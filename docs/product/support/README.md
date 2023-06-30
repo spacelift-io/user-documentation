@@ -27,7 +27,7 @@ Before reaching out for support, have you tried:
 | **Cloud**      | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
 | **Enterprise** | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
 {% else %}
-For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available).
+For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible.
 {% endif %}
 
 Questions related to billing, purchasing, or subscriptions should be sent to [ar@spacelift.io](mailto:ar@spacelift.io).
