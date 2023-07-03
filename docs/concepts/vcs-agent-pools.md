@@ -28,16 +28,17 @@ The latest version of the VCS Agent binary can be downloaded from [here](https:/
 
 A number of configuration variables is available to customize how your VCS Agent behaves. The ones marked as required are … well … required.
 
-| CLI Flag                 | Environment Variable                       | Status | Default Value | Description                                                  |
-| ------------------------ | ------------------------------------------ |------ | ------------- | ------------------------------------------------------------ |
-| `--target-base-endpoint` | `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` | Required |  | The internal endpoint of your VCS system, including the protocol, as well as port, if applicable. (e.g., `http://169.254.0.10:7990`) |
-| `--token`                | `SPACELIFT_VCS_AGENT_POOL_TOKEN`           | Required |  | The token you’ve received from Spacelift during VCS Agent Pool creation |
-| `--vendor`               | `SPACELIFT_VCS_AGENT_VENDOR`               | Required |  | The vendor of your VCS system. Currently available options are `gitlab`, `bitbucket_datacenter` and `github_enterprise` |
-| `--allowed-projects` | `SPACELIFT_VCS_AGENT_ALLOWED_PROJECTS` | Optional | `.*` | Regexp matching allowed projects for API calls. Projects are in the form: 'group/repository'. |
-| `--bugsnag-api-key` | `SPACELIFT_VCS_AGENT_BUGSNAG_API_KEY` | Optional |  | Override the Bugsnag API key used for error reporting. |
-| `--parallelism` | `SPACELIFT_VCS_AGENT_PARALLELISM` | Optional | `4` | Number of streams to create. Each stream can handle one request simultaneously. |
-|  | `HTTPS_PROXY` | Optional |  | Hostname or IP address of the proxy server, including the protocol, as well as port, if applicable. (e.g., `http://10.10.1.1:8888`) |
-| | `NO_PROXY` | Optional | | Comma-separated list of host names that shouldn't go through any proxy is set in. |
+| CLI Flag                 | Environment Variable                       | Status | Default Value | Description                                                                                                                          |
+|--------------------------| ------------------------------------------ |------ |---------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `--target-base-endpoint` | `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` | Required |               | The internal endpoint of your VCS system, including the protocol, as well as port, if applicable. (e.g., `http://169.254.0.10:7990`) |
+| `--token`                | `SPACELIFT_VCS_AGENT_POOL_TOKEN`           | Required |               | The token you’ve received from Spacelift during VCS Agent Pool creation                                                              |
+| `--vendor`               | `SPACELIFT_VCS_AGENT_VENDOR`               | Required |               | The vendor of your VCS system. Currently available options are `gitlab`, `bitbucket_datacenter` and `github_enterprise`              |
+| `--allowed-projects`     | `SPACELIFT_VCS_AGENT_ALLOWED_PROJECTS` | Optional | `.*`          | Regexp matching allowed projects for API calls. Projects are in the form: 'group/repository'.                                        |
+| `--bugsnag-api-key`      | `SPACELIFT_VCS_AGENT_BUGSNAG_API_KEY` | Optional |               | Override the Bugsnag API key used for error reporting.                                                                               |
+| `--parallelism`          | `SPACELIFT_VCS_AGENT_PARALLELISM` | Optional | `4`           | Number of streams to create. Each stream can handle one request simultaneously.                                                      |
+| `--debug-print-all`      | `SPACELIFT_VCS_AGENT_DEBUG_PRINT_ALL` | Optional | `false`       | Makes vcs-agent print out all the requests and responses.                                                                            |
+|                          | `HTTPS_PROXY` | Optional |               | Hostname or IP address of the proxy server, including the protocol, as well as port, if applicable. (e.g., `http://10.10.1.1:8888`)  |
+|                          | `NO_PROXY` | Optional |               | Comma-separated list of host names that shouldn't go through any proxy is set in.                                                    |
 
 Congrats! Your VCS Agent should now connect to the Spacelift backend and start handling connections.
 
