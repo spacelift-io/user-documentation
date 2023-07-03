@@ -7,4 +7,4 @@ mkdir -p site/self-hosted
 mkdocs build
 
 # Build the self-hosting version of the site
-NAV_FILE=./nav.self-hosted.yaml SPACELIFT_DISTRIBUTION=SELF_HOSTED mkdocs build -d site/self-hosted/latest
+NAV_FILE=./nav.self-hosted.yaml SPACELIFT_DISTRIBUTION=SELF_HOSTED DOC_ENV=preprod mkdocs build -d site/self-hosted/latest
