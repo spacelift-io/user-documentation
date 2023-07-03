@@ -54,49 +54,68 @@ jobs:
         # This step could fail if the branch doesn't already exist, but that's fine because Mike will create it.
         continue-on-error: true
         run: |
-          git fetch origin ${{ env.release_branch_name }} --depth=1
+          git fetch origin "${{ env.release_branch_name }}-prod" --depth=1
+          git fetch origin "${{ env.release_branch_name }}-preprod" --depth=1
 
-      - name: "Create release"
+      - name: "Create prod release"
         run: |
           # Configure Git to allow Mike to commit to the release branch
           git config user.name self-hosted-releases
           git config user.email self-hosted-releases@spacelift.io
 
           # Create release using Mike
-          mike deploy -u --branch ${{ env.release_branch_name }} ${VERSION} latest
+          mike deploy -u --branch "${{ env.release_branch_name }}-prod" ${VERSION} latest
         env:
           NAV_FILE: "./nav.self-hosted.yaml"
           SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
+          DOC_ENV: prod
+          WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
 
-      - name: "Push branch"
-        run: "git push origin self-hosted-releases:refs/heads/self-hosted-releases"
+      - name: "Create preprod release"
+        run: |
+          # Configure Git to allow Mike to commit to the release branch
+          git config user.name self-hosted-releases
+          git config user.email self-hosted-releases@spacelift.io
 
-  deploy-to-preprod:
-    name: Deploy to pre-production
-    uses: ./.github/workflows/deploy-to-environment.yaml
-    needs: create-new-release
-    with:
-      environment_code: preprod
-      environment_name: Pre-Production
-      environment_url: https://docs.spacelift.dev/
-      deploy_self_hosted: true
-    secrets:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          # Create release using Mike
+          mike deploy -u --branch "${{ env.release_branch_name }}-preprod" ${VERSION} latest
+        env:
+          NAV_FILE: "./nav.self-hosted.yaml"
+          SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
+          DOC_ENV: preprod
+          WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
 
-  deploy-to-prod:
-    name: Deploy to production
-    uses: ./.github/workflows/deploy-to-environment.yaml
-    needs: create-new-release
-    with:
-      environment_code: prod
-      environment_name: Production
-      environment_url: https://docs.spacelift.io/
-      deploy_self_hosted: true
-    secrets:
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      - name: "Push branches"
+        run: |
+          git push origin self-hosted-releases-prod:refs/heads/self-hosted-releases-prod
+          git push origin self-hosted-releases-preprod:refs/heads/self-hosted-releases-preprod
+
+  # deploy-to-preprod:
+  #   name: Deploy to pre-production
+  #   uses: ./.github/workflows/deploy-to-environment.yaml
+  #   needs: create-new-release
+  #   with:
+  #     environment_code: preprod
+  #     environment_name: Pre-Production
+  #     environment_url: https://docs.spacelift.dev/
+  #     deploy_self_hosted: true
+  #   secrets:
+  #     AWS_REGION: ${{ secrets.AWS_REGION }}
+  #     AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  #     CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
+  # deploy-to-prod:
+  #   name: Deploy to production
+  #   uses: ./.github/workflows/deploy-to-environment.yaml
+  #   needs: create-new-release
+  #   with:
+  #     environment_code: prod
+  #     environment_name: Production
+  #     environment_url: https://docs.spacelift.io/
+  #     deploy_self_hosted: true
+  #   secrets:
+  #     AWS_REGION: ${{ secrets.AWS_REGION }}
+  #     AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+  #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  #     CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
