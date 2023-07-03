@@ -37,6 +37,7 @@ jobs:
     env:
       DOC_ENV: ${{ inputs.environment_code }}
       WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+      RELEASE_BRANCH_NAME: ${{ inputs.environment_code == 'prod' && 'self-hosted-releases-prod' || 'self-hosted-releases-preprod' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,8 +46,8 @@ jobs:
         if: ${{ inputs.deploy_self_hosted }}
         uses: actions/checkout@v3
         with:
-          ref: self-hosted-releases
-          path: self-hosted-releases
+          ref: ${{ env.RELEASE_BRANCH_NAME }}
+          path: ${{ env.RELEASE_BRANCH_NAME }}
 
       - name: Set Python up
         uses: actions/setup-python@v4
@@ -63,9 +64,9 @@ jobs:
         if: ${{ inputs.deploy_self_hosted }}
         run: |
           mkdir -p site/self-hosted
-          cp -r self-hosted-releases/latest site/self-hosted
-          cp -r self-hosted-releases/v* site/self-hosted
-          cp self-hosted-releases/versions.json site/self-hosted
+          cp -r ${{ env.RELEASE_BRANCH_NAME }}/latest site/self-hosted
+          cp -r ${{ env.RELEASE_BRANCH_NAME }}/v* site/self-hosted
+          cp ${{ env.RELEASE_BRANCH_NAME }}/versions.json site/self-hosted
 
       - name: Transform the URLs
         run: python ./scripts/transform_urls.py
