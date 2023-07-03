@@ -1,5 +1,8 @@
 # Google Cloud Platform (GCP)
 
+!!! info
+    Please note that for GCP integration, we recommend using [OIDC](oidc.md)
+
 ## About the integration
 
 Spacelift GCP integration allows Spacelift to manage your Google Cloud resources without the need for long-lived static credentials. In order to achieve that Spacelift create a [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} inside our project dedicated for your Stack. We show you the globally unique email of this service account, which you can add to your GCP organizations and/or projects with the right level of access.
