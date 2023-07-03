@@ -90,32 +90,32 @@ jobs:
           git push origin self-hosted-releases-prod:refs/heads/self-hosted-releases-prod
           git push origin self-hosted-releases-preprod:refs/heads/self-hosted-releases-preprod
 
-  # deploy-to-preprod:
-  #   name: Deploy to pre-production
-  #   uses: ./.github/workflows/deploy-to-environment.yaml
-  #   needs: create-new-release
-  #   with:
-  #     environment_code: preprod
-  #     environment_name: Pre-Production
-  #     environment_url: https://docs.spacelift.dev/
-  #     deploy_self_hosted: true
-  #   secrets:
-  #     AWS_REGION: ${{ secrets.AWS_REGION }}
-  #     AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-  #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-  #     CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+  deploy-to-preprod:
+    name: Deploy to pre-production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    needs: create-new-release
+    with:
+      environment_code: preprod
+      environment_name: Pre-Production
+      environment_url: https://docs.spacelift.dev/
+      deploy_self_hosted: true
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
 
-  # deploy-to-prod:
-  #   name: Deploy to production
-  #   uses: ./.github/workflows/deploy-to-environment.yaml
-  #   needs: create-new-release
-  #   with:
-  #     environment_code: prod
-  #     environment_name: Production
-  #     environment_url: https://docs.spacelift.io/
-  #     deploy_self_hosted: true
-  #   secrets:
-  #     AWS_REGION: ${{ secrets.AWS_REGION }}
-  #     AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-  #     BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-  #     CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+  deploy-to-prod:
+    name: Deploy to production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    needs: create-new-release
+    with:
+      environment_code: prod
+      environment_name: Production
+      environment_url: https://docs.spacelift.io/
+      deploy_self_hosted: true
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
