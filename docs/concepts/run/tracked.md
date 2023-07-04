@@ -67,11 +67,20 @@ If a change is detected and human approval is required, a tracked run will trans
 
 The resulting changes are shown to the user for the final approval:
 
-![](../../assets/screenshots/01DTD3GK6HARX0ZD0Z2RDM5KGD_·_End-to-end_testing.png)
+![](../../assets/screenshots/unconfirmed-run.png)
+
+Unconfirmed is a _passive state_ meaning no operations are performed while a run is in this state.
 
 If the user approves (confirms) the plan, the run transitions to the temporary [Confirmed](tracked.md#confirmed) state and waits for a worker node to pick it up. If the user doesn't like the plan and discards it, the run transitions to the terminal [Discarded](tracked.md#discarded) state.
 
-Unconfirmed is a _passive state_ meaning no operations are performed while a run is in this state.
+### Targeted replan
+
+When a run is in the [Unconfirmed](tracked.md#unconfirmed) state it's also possible to replan it. When replanning, a user is able to generate a new plan to apply by only picking specific changes from the current plan.
+
+![](../../assets/screenshots/replan.png)
+
+!!! warning
+    Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing).
 
 ### Discarded
 
