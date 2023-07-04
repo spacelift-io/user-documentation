@@ -70,6 +70,8 @@ hooks:
   - hooks/fetch_banner.py
 plugins:
   - search
+  - exclude-search:
+      exclude_unreferenced: true
   - macros
   - mike:
       # These fields are all optional; the defaults are as below...
