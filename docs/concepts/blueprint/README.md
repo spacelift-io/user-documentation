@@ -127,6 +127,7 @@ stack:
     - Vendor/Terraform
     - Owner/${{ context.user.login }}
     - Blueprint/${{ context.blueprint.name }}
+    - Space/${{ context.blueprint.space }}
   administrative: false
   allow_promotion: false
   auto_deploy: false
@@ -382,6 +383,7 @@ We also provide an input object called `context`. It contains the following prop
 | `user.name`              | `string`                    | The full name of the person who triggered the blueprint creation; as provided by the SSO provider. |
 | `user.account`           | `string`                    | The account subdomain of the user who triggered the blueprint creation.                            |
 | `blueprint.name`         | `string`                    | The name of the blueprint that was used to create the stack.                                       |
+| `blueprint.space`        | `string`                    | The space ID of the blueprint that was used to create the stack.                                   |
 | `blueprint.created_at`   | `google.protobuf.Timestamp` | The time when the blueprint was created.                                                           |
 | `blueprint.updated_at`   | `google.protobuf.Timestamp` | The time when the blueprint was last updated.                                                      |
 | `blueprint.published_at` | `google.protobuf.Timestamp` | The time when the blueprint was published.                                                         |
