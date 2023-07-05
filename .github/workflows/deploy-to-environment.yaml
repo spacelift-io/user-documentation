@@ -57,6 +57,12 @@ jobs:
       - name: Install Material for MkDocs
         run: pip install --requirement requirements.txt
 
+      # We need to remove any files that shouldn't be displayed in the SaaS section of the site before building
+      - name: Remove Self-Hosted specific files
+        run: ./scripts/remove-files-based-on-distribution.sh
+        env:
+          SPACELIFT_DISTRIBUTION: SAAS
+
       - name: Build documentation
         run: mkdocs build
 

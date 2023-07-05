@@ -42,12 +42,11 @@ jobs:
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
-      # We need to remove the self-hosted.md page because it only makes sense in the SaaS docs.
-      # It's the page that provides general info about self-hosted, and links to the self-hosted
-      # section of the site. It's not linked in the nav, but this just makes sure that no-one
-      # accesses it by accident and gets confused.
-      - name: Remove self-hosted page
-        run: rm docs/self-hosted.md
+      # We need to remove any files that shouldn't be displayed in the Self-Hosted section of the site before building
+      - name: Remove Self-Hosted specific files
+        run: ./scripts/remove-files-based-on-distribution.sh
+        env:
+          SPACELIFT_DISTRIBUTION: SELF_HOSTED
 
       - name: Set Python up
         uses: actions/setup-python@v4
