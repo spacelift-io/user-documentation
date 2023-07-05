@@ -1,4 +1,4 @@
-mkdocs-material==8.5.11
+mkdocs-material==9.1.18
 mkdocs-macros-plugin==1.0.1
 mike @ git+https://github.com/jimporter/mike.git
 mkdocs-redirects
