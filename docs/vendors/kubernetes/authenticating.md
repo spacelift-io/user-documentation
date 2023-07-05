@@ -27,6 +27,8 @@ aws eks update-kubeconfig --region $REGION_NAME --name $CLUSTER_NAME
     - The `$REGION_NAME` and `$CLUSTER_NAME` environment variables must be defined in your Stack's environment.
     - This relies on either using the Spacelift [AWS Integration](../../integrations/cloud-providers/aws.md), or ensuring that your workers have permission to access the EKS cluster.
 
+{% if is_saas() %}
+
 ## Azure
 
 The simplest way to connect to an AKS cluster in Azure is using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/){: rel="nofollow"} to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the [Azure CLI](https://github.com/Azure/azure-cli){: rel="nofollow"} and [kubelogin](https://github.com/Azure/kubelogin){: rel="nofollow"} installed, and needs to run some _before init_ hooks to authenticate with your cluster. Depending on your exact use case, you may need to use slightly different commands. This guide outlines two main scenarios.
@@ -96,3 +98,5 @@ gcloud container clusters get-credentials $GKE_CLUSTER_NAME \
   --project $GCP_PROJECT_NAME \
   --access-token-file /mnt/workspace/gcloud-access-token
 ```
+
+{% endif %}

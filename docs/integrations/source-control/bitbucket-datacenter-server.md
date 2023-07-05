@@ -14,7 +14,11 @@ This should open a form like this one:
 
 ![](<../../assets/screenshots/image (101).png>)
 
+{% if is_saas() %}
 Now you'll have to fill in the API host URL, which is the URL on which Spacelift will access the Bitbucket server. This may be a URL which uses [VCS Agent Pools](../../concepts/vcs-agent-pools.md), or a normal URL, if your Bitbucket instance is publicly available.
+{% else %}
+Now you'll have to fill in the API host URL, which is the URL on which Spacelift will access the Bitbucket server.
+{% endif %}
 
 The user facing host URL is the address on which users of your Bitbucket instance access it. This could be an internal address inside of your company network, but could also be a public address if your Bitbucket instance is publicly available.
 

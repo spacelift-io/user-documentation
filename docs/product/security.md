@@ -32,6 +32,8 @@ Spacelift allows for granular control of environment variables on your [Stacks](
 
 Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a [Private Worker Pool](../concepts/worker-pools.md). This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is [open source](https://github.com/spacelift-io/spacelift-worker-image), giving customers full transparency into their private workers.
 
+{% if is_saas() %}
+
 ### Access Private Version Control Systems
 
 For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or [other VCS providers](../integrations/source-control/github.md), Spacelift provides the ability to access your on-premise VCS securely using [VCS Agent Pools](../concepts/vcs-agent-pools.md).
@@ -39,6 +41,8 @@ For customers that have private-hosted version control systems such as on-premis
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
 
 Spacelift VCS Agent Pools utilize gRPC on HTTP2 for secure, high-performance connectivity.
+
+{% endif %}
 
 ### Policies
 

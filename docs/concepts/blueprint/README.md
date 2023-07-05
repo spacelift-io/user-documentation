@@ -19,7 +19,11 @@ You can configure the following resources in a Blueprint:
 - [Mounted files](../configuration/environment.md#mounted-files)
 - Attaching [Contexts](../configuration/context.md)
 - Attaching [Policies](../policy/README.md)
+{% if is_saas() %}
 - Attaching [AWS](../../integrations/cloud-providers/aws.md), [GCP](../../integrations/cloud-providers/gcp.md) and [Azure](../../integrations/cloud-providers/azure.md) integrations
+{% else %}
+- Attaching [AWS](../../integrations/cloud-providers/aws.md) integrations
+{% endif %}
 - Schedules:
     - [Drift detection](../stack/drift-detection.md)
     - [Task](../stack/scheduling.md#scheduled-task)

@@ -111,10 +111,19 @@ Navigate to the **Settings**, **Integrations** page and select the dropdown arro
 
 The following links will help you set up the necessary integration with your Cloud Provider of choice.
 
+{% if is_saas() %}
+
 - [AWS](../../integrations/cloud-providers/aws.md)
 - [Azure](../../integrations/cloud-providers/azure.md)
 - [GCP](../../integrations/cloud-providers/gcp.md)
 - [OIDC](../../integrations/cloud-providers/oidc.md)
+
+{% else %}
+
+- [AWS](../../integrations/cloud-providers/aws.md)
+- [OIDC](../../integrations/cloud-providers/oidc.md)
+
+{% endif %}
 
 Once you have configured the necessary integration, navigate the Stack landing page and Trigger a Run.
 
