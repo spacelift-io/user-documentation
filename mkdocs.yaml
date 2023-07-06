@@ -78,3 +78,6 @@ plugins:
       deploy_prefix: ""
       canonical_version: "latest"
       version_selector: true
+  - redirects:
+      redirect_maps:
+        "concepts/policy/git-push-policy.md": "concepts/policy/push-policy/README.md"
