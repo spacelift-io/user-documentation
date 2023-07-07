@@ -3340,9 +3340,15 @@
 <li><a href="../configuration/environment.html#environment-variables">Environment variables</a>, both non-sensitive and sensitive</li>
 <li><a href="../configuration/environment.html#mounted-files">Mounted files</a></li>
 <li>Attaching <a href="../configuration/context.html">Contexts</a></li>
-<li>Attaching <a href="../policy/index.html">Policies</a></li>
-<li>Attaching <a href="../../integrations/cloud-providers/aws.html">AWS</a>, <a href="../../integrations/cloud-providers/gcp.html">GCP</a> and <a href="../../integrations/cloud-providers/azure.html">Azure</a> integrations</li>
-<li>Schedules:<ul>
+<li>
+<p>Attaching <a href="../policy/index.html">Policies</a></p>
+</li>
+<li>
+<p>Attaching <a href="../../integrations/cloud-providers/aws.html">AWS</a> integrations</p>
+</li>
+<li>
+<p>Schedules:</p>
+<ul>
 <li><a href="../stack/drift-detection.html">Drift detection</a></li>
 <li><a href="../stack/scheduling.html#scheduled-task">Task</a></li>
 <li><a href="../stack/scheduling.html#scheduled-delete-stack-ttl">Delete</a></li>
@@ -3547,7 +3553,8 @@
 <span class="normal">144</span>
 <span class="normal">145</span>
 <span class="normal">146</span>
-<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">inputs</span><span class="p">:</span>
+<span class="normal">147</span>
+<span class="normal">148</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">inputs</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">environment</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Environment to deploy to</span>
 <span class="w">    </span><span class="c1"># type is not mandatory, defaults to short_text</span>
@@ -3591,6 +3598,7 @@
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Vendor/Terraform</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Owner/${{ context.user.login }}</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Blueprint/${{ context.blueprint.name }}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Space/${{ context.blueprint.space }}</span>
 <span class="w">  </span><span class="nt">administrative</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">  </span><span class="nt">allow_promotion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">  </span><span class="nt">auto_deploy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -3899,6 +3907,11 @@
 <td><code>blueprint.name</code></td>
 <td><code>string</code></td>
 <td>The name of the blueprint that was used to create the stack.</td>
+</tr>
+<tr>
+<td><code>blueprint.space</code></td>
+<td><code>string</code></td>
+<td>The space ID of the blueprint that was used to create the stack.</td>
 </tr>
 <tr>
 <td><code>blueprint.created_at</code></td>

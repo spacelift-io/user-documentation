@@ -2033,53 +2033,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#azure" class="md-nav__link">
-    Azure
-  </a>
-  
-    <nav class="md-nav" aria-label="Azure">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-spacelift-azure-integration" class="md-nav__link">
-    Using the Spacelift Azure Integration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-private-workers-with-managed-identities" class="md-nav__link">
-    Using private workers with Managed Identities
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gcp" class="md-nav__link">
-    GCP
-  </a>
-  
-    <nav class="md-nav" aria-label="GCP">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-zone-deployment" class="md-nav__link">
-    Single Zone Deployment
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3261,53 +3214,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#azure" class="md-nav__link">
-    Azure
-  </a>
-  
-    <nav class="md-nav" aria-label="Azure">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-the-spacelift-azure-integration" class="md-nav__link">
-    Using the Spacelift Azure Integration
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-private-workers-with-managed-identities" class="md-nav__link">
-    Using private workers with Managed Identities
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gcp" class="md-nav__link">
-    GCP
-  </a>
-  
-    <nav class="md-nav" aria-label="GCP">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-zone-deployment" class="md-nav__link">
-    Single Zone Deployment
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3386,79 +3292,6 @@
 <li>This relies on either using the Spacelift <a href="../../integrations/cloud-providers/aws.html">AWS Integration</a>, or ensuring that your workers have permission to access the EKS cluster.</li>
 </ul>
 </div>
-<h2 id="azure">Azure<a class="headerlink" href="#azure" title="Anchor link to this section">»</a></h2>
-<p>The simplest way to connect to an AKS cluster in Azure is using the <a href="https://docs.microsoft.com/en-us/cli/azure/" rel="nofollow">Azure CLI</a> to automatically add credentials to your kubeconfig. To do this your stack needs to use a custom runner image with the <a href="https://github.com/Azure/azure-cli" rel="nofollow">Azure CLI</a> and <a href="https://github.com/Azure/kubelogin" rel="nofollow">kubelogin</a> installed, and needs to run some <em>before init</em> hooks to authenticate with your cluster. Depending on your exact use case, you may need to use slightly different commands. This guide outlines two main scenarios.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Please note that both examples assume that your stack has an <code>$AKS_CLUSTER_NAME</code> and <code>$AKS_RESOURCE_GROUP</code> environment variable configured containing the name of the AKS cluster and the resource group name of the cluster respectively.</p>
-</div>
-<h3 id="using-the-spacelift-azure-integration">Using the Spacelift Azure Integration<a class="headerlink" href="#using-the-spacelift-azure-integration" title="Anchor link to this section">»</a></h3>
-<p>When using our <a href="../../integrations/cloud-providers/azure.html#spacelift-managed-integration">Azure integration</a>, you can use the computed <code>$ARM_*</code> environment variables to login as the Service Principal for the integration:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>az<span class="w"> </span>login<span class="w"> </span>--service-principal<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARM_CLIENT_ID</span><span class="s2">&quot;</span><span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARM_TENANT_ID</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ARM_CLIENT_SECRET</span><span class="s2">&quot;</span>
-az<span class="w"> </span>aks<span class="w"> </span>get-credentials<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AKS_CLUSTER_NAME</span><span class="s2">&quot;</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AKS_RESOURCE_GROUP</span><span class="s2">&quot;</span>
-kubelogin<span class="w"> </span>convert-kubeconfig<span class="w"> </span>-l<span class="w"> </span>spn
-<span class="nb">export</span><span class="w"> </span><span class="nv">AAD_SERVICE_PRINCIPAL_CLIENT_ID</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ARM_CLIENT_ID</span><span class="s2">&quot;</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">AAD_SERVICE_PRINCIPAL_CLIENT_SECRET</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$ARM_CLIENT_SECRET</span><span class="s2">&quot;</span>
-</code></pre></div></td></tr></table></div>
-<h3 id="using-private-workers-with-managed-identities">Using private workers with Managed Identities<a class="headerlink" href="#using-private-workers-with-managed-identities" title="Anchor link to this section">»</a></h3>
-<p>When using <a href="../../integrations/cloud-providers/azure.html#managed-identities">private workers with a managed identity</a>, you can use the identity of that worker to login:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>az<span class="w"> </span>login<span class="w"> </span>--identity
-az<span class="w"> </span>aks<span class="w"> </span>get-credentials<span class="w"> </span>--name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AKS_CLUSTER_NAME</span><span class="s2">&quot;</span><span class="w"> </span>--resource-group<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$AKS_RESOURCE_GROUP</span><span class="s2">&quot;</span>
-kubelogin<span class="w"> </span>convert-kubeconfig<span class="w"> </span>-l<span class="w"> </span>msi
-</code></pre></div></td></tr></table></div>
-<h2 id="gcp">GCP<a class="headerlink" href="#gcp" title="Anchor link to this section">»</a></h2>
-<p>You can use the gcloud CLI to authenticate with a GKE cluster when using the <a href="../../integrations/cloud-providers/gcp.html">Spacelift GCP integration</a> using the <code>gcloud container clusters get-credentials</code> command. For this to work, you need to use a custom runner image that has the <a href="https://cloud.google.com/sdk/gcloud" rel="nofollow"><code>gcloud CLI</code></a> and <code>kubectl</code> installed.</p>
-<p>The Spacelift GCP integration automatically generates an access token for your GCP service account, and this token can be used for getting your cluster credentials as well as accessing the cluster. To do this, add the following <em>before init</em> hooks to your Stack:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Output the token into a temporary file, use gcloud to get</span>
-<span class="c1"># the cluster credentials, then remove the tmp file</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GOOGLE_OAUTH_ACCESS_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/mnt/workspace/gcloud-access-token
-gcloud<span class="w"> </span>container<span class="w"> </span>clusters<span class="w"> </span>get-credentials<span class="w"> </span><span class="nv">$GKE_CLUSTER_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--region<span class="w"> </span><span class="nv">$GKE_CLUSTER_REGION</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="w"> </span><span class="nv">$GCP_PROJECT_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--access-token-file<span class="w"> </span>/mnt/workspace/gcloud-access-token
-rm<span class="w"> </span>/mnt/workspace/gcloud-access-token
-
-<span class="c1"># Remove and re-create the user, using the automatically generated access token</span>
-kubectl<span class="w"> </span>config<span class="w"> </span>delete-user<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>config<span class="w"> </span>current-context<span class="k">)</span>
-kubectl<span class="w"> </span>config<span class="w"> </span>set-credentials<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>config<span class="w"> </span>current-context<span class="k">)</span><span class="w"> </span>--token<span class="o">=</span><span class="nv">$GOOGLE_OAUTH_ACCESS_TOKEN</span>
-</code></pre></div></td></tr></table></div>
-<p>Please note, your Stack needs to have the following environment variables set for this script to work:</p>
-<ul>
-<li><code>GKE_CLUSTER_NAME</code> - the name of your cluster.</li>
-<li><code>GKE_CLUSTER_REGION</code> - the region the cluster is deployed to.</li>
-<li><code>GCP_PROJECT_NAME</code> - the name of your GCP project.</li>
-</ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>The <code>get-credentials</code> command configures your <em>kubeconfig</em> file to use the <code>gcloud config config-helper</code> command to allow token refresh. Unfortunately this command will not work when we only have an access token available. The script provided works around this by manually removing and re-creating the user details in the config file.</p>
-</div>
-<h3 id="single-zone-deployment">Single Zone Deployment<a class="headerlink" href="#single-zone-deployment" title="Anchor link to this section">»</a></h3>
-<p>If your cluster is deployed to a single zone, you can use the <code>--zone</code> flag instead of the <code>--region</code> flag in the <code>gcloud container clusters get-credentials</code> command:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>gcloud<span class="w"> </span>container<span class="w"> </span>clusters<span class="w"> </span>get-credentials<span class="w"> </span><span class="nv">$GKE_CLUSTER_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--zone<span class="w"> </span><span class="nv">$GKE_CLUSTER_ZONE</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--project<span class="w"> </span><span class="nv">$GCP_PROJECT_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--access-token-file<span class="w"> </span>/mnt/workspace/gcloud-access-token
-</code></pre></div></td></tr></table></div>
 
 
 
