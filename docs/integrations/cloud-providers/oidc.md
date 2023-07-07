@@ -306,25 +306,25 @@ Last but not least, you will need to create a role that binds the policy to the 
 vault write auth/jwt/role/infra-preprod -<<EOF
 {
   "role_type": "jwt",
-  "user_claim": "actor",
+  "user_claim": "iss",
   "bound_audiences": "demo.app.spacelift.io",
-  "bound_claims": { "space": "preprod" },
+  "bound_claims": { "spaceId": "preprod" },
   "policies": ["infra-preprod"],
   "ttl": "10m"
 }
 EOF
 ```
 
-The `bound_audiences` parameter is the hostname of your Spacelift account, which is used as the audience claim in the OIDC token you receive from Spacelift. The `bound_claims` parameter is a JSON object that contains the claims that the OIDC token must contain in order to be able to access the Vault secrets. How you scope this will very much depend on your use case. In the above example, only runs belonging to a stack or module in the `space` claim can assume "infra-preprod" Vault role. You can refer to this document to see the available [standard](#standard-claims) and [custom claims](#custom-claims) presented by the Spacelift OIDC token.
+The `bound_audiences` parameter is the hostname of your Spacelift account, which is used as the audience claim in the OIDC token you receive from Spacelift. The `bound_claims` parameter is a JSON object that contains the claims that the OIDC token must contain in order to be able to access the Vault secrets. How you scope this will very much depend on your use case. In the above example, only runs belonging to a stack or module in the `spaceId` claim can assume "infra-preprod" Vault role. You can refer to this document to see the available [standard](#standard-claims) and [custom claims](#custom-claims) presented by the Spacelift OIDC token.
 
 #### Configuring the Terraform Provider
 
 Once the Vault setup is complete, you need to configure the [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest) to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#jwt) to the provider, and set the `role` parameter to the name of the role you created in the previous section:
 
 ```hcl
-provider "vault"
+provider "vault" {
   # ... other configuration
-
+  skip_child_token = true
   auth_login_jwt {
     role = "infra-preprod"
   }
