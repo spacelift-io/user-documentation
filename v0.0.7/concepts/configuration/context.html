@@ -3411,15 +3411,15 @@
 <h1 id="context">Context<a class="headerlink" href="#context" title="Anchor link to this section">»</a></h1>
 <h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Anchor link to this section">»</a></h2>
 <p>On a high level, context is a bundle of configuration elements (<a href="environment.html#environment-variables">environment variables</a> and <a href="environment.html#mounted-files">mounted files</a>) independent of any <a href="../stack/index.html">stack</a> that can be managed separately and <a href="context.html#attaching-a-context">attached</a> to as many or as few stacks as necessary. Contexts are only directly accessible to administrators from the account view:</p>
-<p><img alt="" src="../../assets/screenshots/Contexts_%C2%B7_marcinwyszynski.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context.png" /></p>
 <p>The list of contexts merely shows the name and description of the context. Clicking on the name allows you to <a href="context.html#editing-a-context">edit it</a>.</p>
 <h2 id="management">Management<a class="headerlink" href="#management" title="Anchor link to this section">»</a></h2>
 <p>Managing a context is quite straightforward - you can <a href="context.html#creating">create</a>, <a href="context.html#editing">edit</a>, <a href="context.html#attaching-and-detaching">attach, detach</a> and <a href="context.html#deleting">delete</a> it. The below paragraphs will focus on doing that through the web GUI but doing it programmatically using <a href="../../vendors/terraform/terraform-provider.html">our Terraform provider</a> is an attractive alternative.</p>
 <h3 id="creating">Creating<a class="headerlink" href="#creating" title="Anchor link to this section">»</a></h3>
 <p>As an account administrator you can create a new context from the Contexts screen as seen on the above screenshot by pressing the Add context button:</p>
-<p><img alt="" src="../../assets/screenshots/Contexts_%C2%B7_marcinwyszynski%20%281%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/create_context_button.png" /></p>
 <p>This takes you to a simple form where the only inputs are name and description:</p>
-<p><img alt="" src="../../assets/screenshots/New_context_%C2%B7_marcinwyszynski.png" /></p>
+<p><img alt="" src="../../assets/screenshots/create_new_context.png" /></p>
 <p>The required <em>name</em> is what you'll see in the context list and in the dropdown when attaching the context. Make sure that it's informative enough to be able to immediately communicate the purpose of the context, but short enough so that it fits nicely in the dropdown, and no important information is cut off.</p>
 <p>The optional <em>description</em> is completely free-form and it supports <a href="https://daringfireball.net/projects/markdown/" rel="nofollow">Markdown</a>. This is a good place perhaps for a thorough explanation of the purpose of the stack, perhaps a link or two, and/or a funny GIF. In the web GUI this description will only show on the Contexts screen so it's not a big deal anyway.</p>
 <div class="admonition warning">
@@ -3429,29 +3429,29 @@
 </div>
 <h3 id="editing">Editing<a class="headerlink" href="#editing" title="Anchor link to this section">»</a></h3>
 <p>Editing the context is only a little more exciting. You can edit the context from its dedicated view by pressing the Edit button:</p>
-<p><img alt="" src="../../assets/screenshots/Managed_context_%C2%B7_marcinwyszynski.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_edit_button.png" /></p>
 <p>This switches the context into editing mode where you can change the name and description but also manage configuration elements the same way you'd do for the <a href="environment.html">stack environment</a>, only much simpler - without overrides and <a href="environment.html#computed-values">computed values</a>:</p>
-<p><img alt="" src="../../assets/screenshots/Editing_Managed_context_%C2%B7_marcinwyszynski.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_edit_mode.png" /></p>
 <h3 id="attaching-and-detaching">Attaching and detaching<a class="headerlink" href="#attaching-and-detaching" title="Anchor link to this section">»</a></h3>
 <p>Attaching and detaching contexts actually happens from the <a href="../stack/index.html">stack</a> management view. To attach a context, select the Contexts tab. This should show you a dropdown with all the contexts available for attaching, and a slider to set the <a href="context.html#a-note-on-priority">priority of the attachment</a>:</p>
-<p><img alt="" src="../../assets/screenshots/Edit_stack_%C2%B7_Managed_stack%20%281%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_attach.png" /></p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>A context can only be attached once to a given stack, so if it's already attached, it will not be visible in the dropdown menu.</p>
 </div>
 <p>OK, let's attach the context with priority 0 and see what gives:</p>
-<p><img alt="" src="../../assets/screenshots/Edit_stack_%C2%B7_End-to-end_testing%20%281%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_attach_priority.png" /></p>
 <p>Now this attached context will also contribute to the <a href="environment.html">stack environment</a>...</p>
-<p><img alt="" src="../../assets/screenshots/Environment_%C2%B7_Managed_stack%20%283%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_environment.png" /></p>
 <p>...and be visible on the list of attached contexts:</p>
-<p><img alt="" src="../../assets/screenshots/Environment_%C2%B7_Managed_stack%20%284%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/contexts_attached.png" /></p>
 <p>In order to detach the context, you can just press the <em>Detach</em> button and the context will stop contributing to the <a href="environment.html">stack's environment</a>:</p>
-<p><img alt="" src="../../assets/screenshots/Edit_stack_%C2%B7_End-to-end_testing%20%282%29.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_detach.png" /></p>
 <h4 id="a-note-on-priority">A note on priority<a class="headerlink" href="#a-note-on-priority" title="Anchor link to this section">»</a></h4>
 <p>You may be wondering what the priority slider is for. A priority is a property of context-stack relationship - in fact, the only property. All the contexts attached to a stack are sorted by priority (lowest first), though values don't need to be unique. This ordering establishes <a href="environment.html#a-note-on-precedence">precedence rules</a> between contexts should there be a conflict and multiple contexts define the same value.</p>
 <h3 id="deleting">Deleting<a class="headerlink" href="#deleting" title="Anchor link to this section">»</a></h3>
 <p>Deleting a context is straightforward - by pressing the Delete button in the context view you can get rid of an unnecessary context:</p>
-<p><img alt="" src="../../assets/screenshots/Production_Kubernetes_cluster_Ireland_%C2%B7_marcinwyszynski.png" /></p>
+<p><img alt="" src="../../assets/screenshots/context_delete.png" /></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Deleting a context will also automatically detach it from all the stacks it was attached to. Make sure you only delete contexts that are no longer useful. For security purposes we do not store historical stuff and actually remove the deleted data from all of our data storage systems.</p>
@@ -3459,7 +3459,7 @@
 <h2 id="use-cases">Use cases<a class="headerlink" href="#use-cases" title="Anchor link to this section">»</a></h2>
 <p>We can see two main use cases for contexts, depending on whether the context data is <a href="context.html#shared-setup">supplied externally</a> or <a href="context.html#remote-state-alternative">produced by Spacelift</a>.</p>
 <h3 id="shared-setup">Shared setup<a class="headerlink" href="#shared-setup" title="Anchor link to this section">»</a></h3>
-<p>If the data is external to Spacelift, it's likely that this is a form of shared setup - that is, configuration elements that are common to multiple stacks, and grouped as a context for convenience. One example of  this use case is cloud provider configuration, either for Terraform or Pulumi. Instead of attaching the same values - some of them probably secret and pretty sensitive - to individual stacks, contexts allow you to define those once and then have admins attach them to the stacks that need them.</p>
+<p>If the data is external to Spacelift, it's likely that this is a form of shared setup - that is, configuration elements that are common to multiple stacks, and grouped as a context for convenience. One example of this use case is cloud provider configuration, either for Terraform or Pulumi. Instead of attaching the same values - some of them probably secret and pretty sensitive - to individual stacks, contexts allow you to define those once and then have admins attach them to the stacks that need them.</p>
 <p>A variation of this use case is collections of <a href="https://www.terraform.io/docs/configuration/variables.html#assigning-values-to-root-module-variables" rel="nofollow">Terraform input variables</a> that may be shared by multiple stacks - for example things relating to a particular system environment (staging, production etc). In this case the collection of variables can specify things like environment name, DNS domain name or a reference to it (eg. zone ID), tags, references to provider accounts and similar settings. Again, instead of setting these on individual stacks, an admin can group them into a context, and attach to the eligible stacks.</p>
 <h3 id="remote-state-alternative-terraform-specific">Remote state alternative (Terraform-specific)<a class="headerlink" href="#remote-state-alternative-terraform-specific" title="Anchor link to this section">»</a></h3>
 <p>If the data in the context is produced by one or more Spacelift stacks, contexts can be an attractive alternative to the Terraform <a href="https://www.terraform.io/docs/providers/terraform/d/remote_state.html" rel="nofollow">remote state</a>. In this use case, contexts can serve as outputs for stacks that can be consumed by (attached to) other stacks. So, instead of exposing the entire state, a stack can use Spacelift Terraform provider to define values on a context - either managed by the same stack , or managed externally. Managing a context externally can be particularly useful when multiple stacks contribute to a particular context.</p>
@@ -3468,7 +3468,7 @@
 <p>In order to use the Terraform provider to define contexts or its configuration elements the stack has to be marked as <a href="../stack/index.html#administrative">administrative</a>.</p>
 </div>
 <p>As an example of one such use case, let's imagine an organization where shared infrastructure (VPC, DNS, compute cluster etc.) is centrally managed by a DevOps team, which exposes it as a service to be used by individual product development teams. In order to be able to use the shared infrastructure, each team needs to address multiple entities that are generated by the central infra repo. In vanilla Terraform one would likely use remote state provider, but that might expose secrets and settings the DevOps team would rather keep it to themselves. Using a context on the other hand allows the team to decide (and hopefully document) what constitutes their "external API".</p>
-<p>The proposed setup for the above use case would involve two administrative stacks - one to manage all the stacks, and the other for the DevOps team. The management stack would programmatically define the DevOps one, and possibly also its context. The DevOps team would receive the context ID as an input variable, and use it to expose outputs as <a href="https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_environment_variable-resource"><code>spacelift_environment_variable</code></a>  and/or <a href="https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_mounted_file-resource"><code>spacelift_mounted_file</code></a> resources. The management stack could then simply attach the context populated by the DevOps stack to other stacks it defines and manages.</p>
+<p>The proposed setup for the above use case would involve two administrative stacks - one to manage all the stacks, and the other for the DevOps team. The management stack would programmatically define the DevOps one, and possibly also its context. The DevOps team would receive the context ID as an input variable, and use it to expose outputs as <a href="https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_environment_variable-resource"><code>spacelift_environment_variable</code></a> and/or <a href="https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_mounted_file-resource"><code>spacelift_mounted_file</code></a> resources. The management stack could then simply attach the context populated by the DevOps stack to other stacks it defines and manages.</p>
 <h3 id="extending-terraform-cli-configuration-terraform-specific">Extending Terraform CLI Configuration (Terraform-specific)<a class="headerlink" href="#extending-terraform-cli-configuration-terraform-specific" title="Anchor link to this section">»</a></h3>
 <p>For some of our Terraform users, a convenient way to configure the Terraform CLI behavior is through customizing the <code>~/.terraformrc</code> file.</p>
 <p>Spacelift allows you to extend terraform CLI configuration through the use of <a href="../../vendors/terraform/cli-configuration.html#using-mounted-files">mounted files</a>.</p>

@@ -911,6 +911,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#targeted-replan" class="md-nav__link">
+    Targeted replan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discarded" class="md-nav__link">
     Discarded
   </a>
@@ -3315,6 +3322,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#targeted-replan" class="md-nav__link">
+    Targeted replan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discarded" class="md-nav__link">
     Discarded
   </a>
@@ -3447,9 +3461,16 @@
 <h3 id="unconfirmed">Unconfirmed<a class="headerlink" href="#unconfirmed" title="Anchor link to this section">»</a></h3>
 <p>If a change is detected and human approval is required, a tracked run will transition from the <a href="proposed.html#planning">planning</a> state to <em>unconfirmed</em>. At that point the worker node encrypts uploads the entire workspace to a dedicated Amazon S3 location and finishes its involvement with the run.</p>
 <p>The resulting changes are shown to the user for the final approval:</p>
-<p><img alt="" src="../../assets/screenshots/01DTD3GK6HARX0ZD0Z2RDM5KGD_%C2%B7_End-to-end_testing.png" /></p>
-<p>If the user approves (confirms) the plan, the run transitions to the temporary <a href="tracked.html#confirmed">Confirmed</a> state and waits for a worker node to pick it up. If the user doesn't like the plan and discards it, the run transitions to the terminal <a href="tracked.html#discarded">Discarded</a> state.</p>
+<p><img alt="" src="../../assets/screenshots/unconfirmed-run.png" /></p>
 <p>Unconfirmed is a <em>passive state</em> meaning no operations are performed while a run is in this state.</p>
+<p>If the user approves (confirms) the plan, the run transitions to the temporary <a href="tracked.html#confirmed">Confirmed</a> state and waits for a worker node to pick it up. If the user doesn't like the plan and discards it, the run transitions to the terminal <a href="tracked.html#discarded">Discarded</a> state.</p>
+<h3 id="targeted-replan">Targeted replan<a class="headerlink" href="#targeted-replan" title="Anchor link to this section">»</a></h3>
+<p>When a run is in the <a href="tracked.html#unconfirmed">Unconfirmed</a> state it's also possible to replan it. When replanning, a user is able to generate a new plan to apply by only picking specific changes from the current plan.</p>
+<p><img alt="" src="../../assets/screenshots/replan.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our <a href="https://spacelift.io/pricing">Enterprise plan</a>.</p>
+</div>
 <h3 id="discarded">Discarded<a class="headerlink" href="#discarded" title="Anchor link to this section">»</a></h3>
 <p>Discarded state follows <a href="tracked.html#unconfirmed">Unconfirmed</a> and indicates that the user did not like the changes detected by the <a href="proposed.html#planning">Planning</a> phase.</p>
 <p>Discarded is a <em>passive state</em> meaning no operations are performed while a run is in this state. It's also a <em>terminal state</em> meaning that no further state can supersede it.</p>

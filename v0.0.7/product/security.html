@@ -2937,20 +2937,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#private-worker-pools" class="md-nav__link">
-    Private Worker Pools
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#access-private-version-control-systems" class="md-nav__link">
-    Access Private Version Control Systems
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#policies" class="md-nav__link">
     Policies
   </a>
@@ -3280,20 +3266,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#private-worker-pools" class="md-nav__link">
-    Private Worker Pools
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#access-private-version-control-systems" class="md-nav__link">
-    Access Private Version Control Systems
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#policies" class="md-nav__link">
     Policies
   </a>
@@ -3383,12 +3355,6 @@
 <p>In addition to the default login providers (currently GitHub, GitLab, and Google), Spacelift also supports the ability to configure Single Sign-On (SSO) via SAML or OIDC using your favorite identity provider. Using SSO, Spacelift can be configured in a password-less approach, helping your company follow a zero-trust approach. As long as your Identity Provider supports SAML or OIDC, and passing the <code>email</code> scope, you're good to go! You can learn more about our Single Sign-On support <a href="../integrations/single-sign-on/index.html">here</a>.</p>
 <h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Anchor link to this section">»</a></h3>
 <p>Spacelift allows for granular control of environment variables on your <a href="../concepts/stack/index.html">Stacks</a> either by setting <a href="../concepts/configuration/environment.html">environment</a> variables on a per-stack basis, or creating collections of variables as a <a href="../concepts/configuration/context.html">Context</a>. These environment variables can be created in two types: <strong>plain</strong> or <strong>secret</strong>.</p>
-<h3 id="private-worker-pools">Private Worker Pools<a class="headerlink" href="#private-worker-pools" title="Anchor link to this section">»</a></h3>
-<p>Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a <a href="../concepts/worker-pools.html">Private Worker Pool</a>. This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is <a href="https://github.com/spacelift-io/spacelift-worker-image">open source</a>, giving customers full transparency into their private workers.</p>
-<h3 id="access-private-version-control-systems">Access Private Version Control Systems<a class="headerlink" href="#access-private-version-control-systems" title="Anchor link to this section">»</a></h3>
-<p>For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or <a href="../integrations/source-control/github.html">other VCS providers</a>, Spacelift provides the ability to access your on-premise VCS securely using <a href="../concepts/vcs-agent-pools.html">VCS Agent Pools</a>.</p>
-<p>A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.</p>
-<p>Spacelift VCS Agent Pools utilize gRPC on HTTP2 for secure, high-performance connectivity.</p>
 <h3 id="policies">Policies<a class="headerlink" href="#policies" title="Anchor link to this section">»</a></h3>
 <p>Spacelift policies provide a way to express rules as code to manage your infrastructure as a code environment. Users can build policies to control Spacelift login permissions, access controls, deployment workflows, and even govern the infrastructure itself to be deployed. Policies are based on the <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> project and can be defined using its rule language <em>Rego</em>. You can learn more about policies <a href="../concepts/policy/index.html">here</a>.</p>
 <h2 id="responsible-disclosure">Responsible disclosure<a class="headerlink" href="#responsible-disclosure" title="Anchor link to this section">»</a></h2>

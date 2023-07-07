@@ -3738,7 +3738,7 @@ approve           <span class="o">{</span> not requires_approval <span class="o"
 
 approvals <span class="o">:</span><span class="k">=</span> input<span class="o">.</span>reviews<span class="o">.</span>current<span class="o">.</span>approvals
 
-<span class="err">#</span> Let<span class="kt">&#39;s</span> define what it means to be approved by a director<span class="o">,</span> DevOps amd <span class="nn">Security</span><span class="o">.</span>
+<span class="err">#</span> Let<span class="kt">&#39;s</span> define what it means to be approved by a director<span class="o">,</span> DevOps <span class="k">and</span> <span class="nn">Security</span><span class="o">.</span>
 director_approval <span class="o">{</span> approvals<span class="o">[</span>_<span class="o">].</span>session<span class="o">.</span>teams<span class="o">[</span>_<span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;Director&quot;</span> <span class="o">}</span>
 devops_approval   <span class="o">{</span> approvals<span class="o">[</span>_<span class="o">].</span>session<span class="o">.</span>teams<span class="o">[</span>_<span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;DevOps&quot;</span> <span class="o">}</span>
 security_approval <span class="o">{</span> approvals<span class="o">[</span>_<span class="o">].</span>session<span class="o">.</span>teams<span class="o">[</span>_<span class="o">]</span> <span class="o">==</span> <span class="s2">&quot;Security&quot;</span> <span class="o">}</span>
