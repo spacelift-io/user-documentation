@@ -260,6 +260,15 @@ aws cloudformation deploy --no-cli-pager \
   --capabilities "CAPABILITY_NAMED_IAM"
 ```
 
+#### Running the launcher as root
+
+By default, when the EC2 instance starts up, it creates a user called `spacelift` with a UID of 1983. This user is then used to run the launcher process.
+
+If for some reason this causes problems, you can run the launcher as `root` by setting the `RunLauncherAsSpaceliftUser` CloudFormation parameter to `false`.
+
+!!! tip
+    Versions v0.0.7 or older of Self-Hosted always ran the launcher as root. In newer versions this behavior has changed to default to the `spacelift` user.
+
 #### Deploying the Template
 
 To deploy your worker pool stack, you can use the following command:
