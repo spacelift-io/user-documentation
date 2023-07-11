@@ -1294,13 +1294,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#injecting-custom-commands-during-instance-startup" class="md-nav__link">
-    Injecting custom commands during instance startup
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#granting-access-to-a-private-ecr" class="md-nav__link">
     Granting access to a private ECR
   </a>
@@ -3544,13 +3537,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#injecting-custom-commands-during-instance-startup" class="md-nav__link">
-    Injecting custom commands during instance startup
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#granting-access-to-a-private-ecr" class="md-nav__link">
     Granting access to a private ECR
   </a>
@@ -3854,20 +3840,6 @@
 </ul>
 </li>
 </ul>
-<h4 id="injecting-custom-commands-during-instance-startup">Injecting custom commands during instance startup<a class="headerlink" href="#injecting-custom-commands-during-instance-startup" title="Anchor link to this section">»</a></h4>
-<p>You have the option to inject custom commands into the EC2 user data. This can be useful if you want to install additional software on your workers, or if you want to run a custom script during instance startup, or just add some additional environment variables.</p>
-<p>The script must be a valid shell script and should be put into Secrets Manager. Then you can provide the name of the secret as <code>CustomUserDataSecretName</code> when deploying the stack.</p>
-<p>Example:</p>
-<p><img alt="User Data Secret" src="../assets/screenshots/user-data-secret.png" /></p>
-<p>In the example above, we used <code>spacelift/userdata</code> as a secret name so the parameter will look like this:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">  </span><span class="o">[</span>...<span class="o">]</span>
-<span class="w">  </span>--parameter-overrides<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">CustomUserDataSecretName</span><span class="o">=</span><span class="s2">&quot;spacelift/userdata&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">[</span>...<span class="o">]</span>
-</code></pre></div></td></tr></table></div>
 <h4 id="granting-access-to-a-private-ecr">Granting access to a private ECR<a class="headerlink" href="#granting-access-to-a-private-ecr" title="Anchor link to this section">»</a></h4>
 <p>To allow your worker role to access a private ECR, you can attach a policy similar to the following to your instance role (replacing <code>&lt;repository-arn&gt;</code> with the ARN of your ECR repository):</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -4117,7 +4089,6 @@
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SPACELIFT_METADATA_instance_id</span><span class="o">=</span><span class="k">$(</span>ec2-metadata<span class="w"> </span>--instance-id<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f2<span class="k">)</span>
 </code></pre></div></td></tr></table></div>
 <p>Doing so will set your EC2 instance ID as <code>instance_id</code> tag in your worker.</p>
-<p>Please see <a href="#injecting-custom-commands-during-instance-startup">injecting custom commands during instance startup</a> for information about how to do this when using our CloudFormation template.</p>
 <h3 id="network-security">Network Security<a class="headerlink" href="#network-security" title="Anchor link to this section">»</a></h3>
 <p>Private workers need to be able to make outbound connections in order to communicate with Spacelift, as well as to access any resources required by your runs. If you have policies in place that require you to limit the outbound traffic allowed from your workers, you can use the following lists as a guide.</p>
 <h4 id="aws-services">AWS Services<a class="headerlink" href="#aws-services" title="Anchor link to this section">»</a></h4>
