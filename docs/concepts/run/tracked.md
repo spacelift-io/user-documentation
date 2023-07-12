@@ -75,7 +75,9 @@ If the user approves (confirms) the plan, the run transitions to the temporary [
 
 ### Targeted replan
 
-When a run is in the [Unconfirmed](tracked.md#unconfirmed) state it's also possible to replan it. When replanning, a user is able to generate a new plan to apply by only picking specific changes from the current plan.
+When a run is in the [Unconfirmed](tracked.md#unconfirmed) state it's also possible to replan it. When replanning, a user is able to generate a new plan to apply by only picking specific changes from the current plan. This is working similarly to how passing the `-target` option to a terraform plan command does, without giving you the headache of writing the name of each resource you want to add to your targeted run.
+
+To get to the replan screen after the run reaches the unconfirmed state, click on the Changes button in the left corner, select the resources you would like to have a targeted plan for, and then, the replan option will pop out, similar to the screenshot below.
 
 ![](../../assets/screenshots/replan.png)
 
