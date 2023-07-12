@@ -39,7 +39,9 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 - [Initialization](../run/README.md#initializing) (`before_init` and `after_init`, respectively)
 - [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
 - [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
-- [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
+- Destroying (`before_destroy` and `after_destroy`, respectively)
+    - [used during module test cases](../run/test-case.md)
+    - used by stacks during destruction that have corresponding [stack_destructor_resource](../stack/stack-dependencies.md#ordered-stack-creation-and-deletion)
 - [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
 
 You can also set up hooks (`after_run`) that will execute after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
