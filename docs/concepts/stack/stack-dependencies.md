@@ -177,7 +177,7 @@ A stack cannot be deleted if it has upstream or downstream dependencies. If you 
 
 As [mentioned earlier](#goals), Stack Dependencies do not aim to handle the lifecycle of the stacks.
 
-Ordering the creation and deletion of stacks in a specific order is not impossible though. If you manage your Spacelift stacks with the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md), you can easily do it by setting `spacelift_stack_destructor` resources and setting the [`depends_on`](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on) Terraform attribute on them.
+Ordering the creation and deletion of stacks in a specific order is not impossible though. If you manage your Spacelift stacks with the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md), you can easily do it by setting [`spacelift_stack_destructor`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack_destructor) resources and setting the [`depends_on`](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on) Terraform attribute on them.
 
 Here is a simple example of creating a dependency between two stacks, immediately triggering a run on the parent stack (which cascades to the child stack) and setting up a destructor for them. By setting up a destructor resource with the proper `depends_on` attribute, it ensures that the deletion of the stacks will happen in the proper order. First child, then parent. This is also an easy way to create short-lived environments.
 
