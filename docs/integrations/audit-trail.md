@@ -1,5 +1,8 @@
 # Audit trail
 
+!!! info
+    Note that, the audit trail is an enterprise feature.
+
 Spacelift optionally supports auditing all operations that change Spacelift resources. This is handled by asynchronously sending webhooks to a user-supplied endpoint.
 
 ## Setup
