@@ -245,7 +245,7 @@ approve           { not requires_approval }
 
 approvals := input.reviews.current.approvals
 
-# Let's define what it means to be approved by a director, DevOps amd Security.
+# Let's define what it means to be approved by a director, DevOps and Security.
 director_approval { approvals[_].session.teams[_] == "Director" }
 devops_approval   { approvals[_].session.teams[_] == "DevOps" }
 security_approval { approvals[_].session.teams[_] == "Security" }

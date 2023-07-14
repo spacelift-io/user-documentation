@@ -1,4 +1,4 @@
-INHERIT: ./nav.yaml
+INHERIT: !ENV [NAV_FILE, "./nav.yaml"]
 copyright: © 2022 Spacelift, Inc. All rights reserved
 site_author: Spacelift
 site_description: Collaborative Infrastructure For Modern Software Teams
@@ -63,5 +63,21 @@ extra:
     - icon: fontawesome/brands/facebook
       link: https://www.facebook.com/spaceliftio-103558488009736/
       name: Spacelift on Facebook
+  spacelift_distribution: !ENV [SPACELIFT_DISTRIBUTION, "SAAS"]
+  version:
+    provider: mike
 hooks:
   - hooks/fetch_banner.py
+plugins:
+  - search
+  - macros
+  - mike:
+      # These fields are all optional; the defaults are as below...
+      alias_type: symlink
+      redirect_template: null
+      deploy_prefix: ""
+      canonical_version: "latest"
+      version_selector: true
+  - redirects:
+      redirect_maps:
+        "concepts/policy/git-push-policy.md": "concepts/policy/push-policy/README.md"

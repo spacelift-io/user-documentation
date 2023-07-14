@@ -2,7 +2,7 @@
 
 Proposed runs are previews of changes that would be applied to your infrastructure if the new code was to somehow become canonical, for example by pushing it to the [tracked branch](../stack/stack-settings.md#repository-and-branch).
 
-Proposed runs are generally triggered by Git push events. By default, whenever a push occurs to any branch other than the [tracked branch](../stack/stack-settings.md#repository-and-branch), a proposed run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/git-push-policy.md).
+Proposed runs are generally triggered by Git push events. By default, whenever a push occurs to any branch other than the [tracked branch](../stack/stack-settings.md#repository-and-branch), a proposed run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).
 
 The purpose of proposed runs is not to make changes to your infrastructure but to merely preview and report them during the [planning](proposed.md#planning) phase.
 

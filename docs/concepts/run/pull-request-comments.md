@@ -27,7 +27,7 @@ Assuming the above permissions are configured on your VCS application, you can t
 !!! warning
     Please note that Spacelift will only evaluate comments that begin with`/spacelift` to prevent users from unintended actions against their resources managed by Spacelift. Furthermore, Spacelift only processes event data for **new** comments, and will not receive event data for edited or deleted comments.
 
-Example [Push policy](../policy/git-push-policy.md) to **trigger a tracked run from a pull request comment** event:
+Example [Push policy](../policy/push-policy/README.md) to **trigger a tracked run from a pull request comment** event:
 
 ```opa
 package spacelift

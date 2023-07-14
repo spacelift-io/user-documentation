@@ -12,6 +12,8 @@ on:
       environment_url:
         required: true
         type: string
+      deploy_self_hosted:
+        type: boolean
     secrets:
       AWS_REGION:
         required: true
@@ -35,9 +37,17 @@ jobs:
     env:
       DOC_ENV: ${{ inputs.environment_code }}
       WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+      RELEASE_BRANCH_NAME: ${{ inputs.environment_code == 'prod' && 'self-hosted-releases-prod' || 'self-hosted-releases-preprod' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Checkout Self-Hosted Releases
+        if: ${{ inputs.deploy_self_hosted }}
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.RELEASE_BRANCH_NAME }}
+          path: ${{ env.RELEASE_BRANCH_NAME }}
 
       - name: Set Python up
         uses: actions/setup-python@v4
@@ -47,8 +57,22 @@ jobs:
       - name: Install Material for MkDocs
         run: pip install --requirement requirements.txt
 
+      # We need to remove any files that shouldn't be displayed in the SaaS section of the site before building
+      - name: Remove Self-Hosted specific files
+        run: ./scripts/remove-files-based-on-distribution.sh
+        env:
+          SPACELIFT_DISTRIBUTION: SAAS
+
       - name: Build documentation
         run: mkdocs build
+
+      - name: Copy self-hosted documentation
+        if: ${{ inputs.deploy_self_hosted }}
+        run: |
+          mkdir -p site/self-hosted
+          cp -r ${{ env.RELEASE_BRANCH_NAME }}/latest site/self-hosted
+          cp -r ${{ env.RELEASE_BRANCH_NAME }}/v* site/self-hosted
+          cp ${{ env.RELEASE_BRANCH_NAME }}/versions.json site/self-hosted
 
       - name: Transform the URLs
         run: python ./scripts/transform_urls.py

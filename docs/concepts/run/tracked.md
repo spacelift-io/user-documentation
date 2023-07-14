@@ -32,7 +32,7 @@ Runs triggered by individuals and [machine users](../../integrations/api.md#api-
 
 ### Triggering from Git events
 
-Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#repository-and-branch), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/git-push-policy.md).
+Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#repository-and-branch), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).
 
 Runs triggered by Git push and/or tag events can are marked accordingly:
 
@@ -67,11 +67,22 @@ If a change is detected and human approval is required, a tracked run will trans
 
 The resulting changes are shown to the user for the final approval:
 
-![](../../assets/screenshots/01DTD3GK6HARX0ZD0Z2RDM5KGD_·_End-to-end_testing.png)
+![](../../assets/screenshots/unconfirmed-run.png)
+
+Unconfirmed is a _passive state_ meaning no operations are performed while a run is in this state.
 
 If the user approves (confirms) the plan, the run transitions to the temporary [Confirmed](tracked.md#confirmed) state and waits for a worker node to pick it up. If the user doesn't like the plan and discards it, the run transitions to the terminal [Discarded](tracked.md#discarded) state.
 
-Unconfirmed is a _passive state_ meaning no operations are performed while a run is in this state.
+### Targeted replan
+
+When a run is in the [Unconfirmed](tracked.md#unconfirmed) state it's also possible to replan it. When replanning, a user is able to generate a new plan to apply by only picking specific changes from the current plan. This is working similarly to how passing the `-target` option to a terraform plan command does, without giving you the headache of writing the name of each resource you want to add to your targeted run.
+
+To get to the replan screen after the run reaches the unconfirmed state, click on the Changes button in the left corner, select the resources you would like to have a targeted plan for, and then, the replan option will pop out, similar to the screenshot below.
+
+![](../../assets/screenshots/replan.png)
+
+!!! warning
+    Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing).
 
 ### Discarded
 

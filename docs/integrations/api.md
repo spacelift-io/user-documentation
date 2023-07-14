@@ -204,6 +204,8 @@ Copy the following JSON to your clipboard:
 
 ??? note "Click here to expand"
 
+{% raw %}
+
     ```json
     {
         "_type": "export",
@@ -348,6 +350,8 @@ Copy the following JSON to your clipboard:
         ]
     }
     ```
+
+{% endraw %}
 
 In the home screen of Insomnia, click on `Import From` then click on `Clipboard`.
 

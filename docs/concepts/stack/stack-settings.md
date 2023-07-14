@@ -39,7 +39,9 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 - [Initialization](../run/README.md#initializing) (`before_init` and `after_init`, respectively)
 - [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
 - [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
-- [Destroying](../run/test-case.md) (`before_destroy` and `after_destroy`, respectively)
+- Destroying (`before_destroy` and `after_destroy`, respectively)
+    - [used during module test cases](../run/test-case.md)
+    - used by stacks during destruction that have corresponding [stack_destructor_resource](../stack/stack-dependencies.md#ordered-stack-creation-and-deletion)
 - [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
 
 You can also set up hooks (`after_run`) that will execute after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
@@ -97,7 +99,7 @@ Labels are arbitrary, user-defined tags that can be attached to Stacks. A single
 
 ### Project root
 
-Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/git-push-policy.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
+Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
 
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
@@ -113,7 +115,7 @@ Thanks to the strong integration between GitHub and Spacelift, the link between 
 
     Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
-_Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/git-push-policy.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run. More information about git push policies, tracked branches, and head commits can be found [here](../policy/git-push-policy.md#git-push-policy-and-tracked-branch).
+_Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/push-policy/README.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run. More information about git push policies, tracked branches, and head commits can be found [here](../policy/push-policy/README.md#git-push-policy-and-tracked-branch).
 
 Results of both tracked and proposed runs are displayed in the source control provider using their specific APIs - please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively to understand how Spacelift feedback is provided for your infrastructure changes.
 

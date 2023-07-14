@@ -149,6 +149,10 @@ space_write["Y"] {
     It's recommended to instead use the [notification policy](../../concepts/policy/notification-policy.md) in order to
     manage slack messages received from Spacelift. These slash commands are **deprecated**.
 
+    {% if is_self_hosted() %}
+    Also, please note that slash commands only work if your Spacelift instance is publicly accessible by Slack. If your Spacelift installation uses an internal load balancer, for example, slash commands will not work.
+    {% endif %}
+
 Three slash commands are currently available:
 
 - `/spacelift subscribe $stackId` - subscribes a particular Slack channel to run state changes for a given Stack - requires ;

@@ -1,11 +1,20 @@
 # OpenID Connect (OIDC)
 
+{% if is_saas() %}
 !!! hint
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing) for more information.
+{% else %}
+!!! hint
+    For this feature to work, the service you are integrating with needs to be able to access your Spacelift instance. For example, if you have deployed your Spacelift instance with an internal rather than public-facing load balancer, you will not be able to use OIDC Federation for AWS role assumption.
+{% endif %}
 
 OpenID Connect is a federated identity technology that allows you to exchange short-lived Spacelift credentials for temporary credentials valid for external service providers like AWS, GCP, Azure, HashiCorp Vault etc. This allows you to use Spacelift to manage your infrastructure on these cloud providers without the need of using static credentials.
 
+{% if is_saas() %}
 OIDC is also an attractive alternative to our native [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) integrations in that it implements a common protocol, requires no additional configuration on the Spacelift side, supports a wider range of external service providers and empowers the user to construct more sophisticated access policies based on JWT claims.
+{% else %}
+OIDC is also an attractive alternative to our native [AWS](aws.md) integration in that it implements a common protocol, requires no additional configuration on the Spacelift side, supports a wider range of external service providers and empowers the user to construct more sophisticated access policies based on JWT claims.
+{% endif %}
 
 It is not the purpose of this document to explain the details of the OpenID Connect protocol. If you are not familiar with it, we recommend you read the [OpenID Connect specification](https://openid.net/specs/openid-connect-core-1_0.html) or GitHub's excellent introduction to [security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect).
 
@@ -297,25 +306,25 @@ Last but not least, you will need to create a role that binds the policy to the 
 vault write auth/jwt/role/infra-preprod -<<EOF
 {
   "role_type": "jwt",
-  "user_claim": "actor",
+  "user_claim": "iss",
   "bound_audiences": "demo.app.spacelift.io",
-  "bound_claims": { "space": "preprod" },
+  "bound_claims": { "spaceId": "preprod" },
   "policies": ["infra-preprod"],
   "ttl": "10m"
 }
 EOF
 ```
 
-The `bound_audiences` parameter is the hostname of your Spacelift account, which is used as the audience claim in the OIDC token you receive from Spacelift. The `bound_claims` parameter is a JSON object that contains the claims that the OIDC token must contain in order to be able to access the Vault secrets. How you scope this will very much depend on your use case. In the above example, only runs belonging to a stack or module in the `space` claim can assume "infra-preprod" Vault role. You can refer to this document to see the available [standard](#standard-claims) and [custom claims](#custom-claims) presented by the Spacelift OIDC token.
+The `bound_audiences` parameter is the hostname of your Spacelift account, which is used as the audience claim in the OIDC token you receive from Spacelift. The `bound_claims` parameter is a JSON object that contains the claims that the OIDC token must contain in order to be able to access the Vault secrets. How you scope this will very much depend on your use case. In the above example, only runs belonging to a stack or module in the `spaceId` claim can assume "infra-preprod" Vault role. You can refer to this document to see the available [standard](#standard-claims) and [custom claims](#custom-claims) presented by the Spacelift OIDC token.
 
 #### Configuring the Terraform Provider
 
 Once the Vault setup is complete, you need to configure the [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest) to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#jwt) to the provider, and set the `role` parameter to the name of the role you created in the previous section:
 
 ```hcl
-provider "vault"
+provider "vault" {
   # ... other configuration
-
+  skip_child_token = true
   auth_login_jwt {
     role = "infra-preprod"
   }

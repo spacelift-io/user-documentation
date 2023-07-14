@@ -19,7 +19,11 @@ You can configure the following resources in a Blueprint:
 - [Mounted files](../configuration/environment.md#mounted-files)
 - Attaching [Contexts](../configuration/context.md)
 - Attaching [Policies](../policy/README.md)
+{% if is_saas() %}
 - Attaching [AWS](../../integrations/cloud-providers/aws.md), [GCP](../../integrations/cloud-providers/gcp.md) and [Azure](../../integrations/cloud-providers/azure.md) integrations
+{% else %}
+- Attaching [AWS](../../integrations/cloud-providers/aws.md) integrations
+{% endif %}
 - Schedules:
     - [Drift detection](../stack/drift-detection.md)
     - [Task](../stack/scheduling.md#scheduled-task)
@@ -45,6 +49,8 @@ Choose `Blueprints` on the left menu and click on `Create blueprint`. As of now,
 
 The absolute minimum you'll need to provide is `name`, `space`, `vcs` and `vendor`; all others are optional. Here's a small working example:
 
+{% raw %}
+
 ```yaml
 inputs:
   - id: stack_name
@@ -62,6 +68,8 @@ stack:
       version: "1.3.0"
 ```
 
+{% endraw %}
+
 <p align="center" >
     <img src="../../assets/screenshots/blueprint_preview.png">
 </p>
@@ -75,6 +83,8 @@ Now, let's look at a massive example that covers all the available configuration
 
 <details> <!-- markdownlint-disable-line MD033 -->
 <summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
+
+{% raw %}
 
 ```yaml
 inputs:
@@ -121,6 +131,7 @@ stack:
     - Vendor/Terraform
     - Owner/${{ context.user.login }}
     - Blueprint/${{ context.blueprint.name }}
+    - Space/${{ context.blueprint.space }}
   administrative: false
   allow_promotion: false
   auto_deploy: false
@@ -226,6 +237,8 @@ stack:
       login_url: https://app.pulumi.com
 ```
 
+{% endraw %}
+
 </details>
 
 As you noticed if we attach an existing resource to the stack (such as Worker Pool, Cloud integration, Policy or Context) we use the unique identifier of the resource. Typically, there is a button for it in the UI but you can also find it in the URL of the resource.
@@ -256,19 +269,27 @@ There are reserved characters in YAML, such as `>` (multiline string) `|` (multi
 
 Invalid template:
 
+{% raw %}
+
 ```yaml
 stack:
   name: ${{ 2 > 1 ? "yes" : "no" }}-my-stack
 ```
 
+{% endraw %}
+
 See how the syntax highlighter is confused?
 
 Valid template:
+
+{% raw %}
 
 ```yaml
 stack:
   name: '${{ 2 > 1 ? "yes" : "no" }}-my-stack'
 ```
+
+{% endraw %}
 
 Results in:
 
@@ -283,13 +304,17 @@ Since you probably don't want to create stacks with the exact same name and conf
 
 ### Inputs
 
+{% raw %}
 Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input.
+{% endraw %}
 
 The input object has `id`, `name`, `description`, `type`, `default` and `options` fields. The mandatory fields are `id` and `name`.
 
 The `id` is used to refer to the input in the template. The `name` and the `description` are just helper fields for the user in the Stack creation tab. The `type` is the [type of the input](#input-types). The `default` is an optional default value of the input. The `options` is a list of options for the `select` input type.
 
 Example:
+
+{% raw %}
 
 ```yaml
 inputs:
@@ -298,6 +323,8 @@ inputs:
 stack:
   name: ${{ inputs.app_name }}-my-stack
 ```
+
+{% endraw %}
 
 #### Input types
 
@@ -360,12 +387,15 @@ We also provide an input object called `context`. It contains the following prop
 | `user.name`              | `string`                    | The full name of the person who triggered the blueprint creation; as provided by the SSO provider. |
 | `user.account`           | `string`                    | The account subdomain of the user who triggered the blueprint creation.                            |
 | `blueprint.name`         | `string`                    | The name of the blueprint that was used to create the stack.                                       |
+| `blueprint.space`        | `string`                    | The space ID of the blueprint that was used to create the stack.                                   |
 | `blueprint.created_at`   | `google.protobuf.Timestamp` | The time when the blueprint was created.                                                           |
 | `blueprint.updated_at`   | `google.protobuf.Timestamp` | The time when the blueprint was last updated.                                                      |
 | `blueprint.published_at` | `google.protobuf.Timestamp` | The time when the blueprint was published.                                                         |
 | `blueprint.labels`       | `list(string)`              | The labels of the blueprint.                                                                       |
 
 Here is an example of using a few of them:
+
+{% raw %}
 
 ```yaml
 stack:
@@ -385,6 +415,8 @@ stack:
       delete_resources: ${{ context.random_number % 2 == 0 }} # Russian roulette
       timestamp_unix: ${{ int(context.time) + duration(30m).getSeconds() }} # Delete the stack in 30 minutes
 ```
+
+{% endraw %}
 
 Results in:
 
@@ -418,6 +450,8 @@ We do not validate drafted blueprints, you can do whatever you want with them. H
 
 **One caveat**: we cannot validate fields that have variables because we don't know the value of the variable. On the other hand, if you try to create a stack from the blueprint and supply the inputs to the template, we'll be able to do the full validation. Let's say:
 
+{% raw %}
+
 ```yaml
 inputs:
   - id: timestamp
@@ -428,6 +462,8 @@ stack:
     delete:
       timestamp_unix: ${{ inputs.timestamp }}
 ```
+
+{% endraw %}
 
 We cannot make sure that the input variable is indeed a proper 10 digit epoch timestamp, we will only find out once you supply the actual input.
 

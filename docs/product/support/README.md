@@ -4,29 +4,39 @@ description: Information about Spacelift support options.
 
 # Support
 
+{% if is_saas() %}
 Spacelift offers a variety of support options for all users on both paid and free tiers. You should be able to find help using the resources linked below, regardless of how you use Spacelift.
+{% else %}
+Spacelift offers a variety of support options depending on your needs. You should be able to find help using the resources linked below, regardless of how you use Spacelift.
+{% endif %}
 
 ## Have you tried…
 
 Before reaching out for support, have you tried:
 
 - Searching [our documentation](../../README.md). Most answers can be found there.
-- Checking [our status page](https://spacelift.statuspage.io/). Our infrastructure team is on-call 24/7. This means that most of the time, by the time you notice something is amiss, someone is already looking into it. Also, some issues are caused by third parties having incidents that are out of our control (e.g., Source Control provider issues).
+{% if is_saas() %}- Checking [our status page](https://spacelift.statuspage.io/). Our infrastructure team is on-call 24/7. This means that most of the time, by the time you notice something is amiss, someone is already looking into it. Also, some issues are caused by third parties having incidents that are out of our control (e.g., Source Control provider issues).{% endif %}
 - Reviewing the [Scope of Support section](./README.md#scope-of-support) to understand what is within the scope of Spacelift support.
 
 ## Contacting Support
 
+{% if is_saas() %}
 | Plan           | How to get support                                           |
 | -------------- | ------------------------------------------------------------ |
 | **Free**       | Open a conversation in the Spacelift chat widget             |
 | **Cloud**      | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
 | **Enterprise** | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
+{% else %}
+For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible.
+{% endif %}
 
 Questions related to billing, purchasing, or subscriptions should be sent to [ar@spacelift.io](mailto:ar@spacelift.io).
 
 ## Support SLA
 
 The SLA times listed below are the timeframes in which you can expect the first response. Spacelift will make the best effort to resolve any issues to your satisfaction as quickly as possible. However, the SLA times are not to be considered as an expected time-to-resolution.
+
+{% if is_saas() %}
 
 ### Free Plan
 
@@ -51,6 +61,19 @@ Support to the Free plan users is provided on a best-effort basis. There is no c
 | **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
 
 Spacelift has support engineers in Europe and in the US. They observe local holidays, so the working hours might change on those days. Our infrastructure team is on-call 24/7, so Critical incidents are not impacted by holidays.
+
+{% else %}
+
+| Severity             | First Response Time | Working Hours               |
+| -------------------- | ------------------- | --------------------------- |
+| **Critical**         | 1 hour              | 24x7                        |
+| **Major**            | 8 hours             | 4 am - 8 pm (ET), Mon - Fri |
+| **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
+| **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
+
+Spacelift has support engineers in Europe and in the US. They observe local holidays, so the working hours might change on those days.
+
+{% endif %}
 
 ### Definitions of Severity Level
 

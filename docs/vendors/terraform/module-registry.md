@@ -204,7 +204,7 @@ If you want more control over release schedules, you could go with the following
 
 Whenever you add a new functionality, you may want to create a feature branch and open Pull Request from it to the main branch. Whenever you want to release a new version, you merge the main branch into the release branch.
 
-You can also use [Git push policies](../../concepts/policy/git-push-policy.md) to further customize this.
+You can also use [Git push policies](../../concepts/policy/push-policy/README.md) to further customize this.
 
 !!! info
     If no test cases are present, the version is immediately marked green.
@@ -253,6 +253,8 @@ After you confirm that you want to proceed, Terraform will open your default web
 
 If you want to use [Dependabot](https://github.com/dependabot){: rel="nofollow"} to automatically update your module versions, you can use the following `dependabot.yml` [configuration](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuring-dependabot-version-updates){: rel="nofollow"}:
 
+{% raw %}
+
 ```yaml
 version: 2
 registries:
@@ -268,5 +270,7 @@ updates:
     schedule:
       interval: "daily"
 ```
+
+{% endraw %}
 
 It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Admin access is not required.

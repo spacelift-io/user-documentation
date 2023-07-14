@@ -13,6 +13,11 @@ Please make sure that the proposed change checks all the boxes below before requ
 - [ ] The pull request is opened against the `main` branch.
 - [ ] The pull request is no longer marked as a draft.
 - [ ] You agree to license your contribution under the [MIT license](https://github.com/spacelift-io/user-documentation/blob/main/LICENSE) to Spacelift (not required for Spacelift employees).
+- [ ] You have updated the navigation files correctly:
+    - [ ] No new pages have been added, or;
+    - [ ] Only _nav.yaml_ has been updated because the changes only apply to SaaS, or;
+    - [ ] Only _nav.self-hosted.yaml_ has been updated because the changes only apply to Self-Hosted, or;
+    - [ ] Both _nav.yaml_ and _nav.self-hosted.yaml_ have been updated.
 
 If the proposed change is ready to be merged, please request a review from `@spacelift-io/solutions-engineering`. Someone will review and merge the pull request.
 

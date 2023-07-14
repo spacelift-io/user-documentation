@@ -1,0 +1,127 @@
+name: Release new Self-Hosted version
+
+on:
+  push:
+    tags:
+      - self-hosted-v*
+
+# Make sure that we don't try to deploy from both this workflow and the main deployment workflow
+concurrency:
+  group: "deployment"
+
+env:
+  release_branch_name: "self-hosted-releases"
+
+jobs:
+  create-new-release:
+    name: "Create new self-hosted release"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: "Extract version number"
+        run: |
+          # Trim prefix from tag
+          VERSION=${GITHUB_REF_NAME/self-hosted-/}
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
+      # Generate a token to use to checkout the code from our GitHub App. We need to use a
+      # GitHub App to allow us to push to the release branch without having to open a PR, bypassing
+      # branch protection rules.
+      - name: Generate token
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_ID }}
+          private_key: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.generate_token.outputs.token }}
+
+      # We need to remove any files that shouldn't be displayed in the Self-Hosted section of the site before building
+      - name: Remove Self-Hosted specific files
+        run: ./scripts/remove-files-based-on-distribution.sh
+        env:
+          SPACELIFT_DISTRIBUTION: SELF_HOSTED
+
+      - name: Set Python up
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - name: Install Python Requirements
+        run: pip install --requirement requirements.txt
+
+      - name: "Fetch releases branch"
+        # This step could fail if the branch doesn't already exist, but that's fine because Mike will create it.
+        continue-on-error: true
+        run: |
+          git fetch origin "${{ env.release_branch_name }}-prod" --depth=1
+          git fetch origin "${{ env.release_branch_name }}-preprod" --depth=1
+
+      - name: "Create prod release"
+        run: |
+          # Configure Git to allow Mike to commit to the release branch
+          git config user.name self-hosted-releases
+          git config user.email self-hosted-releases@spacelift.io
+
+          # Create release using Mike
+          mike deploy -u --branch "${{ env.release_branch_name }}-prod" ${VERSION} latest
+        env:
+          NAV_FILE: "./nav.self-hosted.yaml"
+          SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
+          DOC_ENV: prod
+          WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+
+      - name: "Create preprod release"
+        run: |
+          # Configure Git to allow Mike to commit to the release branch
+          git config user.name self-hosted-releases
+          git config user.email self-hosted-releases@spacelift.io
+
+          # Create release using Mike
+          mike deploy -u --branch "${{ env.release_branch_name }}-preprod" ${VERSION} latest
+        env:
+          NAV_FILE: "./nav.self-hosted.yaml"
+          SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
+          DOC_ENV: preprod
+          WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+
+      - name: "Push branches"
+        run: |
+          git push origin self-hosted-releases-prod:refs/heads/self-hosted-releases-prod
+          git push origin self-hosted-releases-preprod:refs/heads/self-hosted-releases-preprod
+
+  deploy-to-preprod:
+    name: Deploy to pre-production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    needs: create-new-release
+    with:
+      environment_code: preprod
+      environment_name: Pre-Production
+      environment_url: https://docs.spacelift.dev/
+      deploy_self_hosted: true
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
+  deploy-to-prod:
+    name: Deploy to production
+    uses: ./.github/workflows/deploy-to-environment.yaml
+    needs: create-new-release
+    with:
+      environment_code: prod
+      environment_name: Production
+      environment_url: https://docs.spacelift.io/
+      deploy_self_hosted: true
+    secrets:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ROLE_TO_ASSUME: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
