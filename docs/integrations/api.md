@@ -92,36 +92,39 @@ There are currently three ways of obtaining this token:
 
 ### Spacelift API Key > Token
 
-Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel.
+Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Organization settings_ panel.
 
 !!! note
     API keys are **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
 
 Steps to create API key in the UI:
 
-Click on Settings in the bottom left corner of the UI
+Click on Organization settings inside user dropdown menu in the bottom left corner of the UI
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-01.png"/>
+  <img src="../assets/screenshots/new-api-create-1.png"/>
 </p>
 
-Choose API Keys menu and click on Add new API key
+Choose API Keys menu and click on Create API key
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-02.png"/>
+  <img src="../assets/screenshots/new-api-create-2.png"/>
 </p>
 
-The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
+The API key creation form will allow you to specify an arbitrary key name, along with the _Space_ access rule setting and the list of _groups_. If the key is given root space access with admin role it have admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
-For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#team-based-access) or [SAML assertions](single-sign-on/README.md#setting-up-the-integration) can work with your API keys just as they do with regular users.
+!!! warning
+     You can create different space access rules but they won't take effect until you switch to [user management](../concepts/user-management/README.md)
+
+For non-administrative keys, you may want to add a **virtual** list of groups that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#team-based-access) or [SAML assertions](single-sign-on/README.md#setting-up-the-integration) can work with your API keys just as they do with regular users.
 
 Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-03.png"/>
+  <img src="../assets/screenshots/new-api-create-3.png"/>
 </p>
 
-Once you click the _Add Key_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
+Once you click the _Create_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
 
 <p align="center">
   <img src="../assets/screenshots/api-key-creation-04.png"/>
