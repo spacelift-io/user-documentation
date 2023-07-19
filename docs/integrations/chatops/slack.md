@@ -14,24 +14,22 @@ Here are examples of messages the Spacelift application sends to Slack;
 
 ## Linking your Spacelift account to the Slack workspace
 
-As a Spacelift and Slack admin, you can link your Spacelift account to the Slack workspace by going to the _Slack_ section of the _Settings_ screen.
+As a Spacelift and Slack admin, you can link your Spacelift account to the Slack workspace by going to the _Integrations_ section of the _Organization settings_ screen.
 
-The integration is an OAuth2 exchange which installs Slack Spacelift app in your workspace.
+The Slack integration is an OAuth2 exchange which installs Slack Spacelift app in your workspace.
 
-Once you install the Spacelift app, the account-level integration is finished and the _Slack_ section of the _Settings_ screen informs you that the two are talking to one another:
+Once you install the Spacelift app, the account-level integration is finished and the _Slack_ of the _Integrations_ screen informs you that the two are talking to one another:
 
-![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Slack_integration_·_spacelift-io.png)
+![](../../assets/screenshots/slack-integration.png)
 
 Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Slack commands](slack.md#available-commands) and the management uses the Slack interface.
 
 Though before that happens, you need to allow requests coming from Slack to access Spacelift stacks.
 
-## Managing access to Stacks with policies
+## Managing access to Stacks
 
 Our Slack integration allows users in the Slack workspace to interact with stacks by adding the ability
 to change their run state or view changes that are planned or were applied.
-
-Similar to regular requests to our HTTP APIs, requests and actions coming from Slack are subject to the policy-based access validation. If you haven't had a chance to review the [policy](../../concepts/policy/README.md) and [Spaces](../../concepts/spaces/README.md) documentation yet, please do it now before proceeding any further - you're risking a chance of getting lost.
 
 ### Available actions
 
@@ -40,7 +38,7 @@ Currently, we allow:
 - Confirming and discarding tracked runs.
 - Viewing planned and actual changes.
 
-Both of these actions require specific permissions to be configured using the login policy.
+Both of these actions require specific permissions to be configured using the login policy or granted via Slack manage access view.
 Confirming or discarding runs requires _Write_ level permissions while viewing changes requires _Read_ level permissions. The documentation sections about policies below describe how to setup and manage these permissions.
 
 !!! info
@@ -48,7 +46,7 @@ Confirming or discarding runs requires _Write_ level permissions while viewing c
 
 ### Login policy
 
-Using [login policies](../../concepts/policy/login-policy.md) is the preferred way to control access for the Slack integration. Using them you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md).
+Using [login policies](../../concepts/policy/login-policy.md) is the first way to control access for the Slack integration. Using them you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md).
 
 They allow for granular space access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
 would allow to have _Read_ or _Write_ level permissions for certain actions.
@@ -142,6 +140,19 @@ space_write["Y"] {
   input.slack.team.id == "X"
 }
 ```
+
+### Manage Slack access page
+
+Using Manage Slack access page is another way to control access for the Slack integration. Using this method you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md) and based that access on specific Slack channel.
+
+!!! warning
+    It's important to know that all access rules assigned won’t work until you [change management](../../concepts/user-management/README.md#migrating-from-login-policy) strategy from login policy to user management.
+
+To manage slack access as account admin you should go to _Organization Settings_ _Integrations_ section and click on _Manage access_ button on _Slack_ card.
+
+You can than add new access rule by clicking _Grant access_ button and filling out the form.
+
+![](../../assets/screenshots/slack-access-form.png)
 
 ## Available slash commands
 
