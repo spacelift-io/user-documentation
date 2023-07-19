@@ -149,11 +149,22 @@ Now it is time to add other users to your Spacelift account.
 
 Now comes the moment when you want to show Spacelift to your colleagues. There are a few different ways to grant users access to your Spacelift account but in the beginning, we are going to add them as single users.
 
-Go to the "Policies" page that can be found on the left sidebar and click the "Add policy" button in the top-right corner.
+### User management
 
-![](./assets/screenshots/add-policy.png)
+Using [user management](concepts/user-management/README.md) is the simplest way to invite new users to Spacelift. You can follow the invitation process as described [here](concepts/user-management/README.md#invitation-process).
 
-Name the policy and select "Login policy" as the type.
+!!! note
+    It's important to know that all invites sent and access rules assigned won’t work until you [change management](concepts/user-management/README.md#migrating-from-login-policy) strategy from login policy to user management.
+
+### Login policy
+
+Another way of adding users to Spacelift is using login policy.
+
+Go to the "Organization settings" page that can be found in the user dropdown in the bottom of the left sidebar. Once you there, choose "Login policy" from settings menu and click the "Create policy" button in the top-right corner.
+
+![](./assets/screenshots/creating-login-policy.png)
+
+Name the policy and click "Continue" button.
 
 Then copy/paste and edit the example below that matches the identity provider you used to sign up for the Spacelift account.
 
@@ -195,7 +206,7 @@ Now your colleagues should be able to access your Spacelift account as well!
 !!! note
     While the approach above is fine to get started and try Spacelift, granting access to individuals is less safe than granting access to teams and restricting access to account members. In the latter case, when they lose access to your organization, they automatically lose access to Spacelift while when whitelisting individuals and not restricting access to members only, you'll need to remember to explicitly remove them from your Spacelift Login policy, too.
 
-    Before you go live in production with Spacelift, we recommend that you switch to using teams in [Login policies](./concepts/policy/login-policy.md) and consider configuring the [Single Sign-On (SSO) integration](./integrations/single-sign-on/README.md), if applicable.
+    Before you go live in production with Spacelift, we recommend that you switch to using teams in [Login policies](./concepts/policy/login-policy.md) or [User management](./concepts/user-management/admin.md#idp-group-mappingE.md), if applicable.
 
 ## Additional Reading
 
