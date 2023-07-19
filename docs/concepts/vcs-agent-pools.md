@@ -4,6 +4,9 @@ description: This article explains how you can set up and use on-premise VCS Age
 
 # VCS Agent Pools
 
+!!! info
+    Note that private self-hosted VCS integration is an enterprise feature.
+
 By default, Spacelift communicates with your VCS provider directly. This is usually sufficient, but some users may have special requirements regarding infrastructure, security or compliance, and need to host their VCS system in a way that's only accessible internally, where Spacelift can't reach it. This is where VCS Agent Pools come into play.
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.

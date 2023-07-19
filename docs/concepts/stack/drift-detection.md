@@ -1,7 +1,7 @@
 # Drift detection
 
 !!! info
-    Note that, at least currently, drift detection only works on private workers.
+    Note that drift detection only works on private workers, which is an enterprise feature.
 
 ## Drift happens
 
