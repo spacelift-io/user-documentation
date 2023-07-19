@@ -17,7 +17,7 @@ User Management works by setting one of the following roles for users, groups an
 
 Users are individuals invited through their email and authenticated using your account's Identity Provider. Users can have personal permissions assigned.
 
-## Group
+## IdP group mapping
 
 Group is a group of users as provided by your Identity Provider. If you assign permissions to a Group, all users that your Identity Provider reports as being members of a given group will have the same access, unless the user's permissions are higher than the ones they would get from being a member of a Group.
 

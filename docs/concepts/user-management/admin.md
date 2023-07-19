@@ -48,7 +48,7 @@ Identity Provider that was used for authenticating given user. It will usually b
 
 - **QUEUED** - user invitation was issued and will be sent once Management Strategy is changed from Login Policy to User Management
 - **PENDING** - user invitation was sent and can be accepted or the user still needs to confirm their ownership of the invitation email with a code found in the confirmation code email.
-- **EXPIRED** - user invitation was sent, but the user did not accept it before it expired. A new invitation must be issued for a user to be able to access your Spacelift account.
+- **EXPIRED** - user invitation was sent, but the user did not accept it before it expired. Spacelift invitation is active for 24h. A new invitation must be issued for a user to be able to access your Spacelift account.
 - **ACTIVE** - user has accepted an invitation to your Spacelift account and has permissions set in User Management as long as User Management is the selected access strategy.
 - **INACTIVE** - the user was previously able to access your Spacelift account, but Identity Provider changed and so this user needs to be invited again and login through the new Identity Provider to continue using Spacelift.
 
