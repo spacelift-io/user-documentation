@@ -72,13 +72,13 @@ You can manage access rules for anyone who logs into your account by selecting t
 
 After setting up [Slack integration](../../integrations/chatops/slack.md), you can provide the user's Slack ID to give them the same permissions when interacting through Slack as they would have when interacting through the Spacelift website.
 
-## Groups
+## IdP group mapping
 
-Groups are reported by your Identity Provider for each user during authentication. You can add permissions to those groups that will be honored inside Spacelift. To do that, go to **Groups** tab and click **Add Group access**. Then select appropriate Spaces and Roles the same way you would for a single User.
+Groups are reported by your Identity Provider for each user during authentication. You can add permissions to those groups that will be honored inside Spacelift. To do that, go to **IdP group mapping** tab and click **Map IdP group**. Then select appropriate Spaces and Roles the same way you would for a single User.
 
 !!! warning
     Group permissions will only be applied to the user if the group name in Spacelift exactly matches the group name in your Identity Provider including capital letters and whitespaces.
 
 ### Slack integration
 
-After setting up [Slack integration](../../integrations/chatops/slack.md) you can also grant permissions to entire Slack channels after selecting **Integrations** tab and clicking **Create integration** button in the top-right corner. You can input a human-readable name along the Slack channel ID. You can then add Space permissions the same way you would for Users and Groups.
+After setting up [Slack integration](../../integrations/chatops/slack.md) you can also grant permissions to entire Slack channels after selecting **Integrations** tab and clicking **Manage access** button in Slack card. You can input a human-readable name along the Slack channel ID. You can then add Space permissions the same way you would for Users and Groups.
