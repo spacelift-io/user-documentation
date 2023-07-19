@@ -154,7 +154,7 @@ Now comes the moment when you want to show Spacelift to your colleagues. There a
 Using [user management](concepts/user-management/README.md) is the simplest way to invite new users to Spacelift. You can follow the invitation process as described [here](concepts/user-management/README.md#invitation-process).
 
 !!! note
-    It's important to know that all invites sent and access rules assigned won’t work until you [change management](concepts/user-management/README.md#migrating-from-login-policy) strategy from login policy to user management.
+    It's important to know that all invites issued and access rules assigned won’t work until you [change user management strategy](concepts/user-management/README.md#migrating-from-login-policy) from login policy to user management.
 
 ### Login policy
 
