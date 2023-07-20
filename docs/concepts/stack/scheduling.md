@@ -3,7 +3,7 @@
 ## What is scheduling?
 
 !!! info
-    Note that scheduling only works on private workers, which is an enterprise feature.
+    Note that scheduling only works on private workers, which is an Enterprise plan feature.
 
 Scheduling allows you to trigger a stack deletion or task at a specific time or periodically based on the cron rules defined.
 
