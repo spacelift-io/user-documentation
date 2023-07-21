@@ -409,7 +409,3 @@ Input your GraphQL Endpoint for your Spacelift Account.
 Use the Documentation Explorer within GraphiQL
 
 ![](../assets/screenshots/2-graphiql-view-docs.png)
-
-### Magidoc
-
-![](../assets/screenshots/magidoc-stack.png)
