@@ -119,7 +119,12 @@ nav:
           - integrations/cloud-providers/aws.md
           - integrations/cloud-providers/azure.md
           - integrations/cloud-providers/gcp.md
-          - integrations/cloud-providers/oidc.md
+          - OpenID Connect (OIDC):
+            - integrations/cloud-providers/oidc/README.md
+            - integrations/cloud-providers/oidc/aws-oidc.md
+            - integrations/cloud-providers/oidc/gcp-oidc.md
+            - integrations/cloud-providers/oidc/azure-oidc.md
+            - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
           - integrations/observability/datadog.md
       - Source Control:
