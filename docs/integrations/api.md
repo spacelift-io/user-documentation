@@ -78,6 +78,62 @@ The below guide walks through an example of generating your Spacelift token with
 <!-- markdownlint-disable-next-line MD033 -->
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/1cefc584b1bc41d7bc75d767afaf3916" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
+## API Usage with Python
+
+Below is an example of interacting with the api using python. There are three Environment Variables you will need to set.
+
+- `SPACELIFT_KEY_ID`- This will be the Id of the [API Key](https://docs.spacelift.io/integrations/api.html#spacelift-api-key-token) you created above. It should be a 26-character ULID.
+- `SPACELIFT_KEY_SECRET` - This will be found in the file that was downloaded when you created the [API Key](https://docs.spacelift.io/integrations/api.html#spacelift-api-key-token).
+- `SPACELIFT_BASE_URL` - This will be be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io/graphql`
+
+The Python code is below but you can also visit the [GitHub Repo](https://github.com/spacelift-io/spacelift-api-examples) for other use cases and examples.
+
+??? note "Click here to expand"
+
+{% raw %}
+
+    ```python
+    {
+      import sys
+      import requests
+      import json
+      import os
+
+      # Set variables
+      keyId = os.environ.get('SPACELIFT_KEY_ID')
+      keySecret = os.environ.get('SPACELIFT_KEY_SECRET')
+      baseURL = os.environ.get('SPACELIFT_BASE_URL')
+      mutatationVariables = {'keyId': keyId, 'keySecret': keySecret}
+
+      #The GraphQL mutation to get the Bearer Token
+      mutation = """mutation GetSpaceliftToken($keyId: ID!, $keySecret: String!) {apiKeyUser(id: $keyId, secret: $keySecret) {jwt}}"""
+
+      # ---The API call---
+      # By default this will be a basic Stack query
+      # unless you pass in a custom request as an argument
+      query = sys.argv[1] if len(sys.argv) > 1 else """{stacks {id name space administrative state}}"""
+
+      # function to create the jwt(spacelift token) for the header
+      def getSpaceliftToken():
+          request = requests.post(baseURL, json={'query': mutation, 'variables': mutatationVariables})
+          response = request.json()
+          token = response['data']['apiKeyUser']['jwt']
+          return token
+
+      # function to make the API call
+      def runQuery(query): 
+          request = requests.post(baseURL, json={'query': query}, headers=headers)
+          print(json.dumps(request.json(), indent=4))
+
+      # Execute the API call
+      jwt = getSpaceliftToken()
+      headers = {"Authorization": f"Bearer {jwt}"}
+      runQuery(query)
+    }
+    ```
+
+{% endraw %}
+
 ## Authenticating with the GraphQL API
 
 If your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
