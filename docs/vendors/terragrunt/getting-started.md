@@ -7,7 +7,6 @@ description: Creating your first Terragrunt Stack with Spacelift, step by step.
 !!! warning
     Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
 
-<!-- TODO: @Yantrio, set up the terragrunt-examples repo -->
 This documentation will be using an example repository spacelift provides [Here](https://github.com/spacelift-io-examples/terragrunt-examples). This repository contains 2 different examples, but for getting started we will be using the single-stack example.
 
 ## Creating a new stack
@@ -18,24 +17,19 @@ In Spacelift, go ahead and click the **Add Stack** button to create a new Stack.
 
 Once in the stack creation wizard, Give your stack a name such as **terragrunt-example** then press **Continue** to configure our VCS settings for the stack.
 
+![Stack Creation - Naming the stack](../../assets/screenshots/terragrunt/getting-started/naming.png)
+
 ### Linking to the terragrunt code
 
-<!-- TODO: @Yantrio, add screenshots -->
 On this VCS configuration screen, Select **Raw Git** as your Provider, and provide the following URL: **<https://github.com/spacelift-io-examples/terragrunt-examples.git>** and a Project Root of **single-project**.
+
+![Stack Creation - Connecting to VCS](../../assets/screenshots/terragrunt/getting-started/vcs.png)
 
 Pressing next on this page will take you through to the backend configuration page.
 
 This page has quite a few options but the ones that we will be using for this example are as follows:
 
-| Setting               | Value          |
-|-----------------------|----------------|
-| Backend               | Terragrunt     |
-| Use Run All           | Disabled       |
-| Smart Sanitization    | Enabled        |
-| Terragrunt Version    | 0.45.9         |
-| Terraform Version     | 1.4.6          |
-
-You can copy and use the markdown table as needed.
+![Stack Creation - Connecting to VCS](../../assets/screenshots/terragrunt/getting-started/backend.png)
 
 Press **Continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing needs to be edited here so be sure to hit **Save Stack** to complete the process.
 
@@ -43,15 +37,23 @@ Press **Continue** to finish the backend configuration and move through to defin
 
 Spacelift will take you to the Runs view for the Stack you've just created. Once on this page, press the **Trigger** button to trigger a new Run.
 
+![Stack Deployment - Trigger run button](../../assets/screenshots/terragrunt/getting-started/trigger.png)
+
 You should now be taken through the process of deploying your stack. This takes you through multiple stages of a run, moving through initialization, planning and ending up in an **unconfirmed** state.
 
 ### Examining the planned changes
 
-In this unconfirmed state we have time to review what is going to change if we were to continue and confirm and apply. For this stack we should see that X resources are being created and we can see what values these resources and outputs are expected to have. This is a very useful view to see at a glance, what is going to happen in as a result of your deployment.
+In this unconfirmed state we have time to review what is going to change if we were to continue and confirm and apply.  By pressing the `changes +2` button at the top of the page, we are taken to an overview of the planned changes.
+
+![Stack Deployment - Reviewing the changes](../../assets/screenshots/terragrunt/getting-started/changes.png)
+
+For this stack we should see that 2 resources are being created and we can see what values these resources and outputs are expected to have. This is a very useful view to see at a glance, what is going to happen in as a result of your deployment.
 
 ### Confirming and applying the changes
 
-<!-- TODO: @Yantrio provide caveat note that we do not currently use the planfile in the applying phase. -->
+!!! info
+    Due to security reasons and limitations of terragrunt and it's mocked outputs, Spacelift does not use the planfile is not used in the applying as there is a possibility to deploy mock values.
+
 Once you're happy with the changes, press the **Confirm** button to allow the run to continue and begin the applying phase of the run.
 
 ## Conclusion
