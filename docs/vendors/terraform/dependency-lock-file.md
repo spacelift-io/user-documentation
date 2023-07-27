@@ -6,7 +6,7 @@ If this file is present in the [project root for your stack](../../concepts/stac
 
 ## Generating & Updating the File
 
-Terraform recommends including the Dependency Lock File file in your version control repository, alongside your infrastructure code.
+Terraform recommends including the Dependency Lock File in your version control repository, alongside your infrastructure code.
 
 You can generate or update this file by running `terraform init` locally and committing it into your repository.
 
