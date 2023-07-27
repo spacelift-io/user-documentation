@@ -62,6 +62,8 @@ Select from the options available to create your Spacelift account:
 
 ![](<./assets/screenshots/CleanShot 2022-08-31 at 12.12.43.png>)
 
+NOTE: if you attempt to sign up with a Microsoft account, and receive a message indicating that you need admin approval, please see [our FAQ](./faq/README.md#providing-admin-consent-for-microsoft-login) for more information.
+
 !!! info
     For users who select GitHub: The GitHub Organization/account name selected will be used as your Spacelift account name.
 {% else %}
