@@ -16,7 +16,6 @@ When creating a stack in spacelift, you can enable the **Use Run All** property 
 
 When this option is enabled, Spacelift will run all terragrunt commands with the `run-all` option, taking into account any dependencies between your projects!
 
-
 ## Why are my resources named strangely?
 
 ![Screenshot of run changes across a run-all terragrunt stack](../../assets/screenshots/terragrunt/run-all/run-all-changes.png)
