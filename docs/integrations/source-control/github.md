@@ -264,7 +264,7 @@ You can use commit statuses to protect your branches tracked by Spacelift stacks
 
 ![](<../../assets/screenshots/New_branch_protection_rule (1).png>)
 
-This is is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
+This is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
 
 ### Deployment status notifications
 

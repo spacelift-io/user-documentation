@@ -11,7 +11,7 @@ The stack creation process involves nine simple steps:
 
 1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
-3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md)
+3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md))
 4. [Defining common behavior of the stack](#define-behavior);
 5. [Creating stack hooks](#create-stack-hooks);
 6. [Attaching a cloud integration](#attach-stack-cloud-integration);
@@ -23,7 +23,7 @@ The stack creation process involves nine simple steps:
 
 ![](<../../assets/screenshots/Create_Stack_Stack_Details.png>)
 
-Staring with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
+Starting with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
 
 ![](<../../assets/screenshots/Create_Stack_Labels.png>)
 

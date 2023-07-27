@@ -293,7 +293,7 @@ Each source control provider has slightly different features, and because of thi
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
 
 !!! info
-    Please note that we are unable to calculate divergance across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
+    Please note that we are unable to calculate divergence across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
 
 #### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
 
