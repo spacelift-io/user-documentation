@@ -80,7 +80,7 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 When utilizing the Terraform provider to provision Spacelift Stacks for GitLab, you are required to specify a `namespace`.
 
-The `namespace` value should be set to the the grouping mechanism that your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
+The `namespace` value should be set to the grouping mechanism that your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
 
 If your project lives within a group, then the namespace should be set to the group slug that the project is within. For example, if you have `project-a` within `group-1` the namespace would be `group-1`. When using subgroups, you will also need to include these within your namespace references.
 

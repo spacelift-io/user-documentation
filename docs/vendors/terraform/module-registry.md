@@ -78,11 +78,11 @@ In order to add a module to Spacelift, navigate to the _Terraform registry_ sect
 
 ![](../../assets/screenshots/Screenshot 2023-06-02 at 14.17.23.png)
 
-The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
+The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md). First you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
 
 ![](../../assets/screenshots/New_module.png)
 
-In the behavior section there are just three settings: [administrative](../../concepts/stack/README.md#administrative), [worker pool](../../concepts/worker-pools.md#using-worker-pools) and  **project root**. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root let's you specify the module source code root inside of your repository:
+In the behavior section there are just three settings: [administrative](../../concepts/stack/README.md#administrative), [worker pool](../../concepts/worker-pools.md#using-worker-pools) and  **project root**. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root lets you specify the module source code root inside of your repository:
 
 ![](<../../assets/screenshots/image (76).png>)
 

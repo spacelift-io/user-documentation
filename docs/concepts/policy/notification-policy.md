@@ -133,7 +133,7 @@ This is the schema of the data input that each policy request can receive:
       "policy_receipts": [{
          "flags": ["string - flag assigned to the policy"],
          "name": "string - name of the policy",
-         "outcome": "string - outcode of the policy",
+         "outcome": "string - outcome of the policy",
          "type": "string - type of the policy"
        }],
       "state": "string",
@@ -251,7 +251,7 @@ The inbox rule accepts multiple configurable parameters:
 
 #### Creating new inbox notifications
 
-For example here is a inbox rule which will send `INFO` level notification messages to your inbox
+For example here is an inbox rule which will send `INFO` level notification messages to your inbox
 when a tracked run has finished:
 
 ```opa
