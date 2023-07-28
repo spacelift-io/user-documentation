@@ -12,7 +12,7 @@ description: Details about all available Terragrunt-specific configuration optio
 - **Terraform Version** - Which version or range of versions of Terraform should be used
 
 !!! info
-    Spacelift makes use of the [Terraform Version Compatability Table](https://terragrunt.gruntwork.io/docs/getting-started/supported-terraform-versions/) to determine which version combinations of Terraform and Terragrunt are compatible with each other.
+    Spacelift makes use of the [Terraform Version Compatibility Table](https://terragrunt.gruntwork.io/docs/getting-started/supported-terraform-versions/) to determine which version combinations of Terraform and Terragrunt are compatible with each other.
 
 ## Environment Variables
 
@@ -21,4 +21,4 @@ In Terragrunt stacks you can use environment variables to add options to the com
 There is an environment variable for each phase of the run:
 
 - `TG_CLI_ARGS_plan` - Allows you to add options sent to the Terragrunt application during the planning phase
-- `TG_CLI_ARGS_apply` - Allows you to add options sent to the Terragrunt applicaton during the applying phase
+- `TG_CLI_ARGS_apply` - Allows you to add options sent to the Terragrunt application during the applying phase
