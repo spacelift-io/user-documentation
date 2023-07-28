@@ -6,13 +6,13 @@ description: Details about all limitations when using Terragrunt stacks in space
 
 ## State management
 
-Terragrunt is a great tool for organizing your state management configuration and allows you to easily define how you manage your state across multiple projects. However, It is not currently possible when using Terragrunt's run-all functionality to relate statefiles to projects in a consistant manner. For this reason Spacelift does not support storing state for Terragrunt based stacks, and you will need to maintain your own remote state backend configuration.
+Terragrunt is a great tool for organizing your state management configuration and allows you to easily define how you manage your state across multiple projects. However, It is not currently possible when using Terragrunt's run-all functionality to relate state files to projects in a consistent manner. For this reason Spacelift does not support storing state for Terragrunt based stacks, and you will need to maintain your own remote state backend configuration.
 
 ## Terragrunt mocked outputs
 
-Mocked outputs in terragrunt are placeholder values used during the development or planning phases of terragrunt deployments.
+Mocked outputs in Terragrunt are placeholder values used during the development or planning phases of Terragrunt deployments.
 
-For example, you may have a module that provides the output of a connection string to a database, but during the planning phase that database does not yet exist. In this case you would use a mocked output in terragrunt to ensure that any dependencies that rely on this output in their planning phase have access to atleast some data.
+For example, you may have a module that provides the output of a connection string to a database, but during the planning phase that database does not yet exist. In this case you would use a mocked output in Terragrunt to ensure that any dependencies that rely on this output in their planning phase have access to at least some data.
 
 This mocked data is only used if the output does not already exist in the state. Therefore in situations such as the initial run of your stack, or the introduction of new outputs with mocked values, these mocked values will be used.
 
@@ -22,4 +22,4 @@ Due to the nature of the mocked outputs and the way that Spacelift uses the plan
 
 ### Mocked outputs and the Apply phase
 
-Terragrunt consumes the mocked outputs and places those values within the plan file that is stored on disk as part of the planning phase. Because the plan file has the possibility of containing mocked outputs Spacelift does not use the plan files in the apply phase. This does mean there is a possibility of changes happening between the planning and applying phase, but Spaceift has taken the stance that it is more important from a security standpoint to not allow any mocked outputs to be deployed here. Nobody wants to deploy something with a mocked, hardcoded password!
+Terragrunt consumes the mocked outputs and places those values within the plan file that is stored on disk as part of the planning phase. Because the plan file has the possibility of containing mocked outputs Spacelift does not use the plan files in the apply phase. This does mean there is a possibility of changes happening between the planning and applying phase, but Spacelift has taken the stance that it is more important from a security standpoint to not allow any mocked outputs to be deployed here. Nobody wants to deploy something with a mocked, hardcoded password!
