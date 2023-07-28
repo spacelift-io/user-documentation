@@ -34,7 +34,7 @@ Spacelift provides a centralized platform for managing your IaC setup. Combined 
 
 Lastly, Spacelift is designed to integrate smoothly with your existing tech stack. Its compatibility with Terragrunt means that it can fit into your existing workflow without requiring substantial changes, ensuring a smooth transition and consistent operations.
 
-## Addtional Resources
+## Additional Resources
 
 - [Getting Started](getting-started.md)
 - [Run-all](run-all.md)
