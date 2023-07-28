@@ -19,7 +19,7 @@ Once in the stack creation wizard, Give your stack a name such as **terragrunt-e
 
 ![Stack Creation - Naming the stack](../../assets/screenshots/terragrunt/getting-started/naming.png)
 
-### Linking to the terragrunt code
+### Linking to the Terragrunt code
 
 On this VCS configuration screen, Select **Raw Git** as your Provider, and provide the following URL: **<https://github.com/spacelift-io-examples/terragrunt-examples.git>** and a Project Root of **single-project**.
 
@@ -52,12 +52,12 @@ For this stack we should see that 2 resources are being created and we can see w
 ### Confirming and applying the changes
 
 !!! info
-    Due to security reasons and limitations of terragrunt and it's mocked outputs, Spacelift does not use the planfile is not used in the applying as there is a possibility to deploy mock values.
+    Due to security reasons and limitations of Terragrunt and its mocked outputs, Spacelift does not use the planfile in the applying as there is a possibility to deploy mock values.
 
 Once you're happy with the changes, press the **Confirm** button to allow the run to continue and begin the applying phase of the run.
 
 ## Conclusion
 
-You have now succesfully deployed a terragrunt stack using Spacelift! Congratulations.
+You have now successfully deployed a Terragrunt stack using Spacelift! Congratulations.
 
-For further reading, we recommend looking into using the `Run all` setting to enable you to deploy multiple projects using `terragrunt run-all` by reading our documentation [here](run-all.md). We also recommend that if you are looking into using terragrunt with spacelift that you read our page on the [Limitations of terragrunt](limitations.md).
+For further reading, we recommend looking into using the `Run all` setting to enable you to deploy multiple projects using `terragrunt run-all` by reading our documentation [here](run-all.md). We also recommend that if you are looking into using Terragrunt with Spacelift that you read our page on the [Limitations of Terragrunt](limitations.md).
