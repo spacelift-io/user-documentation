@@ -10,7 +10,7 @@ Terragrunt's [run-all](https://terragrunt.gruntwork.io/docs/features/execute-ter
 
 ## How to use run-all
 
-When creating a stack in spacelift, you can enable the **Use Run All** property to start using this functionality natively in your own stacks!
+When creating a stack in Spacelift, you can enable the **Use Run All** property to start using this functionality natively in your own stacks!
 
 ![Terragrunt stack creation screen](../../assets/screenshots/terragrunt/run-all/run-all-toggle.png)
 
