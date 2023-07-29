@@ -115,35 +115,35 @@ In this section we will be cover creating your first Spacelift Stack. For more d
 
 Click on the Create **Stack** button.
 
-![](./assets/screenshots/CreateStackGS.png)
+![](<./assets/screenshots/CreateStackGS.png>)
 
 Give your stack a name and click **Continue**.
 
-![](./assets/screenshots/NameStackGS.png)
+![](<./assets/screenshots/NameStackGS.png>)
 
 In the **Integrate VCS** tab, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack. You also have the optional choice of selecting a [project root](concepts/stack/stack-settings.md#project-root).
 
-![](./assets/screenshots/IntegrateVCSGS.png)
+![](<./assets/screenshots/IntegrateVCSGS.png>)
 
 Click **Continue** to configure the backend.
 
 Choose **Terraform** as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack. Please refer to the [creating a stack](concepts/stack/creating-a-stack.md) section of the documentation for information on using a different backend.
 
-![](./assets/screenshots/ConfigureBackendGS.png)
+![](<./assets/screenshots/ConfigureBackendGS.png>)
 
 Leave the default options checked for Define Behavior and click **Continue**.
 
-![](./assets/screenshots/DefineBehaviourSC.png)
+![](<./assets/screenshots/DefineBehaviourSC.png>)
 
 ### Step 4: Trigger your First Run
 
 Click on _Trigger_ to kick start a Spacelift run that will check out the source code, run terraform commands on it and then present you with an option to apply (confirm) these changes.
 
-![](./assets/screenshots/TriggerRunGS.png)
+![](<./assets/screenshots/TriggerRunGS.png>)
 
 After clicking Trigger, you will be taken directly into the run. Click on **Confirm** and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
 
-![](./assets/screenshots/ConfirmRunGS.png)
+![](<./assets/screenshots/ConfirmRunGS.png>)
 
 Congratulation! 🚀 You've just created your first Spacelift stack and completed your first deployment!
 
@@ -155,7 +155,7 @@ Now comes the moment when you want to show Spacelift to your colleagues. There a
 
 Go to the "Policies" page that can be found on the left sidebar and click the "Create policy" button in the top-right corner.
 
-![](./assets/screenshots/CreatePolicyGS.png)
+![](<./assets/screenshots/CreatePolicyGS.png>)
 
 Name the policy and select "Login policy" as the type.
 
