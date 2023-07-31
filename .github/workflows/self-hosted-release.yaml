@@ -75,6 +75,7 @@ jobs:
           NAV_FILE: "./nav.self-hosted.yaml"
           SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
           DOC_ENV: prod
+          LOGO: "assets/images/logo-selfhosted.svg"
           WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
 
       - name: "Create preprod release"

@@ -12,4 +12,4 @@ git checkout docs
 
 # Build the self-hosting version of the site
 SPACELIFT_DISTRIBUTION=SELF_HOSTED ./scripts/remove-files-based-on-distribution.sh
-NAV_FILE=./nav.self-hosted.yaml SPACELIFT_DISTRIBUTION=SELF_HOSTED DOC_ENV=preprod mkdocs build -d site/self-hosted/latest
+NAV_FILE=./nav.self-hosted.yaml SPACELIFT_DISTRIBUTION=SELF_HOSTED DOC_ENV=preprod LOGO=assets/images/logo-selfhosted.svg mkdocs build -d site/self-hosted/latest
