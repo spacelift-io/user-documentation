@@ -16,7 +16,7 @@ theme:
   font:
     text: Nunito Sans
   language: en
-  logo: assets/images/logo.svg
+  logo: !ENV [LOGO, "assets/images/logo.svg"]
   name: material
   palette:
     scheme: spacelift
