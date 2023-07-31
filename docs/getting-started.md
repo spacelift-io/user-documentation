@@ -158,9 +158,9 @@ Using [user management](concepts/user-management/README.md) is the simplest way 
 
 ### Login policy
 
-Another way of adding users to Spacelift is using login policy.
+Another way of adding users to Spacelift is using a login policy.
 
-Go to the "Organization settings" page that can be found in the user dropdown in the bottom of the left sidebar. Once you there, choose "Login policy" from settings menu and click the "Create policy" button in the top-right corner.
+Go to the "Organization settings" page that can be found in the user dropdown in the bottom of the left sidebar. Once there, choose "Login policy" from settings menu and click the "Create policy" button in the top-right corner.
 
 ![](./assets/screenshots/creating-login-policy.png)
 

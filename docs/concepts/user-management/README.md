@@ -1,16 +1,16 @@
 # User Management
 
-Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check [Login Policy](../policy/login-policy.md).
+Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [Login Policies](../policy/login-policy.md).
 
 !!! warning
     User Management doesn't affect GitHub organization or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners who always get admin access to their respective Spacelift accounts. This is to avoid a situation where a mistake in User Management locks out everyone from the account.
 
 ## Roles
 
-User Management works by setting one of the following roles for users, groups and integrations for selected [Spaces](../spaces/README.md).
+User Management works by setting one of the following roles for users, groups and [integrations](../user-management/admin.md#slack-integration) for selected [Spaces](../spaces/README.md).
 
-- **Read** - cannot create or modify neither stacks nor any attachable entities, but can view them
-- **Write** - an extension to Read, as it can trigger runs in the stacks it sees
+- **Read** - cannot create or modify stacks or any attachable entities, but can view them
+- **Write** - can perform actions like triggering runs, but cannot create or modify Spacelift resources
 - **Admin** - can create and modify stacks and attachable entities, as well as trigger runs
 
 ## User

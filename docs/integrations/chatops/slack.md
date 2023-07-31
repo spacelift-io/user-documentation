@@ -143,7 +143,7 @@ space_write["Y"] {
 
 ### Manage Slack access page
 
-Using Manage Slack access page is another way to control access for the Slack integration. Using this method you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md) and based that access on specific Slack channel.
+Using the Manage Slack access page is another way to control access for the Slack integration. Using this method you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md) and base that access on a specific Slack channel.
 
 !!! warning
     It's important to know that all access rules assigned won’t work until you [change user management strategy](../../concepts/user-management/README.md#migrating-from-login-policy) from login policy to user management.
