@@ -127,7 +127,7 @@ The included `config.json` file provides an easy way to provide additional and r
 
 The mandatory fields are:
 
-- `account_name` - the name of your Spacelift account. Note: the URL of your Spacelift installation doesn't neccessarily need to match this name but the account name affects the URL of the [module registry](https://docs.spacelift.io/vendors/terraform/module-registry.html).
+- `account_name` - the name of your Spacelift account. Note: the URL of your Spacelift installation doesn't necessarily need to match this name but the account name affects the URL of the [module registry](https://docs.spacelift.io/vendors/terraform/module-registry.html).
 - `aws_region` - the AWS region you wish to install Spacelift into.
 - `load_balancer.certificate_arn` - the ARN of the ACM certificate you created in the pre-requisites.
 - `spacelift_hostname` - the hostname you wish to use for your Spacelift installation without the protocol or trailing slash, for example `spacelift.mycorp.com`.

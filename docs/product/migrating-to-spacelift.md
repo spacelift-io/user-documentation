@@ -83,7 +83,7 @@ When the Terraform code is ready, commit it to a repository.
 
 ### Create a manager Spacelift stack
 
-It is now time to create a Spacelift stack that will point to the commited Terraform code that manages your Spacelift resources.
+It is now time to create a Spacelift stack that will point to the committed Terraform code that manages your Spacelift resources.
 
 - Copy the example `manager-stack.example.tfvars` file into `manager-stack.tfvars` .
 - Edit that file to match your context.

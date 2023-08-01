@@ -97,7 +97,7 @@ cancel[run.id] {
 Please note that you cannot cancel module test runs. Only proposed and tracked stack runs can be canceled.
 
 !!! info
-    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
+    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancellation itself is canceled.
 
 ### Corner case: track, don't trigger
 
