@@ -74,6 +74,8 @@ In this section we will show you how to use the Spacelift OIDC token to authenti
 
     Alternatively, you can use the dedicated [AWS Cloud Integration](./aws.md) that uses AWS STS to obtain temporary credentials.
 
+    If you receive an error that says `An error occured (InvalidIdentityToken) when calling AssumeRoleWebIdentity operation: No OpenIDConnect provider found in your account for <url>`, you'll need to provide a `--region <region>` argument to the command above. This typically happens in Chinese and GovCloud regions.
+
 #### Configuring Spacelift as an Identity Provider
 
 In order to be able to do that, you will need to set up Spacelift as a valid identity provider for your AWS account. This is done by creating an [OpenID Connect identity provider
