@@ -87,7 +87,7 @@ In this section we will be connecting GitHub as our VCS. You can find more infor
 1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick). If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
 
-![](<./assets/screenshots/Screen Shot 2022-05-19 at 12.14.59 PM.png>)
+![](<./assets/screenshots/InstallAppGS.png>)
 
 Now login to the Spacelift console, you are ready to create your first stack!
 
