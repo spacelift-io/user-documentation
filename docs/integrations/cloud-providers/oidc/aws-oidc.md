@@ -6,7 +6,7 @@
 
     If you need to use the AWS S3 state backend, you can use the following workaround:
 
-    - Add the following command as a [`before_init` hook](../../concepts/stack/stack-settings.md#customizing-workflow) (make sure to replace `<ROLE ARN>` with your IAM role ARN)
+    - Add the following command as a [`before_init` hook](../../../concepts/stack/stack-settings.md#customizing-workflow) (make sure to replace `<ROLE ARN>` with your IAM role ARN)
 
     ```shell
     export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $(aws sts assume-role-with-web-identity --web-identity-token "$(cat /mnt/workspace/spacelift.oidc)" --role-arn <ROLE ARN> --role-session-name spacelift-run-${TF_VAR_spacelift_run_id} --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" --output text))
@@ -15,7 +15,7 @@
     - Comment out the `role_arn` argument in the `backend` block
     - Comment out the `assume_role_with_web_identity` section in the AWS provider block
 
-    Alternatively, you can use the dedicated [AWS Cloud Integration](./aws.md) that uses AWS STS to obtain temporary credentials.
+    Alternatively, you can use the dedicated [AWS Cloud Integration](../aws.md) that uses AWS STS to obtain temporary credentials.
 
 ## Configuring Spacelift as an Identity Provider
 

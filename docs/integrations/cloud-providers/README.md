@@ -5,9 +5,9 @@ Cloud integrations allow Spacelift to manage your resources without the need for
 That's why Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
 
 {% if is_saas() %}
-Currently, [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) are natively supported. A generic [OpenID Connect](oidc.md) integration is also available to work with any compatible service provider.
+Currently, [AWS](aws.md), [Azure](azure.md) and [GCP](gcp.md) are natively supported. A generic [OpenID Connect](oidc/README.md) integration is also available to work with any compatible service provider.
 {% else %}
-Currently [AWS](aws.md) is natively supported. A generic [OpenID Connect](oidc.md) integration is also available to work with any compatible service provider.
+Currently [AWS](aws.md) is natively supported. A generic [OpenID Connect](oidc/README.md) integration is also available to work with any compatible service provider.
 {% endif %}
 
 !!! hint
