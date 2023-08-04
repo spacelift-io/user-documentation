@@ -1,7 +1,7 @@
 # Stack dependencies
 
 Stacks can depend on other stacks. This is useful when you want to run a stack
-only after another stacks have finished running. For example, you might want to
+only after another stack have finished running. For example, you might want to
 deploy a database stack before a stack that uses the database.
 
 !!! info
@@ -167,7 +167,9 @@ If `BaseInfra` and `Database` are a monorepo and a push event affects both of th
 
 ## Trigger policies
 
-Stack dependencies are meant to be a replacement of [trigger policies](../policy/trigger-policy.md). There is no connection between the two features, and **the two shouldn't be combined ideally** to avoid confusion. However, if you have a trigger policy that is not covered by the stack dependencies, you can still use it.
+Stack dependencies are a simpler alternative to [Trigger policies](../policy/trigger-policy.md) that cover most use cases. If your use case does not fit Stack dependencies, consider using a Trigger policy.
+
+There is no connection between the two features, and **the two shouldn't be combined** to avoid confusion.
 
 ## Stack deletion
 
