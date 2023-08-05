@@ -215,7 +215,8 @@ If you want more control over release schedules, you could go with the following
 
 Whenever you add a new functionality, you may want to create a feature branch and open Pull Request from it to the main branch. Whenever you want to release a new version, you merge the main branch into the release branch.
 
-You can also use [Git push policies](../../concepts/policy/push-policy/README.md) to further customize this.
+!!! Tip
+    If you would like to manage your Terraform Module versions using git tags, and would like git tag events to push your module to the Spacelift module registry. Please review our [Tag-driven Terraform Module Release Flow](../../concepts/policy/push-policy/#tag-driven-terraform-module-release-flow).
 
 !!! info
     If no test cases are present, the version is immediately marked green.
