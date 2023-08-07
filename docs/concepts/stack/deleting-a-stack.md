@@ -11,7 +11,7 @@ Depending on the backend of your stack, there are different commands you can run
 | Backend           | Command                                        |
 | -------------- | ------------------------------------------------------------ |
 | **Terraform**       | `terraform destroy -auto-approve`           |
-| **Cloudformation**      | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>` |
+| **CloudFormation**      | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>` |
 | **Pulumi** | `pulumi destroy --non-interactive --yes` |
 | **Kubernetes** | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |
 
