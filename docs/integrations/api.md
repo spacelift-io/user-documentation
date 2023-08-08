@@ -84,7 +84,7 @@ Below is an example of interacting with the API using Python. There are three en
 
 - `SPACELIFT_KEY_ID`- This will be the Id of the [API Key](https://docs.spacelift.io/integrations/api.html#spacelift-api-key-token) you created above. It should be a 26-character ULID.
 - `SPACELIFT_KEY_SECRET` - This will be found in the file downloaded when you created the [API key](#spacelift-api-key--token).
-- `SPACELIFT_BASE_URL` - This will be be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io/graphql`
+- `SPACELIFT_BASE_URL` - This will be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io/graphql`.
 
 The Python code is below but you can also visit the [GitHub Repo](https://github.com/spacelift-io/spacelift-api-examples) for other use cases and examples.
 
