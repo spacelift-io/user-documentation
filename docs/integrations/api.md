@@ -80,7 +80,7 @@ The below guide walks through an example of generating your Spacelift token with
 
 ## API Usage with Python
 
-Below is an example of interacting with the api using python. There are three Environment Variables you will need to set.
+Below is an example of interacting with the API using Python. There are three environment variables you will need to set.
 
 - `SPACELIFT_KEY_ID`- This will be the Id of the [API Key](https://docs.spacelift.io/integrations/api.html#spacelift-api-key-token) you created above. It should be a 26-character ULID.
 - `SPACELIFT_KEY_SECRET` - This will be found in the file that was downloaded when you created the [API Key](https://docs.spacelift.io/integrations/api.html#spacelift-api-key-token).
