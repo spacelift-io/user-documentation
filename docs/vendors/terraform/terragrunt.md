@@ -1,5 +1,8 @@
 # Terragrunt
 
+!!! info
+    We have recently released a new Terragrunt native platform in Spacelift and it is currently in **beta**. You can find documentation on this [here](../terragrunt/README.md)
+
 ## Using Terragrunt
 
 Whether a Terraform stack is using Terragrunt or not is controlled by the presence of `terragrunt` label on the stack:
