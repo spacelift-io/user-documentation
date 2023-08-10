@@ -391,7 +391,11 @@ If you want to create another request, just right click on `Get Stacks` and dupl
 
 ## Viewing the GraphQL Schema
 
-Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}. You may also view the documentation using a static documentation website generator like [Magidoc](https://magidoc.js.org/introduction/quickstart){: rel="nofollow"}. _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
+Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}.
+
+You may also view the documentation using a static documentation website generator like [GraphDoc](https://graphdoc.io/preview/?endpoint=https://demo.app.spacelift.io/graphql){: rel="nofollow"}.
+
+_Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
 
 !!! warning
     Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
