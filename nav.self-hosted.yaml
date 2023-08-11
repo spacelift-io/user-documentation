@@ -136,6 +136,7 @@ nav:
   - 📖 Product:
       - Administration:
           - product/administration/install.md
+          - product/administration/changelog.md
           - product/administration/advanced-installations.md
           - product/administration/slack-integration-setup.md
       - product/notifications.md
