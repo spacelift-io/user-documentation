@@ -6,7 +6,6 @@ if [[ "$SPACELIFT_DISTRIBUTION" == "SELF_HOSTED" ]]; then
   rm docs/concepts/vcs-agent-pools.md
   rm docs/integrations/cloud-providers/azure.md
   rm docs/integrations/cloud-providers/gcp.md
-  rm docs/integrations/source-control/raw-git.md
   rm docs/product/billing/aws-marketplace.md
   rm docs/product/billing/stripe.md
 else
