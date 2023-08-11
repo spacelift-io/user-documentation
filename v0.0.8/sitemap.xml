@@ -361,6 +361,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://docs.spacelift.io/latest/integrations/source-control/raw-git.html</loc>
+         <lastmod>2023-08-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://docs.spacelift.io/latest/legal/cookie-policy.html</loc>
          <lastmod>2023-08-11</lastmod>
          <changefreq>daily</changefreq>

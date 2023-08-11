@@ -6,26 +6,22 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Collaborative Infrastructure For Modern Software Teams">
+        <meta name="description" content="Describes how to create a stack from a public Git repository.">
       
       
         <meta name="author" content="Spacelift">
       
       
-        <link rel="canonical" href="https://docs.spacelift.io/latest/integrations/source-control/index.html">
+        <link rel="canonical" href="https://docs.spacelift.io/latest/integrations/source-control/raw-git.html">
       
       
-        <link rel="prev" href="../observability/datadog.html">
-      
-      
-        <link rel="next" href="github.html">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.18">
     
     
       
-        <title>Source Control - Spacelift Documentation</title>
+        <title>Raw Git - Spacelift Documentation</title>
       
     
     
@@ -108,7 +104,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#source-control" class="md-skip">
+        <a href="#raw-git" class="md-skip">
           Skip to content
         </a>
       
@@ -198,7 +194,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Source Control
+              Raw Git
             
           </span>
         </div>
@@ -2158,18 +2154,16 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
       
       
         
@@ -2198,7 +2192,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           ⚙️ Integrations
@@ -2473,16 +2467,14 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
       
       
         
@@ -2504,7 +2496,7 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+        <div class="md-nav__link md-nav__link--index ">
           <a href="index.html">Source Control</a>
           
             <label for="__nav_6_5">
@@ -2513,7 +2505,7 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="true">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_6_5">
           <span class="md-nav__icon md-icon"></span>
           Source Control
@@ -3219,6 +3211,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-raw-git-with-stacks-and-modules" class="md-nav__link">
+    Using Raw Git with stacks and modules
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-github-gists" class="md-nav__link">
+    Using GitHub gists
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#triggering-runs-on-updates" class="md-nav__link">
+    Triggering runs on updates
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3273,23 +3294,30 @@
                   
 
 
-<h1 id="source-control">Source Control<a class="headerlink" href="#source-control" title="Anchor link to this section">»</a></h1>
-<p>Spacelift supports the following source control tools:</p>
-<ul>
-<li><a href="github.html">GitHub</a></li>
-<li><a href="gitlab.html">GitLab</a></li>
-<li>
-<p>Bitbucket</p>
-<ul>
-<li><a href="bitbucket-cloud.html">Cloud</a></li>
-<li><a href="bitbucket-datacenter-server.html">Datacenter/Server</a></li>
-</ul>
-</li>
-<li>
-<p><a href="azure-devops.html">Azure DevOps</a></p>
-</li>
-<li><a href="raw-git.html">Raw Git</a></li>
-</ul>
+<h1 id="raw-git">Raw Git<a class="headerlink" href="#raw-git" title="Anchor link to this section">»</a></h1>
+<p>Spacelift supports a whole range of version control systems but all of them require setup.</p>
+<p>This integration enables you to create stacks right from a publicly accessible Git repository, which also include GitHub gists.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Using Raw Git gives you a one-way connection to the repository. Pushes, PRs, etc. are not supported.</p>
+<p>This provider is best suited for consuming public content.</p>
+</div>
+<h2 id="using-raw-git-with-stacks-and-modules">Using Raw Git with stacks and modules<a class="headerlink" href="#using-raw-git-with-stacks-and-modules" title="Anchor link to this section">»</a></h2>
+<p>The stack or module creation and editing forms will show a dropdown from which you can choose the Raw Git VCS provider. What's different from other VCS providers, you need to specify the repository URL.</p>
+<p><img alt="" src="../../assets/screenshots/raw-git-stack.png" /></p>
+<p>The rest of the process is exactly the same as with <a href="../../concepts/stack/creating-a-stack.html#integrate-vcs">creating a GitHub-backed stack</a> or module, so we won't go into further details.</p>
+<h2 id="using-github-gists">Using GitHub gists<a class="headerlink" href="#using-github-gists" title="Anchor link to this section">»</a></h2>
+<p>To create a stack backed by a GitHub gist, you enter the gist's URL into the repository URL field.</p>
+<p><img alt="" src="../../assets/screenshots/raw-git-gist.png" /></p>
+<h2 id="triggering-runs-on-updates">Triggering runs on updates<a class="headerlink" href="#triggering-runs-on-updates" title="Anchor link to this section">»</a></h2>
+<p>This provider gives you a one-way connection to the repository. New runs won't get triggered automatically on updates to the repository.</p>
+<p>The run can be triggered manually, though.</p>
+<p><img alt="" src="../../assets/screenshots/raw-git-updates.png" /></p>
+<ol>
+<li>You can use the Sync button to check for updates,</li>
+<li>If there are any updates since the last sync or creation of the stack, the tracked commit will change,</li>
+<li>You can use the Trigger button to invoke a run.</li>
+</ol>
 
 
 
