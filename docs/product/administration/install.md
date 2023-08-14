@@ -279,7 +279,7 @@ Please note, the installation process can take between 10 and 20 minutes to crea
 If you see the following error message indicating that the account could not be found, please check the credentials for your AWS CLI are correctly configured:
 
 ```shell
-ERROR: could not find AWS account ID. Cannot continue with Spacelift install.
+ERROR: could not find AWS account ID. Cannot continue with Spacelift install. Please check that your AWS CLI credentials are correct and have not expired.
 ```
 
 This error message can also be displayed if your AWS credentials are connected to a GovCloud account but a non-GovCloud region has been specified in the `aws_region` configuration option.
