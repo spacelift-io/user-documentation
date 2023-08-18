@@ -279,7 +279,7 @@ Please note, the installation process can take between 10 and 20 minutes to crea
 If you see the following error message indicating that the account could not be found, please check the credentials for your AWS CLI are correctly configured:
 
 ```shell
-ERROR: could not find AWS account ID. Cannot continue with Spacelift install.
+ERROR: could not find AWS account ID. Cannot continue with Spacelift install. Please check that your AWS CLI credentials are correct and have not expired.
 ```
 
 This error message can also be displayed if your AWS credentials are connected to a GovCloud account but a non-GovCloud region has been specified in the `aws_region` configuration option.
@@ -323,7 +323,7 @@ To upgrade to the latest version of self-hosting, follow these steps:
 
 1. Make sure your config.json file is fully configured to match your existing installation. Ideally you should use the config file from your previous installation.
 2. Run `./install.sh`.
-3. Restart any workers connected to your Spacelift installation to make sure they're running the latest version.
+3. Deploy the latest version of the [CloudFormation worker pool template](../../concepts/worker-pools.md#cloudformation-template), and restart any workers connected to your Spacelift installation to make sure they're running the latest version.
 
 ## Uninstalling
 
