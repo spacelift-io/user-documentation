@@ -43,8 +43,7 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
     - [used during module test cases](../run/test-case.md)
     - used by stacks during destruction that have corresponding [stack_destructor_resource](../stack/stack-dependencies.md#ordered-stack-creation-and-deletion)
 - [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
-- Finally (`after_run`)
-    - Executed after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
+- Finally (`after_run`): Executed after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
 
 Note here that all hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
 
