@@ -50,6 +50,9 @@ Within your AWS account, navigate to AWS IAM and click the **Create role** butto
 
 ![Within AWS IAM, click Create role](<../../assets/screenshots/Screen Shot 2022-07-21 at 2.48.55 PM.png>)
 
+!!! hint
+    To allow this integration to access multiple AWS accounts, you can extend this role to have cross-account permissions to the target accounts. See [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) for more details.
+
 #### Configure Trust Policy
 
 Next, we want to configure the [Trust Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-custom.html){: rel="nofollow"} for the role to allow Spacelift to assume the role.
