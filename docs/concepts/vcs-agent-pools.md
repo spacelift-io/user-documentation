@@ -62,11 +62,11 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 
 ## Run the VCS Agent as a container
 
-You can run the VCS Agent as a container using our image. You can use this command to run the VCS Agent via Docker:
+You can run the VCS Agent as a Docker container:
 
 ```shell
 docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS Token>" \
-  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=<https://github.mycompany.com>" \
+  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=<http://169.254.0.10:7990>" \
   -e "SPACELIFT_VCS_AGENT_VENDOR=<bitbucket_datacenter>" \
   public.ecr.aws/spacelift/vcs-agent
 ```
