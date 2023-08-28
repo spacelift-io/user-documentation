@@ -25,7 +25,7 @@ Regardless of the type of the job performed, some phases and terminal states are
 
 ### Queued
 
-Queued means that the run is not [Ready](#ready) for processing, as it's either blocked, waiting for for dependencies to finish or requires additional action from a user.
+Queued means that the run is not [Ready](#ready) for processing, as it's either blocked, waiting for dependencies to finish, or requires additional action from a user.
 
 Spacelift serializes all state-changing operations to the Stack. Both tracked runs and tasks have the capacity to change the state, they're never allowed to run in parallel. Instead, each of them gets an exclusive lock on the stack, blocking others from starting.
 
