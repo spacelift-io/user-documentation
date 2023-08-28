@@ -8,7 +8,8 @@ description: >-
 
 One of the things we're most proud of at Spacelift is the deep integration with everyone's favorite version control system - GitHub.
 
-This integration is typically set up automatically for users who have selected GitHub as their login source, but if you are logging into Spacelift using a different identity provider (e.g. Google, GitLab, or another SSO provider), and do not have GitHub configured as a VCS Provider, see the following section on [setting up the integration](github.md#setting-up-the-integration). This is also applicable for users who want to connect Spacelift to their GitHub Enterprise instance or to multiple GitHub accounts.
+!!! warning
+    This integration is typically set up automatically for users who have selected GitHub as their login source, but if you are logging into Spacelift using a different identity provider (e.g. Google, GitLab, or another SSO provider), and do not have GitHub configured as a VCS Provider, see the following section on [Setting up the custom application](github.md#setting-up-the-custom-application). This is also applicable for users who want to connect Spacelift to their GitHub Enterprise instance or to multiple GitHub accounts. **If you're on a self-hosted version of spacelift, you will be required to set up the custom application.**
 
 ## Setting up the integration
 
