@@ -25,7 +25,7 @@ Regardless of the type of the job performed, some phases and terminal states are
 
 ### Queued
 
-Queued means that the run is not [Ready](#preparing) for processing, as it's either blocked, waiting for for dependencies to finish or requires additional action from a user.
+Queued means that the run is not [Ready](#ready) for processing, as it's either blocked, waiting for for dependencies to finish or requires additional action from a user.
 
 Spacelift serializes all state-changing operations to the Stack. Both tracked runs and tasks have the capacity to change the state, they're never allowed to run in parallel. Instead, each of them gets an exclusive lock on the stack, blocking others from starting.
 
@@ -33,7 +33,7 @@ If your run or task is **currently blocked** by something else holding the lock 
 
 ![](../../assets/screenshots/blocked-queued-run-unconfirmed.png)
 
-There can also be other reasons why the run is in this state and is not being promoted to state [Ready](#preparing):
+There can also be other reasons why the run is in this state and is not being promoted to state [Ready](#ready):
 
 - It needs to be approved
 - It's waiting for dependant stacks to finish
@@ -46,11 +46,8 @@ There can also be other reasons why the run is in this state and is not being pr
 Ready state means that the run is eligible for processing and is waiting for a worker to become available. A run will stay in this state until
 it's picked up by a worker.
 
-If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io/){: rel="nofollow"}. In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
-
-![](../../assets/screenshots/Spacelift_Status.png)
-
-If you're using private workers, please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
+When using the public worker pool, you will have to wait until a worker becomes available. For private workers,
+please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
 
 Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to cancel the run even if it's ready for processing, transitioning it to the terminal [Canceled](#canceled) state.
 
