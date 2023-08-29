@@ -91,7 +91,7 @@ For Single Sign-On, the list of teams is pretty much arbitrary and depends on ho
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
-    We recommend having only one login policy as what sound reasonable within a policy might not yield the expected results when the decisions are merged.
+    We recommend having only one login policy as what sounds reasonable within a policy might not yield the expected results when the decisions are merged.
 
 There are three possible use cases for login policies - granting access to folks in your org who would otherwise not have it, managing access for external contributors or restricting access to specific circumstances. Let's look into these use cases one by one.
 
