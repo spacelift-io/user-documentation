@@ -65,9 +65,9 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 You can run the VCS Agent as a Docker container:
 
 ```shell
-docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS Token>" \
-  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=<http://169.254.0.10:7990>" \
-  -e "SPACELIFT_VCS_AGENT_VENDOR=<bitbucket_datacenter>" \
+docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS TOKEN>" \
+  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=http://169.254.0.10:7990" \
+  -e "SPACELIFT_VCS_AGENT_VENDOR=bitbucket_datacenter" \
   public.ecr.aws/spacelift/vcs-agent
 ```
 
