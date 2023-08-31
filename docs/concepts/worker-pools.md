@@ -86,7 +86,7 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 - Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
 - GCP: [terraform-google-spacelift-workerpool](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"}.
 
-In addition, the [spacelift-workerpool-k8s](https://github.com/spacelift-io/spacelift-workerpool-k8s){: rel="nofollow"} repository contains a Helm chart for deploying workers to Kubernetes.
+In addition, the [spacelift-helm-charts](https://github.com/spacelift-io/spacelift-helm-charts){: rel="nofollow"} repository contains a Helm chart for deploying workers to Kubernetes.
 
 !!! tip
     Since the Launcher is getting downloaded during the instance startup, it is recommended to recycle the worker pool every once in a while to ensure that it is up to date. You don't want to miss out on the latest features and bug fixes! You can do this by draining all the workers one-by-one in the UI, then terminating the instances in your cloud provider.
@@ -332,7 +332,7 @@ Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerp
 
 ### Running Workers in Kubernetes
 
-You can run Spacelift workers for your self-hosted instance in Kubernetes, for example using our [Helm chart](https://github.com/spacelift-io/spacelift-workerpool-k8s). The main thing to be aware of is that the launcher is designed to work with a specific version of Spacelift, so it's important to use the correct container image for your Spacelift install.
+You can run Spacelift workers for your self-hosted instance in Kubernetes, for example using our [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts). The main thing to be aware of is that the launcher is designed to work with a specific version of Spacelift, so it's important to use the correct container image for your Spacelift install.
 
 #### Finding the Launcher Image
 
