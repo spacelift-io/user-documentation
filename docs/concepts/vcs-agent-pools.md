@@ -73,7 +73,7 @@ docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS TOKEN>" \
 
 ## Run the VCS Agent inside a Kubernetes Cluster
 
-We have a Helm Chart that you can use to install the VCS Agent on top of your Kubernetes Cluster. After creating a VCS Agent Pool in Spacelift and generating a token, you can add our Helm chart repo and update your local cache using:
+We have a [VCS Agent Helm Chart](https://github.com/spacelift-io/spacelift-helm-charts) that you can use to install the VCS Agent on top of your Kubernetes Cluster. After creating a VCS Agent Pool in Spacelift and generating a token, you can add our Helm chart repo and update your local cache using:
 
 ```shell
 helm repo add spacelift https://downloads.spacelift.io/helm
