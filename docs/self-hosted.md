@@ -28,8 +28,4 @@ At the moment we support all AWS commercial cloud regions, as well as GovCloud r
 
 ## How to Try Self-Hosted
 
-If you are interested in trying out Self-Hosted, please get in touch with us via our [contact form](https://www.spacelift.io/contact). Please include the following pieces of information:
-
-- Your company name.
-- Why you are interested in our self-hosted solution.
-- Whether you want to deploy to AWS commercial or to GovCloud regions.
+If you are interested in trying out Self-Hosted, please [join us for a 15 minute alignment call](https://calendly.com/product-demos/15min-spacelift-self-hosted-alignment-call).
