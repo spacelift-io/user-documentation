@@ -413,7 +413,7 @@ stack:
   schedules:
     delete:
       delete_resources: ${{ context.random_number % 2 == 0 }} # Russian roulette
-      timestamp_unix: ${{ int(context.time) + duration(30m).getSeconds() }} # Delete the stack in 30 minutes
+      timestamp_unix: ${{ int(context.time) + duration("30m").getSeconds() }} # Delete the stack in 30 minutes
 ```
 
 {% endraw %}

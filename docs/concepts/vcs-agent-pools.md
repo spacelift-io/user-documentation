@@ -60,6 +60,33 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 
 ![Access Log example](<../assets/screenshots/image (50).png>)
 
+## Run the VCS Agent as a container
+
+You can run the VCS Agent as a Docker container:
+
+```shell
+docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS TOKEN>" \
+  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=http://169.254.0.10:7990" \
+  -e "SPACELIFT_VCS_AGENT_VENDOR=bitbucket_datacenter" \
+  public.ecr.aws/spacelift/vcs-agent
+```
+
+## Run the VCS Agent inside a Kubernetes Cluster
+
+We have a [VCS Agent Helm Chart](https://github.com/spacelift-io/spacelift-helm-charts) that you can use to install the VCS Agent on top of your Kubernetes Cluster. After creating a VCS Agent Pool in Spacelift and generating a token, you can add our Helm chart repo and update your local cache using:
+
+```shell
+helm repo add spacelift https://downloads.spacelift.io/helm
+helm repo update
+```
+
+Assuming your token, VCS endpoint and vendor are stored in the `SPACELIFT_VCS_AGENT_POOL_TOKEN`, `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` and `SPACELIFT_VCS_AGENT_VENDOR` environment
+variables, you can install the chart using the following command:
+
+```shell
+helm upgrade vcs-agent spacelift/vcs-agent --install --set "credentials.token=$SPACELIFT_VCS_AGENT_POOL_TOKEN,credentials.endpoint=$SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT,credentials.vendor=$SPACELIFT_VCS_AGENT_VENDOR"
+```
+
 ### Passing Metadata Tags
 
 When the VCS Agent from a VCS Agent Pool is connecting to the gateway, you can send along some tags that will allow you to uniquely identify the process / machine for the purpose of debugging. Any environment variables using `SPACELIFT_METADATA_` prefix will be passed on. As an example, if you're running Spacelift VCS Agents in EC2, you can do the following just before you execute the VCS Agent binary:
