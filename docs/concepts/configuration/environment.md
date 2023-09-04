@@ -55,7 +55,24 @@ If you delete this variable, it will again be replaced by the computed one. If y
 
 The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
 
-![](<../../assets/screenshots/Editing_environment_·_Managed_stack (1).png>)
+![](<../../assets/screenshots/Editing_environment_·_Managed_stack (5).png>)
+
+| Name | Description |
+|------|-------------|
+| TF_VAR_spacelift_account_name | Computed variable to inject Spacelift account name |
+| TF_VAR_spacelift_commit_branch | Computed variable to inject the commit branch in Version Control System |
+| TF_VAR_spacelift_commit_sha | Computed variable to inject the sha of the commit in Version Control System |
+| TF_VAR_spacelift_local_preview | Computed variable to inject if the local-preview feature is enabled or not in the stack |
+| TF_VAR_spacelift_project_root | Computed variable to inject the project root defined in the stack for the Version Control System |
+| TF_VAR_spacelift_repository | Computed variable to inject the name of the Version Control System repository |
+| TF_VAR_spacelift_run_id | Computed variable to inject the Run ID for the current run |
+| TF_VAR_spacelift_run_state | Computed variable to inject the state of the current run |
+| TF_VAR_spacelift_run_trigger | Computed variable to inject the trigger information of the run |
+| TF_VAR_spacelift_run_type | Computed variable to inject the type of the current run |
+| TF_VAR_spacelift_stack_branch | Computed variable to inject the tracked branch for the stack |
+| TF_VAR_spacelift_stack_id | Computed variable to inject the ID of the Stack |
+| TF_VAR_spacelift_stack_labels | Computed variable to inject the labels attached to the Stack |
+| TF_VAR_spacelift_workspace_root | Computed variable to inject the workspace root information |
 
 !!! info
     Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
