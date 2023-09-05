@@ -60,6 +60,8 @@ You can also manually trigger the tests at any time by running:
 pre-commit
 ```
 
+> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir videah/oxipng docs/assets/screenshots/filename.png --opt=4 --preserve --strip=safe`.
+
 ## Self-Hosted
 
 Our self-hosted docs are built using a tool called [Mike](https://github.com/jimporter/mike). Mike allows us to snapshot multiple versions of the documentation in a separate Git branch. In our case this branch is called `self-hosted-releases`.
