@@ -4,6 +4,9 @@ description: Create complex workflows using trigger policies
 
 # Trigger policy
 
+!!! tip
+    We now have the [stack dependencies](../stack/stack-dependencies.md) feature available which should mostly cover the use cases described below. It's a simpler and more intuitive way to define dependencies between stacks.
+
 ## Purpose
 
 Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.

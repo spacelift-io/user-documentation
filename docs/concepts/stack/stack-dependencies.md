@@ -22,6 +22,90 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 !!! info
     In order to create a dependency between two stacks you need to have at least **reader** permission to one stack (dependency) and **admin** permission to the other (dependee). See [Spaces Access Control](../spaces/access-control.md#roles) for more information.
 
+### Defining references between stacks
+
+You have the option to refer to outputs of other stacks: your stack will be only triggered if the referenced output has been created or changed.
+
+![](../../assets/screenshots/Screenshot_Stack_Dependencies_add_ref.png)
+
+You can either choose an existing output value or add one that doesn't exist yet but will be created by the stack. On the receiving end, you need to choose an environment variable (`Input name`) to store the output value in.
+
+![](../../assets/screenshots/Screenshot_Stack_Dependencies_added_input.png)
+
+!!! tip
+    If you use Terraform, make sure to use [`TF_VAR_`](https://developer.hashicorp.com/terraform/language/values/variables#environment-variables){: rel="nofollow"} prefix for environment variable names.
+
+#### Enabling sensitive outputs for references
+
+A stack output can be sensitive or non-sensitive. For example, in Terraform [you can mark an output](https://developer.hashicorp.com/terraform/language/values/outputs#sensitive-suppressing-values-in-cli-output){: rel="nofollow"} `sensitive = true`. Sensitive outputs are being masked in the Spacelift UI and in the logs.
+
+Spacelift will upload sensitive outputs to the server - this is enabled by default on our public worker pool.
+
+On [private worker pools](../../concepts/worker-pools.md) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools.md#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
+
+#### Stack dependency reference limitations
+
+When a stack has an upstream dependency with a reference, it relies on the existence of the outputs.
+
+```mermaid
+graph TD;
+    Storage --> |TF_VAR_AWS_S3_BUCKET_ARN|storageColor(StorageService);
+
+    style storageColor fill:#51cbad
+```
+
+If you trigger `StorageService` in the above scenario, you need to make sure `Storage` has produced `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
+
+```plain
+job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_BUCKET_ARN => TF_VAR_AWS_S3_BUCKET_ARN
+```
+
+!!! note
+    We have enabled the output uploading to our backend on 2023 August 21. This means that if you have a stack that produced an output before that date, you'll need to rerun it to make the output available for references.
+
+We upload outputs during the [Apply phase](../run/tracked.md#applying). If you stumble upon the error above, you'll need to make sure that the stack producing the output had a tracked run **with an Apply phase**.
+
+You can simply do it by adding a dummy output to the stack and removing it afterwards:
+
+```terraform
+output "dummy" {
+  value = "dummy"
+}
+```
+
+#### Vendor limitations
+
+[Ansible](../../vendors/ansible/) and [Kubernetes](../../vendors/kubernetes/) does not have the concept of outputs, so you cannot reference the outputs of them. They _can_ be on the receiving end though:
+
+```mermaid
+graph TD;
+    A[Terraform Stack] --> |VARIABLE_1|B[Kubernetes Stack];
+    A --> |VARIABLE_2|C[Ansible Stack];
+```
+
+#### Scenario 1
+
+```mermaid
+graph TD;
+    Infrastructure --> |TF_VAR_VPC_ID|Database;
+    Database --> |TF_VAR_CONNECTION_STRING|PaymentService;
+```
+
+In case your `Infrastructure` stack has a `VPC_ID`, you can set that as an input to your `Database` stack (e.g. `TF_VAR_VPC_ID`). When the `Infrastructure` stack finishes running, the `Database` stack will be triggered and the `TF_VAR_VPC_ID` environment variable will be set to the value of the `VPC_ID` output of the `Infrastructure` stack.
+
+If there is one or more references defined, the stack will only be triggered if the referenced output has been created or changed. If they remain the same, the downstream stack will be skipped.
+
+#### Scenario 2
+
+```mermaid
+graph TD;
+    Infrastructure --> |TF_VAR_VPC_ID|Database;
+    Database --> |TF_VAR_CONNECTION_STRING|PaymentService;
+    Database --> CartService;
+```
+
+You can also mix references and referenceless dependencies. In the above case, `CartService` will be triggered whenever `Database` finishes running, regardless of the `TF_VAR_CONNECTION_STRING` output.
+
 ## Dependencies overview
 
 In the `Dependencies` tab of the stack, there is a button called `Dependencies graph` to view the full dependency graph of the stack.
@@ -30,7 +114,7 @@ In the `Dependencies` tab of the stack, there is a button called `Dependencies g
 
 ## How it works
 
-Stack dependencies are directed acyclic graphs ([DAGs](https://wikipedia.org/wiki/Directed_acyclic_graph)). This means that a stack
+Stack dependencies are directed acyclic graphs ([DAGs](https://wikipedia.org/wiki/Directed_acyclic_graph){: rel="nofollow"}). This means that a stack
 can depend on multiple stacks, and a stack can be depended on by multiple stacks but there cannot be loops:
 you will receive an error if you try to add a stack to a dependency graph that will create a cycle.
 
@@ -73,7 +157,7 @@ graph TD;
     baseInfraColor(BaseInfra)-->databaseColor(Database);
     baseInfraColor(BaseInfra)-->networkColor(Network);
     baseInfraColor(BaseInfra)-->storageColor(Storage);
-    databaseColor(Database)-->paymentSvcColor(PaymentService);
+    databaseColor(Database)-->|TF_VAR_CONNECTION_STRING|paymentSvcColor(PaymentService);
     networkColor(Network)-->paymentSvcColor(PaymentService);
     databaseColor(Database)-->cartSvcColor(CartService);
     networkColor(Network)-->cartSvcColor(CartService);
@@ -90,8 +174,10 @@ If `BaseInfra` receives a push event, it will start running immediately and queu
 _all_ of the stacks below. The order of the runs: `BaseInfra`, then `Database` & `Network` & `Storage` in parallel,
 finally `PaymentService` & `CartService` in parallel.
 
-Note: since `PaymentService` and `CartService` does not depend on `Storage`, they will not
+Since `PaymentService` and `CartService` does not depend on `Storage`, they will not
 wait until it finishes running.
+
+Note: `PaymentService` references `Database` with `TF_VAR_CONNECTION_STRING`. But since it also depends on `Network` with no references, it'll run regardless of the `TF_VAR_CONNECTION_STRING` output. If the `Database` stack does not have the corresponding output, the `TF_VAR_CONNECTION_STRING` environment variable will not be injected into the run.
 
 ### Scenario 3
 
@@ -154,6 +240,7 @@ graph TD;
     networkColor(Network)-->paymentSvcColor(PaymentService);
     databaseColor(Database)-->cartSvcColor(CartService);
     networkColor(Network)-->cartSvcColor(CartService);
+    storageColor(Storage)-->|TF_VAR_AWS_S3_BUCKET_ARN|storageSvcColor(StorageService);
 
     style baseInfraColor fill:#51cbad
     style networkColor fill:#51abcb
@@ -161,15 +248,18 @@ graph TD;
     style cartSvcColor fill:#51abcb
     style storageColor fill:#51abcb
     style databaseColor fill:#51cbad
+    style storageSvcColor fill:#ecd309
 ```
 
 If `BaseInfra` and `Database` are a monorepo and a push event affects both of them, this scenario isn't any different than [Scenario 2](#scenario-2) and [Scenario 4](#scenario-4). The order from top to bottom is still the same: `BaseInfra` first, then `Database` & `Network` & `Storage` in parallel, finally `PaymentService` & `CartService` in parallel.
+
+`Storage` and `StorageService`: let's say that the S3 bucket resource of `Storage` already exists. This means that the bucket ARN didn't change, so `StorageService` will be skipped.
 
 ## Trigger policies
 
 Stack dependencies are a simpler alternative to [Trigger policies](../policy/trigger-policy.md) that cover most use cases. If your use case does not fit Stack dependencies, consider using a Trigger policy.
 
-There is no connection between the two features, and **the two shouldn't be combined** to avoid confusion.
+There is no connection between the two features, and **the two shouldn't be combined** to avoid confusion or even infinite loops in the dependency graph.
 
 ## Stack deletion
 
