@@ -11,6 +11,9 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 !!! warning
     Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the [Backup Credentials](./backup-credentials.md) section.
 
+!!! warning
+    Due to a limitation in Azure AD, when you map the teams to spacelift it will only map the IDs of the teams. A workaround would be to rewrite the teams in the [login policy](../../concepts/policy/login-policy.md#rewriting-teams).
+
 ## Pre-requisites
 
 - Spacelift account, with access to admin permissions

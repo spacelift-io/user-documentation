@@ -455,6 +455,16 @@ In addition, you will also need to allow access to the following:
 - Access to any other infrastructure required as part of your runs.
 {% if is_saas() %}- Access to `keys.openpgp.org` - required to download the PGP key used to sign Spacelift binaries.{% endif %}
 
+### Hardware recommendations
+
+The hardware requirments for the workers will vary depending on the stack size(How many resources managed, resource type, etc.), but we recommend at least **2GB of memory and 2 vCPUs of compute power**.
+
+These are the recommended server types for the three main cloud providers:
+
+- AWS: **t3.small** instance type
+- Azure: **Standard_A2_V2** virtual machine
+- GCP: **e2-medium** instance type
+
 ## Using worker pools
 
 Worker pools must be explicitly attached to [stacks](stack/README.md) and/or [modules](../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
