@@ -402,13 +402,14 @@ Also worth noting is the fact that flags are shown in the GUI, so even if you're
 
 ## Backwards-compatibility
 
-Policies, like the rest of Spacelift functionality, is generally kept fully backwards-compatible. Input fields of policies aren't removed and existing policy "invocation sites" are kept in place.
+Policies, like the rest of Spacelift functionality, are generally kept fully backwards-compatible. Input fields of policies aren't removed and existing policy "invocation sites" are kept in place.
 
 Occasionally policies might be deprecated, and once unused, disabled, but this is a process in which we work very closely with any affected users to make sure they have ample time to migrate and aren't negatively affected.
 
 However, we do reserve the right to add new fields to policy inputs and introduce additional invocation sites. E.g. we could introduce a new input event type to the Push Policy, and existing Push Policies will start getting those events. Thus, users are expected to write their policies in a way that new input types are handled gracefully, by checking for the event type in their rules.
 
 For example, in a Push Policy, you might write a rule as follows:
+
 ```rego title="backwards-compatibility.rego"
 track {
   not is_null(input.pull_request)
