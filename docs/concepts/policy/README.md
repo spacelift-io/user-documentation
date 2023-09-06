@@ -401,6 +401,7 @@ Also worth noting is the fact that flags are shown in the GUI, so even if you're
 ![Approval policy with flags](../../assets/screenshots/policy_flags_gui_example.png)
 
 ## Backwards-compatibility
+
 Policies, like the rest of Spacelift functionality, is generally kept fully backwards-compatible. Input fields of policies aren't removed and existing policy "invocation sites" are kept in place.
 
 Occasionally policies might be deprecated, and once unused, disabled, but this is a process in which we work very closely with any affected users to make sure they have ample time to migrate and aren't negatively affected.
