@@ -189,7 +189,10 @@ Note that in order to refer to a test case, you need to set a unique `id` to it.
 ## Versions
 
 !!! tip
-    If you would like to import old module versions, you can use a bash script that lists the tags in the repo and then use [spacectl](https://github.com/spacelift-io/spacectl) module create-version --sha xyz  to create versions from them.
+    If you would like to import old module versions, you can use a bash script that lists the tags in the repo and then use [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}:
+   ```shell
+    spacectl module create-version --id <MODULE ID> --sha <COMMIT SHA> --version <MODULE VERSION>
+    ```    
 
 Whenever tests succeed on a [tracked change](../../concepts/run/README.md#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.
 
