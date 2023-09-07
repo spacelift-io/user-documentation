@@ -399,3 +399,22 @@ There are a few things worth knowing about flags:
 Also worth noting is the fact that flags are shown in the GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Below is an example of an approval policy exposing decision-making details:
 
 ![Approval policy with flags](../../assets/screenshots/policy_flags_gui_example.png)
+
+## Backwards-compatibility
+
+Policies, like the rest of Spacelift functionality, are generally kept fully backwards-compatible. Input fields of policies aren't removed and existing policy "invocation sites" are kept in place.
+
+Occasionally policies might be deprecated, and once unused, disabled, but this is a process in which we work very closely with any affected users to make sure they have ample time to migrate and aren't negatively affected.
+
+However, we do reserve the right to add new fields to policy inputs and introduce additional invocation sites. E.g. we could introduce a new input event type to the Push Policy, and existing Push Policies will start getting those events. Thus, users are expected to write their policies in a way that new input types are handled gracefully, by checking for the event type in their rules.
+
+For example, in a Push Policy, you might write a rule as follows:
+
+```rego title="backwards-compatibility.rego"
+track {
+  not is_null(input.pull_request)
+  input.pull_request.labels[_] == "deploy"
+}
+```
+
+As you can see, the first line in the `track` rule makes sure that we only respond to events that contain the pull_request field.
