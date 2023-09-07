@@ -20,5 +20,6 @@ In Terragrunt stacks you can use environment variables to add options to the com
 
 There is an environment variable for each phase of the run:
 
+- `TG_CLI_ARGS_init` - Allows you to add options sent to the Terragrunt application during the initalization phase
 - `TG_CLI_ARGS_plan` - Allows you to add options sent to the Terragrunt application during the planning phase
 - `TG_CLI_ARGS_apply` - Allows you to add options sent to the Terragrunt application during the applying phase
