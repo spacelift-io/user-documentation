@@ -114,9 +114,9 @@ Run logs are kept for 60 days.
 
 ## Run prioritization
 
-It's possible to change the priority of a run while it's in a non terminal state if the stack is using a private worker pool. If a run is prioritized a worker will try to process it before runs from other stacks. However runs in the same stack will still be processed in the order they were created.
+You can change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
 
-Run priority can be changed in the worker pool queue view:
+The priority of a run can be changed in the worker pool queue view:
 
 ![](<../../assets/screenshots/run_priority.png>)
 
