@@ -112,6 +112,14 @@ Stopped is a _passive state_ meaning no operations are performed while a run is 
 
 Run logs are kept for 60 days.
 
+## Run prioritization
+
+It's possible to change the priority of a run while it's in a non terminal state if the stack is using a private worker pool. If a run is prioritized a worker will try to process it before runs from other stacks. However runs in the same stack will still be processed in the order they were created.
+
+Run priority can be changed in the worker pool queue view:
+
+![](<../../assets/screenshots/run_priority.png>)
+
 ## Zero Trust Model
 
 For your most sensitive Stacks you can use additional verification of Runs based on arbitrary metadata you can provide to Runs when creating or confirming them.
