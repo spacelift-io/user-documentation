@@ -55,7 +55,6 @@ To do this, use the following steps:
 
 When creating a stack, you can optionally import an existing Terraform state file so that Spacelift can manage it going forward.
 
-You can import your existing Terraform State files in Stack creation process.
 
 ![](../../assets/screenshots/Stack_settings_importing_state_file.png)
 
