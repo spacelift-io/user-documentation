@@ -53,7 +53,7 @@ To do this, use the following steps:
 
 ## Importing existing state file into your Terraform Stacks
 
-If you are managing your infrastructure resources with Terraform prior to start using Spacelift, you would probably have an existing Terraform State file that you manage yourself. You have the option to import your existing Terraform State files into Spacelift and let Spacelift manage your states for you.
+When creating a stack, you can optionally import an existing Terraform state file so that Spacelift can manage it going forward.
 
 You can import your existing Terraform State files in Stack creation process.
 
