@@ -325,6 +325,13 @@ If a GitHub repository is renamed, we update its name in all the [stacks](../../
 
 You can use the [Setup Spacectl](https://github.com/marketplace/actions/setup-spacectl){: rel="nofollow"} GitHub Action to install our [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI tool to easily interact with Spacelift.
 
+## Git checkout support
+
+By default Spacelift uses the GitHub API to download a tarball containing the source code for your stack or module. We are introducing experimental support for downloading the code using a standard Git checkout. If you would like to enable this for your stacks/modules, there are currently two options available:
+
+1. Add a label called `feature:use_git_checkout` to each stack or module that you want to use Git checkout on. This allows you to test the new support without switching over all your stacks at once.
+2. Contact our support team and ask us to enable the feature for all stacks/modules in your account.
+
 ## Unlinking GitHub and Spacelift
 
 === "Uninstalling the Marketplace application"
