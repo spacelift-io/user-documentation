@@ -22,6 +22,12 @@ If any [plan policies](../policy/terraform-plan-policy.md) are attached to the c
 
 You can read more about plan policies [here](../policy/terraform-plan-policy.md).
 
+## Pending Review
+
+If any [plan policy](../policy/terraform-plan-policy.md) results in a warning and there are [approval policies](../policy/approval-policy.md) attached, the run will enter a pending review state after planning, in which approval policies will be evaluated. The run will only finish once all approval policies approve.
+
+This is useful to e.g. block pull requests related to a proposed run when the changes made by the run should be reviewed by another team, like security.
+
 ## Delta
 
 If the planning phase is successful (which includes policy evaluation), Spacelift analyses the diff and counts the resources and outputs that would be added, changed and deleted if the changes were to be applied. Here's one example of one such delta being reported:
