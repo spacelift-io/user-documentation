@@ -1245,6 +1245,13 @@ For simplicity, here is the current schema, but it might change in the future:
                 },
                 "manage_state": {
                     "type": "boolean"
+                },
+                "workflow_tool": {
+                    "type": "string",
+                    "enum": [
+                        "TERRAFORM_FOSS",
+                        "CUSTOM"
+                    ]
                 }
             }
         },
