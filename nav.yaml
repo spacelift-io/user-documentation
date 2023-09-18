@@ -74,6 +74,7 @@ nav:
           - vendors/terraform/debugging-guide.md
           - vendors/terraform/dependency-lock-file.md
           - vendors/terraform/cdktf.md
+          - vendors/terraform/workflow-tool.md
       - Terragrunt:
           - vendors/terragrunt/README.md
           - vendors/terragrunt/getting-started.md
@@ -121,11 +122,11 @@ nav:
           - integrations/cloud-providers/azure.md
           - integrations/cloud-providers/gcp.md
           - OpenID Connect (OIDC):
-            - integrations/cloud-providers/oidc/README.md
-            - integrations/cloud-providers/oidc/aws-oidc.md
-            - integrations/cloud-providers/oidc/gcp-oidc.md
-            - integrations/cloud-providers/oidc/azure-oidc.md
-            - integrations/cloud-providers/oidc/vault-oidc.md
+              - integrations/cloud-providers/oidc/README.md
+              - integrations/cloud-providers/oidc/aws-oidc.md
+              - integrations/cloud-providers/oidc/gcp-oidc.md
+              - integrations/cloud-providers/oidc/azure-oidc.md
+              - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
           - integrations/observability/datadog.md
       - Source Control:
