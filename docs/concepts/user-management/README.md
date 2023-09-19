@@ -29,13 +29,7 @@ Once a user is invited, they will receive an email from Spacelift that will take
 
 ![invitation email containing a button to accept the invitation](<../../assets/screenshots/user-management/invitation-email.png>)
 
-Once the user authenticates with your identity provider, they will be redirected to a landing page that asks for a confirmation code sent to their email.
-
-![confirmation code landing page with an input box for confirmation code](<../../assets/screenshots/user-management/confirmation-landing.png>)
-
-Alternatively, instead of typing the code manually, the user can click the button found in the confirmation code email to confirm the email address ownership.
-
-![confirmation code email with confirmation code and button to confirm email address ownership](<../../assets/screenshots/user-management/confirmation-email.png>)
+Once the user authenticates with your identity provider, they will be redirected to application.
 
 ## Migrating from Login Policy
 
