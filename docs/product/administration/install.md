@@ -127,7 +127,7 @@ The included `config.json` file provides an easy way to provide additional and r
 
 The mandatory fields are:
 
-- `account_name` - the name of your Spacelift account. Note: the URL of your Spacelift installation doesn't neccessarily need to match this name but the account name affects the URL of the [module registry](https://docs.spacelift.io/vendors/terraform/module-registry.html).
+- `account_name` - the name of your Spacelift account. Note: the URL of your Spacelift installation doesn't necessarily need to match this name but the account name affects the URL of the [module registry](https://docs.spacelift.io/vendors/terraform/module-registry.html).
 - `aws_region` - the AWS region you wish to install Spacelift into.
 - `load_balancer.certificate_arn` - the ARN of the ACM certificate you created in the pre-requisites.
 - `spacelift_hostname` - the hostname you wish to use for your Spacelift installation without the protocol or trailing slash, for example `spacelift.mycorp.com`.
@@ -279,7 +279,7 @@ Please note, the installation process can take between 10 and 20 minutes to crea
 If you see the following error message indicating that the account could not be found, please check the credentials for your AWS CLI are correctly configured:
 
 ```shell
-ERROR: could not find AWS account ID. Cannot continue with Spacelift install.
+ERROR: could not find AWS account ID. Cannot continue with Spacelift install. Please check that your AWS CLI credentials are correct and have not expired.
 ```
 
 This error message can also be displayed if your AWS credentials are connected to a GovCloud account but a non-GovCloud region has been specified in the `aws_region` configuration option.
@@ -323,7 +323,7 @@ To upgrade to the latest version of self-hosting, follow these steps:
 
 1. Make sure your config.json file is fully configured to match your existing installation. Ideally you should use the config file from your previous installation.
 2. Run `./install.sh`.
-3. Restart any workers connected to your Spacelift installation to make sure they're running the latest version.
+3. Deploy the latest version of the [CloudFormation worker pool template](../../concepts/worker-pools.md#cloudformation-template), and restart any workers connected to your Spacelift installation to make sure they're running the latest version.
 
 ## Uninstalling
 

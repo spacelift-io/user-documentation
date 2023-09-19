@@ -1,5 +1,8 @@
 # Drift detection
 
+!!! info
+    Note that drift detection only works on private workers, which is an Enterprise plan feature.
+
 ## Drift happens
 
 In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired and the actual state of the infrastructure managed by your tool of choice - [Terraform](https://www.terraform.io/){: rel="nofollow"}, [Pulumi](https://www.pulumi.com/){: rel="nofollow"}, [AWS CloudFormation](https://aws.amazon.com/cloudformation/){: rel="nofollow"}, etc. In practice, there are two sources of _drift_.

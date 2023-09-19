@@ -195,14 +195,14 @@ This is the schema of the data input that each policy request can receive:
 }
 ```
 
-The final JSON object received as input will depend on the type of notification being sent. Event depedant objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
+The final JSON object received as input will depend on the type of notification being sent. Event-dependent objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
 
 | Object Received     | Event                                                                |
 |---------------------|----------------------------------------------------------------------|
 | `account`           | Any event                                                            |
 | `webhook_endpoints` | Any event                                                            |
 | `run_updated`       | [Run](../run/README.md) Updated                                      |
-| `internal_error`    | Internal error occured                                               |
+| `internal_error`    | Internal error occurred                                               |
 | `module_version`    | [Module](../../vendors/terraform/module-registry.md) version updated |
 
 ## Policy in practice

@@ -12,6 +12,7 @@ nav:
           - concepts/stack/stack-dependencies.md
           - concepts/stack/drift-detection.md
           - concepts/stack/scheduling.md
+          - concepts/stack/deleting-a-stack.md
       - Blueprint:
           - concepts/blueprint/README.md
       - Configuration:
@@ -110,7 +111,9 @@ nav:
       - Cloud Integrations:
           - integrations/cloud-providers/README.md
           - integrations/cloud-providers/aws.md
-          - integrations/cloud-providers/oidc.md
+          - OpenID Connect (OIDC):
+            - integrations/cloud-providers/oidc/README.md
+            - integrations/cloud-providers/oidc/aws-oidc.md
       - Observability:
           - integrations/observability/datadog.md
       - Source Control:
@@ -134,6 +137,7 @@ nav:
   - 📖 Product:
       - Administration:
           - product/administration/install.md
+          - product/administration/changelog.md
           - product/administration/advanced-installations.md
           - product/administration/slack-integration-setup.md
       - product/notifications.md

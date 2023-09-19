@@ -11,6 +11,9 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 !!! warning
     Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the [Backup Credentials](./backup-credentials.md) section.
 
+!!! warning
+    Due to a limitation in Azure AD, when you map the teams to spacelift it will only map the IDs of the teams. A workaround would be to rewrite the teams in the [login policy](../../concepts/policy/login-policy.md#rewriting-teams).
+
 ## Pre-requisites
 
 - Spacelift account, with access to admin permissions
@@ -80,35 +83,36 @@ Click the **New client secret** button.
 
 ![Click New client secret.](../../assets/screenshots/4-azure-new-client-secret.png)
 
-Give your secret a **Description**.
+Give your secret a description and an expiration:
 
-Define an **Expires** duration**.**
+![Define client secret Description and Expires duration.](../../assets/screenshots/5-azure-new-secret.png)
 
 !!! info
     In this example, we are using 6 months for **Expires.** This means you will need to generate a new client secret in 6 months for your OIDC integration.
 
 Click **Add.**
 
-![Define client secret Description and Expires duration.](../../assets/screenshots/5-azure-new-secret.png)
+Now that your secret has been created, copy its **Value**:
 
-Now that we have the Client secret setup for our application, we'll need to take the **Value** and copy this into our Spacelift OIDC settings within the **Secret** input. **Value** within Azure AD = Spacelift's **Secret** input.
+![Copy the Value to your Spacelift OIDC settings as the "Secret".](<../../assets/screenshots/Screen Shot 2022-04-14 at 11.03.31 AM.png>)
+
+Take this secret value that you have just copied and paste this into our Spacelift OIDC settings within the **Secret** input:
+
+![Enter secret into Spacelift OIDC settings](../../assets/screenshots/azure-ad-oidc-enter-secret.png)
 
 !!! info
     Don't click Save in Spacelift just yet, we still need to get the Client ID and Provider URL for your application.
 
-![Copy the Value to your Spacelift OIDC settings as the "Secret".](<../../assets/screenshots/Screen Shot 2022-04-14 at 11.03.31 AM.png>)
+## Azure AD: Client ID and Provider URL
 
-The best way we've found to obtain the Client ID and Provider URL is to perform the following steps:
+To complete your configuration, you need two more pieces of information:
 
-Click on **Overview** within your Azure App.
+- The Client ID.
+- The Provider URL.
 
-On this page **Application (client) ID.** Copy this value to Spacelift as the Client ID
+You can get both of these pieces of information from the **Overview** section of your Azure AD application. The **Application (client) ID** field should be used as the Client ID, and the Provider URL can be found in the **OpenID Connect metadata document** field after clicking on the **Endpoints** button:
 
-Next, Click **Endpoints** which should expand a page with the endpoints for your App.
-
-Copy the portion of the **OpenID Connect metadata document** URL that is highlighted as shown in the screenshot, and paste the value into Spacelift as the **Provider URL**.
-
-![Copy the OpenID Connect metadata document URL.](../../assets/screenshots/6-azure-obtain-provider-url.png)
+![Azure AD App overview](../../assets/screenshots/azure-ad-oidc-app-overview.png)
 
 In summary, here are the values that should be copied over to Spacelift:
 

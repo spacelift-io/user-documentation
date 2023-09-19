@@ -413,7 +413,7 @@ stack:
   schedules:
     delete:
       delete_resources: ${{ context.random_number % 2 == 0 }} # Russian roulette
-      timestamp_unix: ${{ int(context.time) + duration(30m).getSeconds() }} # Delete the stack in 30 minutes
+      timestamp_unix: ${{ int(context.time) + duration("30m").getSeconds() }} # Delete the stack in 30 minutes
 ```
 
 {% endraw %}
@@ -478,7 +478,7 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 ```
 
 !!! tip
-    Remember that there are multiple ways to interract with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl), the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) or the web UI itself if you're feeling fancy.
+    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl), the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) or the web UI itself if you're feeling fancy.
 
 For simplicity, here is the current schema, but it might change in the future:
 

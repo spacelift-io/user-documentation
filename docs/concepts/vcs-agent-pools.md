@@ -4,6 +4,9 @@ description: This article explains how you can set up and use on-premise VCS Age
 
 # VCS Agent Pools
 
+!!! info
+    Note that private self-hosted VCS integration is an Enterprise plan feature.
+
 By default, Spacelift communicates with your VCS provider directly. This is usually sufficient, but some users may have special requirements regarding infrastructure, security or compliance, and need to host their VCS system in a way that's only accessible internally, where Spacelift can't reach it. This is where VCS Agent Pools come into play.
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
@@ -56,6 +59,33 @@ Within the VCS Agent Pools page, you will be able to see the number of active co
 When trying to use this integration, i.e. by opening the Stack creation form, you'll get a detailed log of the requests:
 
 ![Access Log example](<../assets/screenshots/image (50).png>)
+
+## Run the VCS Agent as a container
+
+You can run the VCS Agent as a Docker container:
+
+```shell
+docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS TOKEN>" \
+  -e "SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=http://169.254.0.10:7990" \
+  -e "SPACELIFT_VCS_AGENT_VENDOR=bitbucket_datacenter" \
+  public.ecr.aws/spacelift/vcs-agent
+```
+
+## Run the VCS Agent inside a Kubernetes Cluster
+
+We have a [VCS Agent Helm Chart](https://github.com/spacelift-io/spacelift-helm-charts) that you can use to install the VCS Agent on top of your Kubernetes Cluster. After creating a VCS Agent Pool in Spacelift and generating a token, you can add our Helm chart repo and update your local cache using:
+
+```shell
+helm repo add spacelift https://downloads.spacelift.io/helm
+helm repo update
+```
+
+Assuming your token, VCS endpoint and vendor are stored in the `SPACELIFT_VCS_AGENT_POOL_TOKEN`, `SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT` and `SPACELIFT_VCS_AGENT_VENDOR` environment
+variables, you can install the chart using the following command:
+
+```shell
+helm upgrade vcs-agent spacelift/vcs-agent --install --set "credentials.token=$SPACELIFT_VCS_AGENT_POOL_TOKEN,credentials.endpoint=$SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT,credentials.vendor=$SPACELIFT_VCS_AGENT_VENDOR"
+```
 
 ### Passing Metadata Tags
 

@@ -25,21 +25,31 @@ Regardless of the type of the job performed, some phases and terminal states are
 
 ### Queued
 
-Queued means that **no worker has picked up the run yet**. There are two possible reasons for that: there are no available workers, or the run is not eligible for processing.
+Queued means that the run is not [Ready](#ready) for processing, as it's either blocked, waiting for dependencies to finish, or requires additional action from a user.
 
-Let's start with the latter - more common - scenario. Spacelift serializes all state-changing operations to the Stack. Both tracked runs and tasks have the capacity to change the state, they're never allowed to run in parallel. Instead, each of them gets an exclusive lock on the stack, blocking others from starting.
+Spacelift serializes all state-changing operations to the Stack. Both tracked runs and tasks have the capacity to change the state, they're never allowed to run in parallel. Instead, each of them gets an exclusive lock on the stack, blocking others from starting.
 
-If you run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in the header:
+If your run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in run state list:
 
-![](../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing.png)
+![](../../assets/screenshots/blocked-queued-run-unconfirmed.png)
 
-The other scenario is just **running out of available workers**. If you're using the public worker pool, you can track its availability on our [status page](https://spacelift.statuspage.io/){: rel="nofollow"}. In particular, you should look at a system metric called _Public worker queuing time._ It indicates how long has the oldest run spent in the queue since becoming eligible for processing:
+There can also be other reasons why the run is in this state and is not being promoted to state [Ready](#ready):
 
-![](../../assets/screenshots/Spacelift_Status.png)
+- It needs to be approved
+- It's waiting for dependant stacks to finish
+- It's waiting for external dependencies to finish
 
-If you're using private workers, please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
+ Queued is a _passive state_ meaning no operations are performed while a run is in this state. The user can also cancel the run while it's still queued, transitioning it to the terminal [Canceled](#canceled) state.
 
-Queued is a _passive state_ meaning no operations are performed while a run is in this state. When a run is eligible for processing and a worker is available to pick it up, the state will automatically transition to [Preparing](#preparing). The user can cancel the run while it's still queued, transitioning it to the terminal [Canceled](#canceled) state.
+### Ready
+
+Ready state means that the run is eligible for processing and is waiting for a worker to become available. A run will stay in this state until
+it's picked up by a worker.
+
+When using the public worker pool, you will have to wait until a worker becomes available. For private workers,
+please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
+
+Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to cancel the run even if it's ready for processing, transitioning it to the terminal [Canceled](#canceled) state.
 
 ### Canceled
 
@@ -101,6 +111,14 @@ Stopped is a _passive state_ meaning no operations are performed while a run is 
 ## Logs Retention
 
 Run logs are kept for 60 days.
+
+## Run prioritization
+
+You can change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
+
+The priority of a run can be changed in the worker pool queue view:
+
+![](<../../assets/screenshots/run_priority.png>)
 
 ## Zero Trust Model
 

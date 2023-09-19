@@ -51,6 +51,28 @@ To do this, use the following steps:
 
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)
 
+## Importing existing state file into your Terraform Stacks
+
+When creating a stack, you can optionally import an existing Terraform state file so that Spacelift can manage it going forward.
+
+![](../../assets/screenshots/Stack_settings_importing_state_file.png)
+
+You can also import an existing Terraform state file when using Spacelift Terraform provider.
+
+```terraform title="stack.tf"
+resource "spacelift_stack" "example-stack" {
+  name = "Example Stack in Spacelift"
+
+  # Source code.
+  repository        = "<Repository Name>"
+  branch            = "main"
+
+  # State file information
+  import_state      = "<State File to Upload>"
+  import_state_file = "<Path to the State file>"
+}
+```
+
 ## Exporting Spacelift-managed Terraform state file
 
 !!! info

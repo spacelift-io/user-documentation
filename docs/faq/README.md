@@ -19,6 +19,31 @@ If you see the feature you are looking for, you can vote for it (4), or leave a 
 
 {% endif %}
 
+### Providing Admin consent for Microsoft login
+
+In order to sign up for Spacelift using an Azure AD account via our Microsoft login option, the Spacelift application needs to be installed into your Azure AD directory. To do this you either need to be an Azure AD administrator, or your Azure AD configuration needs to allow users to install applications.
+
+If you don't have permission, you will receive the following message when attempting to sign up:
+
+![](../assets/screenshots/faq-ms-login-admin-consent-required.png)
+
+If this happens, it means that you need ask an Azure AD admin to provide Admin consent, as described in the [Microsoft documentation](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal).
+
+To do this, your Azure AD admin can use a URL like the following to grant permission to Spacelift:
+
+```text
+https://login.microsoftonline.com/<tenant-id>/adminconsent?client_id=fba648b0-4b78-4224-b510-d96ff51eeef9
+```
+
+!!! info
+    NOTE: make sure to replace `<tenant-id>` with your Azure AD Tenant ID!
+
+After granting admin consent, your administrator will be redirected to Spacelift and receive the following error message, which can be safely ignored:
+
+![](../assets/screenshots/faq-ms-login-empty-code-error.png)
+
+After admin consent has been provided, you should be able to sign-up for Spacelift using your Microsoft account.
+
 ## Platforms
 
 ### Terraform

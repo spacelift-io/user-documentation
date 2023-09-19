@@ -1,7 +1,7 @@
 # Google Cloud Platform (GCP)
 
 !!! info
-    Please note that for GCP integration, we recommend using [OIDC](oidc.md)
+    Please note that for GCP integration, we recommend using [OIDC](oidc/README.md)
 
 ## About the integration
 

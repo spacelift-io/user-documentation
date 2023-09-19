@@ -151,7 +151,7 @@ A test case can be marked as `negative`, which means that it is expected to fail
 
 Test cases will be executed in parallel (as much as worker count permits) for each of the test cases version you have specified in the module configuration.
 
-Tests run both on [proposed and tracked changes](../../concepts/run/README.md#where-do-runs-come-from). When a tracked change occurs, we create a Version. Versions are described in more detail in the [next section](module-registry.md#tests).
+Tests run both on [proposed and tracked changes](../../concepts/run/README.md#where-do-runs-come-from). When a tracked change occurs, we create a Version. Versions are described in more detail in the [Versions section](module-registry.md#versions).
 
 !!! info
     Each test case will have its own commit status in GitHub / GitLab.
@@ -196,6 +196,17 @@ Two proposed git flow are as follows:
 
 The first one would be to have a main branch and create feature branches for changes. Whenever you merge to the main branch you bump the version and release it.
 
+If you'd like to ensure that the version is bumped before merging, we recommend adding something similar to your CI/CD pipeline:
+
+```bash
+git diff --exit-code --quiet HEAD^ HEAD -- .spacelift/config.yml
+
+if [ $? -ne 0 ]; then
+  echo "Make sure to bump the module version in .spacelift/config.yml"
+  exit 1
+fi
+```
+
 If you want more control over release schedules, you could go with the following:
 
 - A release branch
@@ -205,6 +216,9 @@ If you want more control over release schedules, you could go with the following
 Whenever you add a new functionality, you may want to create a feature branch and open Pull Request from it to the main branch. Whenever you want to release a new version, you merge the main branch into the release branch.
 
 You can also use [Git push policies](../../concepts/policy/push-policy/README.md) to further customize this.
+
+!!! Tip
+    If you would like to manage your Terraform Module versions using git tags, and would like git tag events to push your module to the Spacelift module registry. Please review our [Tag-driven Terraform Module Release Flow](../../concepts/policy/push-policy/#tag-driven-terraform-module-release-flow).
 
 !!! info
     If no test cases are present, the version is immediately marked green.

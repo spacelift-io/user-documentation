@@ -64,7 +64,7 @@ If you forgot to mark your view as default then you can easily do the same thing
 
 Views can be shared or private. While first creating the view, it is available only to your user. If you have admin access, you can make it public for all the users of the account by hovering over the saved view and clicking the small eye icon "Share within account". This way, all the users within this application can see the saved view and who created it.
 
-### Reseting
+### Resetting
 
 To quickly reset your default view to Spacelift default state, click the "Reset to Spacelift default view" button. It will result in clearing all sorting, search, and filter parameters, as well as managed filter settings.
 

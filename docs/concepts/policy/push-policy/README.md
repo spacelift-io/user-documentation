@@ -94,10 +94,21 @@ cancel[run.id] {
 }
 ```
 
+You can also compare branches and cancel proposed runs in queued state pointing to a specific branch using this example policy:
+
+```opa
+cancel[run.id] {
+  run := input.in_progress[_]
+  run.type == "PROPOSED"
+  run.state == "QUEUED"
+  run.branch == input.pull_request.head.branch
+}
+```
+
 Please note that you cannot cancel module test runs. Only proposed and tracked stack runs can be canceled.
 
 !!! info
-    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
+    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancellation itself is canceled.
 
 ### Corner case: track, don't trigger
 

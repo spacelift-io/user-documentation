@@ -8,7 +8,8 @@ description: >-
 
 One of the things we're most proud of at Spacelift is the deep integration with everyone's favorite version control system - GitHub.
 
-This integration is typically set up automatically for users who have selected GitHub as their login source, but if you are logging into Spacelift using a different identity provider (e.g. Google, GitLab, or another SSO provider), and do not have GitHub configured as a VCS Provider, see the following section on [setting up the integration](github.md#setting-up-the-integration). This is also applicable for users who want to connect Spacelift to their GitHub Enterprise instance or to multiple GitHub accounts.
+!!! warning
+    This integration is typically set up automatically for users who have selected GitHub as their login source, but if you are logging into Spacelift using a different identity provider (e.g. Google, GitLab, or another SSO provider), and do not have GitHub configured as a VCS Provider, see the following section on [Setting up the custom application](github.md#setting-up-the-custom-application). This is also applicable for users who want to connect Spacelift to their GitHub Enterprise instance or to multiple GitHub accounts.
 
 ## Setting up the integration
 
@@ -323,6 +324,13 @@ If a GitHub repository is renamed, we update its name in all the [stacks](../../
 ## GitHub Action
 
 You can use the [Setup Spacectl](https://github.com/marketplace/actions/setup-spacectl){: rel="nofollow"} GitHub Action to install our [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI tool to easily interact with Spacelift.
+
+## Git checkout support
+
+By default Spacelift uses the GitHub API to download a tarball containing the source code for your stack or module. We are introducing experimental support for downloading the code using a standard Git checkout. If you would like to enable this for your stacks/modules, there are currently two options available:
+
+1. Add a label called `feature:enable_git_checkout` to each stack or module that you want to use Git checkout on. This allows you to test the new support without switching over all your stacks at once.
+2. Contact our support team and ask us to enable the feature for all stacks/modules in your account.
 
 ## Unlinking GitHub and Spacelift
 

@@ -116,12 +116,12 @@ The following links will help you set up the necessary integration with your Clo
 - [AWS](../../integrations/cloud-providers/aws.md)
 - [Azure](../../integrations/cloud-providers/azure.md)
 - [GCP](../../integrations/cloud-providers/gcp.md)
-- [OIDC](../../integrations/cloud-providers/oidc.md)
+- [OIDC](../../integrations/cloud-providers/oidc/README.md)
 
 {% else %}
 
 - [AWS](../../integrations/cloud-providers/aws.md)
-- [OIDC](../../integrations/cloud-providers/oidc.md)
+- [OIDC](../../integrations/cloud-providers/oidc/README.md)
 
 {% endif %}
 

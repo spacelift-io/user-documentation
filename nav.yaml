@@ -12,6 +12,7 @@ nav:
           - concepts/stack/stack-dependencies.md
           - concepts/stack/drift-detection.md
           - concepts/stack/scheduling.md
+          - concepts/stack/deleting-a-stack.md
       - Blueprint:
           - concepts/blueprint/README.md
       - Configuration:
@@ -77,6 +78,12 @@ nav:
           - vendors/terraform/debugging-guide.md
           - vendors/terraform/dependency-lock-file.md
           - vendors/terraform/cdktf.md
+      - Terragrunt:
+          - vendors/terragrunt/README.md
+          - vendors/terragrunt/getting-started.md
+          - vendors/terragrunt/reference.md
+          - vendors/terragrunt/run-all.md
+          - vendors/terragrunt/limitations.md
       - Pulumi:
           - vendors/pulumi/README.md
           # KLUDGE: The default value for navigation items come from the H1 heading for the page.
@@ -117,7 +124,12 @@ nav:
           - integrations/cloud-providers/aws.md
           - integrations/cloud-providers/azure.md
           - integrations/cloud-providers/gcp.md
-          - integrations/cloud-providers/oidc.md
+          - OpenID Connect (OIDC):
+            - integrations/cloud-providers/oidc/README.md
+            - integrations/cloud-providers/oidc/aws-oidc.md
+            - integrations/cloud-providers/oidc/gcp-oidc.md
+            - integrations/cloud-providers/oidc/azure-oidc.md
+            - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
           - integrations/observability/datadog.md
       - Source Control:

@@ -53,7 +53,7 @@ Using the output from the **assume-role** command, set your credentials in your 
 ```bash
 export AWS_ACCESS_KEY_ID=<value for access key id>
 export AWS_SECRET_ACCESS_KEY=<value for secret access key>
-export AWS_SESSION_TOKEN=<value for session toknen>
+export AWS_SESSION_TOKEN=<value for session token>
 ```
 
 ### Run deployment commands as required

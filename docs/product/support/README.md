@@ -21,11 +21,12 @@ Before reaching out for support, have you tried:
 ## Contacting Support
 
 {% if is_saas() %}
-| Plan           | How to get support                                           |
-| -------------- | ------------------------------------------------------------ |
-| **Free**       | Open a conversation in the Spacelift chat widget             |
-| **Cloud**      | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
-| **Enterprise** | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
+| Plan            | How to get support                                           |
+| --------------- | ------------------------------------------------------------ |
+| **Free**        | Open a conversation in the Spacelift chat widget             |
+| **Cloud**       | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
+| **Enterprise**  | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
+| **Self-Hosted** | For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible. |
 {% else %}
 For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible.
 {% endif %}
@@ -60,9 +61,9 @@ Support to the Free plan users is provided on a best-effort basis. There is no c
 | **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
 | **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
 
-Spacelift has support engineers in Europe and in the US. They observe local holidays, so the working hours might change on those days. Our infrastructure team is on-call 24/7, so Critical incidents are not impacted by holidays.
+### Self-Hosted Plan
 
-{% else %}
+{% endif %}
 
 | Severity             | First Response Time | Working Hours               |
 | -------------------- | ------------------- | --------------------------- |
@@ -71,9 +72,7 @@ Spacelift has support engineers in Europe and in the US. They observe local holi
 | **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
 | **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
 
-Spacelift has support engineers in Europe and in the US. They observe local holidays, so the working hours might change on those days.
-
-{% endif %}
+Spacelift has support engineers in Europe and the US. They observe local holidays, so the working hours might change on those days. We have engineers on-call 24/7 for Critical incidents, so those are not impacted by holidays.
 
 ### Definitions of Severity Level
 
@@ -109,6 +108,8 @@ Here are some examples of what is in scope and what is not for some of the techn
 Spacelift cannot provide training on the use of the underlying technologies that Spacelift integrates with. Spacelift is a product aimed at technical users, and we expect our users to be versed in the basic usage of the technologies related to features that they seek support for.
 
 For example, a customer looking for help with a Kubernetes integration should understand Kubernetes to the extent that they can retrieve log files or perform other essential tasks without in-depth instruction.
+
+{% if is_saas() %}For Self-Hosted, we{% else %}We{% endif %} do not provide support for the underlying cloud account that hosts Spacelift. We expect the network, security, and other components to be configured and maintained in a way that is compatible with [Spacelift requirements](../../self-hosted/latest/product/administration/install).
 
 ### Feature Preview
 
