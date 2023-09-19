@@ -77,6 +77,7 @@ jobs:
           DOC_ENV: prod
           LOGO: "assets/images/logo-selfhosted.svg"
           WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+          SITE_NAME: "https://docs.spacelift.io/self-hosted"
 
       - name: "Create preprod release"
         run: |
@@ -91,6 +92,7 @@ jobs:
           SPACELIFT_DISTRIBUTION: "SELF_HOSTED"
           DOC_ENV: preprod
           WP_OPTIONS_API_URL: ${{ vars.WP_OPTIONS_API_URL }}
+          SITE_NAME: "https://docs.spacelift.io/self-hosted"
 
       - name: "Push branches"
         run: |
