@@ -6,7 +6,7 @@ What would you say if you could manage Spacelift resources - that is [stacks](..
 
 Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift) always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
 
-So, without further ado, let's define a stack:
+An example of a Spacelift stack being defined through Terraform:
 
 ```terraform title="stack.tf"
 resource "spacelift_stack" "managed-stack" {
@@ -18,8 +18,7 @@ resource "spacelift_stack" "managed-stack" {
 }
 ```
 
-!!! success
-    OK, so who wants to go back to clicking on things in the web GUI? Because you will likely need to do some clicking, too, [at least with your first stack](terraform-provider.md#proposed-workflow).
+A more in depth guide that will guide you through creating multiple types of Spacelift resources through Terraform can be found at [the terraform-starter repository](https://github.com/spacelift-io/terraform-starter).
 
 ## How it works
 
