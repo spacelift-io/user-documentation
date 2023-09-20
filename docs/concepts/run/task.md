@@ -44,6 +44,9 @@ Apart from the common run phases described in the general run documentation, tas
 
 Performing a task will succeed and the task will transition to the [finished](./README.md#finished) state iff the exit code of your command is 0 (the Unix standard). Otherwise the task is marked as [failed](./README.md#failed). Performing cannot be stopped since we must assume that it involves state changes.
 
+!!! Tip
+    Tasks are not interactive so you may need to add the `-force` argument to the command.
+
 ## Skipping initialization
 
 In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
