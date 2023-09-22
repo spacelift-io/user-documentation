@@ -20,7 +20,7 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 ![](../../assets/screenshots/Screenshot_Stack_Dependencies.png)
 
 !!! info
-    You can only create dependencies between stacks that you're both an admin of. See [Spaces Access Control](../spaces/access-control.md) for more information.
+    In order to create a dependency between two stacks you need to have at least **reader** permission to one stack (dependency) and **admin** permission to the other (dependee). See [Spaces Access Control](../spaces/access-control.md#roles) for more information.
 
 ## Dependencies overview
 
