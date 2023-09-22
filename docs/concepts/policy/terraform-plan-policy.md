@@ -29,7 +29,8 @@ Yay, that works (and it fails our plan, too), but it's not terribly useful - unl
 
 ## Data input
 
-This is the schema of the data input that each policy request will receive:
+This is the schema of the data input that each policy request will receive.
+If the policy is executed for a first time, the `previous_run` field will be missing.
 
 ```json
 {
@@ -43,6 +44,48 @@ This is the schema of the data input that each policy request will receive:
     },
     "request": {
       "timestamp_ns": "number - current Unix timestamp in nanoseconds"
+    },
+    "previous_run": {
+      "based_on_local_workspace": "boolean - whether the run stems from a local preview",
+      "branch": "string - the branch the run was triggered from",
+      "changes": [
+        {
+          "action": "string enum - added | changed | deleted",
+          "entity": {
+            "address": "string - full address of the entity",
+            "name": "string - name of the entity",
+            "type": "string - full resource type or \"output\" for outputs",
+            "entity_vendor": "string - the name of the vendor",
+            "entity_type": "string - the type of entity, possible values depend on the vendor",
+            "data": "object - detailed information about the entity, shape depends on the vendor and type"
+          },
+          "phase": "string enum - plan | apply"
+        }
+      ],
+      "commit": {
+        "author": "string - GitHub login if available, name otherwise",
+        "branch": "string - branch to which the commit was pushed",
+        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "hash": "string - the commit hash",
+        "message": "string - commit message"
+      },
+      "created_at": "number - creation Unix timestamp in nanoseconds",
+      "drift_detection": "boolean - is this a drift detection run",
+      "flags" : ["string - list of flags set on the run by other policies" ],
+      "id": "string - the run ID",
+      "runtime_config": {
+        "before_init": ["string - command to run before run initialization"],
+        "project_root": "string - root of the Terraform project",
+        "runner_image": "string - Docker image used to execute the run",
+        "terraform_version": "string - Terraform version used to for the run"
+      },
+      "state": "string - the current run state",
+      "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+      "type": "string - type of the run",
+      "updated_at": "number - last update Unix timestamp in nanoseconds",
+      "user_provided_metadata": [
+        "string - blobs of metadata provided using spacectl or the API when interacting with this run"
+      ]
     },
     "run": {
       "based_on_local_workspace": "boolean - whether the run stems from a local preview",
