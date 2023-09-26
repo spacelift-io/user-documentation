@@ -109,6 +109,7 @@ You also have the possibility of enabling the run-all feature of Terragrunt, whi
 Support is currently in Beta.
 
 ### Ansible
+
 ![](<../../assets/screenshots/Configurebackendans.png>)
 
 When you create an Ansible stack in Spacelift, you have the option to select the playbook file you want to use. You can define policies for your stack as you would do for any other stack.
