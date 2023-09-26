@@ -99,6 +99,22 @@ When you create a Kubernetes stack in Spacelift, you have the option to specify 
 
 You can also provide the version of kubectl that you want the worker to download. This is useful if you need to work with a specific version of kubectl for compatibility or testing purposes. The worker will download the specified version of kubectl at runtime, ensuring that the correct version is available for executing commands on the cluster.
 
+### Terragrunt
+
+![](<../../assets/screenshots/Configurebackendtrg.png>)
+Creating a Terragrunt stack in Spacelift, gives you the option to specify the Terraform and Terragrunt versions you want to use.
+
+You also have the possibility of enabling the run-all feature of Terragrunt, which is useful in scenarios where organizations rely on this in their current process and are unable to do a full migration yet.
+
+Support is currently in Beta.
+
+### Ansible
+![](<../../assets/screenshots/Configurebackendans.png>)
+
+When you create an Ansible stack in Spacelift, you have the option to select the playbook file you want to use. You can define policies for your stack as you would do for any other stack.
+
+Support is currently in Beta.
+
 ## Define behavior
 
 Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
