@@ -133,6 +133,7 @@ nav:
               - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
           - integrations/observability/datadog.md
+          - integrations/observability/prometheus.md
       - Source Control:
           - integrations/source-control/README.md
           - integrations/source-control/github.md
