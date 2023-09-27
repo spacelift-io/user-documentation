@@ -38,7 +38,7 @@ jobs:
           private_key: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
