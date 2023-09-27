@@ -4,10 +4,19 @@ Every job in Spacelift is processed inside a fresh, isolated Docker container. T
 
 ## Standard runner image
 
-By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform) image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [very simple Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile) that builds this image.
+By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform) image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile) that builds this image.
 
 !!! info
     Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
+
+### Standard runner image flavors
+
+- `runner-terraform:latest` (default) - includes `aws` CLI
+- `runner-terraform:gcp-latest` - includes `gcloud` CLI
+- `runner-terraform:azure-latest` - includes `az` CLI
+
+!!! note
+    The reason we have separate images for cloud providers is that the `gcloud` and `az` CLIs are enormous and we don't want to bloat the default image with them.
 
 ## Allowed registries on public worker pools
 
