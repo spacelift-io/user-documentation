@@ -298,6 +298,84 @@ stack:
   name: 'yes-my-stack'
 ```
 
+### Interaction with Terraform `templatefile`
+
+When using the Terraform [`templatefile`](https://developer.hashicorp.com/terraform/language/functions/templatefile){: rel="nofollow"} function to generate a Blueprint template body, you can run into issues because the Blueprint template engine and `templatefile` both use `$` as template delimiters. This can result in error messages like the following:
+
+{% raw %}
+
+```shell
+│ Error: Error in function call
+│
+│   on main.tf line 2, in output "content":
+│    2:   value = templatefile("${path.module}/test.tftpl", {
+│    3:     SPACE = "root"
+│    4:   })
+│     ├────────────────
+│     │ path.module is "."
+│
+│ Call to function "templatefile" failed: ./test.tftpl:5,31-32: Missing key/value separator; Expected an equals
+│ sign ("=") to mark the beginning of the attribute value.
+```
+
+To solve this you can use `$${}` to indicate that `templatefile` should not attempt to replace a certain piece of text.
+
+In the following example, `$${{ inputs.stack_name }}` is escaped, whereas `${SPACE}` is not:
+
+```yaml
+inputs:
+  - id: stack_name
+    name: Stack name
+stack:
+  name: $${{ inputs.stack_name }}
+  space: ${SPACE}
+  vcs:
+    branch: main
+    repository: my-repository
+    provider: GITHUB
+  vendor:
+    terraform:
+      manage_state: true
+      version: "1.3.0"
+```
+
+{% endraw %}
+
+We can then use a call to `templatefile` like the following to render this template:
+
+{% raw %}
+
+```terraform
+templatefile("${path.module}/test.tftpl", {
+  SPACE = "root"
+})
+```
+
+{% endraw %}
+
+This results in the following output when the template is rendered:
+
+{% raw %}
+
+```yaml
+inputs:
+  - id: stack_name
+    name: Stack name
+stack:
+  name: ${{ inputs.stack_name }}
+  space: root
+  vcs:
+    branch: main
+    repository: my-repository
+    provider: GITHUB
+  vendor:
+    terraform:
+      manage_state: true
+      version: "1.3.0"
+```
+
+{% endraw %}
+
 ## Variables
 
 Since you probably don't want to create stacks with the exact same name and configuration, you'll use variables.
