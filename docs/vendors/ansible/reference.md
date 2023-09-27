@@ -31,6 +31,18 @@ Ansible uses `ControlMaster` and `ControlPath` SSH options to speed up playbook 
 
 The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/ansible/2.5/reference_appendices/config.html#ansible-ssh-control-path-dir){: rel="nofollow"} is `/tmp/.ansible/cp`.
 
+### Specifying additional CLI flags
+
+You can specify addtional [CLI flags](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#common-options) using the following environment variables:
+
+- `SPACELIFT_ANSIBLE_CLI_ARGS` - will take effect for both planning and applying phases
+- `SPACELIFT_ANSIBLE_CLI_ARGS_plan` - will take effect only for the planning phase
+- `SPACELIFT_ANSIBLE_CLI_ARGS_apply` - will take effect only for the applying phase
+
+If both phase specific and generic flags are used, both will take effect.
+
+![Ansible CLI flags](../../assets/screenshots/ansible/ansible_cli_flags.png)
+
 ## File permissions
 
 There are a few nuances with certain files' permissions when using Ansible.
