@@ -2,6 +2,34 @@
 
 What would you say if you could manage Spacelift resources - that is [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md) - using Spacelift? We hate ClickOps as much as anyone, so we designed everything from the ground up to be easily managed using a Terraform provider. We hope that advanced users will define most of their resources programmatically.
 
+{% if is_self_hosted() %}
+
+## Self-Hosted Version Compatibility
+
+The Terraform provider uses our [GraphQL API](../../integrations/api.md) to manage Spacelift, and relies on certain features being available in the API in order to work. What this can sometimes mean is that a new feature is added to the Terraform provider which hasn't yet been made available in the GraphQL API for Self-Hosted versions of Spacelift.
+
+Because of this, it's not always possible to use the latest version of the Terraform provider with Self-Hosted, and we recommend that you pin to a known-compatible version. You can do this using a `required_providers` block like in the following example:
+
+```terraform
+terraform {
+    required_providers {
+        spacelift = {
+            source = "spacelift-io/spacelift"
+            version = "1.3.0"
+        }
+    }
+}
+```
+
+The following table shows the latest version of the Terraform provider known to work with our Self-Hosted versions:
+
+| Self-Hosted Version | Max Provider Version |
+| ------------------- | -------------------- |
+| 0.0.8-hotfix.1      | 1.3.0                |
+| 0.0.8               | 1.3.0                |
+
+{% endif %}
+
 ## Taking it for a spin
 
 Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift) always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
