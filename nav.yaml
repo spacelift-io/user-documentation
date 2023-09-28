@@ -54,6 +54,10 @@ nav:
           - concepts/spaces/deleting-a-space.md
           - concepts/spaces/structuring-your-spaces-tree.md
           - concepts/spaces/migrating-out-of-the-legacy-space.md
+      - User Management:
+          - concepts/user-management/README.md
+          - concepts/user-management/admin.md
+          - concepts/user-management/user.md
       - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
       - Terraform:
