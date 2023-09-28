@@ -104,3 +104,13 @@ The side-effect is that you will not see samples for these users.
 [Approval policies](../concepts/policy/approval-policy.md) and [run confirmation](../concepts/run/tracked.md#confirmed) are related but different concepts.
 
 Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. Just like a PR approval means "I'm OK with this being merged", a run approval means "I'm OK with that action being executed" but nothing will happen until someone clicks on the "Merge" or "Confirm" button, respectively.
+
+## Billing
+
+### What counts as a user?
+
+Everyone who logged in to the Services in a given month is counts as a user.
+
+API keys are virtual users and are billed like regular users, too. Thus, each API key used during any billing cycle counts against the total number of users.
+
+When setting up SSO, future logins will appear as new users since Spacelift cannot map those without your assistance. New users will count against your quota, and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact).
