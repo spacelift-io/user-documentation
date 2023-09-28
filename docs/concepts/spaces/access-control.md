@@ -41,8 +41,8 @@ The way you can control access to Spaces in your Spacelift account is by using [
 
 We have introduced new rules that allow you to assign access to spaces:
 
-- **space_reader**
-- **space_writer**
+- **space_read**
+- **space_write**
 - **space_admin**
 
 Here is a valid login policy that uses all of them:
