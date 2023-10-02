@@ -32,7 +32,7 @@ Once a user is invited, they will receive an email from Spacelift that will take
 
 ![invitation email containing a button to accept the invitation](<../../assets/screenshots/user-management/invitation-email.png>)
 
-Once the user authenticates with your identity provider, they will be redirected to application.
+Once the user authenticates with your identity provider, they will be redirected to the application.
 
 ## Migrating from Login Policy
 
