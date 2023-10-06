@@ -241,7 +241,7 @@ In order to use modules, you have to source them from the Spacelift module regis
 ![](<../../assets/screenshots/image (1).png>)
 
 !!! info
-    If you want to use the modules within Spacelift Stacks, those stacks consuming the module need to be able to access the Space which the module resides. You can control the Space Inheritance configurations within [Space Access Control](../../concepts/spaces/access-control.md#inheritance).
+    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [Space Inheritance](../../concepts/spaces/access-control.md#inheritance).
 
 ### Sharing modules
 
