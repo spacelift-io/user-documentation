@@ -4,6 +4,19 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v0.0.8 and v0.0.9
+
+### Features
+
+- Increase worker default disk size to 40GB.
+- Adding support for Terraform versions up to v1.5.7.
+- Update frontend and backend to the latest versions.
+
+### Fixes
+
+- Enforce bucket policy to prevent objects getting fetched not using HTTPS.
+- Updated no account ID message to indicate that it is caused by missing AWS credentials in the install script.
+
 ## Changes between v0.0.7 and v0.0.8
 
 ### Features
