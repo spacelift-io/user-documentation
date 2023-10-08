@@ -144,21 +144,31 @@ When triggered by a _run_, this is the schema of the data input that each policy
 When triggered by a _new module version_, this is the schema of the data input that each policy request will receive:
 
 ```json
-{
-  "module": { // Module for which the new version was released
-    "id": "string - unique ID of the module",
+
+"module": { // Module for which the new version was released
     "administrative": "boolean - is the stack administrative",
     "branch": "string - tracked branch of the module",
     "labels": ["string - list of arbitrary, user-defined selectors"],
+    "current_version": "Newly released module version",
+    "id": "string - unique ID of the module",
+    "name": "string - name of the stack",
     "namespace": "string - repository namespace, only relevant to GitLab repositories",
     "project_root": "optional string - project root as set on the Module, if any",
-    "repository": "string - name of the source repository",
-    "terraform_provider": "string - name of the main Terraform provider used by the module",
-    "version": { // Newly released module version
-      "number": "string - semver version number",
-      "created_at": "number - creation Unix timestamp in nanoseconds",
+    "repository": "string - name of the source GitHub repository",
+    "space": {
+        "id": "string",
+        "labels": ["string"],
+        "name": "string"
+      },
+    "terraform_version": "string or null - last Terraform version used to apply changes",
+    "worker_pool": {
+      "id": "string - the worker pool ID, if it is private",
+      "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+      "name": "string - name of the worker pool, if it is private",
+      "public": "boolean - is the worker pool public"
     }
   }
+
   "stacks": [ // List of consumers of the newest available module version
     {
       "administrative": "boolean - is the stack administrative",
@@ -188,7 +198,6 @@ When triggered by a _new module version_, this is the schema of the data input t
       }
     }
   ]
-}
 ```
 
 ## Examples
