@@ -381,6 +381,49 @@ As input, Git push policy receives the following document:
 }
 ```
 
+When triggered by a _new module version_, this is the schema of the data input that each policy request will receive:
+
+```json
+
+"module": { // Module for which the new version was released
+    "administrative": "boolean - is the stack administrative",
+    "branch": "string - tracked branch of the module",
+    "labels": ["string - list of arbitrary, user-defined selectors"],
+    "current_version": "Newly released module version",
+    "id": "string - unique ID of the module",
+    "name": "string - name of the stack",
+    "namespace": "string - repository namespace, only relevant to GitLab repositories",
+    "project_root": "optional string - project root as set on the Module, if any",
+    "repository": "string - name of the source GitHub repository",
+    "space": {
+        "id": "string",
+        "labels": ["string"],
+        "name": "string"
+      },
+    "terraform_version": "string or null - last Terraform version used to apply changes",
+    "worker_pool": {
+      "id": "string - the worker pool ID, if it is private",
+      "labels": ["string - list of arbitrary, user-defined selectors, if the worker pool is private"],
+      "name": "string - name of the worker pool, if it is private",
+      "public": "boolean - is the worker pool public"
+    }
+  }
+  "pull_request": {
+    "action": "string - opened, reopened, closed, merged, edited, labeled, synchronize, unlabeled",
+    "action_initiator": "string",
+    "approved": "boolean - indicates whether the PR has been approved",
+    "author": "string",
+    "base": {
+      "affected_files": ["string"],
+      "author": "string",
+      "branch": "string",
+      "created_at": "number (timestamp in nanoseconds)",
+      "message": "string",
+      "tag": "string"
+    }
+  },
+```
+
 Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
 
 !!! warning
