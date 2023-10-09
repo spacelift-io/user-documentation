@@ -14,7 +14,11 @@ This should open a form like this one:
 
 ![](../../assets/screenshots/gitlabsetupsc.png)
 
-In this step you will need to provide the API host URL of your GitLab server, the User facing host URL, and an API token generated for Spacelift to communicate with the GitLab API. Let's assume we don't have token handy, so let's navigate to our GitLab server (we'll just use `gitlab.com`) to create one from the Access Tokens section of your User Settings page:
+In this step you will need to provide the API host URL of your GitLab server, the User facing host URL, and an API token generated for Spacelift to communicate with the GitLab API.
+
+### Creating an Access Token
+
+Let's assume we don't have token handy, so let's navigate to our GitLab server (we'll just use `gitlab.com`) to create one from the Access Tokens section of your User Settings page:
 
 ![](../../assets/screenshots/Personal_Access_Tokens_·_User_Settings_·_GitLab_and_Slack___Zuzia___office-space.png)
 
@@ -22,6 +26,8 @@ Please give the personal access token a descriptive name and grant it `api` scop
 
 !!! warning
     Please note, when creating tokens bound to a GitLab user, the user is required to have "Maintainer" level access to any projects you require Spacelift to be able to access.
+
+### Enabling the Integration
 
 Once you've created your personal API token, please pass it - along with the server API host - to the integration form in Spacelift and click the Save button:
 
@@ -42,7 +48,11 @@ If your Spacelift account is integrated with GitLab, the stack or module creatio
 
 ![](../../assets/screenshots/Screen Shot 2022-05-18 at 1.19.49 PM.png)
 
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details. An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
+The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
+
+### Setting up Webhooks
+
+An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
 
 Spacelift is interested in pushes, tags and merge requests, so make sure you add triggers for all these types of events:
 
