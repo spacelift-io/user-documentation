@@ -145,7 +145,8 @@ When triggered by a _new module version_, this is the schema of the data input t
 
 ```json
 
-"module": { // Module for which the new version was released
+{
+  "module": { // Module for which the new version was released
     "administrative": "boolean - is the stack administrative",
     "branch": "string - tracked branch of the module",
     "labels": ["string - list of arbitrary, user-defined selectors"],
@@ -198,6 +199,7 @@ When triggered by a _new module version_, this is the schema of the data input t
       }
     }
   ]
+}
 ```
 
 ## Examples
