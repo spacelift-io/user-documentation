@@ -385,7 +385,8 @@ When triggered by a _new module version_, this is the schema of the data input t
 
 ```json
 
-"module": { // Module for which the new version was released
+{
+  "module": { // Module for which the new version was released
     "administrative": "boolean - is the stack administrative",
     "branch": "string - tracked branch of the module",
     "labels": ["string - list of arbitrary, user-defined selectors"],
@@ -421,7 +422,8 @@ When triggered by a _new module version_, this is the schema of the data input t
       "message": "string",
       "tag": "string"
     }
-  },
+  }
+}
 ```
 
 Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
