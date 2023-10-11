@@ -165,10 +165,10 @@ deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
 
 ## Custom inputs
 
+Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing Terraform configuration and the other exposing the result of a third-party security tool.
+
 !!! Tip
     To learn more about integrating security tools with Spacelift using custom inputs, please refer to our [blog post](https://spacelift.io/blog/integrating-security-tools-with-spacelift){: rel="nofollow"}.
-
-Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing Terraform configuration and the other exposing the result of a third-party security tool.
 
 ### Example: exposing Terraform configuration to the plan policy
 
