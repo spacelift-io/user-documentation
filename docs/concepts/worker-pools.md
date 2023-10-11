@@ -369,6 +369,7 @@ A number of configuration variables is available to customize how your launcher 
 
 - `SPACELIFT_DOCKER_CONFIG_DIR` - if set, the value of this variable will point to the directory containing Docker configuration, which includes credentials for private Docker registries. Private workers can populate this directory for example by executing `docker login` before the launcher process is started;
 - `SPACELIFT_MASK_ENVS`- comma-delimited list of whitelisted environment variables that are passed to the workers but should never appear in the logs;
+- `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED` - If set to `true`, the launcher will upload sensitive run outputs to the Spacelift backend. This is a requirement if want to use sensitive outputs for [stack dependencies](./stack/stack-dependencies.md);
 - `SPACELIFT_WORKER_NETWORK` - network ID/name to connect the launched worker containers, defaults to `bridge`;
 - `SPACELIFT_WORKER_EXTRA_MOUNTS` - additional files or directories to be mounted to the launched worker docker containers during **either read or write runs**, as a comma-separated list of mounts in the form of `/host/path:/container/path`;
 - `SPACELIFT_WORKER_WO_EXTRA_MOUNTS` - Additional directories to be mounted to the worker docker container during **write only runs**, as a comma separated list of mounts in the form of `/host/path:/container/path`;

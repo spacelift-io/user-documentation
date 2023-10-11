@@ -70,6 +70,40 @@ Environment variables are preserved from one phase to the next.
 !!! info
     These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
 
+### Runtime commands
+
+Spacelift can handle special commands to change the workflow behavior.
+Runtime commands use the echo command in a specific format.
+
+You could use those commands in any lifecycle step of the workflow.
+
+![stack_runtime_command](../../assets/screenshots/stack_runtime_command.png)
+
+```bash
+echo "::command arg1 arg2"
+```
+
+Below is a list of supported commands. See the more detailed doc after this table.
+
+| Command                   | Description                                              |
+|---------------------------|----------------------------------------------------------|
+| [`::add-mask`](#add-mask) | Adds a set of values that should be masked in log output |
+
+#### ::add-mask
+
+When you mask a value, it is treated as a secret and will be redacted in the logs output.
+Each masked word separated by whitespace is replaced with five `*` characters.
+
+##### Example
+
+```bash
+# Multiple masks can be set with a single command
+echo "::add-mask secret-string another-secret-string"
+
+# You can pull a secret dynamically, for example here we can mask the account ID
+echo "::add-mask $(aws sts get-caller-identity | jq -r .Account)"
+```
+
 ### Enable local preview
 
 Indicates whether creating [proposed Runs](../run/proposed.md) based on user-uploaded local workspaces is allowed.
