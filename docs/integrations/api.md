@@ -64,7 +64,7 @@ Spacelift provides a [GraphQL API](https://graphql.org/) for you to control your
 
 Our recommendation is to use the [Spacelift API Key](api.md#spacelift-api-key-token) to authenticate with the GraphQL API.
 
-As of today, Postman does not support GraphQL natively, so our choice of tool is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}. Insomnia is a free, open-source tool that allows you to easily create and manage API requests.
+Our choice of tool is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}. Insomnia is a free, open-source tool that allows you to easily create and manage API requests. You can also use [Postman](https://www.postman.com/downloads/){: rel="nofollow"}, but the walkthrough in this guide will be based on Insomnia.
 
 ## Usage Demo
 
