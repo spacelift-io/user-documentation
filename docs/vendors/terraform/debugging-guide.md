@@ -18,7 +18,7 @@ Terraform providing an advanced logging mode that can be enabled using the `TF_L
 
 Please refer to the [Setting Environment Variables](./debugging-guide.md#setting-environment-variables-for-debugging) section for more information on how to set these variables on your Spacelift Stack(s).
 
-For more information on Terraform logging, please refer directly to the Terraform [documentation](https://www.terraform.io/internals/debugging).
+For more information on Terraform logging, please refer directly to the Terraform [documentation](https://www.terraform.io/internals/debugging){: rel="nofollow"}.
 
 ## Terragrunt Debugging
 

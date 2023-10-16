@@ -9,7 +9,7 @@ description: >-
 
 ## Let's Explain
 
-The AWS integration allows either Spacelift [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md) to automatically [assume an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in your AWS account, and in the process, generate a set of **temporary credentials.** These credentials are then exposed as [computed environment variables](../../concepts/configuration/environment.md#computed-values) during the run/task that takes place on the particular Spacelift stack that the integration is attached to.
+The AWS integration allows either Spacelift [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md) to automatically [assume an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html){: rel="nofollow"} in your AWS account, and in the process, generate a set of **temporary credentials.** These credentials are then exposed as [computed environment variables](../../concepts/configuration/environment.md#computed-values) during the run/task that takes place on the particular Spacelift stack that the integration is attached to.
 
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
@@ -51,7 +51,7 @@ Within your AWS account, navigate to AWS IAM and click the **Create role** butto
 ![Within AWS IAM, click Create role](<../../assets/screenshots/Screen Shot 2022-07-21 at 2.48.55 PM.png>)
 
 !!! hint
-    To allow this integration to access multiple AWS accounts, you can extend this role to have cross-account permissions to the target accounts. See [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) for more details.
+    To allow this integration to access multiple AWS accounts, you can extend this role to have cross-account permissions to the target accounts. See [AWS documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html){: rel="nofollow"} for more details.
 
 #### Configure Trust Policy
 
@@ -243,7 +243,7 @@ resource "spacelift_aws_integration_attachment" "this" {
 ```
 
 !!! info
-    Please always refer to the [provider documentation](https://github.com/spacelift-io/terraform-provider-spacelift) for the most up-to-date documentation.
+    Please always refer to the [provider documentation](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"} for the most up-to-date documentation.
 
 ### Attaching a Role to Multiple Stacks
 
@@ -374,7 +374,7 @@ provider "aws" {
 
 ## Migrating from "Legacy" integrations
 
-Originally, when our AWS integration was created it did not support account-level integrations. Instead, each integration was created separately on a per-stack basis. This section provides instructions on how to migrate to the new account-level integrations, with different sets of instructions provided depending on whether you manage your integrations via the UI, or via the [Spacelift Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
+Originally, when our AWS integration was created it did not support account-level integrations. Instead, each integration was created separately on a per-stack basis. This section provides instructions on how to migrate to the new account-level integrations, with different sets of instructions provided depending on whether you manage your integrations via the UI, or via the [Spacelift Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}.
 
 ### Via the UI
 
@@ -412,9 +412,9 @@ Congrats - you’ve now successfully migrated!
 
 Migrating via the Terraform Provider is also very simple. The Terraform Provider now contains two new resources, along with an additional data source that you can use:
 
-- [spacelift_aws_integration](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/aws_integration) - creates an account level integration.
-- [spacelift_aws_integration_attachment](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/aws_integration_attachment) - attaches an integration to a stack.
-- [spacelift_aws_integration_attachment_external_id](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/aws_integration_attachment_external_id) - a data source that can help you generate the correct trust relationship for attaching an integration to a stack.
+- [spacelift_aws_integration](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/aws_integration){: rel="nofollow"} - creates an account level integration.
+- [spacelift_aws_integration_attachment](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/aws_integration_attachment){: rel="nofollow"} - attaches an integration to a stack.
+- [spacelift_aws_integration_attachment_external_id](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/data-sources/aws_integration_attachment_external_id){: rel="nofollow"} - a data source that can help you generate the correct trust relationship for attaching an integration to a stack.
 
 #### Starting Configuration
 

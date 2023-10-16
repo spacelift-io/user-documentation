@@ -35,4 +35,4 @@ After selecting Spacelift from the results, you may be prompted to login to your
 
 ### AWS Marketplace Private Offering
 
-Please reach out to us via our [Contact Us](https://spacelift.io/contact) page for more information on private AWS Marketplace offerings.
+Please reach out to us via our [Contact Us](https://spacelift.io/contact){: rel="nofollow"} page for more information on private AWS Marketplace offerings.

@@ -10,7 +10,7 @@ A common use case of this feature is making Spacelift wait for a CI/CD pipeline 
 Using this feature consists of two parts:
 
 - defining dependencies in push policies
-- marking dependencies as finished or failed using [spacectl](https://github.com/spacelift-io/spacectl)
+- marking dependencies as finished or failed using [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}
 
 ### Defining dependencies
 
@@ -30,7 +30,7 @@ You can of course have more complex rules, that decide on the set of external de
 
 ### Marking dependencies as finished or failed
 
-To mark a dependency as finished or failed, you need to use the [spacectl](https://github.com/spacelift-io/spacectl) command line tool.
+To mark a dependency as finished or failed, you need to use the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} command line tool.
 You can do so with following commands:
 
 ```bash
@@ -44,7 +44,7 @@ spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build"
     At the same time, if any of the dependencies has failed, the run will be marked as failed as well.
 
 !!! warning
-    In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl) needs to be authenticated and have _write_ access to all the spaces that have runs with the given dependency defined.
+    In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} needs to be authenticated and have _write_ access to all the spaces that have runs with the given dependency defined.
 
 ## Example with GH Actions
 

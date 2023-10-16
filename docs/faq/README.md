@@ -27,7 +27,7 @@ If you don't have permission, you will receive the following message when attemp
 
 ![](../assets/screenshots/faq-ms-login-admin-consent-required.png)
 
-If this happens, it means that you need ask an Azure AD admin to provide Admin consent, as described in the [Microsoft documentation](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal).
+If this happens, it means that you need ask an Azure AD admin to provide Admin consent, as described in the [Microsoft documentation](https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal){: rel="nofollow"}.
 
 To do this, your Azure AD admin can use a URL like the following to grant permission to Spacelift:
 
@@ -113,4 +113,4 @@ Everyone who logged in to the Services in a given month is counts as a user.
 
 API keys are virtual users and are billed like regular users, too. Thus, each API key used during any billing cycle counts against the total number of users.
 
-When setting up SSO, future logins will appear as new users since Spacelift cannot map those without your assistance. New users will count against your quota, and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact).
+When setting up SSO, future logins will appear as new users since Spacelift cannot map those without your assistance. New users will count against your quota, and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact){: rel="nofollow"}.

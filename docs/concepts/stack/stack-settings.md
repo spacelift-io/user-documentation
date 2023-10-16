@@ -108,7 +108,7 @@ echo "::add-mask $(aws sts get-caller-identity | jq -r .Account)"
 
 Indicates whether creating [proposed Runs](../run/proposed.md) based on user-uploaded local workspaces is allowed.
 
-If this is enabled, you can use [spacectl](https://github.com/spacelift-io/spacectl) to create a proposed run based on the directory you're in:
+If this is enabled, you can use [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} to create a proposed run based on the directory you're in:
 
 ```bash
 spacectl stack local-preview --id <stack-id>

@@ -20,7 +20,7 @@ Here's a very simple dashboard we've created based on this integration that show
 
 ## Prerequisites
 
-The Datadog integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing) subscription. While building a notification-based Datadog integration from scratch is possible, we've created a [Terraform module](https://registry.terraform.io/modules/spacelift-io/datadog/spacelift/latest) that will set up all the necessary integration elements for you.
+The Datadog integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing){: rel="nofollow"} subscription. While building a notification-based Datadog integration from scratch is possible, we've created a [Terraform module](https://registry.terraform.io/modules/spacelift-io/datadog/spacelift/latest){: rel="nofollow"} that will set up all the necessary integration elements for you.
 
 This module will only create Spacelift assets:
 
@@ -30,7 +30,7 @@ This module will only create Spacelift assets:
 
 ## Setting up the integration
 
-To set up the integration, you'll need to have a [Datadog account](https://www.datadoghq.com/) and a [Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys/#api-keys). If you don't have a an administrative stack declaratively manage your Spacelift resources, we suggest you create one, and add module instantiation to it according to its usage instructions. We suggest that you pass the Datadog API key as a [stack secret](../../concepts/configuration/environment.md#environment-variables), or - even better - retrieve it from a remote secret store (eg. AWS Parameter Store) using Terraform.
+To set up the integration, you'll need to have a [Datadog account](https://www.datadoghq.com/){: rel="nofollow"} and a [Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys/#api-keys){: rel="nofollow"}. If you don't have a an administrative stack declaratively manage your Spacelift resources, we suggest you create one, and add module instantiation to it according to its usage instructions. We suggest that you pass the Datadog API key as a [stack secret](../../concepts/configuration/environment.md#environment-variables), or - even better - retrieve it from a remote secret store (eg. AWS Parameter Store) using Terraform.
 
 If you intend to monitor your entire account (our suggested approach), we suggest that the module is installed in the [root space](../../concepts/spaces/access-control.md) of your Spacelift account. If you only want to monitor a subset of your stacks, you can install the module in their respective space.
 

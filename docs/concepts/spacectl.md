@@ -2,13 +2,13 @@
 
 `spacectl` is a utility wrapping Spacelift's [GraphQL API](../integrations/api.md) for easy programmatic access in command-line contexts - either in manual interactive mode (in your local shell), or in a predefined CI pipeline (GitHub actions, CircleCI, Jenkins etc).
 
-Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift).
+Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
 
 ## Installation
 
 ### Officially supported packages
 
-Officially supported packages are maintained by [Spacelift](https://spacelift.io/) and are the preferred ways to install `spacectl`
+Officially supported packages are maintained by [Spacelift](https://spacelift.io/){: rel="nofollow"} and are the preferred ways to install `spacectl`
 
 #### Homebrew
 
@@ -52,11 +52,11 @@ asdf global spacectl latest
 
 #### GitHub Release
 
-Alternatively, `spacectl` is distributed through GitHub Releases as a zip file containing a self-contained statically linked executable built from the source in this repository. Binaries can be download directly from the [Releases page](https://github.com/spacelift-io/spacectl/releases).
+Alternatively, `spacectl` is distributed through GitHub Releases as a zip file containing a self-contained statically linked executable built from the source in this repository. Binaries can be download directly from the [Releases page](https://github.com/spacelift-io/spacectl/releases){: rel="nofollow"}.
 
 #### Usage on GitHub Actions
 
-We have [setup-spacectl](https://github.com/spacelift-io/setup-spacectl) GitHub Action that can be used to install `spacectl`:
+We have [setup-spacectl](https://github.com/spacelift-io/setup-spacectl){: rel="nofollow"} GitHub Action that can be used to install `spacectl`:
 
 {% raw %}
 
@@ -83,23 +83,23 @@ steps:
 
 #### Arch linux
 
-Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin) from the Arch User Repository ([AUR](https://aur.archlinux.org/)):
+Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin): from the Arch User Repository ([AUR](https://aur.archlinux.org/)):
 
 ```bash
 yay -S spacectl-bin
 ```
 
-Please make sure to verify the [`PKGBUILD`](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin) before installing/updating.
+Please make sure to verify the [`PKGBUILD`](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin){: rel="nofollow"} before installing/updating.
 
 #### Alpine linux
 
-Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=) from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages)):
+Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=){: rel="nofollow"} from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages)):
 
 ```bash
 apk add spacectl --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
 ```
 
-Please make sure to verify the [`APKBUILD`](https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD) before installing/updating.
+Please make sure to verify the [`APKBUILD`](https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD){: rel="nofollow"} before installing/updating.
 
 ## Quick Start
 

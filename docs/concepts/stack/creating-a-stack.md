@@ -134,7 +134,7 @@ The advanced settings are:
 - whether the changes should [automatically deploy](./stack-settings.md#autodeploy);
 - whether obsolete tests should be [automatically retried](./stack-settings.md#autoretry);
 - whether or not to protect the stack from deletion;
-- whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl) CLI feature;
+- whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature;
 - whether or not [run promotion](../run/run-promotion.md) is enabled;
 - optionally specify a custom Docker image to use to for your job container;
 - list of commands to run before/after any of the workflow stages;

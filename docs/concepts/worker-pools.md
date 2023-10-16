@@ -80,7 +80,7 @@ Congrats! Your launcher should now connect to the Spacelift backend and start ha
 
 ### Terraform Modules and Helm Chart
 
-For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image) contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
+For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
 
 - AWS: [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}.
 - Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
@@ -122,7 +122,7 @@ The downloads bucket name is output at the end of the installation process. If y
 
 #### AMI
 
-You can use your own custom-built AMI for your workers, or you can use one of the pre-built images we provide. For a list of the correct AMI to use for the region you want to deploy your worker to, see the [spacelift-worker-image releases page](https://github.com/spacelift-io/spacelift-worker-image/releases).
+You can use your own custom-built AMI for your workers, or you can use one of the pre-built images we provide. For a list of the correct AMI to use for the region you want to deploy your worker to, see the [spacelift-worker-image releases page](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"}.
 
 **Note:** please make sure to choose the `x86_64` version of the AMI.
 
@@ -328,11 +328,11 @@ aws cloudformation deploy --no-cli-pager \
 
 ### Terraform Modules
 
-Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2), [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool) and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool) Terraform modules are not currently compatible with self-hosting.
+Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} Terraform modules are not currently compatible with self-hosting.
 
 ### Running Workers in Kubernetes
 
-You can run Spacelift workers for your self-hosted instance in Kubernetes, for example using our [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts). The main thing to be aware of is that the launcher is designed to work with a specific version of Spacelift, so it's important to use the correct container image for your Spacelift install.
+You can run Spacelift workers for your self-hosted instance in Kubernetes, for example using our [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts){: rel="nofollow"}. The main thing to be aware of is that the launcher is designed to work with a specific version of Spacelift, so it's important to use the correct container image for your Spacelift install.
 
 #### Finding the Launcher Image
 
@@ -434,21 +434,21 @@ Private workers need to be able to make outbound connections in order to communi
 
 #### AWS Services
 
-Your worker needs access to the following AWS services in order to function correctly. You can refer to the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html) for their IP address ranges.
+Your worker needs access to the following AWS services in order to function correctly. You can refer to the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-ip-ranges.html){: rel="nofollow"} for their IP address ranges.
 
 {% if is_saas() %}
 
 - Access to the public Elastic Container Registry if using our default runner image.
 - Access to `app.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
-- Access to the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html) in eu-west-1 for worker communication via MQTT.
-- Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html) in eu-west-1 for uploading run logs.
+- Access to the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html){: rel="nofollow"} in eu-west-1 for worker communication via MQTT.
+- Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html){: rel="nofollow"} in eu-west-1 for uploading run logs.
 
 {% else %}
 
 - Access to the public Elastic Container Registry if using our default runner image.
 - Access to your Self-Hosted server, for example `https://spacelift.myorg.com`.
-- Access to the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html) in your installation region for worker communication via MQTT.
-- Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html) in your installation region for uploading run logs.
+- Access to the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html){: rel="nofollow"} in your installation region for worker communication via MQTT.
+- Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html){: rel="nofollow"} in your installation region for uploading run logs.
 
 {% endif %}
 

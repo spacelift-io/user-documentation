@@ -33,7 +33,7 @@ The following table shows the latest version of the Terraform provider known to 
 
 ## Taking it for a spin
 
-Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift) always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
+Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"} always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
 
 So, without further ado, let's define a stack:
 

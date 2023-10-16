@@ -73,7 +73,7 @@ The `namespace` value should be set to the the grouping mechanism that your proj
 
 If your project lives within a group, then the namespace should be set to the group slug that the project is within. For example, if you have `project-a` within `group-1` the namespace would be `group-1`. When using subgroups, you will also need to include these within your namespace references.
 
-GitLab provides a [Namespaces API](https://docs.gitlab.com/ee/api/namespaces.html)which you can use to find information about your project's namespace. The `full_url` attribute value is what you'll want to reference as this namespace for a given project.
+GitLab provides a [Namespaces API](https://docs.gitlab.com/ee/api/namespaces.html){: rel="nofollow"} which you can use to find information about your project's namespace. The `full_url` attribute value is what you'll want to reference as this namespace for a given project.
 
 ## Spacelift in GitLab
 

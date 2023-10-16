@@ -39,4 +39,4 @@ Similar to Terraform, Terragrunt provides an advanced logging mode, and as of th
 
 Please refer to the [Setting Environment Variables](./debugging-guide.md#setting-environment-variables) section within our Terraform Debugging Guide for more information on how to set these variables on your Spacelift Stack(s).
 
-For more information on logging with Terragrunt, please refer to the Terragrunt [documentation](https://terragrunt.gruntwork.io/docs/features/debugging/#debugging).
+For more information on logging with Terragrunt, please refer to the Terragrunt [documentation](https://terragrunt.gruntwork.io/docs/features/debugging/#debugging){: rel="nofollow"}.

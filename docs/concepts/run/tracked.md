@@ -82,7 +82,7 @@ To get to the replan screen after the run reaches the unconfirmed state, click o
 ![](../../assets/screenshots/replan.png)
 
 !!! warning
-    Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing).
+    Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
 
 ### Discarded
 
