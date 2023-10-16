@@ -20,9 +20,9 @@
 ## Configuring Spacelift as an Identity Provider
 
 In order to be able to do that, you will need to set up Spacelift as a valid identity provider for your AWS account. This is done by creating an [OpenID Connect identity provider
-](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html). You can do it declaratively using any of the IaC providers, programmatically using the [AWS CLI](https://aws.amazon.com/cli/) or simply use the console. For illustrative purposes, we will use the console:
+](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html){: rel="nofollow"}. You can do it declaratively using any of the IaC providers, programmatically using the [AWS CLI](https://aws.amazon.com/cli/){: rel="nofollow"} or simply use the console. For illustrative purposes, we will use the console:
 
-1. Go to the [AWS console](https://console.aws.amazon.com/iam/home#/home) and select the IAM service;
+1. Go to the [AWS console](https://console.aws.amazon.com/iam/home#/home){: rel="nofollow"} and select the IAM service;
 2. Click on the "Identity providers" link in the left-hand menu;
 3. Click on the "Add provider" button in the top bar ![Add provider](../../../assets/screenshots/oidc/aws-iam-add-provider.png)
 4. Select "OpenID Connect" as the provider type ![Configure provider](../../../assets/screenshots/oidc/aws-iam-configure-provider.png)
@@ -65,7 +65,7 @@ You can also restrict the role to be assumable only by a specific stack by match
 }
 ```
 
-You can mix and match these to get the exact constraints you need. It is not the purpose of this guide to go into the intricacies of AWS IAM conditions - you can learn all about these in the [official doc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html). One important thing to remember though is that AWS does not seem to support custom claims so you will need to use the standard ones to do the matching - primarily `sub`, as shown above.
+You can mix and match these to get the exact constraints you need. It is not the purpose of this guide to go into the intricacies of AWS IAM conditions - you can learn all about these in the [official doc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html){: rel="nofollow"}. One important thing to remember though is that AWS does not seem to support custom claims so you will need to use the standard ones to do the matching - primarily `sub`, as shown above.
 
 ## Configuring the Terraform Provider
 

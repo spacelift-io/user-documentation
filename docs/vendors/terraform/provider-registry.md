@@ -5,7 +5,7 @@ description: This article shows how Spacelift can help you manage Terraform prov
 # Provider registry
 
 !!! warning
-    This feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing).
+    This feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
 
 ## Intro
 

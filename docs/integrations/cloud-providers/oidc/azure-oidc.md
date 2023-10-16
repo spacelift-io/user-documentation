@@ -2,7 +2,7 @@
 
 ## Configuring workload identity federation
 
-In order to enable Spacelift runs to access Azure resources, you need to set up Spacelift as a valid identity provider for your account. This is done using [workload identity federation](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation). The set up process involves creating an App Registration, and then adding federated credentials that tell Azure which Spacelift runs should be able to use which App Registrations. This process can be completed via the Azure Portal, Azure CLI or Terraform. For illustrative purposes we will use the Azure Portal.
+In order to enable Spacelift runs to access Azure resources, you need to set up Spacelift as a valid identity provider for your account. This is done using [workload identity federation](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation){: rel="nofollow"}. The set up process involves creating an App Registration, and then adding federated credentials that tell Azure which Spacelift runs should be able to use which App Registrations. This process can be completed via the Azure Portal, Azure CLI or Terraform. For illustrative purposes we will use the Azure Portal.
 
 The first step is to go to the Azure AD section of the Azure Portal, go to _App registrations_, and then click on the _New registration_ button:
 
@@ -61,7 +61,7 @@ After adding all the credentials for a stack, it should look something like this
 
 ## Configuring the Terraform Provider
 
-Once workload identity federation is set up, the AzureRM provider [can be configured](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_oidc) without the need for any static credentials. To do this, enable the `use_oidc` feature of the provider, and use the `oidc_token_file_path` setting to tell the provider where to find the token:
+Once workload identity federation is set up, the AzureRM provider [can be configured](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_oidc){: rel="nofollow"} without the need for any static credentials. To do this, enable the `use_oidc` feature of the provider, and use the `oidc_token_file_path` setting to tell the provider where to find the token:
 
 ```terraform
 provider "azurerm" {
@@ -78,4 +78,4 @@ Next, add the following environment variables to your stack:
 - `ARM_SUBSCRIPTION_ID` - the ID of the Azure subscription you want to use.
 
 !!! info
-    Note - before you can use your App registration to manage Azure resources, you need to assign the correct [RBAC permissions](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview) to it.
+    Note - before you can use your App registration to manage Azure resources, you need to assign the correct [RBAC permissions](https://learn.microsoft.com/en-us/azure/role-based-access-control/overview){: rel="nofollow"} to it.

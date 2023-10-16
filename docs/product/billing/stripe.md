@@ -4,7 +4,7 @@ description: Describes information about the Stripe billing method for Spacelift
 
 # Stripe
 
-The default payment method for Spacelift utilizes Stripe. If you have any billing questions related to your account, please [Contact Us](https://spacelift.io/contact).
+The default payment method for Spacelift utilizes Stripe. If you have any billing questions related to your account, please [Contact Us](https://spacelift.io/contact){: rel="nofollow"}.
 
 ## Billing Guide
 
@@ -24,4 +24,4 @@ Click the billing tab.
 
 To upgrade your plan, click the **Upgrade** button.
 
-If your account has already been upgraded to an Enterprise plan and is billed externally, please reach out to your account manage, or [Contact Us](https://spacelift.io/contact).
+If your account has already been upgraded to an Enterprise plan and is billed externally, please reach out to your account manage, or [Contact Us](https://spacelift.io/contact){: rel="nofollow"}.

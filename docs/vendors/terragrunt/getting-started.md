@@ -7,7 +7,7 @@ description: Creating your first Terragrunt Stack with Spacelift, step by step.
 !!! warning
     Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
 
-This documentation will be using an example repository Spacelift provides [here](https://github.com/spacelift-io-examples/terragrunt-examples). This repository contains 2 different examples, but for getting started we will be using the single-stack example.
+This documentation will be using an example repository Spacelift provides [here](https://github.com/spacelift-io-examples/terragrunt-examples){: rel="nofollow"}. This repository contains 2 different examples, but for getting started we will be using the single-stack example.
 
 ## Creating a new stack
 

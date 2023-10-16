@@ -144,7 +144,7 @@ This is the schema of the data input that each policy request will receive:
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/approval) that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/approval){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
@@ -153,7 +153,7 @@ This is the schema of the data input that each policy request will receive:
 In this example, each Unconfirmed run will require two approvals - including proposed runs triggered by Git events. Additionally, the run should have no rejections. Anyone who rejects the run will need to change their mind in order for the run to go through.
 
 !!! info
-    We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack).
+    We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack){: rel="nofollow"}.
 
 ```opa
 package spacelift

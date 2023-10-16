@@ -121,7 +121,7 @@ This will output something like the following:
 ```bash
 Changing "spacelift-sp" to a valid URI of "http://spacelift-sp", which is the required format used for service principal names
 Creating 'Contributor' role assignment under scope '/subscriptions/458fd769-5a4c-4df2-a339-8981094d8899'
-The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see [Create an Azure service principal with the Azure CLI](https://aka.ms/azadsp-cli){: rel="nofollow"}
+The output includes credentials that you must protect. Be sure that you do not include these credentials in your code or check the credentials into your source control. For more information, see [Create an Azure service principal with the Azure CLI](https://aka.ms/azadsp-cli)
 {
   "appId": "5ffa3670-74db-4a9d-b213-179d2d315888",
   "displayName": "spacelift-sp",

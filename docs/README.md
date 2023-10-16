@@ -8,7 +8,7 @@ Spacelift is a sophisticated, continuous integration and deployment (CI/CD) plat
 
 At the same time, Spacelift is super easy to get started with - you can go from zero to fully managing your cloud resources within less than a minute, with no pre-requisites. It integrates nicely with the large players in the field - notably [GitHub](integrations/source-control/github.md) and [AWS](integrations/cloud-providers/aws.md).
 
-If you're new to Spacelift, please spend some time browsing through the articles in the same order as they appear in the menu - start with the main concepts and follow with integrations. If you're more advanced, you can navigate directly to the article you need, or use the search feature to find a specific piece of information. If you still have questions, feel free to [reach out to us.](https://spacelift.io/contact)
+If you're new to Spacelift, please spend some time browsing through the articles in the same order as they appear in the menu - start with the main concepts and follow with integrations. If you're more advanced, you can navigate directly to the article you need, or use the search feature to find a specific piece of information. If you still have questions, feel free to [reach out to us.](https://spacelift.io/contact){: rel="nofollow"}
 
 ## Do I need another CI/CD for my infrastructure?
 

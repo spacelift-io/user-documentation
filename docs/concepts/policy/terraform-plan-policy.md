@@ -225,7 +225,7 @@ The data will be available in the policy input as `input.third_party_metadata.cu
 
 ### Example: passing custom tool output to the plan policy
 
-For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec). What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
+For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec){: rel="nofollow"}. What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
 
 ```bash
 tfsec -s --format=json . > tfsec.custom.spacelift.json
@@ -268,7 +268,7 @@ deny[sprintf(message, [resource.address])] {
 
 Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/kNUYOa4vX4){: rel="nofollow"}.
 
-If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy) or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among others. So here it is:
+If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy){: rel="nofollow"} or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among others. So here it is:
 
 ```opa
 package spacelift
@@ -363,7 +363,7 @@ The minimal example for the above rule is available in the [Rego playground](htt
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/plan) that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/plan){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 

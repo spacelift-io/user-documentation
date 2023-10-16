@@ -204,11 +204,11 @@ In GitLab, it is the group of the repository which is typically the URL of the r
 
 Azure DevOps is a special case because they don't provide us the friendly name of the `head_owner`. In this case, we need to refer to `head_owner` as the ID of the forked repository's project which is a UUID. One way to figure out this UUID is to open `https://dev.azure.com/<organization>/_apis/projects` website which lists all projects with their unique IDs. You don't need any special access to this API, you can just simply open it in your browser.
 
-[Official documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list) of the API.
+[Official documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list){: rel="nofollow"} of the API.
 
 #### Bitbucket Cloud
 
-In Bitbucket Cloud, `head_owner` means [workspace](https://support.atlassian.com/bitbucket-cloud/docs/what-is-a-workspace/). It's in the URL of the repository: `https://www.bitbucket.org/<workspace>/<forked_repository>`.
+In Bitbucket Cloud, `head_owner` means [workspace](https://support.atlassian.com/bitbucket-cloud/docs/what-is-a-workspace/){: rel="nofollow"}. It's in the URL of the repository: `https://www.bitbucket.org/<workspace>/<forked_repository>`.
 
 #### Bitbucket Datacenter/Server
 
@@ -436,7 +436,7 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/push) that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/push){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 

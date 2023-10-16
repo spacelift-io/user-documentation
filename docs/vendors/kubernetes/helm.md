@@ -1,13 +1,13 @@
 # Helm
 
-There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm_template/) command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
+There is no native support within Spacelift for Helm, but you can use the [`helm template`](https://helm.sh/docs/helm/helm_template/){: rel="nofollow"} command in a _before plan_ hook to generate the Kubernetes resource definitions to deploy.
 
 Please note, the following caveats apply:
 
 - Using `helm template` means that you are not using the full Helm workflow, which may cause limitations or prevent certain Charts from working.
 - You need to use a custom [Spacelift worker image](../../integrations/docker.md#customizing-the-runner-image) that has Helm installed, or alternatively you can install Helm using a _before init_ hook.
 
-The rest of this page will go through an example of deploying the [Spacelift Workerpool Helm Chart](https://github.com/spacelift-io/spacelift-helm-charts) using the Kubernetes integration. See [here](https://github.com/spacelift-io/kubernetes-helm-example) for an example repository.
+The rest of this page will go through an example of deploying the [Spacelift Workerpool Helm Chart](https://github.com/spacelift-io/spacelift-helm-charts){: rel="nofollow"} using the Kubernetes integration. See [here](https://github.com/spacelift-io/kubernetes-helm-example){: rel="nofollow"} for an example repository.
 
 ## Prerequisites
 

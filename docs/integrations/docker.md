@@ -1,10 +1,10 @@
 # Docker
 
-Every job in Spacelift is processed inside a fresh, isolated Docker container. This approach provides reasonable isolation and resource allocation and - let's face it - is a [pretty standard approach these days](https://circleci.com/docker/).
+Every job in Spacelift is processed inside a fresh, isolated Docker container. This approach provides reasonable isolation and resource allocation and - let's face it - is a [pretty standard approach these days](https://circleci.com/docker/){: rel="nofollow"}.
 
 ## Standard runner image
 
-By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform) image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile) that builds this image.
+By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"} image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile){: rel="nofollow"} that builds this image.
 
 !!! info
     Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
@@ -130,7 +130,7 @@ Building from the source is generally safer than using a pre-built binary, espec
 
 ### Use well-known bases
 
-If you're building an image from a source other than [`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform), please prefer well-known and well-supported base images. Official images are generally safe, so choose something like `golang:1.13-alpine` over things like `imtotallylegit/notascamipromise:best-golang-image`. There's a bunch of services out there offering Docker image vulnerability scanning, so that's an option as well.
+If you're building an image from a source other than [`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"}, please prefer well-known and well-supported base images. Official images are generally safe, so choose something like `golang:1.13-alpine` over things like `imtotallylegit/notascamipromise:best-golang-image`. There's a bunch of services out there offering Docker image vulnerability scanning, so that's an option as well.
 
 ### Limit push access
 

@@ -11,7 +11,7 @@ There is no one-size-fits-all for this kind of migration. This is why we designe
 The migration process is as follows:
 
 - Export the definition for your resources at your current vendor.
-- Generate the Terraform code to recreate similar resources at Spacelift using the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
+- Generate the Terraform code to recreate similar resources at Spacelift using the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}.
 - Review and possibly edit the generated Terraform code.
 - Commit the Terraform code to a repository.
 - Create a manager Spacelift stack that points to the repository with the Terraform code.
@@ -103,7 +103,7 @@ Before you can use Spacelift to manage your infrastructure,  you may need to mak
 
 If the Terraform state is managed by Spacelift,perform the following actions, otherwise you can skip this section:
 
-- Remove any [backend](https://developer.hashicorp.com/terraform/language/settings/backends/configuration#using-a-backend-block)/[cloud](https://developer.hashicorp.com/terraform/language/settings/terraform-cloud) block from the Terraform code that manages your infrastructure to avoid a conflict with Spacelift's backend.
+- Remove any [backend](https://developer.hashicorp.com/terraform/language/settings/backends/configuration#using-a-backend-block){: rel="nofollow"}/[cloud](https://developer.hashicorp.com/terraform/language/settings/terraform-cloud){: rel="nofollow"} block from the Terraform code that manages your infrastructure to avoid a conflict with Spacelift's backend.
 - Delete the `import_state_file` arguments from the Terraform code that manages your Spacelift resources.
 - After the manager stack has successfully run, the mounted Terraform state files are not needed anymore and can be deleted by setting the `import_state` argument to `false` in the `manager-stack.tfvars` file and run `terraform apply -auto-approve -var-file=../manager-stack.tfvars` in the `manager-stack` folder.
 

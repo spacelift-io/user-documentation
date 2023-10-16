@@ -252,14 +252,14 @@ As you noticed if we attach an existing resource to the stack (such as Worker Po
 
 ## Template engine
 
-We built our own variable substitution engine based on [Google CEL](https://github.com/google/cel-spec). The library is available on [GitHub](https://github.com/spacelift-io/celplate/).
+We built our own variable substitution engine based on [Google CEL](https://github.com/google/cel-spec){: rel="nofollow"}. The library is available on [GitHub](https://github.com/spacelift-io/celplate/){: rel="nofollow"}.
 
 ### Functions, objects
 
-In the giant example above, you might have noticed something interesting: inline functions! CEL supports a couple of functions, such as: `contains`, `startsWith`, `endsWith`, `matches`, `size` and a bunch of others. You can find the full list in the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md). It also supports some basic operators, such as: `*`, `/`, `-`, `+`, relations (`==`, `!=`, `<`, `<=`, `>`, `>=`), `&&`, `||`, `!`, `?:` (yes, it supports the ternary operator 🎉) and `in`.
+In the giant example above, you might have noticed something interesting: inline functions! CEL supports a couple of functions, such as: `contains`, `startsWith`, `endsWith`, `matches`, `size` and a bunch of others. You can find the full list in the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md){: rel="nofollow"}. It also supports some basic operators, such as: `*`, `/`, `-`, `+`, relations (`==`, `!=`, `<`, `<=`, `>`, `>=`), `&&`, `||`, `!`, `?:` (yes, it supports the ternary operator 🎉) and `in`.
 
 !!! hint
-    It could be useful to look into [the unit tests](https://github.com/google/cel-go/blob/v0.13.0/cel/cel_test.go) of the library. Look for the invocations of `interpret` function.
+    It could be useful to look into [the unit tests](https://github.com/google/cel-go/blob/v0.13.0/cel/cel_test.go){: rel="nofollow"} of the library. Look for the invocations of `interpret` function.
 
 There is one caveat to keep in mind: keep the YAML syntax valid.
 
@@ -520,7 +520,7 @@ stack:
 Note that this is not a working example as it misses a few things (`inputs` section, `vcs` etc.), but it should give you an idea of what you can do.
 
 !!! tip
-    What can you do with `google.protobuf.Timestamp` and `google.protobuf.Duration`? Check out the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md#list-of-standard-definitions), it contains all the methods and type conversions available.
+    What can you do with `google.protobuf.Timestamp` and `google.protobuf.Duration`? Check out the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md#list-of-standard-definitions){: rel="nofollow"}, it contains all the methods and type conversions available.
 
 ## Validation
 
@@ -556,7 +556,7 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 ```
 
 !!! tip
-    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl), the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) or the web UI itself if you're feeling fancy.
+    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"} or the web UI itself if you're feeling fancy.
 
 For simplicity, here is the current schema, but it might change in the future:
 

@@ -2,7 +2,7 @@
 
 ## Configuring Spacelift as an Identity Provider
 
-In order to enable Spacelift runs to access Vault, you need to set up Spacelift as a valid identity provider for your Vault instance. This is done using [Vault's OIDC auth method](https://www.vaultproject.io/docs/auth/jwt). The set up process involves creating a role in Vault that tells Vault which Spacelift runs should be able to access which Vault secrets. This process can be completed via the Vault CLI or Terraform. For illustrative purposes we will use the Vault CLI.
+In order to enable Spacelift runs to access Vault, you need to set up Spacelift as a valid identity provider for your Vault instance. This is done using [Vault's OIDC auth method](https://www.vaultproject.io/docs/auth/jwt){: rel="nofollow"}. The set up process involves creating a role in Vault that tells Vault which Spacelift runs should be able to access which Vault secrets. This process can be completed via the Vault CLI or Terraform. For illustrative purposes we will use the Vault CLI.
 
 If you haven't enabled the JWT auth method in your Vault instance, you need to do so first. To do this, run the following command:
 
@@ -49,7 +49,7 @@ The `bound_audiences` parameter is the hostname of your Spacelift account, which
 
 ## Configuring the Terraform Provider
 
-Once the Vault setup is complete, you need to configure the [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest) to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#jwt) to the provider, and set the `role` parameter to the name of the role you created in the previous section:
+Once the Vault setup is complete, you need to configure the [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest){: rel="nofollow"} to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#jwt){: rel="nofollow"} to the provider, and set the `role` parameter to the name of the role you created in the previous section:
 
 ```hcl
 provider "vault" {

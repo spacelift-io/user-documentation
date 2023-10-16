@@ -8,7 +8,7 @@ description: Describes how to authenticate and use the Spacelift GraphQL API.
 
 > GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
-Spacelift provides a [GraphQL API](https://graphql.org/) for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl)). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
+Spacelift provides a [GraphQL API](https://graphql.org/){: rel="nofollow"} for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
 
 ??? note "An example of request and response"
 
@@ -82,7 +82,7 @@ The below guide walks through an example of generating your Spacelift token with
 
 If your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
 
-All requests need to be authenticated using a [JWT](https://jwt.io/) bearer token, which we will discuss in more detail below.
+All requests need to be authenticated using a [JWT](https://jwt.io/){: rel="nofollow"} bearer token, which we will discuss in more detail below.
 
 There are currently three ways of obtaining this token:
 
@@ -152,7 +152,7 @@ One approach to generating this token is using the Spacelift [spacectl](https://
 
 **Steps:**
 
-1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl) to install the CLI on your machine.
+1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl){: rel="nofollow"} to install the CLI on your machine.
 2. Authenticate to your Spacelift account using `spacectl profile login`
 3. Once authenticated, run `spacectl profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
 

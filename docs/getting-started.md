@@ -48,13 +48,13 @@ This section provides step-by-step instructions to help you set up and get the m
 
 ## First Stack Run
 
-You can get started with either forking our [Terraform Starter repository](https://github.com/spacelift-io/terraform-starter) and testing all Spacelift capabilities in under 15 minutes or you can explore Spacelift on your own by adding your own repository and going from zero to fully managing your cloud resources.
+You can get started with either forking our [Terraform Starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} and testing all Spacelift capabilities in under 15 minutes or you can explore Spacelift on your own by adding your own repository and going from zero to fully managing your cloud resources.
 
 {% if is_saas() %}
 
 ### Step 1: Create your Spacelift account
 
-- On the [Spacelift home page](https://spacelift.io/), click on the "Start for Free" button:
+- On the [Spacelift home page](https://spacelift.io/){: rel="nofollow"}, click on the "Start for Free" button:
 
 ![](<./assets/screenshots/StartforfreeGS.png>)
 
@@ -87,7 +87,7 @@ In this section we will be connecting GitHub as our VCS. You can find more infor
 #### GitHub was used as a sign-in option
 
 1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} if you have not already installed it.
-2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick). If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
+2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick). If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} (Make sure to allow the installed GitHub app access to the forked repository).
 
 ![](<./assets/screenshots/InstallAppGS.png>)
 
@@ -98,13 +98,13 @@ Now login to the Spacelift console, you are ready to create your first stack!
 This sub-section is intended for users who created their Spacelift account using Google, Microsoft or GitLab.
 
  1. To connect GitHub as your VCS, follow the guide for [setting up the GitHub integration](./integrations/source-control/github.md#setting-up-the-integration).
- 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
+ 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick_). If_ you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} (Make sure to allow the installed GitHub app access to the forked repository).
 
  Please refer to the [Source Control](./integrations/source-control/github.md) section of the documentation to connect a different VCS.
  {% else %}
 
  1. To connect GitHub as your VCS, follow the guide for [setting up the GitHub integration](./integrations/source-control/github.md#setting-up-the-integration).
- 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick). If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter) (Make sure to allow the installed GitHub app access to the forked repository).
+ 2. Please select any of your GitHub repositories that create local resources (we will not be integrating with any cloud providers to keep this guide simple and quick). If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} (Make sure to allow the installed GitHub app access to the forked repository).
 
  Please refer to the [Source Control](./integrations/source-control/github.md) section of the documentation to connect a different VCS.
  {% endif %}

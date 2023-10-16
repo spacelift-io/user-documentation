@@ -10,11 +10,11 @@ To follow this tutorial, you should have an EC2 instance together with an SSH pr
 
 ## Initial Setup
 
-Start by forking our [Ansible example repository](https://github.com/spacelift-io-examples/ansible-example)
+Start by forking our [Ansible example repository](https://github.com/spacelift-io-examples/ansible-example){: rel="nofollow"}
 
-Looking at the code, you'll find that it configures a simple Apache HTTP Server on an EC2 instance. We are also using the [AWS EC2 inventory plugin](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html){: rel="nofollow"} to find the hosts to configure. Feel free to modify [`aws_ec2.yml` inventory file](https://github.com/spacelift-io-examples/ansible-example/blob/main/aws_ec2.yml) to fit your needs.
+Looking at the code, you'll find that it configures a simple Apache HTTP Server on an EC2 instance. We are also using the [AWS EC2 inventory plugin](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html){: rel="nofollow"} to find the hosts to configure. Feel free to modify [`aws_ec2.yml` inventory file](https://github.com/spacelift-io-examples/ansible-example/blob/main/aws_ec2.yml){: rel="nofollow"} to fit your needs.
 
-Also, please take notice of the [Spacelift runtime config file](https://github.com/spacelift-io-examples/ansible-example/blob/main/.spacelift/config.yml), that defines the runner image used on this stack and the [`ANSIBLE_CONFIG`](../ansible/reference.md#ansiblecfg) environment variable. Remember you can always define runner image in [stack settings](../../concepts/stack/stack-settings.md#runner-image), and environment variables within [environment settings](../../concepts/configuration/environment.md#environment-variables).
+Also, please take notice of the [Spacelift runtime config file](https://github.com/spacelift-io-examples/ansible-example/blob/main/.spacelift/config.yml){: rel="nofollow"}, that defines the runner image used on this stack and the [`ANSIBLE_CONFIG`](../ansible/reference.md#ansiblecfg) environment variable. Remember you can always define runner image in [stack settings](../../concepts/stack/stack-settings.md#runner-image), and environment variables within [environment settings](../../concepts/configuration/environment.md#environment-variables).
 
 ## Creating a stack
 
@@ -28,7 +28,7 @@ In the next tab, you should choose the **Ansible** backend. There, fill in the *
 
 ![Configuring the backend settings.](../../assets/screenshots/ansible/ansible-2-configure-backend.png)
 
-On the next tab (**Define Behavior**), setting up a runner image with Ansible dependencies is required. You may use your image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible). In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): `public.ecr.aws/spacelift/runner-ansible-aws:latest`.
+On the next tab (**Define Behavior**), setting up a runner image with Ansible dependencies is required. You may use your image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible){: rel="nofollow"}. In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): `public.ecr.aws/spacelift/runner-ansible-aws:latest`.
 
 If you have a private worker pool you'd like to use, you can specify it there instead of the default public one as well.
 

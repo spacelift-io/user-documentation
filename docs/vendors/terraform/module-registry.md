@@ -67,10 +67,10 @@ You will have to set up a repository for your module, the structure of the repos
 
 Each module must have a `config.yml` file in its `.spacelift` directory, containing information about the module along with any test cases. Details of the format of this file can be found in the [module configuration](module-registry.md#module-configuration) section of this page.
 
-You can check out an example module here: [https://github.com/spacelift-io/terraform-spacelift-example](https://github.com/spacelift-io/terraform-spacelift-example)
+You can check out an example module here: [https://github.com/spacelift-io/terraform-spacelift-example](https://github.com/spacelift-io/terraform-spacelift-example){: rel="nofollow"}
 
 !!! info
-    The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule)
+    The source code for a module can be stored in a subdirectory of your repository because you can specify the project root when configuring your module in Spacelift. An example of a repository containing multiple modules can be found here: [https://github.com/spacelift-io/multimodule](https://github.com/spacelift-io/multimodule){: rel="nofollow"}
 
 ### Spacelift setup
 

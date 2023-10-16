@@ -15,7 +15,7 @@ Spacelift offers a variety of support options depending on your needs. You shoul
 Before reaching out for support, have you tried:
 
 - Searching [our documentation](../../README.md). Most answers can be found there.
-{% if is_saas() %}- Checking [our status page](https://spacelift.statuspage.io/). Our infrastructure team is on-call 24/7. This means that most of the time, by the time you notice something is amiss, someone is already looking into it. Also, some issues are caused by third parties having incidents that are out of our control (e.g., Source Control provider issues).{% endif %}
+{% if is_saas() %}- Checking [our status page](https://spacelift.statuspage.io/){: rel="nofollow"}. Our infrastructure team is on-call 24/7. This means that most of the time, by the time you notice something is amiss, someone is already looking into it. Also, some issues are caused by third parties having incidents that are out of our control (e.g., Source Control provider issues).{% endif %}
 - Reviewing the [Scope of Support section](./README.md#scope-of-support) to understand what is within the scope of Spacelift support.
 
 ## Contacting Support
