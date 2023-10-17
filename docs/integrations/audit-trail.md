@@ -144,3 +144,7 @@ Spacelift uses the same similar verification mechanism as GitHub. With each payl
 We provide a [reference implementation](https://github.com/spacelift-io-examples/terraform-aws-spacelift-events-collector){: rel="nofollow"} for sending the Audit Trail logs to an AWS S3 bucket.
 
 It works as-is but can also be tweaked to route the logs to other destinations with minimal effort.
+
+## Failures
+
+Audit trail deliveries are retried on failure.
