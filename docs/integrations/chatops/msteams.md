@@ -4,7 +4,7 @@ description: Integrating Spacelift with Microsoft Teams
 
 # Microsoft Teams
 
-[Microsoft Teams](https://www.microsoft.com/en-us/microsoft-teams/group-chat-software){: rel="nofollow"} is a Slack alternative and a part of the Microsoft Office 365 suite. It's a chat-based workspace where teams can organize and discuss their work. Many DevOps teams use it to communicate and collaborate on infrastructure and application deployments. Hence, Spacelift has a first-class integration with Microsoft Teams.
+Microsoft Teams is a Slack alternative and a part of the Microsoft Office 365 suite. It's a chat-based workspace where teams can organize and discuss their work. Many DevOps teams use it to communicate and collaborate on infrastructure and application deployments. Hence, Spacelift has a first-class integration with Microsoft Teams.
 
 The integration creates a [webhook](../webhooks.md) in Spacelift that will send notifications to a Microsoft Teams channel when:
 
