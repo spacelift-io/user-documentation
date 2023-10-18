@@ -272,6 +272,17 @@ If for some reason this causes problems, you can run the launcher as `root` by s
 !!! tip
     Versions v0.0.7 or older of Self-Hosted always ran the launcher as root. In newer versions this behavior has changed to default to the `spacelift` user.
 
+#### PowerOffOnError
+
+By default, the startup script for the EC2 instances automatically terminates the instance if the launcher exits. This is to allow the instance to be automatically removed from the autoscale group and a new one added in the case of errors.
+
+Sometimes it can be useful to disable this behavior, for example if instances are repeatedly crashing on startup, preventing you from being able to connect to investigate any issues before they terminate.
+
+To do this, set the `PowerOffOnError` setting to false when deploying your CloudFormation stack.
+
+!!! info
+    Please note, if you update this setting on an existing CloudFormation stack, you will need to restart all the workers in the pool before the updated setting takes effect.
+
 #### Deploying the Template
 
 To deploy your worker pool stack, you can use the following command:
