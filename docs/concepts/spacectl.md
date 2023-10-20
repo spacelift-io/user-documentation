@@ -83,7 +83,7 @@ steps:
 
 #### Arch linux
 
-Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin): from the Arch User Repository ([AUR](https://aur.archlinux.org/){: rel="nofollow"}):
+Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin){: rel="nofollow"}: from the Arch User Repository ([AUR](https://aur.archlinux.org/){: rel="nofollow"}):
 
 ```bash
 yay -S spacectl-bin
