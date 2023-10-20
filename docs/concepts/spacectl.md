@@ -83,7 +83,7 @@ steps:
 
 #### Arch linux
 
-Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin): from the Arch User Repository ([AUR](https://aur.archlinux.org/)):
+Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin): from the Arch User Repository ([AUR](https://aur.archlinux.org/){: rel="nofollow"}):
 
 ```bash
 yay -S spacectl-bin
@@ -93,7 +93,7 @@ Please make sure to verify the [`PKGBUILD`](https://aur.archlinux.org/cgit/aur.g
 
 #### Alpine linux
 
-Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=){: rel="nofollow"} from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages)):
+Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=){: rel="nofollow"} from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages){: rel="nofollow"}):
 
 ```bash
 apk add spacectl --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
