@@ -43,6 +43,10 @@ Spacelift will upload sensitive outputs to the server - this is enabled by defau
 
 On [private worker pools](../../concepts/worker-pools.md) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools.md#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
 
+{% if is_self_hosted() %}
+In self-hosted, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` to your `CustomUserDataSecretName` secret. You'll find more information about that variable at the [Worker Pool](../../concepts/worker-pools.md#injecting-custom-commands-during-instance-startup) page.
+{% endif %}
+
 #### Stack dependency reference limitations
 
 When a stack has an upstream dependency with a reference, it relies on the existence of the outputs.
