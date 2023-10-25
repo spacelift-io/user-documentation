@@ -15,6 +15,9 @@ The OpenTofu and Terraform (FOSS) options give you out the box support for using
 
 The rest of this page explains the Custom option. This option allows you to customize the commands that are executed as part of Spacelift's Terraform workflow. This can be useful if you want to run a custom binary instead of one of the OpenTofu or Terraform versions supported out the box by Spacelift.
 
+!!! info
+    Note that any custom binary is considered third-party software and you need to make sure you have the necessary rights (e.g. license) to use it.
+
 ## How does it work?
 
 Each stage of the Terraform workflow uses certain commands to perform tasks such as generating a Terraform plan, or getting the current state. We provide a built-in set of commands to use for Terraform, but you can also specify your own custom commands. You do this via a file called `.spacelift/workflow.yml`.
