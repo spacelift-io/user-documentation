@@ -32,6 +32,52 @@ S3, like half of the Internet. The pixie dust we're adding on top of it involves
 
 The state server is an HTTP endpoint implementing the Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}. Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is established, we just pass the request to S3 with the right parameters.
 
+## State history
+
+![State history tab](../../assets/screenshots/terraform/state-management/state-history-tab.png)
+
+If your state is managed by spacelift, you can list all the changes on your state, and eventually rollback to an old version if needed.
+
+![State history list](../../assets/screenshots/terraform/state-management/state-history-list.png)
+
+!!! info
+    Not all runs or tasks will trigger a new state version, so you should not expect to see an exhaustive list of your runs and tasks in this list.
+    For example runs that produce no Terraform changes do not result in a new state version being created.
+
+Non-current state versions are kept for **30 days**.
+
+### State rollback
+
+In certain unusual scenarios you can end up with a broken or corrupted state being created. This could happen for example if there was a bug during a Terraform provider upgrade.
+
+State rollback allows you to recover from this by rolling back your state to a previous version.
+
+Rolling back your state will **not apply any changes to your current infrastructure**. It just reverts your state to an older version.
+It's up to you to trigger the proper tasks or runs to fix the state and re-apply the desired Terraform configuration.
+
+!!! warning
+    You should really understand what you are doing when performing a rollback.
+
+    State rollback should be used as a break-glass operation just after a corrupted state has been created.
+
+If a stack is currently using a rolled-back state, a warning will be shown in the stack header.
+
+![stack with current state rollback](../../assets/screenshots/terraform/state-management/state-rollback-stack-header.png)
+
+To be able to roll back a state, the 3 conditions below must be satisfied:
+
+- You must be a stack admin
+- The stack must be locked
+- The stack must not have any pending runs or tasks
+
+If those three conditions are met, you will be able to rollback your stack to a previous version of your state file.
+
+![state rollback action](../../assets/screenshots/terraform/state-management/state-rollback-action.png)
+
+After rollback completes succesfully, a new version of your state will appear above the other state versions and will be marked as a rollback.
+
+![rolled back state](../../assets/screenshots/terraform/state-management/rolled-back-state.png)
+
 ## Importing resources into your Terraform State
 
 So you have an existing resource that was created by other means and would like that resource to be reflected in your terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="nofollow"} command. When you're managing your own terraform state, you would typically run this command locally to import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask? Spacelift [Task](../../concepts/run/task.md) to the rescue!
