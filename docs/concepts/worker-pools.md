@@ -390,6 +390,7 @@ A number of configuration variables is available to customize how your launcher 
 - `SPACELIFT_LAUNCHER_LOGS_TIMEOUT` - custom timeout (the default is _7 minutes_) for killing jobs not producing any logs. This is a duration flag, expecting a duration-formatted value, eg `1000s` ;
 - `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` - file that contains the run initialization policy that will be parsed/used; If the run initialized policy can not be validated at the startup the worker pool will exit with an appropriate error;
 - `SPACELIFT_LAUNCHER_RUN_TIMEOUT` - custom maximum run time - the default is _70 minutes_. This is a duration flag, expecting a duration-formatted value, eg. `120m` ;
+- `SPACELIFT_DEBUG`- if set to true, this will output the exact commands spacelift runs to the worker logs;
 
 !!! warning
     [Server-side initialization policies](../concepts/policy/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
