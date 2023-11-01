@@ -4,6 +4,21 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v0.0.9 and v0.0.10
+
+### Features
+
+- Stack Dependencies with [output/input references](../../concepts/stack/stack-dependencies.md#defining-references-between-stacks).
+- [Ready run state](../../concepts/run/README.md#ready).
+- [Targeted replan support](../../concepts/run/tracked.md#targeted-replan).
+- New detailed terraform changes view.
+- [Worker Pool Management views](../../concepts/worker-pools.md#worker-pool-management-views).
+- [Add OpenTofu and custom workflows support for terraform](../../vendors/terraform/workflow-tool.md).
+
+### Fixes
+
+- Do not re-create SAML certificate during each install
+
 ## Changes between v0.0.8 and v0.0.9
 
 ### Features
