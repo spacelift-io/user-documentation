@@ -1,8 +1,5 @@
 # User
 
-!!! warning
-    User management is currently in closed beta.
-
 We consider **Users** to be all entities that can access Spacelift through the account's Identity Provider after going through the invitation flow, as described on the [User Management page](README.md).
 
 ## Access settings
