@@ -1,8 +1,5 @@
 # User Management
 
-!!! warning
-     This feature is currently in closed beta.
-
 Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [Login Policies](../policy/login-policy.md).
 
 !!! warning

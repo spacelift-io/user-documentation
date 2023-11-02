@@ -1,8 +1,5 @@
 # Admin / Owner
 
-!!! warning
-    User management is currently in closed beta.
-
 Users with **Owner** and **root Admin** roles have access to **Organization settings**. This means they can manage access for the rest of the collaborators within your Spacelift account. The following article details the configuration options and user invitation procedures available to them.
 
 ## Access settings
