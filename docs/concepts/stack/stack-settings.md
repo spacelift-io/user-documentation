@@ -134,6 +134,18 @@ The optional _description_ is completely free-form and it supports [Markdown](ht
 
 Labels are arbitrary, user-defined tags that can be attached to Stacks. A single Stack can have an arbitrary number of these, but they **must** be unique. Labels can be used for any purpose, including UI filtering, but one area where they shine most is user-defined [policies](../policy/README.md#policies-and-stack-labels) which can modify their behavior based on the presence (or lack thereof) of a particular label.
 
+There are some **magic** labels that you can add to your stacks. These labels add/remove functionalities based on their presence.
+
+List of the most useful labels:
+
+- **infracost** -- Enables Infracost on your stack
+- **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting
+- **feature:disable_resource_sanitization** -- Disables resource sanitization
+- **terragrunt** -- Old way of using Terragrunt from the Terraform backend
+- **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
+- **ghenv: -** -- Disables the creation of GitHub deployment environments
+- **autoattach:label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing that label
+
 ### Project root
 
 Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
