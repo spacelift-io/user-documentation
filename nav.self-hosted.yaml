@@ -74,6 +74,7 @@ nav:
           - vendors/terraform/debugging-guide.md
           - vendors/terraform/dependency-lock-file.md
           - vendors/terraform/cdktf.md
+          - vendors/terraform/workflow-tool.md
       - Pulumi:
           - vendors/pulumi/README.md
           # KLUDGE: The default value for navigation items come from the H1 heading for the page.
