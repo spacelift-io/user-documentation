@@ -511,19 +511,21 @@ If no Git push policies are attached to a stack or a module, the default behavio
 package spacelift
 
 track {
-  affected
-  input.push.branch == input.stack.branch
+    affected
+    input.push.branch == input.stack.branch
 }
 
-propose {
-  affected
-  input.push.branch != ""
-}
-
-ignore { input.push.branch == "" }
+propose { affected }
+ignore  { not affected }
+ignore  { input.push.tag != "" }
 
 affected {
-  strings.any_prefix_match(input.pull_request.diff, input.stack.project_root)
+    filepath := input.push.affected_files[_]
+    startswith(filepath, input.stack.project_root)
+}
+affected {
+    filepath := input.pull_request[_]
+    startswith(filepath, input.stack.project_root)
 }
 ```
 
