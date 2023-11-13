@@ -240,6 +240,9 @@ Here's how you can set it up:
    ![](../../assets/screenshots/context/stack_settings_matching_autoattachment_label.png)
 
 Once complete, Spacelift will automatically link the context to all projects sharing the `XYZ` label.
+
+!!! tip
+    If you want to attach a context to all projects, you can use the `autoattach:*` label on the context. This will attach the context to all projects, regardless of their labels.
 {% endif %}
 
 #### A note on priority
