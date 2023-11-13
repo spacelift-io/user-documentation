@@ -523,7 +523,7 @@ propose {
 ignore { input.push.branch == "" }
 
 affected {
-  strings.any_prefix_match(input.push.affected_files, input.stack.project_root)
+  strings.any_prefix_match(input.pull_request.diff, input.stack.project_root)
 }
 ```
 
