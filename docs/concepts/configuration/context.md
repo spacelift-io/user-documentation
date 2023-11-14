@@ -57,7 +57,7 @@ This is the only mandatory step in the context creation process; the remaining s
 
 The required _name_ is what you'll see in the context list and in the dropdown when attaching the context to projects. Ensure it's informative enough to immediately convey the purpose of the context, yet short enough to fit neatly in dropdowns without cutting off important information.
 
-The last required field in this step is _space_, allowing you to choose which [space](/concepts/spaces/) the context will belong to.
+The last required field in this step is _space_, allowing you to choose which [space](../spaces/) the context will belong to.
 
 The optional _description_ is free-form and supports [Markdown](https://daringfireball.net/projects/markdown/){: rel="nofollow"}. This is an ideal place for a thorough explanation of the context's purpose, perhaps with links or a humorous GIF. In the web GUI, this description appears in several places: on the context list, in the context view, and in the list of attached contexts on the stack view.
 
