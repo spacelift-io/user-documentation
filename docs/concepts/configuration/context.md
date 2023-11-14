@@ -126,7 +126,13 @@ Note: The same form is also accessible from the context list view.
 
 #### Editing environment variables
 
-The first tab in the context view is the _Variables_ tab. Here, you'll find a list of all the environment variables associated with this context. To edit a variable, click the three-dot menu on the right-hand side of the variable row and select the _Edit_ option.
+The first tab in the context view is the _Variables_ tab. Here, you'll find a list of all the environment variables associated with this context.
+
+
+!!!note
+    Plain values are accessible in the web GUI and through the API, and secret ones aren't - they're only made available to [Runs](../run/README.md) and [Tasks](../run/task.md). 
+
+To edit a variable, click the three-dot menu on the right-hand side of the variable row and select the _Edit_ option.
 
 ![](../../assets/screenshots/context/edit_env_var_option.png)
 
