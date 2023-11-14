@@ -59,9 +59,15 @@ These commands may serve one of two general purposes - either to make some modif
 !!! info
     If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed.
 
+{% if is_saas() %}
+The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
+
+![](<../../assets/screenshots/context/stack_init_phase_hooks.png>)
+{% else %}
 The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
+{% endif %}
 
 Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts.
 
@@ -77,7 +83,11 @@ Runtime commands use the echo command in a specific format.
 
 You could use those commands in any lifecycle step of the workflow.
 
+{% if is_saas() %}
+![stack_runtime_command](../../assets/screenshots/context/stack_hooks.png)
+{% else %}
 ![stack_runtime_command](../../assets/screenshots/stack_runtime_command.png)
+{% endif %}
 
 ```bash
 echo "::command arg1 arg2"
