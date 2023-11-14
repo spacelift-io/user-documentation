@@ -128,9 +128,8 @@ Note: The same form is also accessible from the context list view.
 
 The first tab in the context view is the _Variables_ tab. Here, you'll find a list of all the environment variables associated with this context.
 
-
 !!!note
-    Plain values are accessible in the web GUI and through the API, and secret ones aren't - they're only made available to [Runs](../run/README.md) and [Tasks](../run/task.md). 
+    Plain values are accessible in the web GUI and through the API, and secret ones aren't - they're only made available to [Runs](../run/README.md) and [Tasks](../run/task.md).
 
 To edit a variable, click the three-dot menu on the right-hand side of the variable row and select the _Edit_ option.
 
@@ -226,6 +225,7 @@ In order to detach a context, go back to the Contexts tab, click on the context'
 {% endif %}
 
 {% if is_saas() %}
+
 #### Auto-attachments
 
 The `autoattach` label is a powerful tool in contexts and policies that enables automatic attachment of these entities to projects based on shared labels. This comes in handy, especially when multiple projects require the same context.
