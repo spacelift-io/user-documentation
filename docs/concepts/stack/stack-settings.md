@@ -77,6 +77,7 @@ Environment variables are preserved from one phase to the next.
     These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
 
 {% if is_saas() %}
+
 #### Note on hook ordering
 
 Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically.
