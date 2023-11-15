@@ -78,7 +78,7 @@ This step enables you to attach the context to projects without navigating to th
 
 #### Step 3 - Setup environment (optional)
 
-In this step, you have the option to configure environment variables and mounted files if you already have them ready during the creation of the context.
+In this step, you have the option to configure environment variables and mounted files if you already have them ready during the creation of the context
 
 | Environment variables | Mounted files |
 | - | - |
