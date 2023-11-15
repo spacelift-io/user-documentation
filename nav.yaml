@@ -110,6 +110,7 @@ nav:
           - vendors/kubernetes/custom-resources.md
           - vendors/kubernetes/helm.md
           - vendors/kubernetes/kustomize.md
+          - vendors/kubernetes/workflow-tool.md
       - Ansible:
           - vendors/ansible/README.md
           - vendors/ansible/getting-started.md

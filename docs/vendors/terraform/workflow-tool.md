@@ -11,7 +11,7 @@ The Workflow Tool stack setting allows you to choose between three options:
 - Terraform (FOSS).
 - Custom.
 
-The OpenTofu and Terraform (FOSS) options give you out the box support for using OpenTofu and for open source versions of Terraform respectively. When you use either of those options, all you need to do is choose the version you want to use and you're good to go.
+The OpenTofu and Terraform (FOSS) options give you out of the box support for using OpenTofu and for open source versions of Terraform respectively. When you use either of those options, all you need to do is choose the version you want to use and you're good to go.
 
 The rest of this page explains the Custom option. This option allows you to customize the commands that are executed as part of Spacelift's Terraform workflow. This can be useful if you want to run a custom binary instead of one of the OpenTofu or Terraform versions supported out the box by Spacelift.
 
