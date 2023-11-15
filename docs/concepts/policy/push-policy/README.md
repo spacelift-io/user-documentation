@@ -515,15 +515,18 @@ track {
   input.push.branch == input.stack.branch
 }
 
-propose {
-  affected
-  input.push.branch != ""
-}
-
-ignore { input.push.branch == "" }
+propose { affected }
+ignore  { not affected }
+ignore  { input.push.tag != "" }
 
 affected {
-  strings.any_prefix_match(input.push.affected_files, input.stack.project_root)
+    filepath := input.push.affected_files[_]
+    startswith(filepath, input.stack.project_root)
+}
+
+affected {
+    filepath := input.pull_request[_]
+    startswith(filepath, input.stack.project_root)
 }
 ```
 
