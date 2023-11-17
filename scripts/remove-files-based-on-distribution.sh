@@ -4,6 +4,9 @@ if [[ "$SPACELIFT_DISTRIBUTION" == "SELF_HOSTED" ]]; then
   # Remove any SaaS-only pages
   rm docs/self-hosted.md
   rm docs/concepts/vcs-agent-pools.md
+  rm docs/concepts/user-management/admin.md
+  rm docs/concepts/user-management/README.md
+  rm docs/concepts/user-management/user.md
   rm docs/integrations/cloud-providers/azure.md
   rm docs/integrations/cloud-providers/gcp.md
   rm docs/product/billing/aws-marketplace.md
