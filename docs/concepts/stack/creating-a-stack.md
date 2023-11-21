@@ -30,7 +30,7 @@ Staring with the most difficult step - naming things. Here's where you give your
 
 You'll be able to change the name and description later, too - with one caveat. Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
 
-Here you will be able to choose which [space](../spaces/) your stack belongs to. Initially, you start with a root and a legacy space. The root space is the top-level space of your account, while the legacy space exists for backward compatibility with pre-spaces RBAC.
+Here you will be able to choose which [space](../spaces/README.md) your stack belongs to. Initially, you start with a root and a legacy space. The root space is the top-level space of your account, while the legacy space exists for backward compatibility with pre-spaces RBAC.
 
 Also, this is the opportunity to set a few [labels](stack-settings.md#labels). Labels are useful for searching and grouping things, but also work extremely well with policies.
 
