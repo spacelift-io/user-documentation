@@ -180,6 +180,18 @@ Project root points to the directory within the repo where the project should st
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
 
+### Project globs
+
+Project globs allow you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
+
+![](../../assets/screenshots/Stack_Settings_Project_Globs.png)
+
+You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
+
+!!! info
+    If you want to include a directory and all of its content, you will need to use a "*" wildcard:
+    `directory_to_include/*`
+
 ### Repository and branch
 
 _Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift  (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively.
