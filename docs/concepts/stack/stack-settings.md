@@ -182,13 +182,13 @@ Project root points to the directory within the repo where the project should st
 
 ### Project globs
 
-Project globs allow you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
+The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 ![](../../assets/screenshots/Stack_Settings_Project_Globs.png)
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-Under the hood, project globs take advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match) function to do pattern matching.
+Under the hood, the project globs feature takes advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match){: rel="nofollow"} function to do pattern matching.
 
 Example matches:
 
