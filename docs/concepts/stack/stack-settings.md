@@ -188,7 +188,7 @@ The project globs option allows you to specify files and directories outside of 
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-Under the hood, the project globs feature takes advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match){: rel="nofollow"} function to do pattern matching.
+Under the hood, the project globs option takes advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match){: rel="nofollow"} function to do pattern matching.
 
 Example matches:
 
