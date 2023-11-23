@@ -188,9 +188,16 @@ Project globs allow you to specify files and directories outside of the project 
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-!!! info
-    If you want to include a directory and all of its content, you will need to use a "*" wildcard:
-    `directory_to_include/*`
+Under the hood, project globs take advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match) function to do pattern matching.
+
+Example matches:
+
+- A directory and all of its content: `dir/*`
+- Match all files with a specific extension: `dir/*.tf`
+- Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
+- Match all files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`
+
+As you can see in the example matches, these are the regex rules that you are already accustomed to.
 
 ### Repository and branch
 
