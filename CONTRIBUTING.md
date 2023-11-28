@@ -25,7 +25,7 @@ Screenshots should be added to the `docs/assets/screenshots` folder.
 To tweak the look and feel of the user documentation, you can:
 
 - Edit [MkDocs](https://www.mkdocs.org/user-guide/configuration/) and [Material](https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/) settings in the `mkdocs.yaml` file.
-- Edit the CSS selectors in the `docs/assets/css/extra.css` file.
+- Edit the CSS selectors in the `docs/assets/css/custom.css` file.
 - Edit the images in the `docs/assets/images` folder.
 - Edit the [theme templates](https://squidfunk.github.io/mkdocs-material/customization/#extending-the-theme) in the `overrides`folder.
 
