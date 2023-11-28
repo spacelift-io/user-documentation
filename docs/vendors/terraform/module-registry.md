@@ -293,4 +293,4 @@ updates:
 
 {% endraw %}
 
-It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Admin access is not required.
+It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Although Admin access is not required, if you are using our login policies, non-admin keys must be defined within this policy.
