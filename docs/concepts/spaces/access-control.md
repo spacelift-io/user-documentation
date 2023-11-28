@@ -28,8 +28,9 @@ A comparison table of what users with given roles are capable of can be found be
 | Manage Sessions               | ✅                | ❌     | ❌      | ❌      |
 | Manage Spaces                 | ✅                | ❌     | ❌      | ❌      |
 | Manage Login Policies         | ✅                | ❌     | ❌      | ❌      |
-| Manage Stacks                 | ✅                | ✅     | ❌      | ❌      |
+| Manage Stack Config Settings  | ✅                | ✅     | ❌      | ❌      |
 | Manage Worker Pools, Contexts | ✅                | ✅     | ❌      | ❌      |
+| Manage Stack Env Vars         | ✅                | ✅     | ✅      | ❌      |
 | Trigger runs                  | ✅                | ✅     | ✅      | ❌      |
 | View Stacks                   | ✅                | ✅     | ✅      | ✅      |
 | View Spaces                   | ✅                | ✅     | ✅      | ✅      |
