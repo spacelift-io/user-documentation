@@ -166,7 +166,7 @@ The following screen highlights the Finished Run and output from a successful de
 ![](../../assets/screenshots/k8s-finished.png)
 
 !!! info "Applying"
-    The default timeout is set to 10 minutes. If a Kubernetes Deployment is expected to take longer, you can customize that using the `KUBECTL_ROLLOUT_TIMEOUT` environment variable.
+    The default timeout is set to 10 minutes (10m). If a Kubernetes Deployment is expected to take longer, you can customize that using the `KUBECTL_ROLLOUT_TIMEOUT` environment variable.
 
     Review the [documentation](../../concepts/configuration/environment.md) to find out more about Spacelift environment variables..
 
