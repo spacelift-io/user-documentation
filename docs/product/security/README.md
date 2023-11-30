@@ -24,13 +24,13 @@ All of our data is encrypted at rest and in transit. With the exception of intra
 
 ### Multi-Factor Authentication (MFA)
 
-Enhancing our robust security offerings, Spacelift introduces the IdP independent Multi-Factor Authentication (MFA) feature. This feature elevates the security of your Identity Provider (IdP) sessions by integrating the use of FIDO2 security keys, managed within Spacelift. MFA acts as a crucial safeguard for your identity, providing an additional security layer even in scenarios where your IdP may be compromised. Designed for seamless integration, MFA can be enforced across all user accounts, ensuring consistent security protocols are maintained. You can learn more about our MFA feature [here](./mfa.md).
+Enhancing our robust security offerings, Spacelift introduces the IdP independent Multi-Factor Authentication (MFA) feature. This feature elevates the security of your Identity Provider (IdP) sessions by integrating the use of FIDO2 security keys, managed within Spacelift. MFA acts as a crucial safeguard for your identity, providing an additional security layer. Designed for seamless integration, MFA can be enforced across all user accounts, ensuring consistent security protocols are maintained. You can learn more about our MFA feature [here](./mfa.md).
 
 {% endif %}
 
 ### Single Sign-On (SSO)
 
-In addition to the default login providers (currently GitHub, GitLab, and Google), Spacelift also supports the ability to configure Single Sign-On (SSO) via SAML or OIDC using your favorite identity provider. Using SSO, Spacelift can be configured in a password-less approach, helping your company follow a zero-trust approach. As long as your Identity Provider supports SAML or OIDC, and passing the `email` scope, you're good to go! You can learn more about our Single Sign-On support [here](../../integrations/single-sign-on/README.md).
+In addition to the default login providers (currently GitHub, GitLab, Microsoft and Google), Spacelift also supports the ability to configure Single Sign-On (SSO) via SAML or OIDC using your favorite identity provider. Using SSO, Spacelift can be configured in a password-less approach, helping your company follow a zero-trust approach. As long as your Identity Provider supports SAML or OIDC, and passing the `email` scope, you're good to go! You can learn more about our Single Sign-On support [here](../../integrations/single-sign-on/README.md).
 
 ### Environment Variables
 
