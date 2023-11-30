@@ -167,7 +167,9 @@ List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting
+- **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
+- **feature:ignore_runtime_config** -- Ignores .spacelift/config
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
 - **ghenv: -** -- Disables the creation of GitHub deployment environments
