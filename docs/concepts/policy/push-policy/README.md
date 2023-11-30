@@ -355,6 +355,7 @@ As input, Git push policy receives the following document:
     "tag": "string"
   },
   "stack": {
+    "additional_project_globs": ["string - list of arbitrary, user-defined selectors"],
     "administrative": "boolean",
     "autodeploy": "boolean",
     "branch": "string",
@@ -527,6 +528,18 @@ affected {
 affected {
     filepath := input.pull_request[_]
     startswith(filepath, input.stack.project_root)
+}
+
+affected {
+    filepath := input.push.affected_files[_]
+    glob_pattern := input.stack.additional_project_globs[_]
+    glob.match(glob_pattern, ["/"], filepath)
+}
+
+affected {
+    filepath := input.pull_request[_]
+    glob_pattern := input.stack.additional_project_globs[_]
+    glob.match(glob_pattern, ["/"], filepath)
 }
 ```
 
