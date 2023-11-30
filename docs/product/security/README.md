@@ -24,7 +24,7 @@ All of our data is encrypted at rest and in transit. With the exception of intra
 
 ### Multi-Factor Authentication (MFA)
 
-Enhancing our robust security offerings, Spacelift introduces the IdP independent Multi-Factor Authentication (MFA) feature. This feature elevates the security of your Identity Provider (IdP) sessions by integrating the use of FIDO2 security keys, managed within Spacelift. MFA acts as a crucial safeguard for your identity, providing an additional security layer. Designed for seamless integration, MFA can be enforced across all user accounts, ensuring consistent security protocols are maintained. You can learn more about our MFA feature [here](./mfa.md).
+This feature elevates the security of your Identity Provider (IdP) sessions by integrating the use of FIDO2 security keys, managed within Spacelift. MFA acts as a crucial safeguard for your identity, providing an additional security layer. Designed for seamless integration, MFA can be enforced across all user accounts, ensuring consistent security protocols are maintained. You can learn more about our MFA feature [here](./mfa.md).
 
 {% endif %}
 
