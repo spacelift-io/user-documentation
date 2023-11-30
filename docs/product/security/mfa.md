@@ -3,7 +3,7 @@
 With the introduction of IdP independent Multi-Factor Authentication (MFA), we extend our security capabilities to provide a robust and flexible authentication system. MFA at Spacelift is designed to protect your account and sensitive resources by requiring a second form of verification, adding a critical layer of security against unauthorized access.
 
 !!! warning
-    Before enabling MFA, it's crucial to set backup credentials. This ensures that you can still access your account in the event of a lost security key or other unforeseen issues. You can find more about this in the [Backup Credentials](../../integrations/single-sign-on/backup-credentials.md) section.
+    Before enabling MFA, consider to set backup credentials. This ensures that you can still access your account in the event of a lost security key or other unforeseen issues. You can find more about this in the [Backup Credentials](../../integrations/single-sign-on/backup-credentials.md) section.
 
 ## Setting Up MFA for Your Account
 
@@ -35,7 +35,7 @@ Admins can view and delete security keys for any user within the organization to
 Organization admins can enforce MFA across the organization to ensure that all users comply with the security standards. Enforcing MFA means every active user must have at least one registered security key.
 
 !!! warning
-    After MFA enforcement, existing sessions except for the current one will be invalidated. Users will be prompted to register their security keys during their next login session for continued access.
+    After MFA enforcement, existing sessions except for the current one will be invalidated. Users will be prompted to register their security keys during their next login session for continued access, please make sure they have FIDO2 complinant device to avoid lockout.
 
 ### After Enforcing MFA
 
