@@ -21,6 +21,8 @@ There, you will want to click on the _Create pool_ button, which will take you t
     You will need to add [iss](README.md#standard-claims) to _Issuer (URL)_ and you will need to add [aud](README.md#standard-claims) to _Audience_.
     You will need to replace `demo.app.spacelift.io` and `demo@spacelift.io` with the hostname of your Spacelift account.
 
+    Note: Use fully qualified resource names when granting roles to external identities, and use your project number, not your project ID.
+
 In the last step, you will need to configure a mapping between provider Spacelift token claims (assertions) and Google attributes. `google.subject` is a required mapping and should generally map to `assertion.sub`. [Custom claims](README.md#custom-claims) can be mapped to custom attributes, which need to start with the `attribute.` prefix. In the below example, we are also mapping Spacelift's `spaceId` claim to GCP's custom `space` attribute:
 
 ![GCP provider attribute mapping](../../../assets/screenshots/oidc/gcp-provider-attributes.png)
@@ -30,6 +32,9 @@ To restrict which identities can authenticate using your workload identity pool 
 Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
 
 ![GCP granting access to service account](../../../assets/screenshots/oidc/gcp-grant-access.png)
+
+!!! tip
+    You will need to add an IAM permission on the service account itself. See the [GCP documentation](https://cloud.google.com/iam/docs/workload-identity-federation-with-other-clouds#allow_the_external_workload_to_impersonate_the_service_account){: rel="nofollow"} for how to do so.
 
 ## Configuring the Terraform Provider
 
@@ -51,6 +56,8 @@ Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform p
 }
 ```
 
-Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../../concepts/configuration/context.md) that is then attached to the stack. Note that you will also need to tell the provider how to find this configuration file. This bit is nicely documented in the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}. And here is an example of us using a Spacelift [context](../../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
+Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../../concepts/configuration/context.md) that is then attached to the stack. Note that you will also need to tell the provider how to find this configuration file. This bit is nicely documented in the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}.
+
+Please note your credentials source should just contain the file path. Here is an example of us using a Spacelift [context](../../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
 
 ![GCP Spacelift settings](../../../assets/screenshots/oidc/gcp-spacelift-settings.png)
