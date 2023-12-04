@@ -97,8 +97,6 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 - Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
 - GCP: [terraform-google-spacelift-workerpool](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"}.
 
-In addition, the [spacelift-helm-charts](https://github.com/spacelift-io/spacelift-helm-charts){: rel="nofollow"} repository contains a Helm chart for deploying workers to Kubernetes.
-
 !!! tip
     Since the Launcher is getting downloaded during the instance startup, it is recommended to recycle the worker pool every once in a while to ensure that it is up to date. You don't want to miss out on the latest features and bug fixes! You can do this by draining all the workers one-by-one in the UI, then terminating the instances in your cloud provider.
 
@@ -107,7 +105,9 @@ In addition, the [spacelift-helm-charts](https://github.com/spacelift-io/spaceli
 !!! info
     AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a Terraform module for this setup.
 
-{% else %}
+{% endif %}
+
+{% if is_self_hosted() %}
 
 ### CloudFormation Template
 
@@ -352,38 +352,407 @@ aws cloudformation deploy --no-cli-pager \
 
 Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} Terraform modules are not currently compatible with self-hosting.
 
-### Running Workers in Kubernetes
+{% endif %}
 
-You can run Spacelift workers for your self-hosted instance in Kubernetes, for example using our [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts){: rel="nofollow"}. The main thing to be aware of is that the launcher is designed to work with a specific version of Spacelift, so it's important to use the correct container image for your Spacelift install.
+### Kubernetes
 
-#### Finding the Launcher Image
+We provide a Kubernetes operator for managing Spacelift worker pools. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
 
-During the installation process for your self-hosted image, an ECR repository is created for storing launcher images named `spacelift-launcher`. At the end of the installation the launcher image URI and tag are output. If you didn't take a note of it at the time, you can find the ECR repository URI via the AWS console, or by running the following command:
+!!! info
+    Previously we provided a [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool){: rel="nofollow"} for deploying worker pools to Kubernetes using Docker-in-Docker. This approach is no-longer recommended, and you should use the Kubernetes operator instead.
+
+A `WorkerPool` defines the number of `Workers` registered with Spacelift via the `poolSize` parameter. The Spacelift operator will automatically create and register a number of `Worker` resources in Kubernetes depending on your `poolSize`.
+
+!!! info
+    `Worker` resources do not use up any cluster resources other than an entry in the Kubernetes API when they are idle. `Pods` are created on demand for `Workers` when scheduling messages are received from Spacelift. This means that in an idle state no additional resources are being used in your cluster other than what is required to run the controller component of the Spacelift operator.
+
+### Kubernetes version compatibility
+
+The spacelift controller is compatible with Kubernetes version **v1.26+**.
+The controller may also work with older versions, but we do not guarantee and provide support for unmaintained Kubernetes versions.
+
+#### Installation
+
+##### Controller setup
+
+=== "Kubectl"
+    To install the worker pool controller along with its CRDs, run the following command:
+
+    ```shell
+    kubectl apply -f https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml
+    ```
+
+    !!! tip
+        You can download the manifests yourself from <https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml> if you would like to inspect them or alter the Deployment configuration for the controller.
+
+=== "Helm"
+    You can install the controller using the official [spacelift-workerpool-controller](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller) Helm chart.
+
+    ```shell
+    helm repo add spacelift https://downloads.spacelift.io/helm
+    helm repo update
+    helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace
+    ```
+
+    You can open `values.yaml` from the helm chart repo for more customization options.
+
+##### Create a Secret
+
+Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](#setting-up):
 
 ```shell
-aws ecr describe-repositories --region <aws-region> --repository-names "spacelift-launcher" --output json | jq -r '.repositories[0].repositoryUri'
+SPACELIFT_WP_TOKEN=<enter-token>
+SPACELIFT_WP_PRIVATE_KEY=<enter-base64-encoded-key>
+
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-workerpool
+type: Opaque
+stringData:
+  token: ${SPACELIFT_WP_TOKEN}
+  privateKey: ${SPACELIFT_WP_PRIVATE_KEY}
+EOF
 ```
 
-The repository URI will be in the format `<account-id>.dkr.ecr.<region>.amazonaws.com/spacelift-launcher`. To calculate the correct image to use, add the version of your self-hosted installation onto the end, for example:
+##### Create a WorkerPool
+
+Finally, create a WorkerPool resource using the following command:
 
 ```shell
-012345678901.dkr.ecr.eu-west-2.amazonaws.com/spacelift-launcher:v0.0.6
+kubectl apply -f - <<EOF
+apiVersion: workers.spacelift.io/v1alpha1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: test-workerpool
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: test-workerpool
+      key: privateKey
+EOF
 ```
 
-**Note:** the cluster that you run the Launcher in must be able to pull the launcher image from your ECR repository, so you will need to ensure that it has the correct permissions to do so.
+{% if is_self_hosted() %}
 
-#### Helm Chart
+##### Grant access to the Launcher image
 
-By default our Helm chart is configured to use `public.ecr.aws/spacelift/launcher`. The `latest` tag of that image is guaranteed to always work with the SaaS version of Spacelift. For self-hosted instances, you should configure the chart to use the correct launcher image URI and tag. For example, for the image specified in the [Finding the Launcher Image](#finding-the-launcher-image) section, you would use the following Helm values:
+During your Self-Hosted installation process, the Spacelift launcher image is uploaded to a private ECR in the AWS account your Self-Hosted instance is installed into. This repository is called `spacelift-launcher`:
 
-```yaml
-launcher:
-  image:
-    repository: "012345678901.dkr.ecr.eu-west-2.amazonaws.com/spacelift-launcher"
-    tag: "v0.0.6"
-```
+![spacelift-launcher ECR](../assets/screenshots/worker-pools-kubernetes-self-hosted-ecr.png)
+
+The launcher image is used during runs on Kubernetes workers to prepare the workspace for the run, and the Kubernetes cluster that you want to run your workers on needs to be able to pull that image for runs to succeed.
+
+Some options for this include:
+
+1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes.
+2. You can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
+3. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
 
 {% endif %}
+
+That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
+
+#### Run Containers
+
+When a run assigned to a Kubernetes worker is scheduled by Spacelift, the worker pool controller creates a new Pod to process the run. This Pod consists of the following containers:
+
+- An init container called `init`, responsible for populating the workspace for the run.
+- A `launcher-grpc` container that runs a gRPC server used by the worker for certain tasks like uploading the workspace between run stages, and notifying the worker when a user has requested that the run be stopped.
+- A `worker` container that executes your run.
+
+The `init` and `launcher-grpc` containers use the `public.ecr.aws/spacelift/launcher:<version>` container image published by Spacelift. By default, the Spacelift backend sends the correct value for `<version>` through to the controller for each run, guaranteeing that the run is pinned to a specific image version that is compatible with the Spacelift backend.
+
+The `worker` container uses the [runner image](../concepts/stack/stack-settings.md#runner-image) specified by your Spacelift stack.
+
+!!! warning
+    You can use the `spec.pod.launcherImage` configuration option to pin the `init` and `launcher-grpc` containers to a specific version, but we do not typically recommend doing this because it means that your run Pods could become incompatible with the Spacelift backend as new versions are released.
+
+#### Resource Usage
+
+##### Kubernetes Controller
+
+During normal operations the worker pool controller CPU and memory usage should be fairly stable. The main operation that can be resource intensive is scaling out a worker pool. Scaling up involves generating an RSA keypair for each worker, and is CPU-bound. If you notice performance issues when scaling out, it's worth giving the controller more CPU.
+
+##### Run Pods
+
+Resource requests and limits for the `init`, `launcher-grpc` and `worker` containers can be set via your `WorkerPool` definitions, like in the following example:
+
+```yaml
+apiVersion: workers.spacelift.io/v1alpha1
+kind: WorkerPool
+metadata:
+  name: test-pool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: pool-credentials
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: pool-credentials
+      key: privateKey
+  pod:
+    initContainer:
+      resources:
+        requests:
+          cpu: 500m
+          memory: 200Mi
+        limits:
+          cpu: 500m
+          memory: 200Mi
+    grpcServerContainer:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 50Mi
+        limits:
+          cpu: 100m
+          memory: 50Mi
+    workerContainer:
+      resources:
+        requests:
+          cpu: 500m
+          memory: 200Mi
+        limits:
+          cpu: 500m
+          memory: 200Mi
+```
+
+You can use the values above as a baseline to get started, but the exact values you need for your pool will depend on your individual circumstances. You should use monitoring tools to adjust these to values that make sense.
+
+In general, we don't suggest setting very low CPU or memory limits for the `init` or `worker` containers since doing so could affect the performance of runs, or even cause runs to fail if they are set too low. And in particular, the worker container resource usage will very much depend on your workloads. For example stacks with large numbers of Terraform resources may use more memory than smaller stacks.
+
+#### Volumes
+
+There are two volumes that are always attached to your run Pods:
+
+- The binaries cache volume - used to cache binaries (e.g. `terraform` and `kubectl`) across multiple runs.
+- The workspace volume - used to store the temporary workspace data needed for processing a run.
+
+Both of these volumes default to using `emptyDir` storage with no size limit, but you should not use this default behaviour for production workloads, and should instead specify volume templates that make sense depending on your use-case.
+
+See the section on [configuration](#configuration) for more details on how to configure these two volumes along with any additional volumes you require.
+
+#### Configuration
+
+The following example shows all the configurable options for a WorkerPool:
+
+```yaml
+apiVersion: workers.spacelift.io/v1alpha1
+kind: WorkerPool
+metadata:
+  # name defines the name of the pool in Kubernetes - does not need to match the name in Spacelift.
+  name: test-workerpool
+spec:
+  # poolSize specifies the current number of Workers that belong to the pool.
+  poolSize: 2
+
+  # token points at a Kubernetes Secret key containing the worker pool token.
+  token:
+    secretKeyRef:
+      name: test-workerpool
+      key: token
+
+  # privateKey points at a Kubernetes Secret key containing the worker pool private key.
+  privateKey:
+    secretKeyRef:
+      name: test-workerpool
+      key: privateKey
+
+  # allowedRunnerImageHosts defines the hostnames of registries that are valid to use stack
+  # runner images from. If no specified images from any registries are allowed.
+  allowedRunnerImageHosts:
+    - docker.io
+    - some.private.registry
+
+  # pod contains the spec of Pods that will be created to process Spacelift runs. This allows
+  # you to set things like custom resource requests and limits, volumes, and service accounts.
+  # Most of these settings are just standard Kubernetes Pod settings and are not explicitly
+  # explained below unless they are particularly important or link directly to a Spacelift
+  # concept.
+  pod:
+    # activeDeadlineSeconds defines the length of time in seconds before which the Pod will
+    # be marked as failed. This can be used to set a deadline for your runs. The default is
+    # 70 minutes.
+    activeDeadlineSeconds: 4200
+
+    terminationGracePeriodSeconds: 30
+
+    # volumes allows additional volumes to be attached to the run Pod. This is an array of
+    # standard Kubernetes volume definitions.
+    volumes: []
+
+    # binariesCacheVolume is a special volume used to cache binaries like tool downloads (e.g.
+    # terraform, kubectl, etc). These binaries can be reused by multiple runs, and potentially
+    # by multiple workers in your pool. To support this you need to use a volume type that
+    # can be read and written to by multiple Pods at the same time.
+    # It's always mounted in the same path: /opt/spacelift/binaries_cache
+    binariesCacheVolume: null
+
+    # workspaceVolume Special volume shared between init containers and the worker container.
+    # Used to populate the workspace with the repository content.
+    # It's always mounted in the same path: /opt/spacelift/workspace
+    # IMPORTANT: when using a custom value for this volume bear in mind that data stored in it is sensitive.
+    # We recommend that you make sure this volume is ephemeral and is not shared with other pods.
+    workspaceVolume: null
+
+    serviceAccountName: "custom-service-account"
+    automountServiceAccountToken: true
+    securityContext: {}
+    imagePullSecrets: []
+    nodeSelector: {}
+    nodeName: ""
+    affinity: {}
+    schedulerName: ""
+    tolerations: []
+    hostAliases: []
+    dnsConfig: {}
+    runtimeClassName: ""
+    topologySpreadConstraints: []
+    labels: {}
+    annotations: {}
+
+    # customInitContainers allow you to define a list of custom init containers to be run before the builtin init one.
+    customInitContainers: []
+
+    # launcherImage allows you to customize the container image used by the init and gRPC server
+    # containers. NOTE that by default the correct image is sent through to the controller
+    # from the Spacelift backend, ensuring that the image used is compatible with the current
+    # version of Spacelift.
+    #
+    # You can use this setting if you want to use an image stored in a container registry that
+    # you control, but please note that doing so may cause incompatibilities between run containers
+    # and the Spacelift backend, and we do not recommend this.
+    launcherImage: ""
+
+    # initContainer defines the configuration for the container responsible for preparing the
+    # workspace for the worker. This includes downloading source code, performing role assumption,
+    # and ensuring that the correct tools are available for your stack amongst other things.
+    # The container name is "init".
+    initContainer:
+      envFrom: []
+      env: []
+      volumeMounts: []
+      resources:
+        requests:
+          # Standard resource requests
+        limits:
+          # Standard request limits
+        claims: []
+
+    # grpcServerContainer defines the configuration for the side-car container used by the
+    # worker container for certain actions like uploading the current workspace, and being
+    # notified of stop requests.
+    # The container name is "launcher-grpc".
+    grpcServerContainer:
+      envFrom: []
+      env: []
+      volumeMounts: []
+      resources:
+        requests:
+          # Standard resource requests
+        limits:
+          # Standard request limits
+        claims: []
+
+    # workerContainer defines the configuration for the container that processes the workflow
+    # for your run. This container uses the runner image defined by your stack.
+    workerContainer:
+      envFrom: []
+      env: []
+      volumeMounts: []
+      resources:
+        requests:
+          # Standard resource requests
+        limits:
+          # Standard request limits
+        claims: []
+      securityContext: {}
+```
+
+#### Network Configuration
+
+Your cluster configuration needs to be set up to allow the controller and the scheduled pods to reach the internet.
+This is required to listen for new jobs from the Spacelift backend and report back status and run logs.
+
+You can find the necessary endpoints to allow in the [Network Security](#network-security) section.
+
+#### Scaling a pool
+
+To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
+
+```shell
+kubectl scale workerpools my-worker-pool --replicas=5
+```
+
+#### Initialization Policies
+
+Using an initialization policy is simple and requires three steps:
+
+- Create a `ConfigMap` containing your policy.
+- Attach the `ConfigMap` as a volume in the `pod` specification for your pool.
+- Add an environment variable to the init container, telling it where to read the policy from.
+
+First, create your policy:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-workerpool-initialization-policy
+data:
+  initialization-policy.rego: |
+    package spacelift
+
+    deny["you shall not pass"] {
+        false
+    }
+```
+
+Next, create a `WorkerPool` definition, configuring the `ConfigMap` as a volume, and setting the custom env var:
+
+```yaml
+apiVersion: workers.spacelift.io/v1alpha1
+kind: WorkerPool
+metadata:
+  labels:
+    app.kubernetes.io/name: test-workerpool
+  name: test-workerpool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: test-workerpool
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: test-workerpool
+      key: privateKey
+  pod:
+    volumes:
+      # Here's where you attach the policy to the Pod as a volume
+      - name: initialization-policy
+        configMap:
+          name: test-workerpool-initialization-policy
+    initContainer:
+      volumeMounts:
+        # Here's where you mount it into the init container
+        - name: initialization-policy
+          mountPath: "/opt/spacelift/policies/initialization"
+          readOnly: true
+      env:
+        # And here's where you specify the path to the policy
+        - name: "SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY"
+          value: "/opt/spacelift/policies/initialization/initialization-policy.rego"
+```
 
 ### Configuration options
 
