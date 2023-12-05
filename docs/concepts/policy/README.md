@@ -45,6 +45,20 @@ Except for [login policies](login-policy.md) that are global, all other policy t
 
 Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. However, once these policies are evaluated against the same input, their results are combined. So if you allow user login from one policy but deny it from another, the result will still be a denial.
 
+### Version
+
+We update the version of OPA that we are using regularly, to find out the version we are currently running, you can use the following query:
+
+```
+query getOPAVersion{
+policyRuntime {
+		openPolicyAgentVersion
+	}
+}
+```
+
+For more detailed information about the GraphQL API and its integration, please refer to the [API documentation](../../integrations/api.md).
+
 ### Policy language
 
 [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"} - the language that we're using to execute policies - is a very elegant, Turing incomplete data query language. It takes a few hours (tops) to get your head around all of its quirks but if you can handle SQL and the likes of [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you'll find Rego pretty familiar. For each policy, we also give you plenty of examples that you can tweak to achieve your goals, and each of those examples comes with a link allowing you to execute it in [the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}.
