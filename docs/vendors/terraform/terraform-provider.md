@@ -217,7 +217,7 @@ provider "spacelift" {
 
 We suggest to first manually create a single administrative stack, and then use it to programmatically define other stacks as necessary. If you're using an integration like AWS, you should probably give the role associated with this stack **full IAM access** too, allowing it to create separate roles and policies for individual stacks.
 
-If you want to share data between stacks, please consider programmatically creating and attaching [contexts](../../concepts/configuration/context.md).
+If you want to share data or outputs between stacks, please consider programmatically creating [Stack Dependencies](../../concepts/stack/stack-dependencies.md).
 
 !!! info
     Programmatically generated stacks and contexts can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
