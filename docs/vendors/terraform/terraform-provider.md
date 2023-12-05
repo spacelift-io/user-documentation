@@ -220,7 +220,7 @@ We suggest to first manually create a single administrative stack, and then use 
 If you want to share data or outputs between stacks, please consider programmatically creating [Stack Dependencies](../../concepts/stack/stack-dependencies.md).
 
 !!! info
-    Programmatically generated stacks and contexts can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
+    Programmatically generated stacks can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
 
 ## Boundaries of programmatic management
 
