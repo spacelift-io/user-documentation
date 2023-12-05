@@ -49,11 +49,11 @@ Multiple policies of the same type can be attached to a single stack, in which c
 
 We update the version of OPA that we are using regularly, to find out the version we are currently running, you can use the following query:
 
-```
+```graphql
 query getOPAVersion{
-policyRuntime {
-		openPolicyAgentVersion
-	}
+    policyRuntime {
+        openPolicyAgentVersion
+    }
 }
 ```
 
