@@ -38,6 +38,9 @@ resource "spacelift_terraform_provider" "provider" {
 }
 ```
 
+!!! warning
+    The type attribute in the `spacelift_terraform_provider` resource is actually referring to the unique name for the provider within Spacelift account. It must consist of lowercase letters only.
+
 It is possible to mark the provider as public, which will make it available to everyone. This is generally not recommended, as it will make it easy for others to use your provider without your knowledge. At the same time, this is the only way of sharing a provider between Spacelift accounts. If you're doing that, make sure there is nothing sensitive in your provider. In order to mark the provider as public, you need to set its [`public`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/terraform_provider#public){: rel="nofollow"} attribute to `true`.
 
 #### Use the API
@@ -239,11 +242,17 @@ If everything is fine, pushing a tag like `v0.1.0` should create a new **draft**
 spacectl provider list-versions --type=$YOUR_PROVIDER_TYPE
 ```
 
+!!! warning
+    The type parameter in the `spacectl provider list-versions` command is actually referring to the unique name for the provider within Spacelift account. It must consist of lowercase letters only.
+
 Note the version status. Versions start their life as drafts, and you can publish them by grabbing their ID (first column) and using `spacectl`:
 
 ```bash
 spacectl provider publish-version --version=$YOUR_VERSION_ID
 ```
+
+!!! warning
+    The version parameter in the `spacectl provider publish-versions` command is actually referring to the unique ID for the provider version within Spacelift account.
 
 Once published, your version is ready to use. See the next section for more information.
 
