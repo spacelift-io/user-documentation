@@ -66,9 +66,6 @@ resource "spacelift_stack" "managed-stack" {
   repository = "testing-spacelift"
   branch     = "master"
 
-  # Access.
-  readers_team = github_team.stack_readers.slug
-  writers_team = github_team.stack_writers.slug
 }
 ```
 
@@ -90,9 +87,6 @@ resource "spacelift_stack" "managed-stack" {
   repository = "testing-spacelift"
   branch     = "master"
 
-  # Access.
-  readers_team = github_team.stack_readers.slug
-  writers_team = github_team.stack_writers.slug
 }
 
 # IAM role.
