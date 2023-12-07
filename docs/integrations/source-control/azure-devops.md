@@ -1,16 +1,28 @@
 # Azure DevOps
 
-Spacelift supports using Azure DevOps as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
+Spacelift supports using Azure DevOps as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). You can set up multiple Space-level and one default Azure DevOps integration per account.
 
 ## Setting up the integration
 
-In order to set up the integration from the Spacelift side, please navigate to the VCS providers section of the admin Settings page, find the Azure DevOps integration and click the _Set up_ button:
+In order to set up the integration from the Spacelift side, please navigate to the VCS management page, click on the **Set up integration** button in the top right corner and choose Azure DevOps.
 
-![VCS providers page](<../../assets/screenshots/image (88).png>)
+This form will appear:
 
-This should open a form like this one:
+<p align="center">
+  <img src="../../assets/screenshots/azure_devops_fresh_form.png"/>
+</p>
 
-![Azure DevOps setup form](<../../assets/screenshots/image (89).png>)
+Explanation of the fields:
+
+- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhooks endpoints are generated based on the integration name.
+- **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions from a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
+- **Organization URL** - the URL of your Azure DevOps organization. See [below](#finding-your-organization-url) for more details.
+- **User facing host URL** - friendly URL of your Azure DevOps organization. This is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the Organization URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the **Organization URL** will look like `private://vcs-agent-pool-name/<azure-organization-name>`, but the **User facing host URL** can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
+- **Personal access token** - the [Personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate){: rel="nofollow"} that Spacelift will use to access your Azure DevOps organization. See [below](#creating-a-personal-access-token) for more details.
+- **Labels** - a set of labels to help you organize integrations.
+- **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
+
+Let's collect these details.
 
 ### Finding your Organization URL
 
@@ -18,16 +30,15 @@ Now you'll have to fill in the Organization URL, which is the main URL of your A
 
 ![Azure DevOps main organization page](../../assets/screenshots/azureDevOps1.png)
 
-!!! info
-    The Azure DevOps Organization URL usually has the following format:
+The Azure DevOps Organization URL usually has the following format:
 
-    * `https://dev.azure.com/{my-organization-name}`
+- `https://dev.azure.com/{my-organization-name}`
 
-    Depending on when your Azure DevOps organization was created, it may use a different format, for example:
+Depending on when your Azure DevOps organization was created, it may use a different format, for example:
 
-    * `https://{my-organization-name}.visualstudio.com`
+- `https://{my-organization-name}.visualstudio.com`
 
-    You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration){: rel="nofollow"}.
+You can find out more about Azure DevOps URLs [here](https://docs.microsoft.com/en-us/azure/devops/release-notes/2018/sep-10-azure-devops-launch#administration){: rel="nofollow"}.
 
 ### Creating a Personal Access Token
 
@@ -51,19 +62,28 @@ In order to create a [Personal access token](https://docs.microsoft.com/en-us/az
 
 ### Creating the Integration
 
-After doing all this you should have all fields filled in.
+Once you have entered this data, the form will look like this:
 
-![Filled in Azure DevOps integration form](../../assets/screenshots/azureDevOpsPeronalAccessToken6.png)
+<p align="center">
+  <img src="../../assets/screenshots/azure_devops_filled_form.png"/>
+</p>
 
-If all the data is correct, after saving you should see two notifications in the bottom right part of Spacelift: _New integration was created;_ and _Connecting to Azure DevOps succeeded_.
+If all the data is correct, click **Set up** in the bottom right corner.
 
 ### Configuring Webhooks
 
-In order for Spacelift to be notified of any changes made in your Azure DevOps repos, you need to setup webhooks in Azure DevOps. You can find your **webhook endpoint** and **webhook password** under the Azure DevOps VCS integration section:
+In order for Spacelift to be notified of any changes made in your repositories, you need to setup webhooks in Azure DevOps. You can find your **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
 
-![Configured Azure DevOps integration](<../../assets/screenshots/image (92).png>)
+!!! note
+    Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
 
-For each Azure DevOps project you want to use with Spacelift, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Web Hooks** and click **Next**.
+<p align="center">
+  <img src="../../assets/screenshots/azure_devops_details.png"/>
+</p>
+
+You'll need the **Webhook secret** and the **Webhook endpoint** in the next step.
+
+For each Azure DevOps project you want to use with this integration, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Web Hooks** and click **Next**.
 
 ![Creating a Webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks1.gif)
 
@@ -81,7 +101,7 @@ Once on the **Trigger** page of _New Service Hooks Subscription_ window, select 
 
 ![Creating Code pushed webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks2.png)
 
-After clicking **Next** you should see the Action page. Under the **Settings** section fill in the Spacelift **Webhook endpoint** URL. Leave _Basic authentication username_ empty and put the **Webhook password** under _Basic authentication password_ and click **Finish**.
+After clicking **Next** you should see the Action page. Under the **Settings** section fill in the Spacelift **Webhook endpoint** URL. Leave _Basic authentication username_ empty and put the **Webhook secret** under _Basic authentication password_ and click **Finish**.
 
 ![Configuring webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks3.png)
 
@@ -93,12 +113,24 @@ Once done you should see the list of configured Service Hooks. Repeat the same p
 
 When creating a Stack, you will now be able to choose the Azure DevOps provider and a repository inside of it:
 
-![Stack creation form](<../../assets/screenshots/image (93).png>)
+![Stack creation form](<../../assets/screenshots/azure_devops_stack_creation.png>)
 
-## Unlinking the Integration
+## Deleting the Integration
 
-If you no longer need the integration, you can remove it via the _Unlink_ button on the VCS settings page.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
-![VCS providers page](<../../assets/screenshots/image (94).png>)
+<p align="center">
+  <img src="../../assets/screenshots/azure_devops_deletion_button.png"/>
+</p>
 
-Please also remember to remove any Spacelift webhooks from your repositories.
+!!! warning
+    Please note that you can delete integrations **while stacks are still using them**. See the next section for more details.
+
+### Consequences
+
+When a stack has a detached integration, it will no longer be able to receive webhooks from Azure DevOps and you won't be able to trigger runs manually either.
+
+You'll need to open the stack, go to the **Settings** tab and choose a new integration.
+
+!!! tip
+    You can save a little time if you create the new integration with the exact same name as the old one. This way, the webhook URL will remain the same and you won't have to update it in Azure DevOps. You will still need to update the webhook secret though.
