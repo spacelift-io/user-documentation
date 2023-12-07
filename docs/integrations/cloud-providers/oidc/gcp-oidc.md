@@ -27,6 +27,9 @@ In the last step, you will need to configure a mapping between provider Spacelif
 
 To restrict which identities can authenticate using your workload identity pool you can specify extra [conditions](https://cloud.google.com/iam/docs/workload-identity-federation#conditions){: rel="nofollow"} using Google's [Common Expression Language](https://github.com/google/cel-spec){: rel="nofollow"}.
 
+!!! warning
+    If your Stack ID is too long, it may exceed the threshold set by Google for the `google.subject` mapping. In that case, you can use a different [Custom claim](README.md#custom-claims) to create the mapping.
+
 Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
 
 ![GCP granting access to service account](../../../assets/screenshots/oidc/gcp-grant-access.png)
