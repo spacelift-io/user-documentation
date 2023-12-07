@@ -134,6 +134,7 @@ nav:
               - integrations/cloud-providers/oidc/azure-oidc.md
               - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
+          - integrations/observability/README.md 
           - integrations/observability/datadog.md
           - integrations/observability/prometheus.md
       - Source Control:
