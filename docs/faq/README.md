@@ -12,10 +12,12 @@ If you still cannot find the answer to your question below, please reach out to 
 
 ![](../assets/screenshots/feature-request.png)
 
-- Go to the "Product updates" section, in the bottom-left corner menu (1).
-- Go to the "Roadmap" tab to review the current roadmap (2) and to the "Feature Requests" tab (3) to see the feature requests pending review.
+- Go to the "Resource section" section, in the bottom-left corner menu.
+- Fill in your problem or request, what you are trying to achieve, and optionally, your current work around. The scroll down to submit your request.
 
-If you see the feature you are looking for, you can vote for it (4), or leave a comment (5). Otherwise, you can submit a new feature request by clicking on "Suggest a feature" (6).
+If you wish to view feature requests you have previously submitted, you can access the portal through this pop-out. There, you'll be able to see the status of your requests.
+
+Additionally, the portal allows you to vote on and join discussions about other requests, review new releases, and see upcoming features
 
 {% endif %}
 
