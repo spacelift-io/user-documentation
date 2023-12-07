@@ -73,6 +73,8 @@ COPY --from=builder /terraform-provider-sops /bin/terraform-provider-sops
 RUN adduser --disabled-password --no-create-home --uid=1983 spacelift
 ```
 
+An additional requirement is the presence of `ps` command in the image. The Spacelift worker periodically checks the status of the container image and it uses `ps` to do so.
+
 !!! info
     Note the `adduser` bit. **Spacelift runs its Docker workflows as user `spacelift` with UID 1983**, so make sure that:
 

@@ -78,6 +78,17 @@ Congrats! Your launcher should now connect to the Spacelift backend and start ha
 
 {% if is_saas() %}
 
+#### Periodic updates
+
+Our worker infrastructure consists of two binaries: launcher and worker. The latest version of the launcher binary is getting downloaded during the instance startup. The launcher then establishes a connection with the Spacelift backend and waits for messages. When it gets a message, it downloads the latest version of the worker binary and executes it. The worker binary is responsible for running the actual Spacelift runs.
+
+This setup ensures that the worker binary is always up to date, but the launcher may not be. Typically, the worker binaries receive more updates but it's still recommended to recycle the worker pool every once in a while to ensure that the launcher is up to date. You can do this by draining all the workers in the UI, then terminating the instances in your cloud provider. That should automatically start new instances with the latest launcher version.
+
+Additionally, if you use [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, they [receive](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} routine system updates every few weeks so it's worth bumping the AMI to the latest version from time to time. That automatically takes care of downloading fresh launcher binaries as well.
+{% endif %}
+
+{% if is_saas() %}
+
 ### Terraform Modules and Helm Chart
 
 For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
