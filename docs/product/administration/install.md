@@ -297,7 +297,7 @@ Installation info:
 [2023-01-24T11:30:59+0000] INFO: Spacelift version v0.0.6 has been successfully installed!
 ```
 
-Please use the _Load balancer DNS_ to setup a CNAME entry or an A record using an alias if using a hosted zone in the same AWS account as your Spacelift installation. This entry should point from the hostname you want to use for Spacelift (e.g. `spacelift.saturnhead.io`) to the Spacelift Load Balancer.
+Please use the _Load balancer DNS_ to setup a CNAME entry or an A record using an alias. This entry should point from the hostname you want to use for Spacelift (e.g. `spacelift.saturnhead.io`) to the Spacelift Load Balancer.
 
 Once your DNS changes propagate, you should be able to login to your instance by navigating to its hostname (for example `https://spacelift.saturnhead.io`). Assuming everything has been successful, you should see a welcome screen similar to the following:
 
