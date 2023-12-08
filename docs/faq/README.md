@@ -19,6 +19,9 @@ If you wish to view feature requests you have previously submitted, you can acce
 
 Additionally, the portal allows you to vote on and join discussions about other requests, review new releases, and see upcoming features.
 
+!!! Tip
+    If you're experiencing issues, please disable any ad blockers temporarily and refresh the page.
+
 {% endif %}
 
 ### Providing Admin consent for Microsoft login
