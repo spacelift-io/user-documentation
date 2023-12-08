@@ -41,7 +41,7 @@ Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform p
 ```json
 {
   "type": "external_account",
-  "audience": "//iam.googleapis.com/projects/${PROJECT_ID}/locations/global/workloadIdentityPools/${WORKER_POOL_ID}/providers/${IDENTITY_PROVIDER_ID}",
+  "audience": "//iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/${WORKER_POOL_ID}/providers/${IDENTITY_PROVIDER_ID}",
   "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
   "token_url": "https://sts.googleapis.com/v1/token",
   "credential_source": {
@@ -54,6 +54,12 @@ Once the Spacelift-GCP OIDC integration is set up, the [Google Cloud Terraform p
 }
 ```
 
-Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../../concepts/configuration/context.md) that is then attached to the stack. Note that you will also need to tell the provider how to find this configuration file. This bit is nicely documented in the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}. And here is an example of us using a Spacelift [context](../../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
+Your Spacelift run needs to have access to this file, so you can check it in (there's nothing secret here), [mount it](../../../concepts/configuration/environment.md#mounted-files) on a stack or mount it in a [context](../../../concepts/configuration/context.md) that is then attached to the stack.
+
+Note that you will also need to tell the provider how to find this configuration file. You can do this by creating a `GOOGLE_APPLICATION_CREDENTIALS` environment variable, and setting it to the path to your credentials file.
+
+Here is an example of us using a Spacelift [context](../../../concepts/configuration/context.md) to mount the file and configure the provider to be attached to an arbitrary number of stacks:
 
 ![GCP Spacelift settings](../../../assets/screenshots/oidc/gcp-spacelift-settings.png)
+
+For more information about configuring the Terraform provider, please see the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}.
