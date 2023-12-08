@@ -36,7 +36,7 @@ The following table shows the latest version of the Terraform provider known to 
 
 Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"} always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
 
-So, without further ado, let's define a stack:
+An example of a Spacelift stack being defined through Terraform:
 
 ```terraform title="stack.tf"
 resource "spacelift_stack" "managed-stack" {
@@ -48,82 +48,7 @@ resource "spacelift_stack" "managed-stack" {
 }
 ```
 
-That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/README.md#access-readers-and-writers-teams), so why don't we define some?
-
-```terraform title="stack-and-teams.tf"
-resource "github_team" "stack-readers" {
-  name = "managed-stack-readers"
-}
-
-resource "github_team" "stack-writers" {
-  name = "managed-stack-writers"
-}
-
-resource "spacelift_stack" "managed-stack" {
-  name = "Stack managed by Spacelift"
-
-  # Source code.
-  repository = "testing-spacelift"
-  branch     = "master"
-
-  # Access.
-  readers_team = github_team.stack_readers.slug
-  writers_team = github_team.stack_writers.slug
-}
-```
-
-Now that we programmatically combine Spacelift and GitHub resources, let's add AWS to the mix and give our new stack a dedicated [IAM role](../../integrations/cloud-providers/aws.md):
-
-```terraform title="stack-teams-and-iam.tf"
-resource "github_team" "stack-readers" {
-  name = "managed-stack-readers"
-}
-
-resource "github_team" "stack-writers" {
-  name = "managed-stack-writers"
-}
-
-resource "spacelift_stack" "managed-stack" {
-  name = "Stack managed by Spacelift"
-
-  # Source code.
-  repository = "testing-spacelift"
-  branch     = "master"
-
-  # Access.
-  readers_team = github_team.stack_readers.slug
-  writers_team = github_team.stack_writers.slug
-}
-
-# IAM role.
-resource "aws_iam_role" "managed-stack" {
-  name = "spacelift-managed-stack"
-
-  assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
-    Statement = [
-      jsondecode(
-        spacelift_stack.managed-stack.aws_assume_role_policy_statement
-      )
-    ]
-  })
-}
-
-# Attaching a nice, powerful policy to it.
-resource "aws_iam_role_policy_attachment" "managed-stack" {
-  role       = aws_iam_role.managed-stack.name
-  policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
-}
-
-# Telling Spacelift stack to assume it.
-resource "spacelift_stack_aws_role" "managed-stack" {
-  stack_id = spacelift_stack.managed-stack.id
-  role_arn = aws_iam_role.managed-stack.arn
-}
-```
-
-!!! success
-    OK, so who wants to go back to clicking on things in the web GUI? Because you will likely need to do some clicking, too, [at least with your first stack](terraform-provider.md#proposed-workflow).
+A more in depth guide that will guide you through creating multiple types of Spacelift resources through Terraform can be found at [the terraform-starter repository](https://github.com/spacelift-io/terraform-starter).
 
 ## How it works
 
