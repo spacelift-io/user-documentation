@@ -2,7 +2,7 @@
 
 There are multiple ways to create [stacks](../stack/README.md) in Spacelift. Our recommended way is to use [our Terraform provider](../../vendors/terraform/terraform-provider.md) and programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
 
-However, sometimes you might want to create a stack manually, or you might want to create a stack temporarily (like pulling up a test environment, then destroying it). In these cases managing a stack from a VCS system and Terraform could be clumsy, this is where Blueprints come in handy.
+However, some users might not be comfortable using Terraform code to create stacks, this is where Blueprints come in handy.
 
 ## What is a Blueprint?
 
