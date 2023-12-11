@@ -115,21 +115,21 @@ Also, for every merge request affected by the commit there will be a comment sho
 
 Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/README.md):
 
-![](../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
+![](../../assets/screenshots/Gitlab_environment_before.png)
 
 For example, this successful run:
 
-![](../../assets/screenshots/Update_context_go_·_Powered_by_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
+![](../../assets/screenshots/Gitlab_successful_run.png)
 
 ...is thus reflected in its respective GitLab environment:
 
-![](<../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift (1).png>)
+![](<../../assets/screenshots/Gitlab_environment_after.png>)
 
 This functionality allows you to track Spacelift history directly from GitLab.
 
 ## Deleting the Integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next tozs the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
 <p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
 
