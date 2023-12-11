@@ -117,6 +117,7 @@ nav:
             - integrations/cloud-providers/oidc/README.md
             - integrations/cloud-providers/oidc/aws-oidc.md
       - Observability:
+          - integrations/observability/README.md
           - integrations/observability/datadog.md
           - integrations/observability/prometheus.md
       - Source Control:
