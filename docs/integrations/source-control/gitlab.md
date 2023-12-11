@@ -99,17 +99,17 @@ Spacelift provides feedback to GitLab in a number of ways.
 
 When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/README.md). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/){: rel="nofollow"} functionality. When viewed from a merge request, the pipeline looks like this:
 
-![](../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab.png)
+![](../../assets/screenshots/Gitlab_pr_1.png)
 
 You can see all the Spacelift jobs executed as part of this pipeline by clicking through to its dedicated view:
 
-![](../../assets/screenshots/Pipeline_·_spacelift-test___demo_·_GitLab.png)
+![](../../assets/screenshots/Gitlab_pr_2.png)
 
 As you can see, the test job passed and gave some brief information about the proposed change - that - if applied - it would add a single resource.
 
 Also, for every merge request affected by the commit there will be a comment showing the exact change:
 
-![](<../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab (1).png>)
+![](<../../assets/screenshots/Gitlab_pr_3.png>)
 
 ### Environments
 
