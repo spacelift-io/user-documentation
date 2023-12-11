@@ -8,8 +8,10 @@ description: >-
 
 One of the things we're most proud of at Spacelift is the deep integration with everyone's favorite version control system - GitHub.
 
+You can set up multiple Space-level and one default GitHub integration per account.
+
 !!! warning
-    This integration is typically set up automatically for users who have selected GitHub as their login source, but if you are logging into Spacelift using a different identity provider (e.g. Google, GitLab, or another SSO provider), and do not have GitHub configured as a VCS Provider, see the following section on [Setting up the custom application](github.md#setting-up-the-custom-application). This is also applicable for users who want to connect Spacelift to their GitHub Enterprise instance or to multiple GitHub accounts.
+    There is a built-in integration set up automatically for users who select GitHub as their logic source. If you wish to utilize multiple GitHub accounts or organizations or connect Spacelift to your GitHub Enterprise instance, you will need to set up a custom GitHub integration via a [GitHub App](https://docs.github.com/en/apps/using-github-apps/about-using-github-apps){: rel="nofollow"}.
 
 ## Setting up the integration
 
@@ -41,10 +43,7 @@ In some cases, using the Spacelift application from the Marketplace is not an op
 
 #### Creating the custom application
 
-In order to do so, navigate to the _Source Code_ section of the Account Settings page in your Spacelift account, then click the _Set Up_ button next to the GitHub (custom App) option:
-
-![](<../../assets/screenshots/CleanShot 2022-09-15 at 18.06.46.png>)
-
+In order to do so, navigate to the **VCS management** page, click on the **Set up integration** button and choose GitHub.
 You will be presented with two options:
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
@@ -53,9 +52,16 @@ You will be presented with two options:
 
     The easiest and recommended way to install the custom Spacelift application in your GitHub account is by using the wizard.
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
+    You will be asked a few questions, then you will be redirected to GitHub to create the application. Once it's done, you'll be redirected back to Spacelift to finish the integration.
+    
+    <p align="center">
+        <img src="../../assets/screenshots/GitHub_wizard_final_step.png"/>
+    </p>
 
-    Answer the questions and you should be set up in no time.
+    - **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
+    - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
+    - **Labels** - a set of labels to help you organize integrations.
+    - **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
 
 === "Manual setup"
 
@@ -68,9 +74,13 @@ You will be presented with two options:
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png>)
 
-    Before you can complete this step you need to create a GitHub App within GitHub. Start by navigating to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and clicking on _New GitHub App._
+    Let's choose a friendly name (it can contain spaces) for your integration and choose the integration type.
+    
+    The integration type could be either **default** or **space-specific**. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
 
-    You will need the Webhook endpoint and Webhook secret while creating your App, so take a note of them.
+    Once the integration name and the type are chosen, a **webhook endpoint** and a **webhook secret** will be generated in the middle of the form. These two are enough to create the GitHub App, so let's do that now.
+
+    Open GitHub, navigate to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and click on _New GitHub App._
 
     You can either create the App in an individual user account or within an organization account:
 
@@ -124,10 +134,13 @@ You will be presented with two options:
 
     This will download a file onto your machine containing the private key for your GitHub app. The file will be named `<app-name>.<date>.private-key.pem`, for example `spacelift.2021-05-11.private-key.pem`.
 
-    Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), the _App ID_, and paste the contents of your private key file into the Private key box:
+    Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), _User facing host URL_, the _App ID_, and paste the contents of your private key file into the Private key box:
 
     !!! info
-        If you are using `github.com` set your API host URL as:  [https://api.github.com](https://api.github.com){: rel="nofollow"}
+        If you are using `github.com` set your API host URL as: [https://api.github.com](https://api.github.com){: rel="nofollow"}.
+    
+    !!! info
+        User facing host URL is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the API host URL will look like `private://vcs-agent-pool-name`, but the User facing host URL can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
 
     ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 
@@ -139,7 +152,19 @@ The last step is to install the application you just created so that Spacelift c
 
 #### Installing the custom application
 
-Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts or organizations you have access to. To do this, go back to GitHub, find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
+Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts or organizations you have access to. You can either use the shortcut link on the Spacelift UI, or manually navigating to it in GitHub.
+
+### Via Spacelift UI
+
+On the VCS management page:
+
+<p align="center">
+  <img src="../../assets/screenshots/github_install_app.png"/>
+</p>
+
+#### Via GitHub UI
+
+Find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
 
 ![](<../../assets/screenshots/image (58).png>)
 
@@ -155,15 +180,23 @@ Congrats, you've just linked your GitHub account to Spacelift!
 
 ## Using GitHub with stacks and modules
 
-If your Spacelift account is integrated with GitHub, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS provider to use. GitHub will always come first, assuming that you've integrated it with Spacelift for a good reason:
+If your Spacelift account is integrated with GitHub, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS integration to use.
 
-![](<../../assets/screenshots/Screen Shot 2022-04-21 at 12.43.09 PM.png>)
+<p align="center">
+  <img src="../../assets/screenshots/Screen Shot 2022-04-21 at 12.43.09 PM.png"/>
+</p>
 
 The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't go into further details.
 
-## Team-based access
+## Access controls
 
-In order to spare you the need to separately manage access to Spacelift, you can reuse GitHub's native teams. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/README.md).
+### By Space-level integrations (recommended)
+
+If you're using Space-level integrations, you can use the [Spaces](../../concepts/spaces/README.md) to control the access of your GitHub integrations. For example, if you have a Space called `Rideshare`, you can create a GitHub integration in that Space, and that can only be attached to those stacks and modules that are in the same Space (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space).
+
+### Legacy method
+
+You can reuse GitHub's native teams as well. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/README.md).
 
 !!! info
     The list of teams is empty for individual/private GitHub accounts.
@@ -234,7 +267,7 @@ This is is an important part of our proposed workflow - please refer to [this se
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (1).png>)
 
-If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/README.md#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/README.md#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
+If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/tracked.md#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/tracked.md#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (2).png>)
 
@@ -296,7 +329,7 @@ Below is the list of some of the GitHub webhooks we subscribe to with a brief ex
 
 ### Push events
 
-Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/README.md#where-do-runs-come-from). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
+Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/README.md). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
 
 ### App installation created or deleted
 
@@ -319,7 +352,7 @@ Whenever a review is added or dismissed from a Pull Request, we check whether a 
 
 ### Repository renamed
 
-If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/README.md#repository-and-branch) pointing to it.
+If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/stack-settings.md#repository-and-branch) pointing to it.
 
 ## GitHub Action
 
