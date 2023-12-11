@@ -113,7 +113,7 @@ Choose API Keys menu and click on Add new API key
 
 The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
 
-For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#team-based-access) or [SAML assertions](single-sign-on/README.md#setting-up-the-integration) can work with your API keys just as they do with regular users.
+For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#access-controls) or [SAML assertions](single-sign-on/README.md) can work with your API keys just as they do with regular users.
 
 Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
 
