@@ -1,6 +1,6 @@
 # GitLab
 
-Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). You can set up multiple Space-level and one default Azure DevOps integration per account. While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same.
+Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). You can set up multiple Space-level and one default GitLab integration per account. While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same.
 
 ## Setup Guide
 
@@ -20,7 +20,7 @@ Explanation of the fields:
 - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions from a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
 - **API host URL** - the URL of your GitLab server.
 - **User facing host URL** - friendly URL of your GitLab server. This is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the **API host URL** will look like `private://vcs-agent-pool-name`, but the **User facing host URL** can look more friendly (for example `https://vcs-agent-pool.mycompany.com`) since it isn't actually being used by Spacelift.
-- **API token** - the access token that Spacelift will use to access your Azure DevOps organization. See [below](#creating-an-access-token) for more details.
+- **API token** - the access token that Spacelift will use to access your GitLab. See [below](#creating-an-access-token) for more details.
 - **Labels** - a set of labels to help you organize integrations.
 - **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
 
@@ -138,9 +138,9 @@ If you no longer need the integration, you can delete it by clicking the 3 dots 
 
 ### Consequences
 
-When a stack has a detached integration, it will no longer be able to receive webhooks from Azure DevOps and you won't be able to trigger runs manually either.
+When a stack has a detached integration, it will no longer be able to receive webhooks from GitLab and you won't be able to trigger runs manually either.
 
 You'll need to open the stack, go to the **Settings** tab and choose a new integration.
 
 !!! tip
-    You can save a little time if you create the new integration with the exact same name as the old one. This way, the webhook URL will remain the same and you won't have to update it in Azure DevOps. You will still need to update the webhook secret though.
+    You can save a little time if you create the new integration with the exact same name as the old one. This way, the webhook URL will remain the same and you won't have to update it in GitLab. You will still need to update the webhook secret though.
