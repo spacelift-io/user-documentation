@@ -11,7 +11,7 @@ One of the things we're most proud of at Spacelift is the deep integration with 
 You can set up multiple Space-level and one default GitHub integration per account.
 
 !!! warning
-    There is a built-in integration set up automatically for users who select GitHub as their logic source. If you wish to utilize multiple GitHub accounts or organizations or connect Spacelift to your GitHub Enterprise instance, you will need to set up a custom GitHub integration via a [GitHub App](https://docs.github.com/en/apps/using-github-apps/about-using-github-apps){: rel="nofollow"}.
+    There is a built-in integration set up automatically for users who select GitHub as their logic source. If you wish to utilize multiple GitHub accounts or organizations or connect Spacelift to your GitHub Enterprise instance, you will need to set up a custom GitHub integration via a [GitHub App](#setting-up-the-custom-application).
 
 ## Setting up the integration
 
