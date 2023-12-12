@@ -8,7 +8,7 @@ Spacelift supports using an on-premises Bitbucket installation as the source of 
 
 In order to set up the integration from the Spacelift side, please navigate to the _VCS Providers_ section of the admin Settings page and click the _Set up_ button next to the Bitbucket Data Center integration:
 
-![](<../../assets/screenshots/image (100).png>)
+![VCS providers page](<../../assets/screenshots/Screenshot from 2021-06-10 16-05-39.png>)
 
 This should open a form like this one:
 
