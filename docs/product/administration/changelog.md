@@ -4,6 +4,21 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v0.0.10 and v0.0.11
+
+### Features
+
+- [New stack creation view](../../concepts/stack/creating-a-stack.md)
+- [Auto Attaching Contexts](../../concepts/configuration/context.md#auto-attachments)
+- [Context Hooks](../../concepts/configuration/context.md#editing-hooks)
+- Additional [project globs](../../concepts/stack/stack-settings.md#project-globs)
+- [Pull request default behaviour change](https://spacelift.io/changelog/en/upcoming-pull-request-default-behaviour-change)
+    - Spacelift will start handling pull request events and creating proposed runs if no push policy is set as the default behaviour
+
+### Fixes
+
+- Various backend and frontend fixes and improvements
+
 ## Changes between v0.0.9 and v0.0.10
 
 ### Features
