@@ -12,6 +12,7 @@ A notification policy can define the following rules:
 - **inbox** - allows messages to be routed to the Spacelift notification inbox;
 - **slack** - allows messages to be routed to a given slack channel;
 - **webhook** - allows messages to be routed to a given webhook;
+- **pull_request** - allows messages to be routed to one or more pull requests;
 
 If no rules match no action is taken.
 
@@ -443,3 +444,98 @@ webhook[wbdata] {
 And that's it! You should now be receiving updates about tracked runs to your Discord server:
 
 ![](../../assets/screenshots/discord.png)
+
+### Pull request notifications
+
+Pull request notifications are a very powerful part of the notification policy.
+Using them, one is able to not only target a single pull request but also pull requests targeting a specific branch or commit.
+
+The pull request rule accepts multiple configurable parameters:
+
+- `id` - a pull request ID (**Optional**)
+- `commit` - a target commit SHA (**Optional**)
+- `branch` - a target branch (**Optional**)
+- `body` - a custom comment body (**Optional**)
+
+#### Creating a pull request comment
+
+For example here is a rule which will add a comment (containing a default body) to the pull request that triggered the run:
+
+```opa
+package spacelift
+
+pull_request[{"id": run.commit.pull_request_id}] {
+  run := input.run_updated.run
+  run.state == "FINISHED"
+}
+```
+
+[View the example in the rego playground](https://play.openpolicyagent.org/p/nIjFbXKLsn){: rel="nofollow"}.
+
+#### Adding a comment to pull requests targeting a specific commit
+
+You specify a target commit SHA using the `commit` parameter:
+
+```opa
+package spacelift
+
+pull_request[{
+  "commit": "11e344a8558c3b0ff7048acb88c60ae0a3cc2caf",
+  "body": sprintf("https://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+}] {
+  stack := input.run_updated.stack
+  run := input.run_updated.run
+  run.state == "FINISHED"
+}
+```
+
+[View the example in the rego playground](https://play.openpolicyagent.org/p/VbWmH1Y1Kd){: rel="nofollow"}.
+
+#### Adding a comment to pull requests targeting a specific branch
+
+Provide the branch name using the `branch` parameter:
+
+```opa
+package spacelift
+
+pull_request[{
+  "branch": "main",
+  "body": sprintf("https://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+}] {
+  stack := input.run_updated.stack
+  run := input.run_updated.run
+  run.state == "FINISHED"
+}
+```
+
+[View the example in the rego playground](https://play.openpolicyagent.org/p/p9v2tiwjOT){: rel="nofollow"}.
+
+#### Changing the comment body
+
+You can customize the comment body, even include logs from the [planning](../run/proposed.md#planning) or [applying](../run/tracked.md#applying) phase.
+
+A `spacelift::logs::planning` placeholder in the comment body will be replaced with logs from the [planning](../run/proposed.md#planning) phase. The same applies to `spacelift::logs::applying` and the [applying](../run/tracked.md#applying) phase.
+
+```opa
+package spacelift
+
+pull_request[{
+  "id": run.commit.pull_request_id,
+  "body": body,
+}] {
+  stack := input.run_updated.stack
+  run := input.run_updated.run
+  run.state == "FINISHED"
+
+  body := sprintf(`https://example.app.spacelift.tf/stack/%s/run/%s has finished
+
+## Planning logs
+
+%s
+spacelift::logs::planning
+%s
+`, [stack.id, run.id, "```", "```"])
+}
+```
+
+[View the example in the rego playground](https://play.openpolicyagent.org/p/usG1dBTiEw){: rel="nofollow"}.
