@@ -300,7 +300,7 @@ Any time we receive a repository code push notification, we match it against Spa
 
 ### App installation created or deleted
 
-When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account. When the installation is deleted, we deleted the corresponding Spacelift account and all its data.
+When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account. When the installation is deleted, we delete the corresponding Spacelift account.
 
 ### Organization renamed
 
