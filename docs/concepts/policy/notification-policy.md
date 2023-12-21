@@ -508,6 +508,9 @@ pull_request[{
 }
 ```
 
+!!! hint
+    Please note that `branch` is the base branch of the pull request. For example, if it's `"branch": input.run_updated.stack.branch`, that'd mean that the policy would comment into every pull request that targets the tracked branch of the stack.
+
 [View the example in the rego playground](https://play.openpolicyagent.org/p/p9v2tiwjOT){: rel="nofollow"}.
 
 #### Changing the comment body
