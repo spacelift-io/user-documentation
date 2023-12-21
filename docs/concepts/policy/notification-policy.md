@@ -470,6 +470,9 @@ pull_request[{"id": run.commit.pull_request_id}] {
 }
 ```
 
+!!! hint
+    It works best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
+
 [View the example in the rego playground](https://play.openpolicyagent.org/p/nIjFbXKLsn){: rel="nofollow"}.
 
 #### Adding a comment to pull requests targeting a specific commit
