@@ -481,7 +481,7 @@ package spacelift
 
 pull_request[{
   "commit": run.commit.hash,
-  "body": sprintf("https://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+  "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
 }] {
   stack := input.run_updated.stack
   run := input.run_updated.run
@@ -527,14 +527,14 @@ pull_request[{
   run := input.run_updated.run
   run.state == "FINISHED"
 
-  body := sprintf(`https://example.app.spacelift.tf/stack/%s/run/%s has finished
+  body := sprintf(`https://%s.app.spacelift.io/stack/%s/run/%s has finished
 
 ## Planning logs
 
 %s
 spacelift::logs::planning
 %s
-`, [stack.id, run.id, "```", "```"])
+`, [input.account.name, stack.id, run.id, "```", "```"])
 }
 ```
 
