@@ -43,27 +43,14 @@ Once you've created your personal API token, please pass it - along with the ser
 
 ![](<../../assets/screenshots/Gitlab_set_up_button.png>)
 
-Congrats, you've just linked your GitLab account to Spacelift. You should be taken to the integration settings page where you can retrieve the webhook data - secret and endpoint - which you will need to [integrate Spacelift stacks with GitLab projects](gitlab.md#using-gitlab-with-stacks-and-modules). Don't worry, this data will be accessible again to Spacelift admins, so there's no need to persist it separately:
-
-![](<../../assets/screenshots/Gitlab_3dots.png>)
-<p align="center"><img src="../../assets/screenshots/Gitlab_details.png"></p>
-
 !!! warning
     Unlike GitHub credentials which are specific to an organization rather than an individual, the GitLab integration uses personal credentials, which makes it more fragile in situations where an individual leaves the organization and deletes the access token.
 
     Thus, it may be a good idea to create "virtual" (machine) users in GitLab as a source of more stable credentials. Note however that this is a general concern, not one specific to Spacelift.
 
-## Using GitLab with stacks and modules
-
-If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS integration to use. GitLab will always come first, assuming that you've integrated it with Spacelift for a good reason:
-
-![](../../assets/screenshots/Gitlab_create_stack.png)
-
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
-
 ### Setting up Webhooks
 
-An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
+For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
 
 !!! note
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
@@ -80,6 +67,14 @@ If that sounds like hassle (it sure does to us), you can do the same thing autom
     Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
 
 Regardless of whether you've created it manually or programmatically, once your project webhook is set up, your GitLab-powered stack or module is ready to use.
+
+### Using GitLab with stacks and modules
+
+If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show an option to use GitLab as the source of code:
+
+![](../../assets/screenshots/Gitlab_create_stack.png)
+
+The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
 
 ### Namespaces
 

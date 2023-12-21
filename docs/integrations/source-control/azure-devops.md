@@ -83,6 +83,11 @@ In order for Spacelift to be notified of any changes made in your repositories, 
 
 You'll need the **Webhook secret** and the **Webhook endpoint** in the next step.
 
+!!! note
+    If the integration is Space-level, you'll need to have **admin** access to the integration Space to be able to see the sensitive details such as the webhook secret. For the default integration, you'll need to be a **root** Space admin.
+
+    Space **readers** will only be able to see the name, description, and labels of the integration.
+
 For each Azure DevOps project you want to use with this integration, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Web Hooks** and click **Next**.
 
 ![Creating a Webhook integration in Azure DevOps](../../assets/screenshots/azureWebhooks1.gif)
