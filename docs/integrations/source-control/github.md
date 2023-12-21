@@ -190,9 +190,14 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 ## Access controls
 
-### By Space-level integrations (recommended)
+### Space-level integrations
 
 If you're using Space-level integrations, you can use the [Spaces](../../concepts/spaces/README.md) to control the access of your GitHub integrations. For example, if you have a Space called `Rideshare`, you can create a GitHub integration in that Space, and that can only be attached to those stacks and modules that are in the same Space (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space).
+
+#### Integration details visibility
+
+Only Space **admins** will be able to see the webhook URLs and secrets of Space-level integrations. Space **readers** will only be able to see the name, description, and labels of the integration.
+The details of default integrations are only visible to **root** Space admins.
 
 ### Legacy method
 
