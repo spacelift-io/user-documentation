@@ -500,7 +500,7 @@ package spacelift
 
 pull_request[{
   "branch": "main",
-  "body": sprintf("https://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+  "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
 }] {
   stack := input.run_updated.stack
   run := input.run_updated.run
