@@ -480,7 +480,7 @@ You specify a target commit SHA using the `commit` parameter:
 package spacelift
 
 pull_request[{
-  "commit": "11e344a8558c3b0ff7048acb88c60ae0a3cc2caf",
+  "commit": run.commit.hash,
   "body": sprintf("https://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
 }] {
   stack := input.run_updated.stack
