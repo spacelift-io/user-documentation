@@ -298,9 +298,9 @@ Below is the list of some of the GitHub webhooks we subscribe to with a brief ex
 
 Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/README.md#where-do-runs-come-from). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
 
-### App installation created or deleted
+### App installation creation
 
-When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account. When the installation is deleted, we delete the corresponding Spacelift account.
+When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account.
 
 ### Organization renamed
 
