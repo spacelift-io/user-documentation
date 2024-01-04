@@ -54,6 +54,9 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 The above example warrants a little explanation. First, we're making sure that the `~/.ssh` directory exists - otherwise, we won't be able to put anything in there. Then we copy the private key file mounted in our workspace to the SSH configuration directory and give it proper permissions. Last but not least, we're using the `ssh-keyscan` utility to retrieve the public SSH host key for `github.com` and add it to the list of known hosts - this will avoid your code checkout failing due to what would otherwise be an interactive prompt asking you whether to trust that key.
 
+!!! tip
+    If you get an error referring to error in libcrypto, please try adding a newline to the end of the mounted file and trying again.
+
 ## Dedicated third-party registries
 
 For users storing their modules in dedicated external private registries, like [Terraform Cloud's one](https://www.terraform.io/docs/cloud/registry/index.html){: rel="nofollow"}, you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [official documentation](https://www.terraform.io/docs/cli/config/config-file.html#credentials){: rel="nofollow"}.

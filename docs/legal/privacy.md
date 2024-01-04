@@ -110,8 +110,8 @@ CA 94063
 For GDPR related:
 
 Spacelift<br>
-Lanciego 12/20<br>
-02-792 Warszawa<br>
+Podbipięty 47A<br>
+02-737 Warsaw<br>
 Poland
 
 ## 12. How can you review, update, or delete the data we collect from you?
