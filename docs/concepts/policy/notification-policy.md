@@ -476,7 +476,7 @@ pull_request contains {"id": run.commit.pull_request_id} if {
 !!! hint
     It works best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/nIjFbXKLsn){: rel="nofollow"}.
+[View the example in the rego playground](https://play.openpolicyagent.org/p/i4hswca0Fr){: rel="nofollow"}.
 
 #### Adding a comment to pull requests targeting a specific commit
 
@@ -498,7 +498,7 @@ pull_request contains {
 }
 ```
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/VbWmH1Y1Kd){: rel="nofollow"}.
+[View the example in the rego playground](https://play.openpolicyagent.org/p/TAKb5hEB5A){: rel="nofollow"}.
 
 #### Adding a comment to pull requests targeting a specific branch
 
@@ -523,7 +523,7 @@ pull_request contains {
 !!! hint
     Please note that `branch` is the base branch of the pull request. For example, if it's `"branch": input.run_updated.stack.branch`, that'd mean that the policy would comment into every pull request that targets the tracked branch of the stack.
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/p9v2tiwjOT){: rel="nofollow"}.
+[View the example in the rego playground](https://play.openpolicyagent.org/p/Lfjp37sTBV){: rel="nofollow"}.
 
 #### Changing the comment body
 
@@ -559,4 +559,4 @@ spacelift::logs::planning
 }
 ```
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/usG1dBTiEw){: rel="nofollow"}.
+[View the example in the rego playground](https://play.openpolicyagent.org/p/S1MICPJvus){: rel="nofollow"}.
