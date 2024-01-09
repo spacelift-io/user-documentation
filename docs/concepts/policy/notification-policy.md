@@ -464,9 +464,12 @@ For example here is a rule which will add a comment (containing a default body) 
 ```opa
 package spacelift
 
-pull_request[{"id": run.commit.pull_request_id}] {
-  run := input.run_updated.run
-  run.state == "FINISHED"
+import future.keywords.contains
+import future.keywords.if
+
+pull_request contains {"id": run.commit.pull_request_id} if {
+ run := input.run_updated.run
+ run.state == "FINISHED"
 }
 ```
 
@@ -482,13 +485,16 @@ You specify a target commit SHA using the `commit` parameter:
 ```opa
 package spacelift
 
-pull_request[{
-  "commit": run.commit.hash,
-  "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
-}] {
-  stack := input.run_updated.stack
-  run := input.run_updated.run
-  run.state == "FINISHED"
+import future.keywords.contains
+import future.keywords.if
+
+pull_request contains {
+ "commit": run.commit.hash,
+ "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+} if {
+ stack := input.run_updated.stack
+ run := input.run_updated.run
+ run.state == "FINISHED"
 }
 ```
 
@@ -501,13 +507,16 @@ Provide the branch name using the `branch` parameter:
 ```opa
 package spacelift
 
-pull_request[{
-  "branch": "main",
-  "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
-}] {
-  stack := input.run_updated.stack
-  run := input.run_updated.run
-  run.state == "FINISHED"
+import future.keywords.contains
+import future.keywords.if
+
+pull_request contains {
+ "branch": "main",
+ "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+} if {
+ stack := input.run_updated.stack
+ run := input.run_updated.run
+ run.state == "FINISHED"
 }
 ```
 
@@ -525,22 +534,28 @@ A `spacelift::logs::planning` placeholder in the comment body will be replaced w
 ```opa
 package spacelift
 
-pull_request[{
-  "id": run.commit.pull_request_id,
-  "body": body,
-}] {
-  stack := input.run_updated.stack
-  run := input.run_updated.run
-  run.state == "FINISHED"
+import future.keywords.contains
+import future.keywords.if
 
-  body := sprintf(`https://%s.app.spacelift.io/stack/%s/run/%s has finished
+pull_request contains {
+ "id": run.commit.pull_request_id,
+ "body": body,
+} if {
+ stack := input.run_updated.stack
+ run := input.run_updated.run
+ run.state == "FINISHED"
+
+ body := sprintf(
+  `https://%s.app.spacelift.io/stack/%s/run/%s has finished
 
 ## Planning logs
 
 %s
 spacelift::logs::planning
 %s
-`, [input.account.name, stack.id, run.id, "```", "```"])
+`,
+  [input.account.name, stack.id, run.id, "```", "```"],
+ )
 }
 ```
 
