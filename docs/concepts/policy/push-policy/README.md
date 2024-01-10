@@ -557,3 +557,17 @@ affected_pr {
 There are cases where you want pushes to your repo to trigger a run in Spacelift, but only after a CI/CD pipeline (or a part of it) has completed.
 An example would be when you want to trigger an infra deploy after some docker image has been built and pushed to a registry.
 This is achievable via push policies by using the [External Dependencies](run-external-dependencies.md) feature.
+
+## Prioritization
+
+Although we generally recommend using our default scheduling order (tracked runs and tasks, then proposed runs, then drift detection runs), you can also use push policies to prioritize certain runs over others. For example, you may want to prioritize runs triggered by a certain user or a certain branch. To that effect, you can use the boolean `prioritize` rule to mark a run as prioritized. Here's an example:
+
+```opa
+package spacelift
+
+# other rules (including ignore), see above
+
+prioritize { input.stack.labels[_] == "prioritize" }
+```
+
+The above example will prioritize runs on any stack that has the `prioritize` label set. Please note that run prioritization only works for private worker pools. An attempt to prioritize a run on a public worker pool using this policy will be a no-op.
