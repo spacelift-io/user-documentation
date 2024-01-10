@@ -28,4 +28,4 @@ At the moment we support all AWS commercial cloud regions, as well as GovCloud r
 
 ## How to Try Self-Hosted
 
-If you are interested in trying out Self-Hosted, please [join us for a 15 minute alignment call](https://calendly.com/product-demos/15min-spacelift-self-hosted-alignment-call).
+If you are interested in trying out Self-Hosted, please [join us for a 15 minute alignment call](https://spacelift.io/schedule-demo).
