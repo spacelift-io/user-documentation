@@ -173,6 +173,8 @@ module_version := version {
 module_version := "<X.X.X>" {
     propose
 }
+
+track { module_version != "" }
 ```
 
 ### Allow forks
