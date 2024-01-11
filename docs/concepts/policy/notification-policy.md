@@ -199,11 +199,11 @@ This is the schema of the data input that each policy request can receive:
 The final JSON object received as input will depend on the type of notification being sent. Event-dependent objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
 
 | Object Received     | Event                                                                |
-|---------------------|----------------------------------------------------------------------|
+| ------------------- | -------------------------------------------------------------------- |
 | `account`           | Any event                                                            |
 | `webhook_endpoints` | Any event                                                            |
 | `run_updated`       | [Run](../run/README.md) Updated                                      |
-| `internal_error`    | Internal error occurred                                               |
+| `internal_error`    | Internal error occurred                                              |
 | `module_version`    | [Module](../../vendors/terraform/module-registry.md) version updated |
 
 ## Policy in practice
@@ -560,3 +560,57 @@ spacelift::logs::planning
 ```
 
 [View the example in the rego playground](https://play.openpolicyagent.org/p/S1MICPJvus){: rel="nofollow"}.
+
+#### Complex example: adding a comment to a pull request about changed resources
+
+The following example will add a comment to a pull request where it will list all the resources that were added, changed or deleted.
+
+!!! note
+    If you'd like to customize it, feel free to add `sample := true` to the the policy and then use the [Policy Workbench](../policy/README.md#policy-workbench-in-practice) to see what data is available.
+
+```opa
+package spacelift
+
+import future.keywords.contains
+import future.keywords.if
+import future.keywords.in
+
+header := sprintf("### Resource changes ([link](https://%s.app.spacelift.io/stack/%s/run/%s))\n\n![add](https://img.shields.io/badge/add-%d-brightgreen) ![change](https://img.shields.io/badge/change-%d-yellow) ![destroy](https://img.shields.io/badge/destroy-%d-red)\n\n| Action | Resource | Changes |\n| --- | --- | --- |", [input.account.name, input.run_updated.stack.id, input.run_updated.run.id, count(added), count(changed), count(deleted)])
+
+addedresources := concat("\n", added)
+changedresources := concat("\n", changed)
+deletedresources := concat("\n", deleted)
+
+added contains row if {
+  some x in input.run_updated.run.changes
+
+  row := sprintf("| Added | `%s` | <details><summary>Value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
+  x.action == "added"
+  x.entity.entity_type == "resource"
+}
+
+changed contains row if {
+  some x in input.run_updated.run.changes
+
+  row := sprintf("| Changed | `%s` | <details><summary>New value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
+  x.entity.entity_type == "resource"
+
+  any([x.action == "changed", x.action == "destroy-Before-create-replaced", x.action == "create-Before-destroy-replaced"])
+}
+
+deleted contains row if {
+  some x in input.run_updated.run.changes
+  row := sprintf("| Deleted | `%s` | :x: |", [x.entity.address])
+  x.entity.entity_type == "resource"
+  x.action == "deleted"
+}
+
+pull_request contains {"commit": input.run_updated.run.commit.hash, "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources]), "\n\n\n", "\n"), "\n\n", "\n")} if {
+  input.run_updated.run.state == "FINISHED"
+  input.run_updated.run.type == "PROPOSED"
+}
+```
+
+<p align="center">
+  <img src="../../assets/screenshots/notification-policy-pr.png"/>
+</p>
