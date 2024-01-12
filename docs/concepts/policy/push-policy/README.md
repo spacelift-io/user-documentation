@@ -573,3 +573,36 @@ prioritize { input.stack.labels[_] == "prioritize" }
 ```
 
 The above example will prioritize runs on any stack that has the `prioritize` label set. Please note that run prioritization only works for private worker pools. An attempt to prioritize a run on a public worker pool using this policy will be a no-op.
+
+## Stack Locking
+
+Stack locking can be particularly useful in workflows heavily reliant on pull requests. The push policy enables you to lock and unlock a stack based on specific criteria using the `lock` and `unlock` rules.
+
+`lock` rule behavior when a non-empty string is returned:
+
+- Lock the stack if it's currently unlocked.
+- No change if the stack is already locked by the same owner.
+- Reject any runs if the stack is locked by a different owner and you attempt to lock it.
+
+`unlock` rule behavior when a non-empty string is returned:
+
+- No change if the stack is currently unlocked.
+- Unlock the stack if it's locked by the same owner.
+- No change if the stack is locked by a different owner.
+
+!!! info
+    Note that runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the `lock` rule is undefined or results in an empty string, runs will not be rejected.
+
+Below is an example policy snippet which locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged:
+
+``` opa
+lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
+
+lock := lock_id {
+    input.pull_request.action in ["opened", "synchronize"]
+}
+
+unlock := lock_id {
+    input.pull_request.action in ["closed", "merged"]
+}
+```
