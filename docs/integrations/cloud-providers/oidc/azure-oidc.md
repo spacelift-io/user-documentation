@@ -4,6 +4,9 @@
 
 In order to enable Spacelift runs to access Azure resources, you need to set up Spacelift as a valid identity provider for your account. This is done using [workload identity federation](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation){: rel="nofollow"}. The set up process involves creating an App Registration, and then adding federated credentials that tell Azure which Spacelift runs should be able to use which App Registrations. This process can be completed via the Azure Portal, Azure CLI or Terraform. For illustrative purposes we will use the Azure Portal.
 
+!!! info
+    Note that the following instructions show how to setup federation using a Microsoft Entra App, but the same approach can also be used with a user-assigned managed identity.
+
 The first step is to go to the Azure AD section of the Azure Portal, go to _App registrations_, and then click on the _New registration_ button:
 
 ![New registration](<../../../assets/screenshots/oidc-federation-azure-create-app-registration.png>)
