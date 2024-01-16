@@ -4,6 +4,19 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v0.0.11 and v0.0.12
+
+### Features
+
+- [OpenTofu v1.6.0 support](../../concepts/stack/creating-a-stack.md#opentofu)
+- [PRs as notification targets](../../concepts/policy/notification-policy.md#pull-request-notifications)
+- [Run prioritization through Push Policy](../../concepts/policy/push-policy/README.md#prioritization) (`prioritize` keyword)
+- Add state size (in bytes) to `ManagedStateVersion` type in GraphQL
+
+### Fixes
+
+- Various backend and frontend fixes and improvements
+
 ## Changes between v0.0.10 and v0.0.11
 
 ### Features
