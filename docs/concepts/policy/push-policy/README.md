@@ -593,7 +593,7 @@ Stack locking can be particularly useful in workflows heavily reliant on pull re
 !!! info
     Note that runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the `lock` rule is undefined or results in an empty string, runs will not be rejected.
 
-Below is an example policy snippet which locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged:
+Below is an example policy snippet which locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged. Ensure you have added `import future.keywords` to your policy to use this exact snippet.
 
 ``` opa
 lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
@@ -605,4 +605,46 @@ lock := lock_id {
 unlock := lock_id {
     input.pull_request.action in ["closed", "merged"]
 }
+```
+
+You can futher customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
+
+``` opa
+lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
+
+lock := lock_id if {
+    input.pull_request.action in ["opened", "synchronize"]
+    affected_pr
+}
+
+unlock := lock_id if {
+    input.pull_request.action in ["closed", "merged"]
+    affected_pr
+}
+
+affected_pr if {
+    some filepath in input.pull_request.diff
+    startswith(filepath, input.stack.project_root)
+}
+
+affected_pr if {
+    some filepath in input.pull_request.diff
+    some glob_pattern in input.stack.additional_project_globs
+    glob.match(glob_pattern, ["/"], filepath)
+}
+```
+
+Futhermore, with the release of this functionality, you can also lock and unlock through [comments](../../run/pull-request-comments.md). Here is an example:
+
+``` opa
+unlock := lock_id {
+    input.pull_request.action == "commented"
+    input.pull_request.comment == concat(" ", ["/spacelift", "unlock", input.stack.id])
+}
+```
+
+Using the above addition to your push policy, you can then unlock your stack by commenting something such as:
+
+```text
+/spacelift unlock my-stack-id
 ```
