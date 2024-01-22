@@ -80,17 +80,47 @@ Environment variables are preserved from one phase to the next.
 
 #### Note on hook ordering
 
-Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically.
+Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically or reversed alphabetically depending on the operation type (before/after).
 
-In the before phase, the priority of stack hooks is secondary to that of context hooks. Conversely, in the after phase, this priority order is reversed.
+Hooks from manually and auto-attached contexts can only be edited from their respective views.
 
-Hooks from both manually and auto-attached contexts can only be edited from their respective views. Specifically, in the before phase:
+In the before phase, hook priorities work as follows:
 
-- Hooks from manually attached contexts take precedence and are arranged according to context attachment priority.
-- Subsequently, hooks from auto-attached contexts, ordered alphabetically.
-- Stack hooks occupy the final position in the sequence.
+- context hooks (based on set priorities)
+- context auto-attached hooks (reversed alphabetically)
+- stack hooks
 
-For the after phase, the ordering is reversed.
+In the after phase, hook priorities work as follows:
+
+- stack hooks
+- context auto-attached hooks (alphabetically)
+- context hooks (reversed priorities)
+
+Let's suppose you have 4 contexts attached to a stack:
+
+- context_a (auto-attached)
+- context_b (auto-attached)
+- context_c (priority 0)
+- context_d (priority 5)
+
+In all of these contexts, we have added hooks that echo the context name before and after phases. To add to this, we will also add two static hooks on the stack level that will do a simple "echo stack".
+
+Before phase order:
+
+- context_c
+- context_d
+- context_b
+- context_a
+- stack
+
+After phase order:
+
+- stack
+- context_a
+- context_b
+- context_d
+- context_c
+
 {% endif %}
 
 ### Runtime commands
