@@ -7,13 +7,17 @@ Unless you're defining a stack programmatically using our [Terraform provider](.
 !!! info
     You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on/README.md).
 
-The stack creation process involves five simple steps:
+The stack creation process involves nine simple steps:
 
 1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
 3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md)
 4. [Defining common behavior of the stack](#define-behavior);
 5. [Creating stack hooks](#create-stack-hooks);
+6. [Attaching a cloud integration](#attach-stack-cloud-integration);
+7. [Attaching policies](#attach-stack-policies);
+8. [Attaching contexts](#attach-stack-contexts);
+9. [Review the summary and create your stack](#summary);
 
 ## Name your stack
 
@@ -117,6 +121,14 @@ When you create an Ansible stack in Spacelift, you have the option to select the
 
 Support is currently in Beta.
 
+### Stack Created
+
+![](<../../assets/screenshots/Stack_Created.png>)
+
+After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
+
+You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your stack.
+
 ## Define behavior
 
 Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
@@ -146,3 +158,52 @@ You also have the ability to control what happens before and after each runner p
 - Destroying
 - Performing
 - Finally
+
+You can read more about stack hooks [here](../stack/stack-settings.md#customizing-workflow).
+
+## Attach Stack Cloud Integration
+
+![](<../../assets/screenshots/Create_Stack_Cloud_Integrations.png>)
+
+Here you have the ability to attach any Cloud Integrations you have configured.
+
+Cloud integrations allow Spacelift to manage your resources without the need for long-lived static credentials.
+
+Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
+
+Currently, AWS, Azure and GCP are natively supported.
+
+You can read more about Cloud ingrations [here](../../integrations/cloud-providers/README.md).
+
+## Attach Stack Policies
+
+![](<../../assets/screenshots/Create_Stack_Policies.png>)
+
+Spacelift as a development platform is built around the concept of policies and allows defining policies that involve various decision points in the application.
+
+In this section, you can attach the following policy types:
+
+- [Approval:](../../concepts/policy/approval-policy.md) who can approve or reject a run and how a run can be approved;
+- [Plan:](../../concepts/policy/terraform-plan-policy.md) which changes can be applied;
+- [Push:](../../concepts/policy/push-policy/) how Git push events are interpreted;
+- [Trigger:](../../concepts/policy/trigger-policy.md) what happens when blocking runs terminate;
+
+You can read more about policies [here](../../concepts/policy/README.md).
+
+## Attach Stack Contexts
+
+![](<../../assets/screenshots/Create_stack_contexts.png>)
+
+Contexts are sets of environment variables and related configuration,including hooks that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
+
+Contexts can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+
+You can read more about contexts [here](../../concepts/configuration/context.md).
+
+## Summary
+
+![](<../../assets/screenshots/Create_stack_summary.png>)
+
+ On the summary section, you can now review your settings before finalizing the creation of your stack. This modular approach ensures your stack gets set up with all the necessary components.
+
+ Congratulations on creating your stack! 🚀
