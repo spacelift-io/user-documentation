@@ -202,7 +202,7 @@ You can read more about contexts [here](../../concepts/configuration/context.md)
 
 ## Summary
 
-![](<../../assets/screenshots/Create_stack_summary.png>)
+![](<../../assets/screenshots/create_stack_summary_v2.png>)
 
  On the summary section, you can now review your settings before finalizing the creation of your stack. This modular approach ensures your stack gets set up with all the necessary components.
 
