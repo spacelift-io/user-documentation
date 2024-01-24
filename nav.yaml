@@ -134,7 +134,7 @@ nav:
               - integrations/cloud-providers/oidc/azure-oidc.md
               - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
-          - integrations/observability/README.md 
+          - integrations/observability/README.md
           - integrations/observability/datadog.md
           - integrations/observability/prometheus.md
       - Source Control:
@@ -166,6 +166,7 @@ nav:
       - Billing:
           - product/billing/stripe.md
           - product/billing/aws-marketplace.md
+          - product/billing/usage.md
   - ⚖️ Legal:
       - legal/terms.md
       - legal/refund-policy.md
