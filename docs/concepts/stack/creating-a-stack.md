@@ -35,7 +35,7 @@ Also, this is the opportunity to set a few [labels](stack-settings.md#labels). L
 
 ## Integrate VCS
 
-![](<../../assets/screenshots/Create_Stack_vcs.png>)
+![](<../../assets/screenshots/Create_Stack_VCS.png>)
 
 In this step, you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
 
