@@ -7,7 +7,7 @@ description: >-
 
 The Workflow Tool stack setting allows you to choose between two options:
 
-- Kubenetes.
+- Kubernetes.
 - Custom.
 
 The Kubernetes option gives you out of the box support where all you need to do is choose the version you want to use and you're good to go.
