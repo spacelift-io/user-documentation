@@ -35,7 +35,7 @@ Also, this is the opportunity to set a few [labels](stack-settings.md#labels). L
 
 ## Integrate VCS
 
-![](<../../assets/screenshots/Create_Stack_VCS.png>)
+![](<../../assets/screenshots/Create_stack_vcs.png>)
 
 In this step, you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
 
@@ -125,7 +125,7 @@ Support is currently in Beta.
 
 ![](<../../assets/screenshots/Stack_Created.png>)
 
-After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
+With the expection of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
 
 You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your stack.
 
@@ -188,6 +188,8 @@ In this section, you can attach the following policy types:
 - [Push:](../../concepts/policy/push-policy/) how Git push events are interpreted;
 - [Trigger:](../../concepts/policy/trigger-policy.md) what happens when blocking runs terminate;
 
+Policies can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+
 You can read more about policies [here](../../concepts/policy/README.md).
 
 ## Attach Stack Contexts
@@ -196,7 +198,7 @@ You can read more about policies [here](../../concepts/policy/README.md).
 
 Contexts are sets of environment variables and related configuration,including hooks that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
 
-Contexts can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+Contexts can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the context to be attached to.
 
 You can read more about contexts [here](../../concepts/configuration/context.md).
 
