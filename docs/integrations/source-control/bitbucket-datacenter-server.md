@@ -83,9 +83,9 @@ It should look something like this:
 
 ## Using the integration
 
-When creating a Stack, you will now be able to choose the Bitbucket Datacenter provider and a repository inside of it:
+When creating a Stack, you will now be able to choose the Bitbucket Data Center provider and a repository inside of it:
 
-![Creating a Stack with the Bitbucket Datacenter integration](<../../assets/screenshots/BitbucketDatacenter_create_stack.png>)
+![Creating a Stack with the Bitbucket Data Center integration](<../../assets/screenshots/BitbucketDatacenter_create_stack.png>)
 
 ## Deleting the Integration
 
