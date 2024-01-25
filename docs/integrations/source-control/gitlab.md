@@ -12,7 +12,7 @@ In order to set up the GitLab integration from the Spacelift side, please naviga
 
 This should open a form like this one:
 
-![](../../assets/screenshots/Gitlab_create_form.png)
+<p align="center"><img src="../../assets/screenshots/Gitlab_create_form.png" width="450"/></p>
 
 Explanation of the fields:
 
@@ -55,7 +55,7 @@ For every GitLab project that's being used by a Spacelift project (stack or modu
 !!! note
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
 
-<p align="center"><img src="../../assets/screenshots/Gitlab_details_highlight.png"></p>
+<p align="center"><img src="../../assets/screenshots/Gitlab_details_highlight.png" width="350"></p>
 
 Spacelift is interested in pushes, tags and merge requests, so make sure you add triggers for all these types of events:
 
@@ -72,7 +72,7 @@ Regardless of whether you've created it manually or programmatically, once your 
 
 If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show an option to use GitLab as the source of code:
 
-![](../../assets/screenshots/Gitlab_create_stack.png)
+<p align="center"><img src="../../assets/screenshots/Gitlab_create_stack.png" width="450"/></p>
 
 The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
 
