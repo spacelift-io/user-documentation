@@ -72,7 +72,7 @@ You will be presented with two options:
 
     After selecting the option to enter your details manually, you should see the following form:
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png>)
+    <p align="center"><img src="../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png" width="450"></p>
 
     Let's choose a friendly name (it can contain spaces) for your integration and choose the integration type.
     
@@ -142,9 +142,9 @@ You will be presented with two options:
     !!! info
         User facing host URL is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the API host URL will look like `private://vcs-agent-pool-name`, but the User facing host URL can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
 
-    ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
+    <p align="center"><img src="../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png" width="450"></p>
 
-    Click on the Save button to save your integration settings.
+    Click on the **Set up** button to save your integration settings.
 
 Congratulations! You are almost done! 🎉
 
@@ -159,7 +159,7 @@ Now that you've created a GitHub App and configured it in Spacelift, the last st
 On the VCS management page:
 
 <p align="center">
-  <img src="../../assets/screenshots/github_install_app.png"/>
+  <img src="../../assets/screenshots/github_install_app.png" width="400"/>
 </p>
 
 #### Via GitHub UI
@@ -396,6 +396,10 @@ By default Spacelift uses the GitHub API to download a tarball containing the so
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
 
-    You can now remove the integration via the *Unlink* button on the *Source Code* page:
+    You can now remove the integration via the *Delete* button on the *VCS management* page:
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.19.10.png>)
+    <p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
+
+    !!! warning
+        Please note that you can delete integrations **while stacks are still using them**. As a consequence, when a stack has a detached integration, it will no longer be able to receive webhooks from Github and you won't be able to trigger runs manually either.
+        To fix it, you'll need to open the stack, go to the **Settings** tab and choose a new integration.
