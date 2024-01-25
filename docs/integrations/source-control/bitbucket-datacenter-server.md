@@ -14,7 +14,7 @@ In order to set up the integration from the Spacelift side, please navigate to t
 
 This should open a form like this one:
 
-![](../../assets/screenshots/BitbucketDatacenter_create_form.png)
+<p align="center"><img src="../../assets/screenshots/BitbucketDatacenter_create_form.png" width="450"></p>
 
 Explanation of the fields:
 
@@ -48,7 +48,7 @@ This will give you an access token which you can put into the **Access token** f
 
 Once you have your access token, enter it into Spacelift. At this point all the fields should be filled out:
 
-![](../../assets/screenshots/BitbucketDatacenter_save_from.png)
+<p align="center"><img src="../../assets/screenshots/BitbucketDatacenter_save_form.png" width="450"></p>
 
 You can now save the integration.
 

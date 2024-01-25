@@ -9,7 +9,7 @@ In order to set up the integration from the Spacelift side, please navigate to t
 This form will appear:
 
 <p align="center">
-  <img src="../../assets/screenshots/azure_devops_fresh_form.png"/>
+  <img src="../../assets/screenshots/azure_devops_fresh_form.png" width="450"/>
 </p>
 
 Explanation of the fields:
@@ -65,7 +65,7 @@ In order to create a [Personal access token](https://docs.microsoft.com/en-us/az
 Once you have entered this data, the form will look like this:
 
 <p align="center">
-  <img src="../../assets/screenshots/azure_devops_filled_form.png"/>
+  <img src="../../assets/screenshots/azure_devops_filled_form.png" width="450"/>
 </p>
 
 If all the data is correct, click **Set up** in the bottom right corner.
@@ -78,7 +78,7 @@ In order for Spacelift to be notified of any changes made in your repositories, 
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
 
 <p align="center">
-  <img src="../../assets/screenshots/azure_devops_details.png"/>
+  <img src="../../assets/screenshots/azure_devops_details.png" width="400"/>
 </p>
 
 You'll need the **Webhook secret** and the **Webhook endpoint** in the next step.
@@ -118,7 +118,9 @@ Once done you should see the list of configured Service Hooks. Repeat the same p
 
 When creating a Stack, you will now be able to choose the Azure DevOps provider and a repository inside of it:
 
-![Stack creation form](<../../assets/screenshots/azure_devops_stack_creation.png>)
+<p align="center">
+  <img src="../../assets/screenshots/azure_devops_stack_creation.png" width="450"/>
+</p>
 
 ## Deleting the Integration
 
