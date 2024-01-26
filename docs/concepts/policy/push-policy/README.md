@@ -348,7 +348,7 @@ As input, Git push policy receives the following document:
     "mergeable": "boolean - indicates whether the PR can be merged",
     "title": "string",
     "undiverged": "boolean - indicates whether the PR is up to date with the target branch"
-  }
+  },
   "push": {
     // For Git push events, this contains the pushed commit.
     // For Pull Request events,
@@ -384,6 +384,21 @@ As input, Git push policy receives the following document:
     "worker_pool": {
       "public": "boolean - indicates whether the worker pool is public or not"
     }
+  },
+  "vcs_integration": {
+    "id": "string - ID of the VCS integration",
+    "name": "string - name of the VCS integration",
+    "provider": "string - possible values are AZURE_DEVOPS, BITBUCKET_CLOUD, BITBUCKET_DATACENTER, GIT, GITHUB, GITHUB_ENTERPRISE, GITLAB",
+    "description": "string - description of the VCS integration",
+    "is_default": "boolean - indicates whether the VCS integration is the default one or Space-level",
+    "space": {
+      "id": "string",
+      "labels": ["string"],
+      "name": "string"
+    },
+    "labels": ["string - list of arbitrary, user-defined selectors"],
+    "updated_at": "number (timestamp in nanoseconds)",
+    "created_at": "number (timestamp in nanoseconds)"
   }
 }
 ```
@@ -415,7 +430,7 @@ When triggered by a _new module version_, this is the schema of the data input t
       "name": "string - name of the worker pool, if it is private",
       "public": "boolean - is the worker pool public"
     }
-  }
+  },
   "pull_request": {
     "action": "string - opened, reopened, closed, merged, edited, labeled, synchronize, unlabeled",
     "action_initiator": "string",
@@ -429,6 +444,21 @@ When triggered by a _new module version_, this is the schema of the data input t
       "message": "string",
       "tag": "string"
     }
+  },
+  "vcs_integration": {
+    "id": "bitbucket-for-payments-team",
+    "name": "Bitbucket for Payments Team",
+    "provider": "BITBUCKET_CLOUD",
+    "description": "### Payments Team BB integration\n\nThis integration should be **only** used by the Payments Integrations team. If you need access, drop [Joe](https://mycorp.slack.com/users/432JOE435) a message on Slack.",
+    "is_default": false,
+    "labels": ["bitbucketcloud", "paymentsorg"],
+    "space": {
+      "id": "paymentsteamspace-01HN0BF3GMYZQ4NYVNQ1RKQ9M7",
+      "labels": [],
+      "name": "PaymentsTeamSpace"
+    },
+    "created_at": 1706187931079960000,
+    "updated_at": 1706274820310231000
   }
 }
 ```
