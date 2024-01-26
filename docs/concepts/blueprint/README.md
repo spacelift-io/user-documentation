@@ -14,6 +14,7 @@ You can configure the following resources in a Blueprint:
     - Name, description, labels, [Space](../spaces/README.md)
     - Behavioral settings: administrative, auto-apply, auto-destroy, hooks, runner image etc.
 - [VCS configuration](../../integrations/source-control/README.md)
+    - Both default and Space-level VCS integrations
 - Vendor configuration for your IaaC provider
 - [Environment variables](../configuration/environment.md#environment-variables), both non-sensitive and sensitive
 - [Mounted files](../configuration/environment.md#mounted-files)
@@ -217,6 +218,7 @@ stack:
     # Note that this is just the name of the repository, not the full URL
     repository: my-repository
     provider: GITHUB # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS
+    id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
   vendor:
     terraform:
       manage_state: ${{ inputs.manage_state }}
@@ -830,6 +832,10 @@ For simplicity, here is the current schema, but it might change in the future:
                                         "AZURE_DEVOPS"
                                     ]
                                 },
+                                "id": {
+                                    "type": "string",
+                                    "description": "The id of the VCS provider."
+                                },
                                 "namespace": {
                                     "type": "string"
                                 },
@@ -1250,7 +1256,8 @@ For simplicity, here is the current schema, but it might change in the future:
                     "type": "string",
                     "enum": [
                         "TERRAFORM_FOSS",
-                        "CUSTOM"
+                        "CUSTOM",
+                        "OPEN_TOFU"
                     ]
                 }
             }
