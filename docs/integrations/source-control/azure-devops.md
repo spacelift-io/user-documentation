@@ -14,7 +14,7 @@ This form will appear:
 
 Explanation of the fields:
 
-- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhooks endpoints are generated based on the integration name.
+- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
 - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
 - **Organization URL** - the URL of your Azure DevOps organization. See [below](#finding-your-organization-url) for more details.
 - **User facing host URL** - friendly URL of your Azure DevOps organization. This is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the Organization URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the **Organization URL** will look like `private://vcs-agent-pool-name/<azure-organization-name>`, but the **User facing host URL** can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
@@ -82,11 +82,6 @@ In order for Spacelift to be notified of any changes made in your repositories, 
 </p>
 
 You'll need the **Webhook secret** and the **Webhook endpoint** in the next step.
-
-!!! note
-    If the integration is Space-level, you'll need to have **admin** access to the integration Space to be able to see the sensitive details such as the webhook secret. For the default integration, you'll need to be a **root** Space admin.
-
-    Space **readers** will only be able to see the name, description, and labels of the integration.
 
 For each Azure DevOps project you want to use with this integration, you now have to go into its **Project settings -> Service hooks -> Create subscription**. Within the services list choose **Web Hooks** and click **Next**.
 
