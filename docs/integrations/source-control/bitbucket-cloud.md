@@ -14,7 +14,7 @@ This form will appear:
 
 Explanation of the fields:
 
-- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhooks endpoints are generated based on the integration name.
+- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
 - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
 - **Username** - a username of your Bitbucket account.
 - **App password** - app passwords are user-based access tokens for scripting tasks and integrating tools. You can find a little how-to below: [Creating an App Password](#creating-an-app-password).
