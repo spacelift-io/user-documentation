@@ -366,7 +366,7 @@ A `WorkerPool` defines the number of `Workers` registered with Spacelift via the
 !!! info
     `Worker` resources do not use up any cluster resources other than an entry in the Kubernetes API when they are idle. `Pods` are created on demand for `Workers` when scheduling messages are received from Spacelift. This means that in an idle state no additional resources are being used in your cluster other than what is required to run the controller component of the Spacelift operator.
 
-### Kubernetes version compatibility
+#### Kubernetes version compatibility
 
 The spacelift controller is compatible with Kubernetes version **v1.26+**.
 The controller may also work with older versions, but we do not guarantee and provide support for unmaintained Kubernetes versions.
