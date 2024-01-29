@@ -143,7 +143,7 @@ echo "::command arg1 arg2"
 Below is a list of supported commands. See the more detailed doc after this table.
 
 | Command                   | Description                                              |
-|---------------------------|----------------------------------------------------------|
+| ------------------------- | -------------------------------------------------------- |
 | [`::add-mask`](#add-mask) | Adds a set of values that should be masked in log output |
 
 #### ::add-mask
@@ -231,7 +231,11 @@ Example matches:
 
 As you can see in the example matches, these are the regex rules that you are already accustomed to.
 
-### Repository and branch
+### VCS integration and repository
+
+![](<../../assets/screenshots/stack_settings_vcs_page.png>)
+
+We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, however Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../integrations/source-control/README.md) page.
 
 _Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift  (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively.
 
