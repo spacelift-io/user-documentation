@@ -37,7 +37,9 @@ Also, this is the opportunity to set a few [labels](stack-settings.md#labels). L
 
 ![](<../../assets/screenshots/Create_Stack_VCS.png>)
 
-In this step, you will need to tell Spacelift where to look for the Terraform code for the stack - a combination of Git repository and one of its existing branches. The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
+In this step, you will need to tell Spacelift where to look for the IaC code for the stack - if you have multiple integrations per VCS type, then you'll need to choose the one which includes your repository. Please note that only those VCS integrations will appear which the stack Space (set in the previous step) has access to. For example, if the stack Space is `ParentSpace` and the VCS integration Space is `ChildSpace` with inheritance enabled, it will appear. Integrations marked as default will always appear here, regardless of the stack Space. Take a look at the [source control](../../integrations/source-control/README.md) docs for more details.
+
+The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
 
  The project root configuration is where inside the repository Spacelift should look for the infra project source code (e.g. create a stack for a specific folder in the repository).
 
