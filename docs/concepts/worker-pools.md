@@ -754,6 +754,34 @@ spec:
           value: "/opt/spacelift/policies/initialization/initialization-policy.rego"
 ```
 
+#### Using VCS Agents with Kubernetes Workers
+
+Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](#vcs-agents) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-pool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: test-pool
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: test-pool
+      key: privateKey
+  pod:
+    initContainer:
+      env:
+        - name: "SPACELIFT_PRIVATEVCS_MAPPING_NAME_0"
+          value: "gitlab-pool"
+        - name: "SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0"
+          value: "https://gitlab.myorg.com
+```
+
 ### Configuration options
 
 A number of configuration variables is available to customize how your launcher behaves:
