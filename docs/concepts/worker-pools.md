@@ -422,7 +422,7 @@ Finally, create a WorkerPool resource using the following command:
 
 ```shell
 kubectl apply -f - <<EOF
-apiVersion: workers.spacelift.io/v1alpha1
+apiVersion: workers.spacelift.io/v1beta1
 kind: WorkerPool
 metadata:
   name: test-workerpool
@@ -485,7 +485,7 @@ During normal operations the worker pool controller CPU and memory usage should 
 Resource requests and limits for the `init`, `launcher-grpc` and `worker` containers can be set via your `WorkerPool` definitions, like in the following example:
 
 ```yaml
-apiVersion: workers.spacelift.io/v1alpha1
+apiVersion: workers.spacelift.io/v1beta1
 kind: WorkerPool
 metadata:
   name: test-pool
@@ -546,7 +546,7 @@ See the section on [configuration](#configuration) for more details on how to co
 The following example shows all the configurable options for a WorkerPool:
 
 ```yaml
-apiVersion: workers.spacelift.io/v1alpha1
+apiVersion: workers.spacelift.io/v1beta1
 kind: WorkerPool
 metadata:
   # name defines the name of the pool in Kubernetes - does not need to match the name in Spacelift.
@@ -720,7 +720,7 @@ data:
 Next, create a `WorkerPool` definition, configuring the `ConfigMap` as a volume, and setting the custom env var:
 
 ```yaml
-apiVersion: workers.spacelift.io/v1alpha1
+apiVersion: workers.spacelift.io/v1beta1
 kind: WorkerPool
 metadata:
   labels:
