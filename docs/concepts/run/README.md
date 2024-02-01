@@ -122,6 +122,12 @@ The priority of a run can be changed in the worker pool queue view:
 
 Runs can be prioritized manually or automatically, using a [push policy](../policy/push-policy/README.md#prioritization). Note that we only recommend automatic prioritization in special circumstances. For most users, the default prioritization (tracked runs, then proposed runs, then drift detection runs) provides an optimal user experience.
 
+## Limit Runs
+
+You can also limit the number of runs being created for a VCS event by navigating to organization settings and clicking on limits.
+
+You can set a maximum number of 500 runs to be triggered by a VCS event for your account.
+
 ## Zero Trust Model
 
 For your most sensitive Stacks you can use additional verification of Runs based on arbitrary metadata you can provide to Runs when creating or confirming them.
