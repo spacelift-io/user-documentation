@@ -128,6 +128,8 @@ You can also limit the number of runs being created for a VCS event by navigatin
 
 You can set a maximum number of 500 runs to be triggered by a VCS event for your account.
 
+If the number of runs that are going to be triggered exceeds the limit you have set in Spacelift, you will be able to see this as the reason for failure in your VCS provider.
+
 ## Zero Trust Model
 
 For your most sensitive Stacks you can use additional verification of Runs based on arbitrary metadata you can provide to Runs when creating or confirming them.
