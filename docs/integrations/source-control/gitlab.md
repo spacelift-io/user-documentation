@@ -4,9 +4,9 @@ Spacelift supports using GitLab as the source of code for your [stacks](../../co
 
 ## Setup Guide
 
-In order to set up the GitLab integration from the Spacelift side, please navigate to the VCS management page of Spacelift, click on the **Set up integration** button in the top right corner and choose GitLab.
+In order to set up the GitLab integration from the Spacelift side, please navigate to the **Source code** page of Spacelift, click on the **Set up integration** button in the top right corner and choose GitLab.
 
-![Click on VCS management from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/Gitlab_vcs_management.png)
+![Click on Source code from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/Gitlab_vcs_management.png)
 
  ![Click on the Set Up Integration button in the top-right corner.](../../assets/screenshots/Gitlab_set_up_integration.png)
 
@@ -50,7 +50,7 @@ Once you've created your personal API token, please pass it - along with the ser
 
 ### Setting up Webhooks
 
-For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
+For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
 
 !!! note
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
@@ -124,7 +124,7 @@ This functionality allows you to track Spacelift history directly from GitLab.
 
 ## Deleting the Integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
 <p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
 
@@ -134,6 +134,10 @@ If you no longer need the integration, you can delete it by clicking the 3 dots 
 ### Consequences
 
 When a stack has a detached integration, it will no longer be able to receive webhooks from GitLab and you won't be able to trigger runs manually either.
+
+<p align="center">
+  <img src="../../assets/screenshots/Gitlab_detached_stack.png"/>
+</p>
 
 You'll need to open the stack, go to the **Settings** tab and choose a new integration.
 
