@@ -6,9 +6,9 @@ Spacelift supports using an on-premises Bitbucket installation as the source of 
 
 ### Creating the integration
 
-In order to set up the integration from the Spacelift side, please navigate to the _VCS Management_ page of Spacelift, click on the **Set up integration** button in the top right corner and choose Bitbucket Data Center
+In order to set up the integration from the Spacelift side, please navigate to the **Source code** page of Spacelift, click on the **Set up integration** button in the top right corner and choose Bitbucket Data Center
 
-![Click on VCS management from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/BitbucketDatacenter_vcs_management.png)
+![Click on Source code from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/BitbucketDatacenter_vcs_management.png)
 
  ![Click on the Set Up Integration button in the top-right corner.](../../assets/screenshots/BitbucketDatacenter_set_up_integration.png)
 
@@ -54,7 +54,7 @@ You can now save the integration.
 
 ### Configuring webhooks
 
-In order for Spacelift to be notified of any changes made in your repositories, you need to setup webhooks in Bitbucket Data Center. You can find your **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
+In order for Spacelift to be notified of any changes made in your repositories, you need to setup webhooks in Bitbucket Data Center. You can find your **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
 
 !!! note
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
@@ -89,7 +89,7 @@ When creating a Stack, you will now be able to choose the Bitbucket Data Center 
 
 ## Deleting the Integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
 <p align="center">
   <img src="../../assets/screenshots/BitbucketDatacenter_deletion_button.png"/>
