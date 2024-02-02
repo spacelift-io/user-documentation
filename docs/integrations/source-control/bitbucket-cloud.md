@@ -4,7 +4,7 @@
 
 ## Setting up the integration
 
-In order to set up the integration from the Spacelift side, please navigate to the VCS management page, click on the **Set up integration** button in the top right corner and choose Bitbucket Cloud.
+In order to set up the integration from the Spacelift side, please navigate to the **Source code** page, click on the **Set up integration** button in the top right corner and choose Bitbucket Cloud.
 
 This form will appear:
 
@@ -43,7 +43,7 @@ After doing all this you should have all fields filled in.
   <img src="../../assets/screenshots/Screenshot from 2021-06-11 10-50-38.png" width="450" alt="Filled in Bitbucket Cloud integration form" />
 </p>
 
-Once you've finished saving the form, you can find your **webhook endpoint** after clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **See details**.
+Once you've finished saving the form, you can find your **webhook endpoint** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
 
 <p align="center">
   <img src="../../assets/screenshots/Screenshot from 2021-06-11 14-52-40.png" width="450" alt="Integration details" />
@@ -73,14 +73,14 @@ When creating a Stack, you will now be able to choose the Bitbucket Cloud provid
 
 ## Deleting the Integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the VCS providers page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
 <p align="center">
   <img src="../../assets/screenshots/azure_devops_deletion_button.png"/>
 </p>
 
 !!! warning
-    Please note that you can delete integrations while stacks are still using them. See the next section for more details.
+    Please note that you can delete source code integrations while stacks are still using them. See the next section for more details.
 
 ### Consequences
 
