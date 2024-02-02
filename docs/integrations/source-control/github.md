@@ -43,7 +43,7 @@ In some cases, using the Spacelift application from the Marketplace is not an op
 
 #### Creating the custom application
 
-In order to do so, navigate to the **VCS management** page, click on the **Set up integration** button and choose GitHub.
+In order to do so, navigate to the **Source code** page, click on the **Set up integration** button and choose GitHub.
 You will be presented with two options:
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
@@ -156,7 +156,7 @@ Now that you've created a GitHub App and configured it in Spacelift, the last st
 
 ### Via Spacelift UI
 
-On the VCS management page:
+On the Source code page:
 
 <p align="center">
   <img src="../../assets/screenshots/github_install_app.png" width="400"/>
@@ -396,7 +396,7 @@ By default Spacelift uses the GitHub API to download a tarball containing the so
 
     ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
 
-    You can now remove the integration via the *Delete* button on the *VCS management* page:
+    You can now remove the integration via the *Delete* button on the *Source code* page:
 
     <p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
 
