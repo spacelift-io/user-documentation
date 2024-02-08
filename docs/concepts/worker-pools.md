@@ -680,12 +680,12 @@ spec:
 
 ##### Timeouts
 
-There is two types of timeouts that you can set
+There are two types of timeouts that you can set
 
-- the whole run timeout: this will make the to fail if its duration exceed a defined duration.
-- the no log output timeout: this will make the run to fail if no logs has been generated for a defined duration.
+- The run timeout: this causes the run to fail if its duration exceeds a defined duration.
+- the log output timeout: this causes the run to fail if no logs has been generated for a defined duration.
 
-To configure the run timeout you need to change two things,
+To configure the run timeout you need to configure two items - the `activeDeadlineSeconds` for the Pod, as well as the `SPACELIFT_LAUNCHER_RUN_TIMEOUT` for the worker container:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -701,7 +701,7 @@ spec:
           value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
 ```
 
-To configure the logs timeout you just need to add a single env var to the worker container
+To configure the logs timeout you just need to add a single environment variable to the worker container:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
