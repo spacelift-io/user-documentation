@@ -683,7 +683,7 @@ spec:
 There are two types of timeouts that you can set
 
 - The run timeout: this causes the run to fail if its duration exceeds a defined duration.
-- the log output timeout: this causes the run to fail if no logs has been generated for a defined duration.
+- The log output timeout: this causes the run to fail if no logs has been generated for a defined duration.
 
 To configure the run timeout you need to configure two items - the `activeDeadlineSeconds` for the Pod, as well as the `SPACELIFT_LAUNCHER_RUN_TIMEOUT` for the worker container:
 
@@ -716,22 +716,14 @@ spec:
           value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
 ```
 
-#### Network Configuration
+##### Network Configuration
 
 Your cluster configuration needs to be set up to allow the controller and the scheduled pods to reach the internet.
 This is required to listen for new jobs from the Spacelift backend and report back status and run logs.
 
 You can find the necessary endpoints to allow in the [Network Security](#network-security) section.
 
-#### Scaling a pool
-
-To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
-
-```shell
-kubectl scale workerpools my-worker-pool --replicas=5
-```
-
-#### Initialization Policies
+##### Initialization Policies
 
 Using an initialization policy is simple and requires three steps:
 
@@ -792,7 +784,7 @@ spec:
           value: "/opt/spacelift/policies/initialization/initialization-policy.rego"
 ```
 
-#### Using VCS Agents with Kubernetes Workers
+##### Using VCS Agents with Kubernetes Workers
 
 Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](#vcs-agents) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
 
@@ -818,6 +810,14 @@ spec:
           value: "gitlab-pool"
         - name: "SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0"
           value: "https://gitlab.myorg.com
+```
+
+#### Scaling a pool
+
+To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
+
+```shell
+kubectl scale workerpools my-worker-pool --replicas=5
 ```
 
 ### Configuration options
