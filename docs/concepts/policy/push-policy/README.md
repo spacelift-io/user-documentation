@@ -174,6 +174,8 @@ module_version := "<X.X.X>" {
     propose
 }
 
+propose { true }
+
 track { module_version != "" }
 ```
 
