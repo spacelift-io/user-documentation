@@ -251,6 +251,15 @@ You would then enter the escaped string into your _config.json_ file:
 }
 ```
 
+##### Updating identity provider during installs and upgrades
+
+The installer will set up the identity provider the first time you install Spacelift. Subsequent upgrades won't change it even if you have changed the configuration file. This is to prevent accidental changes to the identity provider configuration.
+
+There are two way to update an existing identity provider:
+
+- Run the `update-sso-settings.sh` script that you can find [below](#updating-existing-sso-configuration)
+- Set `sso_config.update_on_install` to `true` in the configuration file. This will force the installer to update the identity provider configuration even during upgrades.
+
 ### Running the installer
 
 This section covers simple installations using a Spacelift-created VPC and a public facing HTTP load balancer. For information about using an existing VPC please see [advanced installations](./advanced-installations.md).
