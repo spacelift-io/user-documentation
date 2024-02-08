@@ -678,6 +678,44 @@ spec:
       securityContext: {}
 ```
 
+##### Timeouts
+
+There is two types of timeouts that you can set
+
+- the whole run timeout: this will make the to fail if its duration exceed a defined duration.
+- the no log output timeout: this will make the run to fail if no logs has been generated for a defined duration.
+
+To configure the run timeout you need to change two things,
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  pod:
+    activeDeadlineSeconds: 3600
+    workerContainer:
+      env:
+        - name: SPACELIFT_LAUNCHER_RUN_TIMEOUT
+          value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
+```
+
+To configure the logs timeout you just need to add a single env var to the worker container
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  pod:
+    workerContainer:
+      env:
+        - name: SPACELIFT_LAUNCHER_LOGS_TIMEOUT
+          value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
+```
+
 #### Network Configuration
 
 Your cluster configuration needs to be set up to allow the controller and the scheduled pods to reach the internet.
