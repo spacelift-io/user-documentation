@@ -105,10 +105,12 @@ cancel[run.id] {
 }
 ```
 
-Please note that you cannot cancel module test runs. Only proposed and tracked stack runs can be canceled.
+Please note there are some restrictions on cancelation to be aware of:
 
-!!! info
-    Note that run preemption is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancellation itself is canceled.
+- Module test runs cannot be canceled. Only proposed and tracked stack runs can be canceled.
+- Cancelation works based on a new run pre-empting existing runs. What this means is that if your push policy does not result in any runs being triggered, the cancelation will have no effect.
+- A run can only cancel other runs of the _same type_. For example a proposed run can only cancel other proposed runs, and not tracked runs.
+- Cancelation is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
 
 ### Corner case: track, don't trigger
 
@@ -557,7 +559,7 @@ track {
 propose { affected }
 propose { affected_pr }
 
-ignore  { 
+ignore  {
     not affected
     not affected_pr
 }
