@@ -51,17 +51,17 @@ After admin consent has been provided, you should be able to sign-up for Spaceli
 
 ## Platforms
 
-### Terraform
+### Terraform/OpenTofu
 
-#### How do I import the Terraform state for my stack?
+#### How do I import the state for my stack?
 
-The Terraform state file can be imported during the [creation of a stack](../concepts/stack/creating-a-stack.md#terraform).
+The state file can be imported during the [creation of a stack](../concepts/stack/creating-a-stack.md#terraform).
 
-#### How do I export the Terraform state for my stack?
+#### How do I export the state for my stack?
 
-The Terraform state file can be pulled and then exported using a [Task](../concepts/run/task.md).
+The state file can be pulled and then exported using a [Task](../concepts/run/task.md).
 
-For example, to export the state to an Amazon S3 bucket, you would run the following command as a Task:
+For example, to export the state to an Amazon S3 bucket, you would run the following command or equivalent as a Task:
 
 ```shell
 terraform state pull > state.json && aws s3 cp state.json s3://<PATH>
@@ -70,23 +70,31 @@ terraform state pull > state.json && aws s3 cp state.json s3://<PATH>
 !!! warning
     For that example to work, the stack needs to have write access to the AWS S3 bucket, possibly via an [AWS Integration](../integrations/cloud-providers/aws.md).
 
-#### How do I switch from Spacelift managing the Terraform state to me managing it?
+#### How do I switch from Spacelift managing the state to me managing it?
 
-You would first need to [export the state file](#how-do-i-export-the-terraform-state-for-my-stack) to a suitable location.
+You would first need to [export the state file](#how-do-i-export-the-state-for-my-stack) to a suitable location.
 
 The state management setting can not be changed once a stack has been created so you will need to recreate the stack and make sure that [the "Manage state" setting](../concepts/stack/creating-a-stack.md#terraform) is disabled.
 
-### How do I manipulate the Terraform state file?
+#### How do I manipulate the state file?
 
-You can manipulate the Terraform state by running `terraform state <SUBCOMMAND>` commands in a [Task](../concepts/run/task.md).
+You can manipulate the state by running a command such as `terraform state <SUBCOMMAND>` commands in a [Task](../concepts/run/task.md).
 
-This applies whether you or Spacelift manages the Terraform state file.
+This applies whether you or Spacelift manages the state file.
 
-#### How do I import existing resources into a Terraform stack?
+#### How do I import existing resources into a stack?
 
-Just [run the `terraform import …` in a Task](../vendors/terraform/state-management.md#importing-resources-into-your-terraform-state).
+Just [run the `terraform import …`](../vendors/terraform/state-management.md#importing-resources-into-your-terraform-state) or equivalent in a [Task](../concepts/run/task.md).
 
-This applies whether you or Spacelift manages the Terraform state file.
+This applies whether you or Spacelift manages the state file.
+
+#### Can Spacelift modules be used outside of Spacelift?
+
+Yes, modules in the private registry can be used outside of Spacelift with proper credential management. More information can be found [here](../vendors/terraform/module-registry.md#using-modules-outside-of-spacelift).
+
+#### Can I trigger a run when theres a modules update?
+
+Modules track the consumers of each of their versions. When a new module version is released, the consumers of the previously newest version are assumed to be potential consumers of the newly released one. Hence, the trigger policy for a module can be used to trigger a run on all of these stacks. More information can be found [here](../concepts/policy/trigger-policy.md#module-updates).
 
 ## Policies
 
@@ -110,6 +118,16 @@ The side-effect is that you will not see samples for these users.
 
 Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. Just like a PR approval means "I'm OK with this being merged", a run approval means "I'm OK with that action being executed" but nothing will happen until someone clicks on the "Merge" or "Confirm" button, respectively.
 
+### Can I use multiple policies of the same type?
+
+When there are multiple policies of the same type, they are evaluated independently and then the decisions are merged. With Login policy, denies will take precedence over allows. That is why we recommend having a single Login policy. It is easier to reason about it.
+
+Otherwise, policies could look perfectly fine but block each other with deny rules. This is also true for the Push policy type but Plan policies, for example, are fine because they usually don’t conflict.
+
+### Can I attach my policy to multiple stacks / modules?
+
+This can be done with the `autoattach` label, you can read more about that [here](../concepts/policy#wildcard-policy-attachments).
+
 ## Billing
 
 ### What counts as a user?
@@ -119,3 +137,31 @@ Everyone who logged in to the Services in a given month is counts as a user.
 API keys are virtual users and are billed like regular users, too. Thus, each API key used during any billing cycle counts against the total number of users.
 
 When setting up SSO, future logins will appear as new users since Spacelift cannot map those without your assistance. New users will count against your quota, and you may run out of seats. If you run into this problem, you can [contact us](https://spacelift.io/contact){: rel="nofollow"}.
+
+## Stack
+
+### My Stack is not being trigged.
+
+The main culprits are usually a push policy or the wrong branch being tracked.
+
+If you do not have a push policy in place, you can attach a push policy with the [default push policy](../concepts/policy/push-policy/#default-git-push-policy) and enable [sampling](../concepts/policy#sampling-policy-inputs) to then review the inputs in the [policy workbench](../concepts/policy#policy-workbench-in-practice) to confirm that Spacelift has recieved the push event. (If you are using GitLab, you need to set up webhooks for every project)
+
+You can review the branch you are tracking in your stack settings.
+
+We also recommend checking your VCS provider is not currently experiencing any issues.
+
+### Does Spacelift support monorepos?
+
+Spacelift does support monorepos. You can set a [project root](../concepts/stack/stack-settings.md) in your stack settings. Our [default push policy](../concepts/policy/push-policy/#default-git-push-policy) will trigger runs on changes within the project root or the project globs. You can review our [policy example repo](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} and see how you can customize this further.
+
+## Run
+
+### How do I trigger a run locally?
+
+You can use [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} and the command `spacectl stack local-previews` then packs the content of the local folder, uploads it to a worker, which will then execute a run.
+
+That run will include the init and plan commands but they will not run locally. They will run on the worker.
+
+### How can the workflow be customized?
+
+You can use [hooks](../concepts/stack/stack-settings.md#customizing-workflow) to customize your workflow. Hooks refer to extra commands that can be added to customize the workflow at various stages of a process. These hooks are essentially scripts or commands that are executed before and after certain phases in the Spacelift workflow
