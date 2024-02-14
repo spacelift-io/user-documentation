@@ -7,8 +7,5 @@
         "sprintf",
         "tfsec"
     ],
-    "markdown.validate.enabled": true,
-    "markdown.validate.ignoredLinks": [
-        "#how-do-i-export-the-terraform-state-for-my-stack"
-    ]
+    "markdown.validate.enabled": true
 }
