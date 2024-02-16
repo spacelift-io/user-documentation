@@ -20,13 +20,13 @@ If this sounds interesting and you want to give it a try, please refer to the [h
 
 ### Autodeploy
 
-Indicates whether changes to the stack can be [applied](../run/README.md#applying) automatically. When autodeploy is set to _true_, any change to the [tracked branch](#repository-and-branch) will automatically be [applied](../run/README.md#applying) if the [planning](../run/README.md#planning) phase was successful and there are no plan policy warnings.
+Indicates whether changes to the stack can be [applied](../run/tracked.md#applying) automatically. When autodeploy is set to _true_, any change to the tracked branch will automatically be [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase was successful and there are no plan policy warnings.
 
 Consider setting it to _true_ if you always do a code review before merging to the tracked branch, and/or want to rely on [plan policies](../policy/terraform-plan-policy.md) to automatically flag potential problems. If each candidate change goes through a meaningful human code review with stack [writers](../policy/stack-access-policy.md#readers-and-writers) as reviewers, having a separate step to confirm deployment may be overkill. You may also want to refer to a [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code review.
 
 ### Autoretry
 
-Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](#repository-and-branch) conflicting with that change will be reevaluated based on the changed state.
+Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](#vcs-integration-and-repository) conflicting with that change will be reevaluated based on the changed state.
 
 This saves you from manually retrying runs on Pull Requests when the state changes. This way it also gives you more confidence, that the proposed changes will actually be the actual changes you get after merging the Pull Request.
 
@@ -143,7 +143,7 @@ echo "::command arg1 arg2"
 Below is a list of supported commands. See the more detailed doc after this table.
 
 | Command                   | Description                                              |
-|---------------------------|----------------------------------------------------------|
+| ------------------------- | -------------------------------------------------------- |
 | [`::add-mask`](#add-mask) | Adds a set of values that should be masked in log output |
 
 #### ::add-mask
@@ -198,6 +198,7 @@ List of the most useful labels:
 - **infracost** -- Enables Infracost on your stack
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting
 - **feature:disable_pr_comments** - Disables Pull Request Comments
+- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
 - **feature:ignore_runtime_config** -- Ignores .spacelift/config
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
@@ -231,7 +232,11 @@ Example matches:
 
 As you can see in the example matches, these are the regex rules that you are already accustomed to.
 
-### Repository and branch
+### VCS integration and repository
+
+![](<../../assets/screenshots/stack_settings_vcs_page.png>)
+
+We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, however Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../integrations/source-control/README.md) page.
 
 _Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift  (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively.
 

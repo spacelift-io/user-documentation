@@ -1,20 +1,30 @@
 # GitLab
 
-Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same, only one GitLab server and its associated token can be used by a single Spacelift account.
+Spacelift supports using GitLab as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). You can set up multiple Space-level and one default GitLab integration per account. While we support both managed (`gitlab.com`) and self-hosted GitLab installations just the same.
 
 ## Setup Guide
 
-In order to set up the GitLab integration from the Spacelift side, please navigate to the Settings page of Spacelift, select source code and click the _Set up_ button next to the GitLab:
+In order to set up the GitLab integration from the Spacelift side, please navigate to the **Source code** page of Spacelift, click on the **Set up integration** button in the top right corner and choose GitLab.
 
-![Click on Settings from the Left Navigation Sidebar to access your Spacelift account Settings.](../../assets/screenshots/Screen Shot 2022-05-18 at 1.07.24 PM.png)
+![Click on Source code from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/Gitlab_vcs_management.png)
 
- ![Click on the Set Up button next to GitLab.](../../assets/screenshots/setupsc.png)
+ ![Click on the Set Up Integration button in the top-right corner.](../../assets/screenshots/Gitlab_set_up_integration.png)
 
 This should open a form like this one:
 
-![](../../assets/screenshots/gitlabsetupsc.png)
+<p align="center"><img src="../../assets/screenshots/Gitlab_create_form.png" width="450"/></p>
 
-In this step you will need to provide the API host URL of your GitLab server, the User facing host URL, and an API token generated for Spacelift to communicate with the GitLab API.
+Explanation of the fields:
+
+- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
+- **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
+- **API host URL** - the URL of your GitLab server. For SaaS GitLab, this is `https://gitlab.com`.
+- **User facing host URL** - friendly URL of your GitLab server. This is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the **API host URL** will look like `private://vcs-agent-pool-name`, but the **User facing host URL** can look more friendly (for example `https://vcs-agent-pool.mycompany.com`) since it isn't actually being used by Spacelift.
+- **API token** - the access token that Spacelift will use to access your GitLab. See [below](#creating-an-access-token) for more details.
+- **Labels** - a set of labels to help you organize integrations.
+- **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
+
+Let's collect these details.
 
 ### Creating an Access Token
 
@@ -29,30 +39,23 @@ Please give the personal access token a descriptive name and grant it `api` scop
 
 ### Enabling the Integration
 
-Once you've created your personal API token, please pass it - along with the server API host - to the integration form in Spacelift and click the Save button:
+Once you've created your personal API token, please pass it - along with the server API host - to the integration form in Spacelift and click the **Set up** button in the bottom right corner.
 
-![](<../../assets/screenshots/image (106).png>)
-
-Congrats, you've just linked your GitLab account to Spacelift. You should be taken to the integration settings page where you can retrieve the webhook data - secret and endpoint - which you will need to [integrate Spacelift stacks with GitLab projects](gitlab.md#using-gitlab-with-stacks-and-modules). Don't worry, this data will be accessible again to Spacelift admins, so there's no need to persist it separately:
-
-![](<../../assets/screenshots/image (107).png>)
+![](<../../assets/screenshots/Gitlab_set_up_button.png>)
 
 !!! warning
     Unlike GitHub credentials which are specific to an organization rather than an individual, the GitLab integration uses personal credentials, which makes it more fragile in situations where an individual leaves the organization and deletes the access token.
 
     Thus, it may be a good idea to create "virtual" (machine) users in GitLab as a source of more stable credentials. Note however that this is a general concern, not one specific to Spacelift.
 
-## Using GitLab with stacks and modules
-
-If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS provider to use. GitLab will always come first, assuming that you've integrated it with Spacelift for a good reason:
-
-![](../../assets/screenshots/Screen Shot 2022-05-18 at 1.19.49 PM.png)
-
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
-
 ### Setting up Webhooks
 
-An important thing though is that for every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. That's where you will use the webhooks data from the previous step - the URL and webhook secret.
+For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
+
+!!! note
+    Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
+
+<p align="center"><img src="../../assets/screenshots/Gitlab_details_highlight.png" width="350"></p>
 
 Spacelift is interested in pushes, tags and merge requests, so make sure you add triggers for all these types of events:
 
@@ -64,6 +67,14 @@ If that sounds like hassle (it sure does to us), you can do the same thing autom
     Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
 
 Regardless of whether you've created it manually or programmatically, once your project webhook is set up, your GitLab-powered stack or module is ready to use.
+
+### Using GitLab with stacks and modules
+
+If your Spacelift account is integrated with GitLab, the stack or module creation and editing forms will show an option to use GitLab as the source of code:
+
+<p align="center"><img src="../../assets/screenshots/Gitlab_create_stack.png" width="450"/></p>
+
+The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't be going into further details.
 
 ### Namespaces
 
@@ -83,30 +94,52 @@ Spacelift provides feedback to GitLab in a number of ways.
 
 When a webhook containing a push or tag event is received by Spacelift, it may trigger a [test run](../../concepts/run/README.md). Test runs provide feedback though GitLab's [pipeline](https://docs.gitlab.com/ee/ci/pipelines/){: rel="nofollow"} functionality. When viewed from a merge request, the pipeline looks like this:
 
-![](../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab.png)
+![](../../assets/screenshots/Gitlab_pr_1.png)
 
 You can see all the Spacelift jobs executed as part of this pipeline by clicking through to its dedicated view:
 
-![](../../assets/screenshots/Pipeline_·_spacelift-test___demo_·_GitLab.png)
+![](../../assets/screenshots/Gitlab_pr_2.png)
 
 As you can see, the test job passed and gave some brief information about the proposed change - that - if applied - it would add a single resource.
 
 Also, for every merge request affected by the commit there will be a comment showing the exact change:
 
-![](<../../assets/screenshots/Add_another_context___1__·_Merge_Requests_·_spacelift-test___demo_·_GitLab (1).png>)
+![](<../../assets/screenshots/Gitlab_pr_3.png>)
 
 ### Environments
 
 Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/README.md):
 
-![](../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
+![](../../assets/screenshots/Gitlab_environment_before.png)
 
 For example, this successful run:
 
-![](../../assets/screenshots/Update_context_go_·_Powered_by_GitLab_and_Slack___tanzle-spacelift___Spacelift.png)
+![](../../assets/screenshots/Gitlab_successful_run.png)
 
 ...is thus reflected in its respective GitLab environment:
 
-![](<../../assets/screenshots/Environments_·_spacelift-test___demo_·_GitLab_and_Slack___tanzle-spacelift___Spacelift (1).png>)
+![](<../../assets/screenshots/Gitlab_environment_after.png>)
 
 This functionality allows you to track Spacelift history directly from GitLab.
+
+## Deleting the Integration
+
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+
+<p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
+
+!!! warning
+    Please note that you can delete integrations **while stacks are still using them**. See the next section for more details.
+
+### Consequences
+
+When a stack has a detached integration, it will no longer be able to receive webhooks from GitLab and you won't be able to trigger runs manually either.
+
+<p align="center">
+  <img src="../../assets/screenshots/Gitlab_detached_stack.png"/>
+</p>
+
+You'll need to open the stack, go to the **Settings** tab and choose a new integration.
+
+!!! tip
+    You can save a little time if you create the new integration with the exact same name as the old one. This way, the webhook URL will remain the same and you won't have to update it in GitLab. You will still need to update the webhook secret though.
