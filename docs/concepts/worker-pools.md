@@ -573,6 +573,12 @@ spec:
     - docker.io
     - some.private.registry
 
+  # keepSuccessfulPods indicates whether run Pods should automatically be removed as soon
+  # as they complete successfully, or be kept so that they can be inspected later. By default
+  # run Pods are removed as soon as they complete successfully. Failed Pods are not automatically
+  # removed to allow debugging.
+  keepSuccessfulPods: false
+
   # pod contains the spec of Pods that will be created to process Spacelift runs. This allows
   # you to set things like custom resource requests and limits, volumes, and service accounts.
   # Most of these settings are just standard Kubernetes Pod settings and are not explicitly
@@ -854,6 +860,199 @@ If you are using custom storage volumes, you can configure these via the `spec.p
 ##### Pool size
 
 In the Docker-in-Docker approach, the number of workers is controlled by the `replicaCount` value of the Chart which controls the number of replicas in the Deployment. In the operator approach, the pool size is configured by the `spec.poolSize` property. Please see the section on [scaling](#scaling-a-pool) for information about how to scale your pool up or down.
+
+#### Troubleshooting
+
+##### Listing WorkerPools and Workers
+
+To list all of your WorkerPools, you can use the following command:
+
+```shell
+kubectl get workerpools
+```
+
+To list all of your Workers, use the following command:
+
+```shell
+kubectl get workers
+```
+
+To list the Workers for a specific pool, use the following command (replace `<worker-pool-id>` with the ID of the pool from Spacelift):
+
+```shell
+kubectl get workers -l "workers.spacelift.io/workerpool=<worker-pool-id>"
+```
+
+##### Listing run pods
+
+When a run is scheduled, a new pod is created to process that run. It's important to note that a single worker can only process a single run at a time, making it easy to find pods by run or worker IDs.
+
+To list the pod for a specific run, use the following command (replacing `<run-id>` with the ID of the run):
+
+```shell
+kubectl get pods -l "workers.spacelift.io/run-id=<run-id>"
+```
+
+To find the pod for a particular worker, use the following command (replacing `<worker-id>` with the ID of the worker):
+
+```shell
+kubectl get pods -l "workers.spacelift.io/worker=<worker-id>"
+```
+
+##### Workers not connecting to Spacelift
+
+If you have created a WorkerPool in Kubernetes but no workers have shown up in Spacelift, use `kubectl get workerpools` to view your pool:
+
+```shell
+kubectl get workerpools
+NAME         DESIRED POOL SIZE   ACTUAL POOL SIZE
+local-pool   2
+```
+
+If the _actual pool size_ for your pool is not populated, it typically indicates an issue with your pool credentials. The first thing to do is to use `kubectl describe` to inspect your pool and check for any events indicating errors:
+
+```shell
+kubectl describe workerpool local-pool
+Name:         local-pool
+Namespace:    default
+Labels:       app.kubernetes.io/name=local-pool
+              workers.spacelift.io/ulid=01HPS9HDSWCQ73RPDTVAK0KK0A
+Annotations:  <none>
+API Version:  workers.spacelift.io/v1beta1
+Kind:         WorkerPool
+
+...
+
+Events:
+  Type     Reason                    Age              From                   Message
+  ----     ------                    ----             ----                   -------
+  Warning  WorkerPoolCannotRegister  7s (x2 over 7s)  workerpool-controller  Unable to register worker pool: cannot retrieve workerpool token: unable to base64 decode privateKey: illegal base64 data at input byte 4364
+```
+
+In the example above, we can see that the private key for the pool is invalid.
+
+If the WorkerPool events don't provide any useful information, another option is to take a look at the logs for the controller pod using `kubectl logs`, for example:
+
+```shell
+kubectl logs -n spacelift-worker-controller-system spacelift-workerpool-controller-controller-manager-bd9bcb46fjdt
+```
+
+For example, if your token is invalid, you may find a log entry similar to the following:
+
+```text
+cannot retrieve workerpool token: unable to base64 decode token: illegal base64 data at input byte 2580
+```
+
+Another common reason that can cause workers to fail to connect with Spacelift is network or firewall rules blocking connections to AWS IoT Core. Please see our [network security](#network-security) section for more details on the networking requirements for workers.
+
+##### Run not starting
+
+If a run is scheduled to a worker but it gets stuck in the preparing phase for a long time, it may be caused by various issues like CPU or memory limits that are too low, or not being able to pull the stack's runner image. The best option in this scenario is to find the run pod and describe it to find out what's happening.
+
+For example, in the following scenario, we can use `kubectl get pods` to discover that the run pod is stuck in `ImagePullBackOff`, meaning that it is unable to pull one of its container images:
+
+```shell
+$ kubectl get pods -l "workers.spacelift.io/run-id=01HPS6XB76J1JB3EHSK4AWE5AB"
+NAME                                     READY   STATUS             RESTARTS   AGE
+01hps6xb76j1jb3ehsk4awe5ab-preparing-2   1/2     ImagePullBackOff   0          3m2s
+```
+
+If we describe that pod, we can get more details about the failure:
+
+```shell
+$ kubectl describe pods -l "workers.spacelift.io/run-id=01HPS6XB76J1JB3EHSK4AWE5AB"
+Name:             01hps6xb76j1jb3ehsk4awe5ab-preparing-2
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             kind-control-plane/172.18.0.2
+Start Time:       Fri, 16 Feb 2024 15:00:18 +0000
+Labels:           workers.spacelift.io/run-id=01HPS6XB76J1JB3EHSK4AWE5AB
+                  workers.spacelift.io/worker=01HPS6K4BNB7BPHCDHDWFAMJNV
+
+...
+
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  4m23s                  default-scheduler  Successfully assigned default/01hps6xb76j1jb3ehsk4awe5ab-preparing-2 to kind-control-plane
+  Normal   Pulled     4m23s                  kubelet            Container image "public.ecr.aws/spacelift/launcher:d0a81de1085a7cc4f4561a776ab74a43d4497f6c" already present on machine
+  Normal   Created    4m23s                  kubelet            Created container init
+  Normal   Started    4m23s                  kubelet            Started container init
+  Normal   Pulled     4m15s                  kubelet            Container image "public.ecr.aws/spacelift/launcher:d0a81de1085a7cc4f4561a776ab74a43d4497f6c" already present on machine
+  Normal   Created    4m15s                  kubelet            Created container launcher-grpc
+  Normal   Started    4m15s                  kubelet            Started container launcher-grpc
+  Normal   Pulling    3m36s (x3 over 4m15s)  kubelet            Pulling image "someone/non-existent-image:1234"
+  Warning  Failed     3m35s (x3 over 4m14s)  kubelet            Failed to pull image "someone/non-existent-image:1234": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/someone/non-existent-image:1234": failed to resolve reference "docker.io/someone/non-existent-image:1234": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     3m35s (x3 over 4m14s)  kubelet            Error: ErrImagePull
+  Normal   BackOff    2m57s (x5 over 4m13s)  kubelet            Back-off pulling image "someone/non-existent-image:1234"
+  Warning  Failed     2m57s (x5 over 4m13s)  kubelet            Error: ImagePullBackOff
+```
+
+In this case, we can see that the problem is that the `someone/non-existent-image:1234` container image cannot be pulled, meaning that the run can't start. In this situation the fix would be to add the correct authentication to allow your Kubernetes cluster to pull the image, or to adjust your stack settings to refer to the correct image if it is wrong.
+
+Similarly, if you specify too low memory limits for one of the containers in the run pod Kubernetes may end up killing it. You can find this out in exactly the same way:
+
+```shell
+$ kubectl get pods -l "workers.spacelift.io/run-id=01HPS85J6SRG37DG6FGNRZGHMM"
+NAME                                     READY   STATUS           RESTARTS   AGE
+01hps85j6srg37dg6fgnrzghmm-preparing-2   0/2     Init:OOMKilled   0          24s
+
+$ kubectl describe pods -l "workers.spacelift.io/run-id=01HPS85J6SRG37DG6FGNRZGHMM"
+Name:             01hps85j6srg37dg6fgnrzghmm-preparing-2
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             kind-control-plane/172.18.0.2
+Start Time:       Fri, 16 Feb 2024 15:22:17 +0000
+Labels:           workers.spacelift.io/run-id=01HPS85J6SRG37DG6FGNRZGHMM
+                  workers.spacelift.io/worker=01HPS7FRV3JJWWVJ1P9RQ7JN2N
+Annotations:      <none>
+Status:           Failed
+IP:               10.244.0.14
+IPs:
+  IP:           10.244.0.14
+Controlled By:  Worker/local-pool-01hps7frv3jjwwvj1p9rq7jn2n
+Init Containers:
+  init:
+    Container ID:  containerd://567f505a638e0b42e23d275a5a1b75f40ac6b706490ada9ea7901219b54e43c8
+    Image:         public.ecr.aws/spacelift-dev/launcher:2ff3b7ad1d532ca51b5b2c54ded40ad19669d379
+    Image ID:      public.ecr.aws/spacelift-dev/launcher@sha256:baa99ca405f5c42cc16b5e93b5faa9467c8431c048f814e9623bdfee0bef8c4d
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /usr/bin/spacelift-launcher
+    Args:
+      init
+    State:          Terminated
+      Reason:       OOMKilled
+      Exit Code:    137
+      Started:      Fri, 16 Feb 2024 15:22:17 +0000
+      Finished:     Fri, 16 Feb 2024 15:22:17 +0000
+
+...
+```
+
+##### Custom runner images
+
+Please note that if you are using a custom runner image for your stack, it **must** include a Spacelift user with a UID of 1983. If your image does not include this user, it can cause permission issues during runs, for example while trying to write out configuration files while preparing the run.
+
+Please see our [instructions on customizing the runner image](../integrations/docker.md#customizing-the-runner-image) for more information.
+
+##### Inspecting successful run pods
+
+By default, the operator deletes the pods for successful runs as soon as they complete. If you need to inspect a pod after the run has completed successfully for debugging purposes, you can enable `spec.keepSuccessfulPods`:
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  ...
+
+  keepSuccessfulPods: true
+```
 
 ### Configuration options
 
