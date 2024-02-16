@@ -12,6 +12,8 @@ If it comes to Ansible stacks, during that phase we try to auto-detect the _requ
 
 !!! tip
     We also check for the alternative `.yaml` extension for the paths listed above.
+  
+We can also use a custom location for a requirements file based on the filepath provided in `SPACELIFT_ANSIBLE_REQUIREMENTS_FILE` environment variable. More details in the [reference](reference.md#overriding-default-requirementsyml-file-location) section.
 
 As an example, try using an example `requirements.yml` file.
 

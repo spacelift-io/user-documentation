@@ -43,6 +43,10 @@ If both phase specific and generic flags are used, both will take effect.
 
 ![Ansible CLI flags](../../assets/screenshots/ansible/ansible_cli_flags.png)
 
+### Overriding default `requirements.yml` file location
+
+As specified in [Ansible Galaxy](ansible-galaxy.md#ansible-galaxy) section, we search for `requirements.yml` in a couple of default locations. If you wish to use `requirements.yml` file from a custom location, you can overwrite the location by setting `SPACELIFT_ANSIBLE_REQUIREMENTS_FILE` to a filepath of your `requirements.yml` file.
+
 ## File permissions
 
 There are a few nuances with certain files' permissions when using Ansible.
