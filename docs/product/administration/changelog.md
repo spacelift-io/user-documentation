@@ -4,6 +4,23 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v0.0.12 and v1.0.0
+
+### Features
+
+- [User Management](../../concepts/user-management/README.md)
+- [Terraform Provider Registry](../../vendors/terraform/provider-registry.md)
+- The settings page is now split into Organization and Personal settings
+- [OpenTofu v1.6.1 support](../../concepts/stack/creating-a-stack.md#opentofu)
+- [PR stack locking](../../concepts/policy/push-policy/README.md#stack-locking)
+
+### Fixes
+
+- Improved license check-out logic
+- Fix stale logs display for [targeted replans](../../concepts/run/tracked.md#targeted-replan)
+- Allow to persist roles and collections installed during run initialization for [Ansible stacks](../../vendors/ansible/README.md) automatically
+- Various other backend and frontend fixes and improvements
+
 ## Changes between v0.0.11 and v0.0.12
 
 ### Features

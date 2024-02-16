@@ -39,7 +39,7 @@ nav:
           - concepts/policy/run-initialization-policy.md
           - concepts/policy/notification-policy.md
           - concepts/policy/terraform-plan-policy.md
-          - Push policy:
+          - Push Policy:
               - concepts/policy/push-policy/README.md
               - concepts/policy/push-policy/run-external-dependencies.md
           - concepts/policy/task-run-policy.md
@@ -55,6 +55,10 @@ nav:
           - concepts/spaces/deleting-a-space.md
           - concepts/spaces/structuring-your-spaces-tree.md
           - concepts/spaces/migrating-out-of-the-legacy-space.md
+      - User Management:
+          - concepts/user-management/README.md
+          - concepts/user-management/admin.md
+          - concepts/user-management/user.md
   - 🛰️ Platforms:
       - Terraform:
           - vendors/terraform/README.md
@@ -99,6 +103,7 @@ nav:
           - vendors/kubernetes/custom-resources.md
           - vendors/kubernetes/helm.md
           - vendors/kubernetes/kustomize.md
+          - vendors/kubernetes/workflow-tool.md
       - Ansible:
           - vendors/ansible/README.md
           - vendors/ansible/getting-started.md
@@ -114,8 +119,11 @@ nav:
           - integrations/cloud-providers/README.md
           - integrations/cloud-providers/aws.md
           - OpenID Connect (OIDC):
-            - integrations/cloud-providers/oidc/README.md
-            - integrations/cloud-providers/oidc/aws-oidc.md
+              - integrations/cloud-providers/oidc/README.md
+              - integrations/cloud-providers/oidc/aws-oidc.md
+              - integrations/cloud-providers/oidc/gcp-oidc.md
+              - integrations/cloud-providers/oidc/azure-oidc.md
+              - integrations/cloud-providers/oidc/vault-oidc.md
       - Observability:
           - integrations/observability/README.md
           - integrations/observability/datadog.md
@@ -127,6 +135,7 @@ nav:
           - integrations/source-control/azure-devops.md
           - integrations/source-control/bitbucket-cloud.md
           - integrations/source-control/bitbucket-datacenter-server.md
+          - integrations/source-control/raw-git.md
       - integrations/docker.md
       - integrations/api.md
       - Single Sign-On:
