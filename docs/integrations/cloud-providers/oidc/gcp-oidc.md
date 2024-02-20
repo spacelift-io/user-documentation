@@ -63,3 +63,6 @@ Here is an example of us using a Spacelift [context](../../../concepts/configura
 ![GCP Spacelift settings](../../../assets/screenshots/oidc/gcp-spacelift-settings.png)
 
 For more information about configuring the Terraform provider, please see the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}.
+
+!!! tip
+    You get a PERMISSION_DENIED for the iam.serviceAccounts.getAccessToken permission if you have specified some kind of permission about what principals are allowed to use your service account in the "Connected Service Accounts" section, and that condition isn't fulfilled (e.g. You specify that only stacks from a certain space are allowed to use your service account, and you try to trigger a run on a stack in a different space).
