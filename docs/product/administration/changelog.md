@@ -13,6 +13,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 - The settings page is now split into Organization and Personal settings
 - [OpenTofu v1.6.1 support](../../concepts/stack/creating-a-stack.md#opentofu)
 - [PR stack locking](../../concepts/policy/push-policy/README.md#stack-locking)
+- [Support for deploying workers via the Kubernetes operator](../../concepts/worker-pools.md#kubernetes)
 
 ### Fixes
 
