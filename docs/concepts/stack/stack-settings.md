@@ -196,7 +196,7 @@ There are some **magic** labels that you can add to your stacks. These labels ad
 List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
-- **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting
+- **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
