@@ -3643,6 +3643,10 @@ You will need to replace <code>demo.app.spacelift.io</code> and <code>demo@space
 <p>Here is an example of us using a Spacelift <a href="../../../concepts/configuration/context.html">context</a> to mount the file and configure the provider to be attached to an arbitrary number of stacks:</p>
 <p><img alt="GCP Spacelift settings" src="../../../assets/screenshots/oidc/gcp-spacelift-settings.png" /></p>
 <p>For more information about configuring the Terraform provider, please see the <a href="https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials" rel="nofollow">Google Cloud Terraform provider docs</a>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You get a PERMISSION_DENIED for the iam.serviceAccounts.getAccessToken permission if you have specified some kind of permission about what principals are allowed to use your service account in the "Connected Service Accounts" section, and that condition isn't fulfilled (e.g. You specify that only stacks from a certain space are allowed to use your service account, and you try to trigger a run on a stack in a different space).</p>
+</div>
 
 
 
