@@ -77,6 +77,9 @@ output "dummy" {
 }
 ```
 
+!!! note
+    If you are using CloudFormation - adding an output is considered a [no-op](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-no-updates-to-perform){: rel="nofollow"}, so you will need to add a dummy output and a dummy resource.
+
 #### Vendor limitations
 
 [Ansible](../../vendors/ansible/) and [Kubernetes](../../vendors/kubernetes/) does not have the concept of outputs, so you cannot reference the outputs of them. They _can_ be on the receiving end though:
