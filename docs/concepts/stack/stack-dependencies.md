@@ -78,7 +78,7 @@ output "dummy" {
 ```
 
 !!! note
-    If you are using CloudFormation - adding an output is considered a [no-op](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-no-updates-to-perform){: rel="nofollow"}, so you will need to add a dummy output and a dummy resource, such as `AWS::CloudFormation::WaitConditionHandle`.
+    If you are using CloudFormation - adding an output is considered a [no-op](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-no-updates-to-perform){: rel="nofollow"}, so if you are making an output-only change, you will need to make a modification to the Resources section of the CloudFormation template that is recognized as a change by CF - e.g adding a dummy resource like `AWS::CloudFormation::WaitConditionHandle`.
 
 #### Vendor limitations
 
