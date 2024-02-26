@@ -527,9 +527,12 @@ pull_request contains {
 
 #### Changing the comment body
 
-You can customize the comment body, even include logs from the [planning](../run/proposed.md#planning) or [applying](../run/tracked.md#applying) phase.
+You can customize the comment body, even include logs from various run phases by including a corresponding placeholder:
 
-A `spacelift::logs::planning` placeholder in the comment body will be replaced with logs from the [planning](../run/proposed.md#planning) phase. The same applies to `spacelift::logs::applying` and the [applying](../run/tracked.md#applying) phase.
+- `spacelift::logs::initializing` placeholder will be replaces with logs from the [initializing](../run/README.md#initializing) phase
+- `spacelift::logs::preparing` placeholder will be replaces with logs from the [preparing](../run/README.md#preparing) phase
+- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
+- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
 
 ```opa
 package spacelift
