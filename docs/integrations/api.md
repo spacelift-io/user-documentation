@@ -123,7 +123,6 @@ The API key creation form will allow you to specify:
 !!! note
     Note that giving "admin" permissions on the "root" space makes the key administrative.
 
-
 Without further ado, let's create a non-administrative API key with "read" access to the "root/legacy" space, and a virtual membership in two teams: _Developers_ and _DevOps:_
 
 <p align="center">
@@ -239,7 +238,7 @@ One approach to generating this token is using the Spacelift [spacectl](https://
 ### Personal GitHub Token > Token
 
 !!! info
-    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single Sign-On methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-greater-than-jwt-token) method instead.
+    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single Sign-On methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-token) method instead.
 
 **Steps:**
 
