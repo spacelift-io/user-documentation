@@ -826,6 +826,10 @@ To scale your WorkerPool, you can either edit the resource in Kubernetes, or use
 kubectl scale workerpools my-worker-pool --replicas=5
 ```
 
+#### Billing for Kubernetes Workers
+
+Kubernetes workers are billed based on the number of provisioned workers that you have, exactly the same as for any of our other ways of running workers. What this means in practice is that you will be billed based on the number of workers defined by the `poolSize` of your WorkerPool, _even when those workers are idle and not processing any runs_.
+
 #### Migrating from Docker-in-Docker
 
 If you currently use our [Docker-in-Docker Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool) to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
