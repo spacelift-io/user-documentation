@@ -92,33 +92,42 @@ There are currently three ways of obtaining this token:
 
 ### Spacelift API Key > Token
 
-Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel.
+Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel. There are two types of API keys - more traditional, secret-based ones and ones based on OIDC identity federation. We are going to cover these separately.
 
 !!! note
     API keys are **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
 
-Steps to create API key in the UI:
+#### Secret-based API keys
 
-Click on Settings in the bottom left corner of the UI
+These keys function by exchanging an API key ID and secret for a JWT token - identical to how IAM user keys function. They're more flexible, but less secure because they involve static credentials. Here is how to create a secret-based API key in the UI:
+
+First, click on the lower right hand corner menu and select the "Organization settings" menu item.
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-01.png"/>
+  <img src="../assets/screenshots/organization-settings.png"/>
 </p>
 
-Choose API Keys menu and click on Add new API key
+From the "Access" menu on the left hand side of the screen, select the "API keys" item, and click the "Create API key" button as shown below:
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-02.png"/>
+  <img src="../assets/screenshots/create-api-key-button.png"/>
 </p>
 
-The API key creation form will allow you to specify an arbitrary key name, along with the _Admin_ setting and the list of _teams_. If the key is given admin privileges, it has full access to the Spacelift API and won't be subject to [access policies](../concepts/policy/stack-access-policy.md).
+The API key creation form will allow you to specify:
 
-For non-administrative keys, you may want to add a **virtual** list of teams that the key should "belong to" so that existing access policies based on [GitHub teams](source-control/github.md#access-controls) or [SAML assertions](single-sign-on/README.md) can work with your API keys just as they do with regular users.
+- an arbitrary key name - choose something memorable, ideally reflecting the purpose of the key;
+- type of the key - in this case it's going to be "Secret";
+- the list of [spaces](../concepts/spaces/README.md) the key should have access to, along with access level;
+- list of groups the key should belong to - used to give the API key a virtual group membership for scenarios where you'd prefer to control access to resources on group/team rather than individual level.
 
-Without further ado, let's create a non-administrative API key with virtual membership in two teams: _Developers_ and _DevOps:_
+!!! note
+    Note that giving "admin" permissions on the "root" space makes the key administrative.
+
+
+Without further ado, let's create a non-administrative API key with "read" access to the "root/legacy" space, and a virtual membership in two teams: _Developers_ and _DevOps:_
 
 <p align="center">
-  <img src="../assets/screenshots/api-key-creation-03.png"/>
+  <img src="../assets/screenshots/create-api-key-drawer.png"/>
 </p>
 
 Once you click the _Add Key_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
@@ -145,6 +154,77 @@ credentials "spacelift.io" {
 
 !!! warning
     Make sure you persist this data somewhere on your end - we don't store the token and it cannot be retrieved or recreated afterwards.
+
+For programmatic access, the key ID and secret pair needs to be exchanged for an API token using a GraphQL mutation:
+
+```graphql
+mutation GetSpaceliftToken($id: ID!, $secret: String!) {
+  apiKeyUser(id: $id, secret: $secret) {
+    jwt
+  }
+}
+```
+
+Once you obtain the token, you can use it to authenticate your requests to the Spacelift API.
+
+#### OIDC-based API keys
+
+OIDC-based API keys are a more secure alternative to secret-based API keys. They're based on the OpenID Connect protocol and are more secure because they don't involve static credentials. They're also more flexible because they can be used to authenticate with Spacelift using any OIDC identity provider. The creation of OIDC-based API keys is similar to the creation of secret-based API keys but once you choose "OIDC" as the key type, there are a few more settings. Thread carefully, as the settings are more complex and require a good understanding of OIDC and the identity provider you're using:
+
+<p align="center">
+  <img src="../assets/screenshots/create-oidc-api-key.png"/>
+</p>
+
+The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token.
+
+The **Client ID (audience)** field is the client ID of the OIDC application you've created in the identity provider. That's what the identity provider puts in the `aud` claim of the JWT token. Some identity providers allow you to customize it and some don't.
+
+Last but not least, the **Subject Expression** field is a regular expression that needs to match the `sub` claim of the JWT token. This is how you can restrict access to the API key to a specific source.
+
+In our example, we're giving access to the key to [GitHub Actions](https://docs.github.com/en/actions){: rel="nofollow"} (based on their token "issuer"), from action running on the `infra` repository in the `myorg` organization (see the regular expression). In GitHub Actions the audience can be customized, so as long as there is a mutual match, this will work.
+
+Here is a sample workflow that uses the key we've just created and [spacectl](../concepts/spacectl.md) in GitHub Actions, without the need for any static credentials:
+
+```yaml
+name: List Spacelift stacks
+
+on: [push]
+
+jobs:
+  test:
+    name: List Spacelift stacks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Generate token
+        run: |
+          OIDC_TOKEN=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=myorg.app.spacelift.io" | jq --raw-output '.value')
+          echo "OIDC_TOKEN=$OIDC_TOKEN" >> $GITHUB_ENV
+
+      - name: Install spacectl
+        uses: spacelift-io/setup-spacectl@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: List stacks
+        env:
+          # You will want to replace this endpoint (and the audience) with your 
+          # own Spacelift account's endpoint.
+          SPACELIFT_API_KEY_ENDPOINT: https://myorg.app.spacelift.io
+          SPACELIFT_API_KEY_ID: ${{ env.SPACELIFT_KEY_ID }}
+          SPACELIFT_API_KEY_SECRET: ${{ env.OIDC_TOKEN }}
+        run: |
+          spacectl whoami
+          spacectl stack list
+```
+
+This type of key is exchanged for a Spacelift token using the same `apiKeyUser` that you use for the secret-based key, but instead of the static key secret you will use the temporary OIDC token as input to the mutation.
+
+!!! note
+    OIDC-based API keys do not provide special access to OpenTofu/Terraform modules. They are only used to authenticate with the Spacelift API.
 
 ### SpaceCTL CLI > Token
 
