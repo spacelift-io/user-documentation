@@ -184,6 +184,8 @@ In our example, we're giving access to the key to [GitHub Actions](https://docs.
 
 Here is a sample workflow that uses the key we've just created and [spacectl](../concepts/spacectl.md) in GitHub Actions, without the need for any static credentials:
 
+{% raw %}
+
 ```yaml
 name: List Spacelift stacks
 
@@ -219,6 +221,8 @@ jobs:
           spacectl whoami
           spacectl stack list
 ```
+
+{% endraw %}
 
 This type of key is exchanged for a Spacelift token using the same `apiKeyUser` that you use for the secret-based key, but instead of the static key secret you will use the temporary OIDC token as input to the mutation.
 
