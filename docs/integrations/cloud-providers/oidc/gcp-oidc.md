@@ -11,9 +11,15 @@ To do this you need to perform a number of steps within GCP:
 
 Let's go through these steps one by one. First, you will want to go to the [GCP console](https://console.cloud.google.com/){: rel="nofollow"} and select the IAM service, then click on the "Workload Identity Federation" link in the left-hand menu:
 
+If this is your first time creating a Workload Identity Pools, you will click on the _Get Started_ button.
+
+![GCP Workload Identity Federation Get Started](../../../assets/screenshots/oidc/gcp-workload-identity-federation-get-started.png)
+
+If you have created a Workload Identity Pool before, your screen should look like:
+
 ![GCP Workload Identity Federation](../../../assets/screenshots/oidc/gcp-workload-identity-federation.png)
 
-There, you will want to click on the _Create pool_ button, which will take you to the pool creation form. First, give your new identity pool a name and optionally set a description. The next step is more interesting - you will need to set up an identity provider. The name is pretty much arbitrary but the rest of the fields are important to get right. The Issuer URL needs to be set to the URL of your Spacelift account (including the scheme). You will want to manually specify allowed audiences. There's just one you need - the hostname of your Spacelift account. Here is what a properly filled out form would look like:
+From there, you will want to click on the _Create pool_ button, which will take you to the pool creation form. First, give your new identity pool a name and optionally set a description. The next step is more interesting - you will need to set up an identity provider. The name is pretty much arbitrary but the rest of the fields are important to get right. The Issuer URL needs to be set to the URL of your Spacelift account (including the scheme). You will want to manually specify allowed audiences. There's just one you need - the hostname of your Spacelift account. Here is what a properly filled out form would look like:
 
 ![Adding workload identity provider to GCP](../../../assets/screenshots/oidc/gcp-add-provider.png)
 
@@ -30,9 +36,25 @@ To restrict which identities can authenticate using your workload identity pool 
 !!! warning
     If your Stack ID is too long, it may exceed the threshold set by Google for the `google.subject` mapping. In that case, you can use a different [Custom claim](README.md#custom-claims) to create the mapping.
 
-Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} we will be using. Assuming we already have a service account, let's allow any token claiming to originate from the `production` space in our Spacelift account to impersonate it:
+Last but not least, we will want to grant the workload identity pool the ability to impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} we will be using. **Assuming we already have a service account**, let's allow any token claiming to originate from the `prod` space in our Spacelift account to impersonate it:
 
 ![GCP granting access to service account](../../../assets/screenshots/oidc/gcp-grant-access.png)
+
+Make sure you use the full space id and not the space name.
+
+## Downloading the Configuration File
+
+After clicking save on the previous screen, you will be brought to download the configuration file. Here, you will need to change the OIDC ID token path to `/mnt/workspace/spacelift.oidc` and change the format to json.
+
+![GCP config file](../../../assets/screenshots/oidc/gcp-config-download.png)
+
+The file that is downloaded will include the format type in the credentials source. You can remove this so you credentials section just contains:
+
+```json
+ "credential_source": {
+    "file": "/mnt/workspace/spacelift.oidc"
+  }
+```
 
 ## Configuring the Terraform Provider
 
