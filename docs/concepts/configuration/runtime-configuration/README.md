@@ -121,9 +121,8 @@ Example: `opentofu_version: "1.2.3"`
 
 This setting determines the Terraform implementation used in the workflow. Choose based on your project needs and the specific features or support each option offers:
 
-* `TERRAFORM_FOSS` (default) - Utilizes the official Terraform by HashiCorp. Best for standard Terraform operations and official provider support.
-* `OPEN_TOFU` - An open-source Terraform fork. Choose this for enhanced features or modifications not available in the official version.
-* `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
-
+- `TERRAFORM_FOSS` (default) - Utilizes the official Terraform by HashiCorp. Best for standard Terraform operations and official provider support.
+- `OPEN_TOFU` - An open-source Terraform fork. Choose this for enhanced features or modifications not available in the official version.
+- `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
 
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).
