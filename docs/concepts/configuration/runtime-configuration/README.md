@@ -115,7 +115,7 @@ This setting is only valid on Terraform stacks and specifies the Terraform versi
 
 This setting specifies the OpenTofu version to be used during the run and is only applicable to Terraform stacks. It is considered when `terraform_workflow_tool` is set to `OPEN_TOFU`. To specify a version, ensure it aligns with those officially supported and tested by Spacelift.
 
-Example: `opentofu_version: "1.2.3"`
+Example: `opentofu_version: "1.6.2"`
 
 ### `terraform_workflow_tool` setting
 
