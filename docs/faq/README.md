@@ -43,9 +43,9 @@ https://login.microsoftonline.com/<tenant-id>/adminconsent?client_id=fba648b0-4b
 !!! info
     NOTE: make sure to replace `<tenant-id>` with your Azure AD Tenant ID!
 
-After granting admin consent, your administrator will be redirected to Spacelift and receive the following error message, which can be safely ignored:
+After granting admin consent, your administrator will be redirected to Spacelift and receive the following message:
 
-![](../assets/screenshots/faq-ms-login-empty-code-error.png)
+![](../assets/screenshots/faq-ms-login-admin-consent-complete.png)
 
 After admin consent has been provided, you should be able to sign-up for Spacelift using your Microsoft account.
 
