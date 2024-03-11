@@ -108,4 +108,22 @@ The runner image is the Docker image used to run your workloads. By making it a 
 
 This setting is only valid on Terraform stacks and specifies the Terraform version that the run will use. The main use case is testing a newer version of Terraform before you use it to change the state since the way back is very hard. This version can only be equal to or higher than the one already used to apply state changes. For more details on Terraform version management, please refer to its [dedicated help section](../../../vendors/terraform/version-management.md).
 
+### `opentofu_version` setting
+
+!!! info
+    Defaults to the **latest known supported OpenTofu version**.
+
+This setting specifies the OpenTofu version to be used during the run and is only applicable to Terraform stacks. It is considered when `terraform_workflow_tool` is set to `OPEN_TOFU`. To specify a version, ensure it aligns with those officially supported and tested by Spacelift.
+
+Example: `opentofu_version: "1.2.3"`
+
+### `terraform_workflow_tool` setting
+
+This setting determines the Terraform implementation used in the workflow. Choose based on your project needs and the specific features or support each option offers:
+
+* `TERRAFORM_FOSS` (default) - Utilizes the official Terraform by HashiCorp. Best for standard Terraform operations and official provider support.
+* `OPEN_TOFU` - An open-source Terraform fork. Choose this for enhanced features or modifications not available in the official version.
+* `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
+
+
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).
