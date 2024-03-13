@@ -176,9 +176,14 @@ module_version := "<X.X.X>" {
     propose
 }
 
-propose { true }
+propose { 
+  not is_null(input.pull_request) 
+  }
 
-track { module_version != "" }
+track { 
+  module_version != ""
+  input.push.branch == input.module.branch
+ }
 ```
 
 ### Allow forks
