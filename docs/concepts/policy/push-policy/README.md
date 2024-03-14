@@ -179,7 +179,11 @@ module_version := "<X.X.X>" {
 propose { 
   not is_null(input.pull_request) 
   }
+```
 
+If you wish to add a track rule to your push policy, the below will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking.
+
+```opa
 track { 
   module_version != ""
   input.push.branch == input.module.branch
