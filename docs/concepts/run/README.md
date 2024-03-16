@@ -31,7 +31,7 @@ Spacelift serializes all state-changing operations to the Stack. Both tracked ru
 
 If your run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in run state list:
 
-![](../../assets/screenshots/blocked-queued-run-unconfirmed.png)
+![](../../assets/screenshots/run/blocked-run.png)
 
 There can also be other reasons why the run is in this state and is not being promoted to state [Ready](#ready):
 
@@ -39,7 +39,7 @@ There can also be other reasons why the run is in this state and is not being pr
 - It's waiting for dependant stacks to finish
 - It's waiting for external dependencies to finish
 
- Queued is a _passive state_ meaning no operations are performed while a run is in this state. The user can also cancel the run while it's still queued, transitioning it to the terminal [Canceled](#canceled) state.
+Queued is a _passive state_ meaning no operations are performed while a run is in this state. The user can also discard the run while it's still queued, transitioning it to the terminal [Discarded](#discarded) state.
 
 ### Ready
 
@@ -49,13 +49,13 @@ it's picked up by a worker.
 When using the public worker pool, you will have to wait until a worker becomes available. For private workers,
 please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
 
-Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to cancel the run even if it's ready for processing, transitioning it to the terminal [Canceled](#canceled) state.
+Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to discard the run even if it's ready for processing, transitioning it to the terminal [Discarded](#discarded) state.
 
-### Canceled
+### Discarded
 
-Canceled state means that the user has manually stopped a [Queued](#queued) run or task even before it had the chance to be picked up by the worker.
+Discarded state means that the user has manually stopped a [Queued](#queued) run or task even before it had the chance to be picked up by the worker.
 
-Canceled is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can follow it.
+Discarded is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can follow it.
 
 ### Preparing
 
@@ -63,7 +63,7 @@ The _preparing_ state is the first one where real work is done. At this point bo
 
 Here's an example of one such handover:
 
-![](<../../assets/screenshots/Screenshot from 2021-04-01 15-53-59.png>)
+![](../../assets/screenshots/run/handover.png)
 
 Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg){: rel="nofollow"}. The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
 
@@ -102,9 +102,9 @@ Some types of runs in some phases may safely be interrupted. We allow sending a 
 
 Stopped state indicates that a run has been stopped while [Initializing](#initializing) or [Planning](./proposed.md#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
 
-Here's an example of a run manually stopped while [Initializing](#initializing):
+Here's an example of a run manually stopped while [Planning](#planning):
 
-![](<../../assets/screenshots/01DTD3M6DVC7VKQGJ72PCSEBKD_·_End-to-end_testing (2).png>)
+![](../../assets/screenshots/run/stopped-run.png)
 
 Stopped is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
 
@@ -116,15 +116,23 @@ Run logs are kept for 60 days.
 
 You can change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
 
-The priority of a run can be changed in the worker pool queue view:
+The priority of a run can be changed from the run's view and in the worker pool queue view.
 
-![](<../../assets/screenshots/run_priority.png>)
+### Run view
+
+![](../../assets/screenshots/run/prioritize-from-run-view.png)
+
+### Worker pool queue view
+
+![](../../assets/screenshots/run/prioritize-from-worker-pool-view.png)
 
 Runs can be prioritized manually or automatically, using a [push policy](../policy/push-policy/README.md#prioritization). Note that we only recommend automatic prioritization in special circumstances. For most users, the default prioritization (tracked runs, then proposed runs, then drift detection runs) provides an optimal user experience.
 
 ## Limit Runs
 
-You can also limit the number of runs being created for a VCS event by navigating to organization settings and clicking on limits.
+You can also limit the number of runs being created for a VCS event by navigating to Organization settings and clicking on Limits.
+
+![](../../assets/screenshots/run/limit-runs.png)
 
 You can set a maximum number of 500 runs to be triggered by a VCS event for your account.
 
