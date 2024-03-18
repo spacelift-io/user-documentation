@@ -102,7 +102,7 @@ Some types of runs in some phases may safely be interrupted. We allow sending a 
 
 Stopped state indicates that a run has been stopped while [Initializing](#initializing) or [Planning](./proposed.md#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
 
-Here's an example of a run manually stopped while [Planning](#planning):
+Here's an example of a run manually stopped while [Initializing](#initializing):
 
 ![](../../assets/screenshots/run/stopped-run.png)
 
