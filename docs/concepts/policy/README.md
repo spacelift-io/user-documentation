@@ -288,6 +288,30 @@ Yes, policy sampling is perfectly safe. Session data may contain some personal i
 
 Last but not least, the policy workbench - including access to previous inputs - is only available to **Spacelift account administrators**.
 
+## Policy library
+
+!!! info
+    This feature is currently in open-beta.
+
+Sometimes, Rego can be hard, especially if you are just starting out with it. The Policy Workbench is great for helping you get policies right, but with the Policy library, we take it up a notch.
+
+The Policy library gives you the ability to import templates as regular policies directly inside your Spacelift account, that can be easily modified to accustom your needs.
+
+Inside your Spacelift account, under policies, you will see a new option called **Templates**:
+![](../../assets/screenshots/policy_library.png)
+
+You have the option to filter the policies based on the policy type or labels, and whenever you find a policy you would like to add to your account, you will simply need to click on the **Import** option. There are examples available for all supported policy types.
+
+After clicking import, you have to fill in a few details — such as the space you want to use and whether or not you want to keep the same name, change the description, and even add or remove labels.
+
+![](../../assets/screenshots/policy_library_drawer.png)
+
+Then, after clicking on **continue**, you have the option to edit the policy if you need to modify its behavior, or you could simply import it as it is:
+
+![](../../assets/screenshots/policy_library_policy_edit.png)
+
+Now, if you click on **Create policy**, you will successfully import it in your Spacelift account.
+
 ## Testing policies
 
 !!! info
