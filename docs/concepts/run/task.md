@@ -1,6 +1,6 @@
 # Task
 
-![](../../assets/screenshots/Tasks_·_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/run/tasks-list.png)
 
 While tasks enjoy the privilege of having their own GUI screen, they're just another type of [run](./README.md). The core difference is that after the common [initialization](./README.md#initializing) phase, a **task will run your custom command** instead of a string of preordained vendor-specific commands.
 
@@ -19,7 +19,7 @@ With the above caveat, let's go through the main benefits of using Spacelift tas
 
 Tasks are always treated as operations that may change the underlying state, and are thus serialized. No two tasks will ever run simultaneously, nor will a task execute while a [tracked run](tracked.md) is in progress. This prevents possible concurrent updates to the state that would be possible without a centrally managed mutex.
 
-What's more, some tasks will be more sensitive than others. While a simple `ls` is probably nothing to be afraid of, the two-way state migration described above could have gone wrong in great many different ways. The [stack locking mechanism](../stack/README.md#stack-locking) thus allows taking exclusive control over one or more stacks by a single individual, taking the possibility of coordination to a whole new level.
+What's more, some tasks will be more sensitive than others. While a simple `ls` is probably nothing to be afraid of, the two-way state migration described above could have gone wrong in great many different ways. The [stack locking mechanism](../stack/stack-locking.md) thus allows taking exclusive control over one or more stacks by a single individual, taking the possibility of coordination to a whole new level.
 
 ### Safe
 
@@ -27,7 +27,7 @@ Any non-trivial infrastructure project will inevitably be full of credentials an
 
 Spacelift's integration with infra providers like [AWS](../../integrations/cloud-providers/aws.md) also allows authentication without any credentials whatsoever, which further protects you from the shame and humiliation of having the keys to the kingdom leaked by running the occasional `env` command, as you do. Actually, let's run it in Spacelift to see what gives:
 
-![](../../assets/screenshots/env_·_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/run/stack-secrets-masked.png)
 
 Yes, the secrets are masked in the output and won't leak due to an honest mistake.
 
@@ -36,13 +36,13 @@ Yes, the secrets are masked in the output and won't leak due to an honest mistak
 
 ### Audited
 
-Unlike arbitrary operations performed on your local machine, tasks are recorded for eternity, so in cases where some archaeology is necessary, it's easy to see what happened and when. Tasks are attributed to individuals (or [API keys](../../integrations/api.md#api-key-management)) that triggered them and the access model ensures that only [stack writers](../stack/README.md#access-readers-and-writers-teams) can trigger tasks, giving you even more control over your infrastructure.
+Unlike arbitrary operations performed on your local machine, tasks are recorded for eternity, so in cases where some archaeology is necessary, it's easy to see what happened and when. Tasks are attributed to individuals (or [API keys](../../integrations/api.md#spacelift-api-key-token)) that triggered them and the access model ensures that only [stack writers](../policy/stack-access-policy.md#readers-and-writers) can trigger tasks, giving you even more control over your infrastructure.
 
 ## Performing a task
 
 Apart from the common run phases described in the general run documentation, tasks have just one extra state - performing. That's when the arbitrary user-supplied command is executed, wrapped in `sh -c` to support all the shell goodies we all love to abuse. In particular, you can use as many `&&` and `||` as you wish.
 
-Performing a task will succeed and the task will transition to the [finished](./README.md#finished) state iff the exit code of your command is 0 (the Unix standard). Otherwise the task is marked as [failed](./README.md#failed). Performing cannot be stopped since we must assume that it involves state changes.
+Performing a task will succeed and the task will transition to the [finished](./README.md#finished) state if the exit code of your command is 0 (the Unix standard). Otherwise the task is marked as [failed](./README.md#failed). Performing cannot be stopped since we must assume that it involves state changes.
 
 !!! Tip
     Tasks are not interactive so you may need to add the `-force` argument to the command.
@@ -51,12 +51,12 @@ Performing a task will succeed and the task will transition to the [finished](./
 
 In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
 
-![](<../../assets/screenshots/Tasks_·_Datadog_Synthetics__prod_ (1).png>)
+![](<../../assets/screenshots/run/task-init-toggle.png>)
 
-Let's execute a task without initialization on a Terraform stack:
+Let's execute a task without initialization on an OpenTofu stack:
 
-![](../../assets/screenshots/terraform_state_list_·_Datadog_Synthetics__prod_.png)
+![](<../../assets/screenshots/run/failed-task-without-init.png>)
 
-Notice how the operation failed because it is expected to be executed on an initialized Terraform workspace. But the same operation would easily succeed if we were to run it in the default mode, with initialization:
+Notice how the operation failed because it is expected to be executed on an initialized OpenTofu workspace. But the same operation would easily succeed if we were to run it in the default mode, with initialization:
 
-![](<../../assets/screenshots/terraform_state_list_·_Datadog_Synthetics__prod_ (1).png>)
+![](<../../assets/screenshots/run/finished-task-with-init.png>)
