@@ -106,7 +106,7 @@ This preparation phase is very unlikely to fail, but if it does (eg. the worker 
 
 ![](../../assets/screenshots/Use_config_for_target_repo__·_Vendor_Releases_Watcher.png)
 
-This phase can be skipped without execution by setting the `SPACELIFT_SKIP_APPLYING` environment variable to _true_ in the stack's [environment variables](../stack/stack-settings.md#environment-variables).
+This phase can be skipped without execution by setting the `SPACELIFT_SKIP_APPLYING` environment variable to _true_ in the stack's [environment variables](../configuration/environment.md).
 
 ## Success criteria
 
