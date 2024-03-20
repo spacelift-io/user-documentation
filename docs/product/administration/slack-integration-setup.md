@@ -95,4 +95,4 @@ Once it's done, you just need to copy the relevant information from the "Basic I
 
 Once you have populated your configuration, just run the installer as described in the [installation guide](./install.md#running-the-installer).
 
-After the installation script finishes. You can now go to your selfhosted Spacelift instance, to Settings -> Slack and install the Slack app into your workspace.
+After the installation script finishes. You can now go to your self-hosted Spacelift instance, to Settings -> Slack and install the Slack app into your workspace.

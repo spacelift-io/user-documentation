@@ -1264,7 +1264,7 @@ In addition, you will also need to allow access to the following:
 
 ### Hardware recommendations
 
-The hardware requirments for the workers will vary depending on the stack size(How many resources managed, resource type, etc.), but we recommend at least **2GB of memory and 2 vCPUs of compute power**.
+The hardware requirements for the workers will vary depending on the stack size(How many resources managed, resource type, etc.), but we recommend at least **2GB of memory and 2 vCPUs of compute power**.
 
 These are the recommended server types for the three main cloud providers:
 

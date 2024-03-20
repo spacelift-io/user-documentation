@@ -2,7 +2,7 @@
 
 `spacectl` is a utility wrapping Spacelift's [GraphQL API](../integrations/api.md) for easy programmatic access in command-line contexts - either in manual interactive mode (in your local shell), or in a predefined CI pipeline (GitHub actions, CircleCI, Jenkins etc).
 
-Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
+Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programmatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
 
 ## Installation
 
@@ -273,4 +273,4 @@ By default the login process is interactive, however, if that does not fit your 
 ❯ spacectl profile login --method browser --endpoint https://unicorn.app.spacelift.io local-test
 ```
 
-You can switch between account profiles by using `spacectl profile select ${MY_ALIAS}`. What this does behind the scenes is point `${HOME}/.spacelift/current` to the new location. You can also delete stored credetials for a given profile by using the `spacectl profile logout ${MY_ALIAS}` command.
+You can switch between account profiles by using `spacectl profile select ${MY_ALIAS}`. What this does behind the scenes is point `${HOME}/.spacelift/current` to the new location. You can also delete stored credentials for a given profile by using the `spacectl profile logout ${MY_ALIAS}` command.

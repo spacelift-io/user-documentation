@@ -653,7 +653,7 @@ unlock := lock_id {
 }
 ```
 
-You can futher customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
+You can further customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
 
 ``` opa
 lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
