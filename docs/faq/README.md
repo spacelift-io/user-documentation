@@ -126,7 +126,7 @@ Otherwise, policies could look perfectly fine but block each other with deny rul
 
 ### Can I attach my policy to multiple stacks / modules?
 
-This can be done with the `autoattach` label, you can read more about that [here](../concepts/policy#wildcard-policy-attachments).
+This can be done with the `autoattach` label, you can read more about that [here](../concepts/policy/README.md#wildcard-policy-attachments).
 
 ## Billing
 
@@ -144,7 +144,7 @@ When setting up SSO, future logins will appear as new users since Spacelift cann
 
 The main culprits are usually a push policy or the wrong branch being tracked.
 
-If you do not have a push policy in place, you can attach a push policy with the [default push policy](../concepts/policy/push-policy/#default-git-push-policy) and enable [sampling](../concepts/policy#sampling-policy-inputs) to then review the inputs in the [policy workbench](../concepts/policy#policy-workbench-in-practice) to confirm that Spacelift has recieved the push event. (If you are using GitLab, you need to set up webhooks for every project)
+If you do not have a push policy in place, you can attach a push policy with the [default push policy](../concepts/policy/push-policy/README.md#default-git-push-policy) and enable [sampling](../concepts/policy/README.md#sampling-policy-inputs) to then review the inputs in the [policy workbench](../concepts/policy/README.md#policy-workbench-in-practice) to confirm that Spacelift has received the push event. (If you are using GitLab, you need to set up webhooks for every project)
 
 You can review the branch you are tracking in your stack settings.
 
@@ -152,7 +152,7 @@ We also recommend checking your VCS provider is not currently experiencing any i
 
 ### Does Spacelift support monorepos?
 
-Spacelift does support monorepos. You can set a [project root](../concepts/stack/stack-settings.md) in your stack settings. Our [default push policy](../concepts/policy/push-policy/#default-git-push-policy) will trigger runs on changes within the project root or the project globs. You can review our [policy example repo](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} and see how you can customize this further.
+Spacelift does support monorepos. You can set a [project root](../concepts/stack/stack-settings.md) in your stack settings. Our [default push policy](../concepts/policy/push-policy/README.md#default-git-push-policy) will trigger runs on changes within the project root or the project globs. You can review our [policy example repo](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} and see how you can customize this further.
 
 ## Run
 
