@@ -127,7 +127,7 @@ Support is currently in Beta.
 
 ![](<../../assets/screenshots/Stack_Created.png>)
 
-With the expection of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
+With the exception of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
 
 You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your stack.
 
@@ -175,7 +175,7 @@ Spacelift integrates with identity management systems from major cloud providers
 
 Currently, AWS, Azure and GCP are natively supported.
 
-You can read more about Cloud ingrations [here](../../integrations/cloud-providers/README.md).
+You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
 
 ## Attach Stack Policies
 

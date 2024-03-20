@@ -27,7 +27,7 @@ Give your VCS Agent Pool a name and description, and you're done! A configuratio
 
 ### Download the VCS Agent binaries
 
-The latest version of the VCS Agent binaries are avaiable at Spacelift's CDN: [x86_64](https://downloads.spacelift.io/spacelift-vcs-agent-x86_64) (amd64 CPU) and [aarch64](https://downloads.spacelift.io/spacelift-vcs-agent-aarch64) (arm64 CPU).
+The latest version of the VCS Agent binaries are available at Spacelift's CDN: [x86_64](https://downloads.spacelift.io/spacelift-vcs-agent-x86_64) (amd64 CPU) and [aarch64](https://downloads.spacelift.io/spacelift-vcs-agent-aarch64) (arm64 CPU).
 
 ### Run via Docker
 

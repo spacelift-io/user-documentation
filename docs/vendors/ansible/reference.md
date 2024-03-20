@@ -33,7 +33,7 @@ The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/
 
 ### Specifying additional CLI flags
 
-You can specify addtional [CLI flags](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#common-options){: rel="nofollow"} using the following environment variables:
+You can specify additional [CLI flags](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#common-options){: rel="nofollow"} using the following environment variables:
 
 - `SPACELIFT_ANSIBLE_CLI_ARGS` - will take effect for both planning and applying phases
 - `SPACELIFT_ANSIBLE_CLI_ARGS_plan` - will take effect only for the planning phase
