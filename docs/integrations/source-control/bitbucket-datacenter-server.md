@@ -34,9 +34,9 @@ Let's collect these details.
 In order to use the integration, you need a user account for Spacelift to use, and you need to generate an access token for that account. The user account requires the following access:
 
 - _Read_ access to any projects Spacelift needs to be able to access.
-- _Write_ access to the repositories within those projects that Spacelift should have access to.
+- _Read_ access to the repositories within those projects that Spacelift should have access to.
 
-Once you have a user account created, login as that user and go to **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it write access to repositories:
+Once you have a user account created, login as that user and go to **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it read access to repositories:
 
 ![Personal token creation](<../../assets/screenshots/image (65).png>)
 
