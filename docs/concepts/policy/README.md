@@ -293,7 +293,7 @@ Last but not least, the policy workbench - including access to previous inputs -
 !!! info
     This feature is currently in open-beta.
 
-Sometimes, Rego can be hard, especially if you are just starting out with it. The Policy Workbench is great for helping you get policies right, but with the Policy library, we take it up a notch.
+Sometimes, OPA can be hard, especially if you are just starting out with it. [The Policy Workbench](https://docs.spacelift.io/concepts/policy/#policy-workbench) is great for helping you get policies right, but with the Policy library, we take it up a notch.
 
 The Policy library gives you the ability to import templates as regular policies directly inside your Spacelift account, that can be easily modified to accustom your needs.
 
