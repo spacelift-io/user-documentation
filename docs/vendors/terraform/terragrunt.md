@@ -33,7 +33,7 @@ We also support authentication with [Spacelift modules](./module-registry.md) by
 
 Similar to Terraform, Terragrunt provides an advanced logging mode, and as of the writing of this documentation, there are currently two ways it can be enabled:
 
-1. Using the `--terragrunt-log-level debug` CLI flag (You'll need to set this flag using the `TF_CLI_ARGS` environment variable. For example, `TF_CLI_ARGS="--terragrunt-log-level debug"`
+1. Using the `--terragrunt-log-level debug` CLI flag (You'll need to set this flag using the `TF_CLI_ARGS` environment variable. For example, `TF_CLI_ARGS="--terragrunt-log-level debug"`)
 
 2. Using the `TERRAGRUNT_LOG_LEVEL` environment variable. Logging levels supported: `info` (default), `panic` `fatal` `error` `warn` `debug` `trace`
 

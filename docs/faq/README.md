@@ -140,11 +140,11 @@ When setting up SSO, future logins will appear as new users since Spacelift cann
 
 ## Stack
 
-### My Stack is not being trigged.
+### My Stack is not being triggered.
 
 The main culprits are usually a push policy or the wrong branch being tracked.
 
-If you do not have a push policy in place, you can attach a push policy with the [default push policy](../concepts/policy/push-policy/#default-git-push-policy) and enable [sampling](../concepts/policy#sampling-policy-inputs) to then review the inputs in the [policy workbench](../concepts/policy#policy-workbench-in-practice) to confirm that Spacelift has recieved the push event. (If you are using GitLab, you need to set up webhooks for every project)
+If you do not have a push policy in place, you can attach a push policy with the [default push policy](../concepts/policy/push-policy/#default-git-push-policy) and enable [sampling](../concepts/policy#sampling-policy-inputs) to then review the inputs in the [policy workbench](../concepts/policy#policy-workbench-in-practice) to confirm that Spacelift has received the push event. (If you are using GitLab, you need to set up webhooks for every project)
 
 You can review the branch you are tracking in your stack settings.
 
