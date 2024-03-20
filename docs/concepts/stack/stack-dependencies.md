@@ -86,7 +86,7 @@ When detecting changes in outputs, we also consider the previous run of the depe
 
 #### Vendor limitations
 
-[Ansible](../../vendors/ansible/) and [Kubernetes](../../vendors/kubernetes/) does not have the concept of outputs, so you cannot reference the outputs of them. They _can_ be on the receiving end though:
+[Ansible](../../vendors/ansible/README.md) and [Kubernetes](../../vendors/kubernetes/README.md) does not have the concept of outputs, so you cannot reference the outputs of them. They _can_ be on the receiving end though:
 
 ```mermaid
 graph TD;
