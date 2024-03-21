@@ -4,15 +4,15 @@ Tracked runs represent the actual changes to your infrastructure caused by chang
 
 They are presented on the _Runs_ screen, which is the main screen of the Stack view:
 
-![](../../assets/screenshots/Runs_·_Vendor_Releases_Watcher.png)
+![](../../assets/screenshots/run/stack-runs-list.png)
 
 Each of the tracked runs is represented by a separate element containing some information about the attempted deployment:
 
-![](<../../assets/screenshots/Runs_·_Vendor_Releases_Watcher (1).png>)
+![](../../assets/screenshots/run/run-details.png)
 
-Also worth noting is the colorful strip present on some runs - as long as the [planning](proposed.md#planning) phase was successful this visually represents the resources and outputs diff introduced by the change:
+Also worth noting is the colorful delta counter present on some runs - as long as the [planning](proposed.md#planning) phase was successful this visually represents the resources and outputs diff introduced by the change:
 
-![](../../assets/screenshots/Runs_·_prod-infra-ireland.png)
+![](../../assets/screenshots/run/run-delta-labels.png)
 
 ## Triggering tracked runs
 
@@ -22,27 +22,25 @@ Tracked runs can be triggered in of the three ways - manually by the user, by a 
 
 Any account admin or stack [writer](../policy/stack-access-policy.md) can trigger a tracked run on a stack:
 
-![](../../assets/screenshots/triggerrunsc.png)
+![](../../assets/screenshots/run/run-trigger-button.png)
 
-Runs triggered by individuals and [machine users](../../integrations/api.md#api-key-management) are marked accordingly:
+Runs triggered by individuals and [machine users](../../integrations/api.md#spacelift-api-key-token) are marked accordingly:
 
-![Run triggered by an individual](../../assets/screenshots/Runs_·_Terraform_starter.png)
-
-![Run triggered by a machine user](../../assets/screenshots/Runs_·_Datadog_Synthetics__prod_.png)
+![](../../assets/screenshots/run/run-started-by-real-and-machine-user.png)
 
 ### Triggering from Git events
 
-Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#repository-and-branch), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).
+Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#vcs-integration-and-repository), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).
 
 Runs triggered by Git push and/or tag events can are marked accordingly:
 
-![](<../../assets/screenshots/Runs_·_Vendor_Releases_Watcher (2).png>)
+![](../../assets/screenshots/run/run-started-by-git-commit.png)
 
 ### Triggering from policies
 
 Trigger policies can be used to create sophisticated workflows representing arbitrarily complex processes like staged rollouts or cascading updates. This is an advanced topic, which is described in more detail in its [dedicated section](../policy/trigger-policy.md). But if you see something like this, be aware of the fact that a trigger policy must have been involved:
 
-![](../../assets/screenshots/Runs_·_Managed_stack.png)
+![](../../assets/screenshots/run/run-started-by-trigger-policy.png)
 
 ## Handling no-op changes
 
@@ -67,7 +65,7 @@ If a change is detected and human approval is required, a tracked run will trans
 
 The resulting changes are shown to the user for the final approval:
 
-![](../../assets/screenshots/unconfirmed-run.png)
+![](../../assets/screenshots/run/unconfirmed-run.png)
 
 Unconfirmed is a _passive state_ meaning no operations are performed while a run is in this state.
 
@@ -79,7 +77,7 @@ When a run is in the [Unconfirmed](tracked.md#unconfirmed) state it's also possi
 
 To get to the replan screen after the run reaches the unconfirmed state, click on the Changes button in the left corner, select the resources you would like to have a targeted plan for, and then, the replan option will pop out, similar to the screenshot below.
 
-![](../../assets/screenshots/replan.png)
+![](../../assets/screenshots/run/run-changes-replanning.png)
 
 !!! warning
     Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
@@ -100,13 +98,15 @@ Confirmed is a _passive state_ meaning no operations are performed while a run i
 
 If the run required a manual approval step, this phase is preceded by another handover ([preparing](./README.md#preparing) phase) since the run again needs to be yielded to a worker node. This preparing phase is subtly different internally but ultimately serves the same purpose from the user perspective. Here's an example:
 
-![](../../assets/screenshots/Retract_the_test_·_Datadog_Pulumi.png)
+![](../../assets/screenshots/run/preparing-tracked-run.png)
 
 This preparation phase is very unlikely to fail, but if it does (eg. the worker node becomes unavailable during the transition), the run will transition to the terminal [failed](./README.md#failed) state. If the handover succeeds, or the run does not go through the manual approval process, the applying phase begins and attempts to deploy the changes. Here's an example:
 
-![](../../assets/screenshots/Use_config_for_target_repo__·_Vendor_Releases_Watcher.png)
+![](../../assets/screenshots/run/finished-applying.png)
 
 This phase can be skipped without execution by setting the `SPACELIFT_SKIP_APPLYING` environment variable to _true_ in the stack's [environment variables](../configuration/environment.md).
+
+![](../../assets/screenshots/run/skipped-applying.png)
 
 ## Success criteria
 
