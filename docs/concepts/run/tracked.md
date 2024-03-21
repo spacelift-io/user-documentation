@@ -90,7 +90,7 @@ Discarded is a _passive state_ meaning no operations are performed while a run i
 
 ### Confirmed
 
-Confirmed state follows [Unconfirmed](tracked.md#unconfirmed) indicates that a user has accepted the plan generated in the Planning phase and wants to [apply](tracked.md#applying) it but no worker has picked up the job yet. This state is similar to [Queued](./README.md#queued) in a sense that shows only temporarily until one of the workers picks up the associated job and changes the state to [Applying](#applying). On the other hand, there is no way to stop a run once it's confirmed.
+Confirmed state follows [Unconfirmed](tracked.md#unconfirmed) indicates that a user has accepted the plan generated in the Planning phase and wants to [apply](tracked.md#applying) it but no worker has picked up the job yet. This state is similar to [Queued](./README.md#queued) in a sense that shows only temporarily until one of the workers picks up the associated job and changes the state to [Applying](tracked.md#applying). On the other hand, there is no way to stop a run once it's confirmed.
 
 Confirmed is a _passive state_ meaning no operations are performed while a run is in this state.
 
