@@ -653,6 +653,11 @@ spec:
         limits:
           # Standard request limits
         claims: []
+      # SecurityContext defines the security options the container should be run with.
+      # ⚠️ Overriding this field may cause unexpected behaviors and should be avoided as much as possible.
+      # The operator is configured to run in a least-privileged context using UID/GID 1983. Running it as root may
+      # lead to unexpected behavior. Use at your own risk.
+      securityContext: {}
 
     # grpcServerContainer defines the configuration for the side-car container used by the
     # worker container for certain actions like uploading the current workspace, and being
@@ -668,6 +673,11 @@ spec:
         limits:
           # Standard request limits
         claims: []
+      # SecurityContext defines the security options the container should be run with.
+      # ⚠️ Overriding this field may cause unexpected behaviors and should be avoided as much as possible.
+      # The operator is configured to run in a least-privileged context using UID/GID 1983. Running it as root may
+      # lead to unexpected behavior. Use at your own risk.
+      securityContext: {}
 
     # workerContainer defines the configuration for the container that processes the workflow
     # for your run. This container uses the runner image defined by your stack.
@@ -681,6 +691,10 @@ spec:
         limits:
           # Standard request limits
         claims: []
+      # SecurityContext defines the security options the container should be run with.
+      # ⚠️ Overriding this field may cause unexpected behaviors and should be avoided as much as possible.
+      # The operator is configured to run in a least-privileged context using UID/GID 1983. Running it as root may
+      # lead to unexpected behavior. Use at your own risk.
       securityContext: {}
 ```
 
