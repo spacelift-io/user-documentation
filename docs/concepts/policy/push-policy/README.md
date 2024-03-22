@@ -558,7 +558,7 @@ propose { input.push.branch != input.stack.branch }
 If no Git push policies are attached to a stack or a module, the default behavior is equivalent to this policy:
 
 ```opa
-ppackage spacelift
+package spacelift
 
 track {
   affected
