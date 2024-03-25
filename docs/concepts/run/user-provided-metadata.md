@@ -25,8 +25,8 @@ We’ll also need a [Stack](../stack/README.md) to which [this worker is attache
 
 We can now trigger a run and provide an arbitrary metadata string:
 
-```bash
-~> spacectl stack deploy --id testing-spacelift --run-metadata "deploy-metadata"
+```console
+$ spacectl stack deploy --id testing-spacelift --run-metadata "deploy-metadata"
 You have successfully created a deployment
 The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-spacelift/run/01FEKAGP4AYV0DWP4QDFTANRES
 ```
@@ -57,7 +57,7 @@ And in the private worker logs we should suitably see (formatted for readability
         "triggered_by": "api::01FEGXFB7TWQ2NNF95W7HPRE2E",
         "updated_at": 1630588656197898500,
         "user_provided_metadata": [
-          "deploy-metadata". // (1)
+          "deploy-metadata" // (1)
         ]
       },
       "static_run_environment": {
@@ -107,8 +107,8 @@ Great!
 
 We can now go ahead and confirm this run:
 
-```bash
-~> spacectl stack confirm --id testing-spacelift --run-metadata "confirm-metadata" --run 01FEKAGP4AYV0DWP4QDFTANRES
+```console
+$ spacectl stack confirm --id testing-spacelift --run-metadata "confirm-metadata" --run 01FEKAGP4AYV0DWP4QDFTANRES
 You have successfully confirmed a deployment
 The live run can be visited at http://cube2222.app.spacelift.tf/stack/testing-spacelift/run/01FEKAGP4AYV0DWP4QDFTANRES
 ```
