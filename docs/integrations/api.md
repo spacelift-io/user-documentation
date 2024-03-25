@@ -8,13 +8,13 @@ description: Describes how to authenticate and use the Spacelift GraphQL API.
 
 > GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
-Spacelift provides a [GraphQL API](https://graphql.org/){: rel="nofollow"} for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTP method.
+Spacelift provides a [GraphQL API](https://graphql.org/){: rel="nofollow"} for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTPS method.
 
 ??? note "An example of request and response"
 
     ```
     $ curl --request POST \
-      --url http://<account-name>.app.spacelift.io/graphql \
+      --url https://<account-name>.app.spacelift.io/graphql \
       --header 'Authorization: Bearer <token>' \
       --header 'Content-Type: application/json' \
       --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
