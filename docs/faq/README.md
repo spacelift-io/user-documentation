@@ -15,7 +15,7 @@ If you still cannot find the answer to your question below, please reach out to 
 - Go to the "Resource center" section, in the bottom-left corner menu.
 - Fill in your problem or request, what you are trying to achieve, and optionally, your current work around. Then, scroll down to submit your request.
 
-If you wish to view feature requests you have previously submitted, you can access the portal through this pop-out. There, you'll be able to see the status of your requests.
+If you wish to view feature requests you have previously submitted, you can access the portal through the same pop-out. There, you'll be able to see the status of your requests.
 
 Additionally, the portal allows you to vote on and join discussions about other requests, review new releases, and see upcoming features.
 
