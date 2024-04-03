@@ -221,10 +221,11 @@ The project globs option allows you to specify files and directories outside of 
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-Under the hood, the project globs option takes advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match){: rel="nofollow"} function to do pattern matching.
+Under the hood, the project globs option takes advantage of the [doublestar.Match](https://github.com/bmatcuk/doublestar?tab=readme-ov-file#match){: rel="nofollow"} function to do pattern matching.
 
 Example matches:
 
+- Any directory or file: `**`
 - A directory and all of its content: `dir/*`
 - Match all files with a specific extension: `dir/*.tf`
 - Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
