@@ -4,7 +4,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
-## Changes between v1.1.0 and v1.1.0
+## Changes between v1.0.0 and v1.1.0
 
 ### Features
 
