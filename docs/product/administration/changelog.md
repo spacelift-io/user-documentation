@@ -12,6 +12,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 - [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
 - [OpenTofu v1.6.2 support](../../concepts/stack/creating-a-stack.md#opentofu)
 - [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
 
 ### Fixes
 
