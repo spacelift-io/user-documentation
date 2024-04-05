@@ -237,6 +237,11 @@ stack:
     pulumi:
       stack_name: ${{ inputs.app }}-${{ inputs.environment }}
       login_url: https://app.pulumi.com
+    terragrunt:
+      use_smart_sanitization: true
+      terraform_version: "1.5.7"
+      terragrunt_version: "0.55.0"
+      use_run_all: true
 ```
 
 {% endraw %}

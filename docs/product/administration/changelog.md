@@ -4,6 +4,20 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.0.0 and v1.1.0
+
+### Features
+
+- [Beta Terragrunt support](../../vendors/terragrunt/README.md)
+- [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
+- [OpenTofu v1.6.2 support](../../concepts/stack/creating-a-stack.md#opentofu)
+- [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
+
+### Fixes
+
+- Various backend and frontend fixes and improvements
+
 ## Changes between v0.0.12 and v1.0.0
 
 ### Features
