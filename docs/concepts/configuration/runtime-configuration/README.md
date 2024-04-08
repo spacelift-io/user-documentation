@@ -11,7 +11,8 @@ stack_defaults:
     # default - this example assumes that your
     # runner image has this available.
     before_init:
-        - terraform fmt -check
+        - echo "checking formatting"
+        - terraform fmt -diff
         - tflint
 
 # Note that every field in the configuration is
