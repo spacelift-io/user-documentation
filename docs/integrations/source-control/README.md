@@ -7,6 +7,5 @@ Spacelift supports the following source control tools:
 - Bitbucket
     - [Cloud](./bitbucket-cloud.md)
     - [Datacenter/Server](bitbucket-datacenter-server.md)
-
 - [Azure DevOps](./azure-devops.md)
 - [Raw Git](./raw-git.md)
