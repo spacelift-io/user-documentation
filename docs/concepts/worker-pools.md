@@ -1084,6 +1084,25 @@ spec:
   keepSuccessfulPods: true
 ```
 
+##### Networking issues caused by Pod identity
+
+When a run is assigned to a worker, the controller creates a new Pod to process that run. The Pod has labels indicating the worker and run ID, and looks something like this:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    workers.spacelift.io/run-id: 01HN37WC3MCNE3CY9HAHWRF06K
+    workers.spacelift.io/worker: 01HN356WGGNGTXA8PHYRRKEEZ5
+  name: 01hn37wc3mcne3cy9hahwrf06k-preparing-2
+  namespace: default
+spec:
+  ... rest of the pod spec
+```
+
+Because the set of labels are unique for each run being processed, this can cause problems with systems like [Cilium](https://cilium.io/) that use Pod labels to determine the identity of each Pod, leading to your runs having networking issues. If you are using a system like this, you may want to exclude the `workers.spacelift.io/*` labels from being used to determine network identity.
+
 ### Configuration options
 
 A number of configuration variables is available to customize how your launcher behaves:
