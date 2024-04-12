@@ -4,6 +4,12 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.1.0 and v1.1.0-hotfix.1
+
+### Fixes
+
+- Fixed an issue where license check-out could fail when multiple runs were scheduled at the same time
+
 ## Changes between v1.0.0 and v1.1.0
 
 ### Features
