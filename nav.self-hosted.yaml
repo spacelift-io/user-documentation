@@ -79,6 +79,12 @@ nav:
           - vendors/terraform/dependency-lock-file.md
           - vendors/terraform/cdktf.md
           - vendors/terraform/workflow-tool.md
+      - Terragrunt:
+          - vendors/terragrunt/README.md
+          - vendors/terragrunt/getting-started.md
+          - vendors/terragrunt/run-all.md
+          - vendors/terragrunt/limitations.md
+          - vendors/terragrunt/reference.md
       - Pulumi:
           - vendors/pulumi/README.md
           # KLUDGE: The default value for navigation items come from the H1 heading for the page.
