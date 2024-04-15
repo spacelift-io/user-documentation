@@ -85,6 +85,7 @@ nav:
           - vendors/terragrunt/getting-started.md
           - vendors/terragrunt/run-all.md
           - vendors/terragrunt/limitations.md
+          - vendors/terragrunt/terragrunt-tool.md
           - vendors/terragrunt/reference.md
       - Pulumi:
           - vendors/pulumi/README.md
