@@ -7,31 +7,31 @@ description: Creating your first Terragrunt Stack with Spacelift, step by step.
 !!! warning
     Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
 
-This documentation will be using an example repository Spacelift provides [here](https://github.com/spacelift-io-examples/terragrunt-examples){: rel="nofollow"}. This repository contains 2 different examples, but for getting started we will be using the single-stack example.
+This documentation will be using an example repository Spacelift provides [here](https://github.com/spacelift-io-examples/terragrunt-examples){: rel="nofollow"}. This repository contains two different examples, but in this guide we will use the single-stack example.
 
 ## Creating a new stack
 
-In Spacelift, go ahead and click the **Add Stack** button to create a new Stack.
+In Spacelift, go ahead and click the **Create stack** button to create a new Stack.
 
 ### Naming the stack
 
-Once in the stack creation wizard, Give your stack a name such as **terragrunt-example** then press **Continue** to configure our VCS settings for the stack.
+Once in the stack creation wizard, Give your stack a name such as **terragrunt-example** then press **Continue** to configure the source code settings for the stack.
 
 ![Stack Creation - Naming the stack](../../assets/screenshots/terragrunt/getting-started/naming.png)
 
 ### Linking to the Terragrunt code
 
-On this VCS configuration screen, Select **Raw Git** as your Provider, and provide the following URL: **<https://github.com/spacelift-io-examples/terragrunt-examples.git>** and a Project Root of **single-project**.
+On the **Connect to source code** screen, Select **Raw Git** as your Provider, and provide the following URL: **<https://github.com/spacelift-io-examples/terragrunt-examples.git>** and a Project Root of **single-project**.
 
-![Stack Creation - Connecting to VCS](../../assets/screenshots/terragrunt/getting-started/vcs.png)
+![Stack Creation - Connect to source code](../../assets/screenshots/terragrunt/getting-started/vcs.png)
 
-Pressing next on this page will take you through to the backend configuration page.
+Pressing continue on this page will take you through to the vendor configuration page.
 
 This page has quite a few options but the ones that we will be using for this example are as follows:
 
-![Stack Creation - Connecting to VCS](../../assets/screenshots/terragrunt/getting-started/backend.png)
+![Stack Creation - Choose vendor](../../assets/screenshots/terragrunt/getting-started/backend.png)
 
-Press **Continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing needs to be edited here so be sure to hit **Save Stack** to complete the process.
+Press **Create & continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing else needs to be configured, so you can click on **Skip to summary** and then click on **Confirm** to finish creating your stack.
 
 ## Deploying the stack
 
@@ -47,7 +47,7 @@ In this unconfirmed state we have time to review what is going to change if we w
 
 ![Stack Deployment - Reviewing the changes](../../assets/screenshots/terragrunt/getting-started/changes.png)
 
-For this stack we should see that 2 resources are being created and we can see what values these resources and outputs are expected to have. This is a very useful view to see at a glance, what is going to happen in as a result of your deployment.
+For this stack we should see that 2 resources are being created and we can see what values these resources and outputs are expected to have. This view is very useful to see at a glance what is going to happen as a result of your deployment.
 
 ### Confirming and applying the changes
 
