@@ -138,3 +138,9 @@ Here is an example of pushing the state file to an AWS S3 bucket (without using 
 ```shell
 terraform state pull | aws s3 cp - s3://example-bucket/folder/sub-folder/terraform.tfstate
 ```
+
+### Configure terraform plan locking
+
+By default `terraform plan` acquires a state lock. If you want to disable such lock during planning,
+you can pass `SPACELIFT_DISABLE_STATE_LOCK` to the stack *Environment*.
+![](../../assets/screenshots/disable-state-lock-in-stack.png)
