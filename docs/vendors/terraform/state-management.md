@@ -142,5 +142,5 @@ terraform state pull | aws s3 cp - s3://example-bucket/folder/sub-folder/terrafo
 ### Configure terraform plan locking
 
 By default `terraform plan` acquires a state lock. If you want to disable such lock during planning,
-you can pass `SPACELIFT_DISABLE_STATE_LOCK` to the stack *Environment*.
+you can pass `SPACELIFT_DISABLE_STATE_LOCK` to the stack _Environment_.
 ![](../../assets/screenshots/disable-state-lock-in-stack.png)
