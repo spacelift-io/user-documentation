@@ -182,4 +182,3 @@ you can pass `SPACELIFT_DISABLE_STATE_LOCK` to the stack _Environment_.
 
     You should really understand what you are doing when disabling state lock for planning.
     Disabling the lock may lead to incorrect results in case of concurrent apply operation to the state.
-
