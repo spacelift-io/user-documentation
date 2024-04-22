@@ -12,6 +12,9 @@
       "pattern": "^http://localhost"
     },
     {
+      "pattern": "^http://ec.europa.eu/odr"
+    },
+    {
       "pattern": "^https://github.com/spacelift-io/user-documentation/"
     },
     {
