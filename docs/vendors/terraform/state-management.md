@@ -179,6 +179,7 @@ you can pass `SPACELIFT_DISABLE_STATE_LOCK` to the stack _Environment_.
 ![](../../assets/screenshots/disable-state-lock-in-stack.png)
 
 !!! warning
-You should really understand what you are doing when disabling state lock for planning.
 
-    Another type of consideration is that if an apply is happening concurrently to the plan operation, the plan may show partially or fully invalid results. Now if this plan is saved, it could of course not be applied since the state would not match the new changes, but the result would be confusing to users who are assuming only one operation can happen at a time.
+    You should really understand what you are doing when disabling state lock for planning.
+    Disabling the lock may lead to incorrect results in case of concurrent apply operation to the state.
+
