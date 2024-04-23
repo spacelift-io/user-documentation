@@ -218,6 +218,22 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 ]
 ```
 
+##### S3 Config
+
+You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
+
+    "s3_config": {
+        "run_logs_expiration_days": 60,
+        "deliveries_bucket_expiration_days": 1,
+        "large_queue_messages_bucket_expiration_days": 2,
+        "metadata_bucket_expiration_days": 2,
+        "policy_inputs_bucket_expiration_days": 2,
+        "uploads_bucket_expiration_days": 1,
+        "user_uploaded_workspaces_bucket_expiration_days": 1,
+        "workspaces_bucket_expiration_days": 7,
+        "access_logs_bucket_expiration_days": 7
+    }
+
 #### Identity Provider
 
 ##### URLs
