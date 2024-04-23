@@ -6,7 +6,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ## Changes between v1.1.0-hotfix.1 and v1.2.0
 
-- [Added S3 config](install.md#s3-config)
+- [Added to Self Hosted installation config expiration periods of s3 buckets](install.md#s3-config)
 
 ## Changes between v1.1.0 and v1.1.0-hotfix.1
 
