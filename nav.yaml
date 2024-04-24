@@ -157,6 +157,7 @@ nav:
           - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
           - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
+      - integrations/teleport.md
   - 📖 Product:
       - product/notifications.md
       - product/security.md
