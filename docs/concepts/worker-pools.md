@@ -553,15 +553,18 @@ metadata:
   name: test-workerpool
 spec:
   # poolSize specifies the current number of Workers that belong to the pool.
+  # Optional, defaults to 1 if not provided.
   poolSize: 2
 
   # token points at a Kubernetes Secret key containing the worker pool token.
+  # Required
   token:
     secretKeyRef:
       name: test-workerpool
       key: token
 
   # privateKey points at a Kubernetes Secret key containing the worker pool private key.
+  # Required
   privateKey:
     secretKeyRef:
       name: test-workerpool
@@ -569,6 +572,7 @@ spec:
 
   # allowedRunnerImageHosts defines the hostnames of registries that are valid to use stack
   # runner images from. If no specified images from any registries are allowed.
+  # Optional
   allowedRunnerImageHosts:
     - docker.io
     - some.private.registry
@@ -577,6 +581,7 @@ spec:
   # as they complete successfully, or be kept so that they can be inspected later. By default
   # run Pods are removed as soon as they complete successfully. Failed Pods are not automatically
   # removed to allow debugging.
+  # Optional
   keepSuccessfulPods: false
 
   # pod contains the spec of Pods that will be created to process Spacelift runs. This allows
@@ -584,6 +589,7 @@ spec:
   # Most of these settings are just standard Kubernetes Pod settings and are not explicitly
   # explained below unless they are particularly important or link directly to a Spacelift
   # concept.
+  # Optional
   pod:
     # activeDeadlineSeconds defines the length of time in seconds before which the Pod will
     # be marked as failed. This can be used to set a deadline for your runs. The default is
