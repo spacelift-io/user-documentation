@@ -74,7 +74,7 @@ You can check out an example module here: [https://github.com/spacelift-io/terra
 
 ### Spacelift setup
 
-In order to add a module to Spacelift, navigate to the _Terraform registry_ section of the account view, and click the _Add module_ button:
+In order to add a module to Spacelift, navigate to the _Terraform registry_ section of the account view, and click the _Create module_ button:
 
 ![](../../assets/screenshots/Screenshot 2023-06-02 at 14.17.23.png)
 
