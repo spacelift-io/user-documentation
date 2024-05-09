@@ -255,7 +255,7 @@ Once complete, Spacelift will automatically link the context to all projects sha
 
 You may be wondering what the priority {% if is_self_hosted() %}slider{% else %}picker{% endif %} is for. A priority is a property of context-stack relationship - in fact, the only property. All the contexts attached to a stack are sorted by priority (lowest first), though values don't need to be unique. This ordering establishes [precedence rules](environment.md#a-note-on-precedence) between contexts should there be a conflict and multiple contexts define the same value.
 
-You might notice that there is no priority picker for auto-attached contexts. The highest priority for all configuration elements (environment variables, mounted files and hooks) are at the stack level, then explicitly attached contexts (based on set priorities), then auto-attached alphabetically.
+You might notice that there is no priority picker for auto-attached contexts. The highest priority for all configuration elements (environment variables, mounted files and hooks) are at the stack level, then explicitly attached contexts (based on set priorities), then auto-attached alphabetically for environment variables, mounted files, and after phase hooks ([before phase hooks are attached reverse alphabetically with more details about that here as well](../stack/stack-settings.md#note-on-hook-ordering)).
 
 ### Deleting
 
