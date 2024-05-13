@@ -34,7 +34,7 @@ If the policy is executed for the first time, the `previous_run` field will be m
 
 ```json
 {
-  "spacelift:": {
+  "spacelift": {
     "commit": {
       "author": "string - GitHub login if available, name otherwise",
       "branch": "string - branch to which the commit was pushed",
