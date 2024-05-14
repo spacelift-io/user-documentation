@@ -3,7 +3,7 @@
 The runtime configuration is an optional setup applied to individual runs instead of being global to the stack. It's defined in `.spacelift/config.yml` YAML file at the root of your repository. A single file is used to define settings for all stacks associated with its host Git repository, so the file structure looks like this:
 
 ```yaml title=".spacelift/config.yml"
-version: "1"
+version: "2"
 
 stack_defaults:
     runner_image: your/first:runner
@@ -35,13 +35,19 @@ stacks:
 
 ```
 
-The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
+The top level of the file contains three keys - `version` (defaults to `1` if not specified), `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 
 Considering the precedence of settings, below is the order that will be followed, starting from the most important to the least important:
 
 1. The configuration for a specified stack defined in config.yml
-2. The stack configuration set in the Spacelift UI.
-3. The stack defaults defined config.yml
+2. The stack defaults defined config.yml
+3. The stack configuration set in the Spacelift UI.
+
+!!! info
+    Please note that the precedence of the runtime configuration file changed between versions 1 and 2.
+    Previously the stack configuration set in the Spacelift UI had a higher precedence than the stack
+    defaults defined in the config.yml file. Starting with version 2, the values in the config.yml file
+    always take precedence over stack settings defined outside the config.yml file.
 
 In cases where there is no stack slug defined in the config, only the first two sources are considered:
 
