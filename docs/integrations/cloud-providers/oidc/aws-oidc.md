@@ -1,6 +1,7 @@
 # Amazon Web Services (AWS)
 
 !!! warning
+    <!-- markdownlint-disable-next-line MD044 -->
     <!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
     While the [Terraform AWS provider supports authenticating with OIDC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration){: rel="nofollow"}, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} does not support it yet.
 
