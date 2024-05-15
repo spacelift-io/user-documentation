@@ -43,7 +43,7 @@ apiResources: "kubectl api-resources {{ if .NoHeaders }}--no-headers {{ end }}--
 # Used to both plan and apply changes.
 #
 # Available template parameters:
-# - .PruneWhiteList - provides list of arguments to the --prune flag.
+# - .PruneWhiteList - provides list of arguments to the --prune flag. It uses --prune-allowlist flag, if you want to set old --pune-whitelist, use feature:k8s_keep_using_prune_white_list_flag label.
 # - .StackSlug      - the slug of a current stack.
 # - .DryRunStrategy - dry run strategy, can be set to values: none, client, server.
 # - .OutputFormat   - output format. Can be set to empty value or json.
@@ -164,3 +164,9 @@ If your custom tool binary cannot be found you will get an error message like th
 ![Workflow tool not found](../../assets/screenshots/kubernetes-workflow-tool-tool-not-found.png)
 
 In this situation, please ensure that you are [providing a custom workflow tool](#providing-a-tool) via a custom runner image or workflow hook.
+
+
+### Error: unknown flag: --prune-allowlist
+![Workflow tool not found](../../assets/screenshots/prune-whitelist-bug.png)
+If you use kubectl before v1.26, prune command should use `--prune-whitelist` flag.
+In order to do these, please specify **feature:k8s_keep_using_prune_white_list_flag** [label](../../concepts/stack/stack-settings.md#Labels).
