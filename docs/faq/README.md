@@ -140,7 +140,7 @@ When setting up SSO, future logins will appear as new users since Spacelift cann
 
 ## Stack
 
-### My Stack is not being trigged.
+### My Stack is not being triggered.
 
 The main culprits are usually a push policy or the wrong branch being tracked.
 

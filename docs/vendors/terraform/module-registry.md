@@ -74,23 +74,98 @@ You can check out an example module here: [https://github.com/spacelift-io/terra
 
 ### Spacelift setup
 
-In order to add a module to Spacelift, navigate to the _Terraform registry_ section of the account view, and click the _Add module_ button:
+In order to add a module to Spacelift, navigate to the _Terraform registry_ section of the account view, and click the _Create module_ button:
 
 ![](../../assets/screenshots/Screenshot 2023-06-02 at 14.17.23.png)
 
-The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md). First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
+The setup steps are pretty similar to the ones for [stacks](../../concepts/stack/README.md).
 
-![](../../assets/screenshots/New_module.png)
+#### Connect to source code
 
-In the behavior section there are just three settings: [administrative](../../concepts/stack/README.md#administrative), [worker pool](../../concepts/worker-pools.md#using-worker-pools) and  **project root**. You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not). Setting worker pool to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster. The project root let's you specify the module source code root inside of your repository:
+![](../../assets/screenshots/terraform/modules/new_module_source_code.png)
 
-![](<../../assets/screenshots/image (76).png>)
+First, point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#vcs-integration-and-repository)" branch - note that repositories whose names don't follow the convention are filtered out:
 
-Last but not least, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/README.md#labels) and [description](../../concepts/stack/README.md#name-and-description).
+#### Add details
 
-![](<../../assets/screenshots/image (77).png>)
+![](<../../assets/screenshots/terraform/modules/new_module_details.png>)
 
-The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name.
+In the details section, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/stack-settings.md#labels) and [description](../../concepts/stack/stack-settings.md#name-and-description).
+
+The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, you can specify them directly. The final module slug will then be based on the name and provider.
+
+#### Module Created
+
+![](<../../assets/screenshots/terraform/modules/new_module_intermediate.png>)
+
+ After finishing adding details to your module, you're brought to a new screen indicating that your module has been successfully created. This screen serves as a branching point where you can enhance the functionality of your module through various integrations and customizations.
+
+You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your module.
+
+#### Share module
+
+![](<../../assets/screenshots/terraform/modules/new_module_share.png>)
+
+In this step, you can share module with different Spacelift accounts, you just need to add their names in subdomain form (all lowercase). You can find more about module sharing [here](./module-registry.md#sharing-modules).
+
+#### Define behavior
+
+![](<../../assets/screenshots/terraform/modules/new_module_behavior.png>)
+
+In the behavior section there are few settings that you can set to make your module work in a specific way:
+
+- setting the [worker pool](../../concepts/worker-pools.md#using-worker-pools) to one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster.
+- whether the module is [administrative](../../concepts/stack/stack-settings.md#administrative) (You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not)),
+- whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature;
+- whether or not to protect the module from deletion;
+- which tool to be used to execute the workflow commands. This can be an open source (FOSS) version of Terraform, OpenTofu or a custom tool.
+
+#### Attach Module Cloud Integration
+
+![](<../../assets/screenshots/terraform/modules/new_module_cloud.png>)
+
+Here you have the ability to attach any Cloud Integrations you have configured.
+
+Cloud integrations allow Spacelift to manage your resources without the need for long-lived static credentials.
+
+Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
+
+Currently, AWS, Azure and GCP are natively supported.
+
+You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
+
+#### Attach Module Policies
+
+![](<../../assets/screenshots/terraform/modules/new_module_policies.png>)
+
+Spacelift as a development platform is built around the concept of policies and allows defining policies that involve various decision points in the application.
+
+In this section, you can attach the following policy types:
+
+- [Approval:](../../concepts/policy/approval-policy.md) who can approve or reject a run and how a run can be approved;
+- [Plan:](../../concepts/policy/terraform-plan-policy.md) which changes can be applied;
+- [Push:](../../concepts/policy/push-policy/README.md) how Git push events are interpreted;
+- [Trigger:](../../concepts/policy/trigger-policy.md) what happens when blocking runs terminate;
+
+Policies can be automatically attached to module using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+
+You can read more about policies [here](../../concepts/policy/README.md).
+
+#### Attach Module Contexts
+
+![](<../../assets/screenshots/terraform/modules/new_module_contexts.png>)
+
+Contexts are sets of environment variables and related configuration including hooks that can be shared across multiple modules. By attaching a context, you ensure your module has all the necessary configuration elements it needs to operate, without repeating the setup for each module.
+
+Contexts can be automatically attached to modules using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the context to be attached to.
+
+You can read more about contexts [here](../../concepts/configuration/context.md).
+
+#### Summary
+
+![](<../../assets/screenshots/terraform/modules/new_module_summary.png>)
+
+ On the summary section, you can now review your settings before finalizing the creation of your module. This modular approach ensures your module gets set up with all the necessary components.
 
 ### Environment, contexts and policies
 

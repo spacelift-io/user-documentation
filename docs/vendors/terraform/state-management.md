@@ -96,8 +96,7 @@ If those three conditions are met, you will be able to rollback your stack to a 
 
 ![state rollback action](../../assets/screenshots/terraform/state-management/state-rollback-action.png)
 
-After rollback completes succesfully, a new version of your state will appear above the other state versions and will be
-marked as a rollback.
+After rollback completes successfully, a new version of your state will appear above the other state versions and will be marked as a rollback.
 
 ![rolled back state](../../assets/screenshots/terraform/state-management/rolled-back-state.png)
 

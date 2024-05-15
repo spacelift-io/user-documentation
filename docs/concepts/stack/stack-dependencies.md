@@ -24,7 +24,7 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 
 ### Defining references between stacks
 
-You have the option to refer to outputs of other stacks: your stack will be only triggered if the referenced output has been created or changed.
+You have the option to refer to outputs of other stacks: by default, your stack will be only triggered if the referenced output has been created or changed. If you enable the `Trigger always` option however, the stack will be triggered regardless of the referenced output.
 
 ![](../../assets/screenshots/Screenshot_Stack_Dependencies_add_ref.png)
 
@@ -104,7 +104,7 @@ graph TD;
 
 In case your `Infrastructure` stack has a `VPC_ID`, you can set that as an input to your `Database` stack (e.g. `TF_VAR_VPC_ID`). When the `Infrastructure` stack finishes running, the `Database` stack will be triggered and the `TF_VAR_VPC_ID` environment variable will be set to the value of the `VPC_ID` output of the `Infrastructure` stack.
 
-If there is one or more references defined, the stack will only be triggered if the referenced output has been created or changed. If they remain the same, the downstream stack will be skipped.
+If there is one or more references defined, the stack will only be triggered if the referenced output has been created or changed. If they remain the same, the downstream stack will be skipped. You can control this behavior by enabling or disabling the `Trigger always` option.
 
 #### Scenario 2
 

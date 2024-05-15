@@ -1,6 +1,7 @@
 # Amazon Web Services (AWS)
 
 !!! warning
+    <!-- markdownlint-disable-next-line MD044 -->
     <!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
     While the [Terraform AWS provider supports authenticating with OIDC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration){: rel="nofollow"}, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} does not support it yet.
 
@@ -29,7 +30,7 @@ In order to be able to do that, you will need to set up Spacelift as a valid ide
 5. Make sure to get the host thumbprint by clicking the "Get thumbprint" button. This is required by AWS and protects you from a certain class of MitM attacks.
 
 !!! hint
-    You will need to add [iss](README.md#standard-claims) to _Proviver URL_ and you will need to add [aud](README.md#standard-claims) to _Audience_.
+    You will need to add [iss](README.md#standard-claims) to _Provider URL_ and you will need to add [aud](README.md#standard-claims) to _Audience_.
     You will need to replace `demo.app.spacelift.io` with the hostname of your Spacelift account.
 
 Once created, the identity provider will be listed in the "Identity providers" table. You can click on the provider name to see the details. From here, you will also be able to assign an IAM role to this new identity provider:

@@ -534,10 +534,64 @@ In general, we don't suggest setting very low CPU or memory limits for the `init
 
 There are two volumes that are always attached to your run Pods:
 
-- The binaries cache volume - used to cache binaries (e.g. `terraform` and `kubectl`) across multiple runs.
-- The workspace volume - used to store the temporary workspace data needed for processing a run.
+- The workspace volume.
+- The binaries cache volume.
 
-Both of these volumes default to using `emptyDir` storage with no size limit, but you should not use this default behaviour for production workloads, and should instead specify volume templates that make sense depending on your use-case.
+Both of these volumes default to using `emptyDir` storage with no size limit. Spacelift workers will function correctly without using a custom configuration for these volumes, but there may be situations where you wish to change this default, for example:
+
+- To prevent Kubernetes evicting your run Pods due to disk pressure (and therefore causing runs to fail).
+- To support caching tool binaries (for example Terraform or OpenTofu) between runs.
+
+##### Workspace Volume
+
+The workspace volume is used to store the temporary workspace data needed for processing a run. This includes metadata about the run, along with your source code. The workspace volume does not need to be shared or persisted between runs, and for that reason we recommend using an [Ephemeral Volume](https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/) so that the volume is bound to the lifetime of the run, and will be destroyed when the run Pod is deleted.
+
+The workspace volume can be configured via the `spec.pod.workspaceVolume` property, which accepts a standard Kubernetes volume definition. Here's an example of using an ephemeral AWS GP2 volume for storage:
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: worker-pool
+spec:
+  poolSize: 1
+  privateKey:
+    secretKeyRef:
+      key: privateKey
+      name: pool-credentials
+  token:
+    secretKeyRef:
+      key: token
+      name: pool-credentials
+  pod:
+    securityContext:
+      # The fsGroup may or may not be required depending on your volume type. The reason for
+      # specifying it is because the containers in the run pods run as the Spacelift (UID 1983)
+      # user. Depending on the volume type in use, you may experience permission errors during
+      # runs if the fsGroup is not specified.
+      fsGroup: 1983
+
+    # The workspaceVolume property is used to specify the volume to use for the run's workspace.
+    workspaceVolume:
+      name: workspace
+      ephemeral:
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+            storageClassName: gp2
+```
+
+##### Binaries Cache Volume
+
+The binaries cache volume is used to cache binaries (e.g. `terraform` and `kubectl`) across multiple runs. You can use an ephemeral volume for the binaries cache like with the workspace volume, but doing so will not result in any caching benefits. To be able to share the binaries cache with multiple run pods, you need to use a volume type that supports `ReadWriteMany`, for example AWS EFS.
+
+To configure the binaries cache volume, you can use exactly the same approach as with the [workspace volume](#workspace-volume), the only difference is that you should use the `spec.pod.binariesCacheVolume` property instead of `spec.pod.workspaceVolume`.
+
+##### Custom Volumes
 
 See the section on [configuration](#configuration) for more details on how to configure these two volumes along with any additional volumes you require.
 
@@ -553,15 +607,18 @@ metadata:
   name: test-workerpool
 spec:
   # poolSize specifies the current number of Workers that belong to the pool.
+  # Optional, defaults to 1 if not provided.
   poolSize: 2
 
   # token points at a Kubernetes Secret key containing the worker pool token.
+  # Required
   token:
     secretKeyRef:
       name: test-workerpool
       key: token
 
   # privateKey points at a Kubernetes Secret key containing the worker pool private key.
+  # Required
   privateKey:
     secretKeyRef:
       name: test-workerpool
@@ -569,6 +626,7 @@ spec:
 
   # allowedRunnerImageHosts defines the hostnames of registries that are valid to use stack
   # runner images from. If no specified images from any registries are allowed.
+  # Optional
   allowedRunnerImageHosts:
     - docker.io
     - some.private.registry
@@ -577,6 +635,7 @@ spec:
   # as they complete successfully, or be kept so that they can be inspected later. By default
   # run Pods are removed as soon as they complete successfully. Failed Pods are not automatically
   # removed to allow debugging.
+  # Optional
   keepSuccessfulPods: false
 
   # pod contains the spec of Pods that will be created to process Spacelift runs. This allows
@@ -584,6 +643,7 @@ spec:
   # Most of these settings are just standard Kubernetes Pod settings and are not explicitly
   # explained below unless they are particularly important or link directly to a Spacelift
   # concept.
+  # Optional
   pod:
     # activeDeadlineSeconds defines the length of time in seconds before which the Pod will
     # be marked as failed. This can be used to set a deadline for your runs. The default is
@@ -1204,7 +1264,7 @@ In addition, you will also need to allow access to the following:
 
 ### Hardware recommendations
 
-The hardware requirments for the workers will vary depending on the stack size(How many resources managed, resource type, etc.), but we recommend at least **2GB of memory and 2 vCPUs of compute power**.
+The hardware requirements for the workers will vary depending on the stack size(How many resources managed, resource type, etc.), but we recommend at least **2GB of memory and 2 vCPUs of compute power**.
 
 These are the recommended server types for the three main cloud providers:
 

@@ -293,7 +293,7 @@ Each source control provider has slightly different features, and because of thi
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
 
 !!! info
-    Please note that we are unable to calculate divergance across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
+    Please note that we are unable to calculate divergence across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
 
 #### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
 
@@ -653,7 +653,7 @@ unlock := lock_id {
 }
 ```
 
-You can futher customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
+You can further customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
 
 ``` opa
 lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
