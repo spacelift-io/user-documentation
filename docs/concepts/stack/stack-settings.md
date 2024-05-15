@@ -180,16 +180,16 @@ spacectl stack local-preview --id <stack-id>
 
 Indicates whether secret patterns will be automatically redacted from logs.
 If this is enabled, next secrets will be masked from logs:
-* AWS Access Key Id
-* Github PAT
-* Github Fine-Grained PAT
-* Github App Token
-* Github Refresh Token
-* Github OAuth Access Token
-* Slack Token
-* PGP Private Key
-* RSA Private Key
-* PKCS#8 Private Key
+- AWS Access Key Id
+- Github PAT
+- Github Fine-Grained PAT
+- Github App Token
+- Github Refresh Token
+- Github OAuth Access Token
+- Slack Token
+- PGP Private Key
+- RSA Private Key
+- PKCS#8 Private Key
 
 ### Name and description
 
