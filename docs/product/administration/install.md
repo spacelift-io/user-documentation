@@ -222,7 +222,6 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 
 You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
 
-
 | Buckets                                          |                                  Description                                   |
 |-------------------------------------------------|:------------------------------------------------------------------------------:|
 | run_logs_expiration_days                        |                    this is where we store the logs of a run                    |
