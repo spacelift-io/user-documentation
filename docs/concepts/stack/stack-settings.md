@@ -178,8 +178,7 @@ spacectl stack local-preview --id <stack-id>
 
 ### Enable Well Known Masking
 
-Indicates whether secret patterns will be automatically redacted from logs.
-If this is enabled, next secrets will be masked from logs:
+This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
 - AWS Access Key Id
 - GitHub PAT
