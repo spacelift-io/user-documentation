@@ -176,7 +176,7 @@ spacectl stack local-preview --id <stack-id>
 
     Use with caution.
 
-### Enable Well Known Masking
+### Enable well known secret masking
 
 This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
