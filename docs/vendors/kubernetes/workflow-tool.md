@@ -165,8 +165,8 @@ If your custom tool binary cannot be found you will get an error message like th
 
 In this situation, please ensure that you are [providing a custom workflow tool](#providing-a-tool) via a custom runner image or workflow hook.
 
-
 ### Error: unknown flag: --prune-allowlist
+
 ![Workflow tool not found](../../assets/screenshots/prune-whitelist-bug.png)
 If you use kubectl before v1.26, prune command should use `--prune-whitelist` flag.
 In order to do these, please specify **feature:k8s_keep_using_prune_white_list_flag** [label](../../concepts/stack/stack-settings.md#Labels).
