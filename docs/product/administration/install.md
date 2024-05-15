@@ -222,6 +222,23 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 
 You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
 
+
+Workspaces: the workspaces are stored here for paused runs (eg.: waiting for confirmation).
+Access logs: access logs for the load balancer.
+
+
+| Buckets                                          |                                  Description                                   |
+|-------------------------------------------------|:------------------------------------------------------------------------------:|
+| run_logs_expiration_days                        |                    this is where we store the logs of a run                    |
+| deliveries_bucket_expiration_days               |                  contains webhook and audit trail deliveries                   |
+| large_queue_messages_bucket_expiration_days     |  SQS has a limitation of message size, we use an S3 bucket to work around it   |
+| metadata_bucket_expiration_days                 |                    contains metadata for run initialization                    |
+| policy_inputs_bucket_expiration_days            |         we store policy inputs here - this is used for Policy Sampling         |
+| uploads_bucket_expiration_days                  |             used for uploading stack states during stack creation              |
+| user_uploaded_workspaces_bucket_expiration_days |              used for storing code for the local preview feature               |
+| workspaces_bucket_expiration_days               | the workspaces are stored here for paused runs (eg.: waiting for confirmation) |
+| access_logs_bucket_expiration_days              |                       access logs for the load balancer.                       |
+
     "s3_config": {
         "run_logs_expiration_days": 60,
         "deliveries_bucket_expiration_days": 1,
