@@ -84,15 +84,15 @@ The setup steps are pretty similar to the ones for [stacks](../../concepts/stack
 
 ![](../../assets/screenshots/terraform/modules/new_module_source_code.png)
 
-First you you point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#repository-and-branch)" branch - note that repositories whose name don't follow the convention are filtered out:
+First, point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#vcs-integration-and-repository)" branch - note that repositories whose names don't follow the convention are filtered out:
 
 #### Add details
 
 ![](<../../assets/screenshots/terraform/modules/new_module_details.png>)
 
-In the details section you will be able to add a **name**, **provider**, [labels](../../concepts/stack/README.md#labels) and [description](../../concepts/stack/README.md#name-and-description).
+In the details section, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/stack-settings.md#labels) and [description](../../concepts/stack/stack-settings.md#name-and-description).
 
-The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, then you can specify them directly. The final module slug will then be based on the name and provider.
+The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, you can specify them directly. The final module slug will then be based on the name and provider.
 
 #### Module Created
 
@@ -106,7 +106,7 @@ You have the flexibility to either take shortcuts to specific configurations or 
 
 ![](<../../assets/screenshots/terraform/modules/new_module_share.png>)
 
-In this step you can share module with different Spacelift accounts, you just need to add their names in subdomain form (all lowercase). You can find more about modules sharing [here](./module-registry.md#sharing-modules).
+In this step, you can share module with different Spacelift accounts, you just need to add their names in subdomain form (all lowercase). You can find more about module sharing [here](./module-registry.md#sharing-modules).
 
 #### Define behavior
 
@@ -114,8 +114,8 @@ In this step you can share module with different Spacelift accounts, you just ne
 
 In the behavior section there are few settings that you can set to make your module work in a specific way:
 
-- setting [worker pool](../../concepts/worker-pools.md#using-worker-pools) to the one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster.
-- whether the module is [administrative](../../concepts/stack/README.md#administrative) (You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not)),
+- setting the [worker pool](../../concepts/worker-pools.md#using-worker-pools) to one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster.
+- whether the module is [administrative](../../concepts/stack/stack-settings.md#administrative) (You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not)),
 - whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature;
 - whether or not to protect the module from deletion;
 - which tool to be used to execute the workflow commands. This can be an open source (FOSS) version of Terraform, OpenTofu or a custom tool.
@@ -155,7 +155,7 @@ You can read more about policies [here](../../concepts/policy/README.md).
 
 ![](<../../assets/screenshots/terraform/modules/new_module_contexts.png>)
 
-Contexts are sets of environment variables and related configuration,including hooks that can be shared across multiple modules. By attaching a context, you ensure your module has all the necessary configuration elements it needs to operate, without repeating the setup for each module.
+Contexts are sets of environment variables and related configuration including hooks that can be shared across multiple modules. By attaching a context, you ensure your module has all the necessary configuration elements it needs to operate, without repeating the setup for each module.
 
 Contexts can be automatically attached to modules using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the context to be attached to.
 
