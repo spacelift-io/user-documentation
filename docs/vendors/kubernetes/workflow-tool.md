@@ -168,5 +168,5 @@ In this situation, please ensure that you are [providing a custom workflow tool]
 ### Error: unknown flag: --prune-allowlist
 
 ![Workflow tool not found](../../assets/screenshots/prune-whitelist-bug.png)
-If you use kubectl with the version less than v1.26, prune command should use `--prune-whitelist` flag.
+If you use kubectl with a version less than v1.26, the prune command should use `--prune-whitelist` flag.
 In order to do this, please specify **feature:k8s_keep_using_prune_white_list_flag** [label](../../concepts/stack/stack-settings.md#labels).
