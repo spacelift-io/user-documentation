@@ -43,7 +43,7 @@ apiResources: "kubectl api-resources {{ if .NoHeaders }}--no-headers {{ end }}--
 # Used to both plan and apply changes.
 #
 # Available template parameters:
-# - .PruneWhiteList - provides list of arguments to the --prune flag. It uses --prune-allowlist flag, if you want to set old --pune-whitelist, use feature:k8s_keep_using_prune_white_list_flag label.
+# - .PruneWhiteList - provides a list of arguments to the --prune flag. It uses the --prune-allowlist flag, if you want to use the old --pune-whitelist, add the feature:k8s_keep_using_prune_white_list_flag label to your stack.
 # - .StackSlug      - the slug of a current stack.
 # - .DryRunStrategy - dry run strategy, can be set to values: none, client, server.
 # - .OutputFormat   - output format. Can be set to empty value or json.
