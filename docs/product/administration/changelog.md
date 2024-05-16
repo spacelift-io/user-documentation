@@ -4,6 +4,24 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.1.0-hotfix.1 and v1.2.0
+
+### Features
+
+- [Added OpenTofu support for Terragrunt](../../vendors/terragrunt/terragrunt-tool.md)
+    - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../../concepts/worker-pools.md#kubernetes) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
+- [Added `Trigger always` flag to Stack Dependencies](../../concepts/stack/stack-dependencies.md)
+- Disabled the rate limiting for [policy sampling](../../concepts/policy/README.md#sampling-policy-inputs)
+- Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
+- Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
+- Support for [moved](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring) and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
+- Installation script:
+    - [We added support for defining custom retention periods for all of the S3 buckets.](./install.md#s3-config) If you don't specify it, they remain untouched.
+
+### Fixes
+
+- Fixed a bug where some of the runs weren't scheduled because we attempted to checkout the same license from License Manager at the same time in parallel. Now license checkouts are serialized to avoid this issue.
+
 ## Changes between v1.1.0 and v1.1.0-hotfix.1
 
 ### Fixes
