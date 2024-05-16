@@ -218,6 +218,36 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 ]
 ```
 
+##### S3 Config
+
+You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
+
+| Bucket name                       |                                                        Description                                                        |
+| --------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
+| `run_logs`                        |                                         This is where we store the logs of a run.                                         |
+| `deliveries_bucket`               |                                       Contains webhook and audit trail deliveries.                                        |
+| `large_queue_messages_bucket`     |                  SQS has a limitation of message size (256 KiB), we use an S3 bucket to work around it.                   |
+| `metadata_bucket`                 |                                         Contains metadata for run initialization.                                         |
+| `policy_inputs_bucket`            | We store policy inputs here - this is used for [Policy Sampling](../../concepts/policy/README.md#sampling-policy-inputs). |
+| `uploads_bucket`                  |   Used for uploading [stack states during stack creation](../../faq/README.md#how-do-i-import-the-state-for-my-stack).    |
+| `user_uploaded_workspaces_bucket` |    Used for storing code for the [local preview](../../concepts/stack/stack-settings.md#enable-local-preview) feature.    |
+| `workspaces_bucket`               |                      The workspaces are stored here for paused runs (eg.: waiting for confirmation).                      |
+| `access_logs_bucket`              |                                            Access logs for the load balancer.                                             |
+
+```json
+    "s3_config": {
+        "run_logs_expiration_days": 60,
+        "deliveries_bucket_expiration_days": 1,
+        "large_queue_messages_bucket_expiration_days": 2,
+        "metadata_bucket_expiration_days": 2,
+        "policy_inputs_bucket_expiration_days": 2,
+        "uploads_bucket_expiration_days": 1,
+        "user_uploaded_workspaces_bucket_expiration_days": 1,
+        "workspaces_bucket_expiration_days": 7,
+        "access_logs_bucket_expiration_days": 7
+    }
+```
+
 #### Identity Provider
 
 ##### URLs

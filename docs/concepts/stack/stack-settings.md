@@ -176,6 +176,21 @@ spacectl stack local-preview --id <stack-id>
 
     Use with caution.
 
+### Enable well known secret masking
+
+This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
+
+- AWS Access Key Id
+- GitHub PAT
+- GitHub Fine-Grained PAT
+- GitHub App Token
+- GitHub Refresh Token
+- GitHub OAuth Access Token
+- Slack Token
+- PGP Private Key
+- RSA Private Key
+- PEM block with BEGIN PRIVATE KEY header
+
 ### Name and description
 
 Stack name and description are pretty self-explanatory. The required _name_ is what you'll see in the stack list on the home screen and menu selection dropdown. Make sure that it's informative enough to be able to immediately communicate the purpose of the stack, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
