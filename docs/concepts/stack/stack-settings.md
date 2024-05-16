@@ -189,7 +189,7 @@ This setting determines if secret patterns will be automatically redacted from l
 - Slack Token
 - PGP Private Key
 - RSA Private Key
-- PKCS#8 Private Key
+- PEM block with BEGIN PRIVATE KEY header
 
 ### Name and description
 
