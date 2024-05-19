@@ -24,3 +24,8 @@ There is an environment variable for each phase of the run:
 - `TG_CLI_ARGS_init` - Allows you to add options sent to the Terragrunt application during the initialization phase
 - `TG_CLI_ARGS_plan` - Allows you to add options sent to the Terragrunt application during the planning phase
 - `TG_CLI_ARGS_apply` - Allows you to add options sent to the Terragrunt application during the applying phase
+
+## Terraform provider
+
+If you create a Terragrunt stack via the Terraform provider, and don't populate the `terraform_version` or `terragrunt_version` properties, we default to the latest version available at creation time. If you create a stack with these values populated, and then later remove the fields, the stack continues to use the version set during stack creation, and doesn't update to the latest available version.
+If you change the `tool` and `terraform_version` isn't populated, the `terraform_version` will be reset in state file.
