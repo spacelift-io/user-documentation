@@ -4,7 +4,7 @@ Based on experience with other tools, a first intuition might be to structure yo
 
 ![](../../assets/screenshots/spaces_tree_structure_1.png)
 
-However, there are likely Spacelift resources you will want to reuse across all development environment services, not across all environments for a single service. For example, a [Worker Pool](../worker-pools.md). That is because resources like Worker Pools are usually shared across security domains, not logical domains.
+However, there are likely Spacelift resources you will want to reuse across all development environment services, not across all environments for a single service. For example, a [Worker Pool](../worker-pools). That is because resources like Worker Pools are usually shared across security domains, not logical domains.
 
 Due to this an architecture akin to the following is more advisable:
 

@@ -106,7 +106,7 @@ Doing so will set your EC2 instance ID as _instance_id_ tag in your VCS Agent co
 
 ## Private Workers
 
-VCS agents are only supported when using private worker pools. Because your source code is downloaded directly by Spacelift workers, you need to configure your workers to know how to reach your VCS instance. Information on how to do this is provided on the [worker pools](worker-pools.md#vcs-agents) page.
+VCS agents are only supported when using private worker pools. Because your source code is downloaded directly by Spacelift workers, you need to configure your workers to know how to reach your VCS instance. Information on how to do this is provided on the [worker pools](worker-pools#vcs-agents) page.
 
 ## Debug Information
 

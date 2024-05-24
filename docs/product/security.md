@@ -32,7 +32,7 @@ Spacelift allows for granular control of environment variables on your [Stacks](
 
 ### Private Worker Pools
 
-Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a [Private Worker Pool](../concepts/worker-pools.md). This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is [open source](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, giving customers full transparency into their private workers.
+Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a [Private Worker Pool](../concepts/worker-pools). This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is [open source](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, giving customers full transparency into their private workers.
 
 ### Access Private Version Control Systems
 

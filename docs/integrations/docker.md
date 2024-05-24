@@ -112,7 +112,7 @@ Note that the source as defined above and the plugin path as defined in the Dock
 
 ## Using private Docker images
 
-If you're using Spacelift's default public [worker pool](../concepts/worker-pools.md), you're required to use public images. This is by design - if we allowed using private images, they would be cached by the Docker daemon and accessible to all customers using the same shared worker.
+If you're using Spacelift's default public [worker pool](../concepts/worker-pools), you're required to use public images. This is by design - if we allowed using private images, they would be cached by the Docker daemon and accessible to all customers using the same shared worker.
 
 Hence, only private workers support private Docker images. To enable private image support, first, execute `docker login` command with the proper registry credentials. Spacelift agent will read the credentials from Docker's configuration directory, but you will need to point it to the correct location by setting the `SPACELIFT_DOCKER_CONFIG_DIR` environment variable.
 
@@ -139,4 +139,4 @@ If you're building an image from a source other than [`public.ecr.aws/spacelift/
 Your stack is only as safe as the runner image you're using for it. A malicious actor is able to doctor your runner image in a way that will allow them to take over your stack and all its associated cloud provider accounts in a snap. Please always review the code, and only allow `docker push` access to your most trusted associates.
 
 !!! info
-    In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools.md).
+    In our default public worker pool, **we only support publicly available Docker images**. If you need private Docker images, you can log in to any Docker registry from a worker in a [private worker pool](../concepts/worker-pools).

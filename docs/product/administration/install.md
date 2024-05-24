@@ -344,7 +344,7 @@ Once your DNS changes propagate, you should be able to login to your instance by
 
 ### Creating your first worker pool
 
-Before you can create stacks or trigger any runs, you need a worker pool. For more information please see our [worker pools](../../concepts/worker-pools.md) page.
+Before you can create stacks or trigger any runs, you need a worker pool. For more information please see our [worker pools](../../concepts/worker-pools) page.
 
 ## Updating existing SSO configuration
 
@@ -362,7 +362,7 @@ To upgrade to the latest version of self-hosting, follow these steps:
 
 1. Make sure your config.json file is fully configured to match your existing installation. Ideally you should use the config file from your previous installation.
 2. Run `./install.sh`.
-3. Deploy the latest version of the [CloudFormation worker pool template](../../concepts/worker-pools.md#cloudformation-template), and restart any workers connected to your Spacelift installation to make sure they're running the latest version.
+3. Deploy the latest version of the [CloudFormation worker pool template](../../concepts/worker-pools/docker-based-workers.md#cloudformation-template), and restart any workers connected to your Spacelift installation to make sure they're running the latest version.
 
 ## Uninstalling
 

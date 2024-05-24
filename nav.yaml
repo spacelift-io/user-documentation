@@ -45,7 +45,10 @@ nav:
           - concepts/policy/task-run-policy.md
           - concepts/policy/trigger-policy.md
       - concepts/resources.md
-      - concepts/worker-pools.md
+      - Worker pools:
+          - concepts/worker-pools/README.md
+          - concepts/worker-pools/docker-based-workers.md
+          - concepts/worker-pools/kubernetes-workers.md
       - concepts/spacectl.md
       - Spaces:
           - concepts/spaces/README.md
