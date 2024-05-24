@@ -169,4 +169,4 @@ Mounted files are similar - plain can be downloaded from the web GUI or through 
 While the content of secret (write-only) environment variables and mounted files is not accessible through the GUI or [API](../../integrations/api.md), the checksums are always available so if you have the value handy and just want to check if that's the same value as the one set in Spacelift, you can compare its checksum with the one reported by us - check out the most recent [GraphQL API](../../integrations/api.md#graphql-schema-s) schema for more details.
 
 !!! info
-    Though all of our data is [encrypted both at rest and in transit](../../product/security.md#encryption), secret (write-only) values enjoy two extra layers of protection.
+    Though all of our data is [encrypted both at rest and in transit](../../product/security/README.md#encryption), secret (write-only) values enjoy two extra layers of protection.
