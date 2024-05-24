@@ -21,7 +21,7 @@ SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY=/path/to/your/policy.rego
 
 This policy will make our launcher sample each [initialization policy](../policy/run-initialization-policy.md) evaluation and print it as a log on stderr.
 
-We’ll also need a [Stack](../stack/README.md) to which [this worker is attached](../worker-pools.md).
+We’ll also need a [Stack](../stack/README.md) to which [this worker is attached](../worker-pools).
 
 We can now trigger a run and provide an arbitrary metadata string:
 

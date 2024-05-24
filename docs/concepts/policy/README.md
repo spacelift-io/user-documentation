@@ -153,7 +153,7 @@ The following helper functions can be used in Spacelift policies:
 | Name                     | Description                                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `output := sanitized(x)` | `output` is the string `x` sanitized using the same algorithm we use to sanitize secrets.                                                                                              |
-| `result := exec(x)`      | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools.md). |
+| `result := exec(x)`      | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools). |
 
 ## Creating policies
 

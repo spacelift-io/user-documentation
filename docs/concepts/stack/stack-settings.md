@@ -12,7 +12,7 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
 
-The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools.md) etc. in order to avoid ClickOps.
+The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools) etc. in order to avoid ClickOps.
 
 Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
@@ -30,7 +30,7 @@ Indicates whether obsolete proposed changes will be retried automatically. When 
 
 This saves you from manually retrying runs on Pull Requests when the state changes. This way it also gives you more confidence, that the proposed changes will actually be the actual changes you get after merging the Pull Request.
 
-Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools.md) attached.
+Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
 
 ### Customizing workflow
 

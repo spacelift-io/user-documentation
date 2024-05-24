@@ -8,7 +8,7 @@ This page explains how to configure the following authentication methods in Spac
 
 - [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation.
 - [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
-- [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools.md) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
+- [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
 
 !!! info
     This guide explains how to configure the Azure provider using environment variables. Although you can add these environment variables directly to individual stacks, it may be worth creating a [Spacelift Context](../../concepts/configuration/context.md) to store your Azure credentials. This allows you to easily add the same credentials to any stack that requires them.
@@ -193,7 +193,7 @@ Azure [Managed Identities](https://docs.microsoft.com/en-us/azure/active-directo
 
 To use a managed identity, you need to take the following steps:
 
-- Follow the [instructions](../../concepts/worker-pools.md) to setup a private worker pool.
+- Follow the [instructions](../../concepts/worker-pools) to setup a private worker pool.
 - Create an Azure VM with a managed identity, and install the worker binary on it.
 - Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity){: rel="nofollow"} to use the managed identity for authentication.
 

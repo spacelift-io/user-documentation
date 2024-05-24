@@ -12,7 +12,7 @@ There's also a fourth type of run - [module test case](test-case.md). Very simil
 
 ## Execution model
 
-In Spacelift, each run is executed on a worker node, inside a Docker container. We maintain a number of these worker nodes (collectively known as the _public worker pool_) that are available to all customers, but also allow individual customers to run our agent on their end, for their exclusive use. You can read more about worker pools [here](../worker-pools.md).
+In Spacelift, each run is executed on a worker node, inside a Docker container. We maintain a number of these worker nodes (collectively known as the _public worker pool_) that are available to all customers, but also allow individual customers to run our agent on their end, for their exclusive use. You can read more about worker pools [here](../worker-pools).
 
 Regardless of whether you end up using a private or a public worker pool, each Spacelift run involves a handover between _spacelift.io_ (which we like to call _the mothership_) and the worker node. After the handover, the worker node is fully responsible for running the job and communicating the results of the job back to _the mothership_.
 
@@ -47,7 +47,7 @@ Ready state means that the run is eligible for processing and is waiting for a w
 it's picked up by a worker.
 
 When using the public worker pool, you will have to wait until a worker becomes available. For private workers,
-please refer to the [worker pools documentation](../worker-pools.md) for troubleshooting advice.
+please refer to the [worker pools documentation](../worker-pools) for troubleshooting advice.
 
 Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to discard the run even if it's ready for processing, transitioning it to the terminal [Discarded](#discarded) state.
 

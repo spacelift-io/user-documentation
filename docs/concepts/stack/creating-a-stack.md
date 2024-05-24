@@ -140,7 +140,7 @@ Regardless of which of the supported backends (Terraform, Pulumi etc.) you're se
 The behavior settings are:
 
 - whether the stack is [administrative](./stack-settings.md#administrative);
-- [worker pool](../worker-pools.md) to use, if applicable (default uses the Spacelift public worker pool);
+- [worker pool](../worker-pools) to use, if applicable (default uses the Spacelift public worker pool);
 - whether the changes should [automatically deploy](./stack-settings.md#autodeploy);
 - whether obsolete tests should be [automatically retried](./stack-settings.md#autoretry);
 - whether or not to protect the stack from deletion;

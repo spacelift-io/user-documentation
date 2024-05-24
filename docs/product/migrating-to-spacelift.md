@@ -123,7 +123,7 @@ The limitations listed below come from the original provider. We are actively lo
 
 | Terraform Cloud/Enterprise | Spacelift                                                    |
 | -------------------------- | ------------------------------------------------------------ |
-| Agent Pool                 | [Worker Pool](../concepts/worker-pools.md)                   |
+| Agent Pool                 | [Worker Pool](../concepts/worker-pools)                   |
 | Organization               | [Account](https://docs.spacelift.io/getting-started#step-1-create-your-spacelift-account) |
 | Policy                     | [Policy](../concepts/policy/README.md)                       |
 | Project                    | [Space](../concepts/spaces/README.md)                        |
