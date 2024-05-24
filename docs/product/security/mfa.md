@@ -14,7 +14,7 @@ Go to the _Personal settings_. Next, navigate to _Multi-factor authentication_. 
 ### Adding Security Keys
 
 - Click on the _Enable_ button to activate MFA.
-![](./personal-settings-enable-mfa.png)
+![](../../assets/screenshots/mfa/personal-settings-enable-mfa.png)
 - Follow the prompt to register your security key; you can name it for easy identification.
 - Once added, the key will appear in your list of security keys, complete with details like the key name, key ID, and creation date.
 
@@ -28,7 +28,7 @@ In order to manage MFA in your organization, please go to the _Organization sett
 
 Admins can view and delete security keys for any user within the organization to maintain the organization's security integrity.
 
-![](./organization-settings-mfa.png)
+![](../../assets/screenshots/mfa/organization-settings-mfa.png)
 
 ### Enforce MFA
 
