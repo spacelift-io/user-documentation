@@ -4,6 +4,14 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.2.0 and v1.2.1
+
+### Fixes
+
+- Fix for an issue where a commit to Bitbucket Datacenter could trigger more stacks than necessary
+- Fix for an issue where crashed workers left runs in a hanging state
+- If custom certificates are defined, Spacelift's internal HTTP client will use those for AWS-related requests as well
+
 ## Changes between v1.1.0-hotfix.1 and v1.2.0
 
 ### Features
