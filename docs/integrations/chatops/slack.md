@@ -75,8 +75,8 @@ Here is an example of data which the login policy receives when evaluating stack
     },
     "command": "<string>",
     "team": {
-      "id": "<string> - a team ID for which this user belongs, example: T0431750000",
-      "name": "<string> - a team name represented as string, example: slack-workspace-name"
+      "id": "<string> - the workspace ID for which this user belongs, example: T0431750000",
+      "name": "<string> - the workspace name represented as string, example: slack-workspace-name"
     },
     "user": {
       "deleted": "<boolean>",
@@ -117,7 +117,7 @@ Here is an example of data which the login policy receives when evaluating stack
 ```
 
 !!! info
-    The `slack` object in the policy input data is built using Slack provided data. See [their official documentation](https://api.slack.com/types/user){: rel="nofollow"} for always up-to-date and full explanation of the `slack` object fields.
+    The `slack` object in the policy input data is built using Slack provided data. For example, "team" is the term that is used by Space for a workspace - so it is kept as this in the input data for the sake of clarity and consistency with their API. See [their official documentation](https://api.slack.com/types/user){: rel="nofollow"} for always up-to-date and full explanation of the `slack` object fields.
 
 Using the above data we can write policies which only allow for a specific user or slack team to access specific spaces in which your stacks reside.
 
