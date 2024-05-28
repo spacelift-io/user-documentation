@@ -146,3 +146,4 @@ This setting determines the Terragrunt parametrization.
 
 !!! warning
     It must set all necessary fields because it replaces all Terragrunt values rather than merging them.
+    For example, if you set `terraform_version` only, all other fields will be reset to defaults.
