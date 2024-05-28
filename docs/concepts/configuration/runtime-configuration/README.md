@@ -139,7 +139,10 @@ Pulumi version management is based on [Docker images](../../../integrations/dock
 This setting determines the Terragrunt parametrization.
 
 - `terragrunt_tool` - to choose the tool that should be used by Terragrunt: `TERRAFORM_FOSS` (default), `OPEN_TOFU` and `MANUALLY_PROVISIONED`
-- `terragrunt_version`  - terragrunt version
+- `terragrunt_version` - terragrunt version. Defaults to the latest version.
 - `terraform_version` - the Terraform version. Must not be provided when tool is set to `MANUALLY_PROVISIONED`. Defaults to the latest available OpenTofu/Terraform version.
-- `use_run_all` - whether to use `terragrunt run-all` instead of `terragrunt`
-- `use_smart_sanitization` - indicates whether runs on this will use Terraform's sensitive value system to sanitize the outputs of Terraform state and plans in spacelift instead of sanitizing all fields.
+- `use_run_all` - whether to use `terragrunt run-all` instead of `terragrunt`. Defaults to `false`.
+- `use_smart_sanitization` - indicates whether runs on this will use Terraform's sensitive value system to sanitize the outputs of Terraform state and plans in spacelift instead of sanitizing all fields. Defaults to `false`.
+
+!!! warning
+    It must set all necessary fields because it replaces all Terragrunt values rather than merging them.
