@@ -133,3 +133,13 @@ This setting determines the Terraform implementation used in the workflow. Choos
 - `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
 
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).
+
+### `terragrunt` setting
+
+This setting determines the Terragrunt parametrization.
+
+- `terragrunt_tool` - to choose the tool that should be used by Terragrunt: `TERRAFORM_FOSS` (default), `OPEN_TOFU` and `MANUALLY_PROVISIONED`
+- `terragrunt_version`  - terragrunt version
+- `terraform_version` - the Terraform version. Must not be provided when tool is set to `MANUALLY_PROVISIONED`. Defaults to the latest available OpenTofu/Terraform version.
+- `use_run_all` - whether to use `terragrunt run-all` instead of `terragrunt`
+- `use_smart_sanitization` - indicates whether runs on this will use Terraform's sensitive value system to sanitize the outputs of Terraform state and plans in spacelift instead of sanitizing all fields.
