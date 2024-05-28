@@ -145,5 +145,5 @@ This setting determines the Terragrunt parametrization.
 - `use_smart_sanitization` - indicates whether runs on this will use Terraform's sensitive value system to sanitize the outputs of Terraform state and plans in spacelift instead of sanitizing all fields. Defaults to `false`.
 
 !!! warning
-    It must set all necessary fields because it replaces all Terragrunt values rather than merging them.
-    For example, if you set `terraform_version` only, all other fields will be reset to defaults.
+    You must set all necessary fields because if the `terragrunt` section is present in the config, it replaces all Terragrunt values rather than merging them.
+    For example, if you set `terraform_version` only, all other fields will be reset to their defaults.
