@@ -31,7 +31,7 @@ Terraform state. To keep things level, we'll also give you a reason not to.
 ### Don't
 
 1. We'll let you in on a little secret now - behind the pixie dust it's still Amazon S3 all the way down, and at this
-   stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off
+   stage [we store all our data in Ireland](../../product/security/README.md). If you're not OK with that, you're better off
    managing the state on your end.
 
 ## How it works
