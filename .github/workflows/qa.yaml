@@ -31,7 +31,7 @@ jobs:
           separator: "' '"
 
       - name: Set Python up
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         id: set-python-up
         with:
           cache: pip
