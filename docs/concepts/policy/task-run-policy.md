@@ -90,7 +90,7 @@ deny[sprintf("command not allowed (%s)", [command])] {
   command := input.request.command
 
   not input.session.admin
-  not re_match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+  not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
 }
 ```
 
@@ -113,8 +113,8 @@ deny["no tasks on weekends"] {
 }
 
 allowed { input.session.admin }
-allowed { re_match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
-allowed { re_match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
+allowed { regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
+allowed { regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
 ```
 
 As usual, this example is [available to play around with](https://play.openpolicyagent.org/p/FP7xz7oWGp){: rel="nofollow"}.
@@ -130,7 +130,7 @@ package spacelift
 
 reject {
   command := input.run.command
-  not re_match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+  not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
 }
 
 approve { not reject }
