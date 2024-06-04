@@ -226,7 +226,7 @@ Each of Spacelift's policies supports an additional boolean rule called `sample`
 sample { true }
 ```
 
-If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty least for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
+If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty list for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
 
 ```opa
 sample { count(deny) == 0 }
