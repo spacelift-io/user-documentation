@@ -16,7 +16,7 @@ Also worth noting is the colorful delta counter present on some runs - as long a
 
 ## Triggering tracked runs
 
-Tracked runs can be triggered in of the three ways - manually by the user, by a Git push or by a [trigger policy](../policy/trigger-policy.md).
+Tracked runs can be triggered in one of the three ways - manually by the user, by a Git push or by a [trigger policy](../policy/trigger-policy.md).
 
 ### Triggering manually
 
