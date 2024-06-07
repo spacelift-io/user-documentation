@@ -405,6 +405,43 @@ spec:
       # The operator is configured to run in a least-privileged context using UID/GID 1983. Running it as root may
       # lead to unexpected behavior. Use at your own risk.
       securityContext: {}
+
+    # additionalSidecarContainers allows you to add any custom container to the pod.
+    # If an additional container is running a long-running process like a database or a daemon,
+    # it will be terminated when the spacelift run succeed.
+    additionalSidecarContainers:
+      # Every entry of this array needs to follow the kubernetes container spec.
+      - name: redis
+        image: redis
+```
+
+### Configure a docker daemon as a sidecar container
+
+If for some reason you need to have a docker daemon running as a sidecar, you can follow the example below.
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  poolSize: 2
+  pod:
+    workerContainer:
+      env:
+        - name: DOCKER_HOST
+          value: tcp://localhost:2375
+    additionalSidecarContainers:
+      - image: docker:dind
+        name: docker
+        securityContext:
+          privileged: true
+        command:
+          - docker-init
+          - "--"
+          - dockerd
+          - "--host"
+          - tcp://127.0.0.1:2375
 ```
 
 ### Timeouts
