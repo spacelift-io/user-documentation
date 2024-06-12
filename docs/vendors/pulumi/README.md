@@ -41,7 +41,7 @@ We run `pulumi up --refresh --diff --show-replacement-steps` in order to apply c
 
 ### Additional CLI Arguments
 
-Passing additional CLI arguments can be done via the `SPACELIFT_PULUMI_CLI_ARGS_preview` and the `SPACELIFT_PULUMI_CLI_ARGS_up` environment variables.
+Passing additional CLI arguments can be done via the `SPACELIFT_PULUMI_CLI_ARGS_preview`, the `SPACELIFT_PULUMI_CLI_ARGS_up` and the `SPACELIFT_PULUMI_CLI_ARGS_destroy` environment variables.
 
 ## Policies
 
