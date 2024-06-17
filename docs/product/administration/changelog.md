@@ -4,6 +4,21 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.2.1 and v1.3.0
+
+### Features
+
+- Added ability to view spaces as a list view, you can now switch between Diagram and List view using the toggle in the page header
+- Added Account details drawer (under user menu) with self hosted version, license information and identity provider data.
+- Updated documentation links to use the currently used self hosted version immediately
+- Added list view customization
+- Added stack settings scheduling and policies tabs
+- Added module list and form redesign
+
+### Fixes
+
+- Fix: Raw Git does not work with terraform modules
+
 ## Changes between v1.2.0 and v1.2.1
 
 ### Fixes
