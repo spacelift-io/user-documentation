@@ -92,7 +92,7 @@ First, point Spacelift at the right repo and choose the "[tracked](../../concept
 
 In the details section, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/stack-settings.md#labels) and [description](../../concepts/stack/stack-settings.md#name-and-description).
 
-The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, you can specify them directly. The final module slug will then be based on the name and provider.
+The name and provider will be inferred from your repository name if it follows the `terraform-<provider>-<name>` convention. However, if it can't be inferred or you want a custom name, you can specify them directly. The final module slug will then be based on the name and provider preceded by `terraform-` prefix, like this `terraform-<provider>-<name>`.
 
 #### Module Created
 
