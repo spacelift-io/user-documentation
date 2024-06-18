@@ -97,6 +97,8 @@ The first token will potentially be exposed to less-trusted code, so it makes se
 
 A similar approach can be used for AWS, GCP, Azure, or any other cloud provider credentials.
 
+!!! info Newlines are not supported in environment variables. Alternatively mounted files can be used, base64 encoding / decoding, or removing the newlines where it would be possible to do so.
+
 ## Mounted files
 
 Every now and then an environment variable is not what you need - you need a file instead. Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path){: rel="nofollow"} which needs to be present in your workspace as well.
