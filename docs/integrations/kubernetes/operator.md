@@ -1,6 +1,9 @@
 # Spacelift Kubernetes Operator
 
-Spacelift Kubernetes Operator is a [Kubernetes operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/){: rel="nofollow"} that allows you to manage Spacelift resources using Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/){: rel="nofollow"} (CR).
+!!! warning
+    The Spacelift Kubernetes Operator is currently in beta. We're actively working on improving it and adding new features. If you encounter any issues or have any feedback, please let us know.
+
+Spacelift Kubernetes Operator is an open-source ([`spacelift-operator`](https://github.com/spacelift-io/spacelift-operator){: rel="nofollow"}) [Kubernetes operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/){: rel="nofollow"} that allows you to manage Spacelift resources using Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/){: rel="nofollow"} (CR).
 
 !!! quote "Definition"
     A custom resource is an extension of the Kubernetes API that is not necessarily available in a default Kubernetes installation. It represents a customization of a particular Kubernetes installation. However, many core Kubernetes functions are now built using custom resources, making Kubernetes more modular.
@@ -24,7 +27,7 @@ This command will install the [Custom Resource Definition](https://kubernetes.io
 
 ### Create a secret with your Spacelift API key
 
-You need to create an [Opaque secret](https://kubernetes.io/docs/concepts/configuration/secret/#opaque-secrets){: rel="nofollow"} with your [Spacelift API key](../api.md#spacelift-api-key--token) so the operator can authenticate with the Spacelift API. The secret's name has to be `spacelift-credentials` and it requires 3 keys:
+You need to create an [Opaque secret](https://kubernetes.io/docs/concepts/configuration/secret/#opaque-secrets){: rel="nofollow"} with your [Spacelift API key](../api.md#spacelift-api-key-token) so the operator can authenticate with the Spacelift API. The secret's name has to be `spacelift-credentials` and it requires 3 keys:
 
 - `SPACELIFT_API_KEY_ENDPOINT` - the URL of your Spacelift instance (e.g. `https://mycorp.app.spacelift.io`),
 - `SPACELIFT_API_KEY_ID` - the ID of your API key,
@@ -47,7 +50,6 @@ kind: Space
 metadata:
   name: space-test
 spec:
-  name: Test space created from Operator
   parentSpace: root
 EOF
 ```
@@ -59,3 +61,42 @@ kubectl delete space space-test
 ```
 
 ⚠️ **Note**: The operator currently does not delete the Space when the CR is deleted. You'll need to manually delete the Space in Spacelift.
+
+## Usage
+
+### Available resources
+
+The operator currently supports the following resources:
+
+- [Space](../../concepts/spaces/README.md)
+- [Context](../../concepts/configuration/context.md)
+- [Stack](../../concepts/stack/README.md)
+- [Run](../../concepts/run/README.md)
+- [Policy](../../concepts/policy/README.md)
+
+### Available fields
+
+The fields that you can use are available in the manifest file, or you can check out the definitions in the GitHub repository:
+
+- [CRDs](https://github.com/spacelift-io/spacelift-operator/tree/main/config/crd/bases){: rel="nofollow"}
+- [Go entities](https://github.com/spacelift-io/spacelift-operator/tree/main/api/v1beta1){: rel="nofollow"}
+
+## Troubleshooting
+
+### Debugging
+
+The operator is built with [kubebuilder](https://book.kubebuilder.io/){: rel="nofollow"} and uses [zap](https://github.com/uber-go/zap){: rel="nofollow"} for logging. The default loglevel is `info`. You can change this by editing the manifest file (look for the `public.ecr.aws/spacelift-io/spacelift-operator` container) and adding an argument to the argument list:
+
+```yaml
+args:
+  - "<existing-arguments>"
+  - "--zap-log-level=debug"
+```
+
+Valid levels are: `debug`, `info` and `error`.
+
+### Common issues
+
+#### Resource does not appear in Spacelift
+
+First of all, check the logs of the operator (perhaps you need [debug level](#debugging) logging?). Most often the issue is that Spacelift has rejected the request. The logs should contain the error message from Spacelift.
