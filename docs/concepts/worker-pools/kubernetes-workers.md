@@ -47,12 +47,27 @@ The controller may also work with older versions, but we do not guarantee and pr
 
 ### Create a Secret
 
-Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up):
+Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
+
+First, export the token and private key as base64 encoded strings:
+
+#### Mac
 
 ```shell
-SPACELIFT_WP_TOKEN=<enter-token>
-SPACELIFT_WP_PRIVATE_KEY=<enter-base64-encoded-key>
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config | base64 -b 0)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0 | base64 -b 0)
+```
 
+#### Linux
+
+```shell
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config | base64 -w 0)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0 | base64 -w 0)
+```
+
+Then, create the secret.
+
+```shell
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Secret
