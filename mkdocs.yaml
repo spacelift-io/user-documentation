@@ -68,7 +68,6 @@ extra:
     provider: mike
 hooks:
   - hooks/fetch_banner.py
-  - hooks/move_index.py
 plugins:
   - search
   - macros
