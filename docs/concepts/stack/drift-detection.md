@@ -21,9 +21,10 @@ In the first scenario, drift is an unwanted by-product of emergencies or broken 
 
 Spacelift comes with a built-in mechanism to detect and - optionally - reconcile drift. We do it by periodically executing [proposed runs](../run/proposed.md) on your stable infrastructure (in Spacelift, we generally represent it by the [FINISHED stack state](./README.md#stack-state)) and checking for any changes.
 
-To get started, create a drift detection configuration from the Scheduling section of your stack settings. You will be able to add multiple cron rules to define when your reconciliation jobs should be scheduled, as well as decide whether you want your jobs to trigger [tracked runs](../run/tracked.md) ([reconciliation](drift-detection.md#to-reconcile-or-not-to-reconcile) jobs) in response to detected drift**:**
+To get started, create a drift detection configuration from the Scheduling section of your stack. You will be able to add multiple cron rules to define when your reconciliation jobs should be scheduled, as well as decide whether you want your jobs to trigger [tracked runs](../run/tracked.md) ([reconciliation](drift-detection.md#to-reconcile-or-not-to-reconcile) jobs) in response to detected drift**:**
 
-![](../../assets/screenshots/Screenshot 2022-08-08 at 09-43-02 Settings · Test.png)
+![](../../assets/screenshots/stack/scheduling/page-view.png)
+![](../../assets/screenshots/stack/scheduling/create-drift-detection.png)
 
 !!! info
     Note that, at least currently, drift detection only works on private workers.
