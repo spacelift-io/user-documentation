@@ -22,6 +22,12 @@
     },
     {
       "pattern": "^.+?/self-hosted/.*"
+    },
+    {
+      "pattern": "^https://player.vimeo.com/.*"
+    },
+    {
+      "pattern": "^https://docs.microsoft.com/.*"
     }
   ]
 }
