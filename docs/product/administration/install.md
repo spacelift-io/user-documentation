@@ -171,10 +171,46 @@ The `scheme` can be either `internet-facing` or `internal` and defaults to `inte
 
 ##### Database
 
-You can configure the following options for the Spacelift Postgres database:
+There are two ways to configure the database: either let Spacelift create the RDS cluster for you or you can create and manage it yourself, and just provide the SecretsManager secret ARN to the installer.
 
-- `database.delete_protection_enabled` - whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database.
-- `database.instance_class` - the instance class of the database (defaults to `db.t4g.large`).
+The possible configuration options are:
+
+- `database.delete_protection_enabled` - **only for Spacelift-managed databases**. Whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database. Leave it empty for self-managed databases.
+- `database.instance_class` - **only for Spacelift-managed databases**. The instance class of the database (defaults to `db.t4g.large`). Leave it empty for self-managed databases.
+- `database.connection_string_ssm_arn` - **only for self-managed databases**. The ARN of the SSM parameter that stores the connection string to the database. Leave it empty for Spacelift-managed databases.
+
+###### Self-managed database
+
+In case you want to use a self-managed database, your SSM secret needs to have the following format:
+
+```json
+{"DATABASE_URL":"postgres://<username>:<password>@<rds-url>/<db-name>?statement_cache_capacity=0"}
+```
+
+For example:
+
+```json
+{"DATABASE_URL":"postgres://spacelift:pw@spacelift.cluster-abc123.eu-west-3.rds.amazonaws.com:5432/spacelift?statement_cache_capacity=0"}
+```
+
+When choosing an encryption key for the secret, we recommend using the Spacelift Master KMS key. The key is being created by `spacelift-infra-kms` CloudFormation stack. The ECS tasks will read this secret so the execution role of the ECS task needs to have permissions to decrypt the secret - by default the execution roles have permission to decrypt secrets encrypted with the Spacelift Master KMS key.
+
+!!! note
+    Make sure the Postgres version is the same as the one in the Cloudformation template. In general, there shouldn't be issues with newer versions but it's the safest to use the same major version at least.
+
+###### Going from Spacelift-managed to self-managed database
+
+The transition from a Spacelift-managed database to a self-managed one is seamless. The installer saves the connection string into a secret named `spacelift/database`. You can just copy the connection string from the existing secret and create your own secret with the same value. Finally, populate `connection_string_ssm_arn` in the configuration file while making sure that `delete_protection_enabled` and `instance_class` are empty (since they are disregarded for self-managed databases):
+
+```json
+"database": {
+    "delete_protection_enabled": "",
+    "instance_class": "",
+    "connection_string_ssm_arn": "arn:aws:secretsmanager:eu-west-3:123456789:secret:spacelift/custom-connectionstring-jYx1BH"
+}
+```
+
+The installer detects that `connection_string_ssm_arn` is set and will stop deploying both database-related Cloudformation stacks (`spacelift-infra-db`, `spacelift-infra-db-secrets`). In fact, you can take control of those two stacks and update them as you see fit, the installer will not touch them anymore.
 
 ##### Monitoring & Alerting
 
