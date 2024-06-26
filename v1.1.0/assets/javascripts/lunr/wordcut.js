@@ -2123,7 +2123,7 @@ Glob.prototype._process = function (pattern, index, inGlobStar, cb) {
     default:
       // pattern has some string bits in the front.
       // whatever it starts with, whether that's 'absolute' like /foo/bar,
-      // or 'relative' like '../baz'
+      // or 'relative' like 'baz'
       prefix = pattern.slice(0, n).join('/')
       break
   }
@@ -2669,7 +2669,7 @@ GlobSync.prototype._process = function (pattern, index, inGlobStar) {
     default:
       // pattern has some string bits in the front.
       // whatever it starts with, whether that's 'absolute' like /foo/bar,
-      // or 'relative' like '../baz'
+      // or 'relative' like 'baz'
       prefix = pattern.slice(0, n).join('/')
       break
   }
