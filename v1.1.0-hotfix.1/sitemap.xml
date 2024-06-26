@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -26,12 +26,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/blueprint/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/blueprint.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/configuration/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/configuration.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -46,7 +46,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/configuration/runtime-configuration/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/configuration/runtime-configuration.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -56,7 +56,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/policy/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/policy.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -101,7 +101,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/policy/push-policy/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/policy/push-policy.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -111,7 +111,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/run/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/run.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -151,7 +151,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/spaces/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/spaces.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -186,7 +186,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/stack/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/stack.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -231,7 +231,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/user-management/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/concepts/user-management.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -246,7 +246,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/faq/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/faq.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -281,7 +281,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -291,7 +291,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -316,7 +316,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/observability/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/observability.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -331,7 +331,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/single-sign-on/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/single-sign-on.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -366,7 +366,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/source-control/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/integrations/source-control.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -471,12 +471,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/product/support/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/product/support.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/ansible/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/ansible.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -501,7 +501,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/cloudformation/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/cloudformation.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -531,7 +531,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/kubernetes/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/kubernetes.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -566,7 +566,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/pulumi/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/pulumi.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -591,7 +591,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/terraform/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/terraform.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -681,7 +681,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/terragrunt/index.html</loc>
+         <loc>https://docs.spacelift.dev/self-hosted/latest/vendors/terragrunt.html</loc>
          <lastmod>2024-04-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
