@@ -32,7 +32,7 @@ spec:
 
 You can learn more about this example deployment by navigating to the [Run a Stateless Application Using a Deployment](https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/){: rel="nofollow"} website from the official Kubernetes documentation.
 
-Looking at the code, you will find that it deploys a single instance of Nginx.
+Looking at the code, you will find that it deploys Nginx with 2 replicas.
 
 ## Create a new Stack
 
