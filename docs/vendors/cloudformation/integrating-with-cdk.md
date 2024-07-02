@@ -31,7 +31,7 @@ You should build it, push it to a repository, and set it as the [Runner Image](.
 
 ## Adding `before_plan` hooks
 
-For the AWS CDK code to be properly interpreted by Spacelift, you have to customize the default stack workflow by [enriching them with hooks](https://docs.spacelift.io/concepts/configuration/runtime-configuration/index.html#before_-and-after_-hooks).
+For the AWS CDK code to be properly interpreted by Spacelift, you have to customize the default stack workflow by [enriching them with hooks](https://docs.spacelift.io/concepts/configuration/runtime-configuration#before_-and-after_-hooks).
 To create a CloudFormation template that can be interpreted by Spacelift, you will have to add these hooks to the `before_plan` stage:
 
 - `cdk bootstrap` - to bootstrap your AWS CDK project.
