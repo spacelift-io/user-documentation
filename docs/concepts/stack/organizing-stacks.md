@@ -38,7 +38,7 @@ Probably the most useful way of grouping stacks is by attaching folder labels to
 
 ...but once you start editing labels, the magic is gone:
 
-![](../../assets/screenshots/Screen Shot 2022-06-29 at 5.22.51 PM.png)
+![](../../assets/screenshots/stack/settings/details_set-folder-label.png)
 
 For every folder label, a sidebar section is included in the _Folders_ menu, allowing you to search by that label. The number to the right hand side indicates that number of stacks with that label:
 
