@@ -1,6 +1,6 @@
 # Dashboard
 
-The dashboard is the first page you see when you log in to the app. It provides an overview of your account and the
+The dashboard is the first page you see when logging into the app. It provides an overview of your account and the
 status of your infrastructure.
 
 ## Creating a new view
