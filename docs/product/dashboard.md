@@ -13,7 +13,7 @@ button next to the existing tabs.
 
 ![](../assets/screenshots/dashboard_adding_views.png)
 
-"Manage views" dialog will appear. Here you can customize the layout settings and choose the widgets you want to display.
+The "Manage views" dialog will appear. Here you can customize the layout settings and choose the widgets you want to display.
 
 ![](../assets/screenshots/dashboard_manage_views.png)
 
