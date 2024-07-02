@@ -17,7 +17,7 @@ The "Manage views" dialog will appear. Here you can customize the layout setting
 
 ![](../assets/screenshots/dashboard_manage_views.png)
 
-## Changing landing page
+## Changing the landing page
 
 The landing page of the app is the first page you see when you log in. By default, it is set to the dashboard. However,
 you can change it to a different page in your "Personal settings".
