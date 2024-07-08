@@ -8,9 +8,9 @@ Both approaches are valid, but some conditions must be satisfied for the move op
 
 ## Moving a Stack
 
-Stacks can be moved to a different space using the **Name** tab in the Stack's settings.
+Stacks can be moved to a different space using the **Stack Details** tab in the Stack's settings.
 
-![](<../../assets/screenshots/spaces-move-stack.png>)
+![](<../../assets/screenshots/stack/settings/stack-details_spaces-ipunt.png>)
 
 For the move operation to succeed, the stack has to maintain access to any attachable resources it uses (worker pools, contexts, cloud integrations, etc.).
 

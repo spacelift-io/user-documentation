@@ -122,13 +122,13 @@ destroy: super-iac destroy -auto-approve -input=false
 
 ### Using a custom tool on a Stack/Module
 
-To update your Stack/Module to use a custom workflow tool, edit the _Workflow tool_ setting in the _Backend_ settings:
+To update your Stack/Module to use a custom workflow tool, edit the _Workflow tool_ setting in the _Vendor_ settings:
 
-![Workflow tool Stack setting](../../assets/screenshots/terraform-workflow-tool-stack-settings.png)
+![Workflow tool Stack setting](../../assets/screenshots/stack/settings/stack-vendor_workflow-tool.png)
 
 When you choose the _Custom_ option, the version selector will disappear:
 
-![Workflow tool Stack setting - no version displayed](../../assets/screenshots/terraform-workflow-tool-stack-settings-no-version.png)
+![Workflow tool Stack setting - no version displayed](../../assets/screenshots/stack/settings/stack-vendor_custom-workflow-tool.png)
 
 This is because you are responsible for ensuring that the tool is available to the Run, and Spacelift will not automatically download the tool for you.
 
