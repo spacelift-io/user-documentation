@@ -21,9 +21,9 @@ Promoting a proposed run is triggering a tracked run for the same Git commit.
 2. To promote a run, you first need to ensure that you have `Allow run promotion` enabled in the stack settings of your stack(s) in which you'd like to promote runs.
 
 <!-- markdownlint-disable-next-line MD036 -->
-**Stack Settings > Behavior > Advanced Options > Allow Run Promotion**
+**Stack Settings > Behavior > Allow Run Promotion**
 
-![Enable the Allow run promotion feature within the Spacelift Stack's Settings.](../../assets/screenshots/Screen%20Shot%202022-05-17%20at%201.01.36%20PM.png)
+![Enable the Allow run promotion feature within the Spacelift Stack's Settings.](../../assets/screenshots/stack/settings/stack-behavior_run-promotion.png)
 
 #### Promote from Proposed Run View
 

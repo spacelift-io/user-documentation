@@ -185,9 +185,9 @@ As we rely on the sensitive argument in Terraform to determine which of your val
 
 #### When using the Spacelift User Interface
 
-If you're using the Spacelift user interface to create your stacks, you can enable Smart Sanitization in your existing stack settings page under the "Backend" section. If you're creating new stacks it will be an option when you select your Terraform version in our wizard.
+If you're using the Spacelift user interface to create your stacks, you can enable Smart Sanitization in your existing stack settings page under the "Vendor" section. If you're creating new stacks it will be an option when you select your Terraform version in our wizard.
 
-![](../../assets/screenshots/terraform-smart-sanitization.png)
+![](../../assets/screenshots/stack/settings/stack-vendor_smart-sanitization.png)
 
 #### When creating stacks with the Spacelift Terraform Provider
 

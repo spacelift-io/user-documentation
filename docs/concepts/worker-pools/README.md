@@ -188,9 +188,9 @@ These are the recommended server types for the three main cloud providers:
 
 Worker pools must be explicitly attached to [stacks](../stack/README.md) and/or [modules](../../vendors/terraform/module-registry.md) in order to start processing their workloads. This can be done in the Behavior section of stack and module settings:
 
-![Example when editing the existing stack](../../assets/screenshots/use-worker-pool-stack.png)
+![Example when editing the existing stack](../../assets/screenshots/stack/settings/stack-behavior_worker-pools.png)
 
-![Example when setting up a new module](<../../assets/screenshots/use-worker-pool-module.png>)
+![Example when setting up a new module](<../../assets/screenshots/module/settings/module-behavior_worker-pools.png>)
 
 ## Worker Pool Management Views
 
