@@ -50,8 +50,8 @@ Note here that all hooks, including the `after_run` ones, execute on the worker.
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
 
 !!! tip
-    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook. 
-    
+    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
+
     Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) to ensure that "after" commands are only executed if the phase succeed.
 
 !!! danger
@@ -212,7 +212,7 @@ There are some **magic** labels that you can add to your stacks. These labels ad
 List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
-- **feature:enable_log_timestamps** -- Enables timestamps on run logs. 
+- **feature:enable_log_timestamps** -- Enables timestamps on run logs.
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
