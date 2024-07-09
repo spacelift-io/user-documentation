@@ -52,7 +52,7 @@ These commands may serve one of two general purposes - either to make some modif
 !!! tip
     We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
 
-    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) to ensure that "after" commands are only executed if the phase succeed.
+    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) or wrap your hook in parentheses to ensure that to ensure that "after" commands are only executed if the phase succeed.
 
 !!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
