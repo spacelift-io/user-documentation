@@ -456,6 +456,7 @@ The pull request rule accepts multiple configurable parameters:
 - `commit` - a target commit SHA (**Optional**)
 - `branch` - a target branch (**Optional**)
 - `body` - a custom comment body (**Optional**)
+- `deduplication_key` - a deduplication key for updating PR comments (**Optional**)
 
 #### Creating a pull request comment
 
@@ -477,6 +478,36 @@ pull_request contains {"id": run.commit.pull_request_id} if {
     It works best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
 
 [View the example in the rego playground](https://play.openpolicyagent.org/p/i4hswca0Fr){: rel="nofollow"}.
+
+#### Updating an existing pull request comment
+
+!!! info
+    This feature is currently only available for GitHub and GitHub Enterprise VCS integrations.
+    We intend to add support for the rest of the supported VCS integrations in the near future.
+
+The following example will add a comment to the pull request that triggered the run, and will update that comment for every run state change, instead of creating new comments.
+
+```opa
+package spacelift
+
+import future.keywords
+
+pull_request contains {
+"id": run.commit.pull_request_id,
+"body": sprintf("Run %s is %s", [run.id, run.state]),
+"deduplication_key": deduplication_key,
+} if {
+ run := input.run_updated.run
+ deduplication_key := input.run_updated.stack.id
+}
+```
+
+The essential aspect for updating existing comments is the `deduplication_key`, which must have a constant value throughout the PR's lifetime to update the same comment.
+If the `deduplication_key` changes but a comment was created with the old deduplication_key, a new comment will be created and updated.<br><br>
+The deduplication_key is associated with the PR using it, so using the same `deduplication_key` on different PRs is safe and will not cause collisions.<br><br>
+To use this with existing policies, simply add `deduplication_key := input.run_updated.stack.id` (or another constant value) to the condition of the pull_request rule.
+
+[View the example in the rego playground](https://play.openpolicyagent.org/p/XxY05GcENG){: rel="nofollow"}.
 
 #### Adding a comment to pull requests targeting a specific commit
 
