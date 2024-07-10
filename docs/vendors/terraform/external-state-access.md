@@ -15,7 +15,7 @@ You can enable the external access in a couple of ways.
 
 - through the UI
 
-![](../../assets/screenshots/external-state-access-enable.png)
+![](../../assets/screenshots/stack/settings/stack-vendor_external-state-access.png)
 
 - using the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift){: rel="nofollow"}.
 

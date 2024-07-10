@@ -235,7 +235,7 @@ Project root points to the directory within the repo where the project should st
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
-![](../../assets/screenshots/Stack_Settings_Project_Globs.png)
+![](../../assets/screenshots/stack/settings/source-code_project-globs.png)
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
@@ -253,7 +253,7 @@ As you can see in the example matches, these are the regex rules that you are al
 
 ### VCS integration and repository
 
-![](<../../assets/screenshots/stack_settings_vcs_page.png>)
+![](<../../assets/screenshots/stack/settings/source-code_vcs-details.png>)
 
 We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, however Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../integrations/source-control/README.md) page.
 
