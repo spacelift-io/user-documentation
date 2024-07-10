@@ -50,14 +50,15 @@ Note here that all hooks, including the `after_run` ones, execute on the worker.
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
 
 !!! tip
-    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds.
-    If you'd like to run multiple commands in a hook, add multiple hooks instead.
+    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
+
+    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) to ensure that "after" commands are only executed if the phase succeed.
 
 !!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
 
 !!! info
-    If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed.
+    If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed, except in the case where the "after" hook is using a semicolon (`;`). For more information on the use of semicolons and ampersands in hooks, please refer to the tip two above.
 
 {% if is_saas() %}
 The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
@@ -211,6 +212,7 @@ There are some **magic** labels that you can add to your stacks. These labels ad
 List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
+- **feature:enable_log_timestamps** -- Enables timestamps on run logs.
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
