@@ -19,7 +19,7 @@ The rest of this page explains the Custom option. This option allows you to cust
 
 ## How does it work?
 
-Each stage of the Kubernetes workflow uses certain commands to perform tasks such as listing API resources availible at the server or applying the resources. We provide a built-in set of commands to use for Kubernetes, but you can also specify your own custom commands. You do this via a file called `.spacelift/workflow.yml`.
+Each stage of the Kubernetes workflow uses certain commands to perform tasks such as listing API resources available at the server or applying the resources. We provide a built-in set of commands to use for Kubernetes, but you can also specify your own custom commands. You do this via a file called `.spacelift/workflow.yml`.
 
 The following is an example of what the workflow commands look like for Kubernetes:
 
@@ -37,15 +37,15 @@ createFromStdin: "kubectl create -f - -o yaml"
 # Available template parameters:
 # - .NoHeaders    - controls the --no-headers argument of kubectl.
 # - .IsNamespaced - controls arguments to provide if we use a namespace.
-# - .OutputFormat - output format of a reequest, can be set to two values: name or wide.
+# - .OutputFormat - output format of a request, can be set to two values: name or wide.
 apiResources: "kubectl api-resources {{ if .NoHeaders }}--no-headers {{ end }}--verbs=list,create {{ if .IsNamespaced }}--namespaced {{ end }}-o {{ .OutputFormat }}"
 
 # Used to both plan and apply changes.
 #
 # Available template parameters:
-# - .PruneWhiteList - provides list of arguments to the --prune flag.
+# - .PruneWhiteList - provides a list of arguments to the --prune flag. It uses the --prune-allowlist flag, if you want to use the old --pune-whitelist, add the feature:k8s_keep_using_prune_white_list_flag label to your stack.
 # - .StackSlug      - the slug of a current stack.
-# - .DryRunStrategy - dry run sttrategy, can be set to values: none, client, server.
+# - .DryRunStrategy - dry run strategy, can be set to values: none, client, server.
 # - .OutputFormat   - output format. Can be set to empty value or json.
 # - .Namespace      - the namespace used.
 apply: "kubectl apply -k ./ --prune {{ .PruneWhiteList }} -l \"spacelift-stack={{ .StackSlug }}\" --dry-run={{ .DryRunStrategy }}{{ if .OutputFormat }} -o {{ .OutputFormat }}{{ end }}{{ if .Namespace }} --namespace={{ .Namespace }}{{ end}}"
@@ -164,3 +164,9 @@ If your custom tool binary cannot be found you will get an error message like th
 ![Workflow tool not found](../../assets/screenshots/kubernetes-workflow-tool-tool-not-found.png)
 
 In this situation, please ensure that you are [providing a custom workflow tool](#providing-a-tool) via a custom runner image or workflow hook.
+
+### Error: unknown flag: --prune-allowlist
+
+![Workflow tool not found](../../assets/screenshots/prune-whitelist-bug.png)
+If you use kubectl with a version less than v1.26, the prune command should use `--prune-whitelist` flag.
+In order to do this, please specify **feature:k8s_keep_using_prune_white_list_flag** [label](../../concepts/stack/stack-settings.md#labels).

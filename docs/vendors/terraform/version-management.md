@@ -20,9 +20,9 @@ Terraform binaries are neither distributed with Spacelift nor with its [runner D
 
 ![](../../assets/screenshots/01DTSRW825FHT2ZGC4TJR3Y3NM_·_End-to-end_testing.png)
 
-There are two ways to tell Spacelift which Terraform version to use. The main one is to set the version directly on the stack. The version can be set in the Backend section of the stack configuration:
+There are two ways to tell Spacelift which Terraform version to use. The main one is to set the version directly on the stack. The version can be set in the Vendor section of the stack configuration:
 
-![](../../assets/screenshots/specific_version.png)
+![](../../assets/screenshots/stack/settings/stack-vendor_terraform-version.png)
 
 Note that you can either point to a specific version or define a version range, which is particularly useful if you don't want to update your code every time the Terraform version changes. The exact supported syntax options can be found [here](https://github.com/blang/semver#ranges){: rel="nofollow"}.
 

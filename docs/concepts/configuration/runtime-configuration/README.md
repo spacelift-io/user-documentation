@@ -3,7 +3,7 @@
 The runtime configuration is an optional setup applied to individual runs instead of being global to the stack. It's defined in `.spacelift/config.yml` YAML file at the root of your repository. A single file is used to define settings for all stacks associated with its host Git repository, so the file structure looks like this:
 
 ```yaml title=".spacelift/config.yml"
-version: "1"
+version: "2"
 
 stack_defaults:
     runner_image: your/first:runner
@@ -11,7 +11,8 @@ stack_defaults:
     # default - this example assumes that your
     # runner image has this available.
     before_init:
-        - terraform fmt -check
+        - echo "checking formatting"
+        - terraform fmt -diff
         - tflint
 
 # Note that every field in the configuration is
@@ -34,13 +35,19 @@ stacks:
 
 ```
 
-The top level of the file contains three keys - `version` which in practice is currently ignored but may be useful in the future, `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
+The top level of the file contains three keys - `version` (defaults to `1` if not specified), `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
 
 Considering the precedence of settings, below is the order that will be followed, starting from the most important to the least important:
 
 1. The configuration for a specified stack defined in config.yml
-2. The stack configuration set in the Spacelift UI.
-3. The stack defaults defined config.yml
+2. The stack defaults defined config.yml
+3. The stack configuration set in the Spacelift UI.
+
+!!! info
+    Please note that the precedence of the runtime configuration file changed between versions 1 and 2.
+    Previously the stack configuration set in the Spacelift UI had a higher precedence than the stack
+    defaults defined in the config.yml file. Starting with version 2, the values in the config.yml file
+    always take precedence over stack settings defined outside the config.yml file.
 
 In cases where there is no stack slug defined in the config, only the first two sources are considered:
 
@@ -126,3 +133,17 @@ This setting determines the Terraform implementation used in the workflow. Choos
 - `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
 
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).
+
+### `terragrunt` setting
+
+This setting determines the Terragrunt parametrization.
+
+- `terragrunt_tool` - to choose the tool that should be used by Terragrunt: `TERRAFORM_FOSS` (default), `OPEN_TOFU` and `MANUALLY_PROVISIONED`
+- `terragrunt_version` - Terragrunt version. Defaults to the latest version.
+- `terraform_version` - the Terraform version. Must not be provided when tool is set to `MANUALLY_PROVISIONED`. Defaults to the latest available OpenTofu/Terraform version.
+- `use_run_all` - whether to use `terragrunt run-all` instead of `terragrunt`. Defaults to `false`.
+- `use_smart_sanitization` - indicates whether runs on this will use Terraform's sensitive value system to sanitize the outputs of Terraform state and plans in spacelift instead of sanitizing all fields. Defaults to `false`.
+
+!!! warning
+    You must set all necessary fields because if the `terragrunt` section is present in the config, it replaces all Terragrunt values rather than merging them.
+    For example, if you set `terraform_version` only, all other fields will be reset to their defaults.

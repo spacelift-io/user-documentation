@@ -33,7 +33,7 @@ The default value for [`ANSIBLE_SSH_CONTROL_PATH_DIR`](https://docs.ansible.com/
 
 ### Specifying additional CLI flags
 
-You can specify addtional [CLI flags](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#common-options){: rel="nofollow"} using the following environment variables:
+You can specify additional [CLI flags](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#common-options){: rel="nofollow"} using the following environment variables:
 
 - `SPACELIFT_ANSIBLE_CLI_ARGS` - will take effect for both planning and applying phases
 - `SPACELIFT_ANSIBLE_CLI_ARGS_plan` - will take effect only for the planning phase
@@ -62,4 +62,4 @@ If you are using SSH to connect to your hosts, then you need to make sure that p
 As the ssh man page states:
 > These files contain sensitive data and should be readable by the user but not accessible by others (read/write/execute). `ssh` will simply ignore a private key file if it is accessible by others.
 
-Typically, you would like to deliver private keys directly at the [worker level](../../concepts/worker-pools.md) where you can fully manage your environment. If that is not an option, you can always use our [read-only](../../concepts/configuration/environment.md#a-note-on-visibility) [mounted files](../../concepts/configuration/environment.md#mounted-files) or any other option you find suitable.
+Typically, you would like to deliver private keys directly at the [worker level](../../concepts/worker-pools) where you can fully manage your environment. If that is not an option, you can always use our [read-only](../../concepts/configuration/environment.md#a-note-on-visibility) [mounted files](../../concepts/configuration/environment.md#mounted-files) or any other option you find suitable.

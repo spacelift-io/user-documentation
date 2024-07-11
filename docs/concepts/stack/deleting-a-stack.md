@@ -1,8 +1,8 @@
 # Deleting a Stack
 
-When you are ready to delete your stack, you can do so by navigating to your stack settings and clicking on the delete button. You will get a warning first to let you know that deleting this stack does not delete any of the resources that this stack manages.
+When you are ready to delete your stack, you can do so by navigating to the Stack deletion tab in your stack settings. You will get a choice to keep or delete any of the resources that this stack manages. To delete your stack, type the stack's name into the confirmation box and click on the delete button.
 
-![](<../../assets/screenshots/delete-a-stack.png>)
+![](<../../assets/screenshots/stack/settings/stack-deletion_form.png>)
 
 ## Deleting Resources Managed by a Stack
 

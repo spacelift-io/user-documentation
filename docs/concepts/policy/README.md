@@ -153,7 +153,7 @@ The following helper functions can be used in Spacelift policies:
 | Name                     | Description                                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `output := sanitized(x)` | `output` is the string `x` sanitized using the same algorithm we use to sanitize secrets.                                                                                              |
-| `result := exec(x)`      | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools.md). |
+| `result := exec(x)`      | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools). |
 
 ## Creating policies
 
@@ -226,7 +226,7 @@ Each of Spacelift's policies supports an additional boolean rule called `sample`
 sample { true }
 ```
 
-If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty least for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
+If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty list for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
 
 ```opa
 sample { count(deny) == 0 }

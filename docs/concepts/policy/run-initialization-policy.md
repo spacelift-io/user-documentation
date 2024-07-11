@@ -8,7 +8,7 @@
 Initialization policy can prevent a [Run](../run/README.md) or a [Task](../run/task.md) from being [initialized](../run/README.md#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
 !!! warning
-    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
+    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
 
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 

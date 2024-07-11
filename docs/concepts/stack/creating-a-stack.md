@@ -11,7 +11,7 @@ The stack creation process involves nine simple steps:
 
 1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
-3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md)
+3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md))
 4. [Defining common behavior of the stack](#define-behavior);
 5. [Creating stack hooks](#create-stack-hooks);
 6. [Attaching a cloud integration](#attach-stack-cloud-integration);
@@ -23,7 +23,7 @@ The stack creation process involves nine simple steps:
 
 ![](<../../assets/screenshots/Create_Stack_Stack_Details.png>)
 
-Staring with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
+Starting with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
 
 ![](<../../assets/screenshots/Create_Stack_Labels.png>)
 
@@ -127,7 +127,7 @@ Support is currently in Beta.
 
 ![](<../../assets/screenshots/Stack_Created.png>)
 
-With the expection of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
+With the exception of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
 
 You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your stack.
 
@@ -140,7 +140,7 @@ Regardless of which of the supported backends (Terraform, Pulumi etc.) you're se
 The behavior settings are:
 
 - whether the stack is [administrative](./stack-settings.md#administrative);
-- [worker pool](../worker-pools.md) to use, if applicable (default uses the Spacelift public worker pool);
+- [worker pool](../worker-pools) to use, if applicable (default uses the Spacelift public worker pool);
 - whether the changes should [automatically deploy](./stack-settings.md#autodeploy);
 - whether obsolete tests should be [automatically retried](./stack-settings.md#autoretry);
 - whether or not to protect the stack from deletion;
@@ -175,7 +175,7 @@ Spacelift integrates with identity management systems from major cloud providers
 
 Currently, AWS, Azure and GCP are natively supported.
 
-You can read more about Cloud ingrations [here](../../integrations/cloud-providers/README.md).
+You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
 
 ## Attach Stack Policies
 

@@ -78,7 +78,7 @@ Go to the "Attribute mappings" tab, set the values as described below and click 
 | Teams                             | ${user:groups}                                                     | basic      |
 
 !!! warning
-    Please note that while available, `${user:groups}` [is not officially supported by AWS IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html#supportedssoattributes){: rel="nofollow"} and it will return the group ID (GUUID) and not the group name. There is currently no way to get the group name.
+    Please note that while available, `${user:groups}` [is not officially supported by AWS IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html#supportedssoattributes){: rel="nofollow"} and it will return the group ID (GUID) and not the group name. There is currently no way to get the group name.
     <!-- KLUDGE: https://repost.aws/questions/QULRCugKTtSqyi1SnZtW-pjQ/sso-passing-group-via-assertion -->
 
 ## Assign users and groups to the application

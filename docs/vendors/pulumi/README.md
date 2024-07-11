@@ -39,6 +39,10 @@ We run `pulumi preview --refresh --diff --show-replacement-steps` in order to sh
 
 We run `pulumi up --refresh --diff --show-replacement-steps` in order to apply changes.
 
+### Additional CLI Arguments
+
+Passing additional CLI arguments can be done via the `SPACELIFT_PULUMI_CLI_ARGS_preview`, the `SPACELIFT_PULUMI_CLI_ARGS_up` and the `SPACELIFT_PULUMI_CLI_ARGS_destroy` environment variables.
+
 ## Policies
 
 Most policies don't change at all. The one that changes most is the plan policy. Instead of the terraform raw plan in the `terraform` field, you'll get a `pulumi` field with the raw Pulumi plan and the following schema:

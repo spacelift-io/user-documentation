@@ -31,7 +31,7 @@ jobs:
           separator: "' '"
 
       - name: Set Python up
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         id: set-python-up
         with:
           cache: pip
@@ -50,3 +50,9 @@ jobs:
       - name: Run pre-commit
         run: |
           pre-commit run --color=always --files '${{ steps.changed-files.outputs.all_changed_files }}'
+
+      # The reason for running the link check against all rather than just changed files is we can
+      # end up with a situation where a non-markdown file is removed that causes a broken link (e.g. a screenshot).
+      - name: Run link check against all files
+        run: |
+          pre-commit run --color=always --all-files markdown-link-check

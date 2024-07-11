@@ -45,7 +45,10 @@ nav:
           - concepts/policy/task-run-policy.md
           - concepts/policy/trigger-policy.md
       - concepts/resources.md
-      - concepts/worker-pools.md
+      - Worker pools:
+          - concepts/worker-pools/README.md
+          - concepts/worker-pools/docker-based-workers.md
+          - concepts/worker-pools/kubernetes-workers.md
       - concepts/spacectl.md
       - Spaces:
           - concepts/spaces/README.md
@@ -83,9 +86,10 @@ nav:
       - Terragrunt:
           - vendors/terragrunt/README.md
           - vendors/terragrunt/getting-started.md
-          - vendors/terragrunt/reference.md
           - vendors/terragrunt/run-all.md
           - vendors/terragrunt/limitations.md
+          - vendors/terragrunt/terragrunt-tool.md
+          - vendors/terragrunt/reference.md
       - Pulumi:
           - vendors/pulumi/README.md
           # KLUDGE: The default value for navigation items come from the H1 heading for the page.
@@ -145,6 +149,8 @@ nav:
           - integrations/source-control/bitbucket-cloud.md
           - integrations/source-control/bitbucket-datacenter-server.md
           - integrations/source-control/raw-git.md
+      - Kubernetes:
+          - integrations/kubernetes/operator.md
       - integrations/docker.md
       - integrations/api.md
       - Single Sign-On:
@@ -156,6 +162,7 @@ nav:
           - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
           - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
+      - integrations/teleport.md
   - 📖 Product:
       - product/notifications.md
       - product/security.md

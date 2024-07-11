@@ -21,112 +21,289 @@ The migration process is as follows:
 
 ## Prerequisites
 
-- Terraform
+- [Python](https://www.python.org/downloads/) 3.10 or newer
+- [Poetry](https://python-poetry.org/)
 
-## Instructions
+## Installation
 
-### Preparation
+- Ensure that Python is installed.
+- Download the Migration Kit: `git clone git@github.com:spacelift-io/spacelift-migration-kit.git` (or other available
+  methods in GitHub).
+- Go to the Migration Kit folder: `spacelift-migration-kit`.
+- Install the Python dependencies and the `spacemk` command in a Python virtual environment: `poetry install`.
+- Activate the Python virtual environment: `poetry shell`.
 
-- Clone the [Spacelift Migration Kit repository locally](https://github.com/spacelift-io/spacelift-migration-kit){: rel="nofollow"}.
-- Use the `terraform login spacelift.io` command to ensure that Terraform can interact with your Spacelift account.
+## Usage
 
-Depending on the exporter used, you may need additional steps:
+### Configuration
 
-- **Terraform Cloud/Enterprise**: Use the `terraform login` command to ensure that Terraform can interact with your Terraform Cloud/Enterprise account.
+Copy the `config.yml.example` file to `config.yml` and edit it as needed.
 
-### Pre-Migration Cleanup
+Environment variables can be referenced by their name preceded by the `$` sign (e.g., `$API_TOKEN`).
+This is helpful if you do not want to store sensitive information in the configuration file.
 
-In order to start fresh, clean up files and folders from previous runs.
+If a `.env` file is present at the root of the Spacelift Migration Kit folder, it will be automatically loaded when running `spacemk` and the tests, and the environment variables it contains will be available to that process.
 
-```shell
-rm -rf ./out ./{exporters/tfc,generator,manager-stack}/.terraform ./{exporters/tfc,generator,manager-stack}/.terraform.lock.hcl ./{exporters/tfc,generator,manager-stack}/terraform.tfstate ./{exporters/tfc,generator,manager-stack}/terraform.tfstate.backup
+### Audit
+
+This step is optional but recommended. It will analyze your current setup and display statistics in the terminal. Also, an Excel file with the list of entities to be migrated is created (`tmp/report.xlsx`).
+
+Additionally, it will perform checks and warn you of possible problems. For example, entities cannot be
+automatically migrated and might need to be handled manually.
+
+### Migration
+
+The migration is split into a few different steps that need to be run in order.
+
+#### Export
+
+The `spacemk export` command exports information about the source provider entities and stores them as a normalized JSON file (`tmp/data.json`).
+
+That file can be reviewed and modified before moving to the next step.
+
+#### Generate
+
+The `spacemk generate` command uses the normalized JSON file from the export step and uses a [Jinja template](https://jinja.palletsprojects.com/) to generate Terraform code that uses the [Spacelift provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) to create Spacelift entities that mimic the behavior of the source provider entities.
+
+The generated code can be found in the `tmp/code/main.tf` file. Feel free to review and edit it as needed.
+
+#### Publish
+
+Once the Terraform code has been generated, push the `tmp/code/main.tf` file to a git repository of your choosing that is available to your Spacelift account.
+
+#### Deploy
+
+After pushing the generated Terraform has been pushed to a git repository, create a manager stack in Spacelift.
+
+Point it to the repository, and possibly folder, where you stored the Terraform code, and make sure to **mark it as administrative**.
+
+Finally, trigger a run to create the Spacelift entities.
+
+#### Set Sensitive Variable Values
+
+This step can be skipped if there are no sensitive variables defined.
+
+To avoid storing sensitive variable values in Terraform code and the state file, the `generate` command does not set the value for those variables.
+
+Once the stacks have been created, set the values for the `spacelift` section of the `config.yml` file and run the
+`spacemk set-sensitive-env-vars` command to set the value for the sensitive environment variables.
+
+#### Set Terraform Variables with Invalid Names
+
+This step can be skipped if there are no Terraform variables with an invalid name.
+
+Among [the different ways to pass variable values to Terraform](https://developer.hashicorp.com/terraform/language/values/variables#using-input-variable-values), Spacelift uses environment variables named `TF_VAR_` followed by the name of a declared variable.
+
+However, Terraform allows the use of characters in variable names that are not allowed in environment variable names (e.g., `-`).
+
+To work around this issue, the Spacelift Migration Kit identifies Terraform variables with invalid names and stores them in a mounted file named `tf_vars_with_invalid_name.auto.tfvars` so that it gets automatically loaded by Terraform.
+
+Once the stacks have been created, set the values for the `spacelift` section of the `config.yml` file and run the
+`spacemk set-tf-vars-with-invalid-name` command to set the values for the Terraform variables with invalid names.
+
+#### Create Module Versions
+
+This step can be skipped if there are no modules defined.
+
+Once the modules have been created, set the values for the `github` section of the `config.yml` file and run the
+`spacemk create-module-versions` command to re-create existing module versions.
+
+### Cleanup
+
+All temporary local artifacts are stored in the `tmp` folder. Delete some or all of it to clean up.
+
+Additionally, you can destroy the Spacelift resources created by the manager stack and then the manager stack to fully remove the migration artifacts.
+
+**The source vendor setup is left untouched by the Migration Kit** and can be deleted once the migration
+has been verified to be successful.
+
+## Customization
+
+Every migration is different, and while the Spacelift Migration Kit aims at doing most of the heavy lifting, there is often a need for customizing the workflow.
+
+Spacelift Migration Kit has been designed to be easily extended and modified. All customizations are stored in the `custom` folder.
+
+### Custom Template
+
+The `generate` command uses a [Jinja template](https://jinja.palletsprojects.com/) that can be overridden partially or entirely by creating a file named `main.tf.jinja` in the `custom/templates` folder.
+
+To selectively override pieces of the base template, add the following instruction at the top of the custom template:
+
+```jinja2
+{% raw %}
+{% extends "base.tf.jinja" %}
+{% endraw %}
 ```
 
-### Export the resource definitions and Terraform state
+Then, override any block by declaring it in the custom template.
 
-- Choose an exporter and copy the example `.tfvars` file for it into `exporter.tfvars`.
-- Edit that file to match your context.
-- Run the following commands:
+Here is an example:
 
-```shell
-cd exporters/<EXPORTER>
-terraform init
-terraform apply -auto-approve -var-file=../../exporter.tfvars
+```jinja2
+{% raw %}
+{% extends "base.tf.jinja" %}
+
+{% block stacks %}
+…
+custom code to generate the Terraform code to define the Spacelift stacks
+…
+{% endblock %}
+{% endraw %}
 ```
 
-A new `out` folder should have been created. The `data.json` files contains the mapping of your vendor resources to the equivalent Spacelift resources, and the `state-files` folder contains the files for the Terraform state of your stacks, if the state export was enabled.
+Available blocks can be found in the [base.tf.jinja](https://github.com/spacelift-io/spacelift-migration-kit/blob/main/spacemk/templates/base.tf.jinja) template.
 
-Please note that once exported the Terraform state files can be imported into Spacelift or to any backend supported by Terraform.
+It should be rarely needed, but if you can override the base template entirely by not including the `{% raw %}{% extends "base.tf.jinja" %}{% endraw %}` instruction.
 
-### Generate the Terraform code
+### Custom Command
 
-- If you want to customize the template that generates the Terraform code, run `cp ../../generator/generator.tftpl ../generator.tftpl`, and edit the `generator.tftpl` file at the root of the repository. If present, it will be used automatically.
-- Run the following commands:
+You can add a custom command by creating a Python file in the `custom/commands` folder based on the following code:
 
-```shell
-cd ../../generator
-terraform init
-terraform apply -auto-approve -var-file=../out/data.json
+```python
+import click
+
+@click.command(help="Custom command.")
+def custom():
+    print("This is a custom command")
+
 ```
 
-### Review and edit the generated Terraform code
+The file can have any name, but we recommend naming it after the command name. In the example above, the file would be `custom.py`.
 
-A `main.tf` should have been generated in the `out` folder. It contains all the Terraform code for your Spacelift resources.
+If the custom command needs some configuration settings, they can be added to the `config.yml` file, and the configuration passed to the command:
 
-Mapping resources from a vendor to Spacelift resources is not an exact science. There are gaps in functionality and caveats in the mapping process.
+```python
+import click
 
-Please carefully review the generated Terraform code and make sure that it looks fine. If it does not, repeat the process with a different configuration or edit the Terraform code.
-
-### Commit the Terraform code
-
-When the Terraform code is ready, commit it to a repository.
-
-### Create a manager Spacelift stack
-
-It is now time to create a Spacelift stack that will point to the committed Terraform code that manages your Spacelift resources.
-
-- Copy the example `manager-stack.example.tfvars` file into `manager-stack.tfvars` .
-- Edit that file to match your context.
-- Run the following commands:
-
-```shell
-cd ../manager-stack
-terraform init
-terraform apply -auto-approve -var-file=../manager-stack.tfvars
+@click.command(help="Custom command.")
+@click.decorators.pass_meta_key("config")
+def custom(config):
+    print(f"This is a custom command with a custom setting {config.get('custom.foo', 'bar')}")
 ```
 
-After the stack has been created, a tracked run will be triggered automatically. That run will create the defined Spacelift resources.
+The commands are managed by the [click](https://click.palletsprojects.com/) Python library. Check its documentation or the Spacelift Migration Kit native commands for examples.
 
-### Post-Migration Cleanup
+### Custom Exporter
 
-Before you can use Spacelift to manage your infrastructure,  you may need to make changes to the Terraform code for your infrastructure, depending on the Terraform state is managed.
+There might be no native exporter for your source provider, or you might need to tweak an existing provider.
 
-If the Terraform state is managed by Spacelift,perform the following actions, otherwise you can skip this section:
+To do so, you can create a Python file in the `custom/exporters` folder. It must be named after the exporter and define a class named `<CapitalizedExporterName>Exporter` that derives from the `spacemk.exporters.BaseExporter` class for new exporters or a [native exporter class](https://github.com/spacelift-io/spacelift-migration-kit/tree/main/spacemk/exporters) when overriding an existing exporter.
 
-- Remove any [backend](https://developer.hashicorp.com/terraform/language/settings/backends/configuration#using-a-backend-block){: rel="nofollow"}/[cloud](https://developer.hashicorp.com/terraform/language/settings/terraform-cloud){: rel="nofollow"} block from the Terraform code that manages your infrastructure to avoid a conflict with Spacelift's backend.
-- Delete the `import_state_file` arguments from the Terraform code that manages your Spacelift resources.
-- After the manager stack has successfully run, the mounted Terraform state files are not needed anymore and can be deleted by setting the `import_state` argument to `false` in the `manager-stack.tfvars` file and run `terraform apply -auto-approve -var-file=../manager-stack.tfvars` in the `manager-stack` folder.
+Here are a few examples:
 
-## Sources
+| Exporter Name | Filename     | Class Name       |
+| ------------- | ------------ | ---------------- |
+| `foo`         | `foo.py`     | `FooExporter`    |
+| `foo_bar`     | `foo_bar.py` | `FooBarExporter` |
 
-### Terraform Cloud/Enterprise
+Here is an example:
 
-#### Known Limitations
+```python
+from spacemk.exporters import BaseExporter
 
-The limitations listed below come from the original provider. We are actively looking for workarounds.
+class CustomExporter(BaseExporter):
+    def _extract_data(self) -> list[dict]:
+        data = []
 
-- The variable sets are not exposed so they cannot be listed and exported.
-- The name of the Version Control System (VCS) provider for a stack is not returned so it has to be set in the exporter configuration file.
-- When the branch for the stack is the repository default branch, the value is empty. You can set the value for the default branch in the exporter configuration file, or edit the generated Terraform code.
+        …
+        custom code to extract data
+        …
 
-#### Glossary
+        return data
 
-| Terraform Cloud/Enterprise | Spacelift                                                    |
-| -------------------------- | ------------------------------------------------------------ |
-| Agent Pool                 | [Worker Pool](../concepts/worker-pools.md)                   |
-| Organization               | [Account](https://docs.spacelift.io/getting-started#step-1-create-your-spacelift-account) |
-| Policy                     | [Policy](../concepts/policy/README.md)                       |
-| Project                    | [Space](../concepts/spaces/README.md)                        |
-| Variable                   | [Environment Variable](https://docs.spacelift.io/concepts/configuration/environment#environment-variables) |
-| Variable Set               | [Context](../concepts/configuration/context.md)              |
-| Workspace                  | [Stack](../concepts/stack/README.md)                         |
+    def _map_data(self, src_data: dict) -> dict:
+        data = []
+
+        …
+        custom code to map data source data to Spacelift normalized data definitions
+        …
+
+        return data
+```
+
+### Custom Python Packages
+
+If the custom Python code requires packages not included in Spacelift Migration Kit, you can create a `requirements.txt` file in the `custom` folder and install those dependencies with the following command:
+
+```shell
+pip install -r custom/requirements.txt
+```
+
+### Storing Customizations
+
+#### Simple Use Case
+
+Customizations live in the `custom` folder. This is fine for most use cases but could be a problem if more than one engineer works on the migration or if you need to collaborate with Spacelift engineers on advanced migrations.
+
+#### Advanced Use Case
+
+For those advanced use cases, the proposed approach is to create a private clone of this repository and version your customizations there.
+
+Here are the steps to create the private clone:
+
+<!-- markdownlint-disable MD029 -->
+
+1. Create a bare clone of the repository. This is temporary and will be removed, so just do it wherever.
+
+```shell
+git clone --bare git@github.com:spacelift-io/spacelift-migration-kit.git
+```
+
+2. Create a new private repository in your VCS provider and name it `spacelift-migration-kit`.
+
+3. Mirror-push your bare clone to your new `spacelift-migration-kit` repository.
+
+   ```shell
+   cd spacelift-migration-kit.git
+   git push --mirror git@github.com:<ACCOUNT NAME>/spacelift-migration-kit.git
+   ```
+
+4. Remove the temporary local clone you created in step 1.
+
+```shell
+cd ..
+rm -rf spacelift-migration-kit.git
+```
+
+5. You can now clone your `spacelift-migration-kit` repository on your machine where you see fit.
+
+```shell
+git clone git@github.com:<ACCOUNT NAME>/spacelift-migration-kit.git
+```
+
+6. Add the original `spacelift-migration-kit` repository as `upstream` to fetch updates. The example below uses GitHub but you can use any git VCS provider information.
+
+```shell
+git remote add upstream git@github.com:spacelift-io/spacelift-migration-kit.git
+git remote set-url --push upstream DISABLE
+```
+
+7. The git remotes for your local clone, listed with `git remote -v` should look like this:
+
+```shell
+origin git@github.com:<ACCOUNT NAME>/spacelift-migration-kit.git (fetch)
+origin git@github.com:<ACCOUNT NAME>/spacelift-migration-kit.git (push)
+upstream git@github.com:spacelift-io/spacelift-migration-kit.git (fetch)
+upstream DISABLE (push)
+```
+
+8. Interact with your `origin` remote as usual. You can pull changes from the original repository by fetching from the `upstream` remote and rebasing on top of your local branch.
+<!-- markdownlint-enable MD029 -->
+
+```shell
+git fetch upstream
+git rebase upstream/main
+```
+
+There should not be any conflicts if you keep your modifications in the `custom` folder, but if there are, solve them as usual.
+
+## Uninstallation
+
+- Delete the Python virtual environment: `poetry env remove --all`.
+- Delete the `spacelift-migration-kit` folder.
+
+## Support
+
+If you found a bug or want to submit a feature request, please use the repository issues.
+
+If you need help or guidance, please reach out to your Solutions Engineer or our [support](https://docs.spacelift.io/product/support/).

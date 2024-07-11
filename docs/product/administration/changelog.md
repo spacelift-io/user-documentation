@@ -4,6 +4,67 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.2.1 and v1.3.0
+
+### Features
+
+- Added ability to view spaces as a list view, you can now switch between Diagram and List view using the toggle in the page header
+- Added Account details drawer (under user menu) with self hosted version, license information and identity provider data.
+- Updated documentation links to use the currently used self hosted version immediately
+- Added list view customization
+- Added stack settings scheduling and policies tabs
+- Added module list and form redesign
+
+### Fixes
+
+- Fix: Raw Git does not work with terraform modules
+
+## Changes between v1.2.0 and v1.2.1
+
+### Fixes
+
+- Fix for an issue where a commit to Bitbucket Datacenter could trigger more stacks than necessary
+- Fix for an issue where crashed workers left runs in a hanging state
+- If custom certificates are defined, Spacelift's internal HTTP client will use those for AWS-related requests as well
+
+## Changes between v1.1.0-hotfix.1 and v1.2.0
+
+### Features
+
+- [Added OpenTofu support for Terragrunt](../../vendors/terragrunt/terragrunt-tool.md)
+    - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../../concepts/worker-pools/kubernetes-workers.md) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
+- [Added `Trigger always` flag to Stack Dependencies](../../concepts/stack/stack-dependencies.md)
+- Disabled the rate limiting for [policy sampling](../../concepts/policy/README.md#sampling-policy-inputs)
+- Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
+- Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
+- Support for [moved](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring) and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
+- Installation script:
+    - [We added support for defining custom retention periods for all of the S3 buckets.](./install.md#s3-config) If you don't specify it, they remain untouched.
+
+### Fixes
+
+- Fixed a bug where some of the runs weren't scheduled because we attempted to checkout the same license from License Manager at the same time in parallel. Now license checkouts are serialized to avoid this issue.
+
+## Changes between v1.1.0 and v1.1.0-hotfix.1
+
+### Fixes
+
+- Fixed an issue where license check-out could fail when multiple runs were scheduled at the same time
+
+## Changes between v1.0.0 and v1.1.0
+
+### Features
+
+- [Beta Terragrunt support](../../vendors/terragrunt/README.md)
+- [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
+- [OpenTofu v1.6.2 support](../../concepts/stack/creating-a-stack.md#opentofu)
+- [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
+
+### Fixes
+
+- Various backend and frontend fixes and improvements
+
 ## Changes between v0.0.12 and v1.0.0
 
 ### Features
@@ -13,7 +74,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 - The settings page is now split into Organization and Personal settings
 - [OpenTofu v1.6.1 support](../../concepts/stack/creating-a-stack.md#opentofu)
 - [PR stack locking](../../concepts/policy/push-policy/README.md#stack-locking)
-- [Support for deploying workers via the Kubernetes operator](../../concepts/worker-pools.md#kubernetes)
+- [Support for deploying workers via the Kubernetes operator](../../concepts/worker-pools/kubernetes-workers.md)
 
 ### Fixes
 
@@ -58,7 +119,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 - [Ready run state](../../concepts/run/README.md#ready).
 - [Targeted replan support](../../concepts/run/tracked.md#targeted-replan).
 - New detailed terraform changes view.
-- [Worker Pool Management views](../../concepts/worker-pools.md#worker-pool-management-views).
+- [Worker Pool Management views](../../concepts/worker-pools#worker-pool-management-views).
 - [Add OpenTofu and custom workflows support for terraform](../../vendors/terraform/workflow-tool.md).
 
 ### Fixes
@@ -82,9 +143,9 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
-- Update CloudFormation worker pool template to allow [a custom instance role to be provided](../../concepts/worker-pools.md#using-a-custom-iam-role).
+- Update CloudFormation worker pool template to allow [a custom instance role to be provided](../../concepts/worker-pools/docker-based-workers.md#using-a-custom-iam-role).
 - Update CloudFormation worker pool template to allow poweroff on crash to be disabled to aid debugging.
-- Update CloudFormation worker pool template to [allow custom user data to be provided](../../concepts/worker-pools.md#injecting-custom-commands-during-instance-startup).
+- Update CloudFormation worker pool template to [allow custom user data to be provided](../../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup).
 - Update frontend and backend to the latest versions.
 - Adding support for Terraform versions up to v1.5.4 and kubectl up to v1.27.4.
 - Added support for [External Dependencies](../../concepts/policy/push-policy/run-external-dependencies.md).

@@ -50,7 +50,7 @@ Once you've created your personal API token, please pass it - along with the ser
 
 ### Setting up Webhooks
 
-For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find yout **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
+For every GitLab project that's being used by a Spacelift project (stack or module), you will need to set up a webhook to notify Spacelift about the project changes. You can find your **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
 
 !!! note
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
@@ -80,7 +80,7 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 When utilizing the Terraform provider to provision Spacelift Stacks for GitLab, you are required to specify a `namespace`.
 
-The `namespace` value should be set to the the grouping mechanism that your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
+The `namespace` value should be set to the grouping mechanism that your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
 
 If your project lives within a group, then the namespace should be set to the group slug that the project is within. For example, if you have `project-a` within `group-1` the namespace would be `group-1`. When using subgroups, you will also need to include these within your namespace references.
 

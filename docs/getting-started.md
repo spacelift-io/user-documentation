@@ -21,9 +21,9 @@ State can be managed by your backend, or for Terraform projects - can be importe
 ### Worker Pools
 
 {% if is_saas() %}
-Spacelift provides two options for managing the underlying compute used by Spacelift: public or private worker pools. Public worker pools are managed by Spacelift whereas private pools are hosted by you. Due to security and compliance requirements, several of our customers choose private pools to manage their infrastructure. You can learn more about worker pools [here](concepts/worker-pools.md).
+Spacelift provides two options for managing the underlying compute used by Spacelift: public or private worker pools. Public worker pools are managed by Spacelift whereas private pools are hosted by you. Due to security and compliance requirements, several of our customers choose private pools to manage their infrastructure. You can learn more about worker pools [here](concepts/worker-pools).
 {% else %}
-The underlying compute used by Spacelift is called a worker, and workers are managed in groups known as worker pools. In order for Spacelift to operate correctly, you will need to provision at least one worker pool. You can learn more about worker pools [here](concepts/worker-pools.md).
+The underlying compute used by Spacelift is called a worker, and workers are managed in groups known as worker pools. In order for Spacelift to operate correctly, you will need to provision at least one worker pool. You can learn more about worker pools [here](concepts/worker-pools).
 {% endif %}
 
 ### Policies
@@ -206,6 +206,6 @@ Now your colleagues should be able to access your Spacelift account as well!
 1. Learn how to [integrate with AWS](integrations/cloud-providers/aws.md) as a cloud provider for your infrastructure
 2. Try [creating and attaching policies](concepts/policy/README.md#creating-policies) with stacks for common use cases
 3. [Spacelift workflow with GitHub change requests (PR)](integrations/source-control/github.md#pull-requests)
-4. [Setting up Spacelift workers](concepts/worker-pools.md)
+4. [Setting up Spacelift workers](concepts/worker-pools)
 5. Using [environment variables](concepts/configuration/environment.md#environment-variables) and [contexts](concepts/configuration/context.md) with stacks
 6. [Configuring stack behavior with common settings](concepts/stack/stack-settings.md)

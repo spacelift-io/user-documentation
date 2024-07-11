@@ -24,7 +24,7 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 
 ### Defining references between stacks
 
-You have the option to refer to outputs of other stacks: your stack will be only triggered if the referenced output has been created or changed.
+You have the option to refer to outputs of other stacks: by default, your stack will be only triggered if the referenced output has been created or changed. If you enable the `Trigger always` option however, the stack will be triggered regardless of the referenced output.
 
 ![](../../assets/screenshots/Screenshot_Stack_Dependencies_add_ref.png)
 
@@ -41,10 +41,10 @@ A stack output can be sensitive or non-sensitive. For example, in Terraform [you
 
 Spacelift will upload sensitive outputs to the server - this is enabled by default on our public worker pool.
 
-On [private worker pools](../../concepts/worker-pools.md) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools.md#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
+On [private worker pools](../../concepts/worker-pools) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
 
 {% if is_self_hosted() %}
-In self-hosted, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` to your `CustomUserDataSecretName` secret. You'll find more information about that variable at the [Worker Pool](../../concepts/worker-pools.md#injecting-custom-commands-during-instance-startup) page.
+In self-hosted, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` to your `CustomUserDataSecretName` secret. You'll find more information about that variable at the [Worker Pool](../../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup) page.
 {% endif %}
 
 #### Stack dependency reference limitations
@@ -104,7 +104,7 @@ graph TD;
 
 In case your `Infrastructure` stack has a `VPC_ID`, you can set that as an input to your `Database` stack (e.g. `TF_VAR_VPC_ID`). When the `Infrastructure` stack finishes running, the `Database` stack will be triggered and the `TF_VAR_VPC_ID` environment variable will be set to the value of the `VPC_ID` output of the `Infrastructure` stack.
 
-If there is one or more references defined, the stack will only be triggered if the referenced output has been created or changed. If they remain the same, the downstream stack will be skipped.
+If there is one or more references defined, the stack will only be triggered if the referenced output has been created or changed. If they remain the same, the downstream stack will be skipped. You can control this behavior by enabling or disabling the `Trigger always` option.
 
 #### Scenario 2
 

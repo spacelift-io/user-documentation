@@ -12,7 +12,7 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
 
-The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools.md) etc. in order to avoid ClickOps.
+The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools) etc. in order to avoid ClickOps.
 
 Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
@@ -30,7 +30,7 @@ Indicates whether obsolete proposed changes will be retried automatically. When 
 
 This saves you from manually retrying runs on Pull Requests when the state changes. This way it also gives you more confidence, that the proposed changes will actually be the actual changes you get after merging the Pull Request.
 
-Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools.md) attached.
+Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
 
 ### Customizing workflow
 
@@ -50,14 +50,15 @@ Note here that all hooks, including the `after_run` ones, execute on the worker.
 These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
 
 !!! tip
-    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds.
-    If you'd like to run multiple commands in a hook, add multiple hooks instead.
+    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
+
+    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) to ensure that "after" commands are only executed if the phase succeed.
 
 !!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
 
 !!! info
-    If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed.
+    If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed, except in the case where the "after" hook is using a semicolon (`;`). For more information on the use of semicolons and ampersands in hooks, please refer to the tip two above.
 
 {% if is_saas() %}
 The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
@@ -176,6 +177,21 @@ spacectl stack local-preview --id <stack-id>
 
     Use with caution.
 
+### Enable well known secret masking
+
+This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
+
+- AWS Access Key Id
+- GitHub PAT
+- GitHub Fine-Grained PAT
+- GitHub App Token
+- GitHub Refresh Token
+- GitHub OAuth Access Token
+- Slack Token
+- PGP Private Key
+- RSA Private Key
+- PEM block with BEGIN PRIVATE KEY header
+
 ### Name and description
 
 Stack name and description are pretty self-explanatory. The required _name_ is what you'll see in the stack list on the home screen and menu selection dropdown. Make sure that it's informative enough to be able to immediately communicate the purpose of the stack, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
@@ -196,6 +212,7 @@ There are some **magic** labels that you can add to your stacks. These labels ad
 List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
+- **feature:enable_log_timestamps** -- Enables timestamps on run logs.
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
@@ -205,6 +222,7 @@ List of the most useful labels:
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
 - **ghenv: -** -- Disables the creation of GitHub deployment environments
 - **autoattach:label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing that label
+- **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
 
 ### Project root
 
@@ -217,14 +235,15 @@ Project root points to the directory within the repo where the project should st
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
-![](../../assets/screenshots/Stack_Settings_Project_Globs.png)
+![](../../assets/screenshots/stack/settings/source-code_project-globs.png)
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-Under the hood, the project globs option takes advantage of the [filepath.Match](https://pkg.go.dev/path/filepath#Match){: rel="nofollow"} function to do pattern matching.
+Under the hood, the project globs option takes advantage of the [doublestar.Match](https://github.com/bmatcuk/doublestar?tab=readme-ov-file#match){: rel="nofollow"} function to do pattern matching.
 
 Example matches:
 
+- Any directory or file: `**`
 - A directory and all of its content: `dir/*`
 - Match all files with a specific extension: `dir/*.tf`
 - Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
@@ -234,7 +253,7 @@ As you can see in the example matches, these are the regex rules that you are al
 
 ### VCS integration and repository
 
-![](<../../assets/screenshots/stack_settings_vcs_page.png>)
+![](<../../assets/screenshots/stack/settings/source-code_vcs-details.png>)
 
 We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, however Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../integrations/source-control/README.md) page.
 

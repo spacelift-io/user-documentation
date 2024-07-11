@@ -2,6 +2,9 @@
 
 ## Purpose
 
+!!! info
+    Push policies are only evaluated for the [Cloud or Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
+
 Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
 - **track**: set the new head commit on the [stack](../../stack/README.md) / [module](../../../vendors/terraform/module-registry.md) and create a [tracked](../../run/README.md#where-do-runs-come-from) [Run](../../run/README.md), ie. one that can be [applied](../../run/README.md#applying);
@@ -293,7 +296,7 @@ Each source control provider has slightly different features, and because of thi
 - `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
 
 !!! info
-    Please note that we are unable to calculate divergance across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
+    Please note that we are unable to calculate divergence across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
 
 #### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
 
@@ -576,25 +579,28 @@ ignore  { input.push.tag != "" }
 
 affected {
     filepath := input.push.affected_files[_]
-    startswith(filepath, input.stack.project_root)
+    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
 }
 
 affected {
     filepath := input.push.affected_files[_]
     glob_pattern := input.stack.additional_project_globs[_]
-    glob.match(glob_pattern, ["/"], filepath)
+    glob.match(glob_pattern, ["/"], normalize_path(filepath))
 }
 
 affected_pr {
     filepath := input.pull_request.diff[_]
-    startswith(filepath, input.stack.project_root)
+    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
 }
 
 affected_pr {
     filepath := input.pull_request.diff[_]
     glob_pattern := input.stack.additional_project_globs[_]
-    glob.match(glob_pattern, ["/"], filepath)
+    glob.match(glob_pattern, ["/"], normalize_path(filepath))
 }
+
+# Helper function to normalize paths by removing leading slashes
+normalize_path(path) = trim(path, "/")
 ```
 
 ## Waiting for CI/CD artifacts
@@ -650,7 +656,7 @@ unlock := lock_id {
 }
 ```
 
-You can futher customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
+You can further customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
 
 ``` opa
 lock_id := sprintf("PR_ID_%d", [input.pull_request.id])

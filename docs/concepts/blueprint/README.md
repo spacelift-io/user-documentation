@@ -212,13 +212,13 @@ stack:
       delete_resources: ${{ inputs.environment == 'prod' }}
       timestamp_unix: ${{ inputs.destroy_task_epoch - 86400 }}
   vcs:
-    branch: master
+    id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
+    branch: main
     project_root: modules/apps/${{ inputs.app }}
-    namespace: "my-namespace"
+    namespace: "my-namespace" # The VCS organization name or project namespace
     # Note that this is just the name of the repository, not the full URL
     repository: my-repository
-    provider: GITHUB # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS
-    id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
+    provider: GITHUB_ENTERPRISE # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS, RAW_GIT
   vendor:
     terraform:
       manage_state: ${{ inputs.manage_state }}
@@ -237,6 +237,11 @@ stack:
     pulumi:
       stack_name: ${{ inputs.app }}-${{ inputs.environment }}
       login_url: https://app.pulumi.com
+    terragrunt:
+      use_smart_sanitization: true
+      terraform_version: "1.5.7"
+      terragrunt_version: "0.55.0"
+      use_run_all: true
 ```
 
 {% endraw %}
@@ -251,6 +256,39 @@ As you noticed if we attach an existing resource to the stack (such as Worker Po
 <figure markdown> <!-- markdownlint-disable-line MD033 -->
   <figcaption>Example of resource IDs</figcaption> <!-- markdownlint-disable-line MD033 -->
 </figure>
+
+### Attaching a VCS
+
+We have the following VCS systems available:
+
+- `AZURE_DEVOPS`
+- `BITBUCKET_CLOUD`
+- `BITBUCKET_DATACENTER`
+- `GITHUB` - this is the built-in GitHub integration that is used for SSO as well
+- `GITHUB_ENTERPRISE` - unlike the name suggests, it's not only for GitHub Enterprise, but for any additional GitHub installation
+- `GITLAB`
+- `RAW_GIT` - enables you to use any public Git repository. When using this, you need to provide the full URL for the repository by setting the `repository_url` field.
+
+{% raw %}
+
+The `vcs` section is mandatory and you need to provide the `branch`, `repository` and `provider`. Additionally, if your VCS is anything other than `GITHUB` or `RAW_GIT`, you need to provide `namespace` as well. In GitHub, that's the organization name, in GitLab it's the group name, and in Bitbucket and Azure it's the project name.
+
+If the VCS is `RAW_GIT`, you need to provide the `repository_url` instead of the `namespace` and `repository`.
+
+The `id` is optional and only needed if you want to use a non-default integration. You can find the ID by clicking the `Copy ID` button in the VCS integration settings.
+
+```yaml
+  vcs:
+    id: "github-for-my-org" # Optional, only needed if you want to use a non-default VCS integration. Use the "Copy ID" button to get the ID.
+    branch: main
+    project_root: modules/networking
+    namespace: "my-namespace" # The VCS organization name or project namespace.
+    repository: my-repository # Name of the repository.
+    repository_url: "https://www.github.com/my-namespace/my-repository" # This is only needed for RAW_GIT
+    provider: GITHUB_ENTERPRISE # Possible values: AZURE_DEVOPS, BITBUCKET_CLOUD, BITBUCKET_DATACENTER, GITHUB, GITHUB_ENTERPRISE, GITLAB, RAW_GIT
+```
+
+{% endraw %}
 
 ## Template engine
 

@@ -5,6 +5,12 @@
       "headers": {
         "Accept-Encoding": "zstd, br, gzip, deflate"
       }
+    },
+    {
+      "urls": ["http://ec.europa.eu/odr"],
+      "headers": {
+        "Cookie": "INTERFACELANGUAGE=EN"
+      }
     }
   ],
   "ignorePatterns": [
@@ -16,6 +22,12 @@
     },
     {
       "pattern": "^.+?/self-hosted/.*"
+    },
+    {
+      "pattern": "^https://player.vimeo.com/.*"
+    },
+    {
+      "pattern": "^https://docs.microsoft.com/.*"
     }
   ]
 }

@@ -39,4 +39,5 @@ Lastly, Spacelift is designed to integrate smoothly with your existing tech stac
 - [Getting Started](getting-started.md)
 - [Run-all](run-all.md)
 - [Limitations](limitations.md)
+- [Terragrunt Tool](terragrunt-tool.md)
 - [Reference](reference.md)

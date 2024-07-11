@@ -1,5 +1,5 @@
 INHERIT: !ENV [NAV_FILE, "./nav.yaml"]
-copyright: © 2022 Spacelift, Inc. All rights reserved
+copyright: © 2024 - Spacelift, Inc. All rights reserved.
 site_author: Spacelift
 site_description: Collaborative Infrastructure For Modern Software Teams
 site_name: Spacelift Documentation
@@ -68,6 +68,7 @@ extra:
     provider: mike
 hooks:
   - hooks/fetch_banner.py
+  - hooks/move_index.py
 plugins:
   - search
   - macros
