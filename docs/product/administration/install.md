@@ -178,6 +178,7 @@ The possible configuration options are:
 - `database.delete_protection_enabled` - **only for Spacelift-managed databases**. Whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database. Leave it empty for self-managed databases.
 - `database.instance_class` - **only for Spacelift-managed databases**. The instance class of the database (defaults to `db.t4g.large`). Leave it empty for self-managed databases.
 - `database.connection_string_ssm_arn` - **only for self-managed databases**. The ARN of the SSM parameter that stores the connection string to the database. Leave it empty for Spacelift-managed databases.
+- `database.connection_string_ssm_kms_arn` - **only for self-managed databases**. The ARN of the KMS key used to encrypt the SSM parameter. Leave it empty for Spacelift-managed databases.
 
 ###### Self-managed database
 
@@ -200,13 +201,19 @@ When choosing an encryption key for the secret, we recommend using the Spacelift
 
 ###### Going from Spacelift-managed to self-managed database
 
-The transition from a Spacelift-managed database to a self-managed one is seamless. The installer saves the connection string into a secret named `spacelift/database`. You can just copy the connection string from the existing secret and create your own secret with the same value. Finally, populate `connection_string_ssm_arn` in the configuration file while making sure that `delete_protection_enabled` and `instance_class` are empty (since they are disregarded for self-managed databases):
+The transition from a Spacelift-managed database to a self-managed one is seamless. When using a Spacelift-managed database, the installer saves the connection string into a secret named `spacelift/database`. However, when migrating to a self-managed one, the installer will remove it.
+
+!!! warning
+    The `spacelift/database` secret will be deleted during the next installation after `connection_string_ssm_arn` is populated. Please make sure to create a completely new secret, rather than passing the ARN of the existing `spacelift/database` secret into your config file, otherwise the upgrade will fail.
+
+You must copy the connection string from the existing secret and create your own secret with the same value. Finally, populate `connection_string_ssm_arn` and `connection_string_ssm_kms_arn` in the configuration file while making sure that `delete_protection_enabled` and `instance_class` are empty (since they are disregarded for self-managed databases):
 
 ```json
 "database": {
     "delete_protection_enabled": "",
     "instance_class": "",
-    "connection_string_ssm_arn": "arn:aws:secretsmanager:eu-west-3:123456789:secret:spacelift/custom-connectionstring-jYx1BH"
+    "connection_string_ssm_arn": "arn:aws:secretsmanager:eu-west-3:123456789:secret:spacelift/custom-connectionstring-jYx1BH",
+    "connection_string_ssm_kms_arn": "arn:aws:kms:eu-west-3:123456789:key/12345678-1234-1234-1234-123456789012"
 }
 ```
 
