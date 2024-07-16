@@ -78,7 +78,7 @@ older version.
 It's up to you to trigger the proper tasks or runs to fix the state and re-apply the desired Terraform configuration.
 
 !!! warning
-You should really understand what you are doing when performing a rollback.
+    You should really understand what you are doing when performing a rollback.
 
     State rollback should be used as a break-glass operation just after a corrupted state has been created.
 
