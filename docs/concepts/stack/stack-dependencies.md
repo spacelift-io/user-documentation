@@ -11,7 +11,7 @@ deploy a database stack before a stack that uses the database.
 
 Stack dependencies aim to solve the problem of ordering the execution of related runs triggered by the same VCS event.
 
-Stack dependencies do **not** manage stack lifecycle events such as creating or deleting stacks. In fact, you [cannot delete a stack](#stack-deletion) if it has dependencies.
+Stack dependencies do **not** manage stack lifecycle events such as creating or deleting stacks.
 
 ## Defining stack dependencies
 
@@ -277,7 +277,7 @@ There is no connection between the two features, and **the two shouldn't be comb
 
 ## Stack deletion
 
-A stack cannot be deleted if it has upstream or downstream dependencies. If you want to delete a stack, you need to delete all of its dependencies first.
+A stack cannot be deleted if it has downstream dependencies (child stacks depending on it). If you want to delete such stack, you need to delete all of its downstream dependencies first. However, if a stack only has upstream dependencies (parent stacks that it depends on), it can be deleted without any issues.
 
 ## Ordered Stack creation and deletion
 
@@ -285,75 +285,76 @@ As [mentioned earlier](#goals), Stack Dependencies do not aim to handle the life
 
 Ordering the creation and deletion of stacks in a specific order is not impossible though. If you manage your Spacelift stacks with the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md), you can easily do it by setting [`spacelift_stack_destructor`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack_destructor){: rel="nofollow"} resources and setting the [`depends_on`](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on){: rel="nofollow"} Terraform attribute on them.
 
-Here is a simple example of creating a dependency between two stacks, immediately triggering a run on the parent stack (which cascades to the child stack) and setting up a destructor for them. By setting up a destructor resource with the proper `depends_on` attribute, it ensures that the deletion of the stacks will happen in the proper order. First child, then parent. This is also an easy way to create short-lived environments.
+Here is a simple example of creating a dependency between 3 stacks and setting up a destructor for them. By setting up a destructor resource with the proper `depends_on` attribute, it ensures that the deletion of the stacks will happen in the proper order. First child, then parent. This is also an easy way to create short-lived environments.
 
 ```terraform
-# Parent stack
-resource "spacelift_stack" "infra" {
-  name       = "Base infrastructure"
-  repository = "infra"
+# VPC -> Infra -> App
+
+resource "spacelift_stack" "vpc" {
+  name       = "VPC"
+  repository = "vpc"
   branch     = "main"
-  autodeploy = true
 }
 
-# Child stack
+resource "spacelift_stack" "infra" {
+  name       = "Infra"
+  repository = "infra"
+  branch     = "main"
+}
+
 resource "spacelift_stack" "app" {
   name       = "Application"
   repository = "app"
   branch     = "main"
-  autodeploy = true
 }
 
-# Create the parent-child dependency for run execution ordering
-resource "spacelift_stack_dependency" "this" {
+resource "spacelift_stack_dependency" "infra_vpc" {
+  stack_id            = spacelift_stack.infra.id
+  depends_on_stack_id = spacelift_stack.vpc.id
+}
+
+resource "spacelift_stack_dependency" "app_infra" {
   stack_id            = spacelift_stack.app.id
   depends_on_stack_id = spacelift_stack.infra.id
-
-  depends_on = [
-    spacelift_stack_destructor.app,
-    spacelift_stack_destructor.infra
-  ]
 }
 
-# Trigger a run on the parent stack, to create the infrastructure
-# and deploy the application.
-resource "spacelift_run" "this" {
-  stack_id = spacelift_stack.infra.id
-
-  keepers = {
-    branch = spacelift_stack.infra.branch
-  }
-
-  # Make sure the dependency exists before triggering the run
-  depends_on = [
-    spacelift_stack_dependency.this
-  ]
+resource "spacelift_stack_dependency_reference" "infra_vpc" {
+  stack_dependency_id = spacelift_stack_dependency.infra_vpc.id
+  input_name          = "TF_VAR_vpc_id"
+  output_name         = "vpc_id"
 }
 
-# Create the destructor for the parent stack
+resource "spacelift_stack_dependency_reference" "app_infra" {
+  stack_dependency_id = spacelift_stack_dependency.app_infra.id
+  input_name          = "TF_VAR_kms_arn"
+  output_name         = "kms_arn"
+}
+
+resource "spacelift_stack_destructor" "vpc" {
+  stack_id = spacelift_stack.vpc.id
+}
+
 resource "spacelift_stack_destructor" "infra" {
   stack_id = spacelift_stack.infra.id
+
+  depends_on = [spacelift_stack_destructor.vpc]
 }
 
-# Create the destructor for the child stack
 resource "spacelift_stack_destructor" "app" {
   stack_id = spacelift_stack.app.id
 
-  depends_on = [
-    spacelift_stack_destructor.infra
-  ]
+  depends_on = [spacelift_stack_destructor.infra]
 }
 ```
 
 What happens during `terraform apply`:
 
-- Terraform creates the two stacks
+- Terraform creates the 3 stacks
 - Sets up the dependency between them
-- Triggers a run on the parent stack (`infra`)
-- Which in turn automatically triggers a run on the child stack (`app`) as well
 
-You might notice the two destructors at the end. They don't do anything yet, but they will be used during `terraform destroy`. Destroy order:
+You might notice the three destructors at the end. They don't do anything yet, but they will be used during `terraform destroy`. Destroy order:
 
-- Terraform destroys the dependency
-- Destroys the child stack (`app`) **and** its resources
-- Finally, destroys the parent stack (`infra`) **and** its resources
+- Terraform destroys the dependencies and dependency references
+- Destroys the grandchild stack (`app`) **and** its resources
+- Destroys the parent stack (`infra`) **and** its resources
+- Finally, destroys the grandparent stack (`vpc`) **and** its resources
