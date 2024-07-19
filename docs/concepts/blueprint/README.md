@@ -423,7 +423,7 @@ Since you probably don't want to create stacks with the exact same name and conf
 ### Inputs
 
 {% raw %}
-Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input.
+Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input. To ensure an input variable is always recognized as a string, you can enclose the value in quotes `"${{ inputs.environment }}"`.
 {% endraw %}
 
 The input object has `id`, `name`, `description`, `type`, `default` and `options` fields. The mandatory fields are `id` and `name`.
@@ -527,7 +527,7 @@ stack:
   environment:
     variables:
       - name: DEPLOYMENT_ID
-        value: ${{ context.random_uuid }}
+        value: "${{ context.random_uuid }}"
   schedules:
     delete:
       delete_resources: ${{ context.random_number % 2 == 0 }} # Russian roulette
