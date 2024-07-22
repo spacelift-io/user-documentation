@@ -199,6 +199,9 @@ approve { input.run.command == allowlist[_] }
 approve { count(input.reviews.current.approvals) > 1 }
 ```
 
+!!! info
+    Options for input.run.type include `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DESTROY`
+
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/iKwd84nfjR){: rel="nofollow"}.
 
 ### Combining multiple rules
