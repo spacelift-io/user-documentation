@@ -221,7 +221,7 @@ List of the most useful labels:
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
 - **ghenv: -** -- Disables the creation of GitHub deployment environments
-- **autoattach:label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing that label
+- **autoattach:autoattached_label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing `autoattached_label`
 - **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
 
 ### Project root
