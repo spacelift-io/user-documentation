@@ -27,7 +27,7 @@ Stack dependencies can be defined in the `Dependencies` tab of the stack.
 You have the option to refer to outputs of other stacks: by default, your stack will be only triggered if the referenced output has been created or changed. If you enable the `Trigger always` option however, the stack will be triggered regardless of the referenced output.
 
 !!! note
-Dependant stack will not be re-triggered if you remove one of the reference with the disabled `Trigger always`.
+    Adding a new reference will always trigger a run. Removing one, however will not. If you want such behavior, consider enabling the `Trigger always` flag.
 
 ![](../../assets/screenshots/Screenshot_Stack_Dependencies_add_ref.png)
 
