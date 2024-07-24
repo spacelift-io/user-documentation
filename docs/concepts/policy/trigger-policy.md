@@ -24,7 +24,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
 
 ```json
 {
-  "run": { // the run metadata
+  "run": {
     "based_on_local_workspace": "boolean - whether the run stems from a local preview",
     "branch": "string - the branch the run was triggered from",
     "changes": [
@@ -33,7 +33,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
         "entity": {
           "address": "string - full address of the entity",
           "name": "string - name of the entity",
-          "type": "string - full resource type or \"output\" for outputs",
+          "type": "string - full resource type or 'output' for outputs",
           "entity_vendor": "string - the name of the vendor",
           "entity_type": "string - the type of entity, possible values depend on the vendor",
           "data": "object - detailed information about the entity, shape depends on the vendor and type"
@@ -44,7 +44,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
     "commit": {
       "author": "string - GitHub login if available, name otherwise",
       "branch": "string - branch to which the commit was pushed",
-      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "created_at": "number - creation Unix timestamp in nanoseconds",
       "hash": "string - the commit hash",
       "message": "string - commit message"
     },
@@ -58,16 +58,21 @@ When triggered by a _run_, this is the schema of the data input that each policy
       "machine": "boolean - whether the run was initiated by a human or a machine"
     },
     "drift_detection": "boolean - is this a drift detection run",
-    "flags" : ["string - list of flags set on the run by other policies" ],
+    "flags": ["string - list of flags set on the run by other policies"],
     "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],
       "project_root": "string - root of the Terraform project",
       "runner_image": "string - Docker image used to execute the run",
-      "terraform_version": "string - Terraform version used to for the run"
+      "terraform_version": "string - Terraform version used for the run"
     },
     "state": "string - the current run state",
-    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+    "states_history": [
+      {
+        "new_state": "string - state transition that occurred"
+      }
+    ],
+    "triggered_by": "string - user or trigger policy who triggered the run, if applicable",
     "type": "string - type of the run",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": [
@@ -90,7 +95,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
     "tracked_commit": {
       "author": "string - GitHub login if available, name otherwise",
       "branch": "string - branch to which the commit was pushed",
-      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "created_at": "number - creation Unix timestamp in nanoseconds",
       "hash": "string - the commit hash",
       "message": "string - commit message"
     },
@@ -118,7 +123,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
       "tracked_commit": {
         "author": "string - GitHub login if available, name otherwise",
         "branch": "string - branch to which the commit was pushed",
-        "created_at": "number  - creation Unix timestamp in nanoseconds",
+        "created_at": "number - creation Unix timestamp in nanoseconds",
         "hash": "string - the commit hash",
         "message": "string - commit message"
       },
@@ -139,6 +144,7 @@ When triggered by a _run_, this is the schema of the data input that each policy
     }
   ]
 }
+
 ```
 
 !!! info
