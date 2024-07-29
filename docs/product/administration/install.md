@@ -146,6 +146,23 @@ The mandatory fields are:
 
 #### Optional configuration options
 
+##### Webhooks URL
+
+By default Spacelift if configured to receive webhooks on the URL specified by the `spacelift_hostname` configuration option. If you want to receive webhooks via a different URL, you can specify the `webhooks_endpoint` property:
+
+```json
+{
+  "spacelift_hostname": "spacelift.myorg.com",
+  "webhooks_endpoint": "webhooks.spacelift.myorg.com"
+}
+```
+
+!!! warning
+    Please note, this URL is used by Spacelift to build the webhook endpoints displayed within
+    the Spacelift user interface. This setting does not affect how traffic is routed to your
+    Spacelift instance, and you are responsible for configuring DNS and any other infrastructure
+    required to route the webhooks traffic to your Spacelift server instance.
+
 ##### Load balancer
 
 Load balancer configuration has a mix of required and optional fields alongside some which
