@@ -4,6 +4,8 @@
 
 Login policies can allow users to log in to the account, and optionally give them admin privileges, too. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
 
+!!! API Keys are considered virtual users which are also evaluated with policy when login policy is turned on
+
 !!! info
     Login policies are only evaluated for the [Cloud or Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
 
