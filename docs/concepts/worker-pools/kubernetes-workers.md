@@ -797,17 +797,18 @@ Init Containers:
 ...
 ```
 
-!!! info
-    If you're having trouble understanding why a run isn't starting / is failing, and want to reach out for support, please include the output of the following commands (replacing the relevant IDs/names):
+### Getting help with run issues
 
-    - `kubectl get pods -l "workers.spacelift.io/run-id=<run-id>"`
-    - `kubectl describe pods -l "workers.spacelift.io/run-id=<run-id>"`
-    - `kubectl logs -l "workers.spacelift.io/run-id=<run-id>" --all-containers --prefix --timestamps`
-    - `kubectl events workers/<worker-name> -o json`
+If you're having trouble understanding why a run isn't starting, is failing, or is hanging, and want to reach out for support, please include the output of the following commands (replacing the relevant IDs/names as well as specifying the namespace of your worker pool):
 
-    Please also include your controller logs from 10 minutes before the run started. You can do this using the `--since-time` flag, like in the following example:
+- `kubectl get pods  --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>"`
+- `kubectl describe pods --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>"`
+- `kubectl logs --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>" --all-containers --prefix --timestamps`
+- `kubectl events --namespace <worker-pool-namespace> workers/<worker-name> -o json`
 
-    - `kubectl logs -n spacelift-worker-controller-system spacelift-worker-controllercontroller-manager-6f974d9b6d-kx566 --since-time="2024-04-02T09:00:00Z" --all-containers --prefix --timestamps`
+Please also include your controller logs from 10 minutes before the run started. You can do this using the `--since-time` flag, like in the following example:
+
+- `kubectl logs -n spacelift-worker-controller-system spacelift-worker-controllercontroller-manager-6f974d9b6d-kx566 --since-time="2024-04-02T09:00:00Z" --all-containers --prefix --timestamps`
 
 ### Custom runner images
 
