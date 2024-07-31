@@ -277,7 +277,7 @@ There is no connection between the two features, and **the two shouldn't be comb
 
 ## Stack deletion
 
-A stack cannot be deleted if it has downstream dependencies (child stacks depending on it). If you want to delete such stack, you need to delete all of its downstream dependencies first. However, if a stack only has upstream dependencies (parent stacks that it depends on), it can be deleted without any issues.
+A stack cannot be deleted if it has downstream dependencies (child stacks depending on it). If you want to delete such a stack, you need to delete all of its downstream dependencies first. However, if a stack only has upstream dependencies (parent stacks that it depends on), it can be deleted without any issues.
 
 ## Ordered Stack creation and deletion
 
