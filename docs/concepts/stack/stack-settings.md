@@ -235,6 +235,9 @@ Project root points to the directory within the repo where the project should st
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
+!!! warning
+    Project globs do not mount the files or directories in your project root.  They are used primarily for triggering your stack when for example there are changes to a module outside of the project root.
+
 ![](../../assets/screenshots/stack/settings/source-code_project-globs.png)
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
