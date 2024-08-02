@@ -215,6 +215,9 @@ stack:
     id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
     branch: main
     project_root: modules/apps/${{ inputs.app }}
+    project_globs:
+      - "terraform/**"
+      - "k8s/**"
     namespace: "my-namespace" # The VCS organization name or project namespace
     # Note that this is just the name of the repository, not the full URL
     repository: my-repository
@@ -282,6 +285,9 @@ The `id` is optional and only needed if you want to use a non-default integratio
     id: "github-for-my-org" # Optional, only needed if you want to use a non-default VCS integration. Use the "Copy ID" button to get the ID.
     branch: main
     project_root: modules/networking
+    project_globs: # Project globs do not mount the files or directories in your project root. They are used primarily for triggering your stack when for example there are changes to a module outside of the project root.
+      - "terraform/**"
+      - "k8s/**"
     namespace: "my-namespace" # The VCS organization name or project namespace.
     repository: my-repository # Name of the repository.
     repository_url: "https://www.github.com/my-namespace/my-repository" # This is only needed for RAW_GIT
@@ -858,6 +864,12 @@ For simplicity, here is the current schema, but it might change in the future:
                                 "project_root": {
                                     "type": "string"
                                 },
+                                "project_globs": {
+                                    "type": "array"
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                },
                                 "provider": {
                                     "type": "string",
                                     "enum": [
@@ -898,6 +910,12 @@ For simplicity, here is the current schema, but it might change in the future:
                                 },
                                 "project_root": {
                                     "type": "string"
+                                },
+                                "project_globs": {
+                                    "type": "array"
+                                      "items": {
+                                        "type": "string"
+                                      }
                                 },
                                 "provider": {
                                     "type": "string",
