@@ -22,7 +22,7 @@ Once you install the Spacelift app, the account-level integration is finished an
 
 ![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Slack_integration_·_spacelift-io.png)
 
-Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Slack commands](slack.md#available-commands) and the management uses the Slack interface.
+Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Notification policies](https://docs.spacelift.io/concepts/policy/notification-policy#slack-messages).
 
 Though before that happens, you need to allow requests coming from Slack to access Spacelift stacks.
 
@@ -142,19 +142,3 @@ space_write["Y"] {
   input.slack.team.id == "X"
 }
 ```
-
-## Available slash commands
-
-!!! warning
-    It's recommended to instead use the [notification policy](../../concepts/policy/notification-policy.md) in order to
-    manage slack messages received from Spacelift. These slash commands are **deprecated**.
-
-    {% if is_self_hosted() %}
-    Also, please note that slash commands only work if your Spacelift instance is publicly accessible by Slack. If your Spacelift installation uses an internal load balancer, for example, slash commands will not work.
-    {% endif %}
-
-Three slash commands are currently available:
-
-- `/spacelift subscribe $stackId` - subscribes a particular Slack channel to run state changes for a given Stack - requires ;
-- `/spacelift unsubscribe $stackId` - unsubscribes a particular Slack channel from run state changes for a given Stack;
-- `/spacelift trigger $stackId` - triggers a tracked run for the specified Stack;
