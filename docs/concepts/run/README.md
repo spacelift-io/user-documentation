@@ -109,10 +109,9 @@ PLANNING - The worker is planning the run.
 FAILED - The run has failed.
 
 FINISHED - The run or task has finished successfully.
-        
 
 UNCONFIRMED - The run has planned successfully, it reports changes and is waiting for the user to review those.
-  
+
 DISCARDED - The run's plan has been rejected by the user.
 
 CONFIRMED - The run's plan has been confirmed by the user. The run is now waiting for the worker to pick it up and start processing.
