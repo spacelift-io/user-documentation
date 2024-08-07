@@ -31,11 +31,11 @@ Actions that are not available for all the selected stacks will be marked with a
 
 ### Performing actions
 
-If you need a more detailed view of the selected stacks, click the "See details" button, that will open the bulk actions drawer. From the drawer you can also dismiss any stacks you deem unnecessary. Use floating bar for quick actions and use the drawer when you need to be more careful with your selection.
+If you need a more detailed view of the selected stacks, click the "See details" button, that will open the bulk actions drawer. From the drawer you can also dismiss any stacks you deem unnecessary. Use the floating bar for quick actions and use the drawer when you need to be more careful with your selection.
 
 ![](../../assets/screenshots/stack/bulk-actions/stack-bulk-actions_drawer.png)
 
-On the drawer you will see a fine-grained details on which actions are available for each of the selected stacks.
+On the drawer you will see fine-grained details on which actions are available for each of the selected stacks.
 
 ![](../../assets/screenshots/stack/bulk-actions/stack-bulk-actions_partial-action-drawer.png)
 
@@ -49,7 +49,7 @@ The same view is also available on the drawer, where you can review the applicab
 
 Once you confirm the action you'll be presented with the action results drawer, where you can review the status of each item. Please stay on this view until all of your actions are performed, otherwise any in-progress actions will be stopped.
 
-When the action execution is finished, you can use the "New action" button to perform another action on the same selection or a subset of it (from the completed or the failed results).
+When the bulk execution is complete, you can use the "New action" button to perform another action on the same selection or a subset of it (from the completed or the failed results).
 
 ![](../../assets/screenshots/stack/bulk-actions/stack-bulk-actions_result-drawer.png)
 
