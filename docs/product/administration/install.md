@@ -153,7 +153,8 @@ By default Spacelift if configured to receive webhooks on the URL specified by t
 ```json
 {
   "spacelift_hostname": "spacelift.myorg.com",
-  "webhooks_endpoint": "webhooks.spacelift.myorg.com"
+  "webhooks_endpoint": "webhooks.spacelift.myorg.com",
+  ... other settings
 }
 ```
 
@@ -162,6 +163,25 @@ By default Spacelift if configured to receive webhooks on the URL specified by t
     the Spacelift user interface. This setting does not affect how traffic is routed to your
     Spacelift instance, and you are responsible for configuring DNS and any other infrastructure
     required to route the webhooks traffic to your Spacelift server instance.
+
+##### IoT Broker Endpoint
+
+Spacelift uses AWS IoT Core to communicate with workers in order to schedule runs. By default Spacelift will use the IoT broker endpoint for the installation region of your AWS account, but you can also use your own custom IoT broker endpoint, for example `worker-iot.spacelift.myorg.com`.
+
+To configure this, use the following steps:
+
+1. Follow the [AWS documentation](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-configurable-custom.html) to configure a custom IoT broker endpoint in your Spacelift region, and to setup DNS to point your custom domain name at the broker endpoint.
+2. Specify the `iot_broker_endpoint` setting in your config.json file.
+
+Your config.json file should look something like this:
+
+```json
+{
+  "spacelift_hostname": "spacelift.myorg.com",
+  "iot_broker_endpoint": "worker-iot.spacelift.myorg.com",
+  ... other settings
+}
+```
 
 ##### Load balancer
 
