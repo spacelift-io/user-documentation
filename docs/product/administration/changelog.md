@@ -4,6 +4,28 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v1.3.0 and v2.0.0
+
+!!! warning
+    This release of Self-Hosted involves mandatory downtime during the installation process. We expect that downtime to be between 5 and 10 minutes, but it's important that you do not start the installation at a time you cannot afford Spacelift to be unavailable.
+
+v2.0.0 introduces multi-region failover support to Self-Hosted to help as part of a [disaster recovery](./disaster-recovery.md) process. One of these changes involves converting the single-region KMS key used to encrypt sensitive data like stack and context secrets to a multi-region key. In order to do that, the installation includes a migration to convert the data from one key to another.
+
+The migration is performed inside a transaction, and in the case of any errors the changes will be rolled back to avoid a situation where data is encrypted using both old and new keys.
+
+Although we have safeguards in place to ensure the migration is successful, we recommend taking a snapshot of your RDS cluster before performing the installation in case anything goes wrong.
+
+### Features
+
+- Added the ability to provide a [custom database connection string](./install.md#self-managed-database) during install/upgrade. This allows you to take full control over the database used by Spacelift.
+- Added [multi-region disaster recovery](./disaster-recovery.md) support.
+- Added support for OpenTofu 1.8.0.
+- Various other small features and improvements.
+
+### Fixes
+
+- Fixed a misconfiguration that was causing the server logs to be filled with messages containing `failed to record HTTP transaction`.
+
 ## Changes between v1.2.1 and v1.3.0
 
 ### Features
