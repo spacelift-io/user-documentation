@@ -48,10 +48,11 @@ These baseline costs include all of the resources deployed as part of your Space
 
 ## Installation
 
-This section explains the installation process for Spacelift. You may also be interested in the following pages that explain how to configure the Slack integration as well as advanced installations:
+This section explains the installation process for Spacelift. You may also be interested in the following pages that explain how to configure the Slack integration as well as advanced installations and disaster recovery:
 
 - [Slack integration setup](./slack-integration-setup.md) - explains how to configure the Slack integration for your Spacelift instance.
 - [Advanced installations](./advanced-installations.md) - explains how to configure advanced options like providing a custom VPC configuration, or specifying HTTP proxy settings.
+- [Disaster recovery](./disaster-recovery.md) - explains how to configure your installation for multi-region failover.
 
 ### AWS Requirements
 
