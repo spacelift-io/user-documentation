@@ -50,8 +50,8 @@ The controller may also work with older versions, but we do not guarantee and pr
 Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up):
 
 ```shell
-SPACELIFT_WP_TOKEN=<enter-token>
-SPACELIFT_WP_PRIVATE_KEY=<enter-base64-encoded-key>
+SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64)
 
 kubectl apply -f - <<EOF
 apiVersion: v1
