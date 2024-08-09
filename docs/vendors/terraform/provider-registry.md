@@ -203,8 +203,6 @@ jobs:
 
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run GoReleaser
         # We will only run GoReleaser when a tag is pushed. Semantic versioning

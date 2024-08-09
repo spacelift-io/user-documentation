@@ -207,8 +207,6 @@ jobs:
 
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: List stacks
         env:

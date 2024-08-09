@@ -86,8 +86,6 @@ jobs:
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -120,8 +118,6 @@ jobs:
     steps:
       - name: Install spacectl
         uses: spacelift-io/setup-spacectl@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check out repository code
         uses: actions/checkout@v4
