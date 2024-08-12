@@ -1,5 +1,8 @@
 # Multi-Factor Authentication (MFA)
 
+!!! info
+    Note that Multi-Factor Authentication is an Enterprise plan feature and is available only when SSO is enabled.
+
 With the introduction of IdP independent Multi-Factor Authentication (MFA), we extend our security capabilities to provide a robust and flexible authentication system. MFA at Spacelift is designed to protect your account and sensitive resources by requiring a second form of verification, adding a critical layer of security against unauthorized access.
 
 !!! warning
