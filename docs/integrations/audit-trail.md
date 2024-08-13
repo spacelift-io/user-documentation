@@ -12,7 +12,7 @@ In order to set up the audit trail, navigate to the Audit trail section of your 
 ![](<../assets/screenshots/audit-trail-page.png>)
 
 You will then need to provide a webhook endpoint and an arbitrary secret that you can later use for [verifying payload](audit-trail.md#verifying-payload).
-Optionally you can specify the custom headers that will be added to each HTTP request and enable `Include runs` option, that control whether run state change events will be sent to the audit webhook in addition to standard audit events.
+Optionally you can specify the custom headers that will be added to each HTTP request and enable `Include runs` option, which controls whether run state change events will be sent to the audit webhook in addition to standard audit events.
 Let's use ngrok for the purpose of this tutorial:
 
 ![](<../assets/screenshots/setup-audit-trail.png>)
