@@ -51,7 +51,7 @@ Note: It is possible to stop the queued actions if you make a mistake by clickin
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_floating-bar.png)
 
-when you make a selection on the "Stacks" page you can choose the intended action from the following options:
+When you make a selection on the "Stacks" page you can choose the intended action from the following options:
 
 - Approve - Adds an approval for stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
 - Confirm - Confirms the blocking run for stacks in the `Unconfirmed` state.
@@ -69,7 +69,7 @@ when you make a selection on the "Stacks" page you can choose the intended actio
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_stack-runs.png)
 
-when you make a selection on the "Stack runs" page you can choose the intended action from the following options:
+When you make a selection on the "Stack runs" page you can choose the intended action from the following options:
 
 - Approve - Adds an approval for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
 - Confirm - Confirms the runs in the `Unconfirmed` state.
@@ -102,7 +102,7 @@ When you make a selection on the "Modules" page you can choose the intended acti
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_notifications.png)
 
-when you make a selection on the "Notifications" page you can choose the intended action from the following options:
+When you make a selection on the "Notifications" page you can choose the intended action from the following options:
 
 - Dismiss - Dismisses the notifications for easier filtering.
 
@@ -110,7 +110,7 @@ when you make a selection on the "Notifications" page you can choose the intende
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_private-worker-pool-workers.png)
 
-when you make a selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
+When you make a selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
 
 - Drain - Disables scheduling future runs on the workers.
 - Undrain - Enables scheduling future runs on the workers.
@@ -119,7 +119,7 @@ when you make a selection on the "Private worker pool workers list" page you can
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_worker-pool-queued-runs.png)
 
-when you make a selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
+When you make a selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
 
 - Deprioritize - Removes the run from the priority queue.
 - Discard - Discards the runs in the `Ready` state.
@@ -129,6 +129,6 @@ when you make a selection on the "Worker pools queued runs" (public or private) 
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_run-changes.png)
 
-when you make a selection on the "Run changes" page you can choose the intended action from the following options:
+When you make a selection on the "Run changes" page you can choose the intended action from the following options:
 
 - Replan - Triggers a [targeted replan](../concepts/run/tracked.md#targeted-replan) with the selected changes.
