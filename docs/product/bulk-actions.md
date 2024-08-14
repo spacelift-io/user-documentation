@@ -49,6 +49,8 @@ Note: It is possible to stop the queued actions if you make a mistake by clickin
 
 ### Stacks list available actions
 
+![](../assets/screenshots/bulk-actions/bulk-actions_floating-bar.png)
+
 When you make the selection on the "Stacks" page you can choose the intended action from the following options:
 
 - Approve - Adds an approval for stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
@@ -65,6 +67,8 @@ When you make the selection on the "Stacks" page you can choose the intended act
 
 ### Stack runs list available actions
 
+![](../assets/screenshots/bulk-actions/bulk-actions_stack-runs.png)
+
 When you make the selection on the "Stack runs" page you can choose the intended action from the following options:
 
 - Approve - Adds an approval for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
@@ -73,6 +77,8 @@ When you make the selection on the "Stack runs" page you can choose the intended
 - Reject - Adds a rejection for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
 
 ### Runs view available actions
+
+![](../assets/screenshots/bulk-actions/bulk-actions_runs.png)
 
 On the "Runs" page all the filtered runs will be available for bulk actions. Once you filter out the items you will see the bulk actions floating bar (if any of the actions are applicable) from the following options:
 
@@ -83,7 +89,9 @@ On the "Runs" page all the filtered runs will be available for bulk actions. Onc
 
 ### Modules list available actions
 
-When you make the selection on the "Modules" page you can choose the intended action from the following options:
+![](../assets/screenshots/bulk-actions/bulk-actions_modules.png)
+
+When you make a selection on the "Modules" page you can choose the intended action from the following options:
 
 - Disable - Disables the modules, so they will not trigger any runs.
 - Enable - Enables the modules.
@@ -92,18 +100,24 @@ When you make the selection on the "Modules" page you can choose the intended ac
 
 ### Notifications available actions
 
+![](../assets/screenshots/bulk-actions/bulk-actions_notifications.png)
+
 When you make the selection on the "Notifications" page you can choose the intended action from the following options:
 
 - Dismiss - Dismisses the notifications for easier filtering.
 
 ### Private worker pool workers list available actions
 
+![](../assets/screenshots/bulk-actions/bulk-actions_private-worker-pool-workers.png)
+
 When you make the selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
 
 - Drain - Disables scheduling future runs on the workers.
 - Undrain - Enables scheduling future runs on the workers.
 
-### Worker pools queued runs list available actions
+### Worker pool queued runs list available actions
+
+![](../assets/screenshots/bulk-actions/bulk-actions_worker-pool-queued-runs.png)
 
 When you make the selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
 
@@ -112,6 +126,8 @@ When you make the selection on the "Worker pools queued runs" (public or private
 - Prioritize - Moves the run to the priority queue, so it's started before the other runs.
 
 ### Run changes view available actions
+
+![](../assets/screenshots/bulk-actions/bulk-actions_run-changes.png)
 
 When you make the selection on the "Run changes" page you can choose the intended action from the following options:
 
