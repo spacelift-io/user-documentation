@@ -45,18 +45,74 @@ Note: It is possible to stop the queued actions if you make a mistake by clickin
 
 ![](../assets/screenshots/bulk-actions/bulk-actions_pending-actions.png)
 
-## Stacks list available actions
+## Available bulk actions
+
+### Stacks list available actions
 
 When you make the selection on the "Stacks" page you can choose the intended action from the following options:
 
-- Approve - Adds an approval for the selected stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+- Approve - Adds an approval for stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
 - Confirm - Confirms the blocking run for stacks in the `Unconfirmed` state.
-- Disable - Disables the selected stacks, so they will not trigger any runs.
+- Disable - Disables the stacks, so they will not trigger any runs.
 - Discard - Discards the blocking run for stacks in the `Unconfirmed` state.
-- Enable - Enables the selected stacks.
-- Lock - Locks the selected stacks for exclusive use.
-- Reject - Adds a rejection for the selected stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+- Enable - Enables the stacks.
+- Lock - Locks the stacks for exclusive use.
+- Reject - Adds a rejection for stacks that require [approval policy](../concepts/policy/approval-policy.md) reviews.
 - Run task - [Manually triggers a run](../concepts/run/task.md) with a custom command.
-- Sync commit - Updates the selected stacks to point at the latest HEAD commit for their tracked branches.
-- Trigger - [Triggers a tracked run](../concepts/run/tracked.md#triggering-manually) for the selected stacks.
-- Unlock - Unlocks the selected stacks that are currently locked.
+- Sync commit - Updates stacks to point at the latest HEAD commit for their tracked branches.
+- Trigger - [Triggers a tracked run](../concepts/run/tracked.md#triggering-manually) for stacks.
+- Unlock - Unlocks stacks that are currently locked.
+
+### Stack runs list available actions
+
+When you make the selection on the "Stack runs" page you can choose the intended action from the following options:
+
+- Approve - Adds an approval for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+- Confirm - Confirms the runs in the `Unconfirmed` state.
+- Discard - Discards the runs in the `Unconfirmed` state.
+- Reject - Adds a rejection for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+
+### Runs view available actions
+
+On the "Runs" page all the filtered runs will be available for bulk actions. Once you filter out the items you will see the bulk actions floating bar (if any of the actions are applicable) from the following options:
+
+- Approve - Adds an approval for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+- Confirm - Confirms the runs in the `Unconfirmed` state.
+- Discard - Discards the runs in the `Unconfirmed` state.
+- Reject - Adds a rejection for runs that require [approval policy](../concepts/policy/approval-policy.md) reviews.
+
+### Modules list available actions
+
+When you make the selection on the "Modules" page you can choose the intended action from the following options:
+
+- Disable - Disables the modules, so they will not trigger any runs.
+- Enable - Enables the modules.
+- Favorite - Marks the modules as favorite, so they appear on top of the list.
+- Unfavorite - Unmarks the modules as favorite.
+
+### Notifications available actions
+
+When you make the selection on the "Notifications" page you can choose the intended action from the following options:
+
+- Dismiss - Dismisses the notifications for easier filtering.
+
+### Private worker pool workers list available actions
+
+When you make the selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
+
+- Drain - Disables scheduling future runs on the workers.
+- Undrain - Enables scheduling future runs on the workers.
+
+### Worker pools queued runs list available actions
+
+When you make the selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
+
+- Deprioritize - Removes the run from the priority queue.
+- Discard - Discards the runs in the `Ready` state.
+- Prioritize - Moves the run to the priority queue, so it's started before the other runs.
+
+### Run changes view available actions
+
+When you make the selection on the "Run changes" page you can choose the intended action from the following options:
+
+- Replan - Triggers a [targeted replan](../concepts/run/tracked.md#targeted-replan) with the selected changes.
