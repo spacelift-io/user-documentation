@@ -54,6 +54,9 @@ In self-hosted, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABL
 
 When a stack has an upstream dependency with a reference, it relies on the existence of the outputs.
 
+!!! note
+    We upload the outputs during the apply phase.  We override the outputs in the Outputs tab if the run failed.
+
 ```mermaid
 graph TD;
     Storage --> |TF_VAR_AWS_S3_BUCKET_ARN|storageColor(StorageService);
