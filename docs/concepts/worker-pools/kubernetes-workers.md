@@ -54,15 +54,15 @@ First, export the token and private key as base64 encoded strings:
 #### Mac
 
 ```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config | base64 -b 0)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0 | base64 -b 0)
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
 ```
 
 #### Linux
 
 ```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config | base64 -w 0)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0 | base64 -w 0)
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
 ```
 
 Then, create the secret.
