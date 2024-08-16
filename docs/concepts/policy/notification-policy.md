@@ -169,16 +169,17 @@ This is the schema of the data input that each policy request can receive:
         "message": "string",
         "url": "string"
       }
+    },
+    "timing": [
+      {
+        "duration": "number (in nanoseconds)",
+        "state": "string"
+      }
+    ],
+    "urls": {
+      "run": "string - URL to the run"
     }
   },
-  "state": "string",
-  "timing": [
-    {
-      "duration": "number (in nanoseconds)",
-      "state": "string"
-    }
-  ],
-  "username": "string",
   "webhook_endpoints": [
     {
       "id": "custom-hook2",
