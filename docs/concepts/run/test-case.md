@@ -12,4 +12,7 @@ The destroying phase can be skipped without execution by setting the `SPACELIFT_
 
 ## Success criteria
 
+!!! note
+    Make sure to attach the integration for the cloud provider if your module is for a cloud provider.
+
 A module test case will only transition to the successful [finished](./README.md#finished) state if all the previous phases succeed. If any of the phases fails, the run will be marked as [failed](./README.md#failed).
