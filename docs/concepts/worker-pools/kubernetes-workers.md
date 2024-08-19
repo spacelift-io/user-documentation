@@ -45,6 +45,9 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
+!!! warning
+    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be [done manually through kubernetes](https://github.com/spacelift-io/spacelift-helm-charts/issues/60#issuecomment-2297191513).
+
 ### Create a Secret
 
 Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
