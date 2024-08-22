@@ -32,7 +32,7 @@ stacks:
         terraform_version: 0.13.0
         environment:
             AWS_REGION: eu-west-1
-            TF_VAR_access_roles: '[mc-prodsec, mc-admin]'
+            TF_VAR_access_roles: '[productionsecurity, admin]'
 ```
 
 The top level of the file contains three keys - `version` (defaults to `1` if not specified), `stacks` containing a mapping of immutable [stack id](../../stack/README.md#name-and-description) to the [stack configuration block](#stacks-configuration-block) and `stack_defaults`, containing the defaults common to all stacks using this source code repository. Note that corresponding stack-specific settings will override any stack defaults.
