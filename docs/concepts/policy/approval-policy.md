@@ -1,7 +1,7 @@
 # Approval policy
 
 !!! info
-  Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1
 
 The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
 
