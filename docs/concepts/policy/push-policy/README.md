@@ -6,7 +6,7 @@
     Push policies are only evaluated for the [Cloud or Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
 
 !!! info
-  Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1
 
 Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 

@@ -10,7 +10,7 @@ description: Create complex workflows using trigger policies
 ## Purpose
 
 !!! info
-  Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1
 
 Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.
 
