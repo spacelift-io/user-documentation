@@ -9,6 +9,9 @@ description: Create complex workflows using trigger policies
 
 ## Purpose
 
+!!! info
+  Please note, we currently don't support importing rego.v1
+
 Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.
 
 Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) as well as on module version releases and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.

@@ -1,5 +1,8 @@
 # Approval policy
 
+!!! info
+  Please note, we currently don't support importing rego.v1
+
 The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
 
 Runs can be reviewed when they enter one of the three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#unconfirmed). When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
