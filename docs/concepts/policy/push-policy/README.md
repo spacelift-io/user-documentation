@@ -5,6 +5,9 @@
 !!! info
     Push policies are only evaluated for the [Cloud or Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
 
+!!! info
+  Please note, we currently don't support importing rego.v1
+
 Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
 - **track**: set the new head commit on the [stack](../../stack/README.md) / [module](../../../vendors/terraform/module-registry.md) and create a [tracked](../../run/README.md#where-do-runs-come-from) [Run](../../run/README.md), ie. one that can be [applied](../../run/README.md#applying);
