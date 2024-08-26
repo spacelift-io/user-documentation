@@ -268,7 +268,7 @@ Note that in order to refer to a test case, you need to set a unique `id` to it.
 
 Whenever tests succeed on a [tracked change](../../concepts/run/README.md#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.
 
-![](../../assets/screenshots/Versions_·_terraform-spacelift-example.png)
+![](../../assets/screenshots/Versions_-_terraform_spacelift_example.png)
 
 Two proposed git flow are as follows:
 
@@ -303,11 +303,18 @@ You can also use [Git push policies](../../concepts/policy/push-policy/README.md
 
 ## Marking versions as bad
 
+!!! warning
+    Marking a version as bad cannot be undone.
+
 If you don't want people to use a specific version of your module, you can mark it as bad. Currently, this feature **doesn't have any technical implications** - it is still downloadable and usable, but it's a good way to communicate to your users that a specific version is not recommended.
 
-You need to click on the version number and then click on the **Mark as bad** button on the right. Make sure to leave a note explaining why the version is bad.
+You can mark a version as bad using the dropdown menu on the right side of the versions list or in the version details view. Make sure to leave a note explaining why the version is bad.
 
 ![](../../assets/screenshots/Version_mark_as_bad.png)
+
+You'll be able to see in the version details that the version has been **marked as bad** and the description.
+
+![](../../assets/screenshots/Version_mark_as_bad_2.png)
 
 ## Modules in practice
 
@@ -322,9 +329,9 @@ In order to use modules, you have to source them from the Spacelift module regis
 
 Unlike Stacks, modules can be shared between Spacelift accounts in a sense that while they're always **managed** by a single account, they can be made accessible to an arbitrary number of other accounts.
 
-In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings Sharing section:
+In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the "Module settings" > "Sharing" section:
 
-![](../../assets/screenshots/Edit_module_·_eggs.png)
+![](../../assets/screenshots/Module_-_sharing.png)
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
 
