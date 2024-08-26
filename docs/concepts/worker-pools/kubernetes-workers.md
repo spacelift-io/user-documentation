@@ -45,7 +45,7 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
-    #### Prometheus Metrics
+    **Prometheus Metrics**
 
     The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
     This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
