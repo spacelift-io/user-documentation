@@ -45,8 +45,25 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
-!!! warning
+    **Warning**
     [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be [done manually through kubernetes](https://github.com/spacelift-io/spacelift-helm-charts/issues/60#issuecomment-2297191513).
+
+    **Prometheus Metrics**
+
+    The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
+    This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
+
+    To install the controller with the prometheus-exporter subchart, use the following command:
+
+    ```shell
+    helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace \
+      --set spacelift-promex.enabled=true \
+      --set spacelift-promex.apiEndpoint="https://{yourAccount}.app.spacelift.io" \
+      --set spacelift-promex.apiKeyId="{yourApiToken}" \
+      --set spacelift-promex.apiKeySecretName="spacelift-api-key"
+    ```
+
+    Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter) and see more config options in the `values.yaml` file for the subchart.
 
 ### Create a Secret
 
