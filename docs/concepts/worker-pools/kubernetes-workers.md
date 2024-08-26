@@ -45,6 +45,10 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
+    **Warning**
+    
+    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be [done manually through kubernetes](https://github.com/spacelift-io/spacelift-helm-charts/issues/60#issuecomment-2297191513).
+    
     **Prometheus Metrics**
 
     The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
