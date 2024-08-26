@@ -11,3 +11,6 @@ Due to this an architecture akin to the following is more advisable:
 ![](../../assets/screenshots/spaces_tree_structure_2.png)
 
 This way you can create your Worker Pools, Contexts and Policies in the `dev`, `preprod`, and `prod` spaces, and then reuse them in all spaces below those.
+
+!!! info
+    Make sure to have [inheritance](./access-control#inheritance) enabled in the space settings if you plan to have, for example, your vcs in a separate space above your stack
