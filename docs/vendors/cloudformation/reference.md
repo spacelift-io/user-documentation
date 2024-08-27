@@ -50,4 +50,4 @@ Their values are set to the respective [Stack settings](reference.md#stack-setti
 You need to provide Spacelift with access to your AWS account. You can either do this using the [AWS Integration](../../integrations/cloud-providers/aws.md), provide ambient credentials on private workers, or pass environment variables directly.
 
 !!! info
-    Please note that, currently, it is not possible to attach separate read and write roles to your stack. This limitation exists because templates are uploaded during the planning phase, which requires the use of the write role.
+    Please note that, currently, it is not possible to utilize separate read and write roles to your stack. This limitation exists because templates are uploaded during the planning phase, which requires the use of the write role.
