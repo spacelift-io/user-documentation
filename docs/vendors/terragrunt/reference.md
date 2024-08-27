@@ -29,3 +29,15 @@ There is an environment variable for each phase of the run:
 
 If you create a Terragrunt stack via the Terraform provider, and don't populate the `terraform_version` or `terragrunt_version` properties, we default to the latest version available at creation time. If you create a stack with these values populated, and then later remove the fields, the stack continues to use the version set during stack creation, and doesn't update to the latest available version.
 If you change the `tool` and `terraform_version` isn't populated, the `terraform_version` will be reset in state file.
+
+## Module Registry
+
+To enable seamless authentication with Spacelift's module registry, we automatically configure the `TG_TF_REGISTRY_TOKEN` environment variable for stacks utilizing our native Terragrunt vendor.
+
+Below is an example of how you can format your Terraform block:
+
+```text
+terraform {
+  source = "tfr://spacelift.io/organization/module_name/provider?version=0.0.1"
+}
+```
