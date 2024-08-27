@@ -4,6 +4,25 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.0.0 and v2.1.0
+
+!!! warning
+    You must upgrade to v2.0.0 **before** installing v2.1.0. If you attempt to upgrade an existing
+    installation running a version older than v2.0.0, the installer will report an error and
+    exit without making any changes.
+
+    If you are currently on a version older than v2.0.0 and don't have access to the v2.0.0 installer
+    anymore, please reach out to our support team for new download links.
+
+### Features
+
+- The stack and module settings have been revamped, making it simpler and more efficient to manage your stacks and modules. One of the standout additions is the new Scheduling and Policies tabs, which have moved from the stack settings to the main stack view. Your schedules and policies are now more easily discoverable, and can also be viewed by team members who don’t have access to stack settings.
+
+### Fixes
+
+- We've fixed an issue with our initial Disaster Recovery support that meant that IoT policies would not be added to your secondary region when resetting an existing worker pool that was created before DR was configured. The impact of this would have been that workers from the affected pools would not be able to connect to your IoT broker after failing over. No user intervention is required to resolve this - the v2.1.0 installation process will fix any affected worker pools.
+- We've fixed an issue affecting Bitbucket Data Center that prevented branches being retrieved correctly if the repository contained more than 25 branches that contained your stack's branch name as part of their name (for example if a stack has a tracked branch called `dev`, and other branches exist in the repository like `development`, `dev-1`, `dev-2`, etc). This could prevent the stack settings for an affected stack from being saved.
+
 ## Changes between v1.3.0 and v2.0.0
 
 !!! warning
