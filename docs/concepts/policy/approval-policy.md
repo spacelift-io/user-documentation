@@ -49,7 +49,7 @@ When a user reviews the run, Spacelift persists their review and passes it to th
 ## Data input
 
 !!! info
-    Note that this is just an example meant for informational purposes (json doesn't support comments by design).  You can get a sample using the [policy workbench](../policy.html#policy-workbench).
+    Note that this is just an example meant for informational purposes (json doesn't support comments by design).  You can get a sample using the [policy workbench](./README.md#policy-workbench).
 
 This is the schema of the data input that each policy request will receive:
 
