@@ -47,7 +47,8 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     **Warning**
     
-    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.  [The latest manifests for the CRD can be found here](https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml) to apply to your cluster.
+    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.  
+[The latest manifests for the CRD can be found here](https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml). You need to extract the CRDs from it and apply them to your cluster.
     
     **Prometheus Metrics**
 
