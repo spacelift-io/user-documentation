@@ -48,6 +48,9 @@ When a user reviews the run, Spacelift persists their review and passes it to th
 
 ## Data input
 
+!!! info
+    Note that this is just an example meant for informational purposes (json doesn't support comments by design).  You can get a sample using the [policy workbench](../README.md#policy-workbench).
+
 This is the schema of the data input that each policy request will receive:
 
 ```json
@@ -115,7 +118,7 @@ This is the schema of the data input that each policy request will receive:
       "terraform_version": "string - Terraform version used to for the run"
     },
     "state": "string - the current run state",
-    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+    "triggered_by": "string or null - user, trigger policy, or dependent stack that triggered the run.  For a dependent stack is set to the stack id that triggered it.",
     "type": "string - type of the run",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": [
