@@ -149,4 +149,4 @@ This setting determines the Terragrunt parametrization.
     For example, if you set `terraform_version` only, all other fields will be reset to their defaults.
 
 !!! info
-    Terragrunt specific parameters only work when the stack is a terragrunt stack. Adding this does not override the stack type. For example, Ansible stacks don't become Terragrunt stacks.
+    Terragrunt specific parameters only work when the stack is a Terragrunt stack. Adding this does not override the stack type. For example, Ansible stacks don't become Terragrunt stacks.
