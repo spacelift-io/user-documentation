@@ -4,14 +4,14 @@ Spacelift has many features and hidden nuggets so it is easy to overlook some of
 
 If you still cannot find the answer to your question below, please reach out to our [support team](../product/support/README.md).
 
-{% if is_saas() %}
-
 ## Product
 
 ### How to submit a feature request?
 
-While logged in to the SaaS UI under Feedback center > Request a feature. For self hosted (and if you don't have a SaaS account), if you would like to create a feature request or ask for an update on a current request, please use Slack or the email support@spacelift.io to contact our team.
-
+{% if is_saas() %}
+A feature request can be submitted when you're logged in to the Spacelift SaaS UI under `Feedback center` > `Request a feature`.
+{% else %}
+For self hosted (and if you don't have a SaaS account), if you would like to create a feature request or ask for an update on a current request, please use Slack or the email <support@spacelift.io> to contact our team.
 {% endif %}
 
 ### Providing Admin consent for Microsoft login
