@@ -601,52 +601,122 @@ spacelift::logs::planning
 
 #### Complex example: adding a comment to a pull request about changed resources
 
-The following example will add a comment to a pull request where it will list all the resources that were added, changed or deleted.
+The following example will add a comment to a pull request where it will list all the resources that were added, changed, deleted, imported, moved or forgotten.
 
 !!! note
-    If you'd like to customize it, feel free to add `sample := true` to the the policy and then use the [Policy Workbench](../policy/README.md#policy-workbench-in-practice) to see what data is available.
+    Please note that this is an example policy which you can customize completely, if you would like to do so feel free to add `sample := true` to the the policy and then use the [Policy Workbench](../policy/README.md#policy-workbench-in-practice) to see what data is available. This example is also specifically for GitHub.
 
 ```opa
 package spacelift
 
-import future.keywords.contains
-import future.keywords.if
-import future.keywords.in
+import future.keywords  # Import future syntax features.
 
-header := sprintf("### Resource changes ([link](https://%s.app.spacelift.io/stack/%s/run/%s))\n\n![add](https://img.shields.io/badge/add-%d-brightgreen) ![change](https://img.shields.io/badge/change-%d-yellow) ![destroy](https://img.shields.io/badge/destroy-%d-red)\n\n| Action | Resource | Changes |\n| --- | --- | --- |", [input.account.name, input.run_updated.stack.id, input.run_updated.run.id, count(added), count(changed), count(deleted)])
+# Define a variable `header` to store a formatted string using the `sprintf` function.
+# This string will include dynamic information such as the URL for resource changes and
+# badges for different actions (add, change, destroy, import, move, forget) based on their counts.
+header := sprintf("### Resource changes ([link](%s))\n\n![add](https://img.shields.io/badge/add-%d-brightgreen) ![change](https://img.shields.io/badge/change-%d-yellow) ![destroy](https://img.shields.io/badge/destroy-%d-red) ![import](https://img.shields.io/badge/import-%d-blue) ![move](https://img.shields.io/badge/move-%d-purple) ![forget](https://img.shields.io/badge/forget-%d-b07878) \n\n| Action | Resource | Changes |\n| --- | --- | --- |", [input.run_updated.urls.run, count(added), count(changed), count(deleted), count(imported), count(moved), count(forgotten)])
 
-addedresources := concat("\n", added)
-changedresources := concat("\n", changed)
-deletedresources := concat("\n", deleted)
+# Create strings of resources by joining all resource items in respective categories with newline characters.
+addedresources := concat("\n", added)        # Join all 'added' resources with newline characters.
+changedresources := concat("\n", changed)    # Join all 'changed' resources with newline characters.
+deletedresources := concat("\n", deleted)    # Join all 'deleted' resources with newline characters.
+importedresources := concat("\n", imported)  # Join all 'imported' resources with newline characters.
+movedresources := concat("\n", moved)        # Join all 'moved' resources with newline characters.
+forgottenresources := concat("\n", forgotten) # Join all 'forgotten' resources with newline characters.
 
+# Define rules to populate the `added` collection with formatted rows when specific conditions are met.
 added contains row if {
-  some x in input.run_updated.run.changes
-
-  row := sprintf("| Added | `%s` | <details><summary>Value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
-  x.action == "added"
-  x.entity.entity_type == "resource"
+    some x in input.run_updated.run.changes  # Iterate over each change in the run's updates.
+    row := sprintf("| Added | `%s` | <details><summary>Value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])  # Format a row for an 'added' resource.
+    x.action == "added"                     # Check if the action for the change is 'added'.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    not x.moved                             # Ensure the resource was not moved.
 }
 
+# Additional conditions to consider other types of "added" actions based on replacements.
+added contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Added | `%s` | <details><summary>Value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
+    x.action == "destroy-Before-create-replaced"  # Check if the action is 'destroy-Before-create-replaced'.
+    x.entity.entity_type == "resource"
+    not x.moved
+}
+
+added contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Added | `%s` | <details><summary>Value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
+    x.action == "create-Before-destroy-replaced"  # Check if the action is 'create-Before-destroy-replaced'.
+    x.entity.entity_type == "resource"
+    not x.moved
+}
+
+# Define a rule to populate the `changed` collection with formatted rows when specific conditions are met.
 changed contains row if {
-  some x in input.run_updated.run.changes
+    some x in input.run_updated.run.changes
+    row := sprintf("| Changed | `%s` | <details><summary>New value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])  # Format a row for a 'changed' resource.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    x.action == "changed"                   # Check if the action for the change is 'changed'.
+    not x.moved                             # Ensure the resource was not moved.
+}
 
-  row := sprintf("| Changed | `%s` | <details><summary>New value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])
-  x.entity.entity_type == "resource"
+# Define rules to populate the `deleted` collection with formatted rows when specific conditions are met.
+deleted contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Deleted | `%s` | :x: |", [x.entity.address])  # Format a row for a 'deleted' resource.
+    x.action == "deleted"                   # Check if the action for the change is 'deleted'.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    not x.moved                             # Ensure the resource was not moved.
+}
 
-  any([x.action == "changed", x.action == "destroy-Before-create-replaced", x.action == "create-Before-destroy-replaced"])
+# Additional conditions to consider other types of "deleted" actions based on replacements.
+deleted contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Deleted | `%s` | :x: |", [x.entity.address])
+    x.action == "destroy-Before-create-replaced"  # Check if the action is 'destroy-Before-create-replaced'.
+    x.entity.entity_type == "resource"
+    not x.moved
 }
 
 deleted contains row if {
-  some x in input.run_updated.run.changes
-  row := sprintf("| Deleted | `%s` | :x: |", [x.entity.address])
-  x.entity.entity_type == "resource"
-  x.action == "deleted"
+    some x in input.run_updated.run.changes
+    row := sprintf("| Deleted | `%s` | :x: |", [x.entity.address])
+    x.action == "create-Before-destroy-replaced"  # Check if the action is 'create-Before-destroy-replaced'.
+    x.entity.entity_type == "resource"
+    not x.moved
 }
 
-pull_request contains {"commit": input.run_updated.run.commit.hash, "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources]), "\n\n\n", "\n"), "\n\n", "\n")} if {
-  input.run_updated.run.state == "FINISHED"
-  input.run_updated.run.type == "PROPOSED"
+# Define a rule to populate the `imported` collection with formatted rows when specific conditions are met.
+imported contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Imported | `%s` | <details><summary>New value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])  # Format a row for an 'imported' resource.
+    x.action == "import"                    # Check if the action for the change is 'import'.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    not x.moved                             # Ensure the resource was not moved.
 }
+
+# Define a rule to populate the `moved` collection with formatted rows when specific conditions are met.
+moved contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Moved | `%s` | <details><summary>New value</summary>`%s`</details> |", [x.entity.address, x.entity.data.values])  # Format a row for a 'moved' resource.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    x.moved                                 # Check if the resource was moved.
+}
+
+# Define a rule to populate the `forgotten` collection with formatted rows when specific conditions are met.
+forgotten contains row if {
+    some x in input.run_updated.run.changes
+    row := sprintf("| Forgotten | `%s` | :x: |", [x.entity.address])  # Format a row for a 'forgotten' resource.
+    x.action == "forget"                    # Check if the action for the change is 'forget'.
+    x.entity.entity_type == "resource"      # Ensure the entity type is a 'resource'.
+    not x.moved                             # Ensure the resource was not moved.
+}
+
+# Define a rule to create a pull request object if certain conditions are met.
+pull_request contains {"commit": input.run_updated.run.commit.hash, "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources, importedresources, movedresources, forgottenresources]), "\n\n\n", "\n"), "\n\n", "\n")} if {
+    input.run_updated.run.state == "FINISHED"  # Ensure the run state is 'FINISHED'.
+    input.run_updated.run.type == "PROPOSED"   # Ensure the run type is 'PROPOSED'.
+}
+
 ```
 
 <p align="center">
