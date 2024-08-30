@@ -1,5 +1,8 @@
 # HashiCorp Vault
 
+!!! hint
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+
 ## Configuring Spacelift as an Identity Provider
 
 In order to enable Spacelift runs to access Vault, you need to set up Spacelift as a valid identity provider for your Vault instance. This is done using [Vault's OIDC auth method](https://www.vaultproject.io/docs/auth/jwt){: rel="nofollow"}. The set up process involves creating a role in Vault that tells Vault which Spacelift runs should be able to access which Vault secrets. This process can be completed via the Vault CLI or Terraform. For illustrative purposes we will use the Vault CLI.
