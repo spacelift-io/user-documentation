@@ -1,5 +1,8 @@
 # Amazon Web Services (AWS)
 
+!!! hint
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+
 !!! warning
     <!-- markdownlint-disable-next-line MD044 -->
     <!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
