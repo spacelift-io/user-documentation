@@ -38,36 +38,45 @@ Looking at the code, you will find that it deploys Nginx with 2 replicas.
 
 In Spacelift, go ahead and click the **Add Stack** button to create a Stack in Spacelift.
 
-![](../../assets/screenshots/k8s-create-a-new-stack.png)
+![](../../assets/screenshots/Create_Stack_Screenshot.png)
 
-### Integrate VCS
+### Name the Stack
+
+Provide the name of your Stack. _Labels_ and _Description_ are not required but recommended.
+
+![](../../assets/screenshots/Stack_Name_Screenshot.png)
+
+### Connect to Source Code
 
 Select the repository you created in the initial step, as seen in the picture.
 
-![Configuring the VCS settings.](../../assets/screenshots/k8s-integrate-vcs.png)
+![Configuring the VCS settings.](../../assets/screenshots/Connect_to_Source_code_Screenshot.png) 
 
-### Configure Backend
+### Choose Vendor
 
 Choose Kubernetes from the dropdown list and type out the **namespace**.
 
 !!! info
     Spacelift does not recommend leaving the Namespace blank due to the elevated level of access privilege required.
 
-![](../../assets/screenshots/k8s-configure-backend.png)
+![](../../assets/screenshots/Choose_Vendor_Screenshot.png)
 
 ### Define Behavior
 
 Select the arrow next to _Show Advanced Options_ to expose the advanced configuration options.
 
-To ensure the success of a Kubernetes deployment, the following options should be reviewed and validated.
+For the Runner Image, use a custom one that has `kubectl` installed.
 
-- Runner Image: Use a custom one that has `kubectl` installed.
-- Customize workflow: During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
+![](../../assets/screenshots/Define_Behavior_Screenshot.png)
+
+### Add Hooks
 
 !!! info
     Spacelift can authenticate against any Kubernetes cluster, including local or cloud provider managed instances.
 
-![](../../assets/screenshots/k8s-define-behavior.png)
+During the initialization phase, you must specify the necessary command to ensure _kubeconfig_ is updated and authenticated to the Kubernetes Cluster you will be authenticating against.
+
+![](../../assets/screenshots/Add_Hooks_Screenshot.png)
 
 In the example above, I am authenticating to an AWS EKS Cluster and used the following command to update the kubeconfig for the necessary cluster.
 
@@ -88,23 +97,11 @@ The above allows the worker to authenticate to the proper cluster before running
 
     After you Name the Stack, follow the Cloud Integrations section to ensure Spacelift can authenticate to your Kubernetes Cluster.
 
-### Name the Stack
-
-Provide the name of your Stack. _Labels_ and _Description_ are not required but recommended.
-
-![](../../assets/screenshots/k8s-name-stack.png)
-
-Saving the Stack will redirect you to its Tracked Runs (Deployment) page.
-
-![](../../assets/screenshots/k8s-triggered-runs.png)
-
-## Configure Integrations
+## Attach Cloud Integration
 
 To authenticate against a Kubernetes cluster provided by Cloud Provider managed service, Spacelift requires integration with the associated Cloud Provider.
 
-Navigate to the **Settings**, **Integrations** page and select the dropdown arrow to access the following selection screen:
-
-![](../../assets/screenshots/k8s-integration-selection.png)
+![](../../assets/screenshots/Add_Cloud_Integration_Screenshot.png)
 
 !!! warning
     Necessary permissions to the Kubernetes Cluster are required.
@@ -125,13 +122,13 @@ The following links will help you set up the necessary integration with your Clo
 
 {% endif %}
 
-Once you have configured the necessary integration, navigate the Stack landing page and Trigger a Run.
+Once you have configured the necessary integration and any additional steps (e.g policies or contexts), save the Stack.  You will be directed to the Stack landing page where you will be able to Trigger a Run.
 
 ## Trigger a Run
 
 To Trigger a Run, select _**Trigger**_ on the right side of the Stacks view.
 
-![](../../assets/screenshots/k8s-trigger.png)
+![](../../assets/screenshots/Stack_Tracked_Run_View_Screenshot.png)
 
 !!! info "Spacelift Label"
     To help identify resources deployed to your Kubernetes cluster, Spacelift will add the following label to all resources: `spacelift-stack=<stack-slug>`
