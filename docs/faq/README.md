@@ -10,7 +10,7 @@ If you still cannot find the answer to your question below, please reach out to 
 
 ### How to submit a feature request?
 
-We are currently working on a new feature request portal. In the meantime, if you would like to create a feature request or ask for an update on a current request, please use Slack or the in-app chat to contact our team.
+While logged in to the SaaS UI under Feedback center > Request a feature. For self hosted (and if you don't have a SaaS account), if you would like to create a feature request or ask for an update on a current request, please use Slack or the email support@spacelift.io to contact our team.
 
 {% endif %}
 
