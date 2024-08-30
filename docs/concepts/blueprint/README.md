@@ -215,6 +215,9 @@ stack:
     id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
     branch: main
     project_root: modules/apps/${{ inputs.app }}
+    project_globs:
+      - "terraform/**"
+      - "k8s/**"
     namespace: "my-namespace" # The VCS organization name or project namespace
     # Note that this is just the name of the repository, not the full URL
     repository: my-repository
@@ -282,6 +285,9 @@ The `id` is optional and only needed if you want to use a non-default integratio
     id: "github-for-my-org" # Optional, only needed if you want to use a non-default VCS integration. Use the "Copy ID" button to get the ID.
     branch: main
     project_root: modules/networking
+    project_globs: # Project globs do not mount the files or directories in your project root. They are used primarily for triggering your stack when for example there are changes to a module outside of the project root.
+      - "terraform/**"
+      - "k8s/**"
     namespace: "my-namespace" # The VCS organization name or project namespace.
     repository: my-repository # Name of the repository.
     repository_url: "https://www.github.com/my-namespace/my-repository" # This is only needed for RAW_GIT
@@ -423,7 +429,7 @@ Since you probably don't want to create stacks with the exact same name and conf
 ### Inputs
 
 {% raw %}
-Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input.
+Inputs are defined in the `inputs` section of the template. You can use them in the template by prefixing them with `${{ inputs.` and suffixing them with `}}`. For example, `${{ inputs.environment }}` will be replaced with the value of the `environment` input. You can use these variables in CEL functions as well. For example, `trigger_run: ${{ inputs.environment == 'prod' }}` will be replaced with `trigger_run: true` or `trigger_run: false` depending on the value of the `environment` input. To ensure an input variable is always recognized as a string, you can enclose the value in quotes `"${{ inputs.environment }}"`.
 {% endraw %}
 
 The input object has `id`, `name`, `description`, `type`, `default` and `options` fields. The mandatory fields are `id` and `name`.
@@ -527,7 +533,7 @@ stack:
   environment:
     variables:
       - name: DEPLOYMENT_ID
-        value: ${{ context.random_uuid }}
+        value: "${{ context.random_uuid }}"
   schedules:
     delete:
       delete_resources: ${{ context.random_number % 2 == 0 }} # Russian roulette
@@ -858,6 +864,12 @@ For simplicity, here is the current schema, but it might change in the future:
                                 "project_root": {
                                     "type": "string"
                                 },
+                                "project_globs": {
+                                    "type": "array"
+                                      "items": {
+                                        "type": "string"
+                                      }
+                                },
                                 "provider": {
                                     "type": "string",
                                     "enum": [
@@ -898,6 +910,12 @@ For simplicity, here is the current schema, but it might change in the future:
                                 },
                                 "project_root": {
                                     "type": "string"
+                                },
+                                "project_globs": {
+                                    "type": "array"
+                                      "items": {
+                                        "type": "string"
+                                      }
                                 },
                                 "provider": {
                                     "type": "string",

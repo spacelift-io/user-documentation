@@ -16,27 +16,35 @@ Spacelift regularly engages with external security firms to perform audits and p
 
 All of our data is encrypted at rest and in transit. With the exception of intra-VPC traffic between the web server and the load balancer protected by a restrictive [AWS security group](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html){: rel="nofollow"}, all other traffic is handled using secure transport protocols. All the data sources (Amazon S3, database, Amazon SNS topics and Amazon SQS queues) are encrypted at rest using [AWS KMS](https://aws.amazon.com/kms/){: rel="nofollow"} keys with restricted and audited access.
 
-[Customer secrets](../concepts/configuration/environment.md#a-note-on-visibility) are extra encrypted at rest in a way that should withstand even an internal attacker.
+[Customer secrets](../../concepts/configuration/environment.md#a-note-on-visibility) are extra encrypted at rest in a way that should withstand even an internal attacker.
 
 ## Security Features
 
+{% if is_saas() %}
+
+### Multi-Factor Authentication (MFA)
+
+This feature elevates the security of your Identity Provider (IdP) sessions by integrating the use of FIDO2 security keys, managed within Spacelift. MFA acts as a crucial safeguard for your identity, providing an additional security layer. Designed for seamless integration, MFA can be enforced across all user accounts, ensuring consistent security protocols are maintained. You can learn more about our MFA feature [here](./mfa.md).
+
+{% endif %}
+
 ### Single Sign-On (SSO)
 
-In addition to the default login providers (currently GitHub, GitLab, and Google), Spacelift also supports the ability to configure Single Sign-On (SSO) via SAML or OIDC using your favorite identity provider. Using SSO, Spacelift can be configured in a password-less approach, helping your company follow a zero-trust approach. As long as your Identity Provider supports SAML or OIDC, and passing the `email` scope, you're good to go! You can learn more about our Single Sign-On support [here](../integrations/single-sign-on/README.md).
+In addition to the default login providers (currently GitHub, GitLab, Microsoft and Google), Spacelift also supports the ability to configure Single Sign-On (SSO) via SAML or OIDC using your favorite identity provider. Using SSO, Spacelift can be configured in a password-less approach, helping your company follow a zero-trust approach. As long as your Identity Provider supports SAML or OIDC, and passing the `email` scope, you're good to go! You can learn more about our Single Sign-On support [here](../../integrations/single-sign-on/README.md).
 
 ### Environment Variables
 
-Spacelift allows for granular control of environment variables on your [Stacks](../concepts/stack/README.md) either by setting [environment](../concepts/configuration/environment.md) variables on a per-stack basis, or creating collections of variables as a [Context](../concepts/configuration/context.md). These environment variables can be created in two types: **plain** or **secret**.
+Spacelift allows for granular control of environment variables on your [Stacks](../../concepts/stack/README.md) either by setting [environment](../../concepts/configuration/environment.md) variables on a per-stack basis, or creating collections of variables as a [Context](../../concepts/configuration/context.md). These environment variables can be created in two types: **plain** or **secret**.
 
 {% if is_saas() %}
 
 ### Private Worker Pools
 
-Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a [Private Worker Pool](../concepts/worker-pools). This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is [open source](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, giving customers full transparency into their private workers.
+Spacelift supports the ability to host the underlying compute resources that are accessing your codebase and executing your deployments, on your own infrastructure as a [Private Worker Pool](../../concepts/worker-pools). This allows customers to optionally have full control over the security of their deployments. Furthermore, the image used by Spacelift private workers is [open source](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, giving customers full transparency into their private workers.
 
 ### Access Private Version Control Systems
 
-For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or [other VCS providers](../integrations/source-control/github.md), Spacelift provides the ability to access your on-premise VCS securely using [VCS Agent Pools](../concepts/vcs-agent-pools.md).
+For customers that have private-hosted version control systems such as on-premise installations of GitHub Enterprise, or [other VCS providers](../../integrations/source-control/github.md), Spacelift provides the ability to access your on-premise VCS securely using [VCS Agent Pools](../../concepts/vcs-agent-pools.md).
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
 
@@ -46,7 +54,7 @@ Spacelift VCS Agent Pools utilize gRPC on HTTP2 for secure, high-performance con
 
 ### Policies
 
-Spacelift policies provide a way to express rules as code to manage your infrastructure as a code environment. Users can build policies to control Spacelift login permissions, access controls, deployment workflows, and even govern the infrastructure itself to be deployed. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/){: rel="nofollow"} project and can be defined using its rule language _Rego_. You can learn more about policies [here](../concepts/policy/README.md).
+Spacelift policies provide a way to express rules as code to manage your infrastructure as a code environment. Users can build policies to control Spacelift login permissions, access controls, deployment workflows, and even govern the infrastructure itself to be deployed. Policies are based on the [Open Policy Agent](https://www.openpolicyagent.org/){: rel="nofollow"} project and can be defined using its rule language _Rego_. You can learn more about policies [here](../../concepts/policy/README.md).
 
 ## Responsible disclosure
 

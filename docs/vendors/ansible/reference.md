@@ -59,7 +59,7 @@ If you use `ansible.cfg` file within a repository (or - more generally - within 
 
 If you are using SSH to connect to your hosts, then you need to make sure that private keys delivered to the worker have the correct permissions.
 
-As the ssh man page states:
+As the ssh main page states:
 > These files contain sensitive data and should be readable by the user but not accessible by others (read/write/execute). `ssh` will simply ignore a private key file if it is accessible by others.
 
 Typically, you would like to deliver private keys directly at the [worker level](../../concepts/worker-pools) where you can fully manage your environment. If that is not an option, you can always use our [read-only](../../concepts/configuration/environment.md#a-note-on-visibility) [mounted files](../../concepts/configuration/environment.md#mounted-files) or any other option you find suitable.

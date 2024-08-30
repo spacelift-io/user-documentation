@@ -31,7 +31,7 @@ Terraform state. To keep things level, we'll also give you a reason not to.
 ### Don't
 
 1. We'll let you in on a little secret now - behind the pixie dust it's still Amazon S3 all the way down, and at this
-   stage [we store all our data in Ireland](../../product/security.md). If you're not OK with that, you're better off
+   stage [we store all our data in Ireland](../../product/security/README.md). If you're not OK with that, you're better off
    managing the state on your end.
 
 ## How it works
@@ -78,7 +78,7 @@ older version.
 It's up to you to trigger the proper tasks or runs to fix the state and re-apply the desired Terraform configuration.
 
 !!! warning
-You should really understand what you are doing when performing a rollback.
+    You should really understand what you are doing when performing a rollback.
 
     State rollback should be used as a break-glass operation just after a corrupted state has been created.
 
@@ -127,6 +127,40 @@ To do this, use the following steps:
 ![](<../../assets/screenshots/Screen Shot 2022-02-15 at 1.31.29 PM.png>)
 
 ## Importing existing state file into your Terraform Stacks
+
+### On an existing stack
+
+State import allows you to import a state on top of the latest managed state.
+
+!!! warning
+
+    You should really understand what you are doing when importing a state.
+
+To be able to import a state, the 3 conditions below must be satisfied:
+
+- You must be a stack admin
+- The stack must be locked
+- The stack must not have any pending runs or tasks
+
+To import a new state you need to go to the state history tab on your stack, and then click on the button to import the state.
+
+![](../../assets/screenshots/terraform/state-management/import_state_action.png)
+
+!!! info
+
+    The maximum allowed file size for a state is **100MB**.
+
+Then choose a valid terraform state file and upload it.
+
+![](../../assets/screenshots/terraform/state-management/import_state_modal.png)
+
+Once the file is uploaded, you can click on **Import state**.
+
+The imported state will appear in the list as manually imported.
+
+![](../../assets/screenshots/terraform/state-management/import_state_list.png)
+
+### During stack creation
 
 When creating a stack, you can optionally import an existing Terraform state file so that Spacelift can manage it going
 forward.

@@ -165,8 +165,11 @@ nav:
       - integrations/teleport.md
   - 📖 Product:
       - product/notifications.md
-      - product/security.md
+      - Security:
+        - product/security/README.md
+        - product/security/mfa.md
       - product/migrating-to-spacelift.md
+      - product/bulk-actions.md
       - Support:
           - product/support/README.md
       - product/disaster-continuity.md

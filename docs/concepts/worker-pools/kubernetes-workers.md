@@ -45,14 +45,46 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
+    **Prometheus Metrics**
+
+    The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
+    This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
+
+    To install the controller with the prometheus-exporter subchart, use the following command:
+
+    ```shell
+    helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace \
+      --set spacelift-promex.enabled=true \
+      --set spacelift-promex.apiEndpoint="https://{yourAccount}.app.spacelift.io" \
+      --set spacelift-promex.apiKeyId="{yourApiToken}" \
+      --set spacelift-promex.apiKeySecretName="spacelift-api-key"
+    ```
+
+    Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter) and see more config options in the `values.yaml` file for the subchart.
+
 ### Create a Secret
 
-Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up):
+Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
+
+First, export the token and private key as base64 encoded strings:
+
+#### Mac
 
 ```shell
-SPACELIFT_WP_TOKEN=<enter-token>
-SPACELIFT_WP_PRIVATE_KEY=<enter-base64-encoded-key>
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
+```
 
+#### Linux
+
+```shell
+export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
+```
+
+Then, create the secret.
+
+```shell
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Secret
@@ -797,17 +829,18 @@ Init Containers:
 ...
 ```
 
-!!! info
-    If you're having trouble understanding why a run isn't starting / is failing, and want to reach out for support, please include the output of the following commands (replacing the relevant IDs/names):
+### Getting help with run issues
 
-    - `kubectl get pods -l "workers.spacelift.io/run-id=<run-id>"`
-    - `kubectl describe pods -l "workers.spacelift.io/run-id=<run-id>"`
-    - `kubectl logs -l "workers.spacelift.io/run-id=<run-id>" --all-containers --prefix --timestamps`
-    - `kubectl events workers/<worker-name> -o json`
+If you're having trouble understanding why a run isn't starting, is failing, or is hanging, and want to reach out for support, please include the output of the following commands (replacing the relevant IDs/names as well as specifying the namespace of your worker pool):
 
-    Please also include your controller logs from 10 minutes before the run started. You can do this using the `--since-time` flag, like in the following example:
+- `kubectl get pods  --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>"`
+- `kubectl describe pods --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>"`
+- `kubectl logs --namespace <worker-pool-namespace> -l "workers.spacelift.io/run-id=<run-id>" --all-containers --prefix --timestamps`
+- `kubectl events --namespace <worker-pool-namespace> workers/<worker-name> -o json`
 
-    - `kubectl logs -n spacelift-worker-controller-system spacelift-worker-controllercontroller-manager-6f974d9b6d-kx566 --since-time="2024-04-02T09:00:00Z" --all-containers --prefix --timestamps`
+Please also include your controller logs from 10 minutes before the run started. You can do this using the `--since-time` flag, like in the following example:
+
+- `kubectl logs -n spacelift-worker-controller-system spacelift-worker-controllercontroller-manager-6f974d9b6d-kx566 --since-time="2024-04-02T09:00:00Z" --all-containers --prefix --timestamps`
 
 ### Custom runner images
 

@@ -2,6 +2,9 @@
 
 ## Purpose
 
+!!! info
+    Please note, we currently don't support importing rego.v1
+
 Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [Space level](../spaces/README.md)
 meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the Space it's in can be accessed by whatever action is being evaluated.
 It's also important to note that all notifications go through the policy evaluation.
@@ -169,16 +172,17 @@ This is the schema of the data input that each policy request can receive:
         "message": "string",
         "url": "string"
       }
+    },
+    "timing": [
+      {
+        "duration": "number (in nanoseconds)",
+        "state": "string"
+      }
+    ],
+    "urls": {
+      "run": "string - URL to the run"
     }
   },
-  "state": "string",
-  "timing": [
-    {
-      "duration": "number (in nanoseconds)",
-      "state": "string"
-    }
-  ],
-  "username": "string",
   "webhook_endpoints": [
     {
       "id": "custom-hook2",

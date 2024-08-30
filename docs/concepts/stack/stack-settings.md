@@ -52,7 +52,7 @@ These commands may serve one of two general purposes - either to make some modif
 !!! tip
     We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
 
-    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) to ensure that "after" commands are only executed if the phase succeed.
+    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) or wrap your hook in parentheses to ensure that to ensure that "after" commands are only executed if the phase succeed.
 
 !!! danger
     When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
@@ -221,7 +221,7 @@ List of the most useful labels:
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
 - **ghenv: -** -- Disables the creation of GitHub deployment environments
-- **autoattach:label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing that label
+- **autoattach:autoattached_label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing `autoattached_label`
 - **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
 
 ### Project root
@@ -234,6 +234,9 @@ Project root points to the directory within the repo where the project should st
 ### Project globs
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
+
+!!! warning
+    Project globs do not mount the files or directories in your project root.  They are used primarily for triggering your stack when for example there are changes to a module outside of the project root.
 
 ![](../../assets/screenshots/stack/settings/source-code_project-globs.png)
 

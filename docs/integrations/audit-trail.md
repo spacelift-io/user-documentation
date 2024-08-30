@@ -9,11 +9,13 @@ Spacelift optionally supports auditing all operations that change Spacelift reso
 
 In order to set up the audit trail, navigate to the Audit trail section of your account settings and click the _Set up_ button:
 
-![](<../assets/screenshots/Spacelift (1).png>)
+![](<../assets/screenshots/audit-trail-page.png>)
 
-You will then need to provide a webhook endpoint and an arbitrary secret that you can later use for [verifying payload](audit-trail.md#verifying-payload). Let's use ngrok for the purpose of this tutorial:
+You will then need to provide a webhook endpoint and an arbitrary secret that you can later use for [verifying payload](audit-trail.md#verifying-payload).
+Optionally you can specify the custom headers that will be added to each HTTP request and enable `Include runs` option, which controls whether run state change events will be sent to the audit webhook in addition to standard audit events.
+Let's use ngrok for the purpose of this tutorial:
 
-![](<../assets/screenshots/Spacelift (3).png>)
+![](<../assets/screenshots/setup-audit-trail.png>)
 
 If you choose to automatically enable the functionality, clicking the _Save_ button will verify that payloads can be delivered (the endpoint returns a 2xx status code). This gives us an opportunity to look at the payload:
 

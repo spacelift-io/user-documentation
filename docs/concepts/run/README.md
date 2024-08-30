@@ -96,6 +96,50 @@ Finished state means that the run was successful, though the success criteria wi
 
 Finished is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
 
+### Full List of Potential Run States
+
+QUEUED - The run is queued and is either waiting for an available worker or for the stack lock to be released by another run.
+
+CANCELED - The run has been canceled by the user.
+
+INITIALIZING - The run's workspace is currently initializing on the worker.
+
+PLANNING - The worker is planning the run.
+
+FAILED - The run has failed.
+
+FINISHED - The run or task has finished successfully.
+
+UNCONFIRMED - The run has planned successfully, it reports changes and is waiting for the user to review those.
+
+DISCARDED - The run's plan has been rejected by the user.
+
+CONFIRMED - The run's plan has been confirmed by the user. The run is now waiting for the worker to pick it up and start processing.
+
+APPLYING - A worker is currently applying the run's changes.
+
+PERFORMING - The worker is currently performing the task requested by the user.
+
+STOPPED - The run has been stopped by the user.
+
+DESTROYING - The worker is currently performing a destroy operation on the managed resources.
+
+PREPARING - The workspace is currently being prepared for the run.
+
+PREPARING_APPLY - The workspace is currently being prepared for the change deployment.
+
+SKIPPED - The run was skipped.
+
+REPLAN_REQUESTED - The run is pending a replan and should get picked up by the scheduler.
+
+PENDING - Deprecated state.
+
+PREPARING_REPLAN - The run is being prepared to be replanned.
+
+READY - The run is ready to be started.
+
+PENDING_REVIEW - The proposed run is waiting for post-planning approval policy sign-off.
+
 ## Stopping runs
 
 Some types of runs in some phases may safely be interrupted. We allow sending a stop signal from the GUI and API to the run, which is then passed to the worker handling the job. It's then up to the worker to handle or ignore that signal.

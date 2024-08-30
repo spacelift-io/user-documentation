@@ -165,9 +165,11 @@ nav:
           - product/administration/install.md
           - product/administration/changelog.md
           - product/administration/advanced-installations.md
+          - product/administration/disaster-recovery.md
           - product/administration/slack-integration-setup.md
       - product/notifications.md
-      - product/security.md
+      - Security:
+        - product/security/README.md
       - product/migrating-to-spacelift.md
       - Support:
           - product/support/README.md

@@ -44,9 +44,16 @@ If you want our tooling in your image, there are two possible approaches. The fi
 FROM public.ecr.aws/spacelift/runner-terraform:latest
 
 WORKDIR /tmp
+
+# Temporarily elevating permissions
+USER root
+
 RUN curl -O -L https://github.com/mrolla/terraform-provider-circleci/releases/download/v0.3.0/terraform-provider-circleci-linux-amd64 \
   && mv terraform-provider-circleci-linux-amd64 /bin/terraform-provider-circleci \
   && chmod +x /bin/terraform-provider-circleci
+
+# Back to the restricted "spacelift" user
+USER spacelift
 ```
 
 For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.

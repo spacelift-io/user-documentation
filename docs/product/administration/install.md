@@ -48,10 +48,11 @@ These baseline costs include all of the resources deployed as part of your Space
 
 ## Installation
 
-This section explains the installation process for Spacelift. You may also be interested in the following pages that explain how to configure the Slack integration as well as advanced installations:
+This section explains the installation process for Spacelift. You may also be interested in the following pages that explain how to configure the Slack integration as well as advanced installations and disaster recovery:
 
 - [Slack integration setup](./slack-integration-setup.md) - explains how to configure the Slack integration for your Spacelift instance.
 - [Advanced installations](./advanced-installations.md) - explains how to configure advanced options like providing a custom VPC configuration, or specifying HTTP proxy settings.
+- [Disaster recovery](./disaster-recovery.md) - explains how to configure your installation for multi-region failover.
 
 ### AWS Requirements
 
@@ -146,6 +147,43 @@ The mandatory fields are:
 
 #### Optional configuration options
 
+##### Webhooks URL
+
+By default Spacelift if configured to receive webhooks on the URL specified by the `spacelift_hostname` configuration option. If you want to receive webhooks via a different URL, you can specify the `webhooks_endpoint` property:
+
+```json
+{
+  "spacelift_hostname": "spacelift.myorg.com",
+  "webhooks_endpoint": "webhooks.spacelift.myorg.com",
+  ... other settings
+}
+```
+
+!!! warning
+    Please note, this URL is used by Spacelift to build the webhook endpoints displayed within
+    the Spacelift user interface. This setting does not affect how traffic is routed to your
+    Spacelift instance, and you are responsible for configuring DNS and any other infrastructure
+    required to route the webhooks traffic to your Spacelift server instance.
+
+##### IoT Broker Endpoint
+
+Spacelift uses AWS IoT Core to communicate with workers in order to schedule runs. By default Spacelift will use the IoT broker endpoint for the installation region of your AWS account, but you can also use your own custom IoT broker endpoint, for example `worker-iot.spacelift.myorg.com`.
+
+To configure this, use the following steps:
+
+1. Follow the [AWS documentation](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-configurable-custom.html) to configure a custom IoT broker endpoint in your Spacelift region, and to setup DNS to point your custom domain name at the broker endpoint.
+2. Specify the `iot_broker_endpoint` setting in your config.json file.
+
+Your config.json file should look something like this:
+
+```json
+{
+  "spacelift_hostname": "spacelift.myorg.com",
+  "iot_broker_endpoint": "worker-iot.spacelift.myorg.com",
+  ... other settings
+}
+```
+
 ##### Load balancer
 
 Load balancer configuration has a mix of required and optional fields alongside some which
@@ -178,6 +216,7 @@ The possible configuration options are:
 - `database.delete_protection_enabled` - **only for Spacelift-managed databases**. Whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database. Leave it empty for self-managed databases.
 - `database.instance_class` - **only for Spacelift-managed databases**. The instance class of the database (defaults to `db.t4g.large`). Leave it empty for self-managed databases.
 - `database.connection_string_ssm_arn` - **only for self-managed databases**. The ARN of the SSM parameter that stores the connection string to the database. Leave it empty for Spacelift-managed databases.
+- `database.connection_string_ssm_kms_arn` - **only for self-managed databases**. The ARN of the KMS key used to encrypt the SSM parameter. Leave it empty for Spacelift-managed databases.
 
 ###### Self-managed database
 
@@ -200,13 +239,19 @@ When choosing an encryption key for the secret, we recommend using the Spacelift
 
 ###### Going from Spacelift-managed to self-managed database
 
-The transition from a Spacelift-managed database to a self-managed one is seamless. The installer saves the connection string into a secret named `spacelift/database`. You can just copy the connection string from the existing secret and create your own secret with the same value. Finally, populate `connection_string_ssm_arn` in the configuration file while making sure that `delete_protection_enabled` and `instance_class` are empty (since they are disregarded for self-managed databases):
+The transition from a Spacelift-managed database to a self-managed one is seamless. When using a Spacelift-managed database, the installer saves the connection string into a secret named `spacelift/database`. However, when migrating to a self-managed one, the installer will remove it.
+
+!!! warning
+    The `spacelift/database` secret will be deleted during the next installation after `connection_string_ssm_arn` is populated. Please make sure to create a completely new secret, rather than passing the ARN of the existing `spacelift/database` secret into your config file, otherwise the upgrade will fail.
+
+You must copy the connection string from the existing secret and create your own secret with the same value. Finally, populate `connection_string_ssm_arn` and `connection_string_ssm_kms_arn` in the configuration file while making sure that `delete_protection_enabled` and `instance_class` are empty (since they are disregarded for self-managed databases):
 
 ```json
 "database": {
     "delete_protection_enabled": "",
     "instance_class": "",
-    "connection_string_ssm_arn": "arn:aws:secretsmanager:eu-west-3:123456789:secret:spacelift/custom-connectionstring-jYx1BH"
+    "connection_string_ssm_arn": "arn:aws:secretsmanager:eu-west-3:123456789:secret:spacelift/custom-connectionstring-jYx1BH",
+    "connection_string_ssm_kms_arn": "arn:aws:kms:eu-west-3:123456789:key/12345678-1234-1234-1234-123456789012"
 }
 ```
 

@@ -4,6 +4,47 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.0.0 and v2.1.0
+
+!!! warning
+    You must upgrade to v2.0.0 **before** installing v2.1.0. If you attempt to upgrade an existing
+    installation running a version older than v2.0.0, the installer will report an error and
+    exit without making any changes.
+
+    If you are currently on a version older than v2.0.0 and don't have access to the v2.0.0 installer
+    anymore, please reach out to our support team for new download links.
+
+### Features
+
+- The stack and module settings have been revamped, making it simpler and more efficient to manage your stacks and modules. One of the standout additions is the new Scheduling and Policies tabs, which have moved from the stack settings to the main stack view. Your schedules and policies are now more easily discoverable, and can also be viewed by team members who don’t have access to stack settings.
+
+### Fixes
+
+- We've fixed an issue with our initial Disaster Recovery support that meant that IoT policies would not be added to your secondary region when resetting an existing worker pool that was created before DR was configured. The impact of this would have been that workers from the affected pools would not be able to connect to your IoT broker after failing over. No user intervention is required to resolve this - the v2.1.0 installation process will fix any affected worker pools.
+- We've fixed an issue affecting Bitbucket Data Center that prevented branches being retrieved correctly if the repository contained more than 25 branches that contained your stack's branch name as part of their name (for example if a stack has a tracked branch called `dev`, and other branches exist in the repository like `development`, `dev-1`, `dev-2`, etc). This could prevent the stack settings for an affected stack from being saved.
+
+## Changes between v1.3.0 and v2.0.0
+
+!!! warning
+    This release of Self-Hosted involves mandatory downtime during the installation process. We expect that downtime to be between 5 and 10 minutes, but it's important that you do not start the installation at a time you cannot afford Spacelift to be unavailable.
+
+v2.0.0 introduces multi-region failover support to Self-Hosted to help as part of a [disaster recovery](./disaster-recovery.md) process. One of these changes involves converting the single-region KMS key used to encrypt sensitive data like stack and context secrets to a multi-region key. In order to do that, the installation includes a migration to convert the data from one key to another.
+
+The migration is performed inside a transaction, and in the case of any errors the changes will be rolled back to avoid a situation where data is encrypted using both old and new keys.
+
+Although we have safeguards in place to ensure the migration is successful, we recommend taking a snapshot of your RDS cluster before performing the installation in case anything goes wrong.
+
+### Features
+
+- Added the ability to provide a [custom database connection string](./install.md#self-managed-database) during install/upgrade. This allows you to take full control over the database used by Spacelift.
+- Added [multi-region disaster recovery](./disaster-recovery.md) support.
+- Added support for OpenTofu 1.8.0.
+- Various other small features and improvements.
+
+### Fixes
+
+- Fixed a misconfiguration that was causing the server logs to be filled with messages containing `failed to record HTTP transaction`.
+
 ## Changes between v1.2.1 and v1.3.0
 
 ### Features

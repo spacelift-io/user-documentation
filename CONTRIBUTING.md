@@ -60,7 +60,7 @@ You can also manually trigger the tests at any time by running:
 pre-commit
 ```
 
-> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir peterdemesl/oxipng docs/assets/screenshots/filename.png --opt=4 --preserve --strip=safe`.
+> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir peterdemesl/oxipng docs/assets/screenshots/* --opt=4 --preserve --strip=safe`.
 
 ## Self-Hosted
 
