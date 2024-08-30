@@ -138,6 +138,9 @@ Some options for this include:
 
 {% endif %}
 
+!!! info
+    You can deploy the controller globally (the default option) to monitor all namespaces, allowing worker pools in multiple namespaces, or restrict it to specific namespaces using the `namespaces` [option in the Helm chart values](https://github.com/spacelift-io/spacelift-helm-charts/blob/88fa4327408b55082d5a18a1f6ccf2ed2ab90228/spacelift-workerpool-controller/values.yaml#L10). The namespace of the controller and workers themselves doesn’t impact functionality.
+
 That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
 
 ## Run Containers
