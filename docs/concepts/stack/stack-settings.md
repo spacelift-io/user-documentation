@@ -10,6 +10,9 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 ### Administrative
 
+!!! info
+    Administrative stacks get the Admin role in the [space they belong to](https://docs.spacelift.io/concepts/spaces/access-control#access-control).
+
 This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
 
 The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools) etc. in order to avoid ClickOps.
