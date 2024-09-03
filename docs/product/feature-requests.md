@@ -1,6 +1,6 @@
 # Feature Requests
 
-### We value your feedback
+## We value your feedback
 
 At Spacelift we really value your feedback on how to improve our platform. We strive to engage with you at every step of our development journey, whether it’s evaluating feature requests or doing user research (if you’re interested in having more impact, go ahead and check out our [Test Pilot Programme](https://spacelift.io/test-pilot-program)).
 
@@ -8,7 +8,7 @@ We value your ideas and will always be honest about how feasible or viable they 
 
 Please also remember that some ideas might be too complex, take too long to implement, or not be the best use of our time for now.
 
-### Submitting a Feature Request:
+## Submitting a Feature Request:
 
 {% if is_saas() %}
 You can submit a feature request in Spacelift by selecting 'Feedback Center' from the left menu or by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests.
@@ -17,8 +17,6 @@ You can submit a feature request in Spacelift by selecting 'Feedback Center' fro
 {% if is_self_hosted() %}
 You can submit a feature request by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests. To proceed, you'll need to sign up in the tool. This allows us to ask follow-up questions and keep you informed about status changes.
 {% endif %}
-
-
 
 - Check if a similar feature request already exists. If yes, add a vote and comment on the idea. If you don’t find anything similar, create a new one.
 
@@ -34,7 +32,7 @@ You can submit a feature request by visiting our [dashboard](https://spacelift.f
 
 - Be honest about the priority. Nice to have it doesn’t mean it will not be delivered.
 
-### Our Feature Requests flow - statuses and what they mean:
+## Our Feature Requests flow - statuses and what they mean:
 
 1. **Under review** is the status for all newly created feature requests. Voting on those ideas is not possible, as we want to review them first.
 
