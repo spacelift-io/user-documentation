@@ -45,6 +45,28 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
+    **Warning**
+    
+    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.  
+[The latest CRD's can be found in this link](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller/crds).
+    
+    **Prometheus Metrics**
+
+    The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
+    This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
+
+    To install the controller with the prometheus-exporter subchart, use the following command:
+
+    ```shell
+    helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace \
+      --set spacelift-promex.enabled=true \
+      --set spacelift-promex.apiEndpoint="https://{yourAccount}.app.spacelift.io" \
+      --set spacelift-promex.apiKeyId="{yourApiToken}" \
+      --set spacelift-promex.apiKeySecretName="spacelift-api-key"
+    ```
+
+    Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter) and see more config options in the `values.yaml` file for the subchart.
+
 ### Create a Secret
 
 Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
@@ -120,6 +142,9 @@ Some options for this include:
 3. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
 
 {% endif %}
+
+!!! info
+    You can deploy the controller globally (the default option) to monitor all namespaces, allowing worker pools in multiple namespaces, or restrict it to specific namespaces using the `namespaces` [option in the Helm chart values](https://github.com/spacelift-io/spacelift-helm-charts/blob/88fa4327408b55082d5a18a1f6ccf2ed2ab90228/spacelift-workerpool-controller/values.yaml#L10). The namespace of the controller and workers themselves doesn’t impact functionality.
 
 That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
 

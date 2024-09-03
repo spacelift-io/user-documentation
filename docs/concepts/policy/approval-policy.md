@@ -1,5 +1,8 @@
 # Approval policy
 
+!!! info
+    Please note, we currently don't support importing rego.v1
+
 The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
 
 Runs can be reviewed when they enter one of the three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#unconfirmed). When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
@@ -44,6 +47,9 @@ It's also perfectly acceptable for any given policy evaluation to return 'false'
 When a user reviews the run, Spacelift persists their review and passes it to the approval policy, along with other reviews, plus some information about the run and its stack. The same user can review the same run as many times as they want, but only their newest review will be presented to the approval policy. This mechanism allows you to change your mind, very similar to Pull Request reviews.
 
 ## Data input
+
+!!! info
+    Note that this is just an example meant for informational purposes (json doesn't support comments by design).  You can get a sample using the [policy workbench](./README.md#policy-workbench).
 
 This is the schema of the data input that each policy request will receive:
 
@@ -112,7 +118,7 @@ This is the schema of the data input that each policy request will receive:
       "terraform_version": "string - Terraform version used to for the run"
     },
     "state": "string - the current run state",
-    "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
+    "triggered_by": "string or null - user, trigger policy, or dependent stack that triggered the run.  For a dependent stack is set to the stack id that triggered it.",
     "type": "string - type of the run",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": [

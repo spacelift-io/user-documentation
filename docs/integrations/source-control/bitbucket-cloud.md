@@ -71,6 +71,20 @@ When creating a Stack, you will now be able to choose the Bitbucket Cloud provid
 
 ![Stack creation form](<../../assets/screenshots/Screenshot from 2021-06-11 15-03-21.png>)
 
+### Troubleshooting
+
+Getting a [401 error](https://confluence.atlassian.com/bitbucketserverkb/bitbucket-server-backup-client-401-unauthorized-779171351.html)? Use this to check the username and password:
+
+```bash
+curl -v -u your_username:some_app_password "https://api.bitbucket.org/2.0/workspaces/workspace_id"
+```
+
+And this to check if some repositories may not be showing up:
+
+```bash
+curl -s -u your_username:some_app_password "https://api.bitbucket.org/2.0/repositories" | jq
+```
+
 ## Deleting the Integration
 
 If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.

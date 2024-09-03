@@ -2,6 +2,9 @@
 
 ## Introduction
 
+!!! info
+    Please note, we currently don't support importing rego.v1
+
 Policy-as-code is the idea of expressing rules using a high-level programming language and treating them as you normally treat code, which includes version control as well as continuous integration and deployment. This approach extends the infrastructure-as-code approach to also cover the rules governing this infrastructure, and the platform that manages it.
 
 Spacelift as a development platform is built around this concept and allows defining policies that involve various decision points in the application. User-defined policies can decide:
