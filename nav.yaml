@@ -165,6 +165,7 @@ nav:
       - integrations/teleport.md
   - 📖 Product:
       - product/notifications.md
+      - product/feature-requests.md
       - Security:
         - product/security/README.md
         - product/security/mfa.md
