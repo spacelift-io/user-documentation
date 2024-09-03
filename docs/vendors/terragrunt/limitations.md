@@ -24,7 +24,6 @@ Due to the nature of the mocked outputs and the way that Spacelift uses the plan
 
 Terragrunt consumes the mocked outputs and places those values within the plan file that is stored on disk as part of the planning phase. Because the plan file has the possibility of containing mocked outputs Spacelift does not use the plan files in the apply phase. This does mean there is a possibility of changes happening between the planning and applying phase, but Spacelift has taken the stance that it is more important from a security standpoint to not allow any mocked outputs to be deployed here. Nobody wants to deploy something with a mocked, hardcoded password!
 
-
 ## Usage of the run_cmd function
 
 The [run_cmd](https://terragrunt.gruntwork.io/docs/reference/built-in-functions/#run_cmd) function is currently limited to only work with the `--terragrunt-quiet` flag.
