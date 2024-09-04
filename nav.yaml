@@ -166,6 +166,7 @@ nav:
   - 📖 Product:
       - product/notifications.md
       - product/feature-requests.md
+      - product/dashboard.md
       - Security:
         - product/security/README.md
         - product/security/mfa.md
