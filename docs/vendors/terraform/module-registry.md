@@ -324,7 +324,7 @@ Unlike Stacks, modules can be shared between Spacelift accounts in a sense that 
 
 In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the module settings Sharing section:
 
-![](../../assets/screenshots/Edit_module_·_eggs.png)
+![](../../assets/screenshots/module_sharing.png)
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
 
