@@ -2,3 +2,5 @@ __pycache__
 /site
 .DS_Store
 /.idea
+/.envrc
+/.direnv/

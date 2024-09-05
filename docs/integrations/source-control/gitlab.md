@@ -106,6 +106,27 @@ Also, for every merge request affected by the commit there will be a comment sho
 
 ![](<../../assets/screenshots/Gitlab_pr_3.png>)
 
+### Using Spacelift checks to protect branches
+
+You can use commit statuses to protect your branches tracked by Spacelift stacks by ensuring that _proposed_ runs succeed before merging their Merge Requests.
+
+#### Aggregated checks
+
+If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
+This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
+
+![](<../../assets/screenshots/aggregated-checks-gitlab-settings.png>)
+
+When the aggregated option is enabled, Spacelift will post the following checks:
+
+- **spacelift/tracked** - groups all checks from tracked runs
+- **spacelift/proposed** - groups all checks from proposed runs
+- **spacelift/modules** - groups all checks from module runs
+
+Here's how the summary looks like:
+
+![](<../../assets/screenshots/aggregated-checks-gitlab-summary.png>)
+
 ### Environments
 
 Each Spacelift stack creates an [Environment](https://docs.gitlab.com/ee/ci/environments/){: rel="nofollow"} in GitLab where we report the status of each [tracked run](../../concepts/run/README.md):

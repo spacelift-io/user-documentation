@@ -266,6 +266,27 @@ You can use commit statuses to protect your branches tracked by Spacelift stacks
 
 This is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
 
+##### Aggregated checks
+
+If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
+This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
+
+![](<../../assets/screenshots/aggregated-checks-github-settings.png>)
+
+When the aggregated option is enabled, Spacelift will post the following checks:
+
+- **spacelift/tracked** - groups all checks from tracked runs
+- **spacelift/proposed** - groups all checks from proposed runs
+- **spacelift/modules** - groups all checks from module runs
+
+Here's how the summary looks like:
+
+![](<../../assets/screenshots/aggregated-checks-github-summary.png>)
+
+In each case, clicking on the _Details_ link will take you to the GitHub check view showing more details about stacks or modules included in the aggregated check:
+
+![](<../../assets/screenshots/aggregated-checks-github-details.png>)
+
 ### Deployment status notifications
 
 [Deployments](https://developer.github.com/v3/guides/delivering-deployments/){: rel="nofollow"} and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:

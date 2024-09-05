@@ -87,6 +87,27 @@ When creating a Stack, you will now be able to choose the Bitbucket Data Center 
 
 ![Creating a Stack with the Bitbucket Data Center integration](<../../assets/screenshots/BitbucketDatacenter_create_stack.png>)
 
+### Using Spacelift checks to protect branches
+
+You can use commit statuses to protect your branches tracked by Spacelift stacks by ensuring that _proposed_ runs succeed before merging their Pull Requests.
+
+#### Aggregated checks
+
+If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
+This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
+
+![](<../../assets/screenshots/aggregated-checks-bitbucketserver-settings.png>)
+
+When the aggregated option is enabled, Spacelift will post the following checks:
+
+- **spacelift/tracked** - groups all checks from tracked runs
+- **spacelift/proposed** - groups all checks from proposed runs
+- **spacelift/modules** - groups all checks from module runs
+
+Here's how the summary looks like:
+
+![](<../../assets/screenshots/aggregated-checks-bitbucketserver-summary.png>)
+
 ## Deleting the Integration
 
 If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
