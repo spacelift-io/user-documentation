@@ -26,3 +26,7 @@ You can also use Spacelift to mix and match Terraform, Pulumi, and CloudFormatio
 ## Does Spacelift support CloudFormation frameworks?
 
 Yes! We support [AWS CDK](https://github.com/aws/aws-cdk){: rel="nofollow"}, [AWS Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/){: rel="nofollow"}, and the [Serverless Framework](https://www.serverless.com/){: rel="nofollow"}. You can read more about it in the relevant subpages of this document.
+
+## Template bucket limitations
+
+Spacelift uses a user-provided S3 bucket to upload templates to as part of applying your changes. When creating this bucket, please make sure that the bucket name does not contain any periods (`.`). Using a bucket name containing periods will cause the template upload to fail.
