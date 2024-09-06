@@ -175,6 +175,9 @@ Attaching policies works in a similar way. One thing worth pointing out is that 
 
 ## Module configuration
 
+!!! Tip
+    If you get the error `couldn't create version: could not create version: version "0.1.0" already exists for spacelift-modules` potentially it could be that your config.yml file is in the wrong location or named something else eg. config.yaml instead.  Modules will initially be created with version "0.1.0" if Spacelift cannot read that file version for whatever reason
+
 While by convention a single Git repository hosts a single module, that root module can have multiple submodules. Thus, we've created a way to create a number of test cases:
 
 ```yaml
