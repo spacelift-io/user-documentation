@@ -9,11 +9,11 @@ If you still cannot find the answer to your question below, please reach out to 
 ### How to submit a feature request?
 
 {% if is_saas() %}
-You can submit a feature request in Spacelift by selecting 'Feedback Center' from the left menu or by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests.
+You can submit a feature request in Spacelift by selecting 'Feedback Center' from the left menu or by visiting our [dashboard](https://feedback.spacelift.io/), where you can also review other feature requests.
 {% endif %}
 
 {% if is_self_hosted() %}
-You can submit a feature request by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests. To proceed, you'll need to sign up in the tool. This allows us to ask follow-up questions and keep you informed about status changes.
+You can submit a feature request by visiting our [dashboard](https://feedback.spacelift.io/), where you can also review other feature requests. To proceed, you'll need to sign up in the tool. This allows us to ask follow-up questions and keep you informed about status changes.
 {% endif %}
 
 More details on the feature request process can be found [here](../product/feature-requests.md).

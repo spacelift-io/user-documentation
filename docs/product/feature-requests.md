@@ -11,11 +11,11 @@ Please also remember that some ideas might be too complex, take too long to impl
 ## Submitting a Feature Request:
 
 {% if is_saas() %}
-You can submit a feature request in Spacelift by selecting 'Feedback Center' from the left menu or by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests.
+You can submit a feature request in Spacelift by selecting 'Feedback Center' from the left menu or by visiting our [dashboard](https://feedback.spacelift.io/), where you can also review other feature requests.
 {% endif %}
 
 {% if is_self_hosted() %}
-You can submit a feature request by visiting our [dashboard](https://spacelift.featurebase.app/), where you can also review other feature requests. To proceed, you'll need to sign up in the tool. This allows us to ask follow-up questions and keep you informed about status changes.
+You can submit a feature request by visiting our [dashboard](https://feedback.spacelift.io/), where you can also review other feature requests. To proceed, you'll need to sign up in the tool. This allows us to ask follow-up questions and keep you informed about status changes.
 {% endif %}
 
 - Check if a similar feature request already exists. If yes, add a vote and comment on the idea. If you don’t find anything similar, create a new one.
