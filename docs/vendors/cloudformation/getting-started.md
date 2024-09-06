@@ -18,6 +18,9 @@ In the first screen, you should select the repository you've just forked, as can
 
 In the next screen, you should choose the **CloudFormation** backend. There, fill in the **Region** field with the AWS region you want to create the CloudFormation Stack in. You should also create an Amazon S3 bucket for template storage and provide its name in the **Template Bucket** field. **We won't automatically create this bucket.**
 
+!!! warning
+    Please make sure that the name of the S3 bucket you use as your template bucket does not contain any periods (`.`). Using bucket names with periods will cause template uploads to fail.
+
 The **Entry Template File** should be set to _main.yaml_ (based on the code in our repository) and the **Stack Name** to a unique CloudFormation Stack name in your AWS account. We'll use _cloudformation-example_ in the pictures.
 
 ![Configuring the backend settings.](<../../assets/screenshots/Screenshot 2021-12-08 at 15.09.23.png>)
