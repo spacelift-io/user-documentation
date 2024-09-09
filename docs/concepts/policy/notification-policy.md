@@ -486,8 +486,8 @@ pull_request contains {"id": run.commit.pull_request_id} if {
 #### Updating an existing pull request comment
 
 !!! info
-    This feature is currently only available for GitHub and GitHub Enterprise VCS integrations.
-    We intend to add support for the rest of the supported VCS integrations in the near future.
+    This feature is currently available for GitHub, GitHub Enterprise, GitLab, Bitbucket Cloud, and Azure DevOps VCS integrations.
+    We intend to add support for Bitbucket Data Center soon.
 
 The following example will add a comment to the pull request that triggered the run, and will update that comment for every run state change, instead of creating new comments.
 
