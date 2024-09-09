@@ -178,7 +178,7 @@ Attaching policies works in a similar way. One thing worth pointing out is that 
 While by convention a single Git repository hosts a single module, that root module can have multiple submodules. Thus, we've created a way to create a number of test cases:
 
 ```yaml
-# The version of the configuration file format
+# The version of the configuration file format. The only supported version is 1, and it is optional to include. If omitted, the version will default to 1.
 version: 1
 # Your module version - must be changed to release a new version
 module_version: 0.1.1
