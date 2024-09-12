@@ -24,8 +24,14 @@ To utilize the AWS integration, you need to set up at least one cloud integratio
 
 ## Trust Policy
 
+{% if is_saas() %}
 !!! warning
-    When attaching a cloud integration to a stack if you get the error `you need to configure trust relationship section in your AWS account` this error may be caused by also not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled in the **eu-west-1** region in your account
+    When attaching a cloud integration to a stack if you get the error `you need to configure trust relationship section in your AWS account` this error may be caused by also not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled in the **eu-west-1** region in your account (or potentially we have a DR region as well **eu-central-1** if you want to enable it there as well)
+{% endif %}
+
+{% if is_self_hosted() %}
+When attaching a cloud integration to a stack if you get the error `you need to configure trust relationship section in your AWS account` this error may be caused by also not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled in the region that your self hosted was deployed in
+{% endif %}
 
 When setting up a Spacelift AWS Cloud Integration you need to specify the ARN of an IAM Role to use. The Trust Policy for this role must be configured to allow Spacelift to assume the role and generate temporary credentials.
 
