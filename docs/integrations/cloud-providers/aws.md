@@ -26,7 +26,7 @@ To utilize the AWS integration, you need to set up at least one cloud integratio
 
 {% if is_saas() %}
 !!! warning
-    When attaching a cloud integration to a stack if you get the error `you need to configure trust relationship section in your AWS account` this error may be caused by also not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled in the **eu-west-1** region in your account (or potentially we have a DR region as well **eu-central-1** if you want to enable it there as well)
+    If you get the error `you need to configure trust relationship section in your AWS account` when attaching a cloud integration to a stack, it may be caused by not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled. Please make sure this service is enabled for both the **eu-west-1** and **eu-central-1** (used for disaster recovery failover) regions in your account.
 {% endif %}
 
 {% if is_self_hosted() %}
