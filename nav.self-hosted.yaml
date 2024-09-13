@@ -148,6 +148,7 @@ nav:
           - integrations/source-control/raw-git.md
       - Kubernetes:
           - integrations/kubernetes/operator.md
+          - integrations/kubernetes/config-operator.md
       - integrations/docker.md
       - integrations/api.md
       - Single Sign-On:
