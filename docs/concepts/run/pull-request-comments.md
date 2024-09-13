@@ -49,3 +49,18 @@ Using a Push policy such as the example above, a user could trigger a tracked ru
 ```text
 /spacelift deploy my-stack-id
 ```
+
+Events triggered by comments are subject to the same deduplication logic as other VCS events.
+This means that if the commit data remains unchanged, a new run will not be created.
+However there is an exception for pull request comment events: if push policy results in a proposed
+decision and the comment starts with the `/spacelift` command, deduplication rules do not apply and the run will be created regardless.
+This allows you to trigger an unlimited amount of proposed runs from a single commit, example:
+
+```opa
+package spacelift
+
+propose {
+    input.pull_request.action == "commented"
+    input.pull_request.comment == concat(" ", ["/spacelift", "propose", input.stack.id])
+}
+```
