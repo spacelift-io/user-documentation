@@ -304,6 +304,13 @@ We built our own variable substitution engine based on [Google CEL](https://gith
 
 In the giant example above, you might have noticed something interesting: inline functions! CEL supports a couple of functions, such as: `contains`, `startsWith`, `endsWith`, `matches`, `size` and a bunch of others. You can find the full list in the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md){: rel="nofollow"}. It also supports some basic operators, such as: `*`, `/`, `-`, `+`, relations (`==`, `!=`, `<`, `<=`, `>`, `>=`), `&&`, `||`, `!`, `?:` (yes, it supports the ternary operator 🎉) and `in`.
 
+Other than the built-in operators and functions, we also added the [string extensions](https://github.com/google/cel-go/blob/v0.21.0/ext/strings.go){: rel="nofollow"} to the evaluator, which include `.replace()`, `.lowerAscii()`, `.split()` and other methods. Example:
+
+```yaml
+stack:
+  name: ${{ inputs.app_name.replace(" ", "-") }}
+```
+
 !!! hint
     It could be useful to look into [the unit tests](https://github.com/google/cel-go/blob/v0.13.0/cel/cel_test.go){: rel="nofollow"} of the library. Look for the invocations of `interpret` function.
 
