@@ -172,6 +172,7 @@ nav:
       - Security:
         - product/security/README.md
       - product/migrating-to-spacelift.md
+      - product/bulk-actions.md
       - Support:
           - product/support/README.md
       - product/disaster-continuity.md
