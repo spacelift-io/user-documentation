@@ -306,10 +306,14 @@ In the giant example above, you might have noticed something interesting: inline
 
 Other than the built-in operators and functions, we also added the [string extensions](https://github.com/google/cel-go/blob/v0.21.0/ext/strings.go){: rel="nofollow"} to the evaluator, which include `.replace()`, `.lowerAscii()`, `.split()` and other methods. Example:
 
+{% raw %}
+
 ```yaml
 stack:
   name: ${{ inputs.app_name.replace(" ", "-") }}
 ```
+
+{% endraw %}
 
 !!! hint
     It could be useful to look into [the unit tests](https://github.com/google/cel-go/blob/v0.13.0/cel/cel_test.go){: rel="nofollow"} of the library. Look for the invocations of `interpret` function.
