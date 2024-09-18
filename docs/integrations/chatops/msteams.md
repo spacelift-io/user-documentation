@@ -4,6 +4,9 @@ description: Integrating Spacelift with Microsoft Teams
 
 # Microsoft Teams
 
+!!! warning
+    [Microsoft has deprecated connectors in favor of workflows](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook?tabs=newteams%2Cdotnet).  Your existing connectors should still work for some time but you won't be able to create new ones with Microsoft Teams.  Our product team is working on the integration so that it works with Microsoft Teams Workflows and once that's completed we'll add it to the documentation 
+
 Microsoft Teams is a Slack alternative and a part of the Microsoft Office 365 suite. It's a chat-based workspace where teams can organize and discuss their work. Many DevOps teams use it to communicate and collaborate on infrastructure and application deployments. Hence, Spacelift has a first-class integration with Microsoft Teams.
 
 The integration creates a [webhook](../webhooks.md) in Spacelift that will send notifications to a Microsoft Teams channel when:
