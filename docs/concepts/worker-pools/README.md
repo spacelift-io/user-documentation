@@ -227,6 +227,22 @@ In progress runs will be the first entries in the list when using the view witho
 !!! info
     Reasons a run might not be shown in this list: a [tracked run](../run/tracked.md) is waiting on another tracked run, the run has a [dependency](../stack/stack-dependencies.md) on other runs.
 
+### Available Actions
+
+#### Cycle
+
+Cycling the worker pool sends a self-destruct signal to all the workers in this pool. The process can take up to 20 seconds to complete. When you click on `cycle`, you will be prompted to confirm this action as it cannot be undone.
+
+![private worker pool cycle action view](<../../assets/screenshots/CycleWorkerPool.png>)
+
+#### Reset
+
+When you reset your worker pool, a new token is generated for your pool. This means that any workers that are using the old token will no-longer be able to connect and you need to update the credentials for the workers connected to that pool. This can be used used for security purposes if your certificate has been leaked.
+
+Please follow the [steps](#generate-worker-private-key) to generate a new certificate.
+
+![private worker pool reset action view](../../assets/screenshots/ResetWorkerPool.png)
+
 #### Used by
 
 [Stacks](../stack/README.md) and/or [Modules](../../vendors/terraform/module-registry.md) that are using the private worker pool.
