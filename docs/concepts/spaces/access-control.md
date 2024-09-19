@@ -1,6 +1,6 @@
 # Access Control
 
-With Spaces, the whole permission management process is done within [Login policies](../policy/login-policy.md) where you can specify what type of role a user gets within the given spaces.
+With Spaces, the whole permission management process is done within [Login policies](../policy/login-policy/README.md) where you can specify what type of role a user gets within the given spaces.
 
 ## Roles
 
@@ -38,7 +38,7 @@ A comparison table of what users with given roles are capable of can be found be
 
 ## Login Policies
 
-The way you can control access to Spaces in your Spacelift account is by using [Login policies](../policy/login-policy.md).
+The way you can control access to Spaces in your Spacelift account is by using [Login policies](../policy/login-policy/README.md).
 
 We have introduced new rules that allow you to assign access to spaces:
 
