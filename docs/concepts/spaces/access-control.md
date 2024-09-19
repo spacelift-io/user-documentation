@@ -13,12 +13,6 @@ There are 3 roles that you can assign to users on a space-by-space basis:
 A special case is someone who is given Admin permissions to the `root` space - we would call that person a Root Space Admin.
 Any Root Space Admin is perceived to be an admin of the whole account. Only they can modify the space tree or access account-wide settings.
 
-!!! info
-    Administrative stacks get the Admin role in the space they belong to.
-
-!!! warning
-    Administrative stacks in the legacy space get admin access to the root space for backward compatibility reasons.
-
 A comparison table of what users with given roles are capable of can be found below.
 
 | Action\Who                    | Root Space Admin | Admin | Writer | Reader |
@@ -76,10 +70,8 @@ space_admin["root"] {
 ```
 
 !!! warning
-    Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and administrative stacks, as well as `legacy` space administrative stacks can create or modify them.
-
-!!! warning
-    A logged-in user's access levels only get updated when they log out and in again, so newly added spaces might not be visible to some users. An exception is that the space's creator immediately gets access to it.
+    - Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and administrative stacks, as well as `legacy` space administrative stacks can create or modify them.
+    - A logged-in user's access levels only get updated when they log out and in again, so newly added spaces might not be visible to some users. An exception is that the space's creator immediately gets access to it.
 
 ## Inheritance
 
@@ -108,6 +100,3 @@ Next, the user was given **Admin** access to the `admin access space` space. Reg
 This makes sense, as we want to allow admins to still manage their spaces subtree even if they want to disable resource sharing between some spaces.
 
 Finally, the user was given **Read** access to the `read access space` space. Because inheritance is off, they did not receive **Read** access to the `legacy` space.
-
-!!! info
-    Inheritance works well with Policy Autoattachment. By creating a policy with an `autoattach:*` label you enforce it on all the stacks in all the spaces that inherit the space where the policy resides.

@@ -58,6 +58,7 @@ nav:
           - concepts/spaces/deleting-a-space.md
           - concepts/spaces/structuring-your-spaces-tree.md
           - concepts/spaces/migrating-out-of-the-legacy-space.md
+          - concepts/spaces/best-practices.md
       - User Management:
           - concepts/user-management/README.md
           - concepts/user-management/admin.md
