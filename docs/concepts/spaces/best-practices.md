@@ -51,4 +51,4 @@ When a space inherits from another space, it gets access to all the resources in
 
 Inheritance works well with Policy Autoattachment. By creating a policy with an `autoattach:*` label you enforce the policy on all the stacks in all the spaces that inherit the space where the policy resides.
 
-Another good use case for inheritance is keeping VCS integrations managed in a single space and inherited by all the spaces that need them.
+Another good use case for inheritance is keeping VCS integrations and Worker Pools managed in a single space and inherited by all the spaces that need them.
