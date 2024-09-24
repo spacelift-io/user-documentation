@@ -378,4 +378,75 @@ updates:
 
 {% endraw %}
 
-It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token). Although Admin access is not required, if you are using our login policies, non-admin keys must be defined within this policy.
+Please refer to the important [notes](#important-notes) for more information.
+
+### Renovate
+
+If you want to use [Renovate](https://github.com/renovatebot/renovate){: rel="nofollow"} to automatically update your module versions, you can use the following `renovate.json` [configuration](https://docs.renovatebot.com/configuration-options/){: rel="nofollow"}:
+
+{% raw %}
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "hostRules": [
+    {
+      "matchHost": "app.spacelift.io",
+      "encrypted": {
+        "token": "<SPACELIFT_TOKEN>"
+      },
+      "hostType": "terraform-module"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "terraform-module"
+      ],
+      "registryUrls": [
+        "https://app.spacelift.io"
+      ]
+    }
+  ]
+}
+```
+
+{% endraw %}
+
+### Important notes
+
+- It is important for the `url` to be `https://app.spacelift.io` and for the `token` to be a [Spacelift API key](../../integrations/api.md#spacelift-api-key-token).
+
+- `Spacelift Token` should be the token that is used for accessing Spacelift-hosted Terraform modules outside of Spacelift.
+
+```text
+Please use the following API secret when communicating with Spacelift
+programmatically:
+
+<NotThisValue>
+
+Please add this snippet to your .terraformrc file if you want to use this API
+key to access Spacelift-hosted Terraform modules outside of Spacelift:
+
+credentials "spacelift.io" {
+  token = <ThisValue>
+}
+```
+
+- Your API key needs to have read permissions to the space your module lives in at a minimum.
+
+- If you are using login policies, non-admin keys must be defined within this policy. An example snipprt of this is below;
+
+```opa
+allow {
+    input.session.login == "api::01234"
+ }
+ 
+ space_read["spaceid"] {
+     input.session.login == "api::01234"
+ }
+```
+
+!!! info
+
+    If you are receiving an empty list of modules, it is likely that the api token does not have the correct access to the space.

@@ -117,7 +117,7 @@ The API key creation form will allow you to specify:
 
 - an arbitrary key name - choose something memorable, ideally reflecting the purpose of the key;
 - type of the key - in this case it's going to be "Secret";
-- the list of [spaces](../concepts/spaces/README.md) the key should have access to, along with access level;
+- the list of [spaces](../concepts/spaces/README.md) the key should have access to, along with access level. If you are using [login policies](../concepts/policy/login-policy.md), then you will need to define the API key in the policy for non admin keys.
 - list of groups the key should belong to - used to give the API key a virtual group membership for scenarios where you'd prefer to control access to resources on group/team rather than individual level.
 
 !!! note
