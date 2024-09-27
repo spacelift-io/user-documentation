@@ -158,7 +158,12 @@ Run logs are kept for 60 days.
 
 ## Run prioritization
 
-You can change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
+Runs have different priorities based on their type.
+
+The highest priority is assigned to blocking runs (tracked runs, destroy runs, and tasks), followed by proposed runs, and then drift detection runs.
+Runs of the same type are processed in the order they were created, oldest first.
+
+You can manually change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
 
 The priority of a run can be changed from the run's view and in the worker pool queue view.
 
