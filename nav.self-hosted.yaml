@@ -177,6 +177,7 @@ nav:
       - Support:
           - product/support/README.md
       - product/disaster-continuity.md
+      - product/onboarding-best-practices.md
   - ⚖️ Legal:
       - legal/terms.md
       - legal/refund-policy.md
