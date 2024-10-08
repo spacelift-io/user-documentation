@@ -101,6 +101,15 @@ To work around this issue, the Spacelift Migration Kit identifies Terraform vari
 Once the stacks have been created, set the values for the `spacelift` section of the `config.yml` file and run the
 `spacemk set-tf-vars-with-invalid-name` command to set the values for the Terraform variables with invalid names.
 
+#### Import State
+
+This step will connect spacelift to TFC/TFE and import the state of the stacks created by the migration.
+To do this, simply run the command `spacemk import-state-files-to-spacelift`.
+This will create a context in spacelift with your TFC/TFE credentials, attach it to your newly created stacks and start a task to import the state from TFC directly.
+It does _not_ use the state on disk (in the `tmp` directory) but rather fetches the state from TFC directly.
+
+When doing this step, we authenticate to both TFC/TFE _and_ Spacelift. This means that you need to have the necessary credentials for both providers in your `config.yml` file.
+
 #### Create Module Versions
 
 This step can be skipped if there are no modules defined.
