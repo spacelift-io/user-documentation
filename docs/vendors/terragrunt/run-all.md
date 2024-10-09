@@ -16,6 +16,11 @@ When creating a stack in Spacelift, you can enable the **Use Run All** property 
 
 When this option is enabled, Spacelift will run all Terragrunt commands with the `run-all` option, taking into account any dependencies between your projects!
 
+!!! Tip
+    When using Terragrunt run-all, we recommend setting the [TERRAGRUNT_PARALLELISM](https://terragrunt.gruntwork.io/docs/reference/cli-options/#terragrunt-parallelism){: rel="nofollow"} variable to optimize CPU usage by adjusting the number of tasks processed concurrently, aligning with the capacity of our public workers and preventing worker crashes from overloaded resources.
+
+    If additional parallelism is needed to meet your specific requirements, consider using our [private workers](../../concepts/worker-pools/README.md).
+
 ## Why are my resources named strangely?
 
 ![Screenshot of run changes across a run-all Terragrunt stack](../../assets/screenshots/terragrunt/run-all/run-all-changes.png)
