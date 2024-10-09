@@ -19,7 +19,7 @@ If you want to use SSH to connect to your hosts you will need to provide a path 
 
 ### Forcing color mode for Ansible
 
-By default, Ansible will not color the output when running without TTY. You could enable colored output using the [`ANSIBLE_FORCE_COLOR`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-force-color){: rel="nofollow"} environment variable.
+By default, Ansible will color the output. You can disable colored output using the [`ANSIBLE_FORCE_COLOR`](https://docs.ansible.com/ansible/latest/reference_appendices/config.html#ansible-force-color){: rel="nofollow"} environment variable.
 
 ### Debugging Ansible runs
 
