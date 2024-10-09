@@ -331,6 +331,8 @@ You can configure the following options for the S3 buckets, they are all require
 
 #### Identity Provider
 
+Note: When using OIDC, the identity provider _must_ support the `email` scope. Identity providers that do not support the `email` scope are unsupported (Ex. GitHub). For more information, check out our docs on [SSO](../../integrations/single-sign-on/README.md#setting-up-oidc).
+
 ##### URLs
 
 You may need certain URLs when configuring an application in your identity provider. For SAML, use the following URLs:
