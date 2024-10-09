@@ -33,6 +33,11 @@ This page has quite a few options but the ones that we will be using for this ex
 
 Press **Create & continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing else needs to be configured, so you can click on **Skip to summary** and then click on **Confirm** to finish creating your stack.
 
+!!! Tip
+    When using Terragrunt, we recommend setting the [TERRAGRUNT_PARALLELISM](https://terragrunt.gruntwork.io/docs/reference/cli-options/#terragrunt-parallelism){: rel="nofollow"} variable to optimize CPU usage by adjusting the number of tasks processed concurrently to align with the capacity of our public workers.
+
+    If additional parallelism is needed to meet your specific requirements, consider using our [private workers](../../concepts/worker-pools/README.md).
+
 ## Deploying the stack
 
 Spacelift will take you to the Runs view for the Stack you've just created. Once on this page, press the **Trigger** button to trigger a new Run.
