@@ -5,7 +5,7 @@
     This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-Spacelift optionally supports auditing all operations that change Spacelift resources. This is handled by asynchronously sending webhooks to a user-supplied endpoint.
+Spacelift supports auditing all operations that change Spacelift resources. We provide a built-in audit log as well as webhook functionality to allow you to optionally store your audit logs in a third party system.
 
 ## Built-in logs
 
@@ -13,7 +13,7 @@ As an admin, you can view Audit trail logs by navigating to the Audit trail sect
 
 ![](<../assets/screenshots/audit-trail-logs.png>)
 
-Now, you can look for specific events using filters (on the left side) and date picker (in the top-right corner).
+You can look for specific events using filters (on the left side) and date picker (in the top-right corner).
 
 ![](<../assets/screenshots/audit-trail-logs-filters.png>)
 
@@ -22,7 +22,7 @@ You can see the details:
 ![](<../assets/screenshots/audit-trail-logs-details-button.png>)
 ![](<../assets/screenshots/audit-trail-logs-details.png>)
 
-Also, go to the affected resource or apply another filter:
+You can also go to the affected resource or apply another filter:
 
 ![](<../assets/screenshots/audit-trail-logs-dropdown.png>)
 
@@ -30,7 +30,7 @@ Also, go to the affected resource or apply another filter:
 
 Logs are kept for 30 days.
 
-## Setup
+## Webhook Setup
 
 In order to set up the audit trail, navigate to the Audit trail section of your account settings and choosing the _configuration_ tab, and click the _Set up_ button:
 
