@@ -9,7 +9,7 @@ Spacelift optionally supports auditing all operations that change Spacelift reso
 
 ## Built-in logs
 
-As a admin, you can view Audit trail logs, navigate to the Audit trail section of your account settings and choose _logs_ tab:
+As an admin, you can view Audit trail logs by navigating to the Audit trail section of your account settings and choosing the _logs_ tab:
 
 ![](<../assets/screenshots/audit-trail-logs.png>)
 
@@ -17,18 +17,22 @@ Now, you can look for specific events using filters (on the left side) and date 
 
 ![](<../assets/screenshots/audit-trail-logs-filters.png>)
 
-You can see details:
+You can see the details:
 
 ![](<../assets/screenshots/audit-trail-logs-details-button.png>)
 ![](<../assets/screenshots/audit-trail-logs-details.png>)
 
-Also go to affected resource or apply another filter:
+Also, go to the affected resource or apply another filter:
 
 ![](<../assets/screenshots/audit-trail-logs-dropdown.png>)
 
+### Retention
+
+Logs are kept for 30 days.
+
 ## Setup
 
-In order to set up the audit trail, navigate to the Audit trail section of your account settings and click the _Set up_ button:
+In order to set up the audit trail, navigate to the Audit trail section of your account settings and choosing the _configuration_ tab, and click the _Set up_ button:
 
 ![](<../assets/screenshots/audit-trail-page.png>)
 
