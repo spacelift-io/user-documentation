@@ -7,6 +7,25 @@
 
 Spacelift optionally supports auditing all operations that change Spacelift resources. This is handled by asynchronously sending webhooks to a user-supplied endpoint.
 
+## Built-in logs
+
+As a admin, you can view Audit trail logs, navigate to the Audit trail section of your account settings and choose _logs_ tab:
+
+![](<../assets/screenshots/audit-trail-logs.png>)
+
+Now, you can look for specific events using filters (on the left side) and date picker (in the top-right corner).
+
+![](<../assets/screenshots/audit-trail-logs-filters.png>)
+
+You can see details:
+
+![](<../assets/screenshots/audit-trail-logs-details-button.png>)
+![](<../assets/screenshots/audit-trail-logs-details.png>)
+
+Also go to affected resource or apply another filter:
+
+![](<../assets/screenshots/audit-trail-logs-dropdown.png>)
+
 ## Setup
 
 In order to set up the audit trail, navigate to the Audit trail section of your account settings and click the _Set up_ button:
