@@ -38,7 +38,7 @@ When setting up Spacelift on your identity provider, you may want to add three a
 
 - `FirstName` is used to build human-friendly user name;
 - `LastName` is used to build human-friendly user name;
-- `Teams` can be used by [login](../../concepts/policy/login-policy.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
+- `Teams` can be used by [login](../../concepts/policy/login-policy/README.md) and [stack access](../../concepts/policy/stack-access-policy.md) policies to determine the level access to the Spacelift account and/or individual Stacks;
 
 Depending on your identity provider and your use case, your mapping may be different. Especially with regards to `Teams`, some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) will support an arbitrary list of memberships similar to GitHub teams out of the box, some will need extra customizations like (eg. [Google Workspace](https://support.google.com/a/answer/6327792?hl=en){: rel="nofollow"}) and as a courtesy, we will flush your login history.
 

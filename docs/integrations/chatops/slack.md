@@ -48,7 +48,7 @@ Confirming or discarding runs requires _Write_ level permissions while viewing c
 
 ### Login policy
 
-Using [login policies](../../concepts/policy/login-policy.md) is the preferred way to control access for the Slack integration. Using them you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md).
+Using [login policies](../../concepts/policy/login-policy/README.md) is the preferred way to control access for the Slack integration. Using them you can control who can access stacks which are in a specific [Space](../../concepts/spaces/README.md).
 
 They allow for granular space access control using the provided policy data such as slack workspace details, Slack team information and user which interacted with the message data. Using the Login policy you can define rules which
 would allow to have _Read_ or _Write_ level permissions for certain actions.

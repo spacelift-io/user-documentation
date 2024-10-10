@@ -5,7 +5,7 @@ Unless you're defining a stack programmatically using our [Terraform provider](.
 ![](<../../assets/screenshots/Create_Stack_Overview.png>)
 
 !!! info
-    You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on/README.md).
+    You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy/README.md) and/or [SSO integration](../../integrations/single-sign-on/README.md).
 
 The stack creation process involves nine simple steps:
 

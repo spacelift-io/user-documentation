@@ -33,7 +33,9 @@ nav:
           - concepts/run/pull-request-comments.md
       - Policy:
           - concepts/policy/README.md
-          - concepts/policy/login-policy.md
+          - Login Policy:
+              - concepts/policy/login-policy/README.md
+              - concepts/policy/login-policy/best-practices.md
           - concepts/policy/stack-access-policy.md
           - concepts/policy/approval-policy.md
           - concepts/policy/run-initialization-policy.md

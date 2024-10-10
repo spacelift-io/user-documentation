@@ -1,6 +1,6 @@
 # User Management
 
-Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [Login Policies](../policy/login-policy.md).
+Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [Login Policies](../policy/login-policy/README.md).
 
 !!! warning
     User Management doesn't affect GitHub organization or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners who always get admin access to their respective Spacelift accounts. This is to avoid a situation where a mistake in User Management locks out everyone from the account.
@@ -33,4 +33,4 @@ Once the user authenticates with your identity provider, they will be redirected
 
 ## Migrating from Login Policy
 
-If you were previously using [Login Policy](../policy/login-policy.md) you can queue invites to User Management for your users while still having Login Policy enabled. Once you switch to the User Management strategy, the invites will be sent to your users' emails and allow them to sign in through your Identity Provider. Remember, that you can always go back if it turns out something was misconfigured.
+If you were previously using [Login Policy](../policy/login-policy/README.md) you can queue invites to User Management for your users while still having Login Policy enabled. Once you switch to the User Management strategy, the invites will be sent to your users' emails and allow them to sign in through your Identity Provider. Remember, that you can always go back if it turns out something was misconfigured.

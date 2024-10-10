@@ -3,13 +3,13 @@
 ## Introduction
 
 !!! info
-    Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1 in any policies.
 
 Policy-as-code is the idea of expressing rules using a high-level programming language and treating them as you normally treat code, which includes version control as well as continuous integration and deployment. This approach extends the infrastructure-as-code approach to also cover the rules governing this infrastructure, and the platform that manages it.
 
 Spacelift as a development platform is built around this concept and allows defining policies that involve various decision points in the application. User-defined policies can decide:
 
-- Login: [who gets to log in](login-policy.md) to your Spacelift account and with what level of access;
+- Login: [who gets to log in](./login-policy/README.md) to your Spacelift account and with what level of access;
 - Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
 - Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
 - Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
@@ -23,13 +23,13 @@ Please refer to the following table for information on what each policy types re
 
 | Type                                           | Purpose                                                                                        | Types                 | Returns            | Rules                                                     |
 |------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------|--------------------|-----------------------------------------------------------|
-| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                                        | Positive and negative | `boolean`          | `allow`, `admin`, `deny`, `deny_admin`                    |
+| [Login](./login-policy/README.md)              | Allow or deny login, grant admin access                                                        | Positive and negative | `boolean`          | `allow`, `admin`, `deny`, `deny_admin`                    |
 | [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                                | Positive and negative | `boolean`          | `read`, `write`, `deny`, `deny_write`                     |
 | [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                                  | Positive and negative | `boolean`          | `approve, reject`                                         |
 | [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
 | [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
 | [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
-| [Push](push-policy/README.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
+| [Push](push-policy/README.md)                  | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
 | [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
 | [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
 
@@ -44,7 +44,7 @@ Spacelift uses an open-source project called [**Open Policy Agent**](https://www
 
 You can think of policies as snippets of code that receive some JSON-formatted input and are allowed to produce some output in a predefined form. This input normally represents the data that should be enough to make some decision in its context. Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
 
-Except for [login policies](login-policy.md) that are global, all other policy types operate on the [stack](../stack/README.md) level, and they can be attached to multiple stacks, just as [contexts](../configuration/context.md) are, which both facilitates code reuse and allows flexibility. Policies only affect stacks they're attached to. Please refer to the [relevant section of this article](#attaching-policies) for more information about attaching policies.
+Except for [login policies](./login-policy/README.md) that are global, all other policy types operate on the [stack](../stack/README.md) level, and they can be attached to multiple stacks, just as [contexts](../configuration/context.md) are, which both facilitates code reuse and allows flexibility. Policies only affect stacks they're attached to. Please refer to the [relevant section of this article](#attaching-policies) for more information about attaching policies.
 
 Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. However, once these policies are evaluated against the same input, their results are combined. So if you allow user login from one policy but deny it from another, the result will still be a denial.
 
@@ -86,7 +86,7 @@ There are currently nine types of supported policies and while each of them is d
 
 ### Boolean
 
-[Login](login-policy.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative - that is, they can explicitly **allow** or **deny** access.
+[Login](./login-policy/README.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative - that is, they can explicitly **allow** or **deny** access.
 
 ### Set of Strings
 
@@ -197,7 +197,7 @@ Once you're done, click on the _Create policy_ button to save it. Don't worry, p
 
 ### Automatically
 
-Policies, with the exception of [Login policies](login-policy.md), can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+Policies, with the exception of [Login policies](./login-policy/README.md), can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
 
 #### Policy Attachment Example
 
@@ -324,7 +324,7 @@ The whole point of policy-as-code is being able to handle it as code, which invo
 
 Luckily, Spacelift uses a well-documented and well-supported open source language called Rego, which has built-in support for testing. Testing Rego is extensively covered in [their documentation](https://www.openpolicyagent.org/docs/latest/policy-testing/){: rel="nofollow"} so in this section we'll only look at things specific to Spacelift.
 
-Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#account-membership), and write a test for it:
+Let's define a simple [login policy](./login-policy/README.md) that denies access to [non-members](./login-policy/README.md#account-membership), and write a test for it:
 
 ```opa title="deny-non-members.rego"
 package spacelift
