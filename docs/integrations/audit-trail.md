@@ -13,7 +13,7 @@ As an admin, you can view Audit trail logs by navigating to the Audit trail sect
 
 ![](<../assets/screenshots/audit-trail-logs.png>)
 
-You can look for specific events using filters (on the left side) and date picker (in the top-right corner).
+You can look for specific events using filters (on the left side) and the date picker (in the top-right corner).
 
 ![](<../assets/screenshots/audit-trail-logs-filters.png>)
 
@@ -68,7 +68,7 @@ If you choose to automatically enable the functionality, clicking the _Save_ but
 
 ![](<../assets/screenshots/ngrok_-_Inspect (1).png>)
 
-## Usage
+### Usage
 
 Every audit trail payload conforms to the same schema:
 
@@ -144,7 +144,7 @@ Below is a sample:
 }
 ```
 
-## Disabling and deleting the audit trail
+### Disabling and deleting the audit trail
 
 The audit trail can be disabled and deleted at any point, but for both events we will send the appropriate payload. We suggest that you always treat these at least as important security signals, if not alerting conditions:
 
@@ -162,16 +162,16 @@ The audit trail can be disabled and deleted at any point, but for both events we
 }
 ```
 
-## Verifying payload
+### Verifying payload
 
 Spacelift uses the same similar verification mechanism as GitHub. With each payload we send 2 headers, `X-Signature` and `X-Signature-256`. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [this article](https://medium.com/@vampiire/how-to-verify-the-authenticity-of-a-github-apps-webhook-payload-8d63ccc81a24){: rel="nofollow"} for details.
 
-## Sending logs to AWS
+### Sending logs to AWS
 
 We provide a [reference implementation](https://github.com/spacelift-io-examples/terraform-aws-spacelift-events-collector){: rel="nofollow"} for sending the Audit Trail logs to an AWS S3 bucket.
 
 It works as-is but can also be tweaked to route the logs to other destinations with minimal effort.
 
-## Failures
+### Failures
 
 Audit trail deliveries are retried on failure.
