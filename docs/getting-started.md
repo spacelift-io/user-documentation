@@ -150,7 +150,7 @@ Click on _Trigger_ to kick start a Spacelift run that will check out the source 
 After clicking Trigger, you will be taken directly into the run. Click on **Confirm** and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
 
 !!! tip
-    If you are using the terraform-starter repository, and you did not sign up for your trial account with GitHub, you may need to add the environment variable `TF_VAR_TF_VAR_github_app_namespace` with the value as your organization name or GitHub handle. You can do this under the `Environment` tab in the stack.
+    If you are using the terraform-starter repository, and you did not sign up for your trial account with GitHub, you may need to add the environment variable `TF_VAR_github_app_namespace` with the value as your organization name or GitHub handle. You can do this under the `Environment` tab in the stack.
 
 ![](<./assets/screenshots/ConfirmRunGS.png>)
 
