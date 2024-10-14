@@ -4,6 +4,16 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.1.0 and v2.2.0
+
+### Features
+
+- The bulk actions have been reworked, making it simpler to manage resources.
+
+### Fixes
+
+- We've added a new check that automatically fails the run if a Kubernetes worker pod exits without properly marking the run as finished or failed.
+
 ## Changes between v2.0.0 and v2.1.0
 
 !!! warning
