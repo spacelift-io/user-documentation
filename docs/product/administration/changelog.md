@@ -8,7 +8,9 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
-- The bulk actions have been reworked, making it simpler to manage resources.
+- Our bulk actions feature has been reworked, making it simpler to perform actions on multiple items at once.
+- We've added support for [OIDC Based API Keys](../../integrations/api.md#oidc-based-api-keys) to provide a more secure way of accessing our API without requiring static credentials.
+- We've added the ability to add custom headers to your [audit trail webhooks](../../integrations/audit-trail.md), making it easier than ever to integrate with external systems.
 
 ### Fixes
 
