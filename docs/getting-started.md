@@ -121,19 +121,25 @@ Give your stack a name and click **Continue**.
 
 ![](<./assets/screenshots/NameStackGS.png>)
 
-In the **Integrate VCS** tab, choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack. You also have the optional choice of selecting a [project root](concepts/stack/stack-settings.md#project-root).
+Now choose your VCS provider, select the repository that you gave access to Spacelift in the first step and select a branch that you want to be attached with your Stack. You also have the optional choice of selecting a [project root](concepts/stack/stack-settings.md#project-root).
 
 ![](<./assets/screenshots/IntegrateVCSGS.png>)
 
-Click **Continue** to configure the backend.
+Click **Continue** to configure your vendor.
 
-Choose **Terraform** as your backend with a supported version. Leave the default option to let Spacelift manage state for this stack. Please refer to the [creating a stack](concepts/stack/creating-a-stack.md) section of the documentation for information on using a different backend.
+Choose **Terraform** as your vendor with a supported version. Leave the default option to let Spacelift manage state for this stack. Please refer to the [creating a stack](concepts/stack/creating-a-stack.md) section of the documentation for information on using a different backend.
 
 ![](<./assets/screenshots/ConfigureBackendGS.png>)
 
-Leave the default options checked for Define Behavior and click **Continue**.
+Click **Continue**.
 
-![](<./assets/screenshots/DefineBehaviourSC.png>)
+![](<./assets/screenshots/DefineStackBehaviorGS.png>)
+
+Enable the `Administrative` toggle. This will make the stack an Admin stack, giving it api access to your account.
+
+![](<./assets/screenshots/EnableAdminStackGS.png>)
+
+Click **Save & skip to summary** and then **Confirm** to create the stack.
 
 ### Step 4: Trigger your First Run
 
@@ -142,6 +148,9 @@ Click on _Trigger_ to kick start a Spacelift run that will check out the source 
 ![](<./assets/screenshots/TriggerRunGS.png>)
 
 After clicking Trigger, you will be taken directly into the run. Click on **Confirm** and your changes will be applied. Your output will look different based on your code repository and the resources it creates.
+
+!!! tip
+    If you are using the terraform-starter repository, and you did not sign up for your trial account with GitHub, you may need to add the environment variable `TF_VAR_github_app_namespace` with the value as your organization name or GitHub handle. You can do this under the `Environment` tab in the stack.
 
 ![](<./assets/screenshots/ConfirmRunGS.png>)
 
