@@ -55,22 +55,23 @@ If you delete this variable, it will again be replaced by the computed one. If y
 
 The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
 
-| Name | Description |
-|------|-------------|
-| TF_VAR_spacelift_account_name | Spacelift account name |
-| TF_VAR_spacelift_commit_branch | The commit branch in Version Control System |
-| TF_VAR_spacelift_commit_sha | The sha of the commit in Version Control System |
-| TF_VAR_spacelift_local_preview | If the local-preview feature is enabled or not in the stack |
-| TF_VAR_spacelift_project_root | The project root defined in the stack for the Version Control System |
-| TF_VAR_spacelift_repository | The name of the Version Control System repository |
-| TF_VAR_spacelift_run_id | The Run ID for the current run |
-| TF_VAR_spacelift_run_state | The state of the current run |
-| TF_VAR_spacelift_run_trigger | The trigger information of the run |
-| TF_VAR_spacelift_run_type | The type of the current run |
-| TF_VAR_spacelift_stack_branch | The tracked branch for the stack |
-| TF_VAR_spacelift_stack_id | The ID of the Stack |
-| TF_VAR_spacelift_stack_labels | The labels attached to the Stack |
-| TF_VAR_spacelift_workspace_root | The workspace root information |
+| Name                             | Description                                                          |
+|----------------------------------|----------------------------------------------------------------------|
+| TF_VAR_spacelift_account_name    | Spacelift account name                                               |
+| TF_VAR_spacelift_commit_branch   | The commit branch in Version Control System                          |
+| TF_VAR_spacelift_commit_sha      | The sha of the commit in Version Control System                      |
+| TF_VAR_spacelift_local_preview   | If the local-preview feature is enabled or not in the stack          |
+| TF_VAR_spacelift_project_root    | The project root defined in the stack for the Version Control System |
+| TF_VAR_spacelift_repository      | The name of the Version Control System repository                    |
+| TF_VAR_spacelift_run_id          | The Run ID for the current run                                       |
+| TF_VAR_spacelift_run_state       | The state of the current run                                         |
+| TF_VAR_spacelift_run_trigger     | The trigger information of the run                                   |
+| TF_VAR_spacelift_run_type        | The type of the current run                                          |
+| TF_VAR_spacelift_space_id        | The ID of the Space that the Stack belongs to                        |
+| TF_VAR_spacelift_stack_branch    | The tracked branch for the stack                                     |
+| TF_VAR_spacelift_stack_id        | The ID of the Stack                                                  |
+| TF_VAR_spacelift_stack_labels    | The labels attached to the Stack                                     |
+| TF_VAR_spacelift_workspace_root  | The workspace root information                                       |
 
 !!! info
     Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
