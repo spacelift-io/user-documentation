@@ -194,6 +194,7 @@ should already be prefilled. The object itself looks like this:
     "certificate_arn": "",
     "scheme": "internet-facing",
     "ssl_policy": "ELBSecurityPolicy-TLS-1-2-2017-01",
+    "subnet_placement": "public",
     "tag": {
         "key": "",
         "value": ""
@@ -206,6 +207,8 @@ The prefilled fields are valid defaults and can be left unchanged, while the `ce
 The `scheme` can be either `internet-facing` or `internal` and defaults to `internet-facing`: internal load balancers can only route requests from clients with access to the VPC for the load balancer, while internet-facing load balancers can route requests from clients over the internet.
 
 `ssl_policy` is the name of the security policy that defines ciphers and protocols. The default value is `ELBSecurityPolicy-TLS-1-2-2017-01` which is the most recent security policy that supports TLS 1.2. For more information, see [Security policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies).
+
+`subnet_placement` defines in which subnets a load balancer is launched. It can be set to either `public`(default) or `private`.
 
 ##### Database
 
