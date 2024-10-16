@@ -11,6 +11,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 - Our bulk actions feature has been reworked, making it simpler to perform actions on multiple items at once.
 - We've added support for [OIDC Based API Keys](../../integrations/api.md#oidc-based-api-keys) to provide a more secure way of accessing our API without requiring static credentials.
 - We've added the ability to add custom headers to your [audit trail webhooks](../../integrations/audit-trail.md), making it easier than ever to integrate with external systems.
+- We've added [an option](./install.md#Load balancer) to `config.json` to set `load_balancer.subnet_placement` to either public (default) or private. If the option is omitted, the default remains public.
 
 ### Fixes
 
