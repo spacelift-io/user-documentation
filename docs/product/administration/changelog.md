@@ -4,7 +4,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
-## Changes between v2.1.0 and v2.2.0
+## Changes between v2.1.1 and v2.2.0
 
 ### Features
 
@@ -16,6 +16,13 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 ### Fixes
 
 - We've added a new check that automatically fails the run if a Kubernetes worker pod exits without properly marking the run as finished or failed.
+
+## Changes between v2.1.0 and v2.1.1
+
+### Fixes
+
+- Use `boostMatches` when trying to find a branch in Bitbucket Datacenter. This fixes an issue where we could fail to find the stack's tracked branch if there were too many other branches in the repo with a similar name (for example `development`, `development-123`, etc). The exact number of similar branches depends on your Bitbucket configuration, but defaults to 25.
+- Fixed an issue with the Raw Git integration that caused a `server does not support exact SHA1 refspec` error to be returned when using a Git server that doesn't support cloning with an exact SHA1 refspec.
 
 ## Changes between v2.0.0 and v2.1.0
 
