@@ -164,11 +164,9 @@ Now it is time to add other users to your Spacelift account.
 
 Now comes the moment when you want to show Spacelift to your colleagues. There are a few different ways to grant users access to your Spacelift account but in the beginning, we are going to add them as single users.
 
-Go to the "Policies" page that can be found on the left sidebar and click the "Create policy" button in the top-right corner.
+Click on your icon on the bottom left > select Organization settings > click Login policy and click the "Create policy" button in the top-right corner.
 
-![](<./assets/screenshots/CreatePolicyGS.png>)
-
-Name the policy and select "Login policy" as the type.
+Name the policy and click Continue.
 
 Then copy/paste and edit the example below that matches the identity provider you used to sign up for the Spacelift account.
 
@@ -204,6 +202,8 @@ Then copy/paste and edit the example below that matches the identity provider yo
     # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
     deny  { not admin; not allow }
     ```
+
+If you're not using login policy already note that you may need to enable it under your user icon > Organization settings > Management strategy.
 
 Now your colleagues should be able to access your Spacelift account as well!
 
