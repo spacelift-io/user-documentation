@@ -173,6 +173,5 @@ The following screen highlights the Finished Run and output from a successful de
 ### Default Removal of Deployments
 
 !!! info
-    By default; if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>` label will be removed from the Kubernetes cluster.
-    However, this removal only occurs if there are multiple YAML files in the repository. If there is only one YAML file and it is deleted, an error will occur.
-    The `--prune` flag will be utilized.
+    By default if a YAML file is removed from your repository, the resources with an attached `spacelift-stack=<stack-slug>` label will be removed from the Kubernetes cluster.
+    The `--prune` flag will be utilized. But you need to be aware that you need at least one YAML file to exist otherwise the run will fail.
