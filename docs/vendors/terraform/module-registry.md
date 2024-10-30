@@ -343,6 +343,8 @@ In order to share the module with other accounts, please add their names in subd
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
 
+You can also mark the module as **public** which will make it accessible to everyone inside and outside Spacelift. This can be done with the [Spacelift OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/module#optional) via the `public` attribute.
+
 ### Using modules outside of Spacelift
 
 Modules hosted in the private registry can be used outside of Spacelift.
@@ -446,7 +448,7 @@ credentials "spacelift.io" {
 allow {
     input.session.login == "api::01234"
  }
- 
+
  space_read["spaceid"] {
      input.session.login == "api::01234"
  }
