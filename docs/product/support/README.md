@@ -2,15 +2,15 @@
 description: Information about Spacelift support options.
 ---
 
-# Support
+# Support  
 
 {% if is_saas() %}
-Spacelift offers a variety of support options for all users on both paid and free tiers. You should be able to find help using the resources linked below, regardless of how you use Spacelift.
+Spacelift offers support at three different levels depending on the product tier you purchased. Please refer to your agreement with Spacelift to clarify which support level applies.
 {% else %}
 Spacelift offers a variety of support options depending on your needs. You should be able to find help using the resources linked below, regardless of how you use Spacelift.
 {% endif %}
 
-## Have you tried…
+## Have you tried…  
 
 Before reaching out for support, have you tried:
 
@@ -18,80 +18,78 @@ Before reaching out for support, have you tried:
 {% if is_saas() %}- Checking [our status page](https://spacelift.statuspage.io/){: rel="nofollow"}. Our infrastructure team is on-call 24/7. This means that most of the time, by the time you notice something is amiss, someone is already looking into it. Also, some issues are caused by third parties having incidents that are out of our control (e.g., Source Control provider issues).{% endif %}
 - Reviewing the [Scope of Support section](./README.md#scope-of-support) to understand what is within the scope of Spacelift support.
 
-## Contacting Support
+## Contacting Support  
 
 {% if is_saas() %}
-| Plan            | How to get support                                           |
-| --------------- | ------------------------------------------------------------ |
-| **Free**        | Open a conversation in the Spacelift chat widget             |
-| **Cloud**       | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
-| **Enterprise**  | Open a support ticket in the shared Slack channel (preferred, when available) or open a conversation in the chat widget in the bottom-right corner of the screen |
-| **Self-Hosted** | For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible. |
+| Plan       | How to get support                                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Bronze** | Message us at [support@spacelift.io](mailto:support@spacelift.io) (preferred) or open a conversation in the chat widget in the bottom-right corner of the screen |
+| **Silver** | Open a support ticket in the shared Slack channel (preferred, when available), message us at [support@spacelift.io](mailto:support@spacelift.io) or open a conversation in the chat widget in the bottom-right corner of the screen |
+| **Gold**   | Open a support ticket in the shared Slack channel (preferred, when available), message us at [support@spacelift.io](mailto:support@spacelift.io) or open a conversation in the chat widget in the bottom-right corner of the screen |
+
 {% else %}
-For technical questions related to the Spacelift product, open a support ticket in the shared Slack channel (preferred, when available), or email <support@spacelift.io> if using Slack is not possible.
+
+| Plan       | How to get support                                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **Gold**   | Open a support ticket in the shared Slack channel (preferred, when available), message us at [support@spacelift.io](mailto:support@spacelift.io) or open a conversation in the chat widget in the bottom-right corner of the screen |
+
 {% endif %}
 
-Questions related to billing, purchasing, or subscriptions should be sent to [ar@spacelift.io](mailto:ar@spacelift.io).
+Questions related to:
 
-## Support SLA
+- billing, purchasing, or invoicing should be sent to [ar@spacelift.io](mailto:ar@spacelift.io).
+- your current subscriptions, add-ons, or renewals should be sent to your Customer Success Manager (if assigned) or [cs@spacelift.io](mailto:cs@spacelift.io).
 
-The SLA times listed below are the timeframes in which you can expect the first response. Spacelift will make the best effort to resolve any issues to your satisfaction as quickly as possible. However, the SLA times are not to be considered as an expected time-to-resolution.
+## Support via Slack Channels  
+
+For tickets opened in Slack channels, our commitment to meeting the service level agreements (SLAs) as described below is contingent upon having the Slack support channel integrated within our workspace, equipped with our monitoring and ticketing tools.
+
+To ensure optimal support and SLA compliance, we recommend that all support interactions occur within the designated channels within our Slack workspace.
+
+## Support SLA  
+
+The SLA times listed below are the timeframes in which you can expect the first response. Spacelift will make a reasonable effort to adhere to the response times provided below and resolve any issues to your satisfaction as quickly as possible. However, the SLA times are not to be considered an expected time to resolution.
 
 {% if is_saas() %}
+| Severity             | Bronze              | Silver              | Gold               |
+| -------------------- | ------------------- | ------------------- | ------------------ |
+| **Critical**<br>24 x 7                    | 4 hours             | 3 hours            | 1 hour             |
+| **Major**<br>_4 am - 8 pm ET, business days_* | Reasonable best effort | 8 business hours   | 4 business hours   |
+| **Minor**<br>_4 am - 8 pm ET, business days_* | Reasonable best effort | 48 business hours  | 24 business hours  |
+| **General Guidance**<br>_4 am - 8 pm ET, business days_* | Reasonable best effort | 72 business hours  | 72 business hours  |
 
-### Free Plan
+{% else %}
 
-Support to the Free plan users is provided on a best-effort basis. There is no commitment to a specific response time.
-
-### Cloud Plan
-
-| Severity             | First Response Time | Working Hours               |
-| -------------------- | ------------------- | --------------------------- |
-| **Critical**         | 1 hour              | 24x7                        |
-| **Major**            | 24 hours            | 4 am - 8 pm (ET), Mon - Fri |
-| **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
-| **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
-
-### Enterprise Plan
-
-| Severity             | First Response Time | Working Hours               |
-| -------------------- | ------------------- | --------------------------- |
-| **Critical**         | 1 hour              | 24x7                        |
-| **Major**            | 8 hours             | 4 am - 8 pm (ET), Mon - Fri |
-| **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
-| **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
-
-### Self-Hosted Plan
+| Severity             | Gold               |
+| -------------------- | ------------------ |
+| **Critical**<br>24 x 7                    | 1 hour             |
+| **Major**<br>_4 am - 8 pm ET, business days_* | 4 business hours  |
+| **Minor**<br>_4 am - 8 pm ET, business days_* | 24 business hours |
+| **General Guidance**<br>_4 am - 8 pm ET, business days_* | 72 business hours |
 
 {% endif %}
+\* _Business day_ - any day in which normal business operations are conducted (Mon-Fri, except for US public holidays)
 
-| Severity             | First Response Time | Working Hours               |
-| -------------------- | ------------------- | --------------------------- |
-| **Critical**         | 1 hour              | 24x7                        |
-| **Major**            | 8 hours             | 4 am - 8 pm (ET), Mon - Fri |
-| **Minor**            | 48 hours            | 4 am - 8 pm (ET), Mon - Fri |
-| **General Guidance** | 72 hours            | 4 am - 8 pm (ET), Mon - Fri |
+### Definitions of Severity Level  
 
-Spacelift has support engineers in Europe and the US. They observe local holidays, so the working hours might change on those days. We have engineers on-call 24/7 for Critical incidents, so those are not impacted by holidays.
+Below you will find the definition of severity for each issue:
 
-### Definitions of Severity Level
-
-- **Severity 1 - Critical**: A critical incident with very high impact (e.g., A customer-facing service is down for all customers).
-- **Severity 2 - Major**: A major incident with significant impact. (e.g., A customer-facing service is down for a sub-set of customers).
-- **Severity 3 - Minor**: A minor incident with low impact:
-    - Spacelift use has a minor loss of operational functionality, regardless of the environment or usage (e.g., A system bug creates a minor inconvenience to customers).
+- **Severity 1 - Critical**: A critical issue of Spacelift product with very high impact (e.g., a customer-facing service is down for all customers).
+- **Severity 2 - Major**: A major issue of Spacelift product with significant impact (e.g., a customer-facing service is down for a subset of customers).
+- **Severity 3 - Minor**:  A minor issue of Spacelift product with low impact:
+    - Spacelift use has a minor loss of operational functionality, regardless of the environment or usage (e.g., a system bug creates a minor inconvenience to users).
     - Important Spacelift features are unavailable or somewhat slowed, but a workaround is available.
-- **Severity 4 - General Guidance**: Implementation or production use of Spacelift is continuing, and work is not impeded (e.g., Information, an enhancement, or documentation clarification is requested, but there is no impact on the operation of Spacelift).
+- **Severity 4 - General Guidance**: Implementation or production use of Spacelift is continuing, and work is not impeded (e.g., information, an enhancement, or documentation clarification is requested, but there is no impact on the operation of the services provided by Spacelift).
 
 Severity is assessed by Spacelift engineers based on the information at their disposal. Make sure to clearly and thoroughly communicate the extent and impact of an incident when reaching out to support to ensure it gets assigned the appropriate severity.
 
-## Scope of Support
+## Scope of Support  
 
 The scope of support, in the simplest terms, is what we support and what we do not. Ideally, we would support everything. However, without reducing the quality of our support or increasing the price of our product, this would be impossible. These "limitations" help create a more consistent and efficient support experience.
 
-Please understand that any support that might be offered beyond the scope defined here is done at the discretion of the Support Engineer and is provided as a courtesy.
+Please understand that any support that might be offered beyond the scope defined here is done at the discretion of the Support Engineer and is provided as a courtesy
 
-### Spacelift Features and Adjacent Technologies
+### Spacelift Features and Adjacent Technologies  
 
 Of course, we provide support for all Spacelift features, but also for adjacent parts of the third parties we integrate with.
 
@@ -103,7 +101,7 @@ Here are some examples of what is in scope and what is not for some of the techn
 | **IaC Tool**       | Helping troubleshoot a failed deployment                     | Helping architecture your source code                    |
 | **VCS Provider**   | Helping troubleshoot events not triggering Spacelift runs    | Advising how to best configure a VCS provider repository |
 
-### Requirements
+### Requirements  
 
 Spacelift cannot provide training on the use of the underlying technologies that Spacelift integrates with. Spacelift is a product aimed at technical users, and we expect our users to be versed in the basic usage of the technologies related to features that they seek support for.
 
@@ -111,12 +109,24 @@ For example, a customer looking for help with a Kubernetes integration should un
 
 {% if is_self_hosted() %}For Self-Hosted, we do not provide support for the underlying cloud account that hosts Spacelift. We expect the network, security, and other components to be configured and maintained in a way that is compatible with [Spacelift requirements](../administration/install.md){% endif %}
 
-### Feature Preview
+### Feature Preview  
 
-#### Alpha Features
+#### Alpha Features  
 
 Alpha features are not yet thoroughly tested for quality and stability, may contain bugs or errors, and be prone to see breaking changes in the future. You should not depend on them, and the functionality is subject to change. As such, support is provided on a best-effort basis.
 
-#### Beta Features
+#### Beta Features  
 
 We provide support for Beta features on a commercially-reasonable effort basis. Because they are not yet thoroughly tested for quality and stability, we may not yet have identified all the corner cases and may be prone to see breaking changes in the future. Also, troubleshooting might require more time and assistance from the Engineering team.
+{% if is_saas() %}
+
+### Availability and Downtimes  
+
+We will use commercially reasonable efforts to:
+    - maintain uptime of the SaaS services provided by Spacelift 99.8% of the time measured in a given calendar month,
+    - give you at least 24 hours prior notice of all scheduled maintenance of the SaaS services provided by Spacelift.
+
+You can check the current SaaS services’ availability status at [our status page](https://spacelift.statuspage.io/){: rel="nofollow"} and subscribe to be notified of any events.
+
+Please be aware that the availability of the services provided by Spacelift might be affected by factors beyond our control, such as third party failures, interruptions or outages (which are not taken into account to calculate the uptime).
+{% endif %}
