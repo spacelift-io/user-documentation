@@ -178,10 +178,13 @@ nav:
           - product/support/README.md
       - product/disaster-continuity.md
       - product/onboarding-best-practices.md
+      - Archive:
+          - product/archive/support.md
   - ⚖️ Legal:
       - legal/terms.md
       - legal/refund-policy.md
       - legal/privacy.md
       - legal/cookie-policy.md
+      - legal/DPA.md
       - Archive:
           - legal/archive/terms.md
