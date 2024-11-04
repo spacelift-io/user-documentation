@@ -1,5 +1,10 @@
 # Policy
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 ## Introduction
 
 !!! info

@@ -2,8 +2,10 @@
 
 ## What is scheduling?
 
-!!! info
-    Note that scheduling only works on private workers, which is an Enterprise plan feature.
+{% if is_saas() %}
+!!! Info
+    This feature is only available on the Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 Scheduling allows you to trigger a stack deletion or task at a specific time or periodically based on the cron rules defined.
 

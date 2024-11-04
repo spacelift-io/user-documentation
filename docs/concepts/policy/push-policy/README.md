@@ -2,8 +2,10 @@
 
 ## Purpose
 
-!!! info
-    Push policies are only evaluated for the [Cloud or Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
+{% if is_saas() %}
+!!! hint
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% else %}
 
 !!! info
     Please note, we currently don't support importing rego.v1
