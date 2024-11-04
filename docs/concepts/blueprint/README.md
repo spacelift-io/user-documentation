@@ -1,5 +1,10 @@
 # Blueprint
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available on the Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 There are multiple ways to create [stacks](../stack/README.md) in Spacelift. Our recommended way is to use [our Terraform provider](../../vendors/terraform/terraform-provider.md) and programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
 
 However, some users might not be comfortable using Terraform code to create stacks, this is where Blueprints come in handy.

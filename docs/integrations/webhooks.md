@@ -4,6 +4,11 @@ description: Receiving Spacelift notifications using webhooks
 
 # Webhooks
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 Spacelift can be configured to send webhook notifications for various events to an HTTP endpoint of your choice.
 
 ## Setting up webhooks

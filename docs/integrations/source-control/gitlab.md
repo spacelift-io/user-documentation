@@ -112,6 +112,11 @@ You can use commit statuses to protect your branches tracked by Spacelift stacks
 
 #### Aggregated checks
 
+{% if is_saas() %}
+!!! info
+    This feature is only available to Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
 This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
 

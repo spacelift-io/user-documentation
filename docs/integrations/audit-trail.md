@@ -1,7 +1,9 @@
 # Audit trail
 
-!!! info
-    Note that Audit Trail is an Enterprise plan feature.
+{% if is_saas() %}
+!!! Info
+    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 Spacelift optionally supports auditing all operations that change Spacelift resources. This is handled by asynchronously sending webhooks to a user-supplied endpoint.
 

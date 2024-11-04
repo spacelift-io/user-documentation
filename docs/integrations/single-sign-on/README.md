@@ -34,6 +34,11 @@ In order to manage Single Sign-On integrations on your Spacelift account, please
 
 ## Setting up SAML
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 When setting up Spacelift on your identity provider, you may want to add three attribute mappings:
 
 - `FirstName` is used to build human-friendly user name;
@@ -69,6 +74,11 @@ The following are links to example implementations you can use as a reference/gu
 If you can't find your SAML provider in the list above, don't worry - we do support all SAML 2.0 providers.
 
 ## Setting up OIDC
+
+{% if is_saas() %}
+!!! Info
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 When setting up Spacelift on your identity provider, you must make sure it supports the `email` scope and returns the corresponding `email`
 

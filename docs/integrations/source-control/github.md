@@ -192,6 +192,11 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 ### Space-level integrations
 
+{% if is_saas() %}
+!!! hint
+    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 If you're using Space-level integrations, you can use the [Spaces](../../concepts/spaces/README.md) to control the access of your GitHub integrations. For example, if you have a Space called `Rideshare`, you can create a GitHub integration in that Space, and that can only be attached to those stacks and modules that are in the same Space (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space).
 
 #### Integration details visibility
@@ -267,6 +272,11 @@ You can use commit statuses to protect your branches tracked by Spacelift stacks
 This is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
 
 ##### Aggregated checks
+
+{% if is_saas() %}
+!!! info
+    This feature is only available to Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
 This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.

@@ -1,5 +1,10 @@
 # Task
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 ![](../../assets/screenshots/run/tasks-list.png)
 
 While tasks enjoy the privilege of having their own GUI screen, they're just another type of [run](./README.md). The core difference is that after the common [initialization](./README.md#initializing) phase, a **task will run your custom command** instead of a string of preordained vendor-specific commands.

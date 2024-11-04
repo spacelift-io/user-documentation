@@ -1,7 +1,9 @@
 # Drift detection
 
-!!! info
-    Note that drift detection only works on private workers, which is an Enterprise plan feature.
+{% if is_saas() %}
+!!! Info
+    This feature is only available on the Starter+ plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 ## Drift happens
 

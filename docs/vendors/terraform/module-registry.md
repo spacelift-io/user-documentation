@@ -4,6 +4,11 @@ description: This article shows how Spacelift can help you manage Terraform Modu
 
 # Module registry
 
+{% if is_saas() %}
+!!! Info
+    This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
+
 ## Intro
 
 In Terraform, [modules](https://www.terraform.io/docs/configuration/modules.html){: rel="nofollow"} help you abstract away common functionality in your infrastructure.
