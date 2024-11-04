@@ -64,7 +64,7 @@ pre-commit
 
 ## Self-Hosted
 
-Our self-hosted docs are built using a tool called [Mike](https://github.com/jimporter/mike). Mike allows us to snapshot multiple versions of the documentation in a separate Git branch. In our case this branch is called `self-hosted-releases`.
+Our self-hosted docs are built using a tool called [Mike](https://github.com/jimporter/mike). Mike allows us to snapshot multiple versions of the documentation in a separate Git branch. In our case this branch is called `self-hosted-releases-prod`.
 
 You can mostly ignore this while editing the docs, although there are a few things worth understanding.
 
@@ -139,23 +139,25 @@ stack:
 
 When you open a PR against the repo, a Render preview will automatically be generated. This preview also includes the latest version of the self-hosted docs. This allows you to preview any changes you are making to the self-hosted docs.
 
-If you would like to preview the self-hosted site locally, first fetch the `self-hosted-releases` branch, which Mike uses to serve its content:
+If you would like to preview the self-hosted site locally, first fetch the `self-hosted-releases-prod` branch, which Mike uses to serve its content:
 
 ```shell
-git fetch origin self-hosted-releases
+git fetch origin self-hosted-releases-prod
 ```
 
 Next, use `mike serve` to preview the site:
 
 ```shell
-mike serve --branch self-hosted-releases
+mike serve --branch self-hosted-releases-prod
 ```
 
 Or via Docker:
 
 ```shell
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && git config --global --add safe.directory /docs && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mike serve --branch self-hosted-releases -a '0.0.0.0:8000'"
+docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && git config --global --add safe.directory /docs && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mike serve --branch self-hosted-releases-prod -a '0.0.0.0:8000'"
 ```
+
+Once it is ready, you will need to go to '0.0.0.0:8000/latest/' instead of just '0.0.0.0:8000'.
 
 ## Submitting Changes
 
