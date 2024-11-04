@@ -1,14 +1,14 @@
 # Access Control
 
-With Spaces, the whole permission management process is done within [Login policies](../policy/login-policy.md) where you can specify what type of role a user gets within the given spaces.
+With Spaces, the whole permission management process is done within [Login policies](../policy/login-policy.md) or [User Management](../user-management/) depending on your account strategy, you can then specify what type of role a user gets within the given spaces.
 
 ## Roles
 
 There are 3 roles that you can assign to users on a space-by-space basis:
 
-- **Read** - cannot create or modify neither stacks nor any attachable entities, but can view them
-- **Write** - an extension to **Read**, as it can actually trigger runs in the stacks it sees
-- **Admin** - can create and modify stacks and attachable entities, as well as trigger runs
+- **Read** - cannot create or modify neither stacks nor any attachable entities, but can view them and add comments to runs, providing a central place for shared feedback without affecting runs.
+- **Write** - an extension to **Read**, as it can actually trigger runs in the stacks it sees.
+- **Admin** - can create and modify stacks and attachable entities, as well as trigger runs.
 
 A special case is someone who is given Admin permissions to the `root` space - we would call that person a Root Space Admin.
 Any Root Space Admin is perceived to be an admin of the whole account. Only they can modify the space tree or access account-wide settings.
