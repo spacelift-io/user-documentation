@@ -120,10 +120,11 @@ In this step, you can share module with different Spacelift accounts, you just n
 In the behavior section there are few settings that you can set to make your module work in a specific way:
 
 - setting the [worker pool](../../concepts/worker-pools#using-worker-pools) to one you manage yourself makes sense if the module tests will be touching resources or accounts you don't want Spacelift to access directly. Plus, your private workers may have more bandwidth than the shared ones, so you may get feedback faster.
+- which tool to be used to execute the workflow commands. This can be an open source (FOSS) version of Terraform, OpenTofu or a custom tool.
+- a docker image used to process your module metadata (required if you want to use symbolic links in the module). You can specify your own image or use Spacelift's public one: `public.ecr.aws/spacelift/runner-terraform:latest`.
 - whether the module is [administrative](../../concepts/stack/stack-settings.md#administrative) (You will only need to set _administrative_ to `true` if your module manages Spacelift resources (and most likely it does not)),
 - whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature;
 - whether or not to protect the module from deletion;
-- which tool to be used to execute the workflow commands. This can be an open source (FOSS) version of Terraform, OpenTofu or a custom tool.
 
 #### Attach Module Cloud Integration
 
