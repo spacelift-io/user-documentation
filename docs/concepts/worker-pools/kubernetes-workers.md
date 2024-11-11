@@ -190,30 +190,40 @@ spec:
         requests:
           cpu: 500m
           memory: 200Mi
-        limits:
-          cpu: 500m
-          memory: 200Mi
+        # Please note: we recommend being very cautious when adding resource limits
+        # to your containers. Setting too low a limit on the init container can cause
+        # runs to fail during the preparing phase.
+        # limits:
+        #   cpu: 100m
+        #   memory: 50Mi
     grpcServerContainer:
       resources:
         requests:
-          cpu: 100m
-          memory: 50Mi
-        limits:
-          cpu: 100m
-          memory: 50Mi
+          cpu: 500m
+          memory: 200Mi
+        # Setting too low limits on the grpc server container can cause runs to fail
+        # when moving into the unconfirmed stage, as well as problems like not being
+        # able to stop/cancel runs.
+        # limits:
+        #   cpu: 100m
+        #   memory: 50Mi
     workerContainer:
       resources:
         requests:
           cpu: 500m
           memory: 200Mi
-        limits:
-          cpu: 500m
-          memory: 200Mi
+        # Setting too low limits on the worker container can cause problems executing
+        # your IaC tool (e.g. OpenTofu, Terraform, etc), causing runs to fail during
+        # planning, applying or destroying phases.
+        # limits:
+        #   cpu: 500m
+        #   memory: 200Mi
 ```
 
 You can use the values above as a baseline to get started, but the exact values you need for your pool will depend on your individual circumstances. You should use monitoring tools to adjust these to values that make sense.
 
-In general, we don't suggest setting very low CPU or memory limits for the `init` or `worker` containers since doing so could affect the performance of runs, or even cause runs to fail if they are set too low. And in particular, the worker container resource usage will very much depend on your workloads. For example stacks with large numbers of Terraform resources may use more memory than smaller stacks.
+!!! warning
+    In general, we don't suggest setting very low CPU or memory limits for the `init`, `grpc` or `worker` containers since doing so could affect the performance of runs, or even cause runs to fail if they are set too low. And in particular, the worker container resource usage will very much depend on your workloads. For example stacks with large numbers of Terraform resources may use more memory than smaller stacks.
 
 ## Volumes
 
