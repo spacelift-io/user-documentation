@@ -45,8 +45,8 @@ root of your Terraform project as a `.tf` file.
     If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
 The state server is an HTTP endpoint implementing the
-Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="
-nofollow"}. Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked
+Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}. 
+Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked
 as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is
 established, we just pass the request to S3 with the right parameters.
 
