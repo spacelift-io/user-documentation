@@ -45,7 +45,7 @@ root of your Terraform project as a `.tf` file.
     If you have some Terraform state backend already specified in your code, the initialization phase will keep failing until you remove it.
 
 The state server is an HTTP endpoint implementing the
-Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}. 
+Terraform [standard state management protocol](https://www.terraform.io/docs/backends/types/http.html){: rel="nofollow"}.
 Our backend always ensures that the credentials belong to one of the runs or tasks that are currently marked
 as active on our end, and their state indicates that they should be accessing or modifying the state. Once this is
 established, we just pass the request to S3 with the right parameters.
@@ -103,8 +103,8 @@ After rollback completes successfully, a new version of your state will appear a
 ## Importing resources into your Terraform State
 
 So you have an existing resource that was created by other means and would like that resource to be reflected in your
-terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="
-nofollow"} command. When you're managing your own terraform state, you would typically run this command locally to
+terraform state. This is an excellent use case for the [terraform import](https://www.terraform.io/cli/import){: rel="nofollow"}
+command. When you're managing your own terraform state, you would typically run this command locally to
 import said resource(s) to your state file, but what do I do when I'm using Spacelift-managed state you might ask?
 Spacelift [Task](../../concepts/run/task.md) to the rescue!
 
