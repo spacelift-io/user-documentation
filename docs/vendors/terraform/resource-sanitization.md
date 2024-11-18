@@ -168,7 +168,7 @@ Smart Sanitization allows you to author [Plan policies](../../concepts/policy/te
     ```
 
 !!! info
-    The same sanitization is also applied to resources shown in the [resources](../../concepts/resources.md) views.
+    The same sanitization is also applied to resources shown in the [resources](../../concepts/resources/README.md) views.
 
 ## Default Sanitization
 

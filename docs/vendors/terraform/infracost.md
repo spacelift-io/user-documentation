@@ -109,6 +109,6 @@ warn[sprintf("monthly cost increase greater than %d%% (%.2f%%)", [threshold, per
 
 ### Resources View
 
-Infracost provides information about how individual resources contribute to the overall cost of the stack. Spacelift combines this information with our [resources view](../../concepts/resources.md) to allow you to view the cost information for each resource:
+Infracost provides information about how individual resources contribute to the overall cost of the stack. Spacelift combines this information with our [resources view](../../concepts/resources/README.md) to allow you to view the cost information for each resource:
 
 ![](../../assets/screenshots/3-resources-view.png)

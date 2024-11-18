@@ -28,6 +28,19 @@ Runs triggered by individuals and [machine users](../../integrations/api.md#spac
 
 ![](../../assets/screenshots/run/run-started-by-real-and-machine-user.png)
 
+#### Triggering runs with a custom runtime config
+
+It is possible to trigger runs with a custom runtime configuration. This allows you to tailor the runtime environment to specific needs at the moment of triggering a run.
+
+![](../../assets/screenshots/run/trigger-with-custom-runtime-config.png)
+
+The details of runtime config format can be found in the section about [runtime YAML reference](../../concepts/configuration/runtime-configuration/runtime-yaml-reference.md)
+
+![](../../assets/screenshots/run/trigger-custom-runtime-config-details.png)
+
+!!! info
+    Triggering runs with custom runtime config is especially useful when last-mile configuration is needed, for example oftentimes when triggering Ansible runs with custom variables and parameters.
+
 ### Triggering from Git events
 
 Tracked runs can also be triggered by Git push and tag events. By default, whenever a push occurs to the [tracked branch](../stack/stack-settings.md#vcs-integration-and-repository), a tracked run is started - one for each of the affected stacks. This default behavior can be extensively customized using our [push policies](../policy/push-policy/README.md).

@@ -34,3 +34,11 @@ Add a schedule with the Task type from the Scheduling section of your stack.
 After creating this schedule, a task will be triggered with the defined command (at a specific timestamp or periodically based on the cron rules defined).
 
 ![](../../assets/screenshots/stack/scheduling/create-task.png)
+
+## Scheduled Run
+
+You can also set up a schedule based on which a tracked run will be created.
+
+![](../../assets/screenshots/stack/scheduling/create-run.png)
+
+Additionally, if you mark **Attach custom runtime config**, you will be able to attach a custom runtime config to the schedule, similarly to when [triggering a run with custom runtime config](../run/tracked.md#triggering-runs-with-a-custom-runtime-config).
