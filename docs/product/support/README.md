@@ -58,10 +58,7 @@ The SLA times listed below are the timeframes in which you can expect the first 
 | **Minor**<br>_4 am - 8 pm ET, business days_* | Reasonable best effort | 48 business hours  | 24 business hours  |
 | **General Guidance**<br>_4 am - 8 pm ET, business days_* | Reasonable best effort | 72 business hours  | 72 business hours  |
 
-\* _Business day_ - any day in which normal business operations are conducted (Mon-Fri, except for US public holidays)
-{% endif %}
-
-{% if is_self_hosted() %}
+{% else %}
 
 | Severity             | Gold               |
 | -------------------- | ------------------ |
