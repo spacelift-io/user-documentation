@@ -4,6 +4,18 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.2.0 and v2.3.0
+
+### Features
+
+- Ansible reloaded! We've shipped the following improvements for our [Ansible](../../vendors/ansible/README.md) integration:
+    - Ability to specify a custom runtime config in YAML format. Click the dropdown button next to the `Trigger` button and choose `Trigger with custom runtime config`.
+    - The final runtime configuration (including all custom configurations) can be retrieve for all runs. Use the 3 dots in the top right corner of the run details view and choose `Runtime config details`.
+    - In the run changes views, ansible tasks are listed as separate resources.
+    - New `Configuration Management` tab in the stack view. This view allows for display of last status of each item in your Ansible inventory (i.e. outcome of the last run).
+    - We've added logs of task executions to the task details tab.
+- Dashboard - Spacelift's new default view is the dashboard, which provides a high-level overview of your stacks, runs, drift detection schedules, as well as some basics metrics (stack failures, run duration etc.).
+
 ## Changes between v2.1.1 and v2.2.0
 
 ### Features
