@@ -31,11 +31,17 @@ If this happens, it means that you need ask an Azure AD admin to provide Admin c
 To do this, your Azure AD admin can use a URL like the following to grant permission to Spacelift:
 
 ```text
-https://login.microsoftonline.com/<tenant-id>/adminconsent?client_id=fba648b0-4b78-4224-b510-d96ff51eeef9
+https://login.microsoftonline.com/<tenant-id>/adminconsent?client_id=<client-id>
 ```
 
 !!! info
     NOTE: make sure to replace `<tenant-id>` with your Azure AD Tenant ID!
+
+!!! info
+    NOTE: ensure you replace `<client-id>` based on your environment.
+
+    - for [spacelift.io](https://spacelift.io), use `fba648b0-4b78-4224-b510-d96ff51eeef9`.
+    - for [us.spacelift.io](https://us.spacelift.io), use `823de581-43fe-42cd-8ace-a90c2ba36f01`.
 
 After granting admin consent, your administrator will be redirected to Spacelift and receive the following message:
 

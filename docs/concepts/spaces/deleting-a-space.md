@@ -14,3 +14,5 @@ If any of the following conditions is true, the space cannot be deleted:
 
 !!! info
     You cannot delete neither the `root` nor the `legacy` space.
+
+By default, only `root` admin users can delete spaces. This can be [overwritten in the account settings](./allowing-non-root-admins-to-manage-spaces.md).

@@ -42,7 +42,13 @@ You can either choose an existing output value or add one that doesn't exist yet
 
 A stack output can be sensitive or non-sensitive. For example, in Terraform [you can mark an output](https://developer.hashicorp.com/terraform/language/values/outputs#sensitive-suppressing-values-in-cli-output){: rel="nofollow"} `sensitive = true`. Sensitive outputs are being masked in the Spacelift UI and in the logs.
 
-Spacelift will upload sensitive outputs to the server - this is enabled by default on our public worker pool.
+In order for Spacelift to start uploading sensitive outputs to the server you need to enable it explicitly both on the Stack and on the Worker Pool level.
+
+On the Stack level, you can enable it by setting the `Transfer sensitive outputs across dependencies` option to `Enabled`.
+
+![](../../assets/screenshots/stack-dependencies-upload-sensitive.png)
+
+As for the worker pools it depends whether you are using public or private workers as this is enabled by default on our public worker pool.
 
 On [private worker pools](../../concepts/worker-pools) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
 
@@ -64,7 +70,7 @@ graph TD;
     style storageColor fill:#51cbad
 ```
 
-If you trigger `StorageService` in the above scenario, you need to make sure `Storage` has produced `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
+If you trigger `StorageService` in the above scenario, `Storage` needs to have done a tracked run with an apply phase producing the output for `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
 
 ```plain
 job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_BUCKET_ARN => TF_VAR_AWS_S3_BUCKET_ARN
@@ -74,6 +80,8 @@ job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_B
     We have enabled the output uploading to our backend on 2023 August 21. This means that if you have a stack that produced an output before that date, you'll need to rerun it to make the output available for references.
 
 We upload outputs during the [Apply phase](../run/tracked.md#applying). If you stumble upon the error above, you'll need to make sure that the stack producing the output had a tracked run **with an Apply phase**.
+
+The same applies if you have imported outputs into your stack, they also require an Apply phase in Spacelift. Outputs imported into a stack are only uploaded to the backend during this phase to be available for use as shared outputs. Without this step, the outputs will not propagate correctly.
 
 You can simply do it by adding a dummy output to the stack and removing it afterwards:
 
@@ -361,3 +369,21 @@ You might notice the three destructors at the end. They don't do anything yet, b
 - Destroys the grandchild stack (`app`) **and** its resources
 - Destroys the parent stack (`infra`) **and** its resources
 - Finally, destroys the grandparent stack (`vpc`) **and** its resources
+
+## Troubleshooting
+
+### Error: job assignment failed: the following inputs are missing
+
+This error occurs when the outputs were not part of an apply phase in Spacelift, this includes if the outputs are available in your state file and visible under the Outputs tab. For the output references to be available, the outputs need to have been part of a tracked run with an apply phase. You can read more about this [here](https://support.spacelift.io/articles/2553817041-troubleshooting-stack-dependencies-and-output-issues){: rel="nofollow"}.
+
+### Error: argument list too long
+
+If you're adding a large number of data sources to the parent stack and pushing them as an output you might get an error like this:
+
+```terraform
+argument list too long
+```
+
+This is because one cannot have more than 128kB in any given argument. This is hard-coded in the kernel and difficult to work around.
+
+Depending on your use case it may be possible to work around this issue by using the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md) resources spacelift_mounted_file along with spacelift_run.

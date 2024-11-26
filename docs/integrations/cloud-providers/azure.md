@@ -19,17 +19,17 @@ The Spacelift managed integration is great for situations where you want to get 
 
 ### Credential storage and rotation
 
-When an Azure integration is created, an associated Azure AD Application is created within Azure. We automatically create a client secret for that application, and rotate it roughly once every 24 hours. The secret is stored securely, encrypted using AWS [Key Management Service](https://aws.amazon.com/kms/){: rel="nofollow"}.
+When an Azure integration is created, an associated Microsoft Entra Application is created within Azure. We automatically create a client secret for that application, and rotate it roughly once every 24 hours. The secret is stored securely, encrypted using AWS [Key Management Service](https://aws.amazon.com/kms/){: rel="nofollow"}.
 
 ### Creating an integration
 
 To add a new integration, go to the _Cloud Integrations_ section of your account. When you go there for the first time, the page will be empty, but will prompt you to add an integration:
 
-![](../../assets/screenshots/azure1.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-1.png)
 
-Click on the _Add your first integration_ button to start configuring your integration:
+Click on the **Set up integration** button and select **Azure** in the drop-down menu to start configuring your integration:
 
-![](../../assets/screenshots/azure2.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-2.png)
 
 Give your integration a name, and enter your Active Directory Tenant ID. You can specify a default subscription ID if you want to attach your integration to multiple stacks that are all going to use the same Azure subscription.
 
@@ -40,21 +40,21 @@ Give your integration a name, and enter your Active Directory Tenant ID. You can
 
 Once your integration has been created successfully, you will be taken to the integration details. It should look something like this:
 
-![](../../assets/screenshots/azure3.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-3.png)
 
-To install the Azure AD application for your Spacelift integration into your Azure account, click on the _Provide Consent_ button, which will redirect you to Azure. After logging into your Azure account, you should see a permissions screen like the following:
+To install the Microsoft Entra application for your Spacelift integration into your Azure account, click on the **Consent** button, which will redirect you to Azure. After logging into your Azure account, you should see a permissions screen like the following:
 
-![](../../assets/screenshots/azure4.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-4.png)
 
-Click on the Accept button to complete the admin consent process, at which point you should be redirected to your integration settings.
+Click on the **Accept** button to complete the admin consent process, at which point you should be redirected to your integration settings.
 
 !!! info
     The admin consent process requires at least one permission to be requested in order to work. Although the application requests the “Sign in and read user profile” permission, it never signs in as any users in your account or accesses their information.
 
 !!! warning
-    Azure AD uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
+    Microsoft Entra uses eventual consistency to replicate new Azure applications globally. Because of this you might see the following error message if you try to grant admin consent very quickly after the integration was created:
 
-    ![](../../assets/screenshots/azure5.png)
+    ![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-5.png)
 
     This isn’t a problem. Just wait a few minutes and try again.
 
@@ -62,45 +62,45 @@ Click on the Accept button to complete the admin consent process, at which point
 
 Now that you have granted admin consent, a new Enterprise Application will be created for your integration in Azure. You can view this in the [Enterprise Applications](https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/AllApps/menuId/){: rel="nofollow"} section of Azure Active Directory:
 
-![](../../assets/screenshots/azure6.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-6.png)
 
 If you go to the Access Control (IAM) section of the Azure subscription or resource group you want the integration to have access to, you should be able to add a new role assignment for the integration:
 
-![](../../assets/screenshots/azure7.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-7.png)
 
 !!! info
     The integration has no access to any of your Azure infrastructure unless you explicitly grant it the appropriate permissions.
 
 ### Attaching to a stack
 
-To attach an integration to a Stack, edit the _Integrations_ settings for your stack, and choose the Azure option from the list:
+To attach an integration to a Stack, edit the _Integrations_ settings for your stack, and click the **Attach cloud integration** button:
 
-![](../../assets/screenshots/azure8.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/attach-integration-step-1.png)
 
 Choose the integration you want to attach, specify a subscription ID if the integration you’ve chosen doesn’t have a default or you want to override the default, and specify whether the integration should be used for read, write or read and write operations:
 
-![](../../assets/screenshots/azure9.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/attach-integration-step-2.png)
 
-Click on the Attach button to add the integration to your stack.
+Click on the **Attach** button to add the integration to your stack.
 
 ### Detaching from a stack
 
-If you want to detach an integration from a stack, just click the Detach button next to the integration:
+If you want to detach an integration from a stack, just click the **Detach** button on the integration:
 
-![](../../assets/screenshots/azure10.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/detach-integration.png)
 
 ### Deleting an integration
 
-You can delete an Azure integration if you don’t need it anymore. To do that, go to the Azure Integrations settings screen, and click the Delete button next to the integration you want to remove:
+You can delete an Azure integration if you don’t need it anymore. To do that, go to the Cloud Integrations page, and click the **Delete** button next to the integration you want to remove:
 
-![](../../assets/screenshots/azure11.png)
+![](../../assets/screenshots/integrations/cloud-providers/azure/delete-integration.png)
 
 !!! info
     You can only delete an integration if it is not being used by any stacks, so you may have to detach the integration from any stacks it is attached to first.
 
 #### Deleting the Enterprise Application
 
-Deleting the integration does not remove the Enterprise Application that was added to your Azure AD account via the admin consent process. You need to do that yourself manually after deleting the integration.
+Deleting the integration does not remove the Enterprise Application that was added to your Microsoft Entra account via the admin consent process. You need to do that yourself manually after deleting the integration.
 
 ## Static credentials
 
@@ -201,7 +201,7 @@ To configure the Azure provider to use the managed identity, add the following e
 
 - `ARM_USE_MSI` - set to `true` to indicate you want to use a managed identity.
 - `ARM_SUBSCRIPTION_ID` - your subscription ID.
-- `ARM_TENANT_ID` - your Azure AD tenant.
+- `ARM_TENANT_ID` - your Microsoft Entra tenant.
 
 In addition, if using a user-assigned identity, add the following variable to your stack:
 

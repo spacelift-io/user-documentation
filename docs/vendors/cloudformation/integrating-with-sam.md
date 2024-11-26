@@ -8,18 +8,14 @@ The first one can be done using a Dockerfile akin to this one:
 FROM public.ecr.aws/spacelift/runner-terraform
 USER root
 WORKDIR /home/spacelift
-RUN apk add --update --no-cache curl py-pip
-RUN apk -v --no-cache --update add \
-        musl-dev \
-        gcc \
-        python3 \
-        python3-dev
-RUN python3 -m ensurepip --upgrade \
-        && pip3 install --upgrade pip
-RUN pip3 install --upgrade awscli aws-sam-cli
-RUN pip3 uninstall --yes pip \
-        && apk del python3-dev gcc musl-dev
-RUN sam --version
+RUN apk -v --update --no-cache add curl
+RUN python3 -m venv /home/spacelift/.venv && \
+    source /home/spacelift/.venv/bin/activate && \
+    python3 -m ensurepip --upgrade && \
+    pip3 install --upgrade pip && \
+    pip3 install --upgrade awscli aws-sam-cli && \
+    pip3 uninstall --yes pip
+RUN source /home/spacelift/.venv/bin/activate && sam --version
 USER spacelift
 ```
 
@@ -28,5 +24,5 @@ You should build it, push it to a repository and set it as the [Runner Image](..
 You'll also have to invoke SAM in order to generate raw CloudFormation files and upload Lambda artifacts to S3. You can do this by adding the following to your before initialization hooks:
 
 ```bash
-sam package --region ${CF_METADATA_REGION} --s3-bucket ${CF_METADATA_TEMPLATE_BUCKET} --s3-prefix sam-artifacts --output-template-file ${CF_METADATA_ENTRY_TEMPLATE_FILE}
+source /home/spacelift/.venv/bin/activate && sam package --region ${CF_METADATA_REGION} --s3-bucket ${CF_METADATA_TEMPLATE_BUCKET} --s3-prefix sam-artifacts --output-template-file ${CF_METADATA_ENTRY_TEMPLATE_FILE}
 ```

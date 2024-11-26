@@ -173,13 +173,13 @@ Once you obtain the token, you can use it to authenticate your requests to the S
     This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-OIDC-based API keys are a more secure alternative to secret-based API keys. They're based on the OpenID Connect protocol and are more secure because they don't involve static credentials. They're also more flexible because they can be used to authenticate with Spacelift using any OIDC identity provider. The creation of OIDC-based API keys is similar to the creation of secret-based API keys but once you choose "OIDC" as the key type, there are a few more settings. Thread carefully, as the settings are more complex and require a good understanding of OIDC and the identity provider you're using:
+OIDC-based API keys are a more secure alternative to secret-based API keys. They're based on the OpenID Connect protocol and are more secure because they don't involve static credentials. They're also more flexible because they can be used to authenticate with Spacelift using any OIDC identity provider. The creation of OIDC-based API keys is similar to the creation of secret-based API keys but once you choose "OIDC" as the key type, there are a few more settings. Tread carefully, as the settings are more complex and require a good understanding of OIDC and the identity provider you're using:
 
 <p align="center">
   <img src="../assets/screenshots/create-oidc-api-key.png"/>
 </p>
 
-The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token.
+The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token. For GitHub Actions, this is `https://token.actions.githubusercontent.com`.
 
 The **Client ID (audience)** field is the client ID of the OIDC application you've created in the identity provider. That's what the identity provider puts in the `aud` claim of the JWT token. Some identity providers allow you to customize it and some don't.
 
@@ -215,7 +215,7 @@ jobs:
 
       - name: List stacks
         env:
-          # You will want to replace this endpoint (and the audience) with your 
+          # You will want to replace this endpoint (and the audience) with your
           # own Spacelift account's endpoint.
           SPACELIFT_API_KEY_ENDPOINT: https://myorg.app.spacelift.io
           SPACELIFT_API_KEY_ID: ${{ env.SPACELIFT_KEY_ID }}
@@ -480,6 +480,8 @@ If you want to create another request, just right click on `Get Stacks` and dupl
 Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}.
 
 You may also view the documentation using a static documentation website generator like [GraphDoc](https://graphdoc.io/preview/?endpoint=https://demo.app.spacelift.io/graphql){: rel="nofollow"}.
+
+Make sure to provide a valid JWT bearer token as described in [Authenticating with the GraphQL API](api.md#authenticating-with-the-graphql-api)
 
 _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
 

@@ -66,6 +66,7 @@ A number of configuration variables are available to customize how your launcher
 
 - `SPACELIFT_MASK_ENVS`- comma-delimited list of whitelisted environment variables that are passed to the workers but should never appear in the logs.
 - `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED` - If set to `true`, the launcher will upload sensitive run outputs to the Spacelift backend. This is a requirement if you want to use sensitive outputs for [stack dependencies](../stack/stack-dependencies.md).
+- `SPACELIFT_RUN_LOGS_ON_STANDARD_OUTPUT_ENABLED` - If set to `true`, the launcher will write run logs to standard output in the same structured format as the rest of the logs. Some useful fields are `run_ulid`, `stack_id`, `ts`, and `msg`. You can easily manage run logs and ship them anywhere you want.
 - `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` - file that contains the run initialization policy that will be parsed/used; If the run initialized policy can not be validated at the startup the worker pool will exit with an appropriate error. Please see the [Kubernetes-specific configuration](#kubernetes-specific-configuration) section for more information.
 - `SPACELIFT_LAUNCHER_LOGS_TIMEOUT` - custom timeout (the default is _7 minutes_) for killing jobs not producing any logs. This is a duration flag, expecting a duration-formatted value, eg `1000s`. Please see the [Kubernetes-specific configuration](#kubernetes-specific-configuration) section for more information.
 - `SPACELIFT_LAUNCHER_RUN_TIMEOUT` - custom maximum run time - the default is _70 minutes_. This is a duration flag, expecting a duration-formatted value, eg. `120m`. Please see the [Kubernetes-specific configuration](#kubernetes-specific-configuration) section for more information.
@@ -111,6 +112,23 @@ Please see [injecting custom commands during instance startup](./docker-based-wo
 {% endif %}
 
 {% if is_saas() %}
+
+#### Provider Caching
+
+Provider caching is a feature that allows you to cache providers on your private workers.
+It can speed up your runs by avoiding the need to download providers from the internet every time a run is executed.
+Provider caching is supported in Spacelift with a little configuration on the worker side.
+
+To enable provider caching:
+
+1. On the worker itself export the `SPACELIFT_WORKER_EXTRA_MOUNTS` variable (see above) with the path to the directory where the providers will be stored.
+2. In the stack that you want to enable provider caching, set the `TF_PLUGIN_CACHE_DIR` environment variable to the path you specified in the `SPACELIFT_WORKER_EXTRA_MOUNTS` variable.
+3. Enjoy provider caching.
+
+!!! note
+    The extra mounts directory on the host _should_ use some shared storage that is accessible by all workers in the pool. This can be a shared filesystem, a network drive, or a cloud storage service.
+    If you choose not to use a shared storage solution you may run into an instance where the `plan` phase succeeds but the `apply` phase fails due to the provider cache not being available.
+    To avoid this, you can run `tofu init` (if using OpenTofu) as a before apply hook. Which will populate the cache on that node. Generally this should be fine, since once the cache is populated the re-initialization should quick.
 
 ### VCS Agents
 
@@ -268,3 +286,9 @@ In progress runs will be the first entries in the list when using the view witho
 [Stacks](../stack/README.md) and/or [Modules](../../vendors/terraform/module-registry.md) that are using the public worker pool.
 
 {% endif %}
+
+## Troubleshooting
+
+### Locally, the run completes in 10 minutes, but on Spacelift, it takes over 30 minutes with no new activity appearing in the logs for the entire 30-minute duration (if debug logging is set to on then only showing Still running... in the logs for that duration).
+
+The issue might be related to the instance size and its CPU limitations. It's advisable to monitor CPU and memory usage and make adjustments as needed.

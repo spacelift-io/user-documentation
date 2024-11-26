@@ -6,69 +6,69 @@ The Resources view is the result of multiple months of meticulous work understan
 
 ## Stack-level resources
 
-This screen shows you the stack-level resources view. By default, resources are shown grouped in a hierarchical manner, grouped by parent. This allows you to see the structure of each of your infrastructure projects:
+This screen shows you the stack-level resources view. By default, resources are grouped to help you understand the structure of each of your infrastructure projects.
 
-![](../../assets/screenshots/Runs_·_Production_default_worker_pool.png)
+![](<../../assets/screenshots/stack-by-stack.png>)
 
-Depending on the architecture as well as technology used, your tree may look slightly different - for example, Pulumi trees are generally deeper:
+Resources can be grouped by provider and type. Let's group by provider:
 
-![](<../../assets/screenshots/Runs_·_Vendor_Releases_Watcher_and_Slack___checkout-com___Spacelift (1).png>)
+![](<../../assets/screenshots/stack-by-provider.png>)
 
-Apart from being grouped by parent, resources can be grouped provider and type. Let's group one of our small stacks by provider:
+We can see lots of AWS resources, `random`, `null_resource`, and a one from TLS. Let's now filter just the TLS one.
 
-![](<../../assets/screenshots/Runs_·_Spacelift_preproduction_and_Slack___checkout-com___Spacelift (2).png>)
+![](<../../assets/screenshots/stack-by-provider-filter-tls.png>)
 
-We can see lots of AWS resources, a few from Stripe, and a lonely one from Datadog. Let's now filter just the Datadog ones, and group them by type:
+Let's now take a look at this one:
 
-![](<../../assets/screenshots/Runs_·_Spacelift_preproduction_and_Slack_____Paweł_Hytry___Spacelift___1_new_item (3).png>)
+![](<../../assets/screenshots/stack-by-provider-filter-tls-details.png>)
 
-Let's now take a look at one of the resources, for example a single `stripe_price`:
+The panel that is now showing on the right hand side of the Resources view shows the details of a single resource, which is now highlighted using a blue background color. On this panel, we see two noteworthy things.
 
-![](../../assets/screenshots/Runs_·_Spacelift_preproduction.png)
+Starting with the lower right hand corner, we have the vendor-specific representation of the resource. Note how for security purposes all string values are sanitized. In fact, we never get to see them directly - we only see first 7 characters of their checksum. If you know the possible value, you can easily do the comparison. If you don't, then the secret is safe.
 
-The panel that is now showing on the right hand side of the Resources view shows the details of a single resource, which is now highlighted using a light blue overlay. On this panel, we see two noteworthy things.
+More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our `tls-key`, and click on the ID of the run shown in the _Updated by_ section.
+This will take you to the run in question:
 
-Starting with the lower right hand corner, we have the vendor-specific representation of the resource. Note how for security purposes all string values are sanitized. In fact, we never get to see them directly - we only see first 7 characters of their checksum. If you know the possible value, you can easily do the comparison. If you don't, then the secret is safe. As a side note, we do not need to sanitize anything with Pulumi because the team there did an exceptional job with regards to secret management:
-
-![](<../../assets/screenshots/Runs_·_Vendor_Releases_Watcher (3).png>)
-
-More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our stripe_price, and click on the ID of the run shown in the _Last updated by_ section. You will notice a little menu pop up:
-
-![](<../../assets/screenshots/Runs_·_Spacelift_preproduction (1).png>)
-
-Clicking on this menu item will take you to the run in question:
-
-![](<../../assets/screenshots/Tag_all_Stripe_prices___398__·_Spacelift_preproduction_and_1__local_dev__tmuxinator_start_spacelift (1).png>)
+![](<../../assets/screenshots/resources-run.png>)
 
 One extra click on the commit SHA will take you to the GitHub commit. Depending on your Git flow, the commit may be linked to a Pull Request, giving you the ultimate visibility into the infrastructure change management process:
 
-![](../../assets/screenshots/Tag_all_Stripe_prices___398__·_spacelift-io_infra_57d4958_and_1__local_dev__tmuxinator_start_spacelift.png)
-
-### Navigating the resource tree
-
-When grouping by resources parent - that is, seeing them as a tree, you can easily click into each subtree, like if you were changing your working directory. You can do this by clicking on the dot representing each node in the tree:
-
-![](../../assets/screenshots/Runs_·_Spacelift_development.png)
-
-Once you click into the subtree, you will be able to click out by clicking on the new virtual root, as if you were running `cd ..` in your terminal:
-
-![](<../../assets/screenshots/Runs_·_Spacelift_development (1).png>)
-
-One important aspect about navigating the resource tree is that once you click into the subtree, you are effectively filtering by the ancestor. Which means that grouping and filtering options will now operate on a subset of resources within that subtree:
-
-![](<../../assets/screenshots/Runs_·_Spacelift_development (2).png>)
+![](<../../assets/screenshots/resources-sha.png>)
 
 ## Account-level resources
 
-!!! warning
-    Account-level resource view is still a work in progress, so some of the UX may change frequently.
+A view similar to stack-level resources is available for the entire account, too.
 
-A view similar to stack-level resources is available for the entire account, too. For this presentation we will use a very _symmetrical_ account - our automated testing instance repeatedly creating and updating the same types of resources in different ways to quickly detect potential regressions:
+![](../../assets/screenshots/resources-account.png)
 
-![](../../assets/screenshots/Spacelift.png)
+We can unfold stack resources by clicking on the arrow:
 
-By default we group by parent, giving you the same hierarchical view as for stack-level resources. But you will notice that there's a new common account root serving as a "virtual" parent for stacks.
+![](../../assets/screenshots/resources-account-more.png)
 
-In this view you can also filter and group by different properties, with one extra property being the Stack:
+By default we group by stack, giving you the same view as for stack-level resources. But you will notice that there are more rows in the table representing different stacks.
 
-![](../../assets/screenshots/Spacelift_and_1__local_dev__tmuxinator_start_spacelift.png)
+In this view you can also filter and group by different properties.
+
+![](../../assets/screenshots/resources-account-group-and-filter.png)
+
+## Shared via a link
+
+You can share a resource via a link by clicking the icon in the top-right corner.
+
+![](../../assets/screenshots/stack-by-provider-filter-tls-details-share.png)
+
+The other way is to click on three dots on the table row and choose the _Copy link_ option.
+
+![](../../assets/screenshots/stack-by-provider-filter-tls-share.png)
+
+It's possible from both views - stack-level and account-level.
+
+![](../../assets/screenshots/resources-account-group-and-filter-share.png)
+
+## Add to filters - cell option
+
+On the left side, you can see the filter menu.
+You can also use filters by clicking on the three dots for a column.
+
+![](../../assets/screenshots/resources-account-filter.png)
+![](../../assets/screenshots/resources-account-filter2.png)

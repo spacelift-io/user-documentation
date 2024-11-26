@@ -34,7 +34,7 @@ To tweak the look and feel of the user documentation, you can:
 You can preview changes locally by running `mkdocs serve`. You can use the following command to run this inside a Docker container:
 
 ```shell
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mkdocs serve -a '0.0.0.0:8000'"
+make run
 ```
 
 > 💡 These commands are [set up](.vscode/tasks.json) as [VS Code tasks](https://code.visualstudio.com/docs/editor/tasks), so you can just run them from the VS Code command palette. Or even better: download the [Task Explorer](https://marketplace.visualstudio.com/items?itemName=spmeesseman.vscode-taskexplorer) extension and you can run them from the sidebar.
@@ -60,7 +60,7 @@ You can also manually trigger the tests at any time by running:
 pre-commit
 ```
 
-> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir peterdemesl/oxipng docs/assets/screenshots/* --opt=4 --preserve --strip=safe`.
+> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir ghcr.io/shssoichiro/oxipng:v9.1.3 docs/assets/screenshots/<filename.png|jpg> --opt=4 --preserve --strip=safe`.
 
 ## Self-Hosted
 

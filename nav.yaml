@@ -32,6 +32,7 @@ nav:
           - concepts/run/run-promotion.md
           - concepts/run/pull-request-comments.md
           - concepts/run/ignored-triggers.md
+          - concepts/run/ai.md
       - Policy:
           - concepts/policy/README.md
           - concepts/policy/login-policy.md
@@ -62,6 +63,7 @@ nav:
           - concepts/spaces/structuring-your-spaces-tree.md
           - concepts/spaces/migrating-out-of-the-legacy-space.md
           - concepts/spaces/best-practices.md
+          - concepts/spaces/allowing-non-root-admins-to-manage-spaces.md
       - User Management:
           - concepts/user-management/README.md
           - concepts/user-management/admin.md
@@ -163,11 +165,13 @@ nav:
           - integrations/single-sign-on/gitlab-oidc-setup-guide.md
           - integrations/single-sign-on/okta-oidc-setup-guide.md
           - integrations/single-sign-on/onelogin-oidc-setup-guide.md
-          - integrations/single-sign-on/azure-ad-oidc-setup-guide.md
+          - integrations/single-sign-on/microsoft-entra-id-oidc-setup-guide.md
           - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
           - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
       - integrations/teleport.md
+      - External Integrations:
+          - integrations/external-integrations/servicenow.md
   - 📖 Product:
       - product/notifications.md
       - product/feature-requests.md
@@ -192,7 +196,8 @@ nav:
       - legal/refund-policy.md
       - legal/privacy.md
       - legal/cookie-policy.md
-      - legal/DPA.md
+      - legal/dpa.md
+      - legal/ai-terms.md
       - Archive:
           - legal/archive/terms.md
   - 🏰 Self-Hosted: self-hosted.md

@@ -1,5 +1,5 @@
 INHERIT: !ENV [NAV_FILE, "./nav.yaml"]
-copyright: © 2024 - Spacelift, Inc. All rights reserved.
+copyright: © 2025 - Spacelift, Inc. All rights reserved.
 site_author: Spacelift
 site_description: Collaborative Infrastructure For Modern Software Teams
 site_name: Spacelift Documentation
@@ -9,6 +9,7 @@ theme:
   favicon: assets/images/favicon.png
   features:
     - content.code.annotate
+    - content.code.copy
     - content.tabs.link
     - navigation.indexes
     - navigation.instant
@@ -19,7 +20,18 @@ theme:
   logo: !ENV [LOGO, "assets/images/logo.svg"]
   name: material
   palette:
-    scheme: spacelift
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: spacelift
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 use_directory_urls: false
 watch:
   - nav.yaml
@@ -72,6 +84,8 @@ hooks:
 plugins:
   - search
   - macros
+  - glightbox:
+      manual: true
   - mike:
       # These fields are all optional; the defaults are as below...
       alias_type: symlink
@@ -82,3 +96,4 @@ plugins:
   - redirects:
       redirect_maps:
         "concepts/policy/git-push-policy.md": "concepts/policy/push-policy/README.md"
+        "integrations/single-sign-on/azure-ad-oidc-setup-guide.md": "integrations/single-sign-on/microsoft-entra-id-oidc-setup-guide.md"

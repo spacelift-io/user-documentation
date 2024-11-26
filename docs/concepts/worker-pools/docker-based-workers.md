@@ -43,8 +43,13 @@ This setup ensures that the worker binary is always up to date, but the launcher
 
 ![Cycle worker pool](../../assets/screenshots/concepts/worker-pools/cycle-pool.png)
 
-Additionally, if you use [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, they [receive](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} routine system updates every few weeks so it's worth bumping the AMI to the latest version from time to time. That automatically takes care of downloading fresh launcher binaries as well.
 {% endif %}
+
+## AMI updates & deprecation policy
+
+If you run your workers in AWS and use the [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, make sure to update your worker pool routinely as they receive [weekly updates](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} to ensure all system components are up-to-date.
+
+Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 365 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
 
 {% if is_saas() %}
 
@@ -63,9 +68,35 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 
 {% if is_self_hosted() %}
 
+There are two easy ways to deploy workers for self-hosting: either via our Terraform module or via the CloudFormation template that is attached to the installation package.
+
+## Terraform module
+
+The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} module can be used to deploy an EC2-based worker pool on AWS. The module is originally for our SaaS offering, but it's compatible with self-hosted when providing the `selfhosted_configuration` variable. For example:
+
+```hcl
+module "my_workerpool" {
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v3.0.2"
+
+  secure_env_vars = {
+    SPACELIFT_TOKEN = var.worker_pool_config
+    SPACELIFT_POOL_PRIVATE_KEY = var.worker_pool_private_key
+  }
+
+  min_size                 = 1
+  max_size                 = 10
+  worker_pool_id           = var.worker_pool_id
+  security_groups          = var.worker_pool_security_groups
+  vpc_subnets              = var.worker_pool_subnets
+  selfhosted_configuration = {
+    s3_uri = "s3://spacelift-binaries-123ab/spacelift-launcher"
+  }
+}
+```
+
 ## CloudFormation Template
 
-The easiest way to deploy workers for self-hosting is to deploy the CloudFormation template found in `cloudformation/workerpool.yaml`.
+Another way to deploy workers for self-hosting is to deploy the CloudFormation template found in `cloudformation/workerpool.yaml`.
 
 ### PseudoRandomSuffix
 
@@ -304,6 +335,6 @@ aws cloudformation deploy --no-cli-pager \
 
 ## Terraform Modules
 
-Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} Terraform modules are not currently compatible with self-hosting.
+Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} Terraform module is compatible with self-hosting, but the [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} are not, yet.
 
 {% endif %}

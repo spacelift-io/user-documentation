@@ -462,7 +462,7 @@ You hereby agree to the use of electronic signatures, contracts, orders and othe
 
 **11.7** There is no joint venture, partnership, employment or agency relationship created between you and us as a result of these Terms and Conditions or use of the Site or Services.
 
-**11.8** For consumers only  - Please note that these Terms and Conditions, their subject matter and their formation, are governed by Polish law. You and we both agree that the courts of Poland will have exclusive jurisdiction. If you have any complaint or wish to raise a dispute under these Terms and Conditions or otherwise in relation to the Site please follow [this link](http://ec.europa.eu/odr).
+**11.8** For consumers only  - Please note that these Terms and Conditions, their subject matter and their formation, are governed by Polish law. You and we both agree that the courts of Poland will have exclusive jurisdiction. If you have any complaint or wish to raise a dispute under these Terms and Conditions or otherwise in relation to the Site please follow [this link](https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home2.show&lng=EN).
 
 **11.9** For business users only - If you are a business user, these Terms and Conditions, their subject matter and their formation (and any non-contractual disputes or claims) are governed by Polish Law. We both agree to the exclusive jurisdiction of the courts of Poland.
 

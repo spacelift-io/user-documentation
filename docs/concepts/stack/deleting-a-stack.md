@@ -4,6 +4,9 @@ When you are ready to delete your stack, you can do so by navigating to the Stac
 
 ![](<../../assets/screenshots/stack/settings/stack-deletion_form.png>)
 
+!!! warn
+    Resource deletion is not currently supported while using the native Terragrunt support.
+
 ## Deleting Resources Managed by a Stack
 
 Depending on the backend of your stack, there are different commands you can run as a [task](../run/task.md) before deleting the stack.
@@ -11,6 +14,7 @@ Depending on the backend of your stack, there are different commands you can run
 | Backend           | Command                                        |
 | -------------- | ------------------------------------------------------------ |
 | **Terraform**       | `terraform destroy -auto-approve`           |
+| **OpenTofu**       | `tofu destroy -auto-approve` |
 | **CloudFormation**      | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>` |
 | **Pulumi** | `pulumi destroy --non-interactive --yes` |
 | **Kubernetes** | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |

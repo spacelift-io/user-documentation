@@ -1,5 +1,39 @@
 nav:
   - README.md
+  - 🔧 Installing Spacelift:
+      - installing-spacelift/install-methods.md
+      - installing-spacelift/changelog.md
+      - Reference Architecture:
+          - installing-spacelift/reference-architecture/README.md
+          - installing-spacelift/reference-architecture/external-dependencies.md
+          - installing-spacelift/reference-architecture/environment-requirements.md
+          - Guides:
+              - installing-spacelift/reference-architecture/guides/README.md
+              - installing-spacelift/reference-architecture/guides/deploying-to-aks.md
+              - installing-spacelift/reference-architecture/guides/deploying-to-ecs.md
+              - installing-spacelift/reference-architecture/guides/deploying-to-eks.md
+              - installing-spacelift/reference-architecture/guides/deploying-to-gke.md
+              - installing-spacelift/reference-architecture/guides/deploying-to-onprem.md
+              - installing-spacelift/reference-architecture/guides/first-setup.md
+              - installing-spacelift/reference-architecture/guides/observability.md
+              - installing-spacelift/reference-architecture/guides/air-gapped.md
+              - installing-spacelift/reference-architecture/guides/disaster-recovery.md
+          - Reference:
+              - installing-spacelift/reference-architecture/reference/README.md
+              - installing-spacelift/reference-architecture/reference/general-configuration.md
+              - installing-spacelift/reference-architecture/reference/encryption.md
+              - installing-spacelift/reference-architecture/reference/message-queues.md
+              - installing-spacelift/reference-architecture/reference/mqtt-broker.md
+              - installing-spacelift/reference-architecture/reference/networking.md
+              - installing-spacelift/reference-architecture/reference/object-storage.md
+              - installing-spacelift/reference-architecture/reference/slack.md
+              - installing-spacelift/reference-architecture/reference/telemetry.md
+      - CloudFormation:
+          - installing-spacelift/cloudformation/install.md
+          - installing-spacelift/cloudformation/advanced-installations.md
+          - installing-spacelift/cloudformation/disaster-recovery.md
+          - installing-spacelift/cloudformation/slack-integration-setup.md
+          - installing-spacelift/cloudformation/v2-to-v3-migration.md
   - getting-started.md
   - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:
@@ -31,6 +65,7 @@ nav:
           - concepts/run/user-provided-metadata.md
           - concepts/run/run-promotion.md
           - concepts/run/pull-request-comments.md
+          - concepts/run/ai.md
       - Policy:
           - concepts/policy/README.md
           - concepts/policy/login-policy.md
@@ -45,8 +80,8 @@ nav:
           - concepts/policy/task-run-policy.md
           - concepts/policy/trigger-policy.md
       - Resources:
-        - concepts/resources/README.md
-        - concepts/resources/configuration-management.md
+          - concepts/resources/README.md
+          - concepts/resources/configuration-management.md
       - Worker pools:
           - concepts/worker-pools/README.md
           - concepts/worker-pools/docker-based-workers.md
@@ -154,26 +189,14 @@ nav:
           - integrations/kubernetes/config-operator.md
       - integrations/docker.md
       - integrations/api.md
-      - Single Sign-On:
-          - integrations/single-sign-on/README.md
-          - integrations/single-sign-on/gitlab-oidc-setup-guide.md
-          - integrations/single-sign-on/okta-oidc-setup-guide.md
-          - integrations/single-sign-on/onelogin-oidc-setup-guide.md
-          - integrations/single-sign-on/azure-ad-oidc-setup-guide.md
-          - integrations/single-sign-on/aws-iam-identity-saml-setup-guide.md
-          - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
       - integrations/teleport.md
+      - External Integrations:
+          - integrations/external-integrations/servicenow.md
   - 📖 Product:
-      - Administration:
-          - product/administration/install.md
-          - product/administration/changelog.md
-          - product/administration/advanced-installations.md
-          - product/administration/disaster-recovery.md
-          - product/administration/slack-integration-setup.md
       - product/notifications.md
       - Security:
-        - product/security/README.md
+          - product/security/README.md
       - product/migrating-to-spacelift.md
       - product/bulk-actions.md
       - Support:
@@ -187,6 +210,6 @@ nav:
       - legal/refund-policy.md
       - legal/privacy.md
       - legal/cookie-policy.md
-      - legal/DPA.md
+      - legal/dpa.md
       - Archive:
           - legal/archive/terms.md

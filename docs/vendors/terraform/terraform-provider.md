@@ -25,6 +25,10 @@ The following table shows the latest version of the Terraform provider known to 
 
 | Self-Hosted Version | Max Provider Version |
 | ------------------- | -------------------- |
+| 3.0.0               | 1.23.0               |
+| 2.6.0               | 1.21.0               |
+| 2.5.0               | 1.20.0               |
+| 2.4.0               | 1.19.1               |
 | 2.3.0               | 1.18.0               |
 | 2.2.0               | 1.16.1               |
 | 2.1.1               | 1.15.0               |
@@ -228,6 +232,16 @@ If you want to share data or outputs between stacks, please consider programmati
 
 !!! info
     Programmatically generated stacks can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
+
+### Generate Terraform code from an existing stack
+
+We have a convenience feature for generating Terraform code from an existing stack. Open the stack, then choose the three dots in the top-right corner and click the "As Terraform code" button.
+
+![](<../../assets/screenshots/generate_tf_code_button.png>)
+
+The resulting code will be displayed in a drawer. It includes all stack settings, as well as environment variables and attached contexts. You can copy it to your clipboard and paste it into your Terraform project.
+
+![](<../../assets/screenshots/generate_tf_code.png>)
 
 ## Boundaries of programmatic management
 

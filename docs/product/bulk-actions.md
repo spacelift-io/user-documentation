@@ -6,50 +6,50 @@ Spacelift allows you to perform bulk actions on various entities. This is useful
 
 After you select one or more entities, a floating action bar will appear at the bottom of the screen. This bar will show the number of selected entities and the available actions.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_floating-bar.png)
+![](../assets/screenshots/bulk-actions/floating-bar.png)
 
 !!! info
-    The UI will only show the actions that can be performed on the selected entities, filtering out the unavailable ones for your convenience.
+The UI will only show the actions that can be performed on the selected entities, filtering out the unavailable ones for your convenience.
 
 Actions that are not available for all the selected entities will be marked with an icon. You can hover over the icon to see how many entities are going to be affected.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_partial-action-floating-bar.png)
+![](../assets/screenshots/bulk-actions/partial-action-floating-bar.png)
 
 ### Performing actions
 
 If you need a more detailed view of the selected entities, click the "See details" button, that will open the bulk actions drawer. From the drawer you can also dismiss any entities you deem unnecessary. Use the floating bar for quick actions and use the drawer when you need to be more careful with your selection.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_drawer.png)
+![](../assets/screenshots/bulk-actions/drawer.png)
 
 On the drawer you will see fine-grained details on which actions are available for each of the selected entities.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_partial-action-drawer.png)
+![](../assets/screenshots/bulk-actions/partial-action-drawer.png)
 
 Once you select an action, you will be presented with a confirmation step that allows you to add additional details (like a note for the Lock action) and to confirm the action itself.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_confirm-action-floating-bar.png)
+![](../assets/screenshots/bulk-actions/confirm-action-floating-bar.png)
 
 The same view is also available on the drawer, where you can review the applicable and not applicable items again.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_confirm-action-drawer.png)
+![](../assets/screenshots/bulk-actions/confirm-action-drawer.png)
 
 Once you confirm the action you'll be presented with the action results drawer, where you can review the status of each item. Please stay on this view until all of your actions are performed, otherwise any in-progress actions will be stopped.
 
 When the bulk execution is complete, you can use the "New action" button to perform another action on the same selection or a subset of it (from the completed or the failed results).
 
-![](../assets/screenshots/bulk-actions/bulk-actions_result-drawer.png)
+![](../assets/screenshots/bulk-actions/result-drawer.png)
 
 ### Stopping actions
 
 Note: It is possible to stop the queued actions if you make a mistake by clicking on either "Stop all" or the "Stop" button available for all queued items.
 
-![](../assets/screenshots/bulk-actions/bulk-actions_pending-actions.png)
+![](../assets/screenshots/bulk-actions/pending-actions.png)
 
 ## Available bulk actions
 
 ### Stacks list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_floating-bar.png)
+![](../assets/screenshots/stack/list/bulk-actions.png)
 
 When you make a selection on the "Stacks" page you can choose the intended action from the following options:
 
@@ -67,7 +67,7 @@ When you make a selection on the "Stacks" page you can choose the intended actio
 
 ### Stack runs list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_stack-runs.png)
+![](../assets/screenshots/bulk-actions/stack-runs.png)
 
 When you make a selection on the "Stack runs" page you can choose the intended action from the following options:
 
@@ -78,7 +78,7 @@ When you make a selection on the "Stack runs" page you can choose the intended a
 
 ### Runs view available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_runs.png)
+![](../assets/screenshots/bulk-actions/runs.png)
 
 On the "Runs" page all the filtered runs will be available for bulk actions. Once you filter out the items you will see the bulk actions floating bar (if any of the actions are applicable) from the following options:
 
@@ -89,7 +89,7 @@ On the "Runs" page all the filtered runs will be available for bulk actions. Onc
 
 ### Modules list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_modules.png)
+![](../assets/screenshots/bulk-actions/modules.png)
 
 When you make a selection on the "Modules" page you can choose the intended action from the following options:
 
@@ -100,7 +100,7 @@ When you make a selection on the "Modules" page you can choose the intended acti
 
 ### Notifications available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_notifications.png)
+![](../assets/screenshots/bulk-actions/notifications.png)
 
 When you make a selection on the "Notifications" page you can choose the intended action from the following options:
 
@@ -108,7 +108,7 @@ When you make a selection on the "Notifications" page you can choose the intende
 
 ### Private worker pool workers list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_private-worker-pool-workers.png)
+![](../assets/screenshots/bulk-actions/private-worker-pool-workers.png)
 
 When you make a selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
 
@@ -117,7 +117,7 @@ When you make a selection on the "Private worker pool workers list" page you can
 
 ### Worker pool queued runs list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_worker-pool-queued-runs.png)
+![](../assets/screenshots/bulk-actions/worker-pool-queued-runs.png)
 
 When you make a selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
 
@@ -127,7 +127,7 @@ When you make a selection on the "Worker pools queued runs" (public or private) 
 
 ### Run changes view available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_run-changes.png)
+![](../assets/screenshots/bulk-actions/run-changes.png)
 
 When you make a selection on the "Run changes" page you can choose the intended action from the following options:
 

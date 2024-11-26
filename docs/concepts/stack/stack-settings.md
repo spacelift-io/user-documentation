@@ -4,7 +4,7 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 ## Video Walkthrough
 
-<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/755645223?h=74912655ff&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Stack Settings"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1046826238?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="stack_options"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 ## Common settings
 
@@ -23,6 +23,8 @@ If this sounds interesting and you want to give it a try, please refer to the [h
 Indicates whether changes to the stack can be [applied](../run/tracked.md#applying) automatically. When autodeploy is set to _true_, any change to the tracked branch will automatically be [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase was successful and there are no plan policy warnings.
 
 Consider setting it to _true_ if you always do a code review before merging to the tracked branch, and/or want to rely on [plan policies](../policy/terraform-plan-policy.md) to automatically flag potential problems. If each candidate change goes through a meaningful human code review with stack [writers](../policy/stack-access-policy.md#readers-and-writers) as reviewers, having a separate step to confirm deployment may be overkill. You may also want to refer to a [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code review.
+
+[Approval policies](../policy/approval-policy.md) can also be used in tandem with autodeploy or with it off.
 
 ### Autoretry
 
@@ -182,11 +184,14 @@ spacectl stack local-preview --id <stack-id>
 This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
 - AWS Access Key Id
+- Azure AD Client Secret
+- Azure Connection Strings (`AccountKey=...`, `SharedAccessSignature=...`)
 - GitHub PAT
 - GitHub Fine-Grained PAT
 - GitHub App Token
 - GitHub Refresh Token
 - GitHub OAuth Access Token
+- JWT tokens
 - Slack Token
 - PGP Private Key
 - RSA Private Key
@@ -226,7 +231,7 @@ List of the most useful labels:
 
 ### Project root
 
-Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change.
+Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
@@ -248,6 +253,7 @@ Example matches:
 
 - Any directory or file: `**`
 - A directory and all of its content: `dir/*`
+- A directory path and all of its subdirectories and files: `dir/**`
 - Match all files with a specific extension: `dir/*.tf`
 - Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
 - Match all files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`

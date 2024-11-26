@@ -5,11 +5,34 @@
     This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-Spacelift optionally supports auditing all operations that change Spacelift resources. This is handled by asynchronously sending webhooks to a user-supplied endpoint.
+Spacelift supports auditing all operations that change Spacelift resources. We provide a built-in audit log as well as webhook functionality to allow you to optionally store your audit logs in a third party system.
 
-## Setup
+## Built-in logs
 
-In order to set up the audit trail, navigate to the Audit trail section of your account settings and click the _Set up_ button:
+As an admin, you can view Audit trail logs by navigating to the Audit trail section of your account settings and choosing the _logs_ tab:
+
+![](<../assets/screenshots/audit-trail-logs.png>)
+
+You can look for specific events using filters (on the left side) and the date picker (in the top-right corner).
+
+![](<../assets/screenshots/audit-trail-logs-filters.png>)
+
+You can see the details:
+
+![](<../assets/screenshots/audit-trail-logs-details-button.png>)
+![](<../assets/screenshots/audit-trail-logs-details.png>)
+
+You can also go to the affected resource or apply another filter:
+
+![](<../assets/screenshots/audit-trail-logs-dropdown.png>)
+
+### Retention
+
+Logs are kept for 30 days.
+
+## Webhook Setup
+
+In order to set up webhooks for audit events, navigate to the Audit trail section of your account settings and choosing the _configuration_ tab, and click the _Set up_ button:
 
 ![](<../assets/screenshots/audit-trail-page.png>)
 
@@ -45,7 +68,7 @@ If you choose to automatically enable the functionality, clicking the _Save_ but
 
 ![](<../assets/screenshots/ngrok_-_Inspect (1).png>)
 
-## Usage
+### Usage
 
 Every audit trail payload conforms to the same schema:
 
@@ -121,7 +144,7 @@ Below is a sample:
 }
 ```
 
-## Disabling and deleting the audit trail
+### Disabling and deleting the audit trail
 
 The audit trail can be disabled and deleted at any point, but for both events we will send the appropriate payload. We suggest that you always treat these at least as important security signals, if not alerting conditions:
 
@@ -139,16 +162,16 @@ The audit trail can be disabled and deleted at any point, but for both events we
 }
 ```
 
-## Verifying payload
+### Verifying payload
 
 Spacelift uses the same similar verification mechanism as GitHub. With each payload we send 2 headers, `X-Signature` and `X-Signature-256`. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [this article](https://medium.com/@vampiire/how-to-verify-the-authenticity-of-a-github-apps-webhook-payload-8d63ccc81a24){: rel="nofollow"} for details.
 
-## Sending logs to AWS
+### Sending logs to AWS
 
 We provide a [reference implementation](https://github.com/spacelift-io-examples/terraform-aws-spacelift-events-collector){: rel="nofollow"} for sending the Audit Trail logs to an AWS S3 bucket.
 
 It works as-is but can also be tweaked to route the logs to other destinations with minimal effort.
 
-## Failures
+### Failures
 
 Audit trail deliveries are retried on failure.

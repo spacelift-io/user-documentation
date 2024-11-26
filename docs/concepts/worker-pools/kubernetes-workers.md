@@ -28,8 +28,14 @@ The controller may also work with older versions, but we do not guarantee and pr
     To install the worker pool controller along with its CRDs, run the following command:
 
     ```shell
-    kubectl apply -f https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml
+    kubectl apply --server-side -f https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml
     ```
+
+    !!!warning
+        It is important to use the `--server-side` flag here. The reason is that our CRD definitions
+        contains long field descriptions. This causes the apply to fail, as detailed [in this kubebuilder issue](https://github.com/kubernetes-sigs/kubebuilder/issues/3460),
+        because kubernetes sets the `kubectl.kubernetes.io/last-applied-configuration` annotation, and the size of the CRD exceed
+        the maximum size of an annotation field.
 
     !!! tip
         You can download the manifests yourself from <https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml> if you would like to inspect them or alter the Deployment configuration for the controller.
@@ -45,23 +51,22 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
-    **Warning**
-    
-    [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.  
-[The latest CRD's can be found in this link](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller/crds).
+    !!! warning
+        [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.
+        [The latest CRD's can be found in this link](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller/crds).
 
-!!! tip "Prometheus metrics"
-    The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics   spec.
-    This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending`   metric).
-    To install the controller with the prometheus-exporter subchart, use the following command:
-    ```shell
-    helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace   spacelift-worker-controller-system --create-namespace \
-    --set spacelift-promex.enabled=true \
-    --set spacelift-promex.apiEndpoint="https://{yourAccount}.app.spacelift.io" \
-    --set spacelift-promex.apiKeyId="{yourApiToken}" \
-    --set spacelift-promex.apiKeySecretName="spacelift-api-key"
-    ```
-    Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter)   and   see more config options in the `values.yaml` file for the subchart.
+    !!! tip "Prometheus metrics"
+        The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
+        This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
+        To install the controller with the prometheus-exporter subchart, use the following command:
+        ```shell
+        helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace \
+        --set spacelift-promex.enabled=true \
+        --set spacelift-promex.apiEndpoint="https://{yourAccount}.app.spacelift.io" \
+        --set spacelift-promex.apiKeyId="{yourApiToken}" \
+        --set spacelift-promex.apiKeySecretName="spacelift-api-key"
+        ```
+        Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter) and see more config options in the `values.yaml` file for the subchart.
 
 ### Create a Secret
 
@@ -125,17 +130,16 @@ EOF
 
 ### Grant access to the Launcher image
 
-During your Self-Hosted installation process, the Spacelift launcher image is uploaded to a private ECR in the AWS account your Self-Hosted instance is installed into. This repository is called `spacelift-launcher`:
+During your Self-Hosted installation process, the Spacelift launcher image should be uploaded to a container repository. For instance, it could be Artifact Registry in GCP or ECR in AWS.
 
 ![spacelift-launcher ECR](../../assets/screenshots/worker-pools-kubernetes-self-hosted-ecr.png)
 
-The launcher image is used during runs on Kubernetes workers to prepare the workspace for the run, and the Kubernetes cluster that you want to run your workers on needs to be able to pull that image for runs to succeed.
+The launcher image is used during runs on Kubernetes workers to prepare the workspace for the run, and the Kubernetes cluster that you want to run your workers on **needs to be able to pull that image** for runs to succeed.
 
 Some options for this include:
 
-1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes.
-2. You can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
-3. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
+1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes. Alternatively, you can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
+2. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
 
 {% endif %}
 
@@ -143,6 +147,52 @@ Some options for this include:
     You can deploy the controller globally (the default option) to monitor all namespaces, allowing worker pools in multiple namespaces, or restrict it to specific namespaces using the `namespaces` [option in the Helm chart values](https://github.com/spacelift-io/spacelift-helm-charts/blob/88fa4327408b55082d5a18a1f6ccf2ed2ab90228/spacelift-workerpool-controller/values.yaml#L10). The namespace of the controller and workers themselves doesn’t impact functionality.
 
 That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
+
+## Upgrade
+
+Usually, there is nothing special to do for upgrading the controller.
+
+Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
+
+### Upgrading to controller v0.0.17 - or Helm chart v0.33.0
+
+This release changes the way the controller exposes metrics by removing usage of the `kube-rbac-proxy` container.
+
+You can find more context about the reason for this change in the [Kubebuilder repository](https://github.com/kubernetes-sigs/kubebuilder/discussions/3907).
+
+=== "Kubectl"
+    If the controller was installed using compiled Kubernetes manifest using `kubectl apply -f ...`,
+    you should first uninstall the current release before deploying the new one.
+
+    !!! warning
+        The command below will remove CRDs and thus also remove your `WorkerPool` from the cluster.
+        Before running it, make sure that you'll be able to recreate them after the upgrade.
+
+    ```shell
+    # Scale down all your workerpools to zero, and make sure there is no remaining Worker resource in the cluster.
+    # Otherwise the kubectl delete function below will be stuck and you'll have to remove finalizers by hand on Workers.
+    kubectl scale workerpool/${WORKERPOOL_NAME} --replicas 0
+    # If your're using v0.0.16, change the version to the one that is currently deployed in your cluster.
+    kubectl delete -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.16/manifests.yaml
+    ```
+
+    Then you can install the new controller version with the following command.
+
+    ```shell
+    kubectl apply -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.17/manifests.yaml
+    ```
+
+=== "Helm"
+
+    CRDs have been updated in this new version, and Helm does not perform CRDs update for us.
+    So before upgrading to the latest version of the chart, you should execute the following commands to upgrade CRDs.
+
+    ```shell
+    kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/worker-crd.yaml
+    kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/workerpool-crd.yaml
+    ```
+
+    Once done, you can upgrade the chart like usual with `helm upgrade`.
 
 ## Run Containers
 
@@ -380,6 +430,11 @@ spec:
     topologySpreadConstraints: []
     labels: {}
     annotations: {}
+
+    # customBinariesPath allows you to add additional directories to the start of the path used
+    # by the worker. This allows you to do things like use a custom tool version provided on the
+    # runner image instead of the version downloaded by Spacelift.
+    customBinariesPath: ""
 
     # customInitContainers allow you to define a list of custom init containers to be run before the builtin init one.
     customInitContainers: []
@@ -623,6 +678,206 @@ spec:
         - name: "SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0"
           value: "https://gitlab.myorg.com
 ```
+
+### Controller metrics
+
+The workerpool controller does not expose any metrics by default.
+
+You can set `--metrics-bind-address=:8443` flag to enable them and activate the Prometheus endpoint.
+By default, the controller exposes metrics using HTTPS and a self-signed certificate.
+This endpoint is also protected using RBAC. If you use the helm chart to deploy the controller, you can use the built-in metrics reader role to grant access.
+
+You may also want to use a valid certificate for production workloads. You can mount your cert in the container to the following paths:
+
+```text
+/tmp/k8s-metrics-server/serving-certs/tls.crt
+/tmp/k8s-metrics-server/serving-certs/tls.key
+```
+
+It's also possible to fully disable TLS on the metrics endpoint and ask the controller to export metrics using http. You need to set --metrics-secure=false flag for that.
+
+More information about metrics authentication and TLS config can be found on the [kubebuilder docs](https://book.kubebuilder.io/reference/metrics#by-using-authnauthz-enabled-by-default).
+
+More information about exposed metrics can be found by scrapping the metrics endpoint, see and example below
+
+```shell
+# HELP spacelift_workerpool_controller_worker_creation_duration_seconds Time in seconds needed to create a new worker
+# TYPE spacelift_workerpool_controller_worker_creation_duration_seconds histogram
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="0.5"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="1"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="2"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="4"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="10"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="+Inf"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_sum 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_count 0
+# HELP spacelift_workerpool_controller_worker_creation_errors_total Total number of worker creation errors
+# TYPE spacelift_workerpool_controller_worker_creation_errors_total counter
+spacelift_workerpool_controller_worker_creation_errors_total 0
+# HELP spacelift_workerpool_controller_worker_idle_total Number of idle worker
+# TYPE spacelift_workerpool_controller_worker_idle_total gauge
+spacelift_workerpool_controller_worker_idle_total{pool_ulid="01JHFXXPDC6J8XM2VB0M9CS338"} 0
+# HELP spacelift_workerpool_controller_worker_total Total number of workers
+# TYPE spacelift_workerpool_controller_worker_total gauge
+spacelift_workerpool_controller_worker_total{pool_ulid="01JHFXXPDC6J8XM2VB0M9CS338"} 2
+```
+
+#### Helm
+
+If you are using our Helm chart to deploy the controller, you can configure metrics by switching some boolean flags in `values.yml`.
+
+You can check the links in the comments below about how to secure your metrics endpoint.
+
+```yaml
+# The metric service will expose a metrics endpoint that can be scraped by a prometheus instance.
+# This is disabled by default, enable this if you want to enable controller observability.
+metricsService:
+  enabled: false
+  # Enabling secure will also create ClusterRole to enable authn/authz to the metrics endpoint through RBAC.
+  # More details here https://book.kubebuilder.io/reference/metrics#by-using-authnauthz-enabled-by-default
+  # Secure is enabled by default to be consistent with Kubebuilder defaults.
+  #
+  # If you want to avoid cluster roles, you can keep this set to false and configure a NetworkPolicu instead.
+  # An example can be found in Kubebuilder docs here https://github.com/kubernetes-sigs/kubebuilder/blob/d063d5af162a772379a761fae5aaea8c91b877d4/docs/book/src/getting-started/testdata/project/config/network-policy/allow-metrics-traffic.yaml#L2
+  secure: true
+  enableHTTP2: false
+```
+
+### Custom binaries path
+
+Kubernetes workers download the `spacelift-worker` binary, along with any tools needed for your runs and mount them into a directory called `/opt/spacelift/binaries` in the worker. To ensure that these tools are used, this directory is added to the start of the worker's path.
+
+In some situations you may wish to use your own version of tools that are bundled with the runner image used for your stack. To support this, we provide a `spec.pod.customBinariesPath` option to allow you to customize this.
+
+The following example shows how to configure this:
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: test-workerpool
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: test-workerpool
+      key: privateKey
+  pod:
+    customBinariesPath: "/bin" # This will result in "/bin:/opt/spacelift/binaries" being added to the start of the worker's path.
+```
+
+### FIPS
+
+With Go 1.24, the Go runtime [has added support for FIPS mode](https://tip.golang.org/doc/security/fips140){: rel="nofollow"}. This allows you to run your Spacelift workerpool-controller in a [FIPS 140-3](https://en.wikipedia.org/wiki/FIPS_140-3){: rel="nofollow"}-compliant manner.
+
+!!! note
+    Note that the above Go documentation mentions that FIPS mode is best effort based and doesn't guarantee compliance with all requirements.
+
+If you'd like to have the workerpool-controller run in FIPS mode, turn the `controllerManager.enforceFips140` flag to `true` in the Helm chart values. We introduced this in the [v0.42.0 release](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.42.0){: rel="nofollow"} of the Helm chart.
+
+=== "Helm"
+    You can set this in your `values.yaml` file like so:
+    ```yaml
+    controllerManager:
+      enforceFips140: true
+    ```
+
+    Or pass it as a parameter: `--set controllerManager.enforceFips140=true`.
+=== "Kubernetes"
+    When deployed without helm, you'll need to set the `GODEBUG=fips140=only` environment variable manually on the controller container. The command to do this is:
+
+    ```shell
+    # List all deployments to get the name of the controller deployment:
+    kubectl get deployments --all-namespaces
+
+    # Edit the deployment to add the environment variable:
+    kubectl edit deployment/<deployment-name> -n <namespace>
+    ```
+
+During the controller's startup, you should see the `FIPS 140 mode {"enabled": true}` message in the logs.
+
+!!! note
+    This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
+
+### Autoscaling
+
+Careful consideration should be given when scheduling the controller in the cluster.
+If the worker pool controller is evicted due to autoscaling or other reasons, it may miss MQTT messages and cause
+temporary run failures.
+
+**Therefore, it is strongly recommended to deploy the controller on nodes with high stability and availability.**
+
+#### EKS
+
+For EKS Auto cluster you can set the following Karpenter annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    karpenter.sh/do-not-disrupt: "true"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."karpenter\.sh/do-not-disrupt"="true"
+    ```
+
+For Standard clusters:
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
+
+#### GKE
+
+For autopilot cluster you can set the following annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    # Bear in mind that this will not 100% prevent autopilot from evicting pods.
+    # Please refer to autopilot documentation for more details.
+    autopilot.gke.io/priority: high
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."autopilot\.gke\.io/priority"="high"
+    ```
+
+For Standard clusters:
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
+
+#### AKS
+
+For Azure cluster you can set the following annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
 
 ## Scaling a pool
 

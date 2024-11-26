@@ -19,7 +19,9 @@ If you are an admin of the `root` space you don't see individual access levels, 
 
 ## Creating a Single Space
 
-If you are an admin of the `root` space you can create a space either by clicking a **Create space** button in the top right corner of the view, or by clicking the blue addition button at the bottom of a space card.
+You can create a space either by clicking a **Create space** button in the top right corner of the view, or by clicking the blue addition button at the bottom of a space card.
+
+By default, only `root` admin users can create spaces. This can be [overwritten in the account settings](./allowing-non-root-admins-to-manage-spaces.md).
 
 ![](<../../assets/screenshots/spaces-create-button.png>)
 

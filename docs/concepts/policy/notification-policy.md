@@ -295,6 +295,8 @@ The Slack rules accept multiple configurable parameters:
 
 - `channel_id` - the Slack channel to which the message will be delivered (**Required**)
 - `message` - a custom message to be sent (**Optional**)
+- `mention_users` - an array of users to mention in the default message (**Optional**)
+- `mention_groups` - an array of groups to mention in the default message (**Optional**)
 
 #### Filtering and routing messages
 
@@ -336,6 +338,36 @@ slack[{
 ```
 
 [View the example in the rego playground](https://play.openpolicyagent.org/p/KyN5EHeyhk){: rel="nofollow"}.
+
+#### Mentioning users and groups
+
+You can provide an array of user IDs and group IDs to mention in the default message.
+
+The following example shows how to mention a user and a group (conditionally) in a Slack message:
+
+```opa
+package spacelift
+
+users := {
+  "bob": "U08MA4D50RY"
+}
+groups := {
+  "devs": "S08MA51EW4S"
+}
+
+mention_groups(run) = [groups.devs] {
+  run.state == "UNCONFIRMED"
+} else = []
+
+slack[{
+  "channel_id": "C08MA83LAD9",
+  "mention_users": [users.bob],
+  "mention_groups": mention_groups(run)
+}] {
+  run := input.run_updated.run
+  run.type == "TRACKED"
+}
+```
 
 ### Webhook requests
 
@@ -412,6 +444,41 @@ webhook[wbdata] {
 
 Using custom webhook requests also makes it quite easy to integrate Spacelift with any third-party webhook consumer.
 
+#### Including run logs in webhook requests
+
+You can include logs from various run phases in your webhook requests by using placeholders in any value field of the payload (note that placeholders in JSON keys will be ignored):
+
+- `spacelift::logs::initializing` placeholder will be replaced with logs from the [initializing](../run/README.md#initializing) phase
+- `spacelift::logs::preparing` placeholder will be replaced with logs from the [preparing](../run/README.md#preparing) phase
+- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
+- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
+
+Here's an example that includes logs from different phases in the webhook payload:
+
+```opa
+package spacelift
+
+webhook[wbdata] {
+  endpoint := input.webhook_endpoints[_]
+  endpoint.id == "test"
+  wbdata := {
+    "endpoint_id": endpoint.id,
+    "payload": {
+      "initializing": "spacelift::logs::initializing",
+      "preparing": "You can embed the placeholder within text like this: spacelift::logs::preparing",
+      "planning_and_applying": ["The placeholders also work in lists:", "spacelift::logs::planning", "spacelift::logs::applying"],
+    },
+    "method": "PUT",
+    "headers": {
+      "custom-header": "custom",
+    },
+  }
+
+  input.run_updated.run.type == "TRACKED"
+  input.run_updated.run.state == "FINISHED"
+}
+```
+
 #### Custom webhook requests in action
 
 ##### Discord integration
@@ -472,7 +539,7 @@ package spacelift
 import future.keywords.contains
 import future.keywords.if
 
-pull_request contains {"id": run.commit.pull_request_id} if {
+pull_request contains {"commit": run.commit.hash} if {
  run := input.run_updated.run
  run.state == "FINISHED"
 }
@@ -493,9 +560,9 @@ package spacelift
 import future.keywords
 
 pull_request contains {
-"id": run.commit.pull_request_id,
-"body": sprintf("Run %s is %s", [run.id, run.state]),
-"deduplication_key": deduplication_key,
+ "commit": run.commit.hash,
+ "body": sprintf("Run %s is %s", [run.id, run.state]),
+ "deduplication_key": deduplication_key,
 } if {
  run := input.run_updated.run
  deduplication_key := input.run_updated.stack.id
@@ -565,6 +632,8 @@ You can customize the comment body, even include logs from various run phases by
 - `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
 - `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
 
+These placeholders will only work for pull request comments and not other types of notifications.
+
 ```opa
 package spacelift
 
@@ -572,7 +641,7 @@ import future.keywords.contains
 import future.keywords.if
 
 pull_request contains {
- "id": run.commit.pull_request_id,
+ "commit": run.commit.hash,
  "body": body,
 } if {
  stack := input.run_updated.stack
@@ -708,7 +777,10 @@ forgotten contains row if {
 }
 
 # Define a rule to create a pull request object if certain conditions are met.
-pull_request contains {"commit": input.run_updated.run.commit.hash, "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources, importedresources, movedresources, forgottenresources]), "\n\n\n", "\n"), "\n\n", "\n")} if {
+pull_request contains {
+ "commit": input.run_updated.run.commit.hash,
+ "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources, importedresources, movedresources, forgottenresources]), "\n\n\n", "\n"), "\n\n", "\n"),
+ } if {
     input.run_updated.run.state == "FINISHED"  # Ensure the run state is 'FINISHED'.
     input.run_updated.run.type == "PROPOSED"   # Ensure the run type is 'PROPOSED'.
 }

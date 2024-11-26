@@ -81,7 +81,7 @@ To keep policies functionally pure and relatively snappy, we disabled some Rego 
 - `time.now_ns`
 - `trace`
 
-Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `request.timestamp_ns` in every policy payload, so please use it instead.
+Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in plan policy payloads, so please use it instead.
 
 Policies must be self-contained and cannot refer to external resources (e.g., files in a VCS repository).
 
@@ -198,6 +198,39 @@ This takes you to the policy creation screen where you can choose the type of po
 
 Once you're done, click on the _Create policy_ button to save it. Don't worry, policy body is mutable so you'll always be able to edit it if need be.
 
+### Policy structure
+
+We prepend variable definitions to each policy. These variables can be different for each type, but the prepended code is very similar. Here's an example for the [Approval](approval-policy.md) policy:
+
+```opa
+package spacelift
+
+# This is what Spacelift will query for when evaluating policies.
+result = {
+  "approve": approve,
+  "reject": reject,
+  "flag": flag,
+  "sample": sample,
+}
+
+# Default to ensure that "approve" is defined.
+default approve = false
+
+# Default to ensure that "reject" is defined.
+default reject = false
+
+# Default to ensure that "sample" is defined.
+default sample = false
+
+# Placeholder to ensure that "flag" will be a set.
+flag["never"] {
+  false
+}
+```
+
+!!! warning
+    Remember that you can't change predefined variable types. Doing so will result in a policy validation error and the policy won't be saved.
+
 ## Attaching policies
 
 ### Automatically
@@ -240,11 +273,11 @@ If that feels a bit simplistic and spammy, you can adjust this rule to capture o
 sample { count(deny) == 0 }
 ```
 
-You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
+You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example relevant to a plan policy we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
 
 ```opa
 sample {
-  millis := round(input.request.timestamp_ns / 1e6)
+  millis := round(input.spacelift.request.timestamp_ns / 1e6)
   millis % 100 <= 10
 }
 ```
@@ -262,11 +295,7 @@ In order to show you how to work with the policy workbench, we are going to use 
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM.png>)
 
-In order to get to the policy workbench, first click on the Edit button in the upper right hand corner of the policy screen:
-
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM (1).png>)
-
-Then, click on the Show simulation panel link on the right hand side of the screen:
+In order to get to the policy workbench, click on the Show simulation panel link on the right hand side of the screen:
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.19.27 PM.png>)
 
