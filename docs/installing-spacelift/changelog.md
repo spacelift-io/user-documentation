@@ -4,6 +4,40 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.6.1 and v3.0.0
+
+We’re excited to announce Spacelift Self-Hosted v3! This version represents a significant milestone in Spacelift’s evolution, delivering enhanced flexibility and control to our users.
+
+### Key Highlights:
+
+- **Cloud-agnostic deployment**: Spacelift is no longer dependent on AWS services. We've introduced a new [Reference Architecture](./reference-architecture/README.md) concept that defines the basic requirements for a Self-Hosted installation. This enables Spacelift to run on AWS, Google Cloud Platform, Azure, or even on-premises infrastructure, as long as the [infrastructure requirements](./reference-architecture/environment-requirements.md) are met.
+    - While you have the freedom to create your own infrastructure, we've developed four Terraform modules to simplify deployment to [AWS ECS](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted){: rel="nofollow"}, [AWS EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GCP GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [Azure AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"}. Comprehensive deployment guides for these modules are available in the [guides](./reference-architecture/guides/README.md) section.
+- **Simplified infrastructure**: The infrastructure footprint is now smaller and more streamlined. External dependencies like IoT [brokers](./reference-architecture/reference/mqtt-broker.md) and [queueing systems](./reference-architecture/reference/message-queues.md) are no longer required, as they're now built directly into the Spacelift application.
+- **Enhanced first-time setup**: The new installation model features a streamlined onboarding experience. When you first access Spacelift, [you'll be greeted by a setup wizard](./reference-architecture/guides/first-setup.md) that guides you through configuring your account name. You can log into this page with the [temporary admin user](./reference-architecture/reference/general-configuration.md#admin-login) that also serves as break-glass access in case of SSO integration issues.
+- **Greater infrastructure flexibility**: Without predefined CloudFormation templates, you have complete freedom to customize the infrastructure according to your specific requirements.
+- **Customizable deployment process**: You can either customize the deployment process to fit your needs or leverage Spacelift's predefined Terraform modules and Helm charts for standardized deployments.
+- **Enhanced observability**: [Improved monitoring capabilities](./reference-architecture/reference/telemetry.md) with added support for Datadog and OpenTelemetry.
+
+### Licensing system
+
+Self-Hosted v3 introduces [a new licensing method](./reference-architecture/reference/general-configuration.md#licensing). As we no longer rely on AWS License Manager, we've transitioned to a new JWT-based license token system. A Spacelift representative will provide you with a license token to activate your v3 instance. The license token has a defined validity period and requires renewal upon expiration.
+
+#### Usage reporting
+
+We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/general-configuration.md#usage-reporting).
+
+### Migration from v2
+
+We've developed a comprehensive [migration toolkit](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"} to facilitate the transition from the v2 CloudFormation-based deployment to the v3 OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the [migration guide](./cloudformation/v2-to-v3-migration.md).
+
+**Prerequisites**: The migration toolkit requires a working installation of `v2.6.0` or later.
+
+### Artifacts and installation package
+
+Currently, the installation artifacts remain unchanged. The package continues to include CloudFormation templates and shell scripts, allowing you to deploy Spacelift Self-Hosted v3 using existing methods. However, we recommend migrating to the new Terraform modules, as they offer greater flexibility and customization options for your deployment process.
+
+**Note**: We will continue to support the CloudFormation approach and will provide customers with notice well in advance before discontinuing support for this installation method.
+
 ## Changes between v2.6.0 and v2.6.1
 
 This release fixes an issue that could cause certain upgrades of existing Self-Hosted installations to fail. The issue was caused by one of our data migrations attempting to access the `allow_non_root_admin_space_creation` column on the `accounts` table before it existed.
@@ -28,19 +62,19 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 
 ### Features
 
-- Ignored run warnings: ever wondered why didn't your stack trigger? We've added a new tab on the stack page - **Ignored runs** - that shows you all the ignored runs for the last 7 days. Take a look at the [documentation](../../concepts/run/ignored-triggers.md) for more details.
-- Aggregated VCS checks: if you have multiple stacks tracking the same repository, you can enable the **Aggregate VCS checks** feature in the VCS integration's settings (**Source code** menu) which will allow you to group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit. Documentation: [Azure DevOps](../../integrations/source-control/azure-devops.md#aggregated-checks), [GitHub](../../integrations/source-control/github.md#aggregated-checks), [GitLab](../../integrations/source-control/gitlab.md#aggregated-checks), [Bitbucket Datacenter](../../integrations/source-control/bitbucket-datacenter-server.md#aggregated-checks), [Bitbucket Cloud](../../integrations/source-control/bitbucket-cloud.md#aggregated-checks).
-- [Added native ServiceNow integration](../../integrations/external-integrations/servicenow.md), allowing teams to provision and manage infrastructure directly from ServiceNow using Spacelift Blueprints. This integration enables automated stack creation via ServiceNow catalog items, while maintaining governance through Business Rules and REST Messages. **The feature is still in beta**.
-- Space management improvements: [added a new account-level toggle](../../concepts/spaces/allowing-non-root-admins-to-manage-spaces.md) that allows non-root admins to manage child spaces within their scope. When enabled, non-root admins can create and manage subspaces (with inheritance enforced), while root admins retain control over inheritance settings and overall topology.
+- Ignored run warnings: ever wondered why didn't your stack trigger? We've added a new tab on the stack page - **Ignored runs** - that shows you all the ignored runs for the last 7 days. Take a look at the [documentation](../concepts/run/ignored-triggers.md) for more details.
+- Aggregated VCS checks: if you have multiple stacks tracking the same repository, you can enable the **Aggregate VCS checks** feature in the VCS integration's settings (**Source code** menu) which will allow you to group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit. Documentation: [Azure DevOps](../integrations/source-control/azure-devops.md#aggregated-checks), [GitHub](../integrations/source-control/github.md#aggregated-checks), [GitLab](../integrations/source-control/gitlab.md#aggregated-checks), [Bitbucket Datacenter](../integrations/source-control/bitbucket-datacenter-server.md#aggregated-checks), [Bitbucket Cloud](../integrations/source-control/bitbucket-cloud.md#aggregated-checks).
+- [Added native ServiceNow integration](../integrations/external-integrations/servicenow.md), allowing teams to provision and manage infrastructure directly from ServiceNow using Spacelift Blueprints. This integration enables automated stack creation via ServiceNow catalog items, while maintaining governance through Business Rules and REST Messages. **The feature is still in beta**.
+- Space management improvements: [added a new account-level toggle](../concepts/spaces/allowing-non-root-admins-to-manage-spaces.md) that allows non-root admins to manage child spaces within their scope. When enabled, non-root admins can create and manage subspaces (with inheritance enforced), while root admins retain control over inheritance settings and overall topology.
 
 ### Infrastructure
 
-- Scheduler service: cron jobs are now triggered via a [new ECS service called scheduler](./install.md#scheduler). This has no impact on the app functionality, but those who use custom VPCs will need to provide a new config value under `vpc_config` called `scheduler_security_group_id`. **Important**: the database security group must be updated as well since the scheduler service needs to access the database. So for custom VPC installations, the required updates are the following:
+- Scheduler service: cron jobs are now triggered via a [new ECS service called scheduler](./cloudformation/install.md#scheduler). This has no impact on the app functionality, but those who use custom VPCs will need to provide a new config value under `vpc_config` called `scheduler_security_group_id`. **Important**: the database security group must be updated as well since the scheduler service needs to access the database. So for custom VPC installations, the required updates are the following:
     - creating a new security group for the scheduler service
         - with no ingress
         - an egress record to the database security group
     - updating the database security group ingress to allow connections from the scheduler security group
-    - please see the [advanced installations](./advanced-installations.md) page for code examples
+    - please see the [advanced installations](./cloudformation/advanced-installations.md) page for code examples
 - Disable XRay: if you wish to disable telemetry in the backend, you can do so by setting the `tracing_enabled` configuration value to `false` in the install script's config file.
 
 ```json
@@ -60,9 +94,9 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 
 ### Features
 
-- [Built-in Audit Trails](../../integrations/audit-trail.md) - this aims to provide a faster, easier way to identify and fix issues without needing to reach out for support.
+- [Built-in Audit Trails](../integrations/audit-trail.md) - this aims to provide a faster, easier way to identify and fix issues without needing to reach out for support.
 
-![](../../assets/screenshots/audit-trail-logs.png)
+![](../assets/screenshots/audit-trail-logs.png)
 
 ### Internal
 
@@ -72,11 +106,11 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 
 ### Features
 
-- [MFA](../../product/security/mfa.md) - you can now enforce MFA for all users in your organization
+- [MFA](../product/security/mfa.md) - you can now enforce MFA for all users in your organization
 - Stack list redesign - we've revamped the stack list view to make it easier to navigate and manage your stacks
 - Policy templates: quickly create and customize policies using predefined templates
 
-![](../../assets/screenshots/selfhosted_policy_templates.png)
+![](../assets/screenshots/selfhosted_policy_templates.png)
 
 ### Fixes
 
@@ -91,7 +125,7 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 
 ### Features
 
-- Ansible reloaded! We've shipped the following improvements for our [Ansible](../../vendors/ansible/README.md) integration:
+- Ansible reloaded! We've shipped the following improvements for our [Ansible](../vendors/ansible/README.md) integration:
     - We've added the ability to specify a custom runtime config in YAML format. Click the dropdown button next to the `Trigger` button and choose `Trigger with custom runtime config`.
     - The final runtime configuration (including all custom configurations) can be retrieved for all runs. Use the 3 dots in the top right corner of the run details view and choose `Runtime config details`.
     - In the run changes views, ansible tasks are listed as separate resources.
@@ -104,9 +138,9 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 ### Features
 
 - Our bulk actions feature has been reworked, making it simpler to perform actions on multiple items at once.
-- We've added support for [OIDC Based API Keys](../../integrations/api.md#oidc-based-api-keys) to provide a more secure way of accessing our API without requiring static credentials.
-- We've added the ability to add custom headers to your [audit trail webhooks](../../integrations/audit-trail.md), making it easier than ever to integrate with external systems.
-- We've added [an option](./install.md#load-balancer) to `config.json` to set `load_balancer.subnet_placement` to either public (default) or private. If the option is omitted, the default remains public.
+- We've added support for [OIDC Based API Keys](../integrations/api.md#oidc-based-api-keys) to provide a more secure way of accessing our API without requiring static credentials.
+- We've added the ability to add custom headers to your [audit trail webhooks](../integrations/audit-trail.md), making it easier than ever to integrate with external systems.
+- We've added [an option](./cloudformation/install.md#load-balancer) to `config.json` to set `load_balancer.subnet_placement` to either public (default) or private. If the option is omitted, the default remains public.
 
 ### Fixes
 
@@ -143,7 +177,7 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 !!! warning
     This release of Self-Hosted involves mandatory downtime during the installation process. We expect that downtime to be between 5 and 10 minutes, but it's important that you do not start the installation at a time you cannot afford Spacelift to be unavailable.
 
-v2.0.0 introduces multi-region failover support to Self-Hosted to help as part of a [disaster recovery](./disaster-recovery.md) process. One of these changes involves converting the single-region KMS key used to encrypt sensitive data like stack and context secrets to a multi-region key. In order to do that, the installation includes a migration to convert the data from one key to another.
+v2.0.0 introduces multi-region failover support to Self-Hosted to help as part of a [disaster recovery](./cloudformation/disaster-recovery.md) process. One of these changes involves converting the single-region KMS key used to encrypt sensitive data like stack and context secrets to a multi-region key. In order to do that, the installation includes a migration to convert the data from one key to another.
 
 The migration is performed inside a transaction, and in the case of any errors the changes will be rolled back to avoid a situation where data is encrypted using both old and new keys.
 
@@ -151,8 +185,8 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- Added the ability to provide a [custom database connection string](./install.md#self-managed-database) during install/upgrade. This allows you to take full control over the database used by Spacelift.
-- Added [multi-region disaster recovery](./disaster-recovery.md) support.
+- Added the ability to provide a [custom database connection string](./cloudformation/install.md#self-managed-database) during install/upgrade. This allows you to take full control over the database used by Spacelift.
+- Added [multi-region disaster recovery](./cloudformation/disaster-recovery.md) support.
 - Added support for OpenTofu 1.8.0.
 - Various other small features and improvements.
 
@@ -187,15 +221,15 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [Added OpenTofu support for Terragrunt](../../vendors/terragrunt/terragrunt-tool.md)
-    - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../../concepts/worker-pools/kubernetes-workers.md) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
-- [Added `Trigger always` flag to Stack Dependencies](../../concepts/stack/stack-dependencies.md)
-- Disabled the rate limiting for [policy sampling](../../concepts/policy/README.md#sampling-policy-inputs)
+- [Added OpenTofu support for Terragrunt](../vendors/terragrunt/terragrunt-tool.md)
+    - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../concepts/worker-pools/kubernetes-workers.md) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
+- [Added `Trigger always` flag to Stack Dependencies](../concepts/stack/stack-dependencies.md)
+- Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sampling-policy-inputs)
 - Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
 - Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
 - Support for [moved](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring) and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
 - Installation script:
-    - [We added support for defining custom retention periods for all of the S3 buckets.](./install.md#s3-config) If you don't specify it, they remain untouched.
+    - [We added support for defining custom retention periods for all of the S3 buckets.](./cloudformation/install.md#s3-config) If you don't specify it, they remain untouched.
 
 ### Fixes
 
@@ -211,9 +245,9 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [Beta Terragrunt support](../../vendors/terragrunt/README.md)
+- [Beta Terragrunt support](../vendors/terragrunt/README.md)
 - [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
-- [OpenTofu v1.6.2 support](../../concepts/stack/creating-a-stack.md#opentofu)
+- [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#opentofu)
 - [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
 - [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
 
@@ -225,27 +259,27 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [User Management](../../concepts/user-management/README.md)
-- [Terraform Provider Registry](../../vendors/terraform/provider-registry.md)
+- [User Management](../concepts/user-management/README.md)
+- [Terraform Provider Registry](../vendors/terraform/provider-registry.md)
 - The settings page is now split into Organization and Personal settings
-- [OpenTofu v1.6.1 support](../../concepts/stack/creating-a-stack.md#opentofu)
-- [PR stack locking](../../concepts/policy/push-policy/README.md#stack-locking)
-- [Support for deploying workers via the Kubernetes operator](../../concepts/worker-pools/kubernetes-workers.md)
+- [OpenTofu v1.6.1 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [PR stack locking](../concepts/policy/push-policy/README.md#stack-locking)
+- [Support for deploying workers via the Kubernetes operator](../concepts/worker-pools/kubernetes-workers.md)
 
 ### Fixes
 
 - Improved license check-out logic
-- Fix stale logs display for [targeted replans](../../concepts/run/tracked.md#targeted-replan)
-- Allow to persist roles and collections installed during run initialization for [Ansible stacks](../../vendors/ansible/README.md) automatically
+- Fix stale logs display for [targeted replans](../concepts/run/tracked.md#targeted-replan)
+- Allow to persist roles and collections installed during run initialization for [Ansible stacks](../vendors/ansible/README.md) automatically
 - Various other backend and frontend fixes and improvements
 
 ## Changes between v0.0.11 and v0.0.12
 
 ### Features
 
-- [OpenTofu v1.6.0 support](../../concepts/stack/creating-a-stack.md#opentofu)
-- [PRs as notification targets](../../concepts/policy/notification-policy.md#pull-request-notifications)
-- [Run prioritization through Push Policy](../../concepts/policy/push-policy/README.md#prioritization) (`prioritize` keyword)
+- [OpenTofu v1.6.0 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [PRs as notification targets](../concepts/policy/notification-policy.md#pull-request-notifications)
+- [Run prioritization through Push Policy](../concepts/policy/push-policy/README.md#prioritization) (`prioritize` keyword)
 - Add state size (in bytes) to `ManagedStateVersion` type in GraphQL
 
 ### Fixes
@@ -256,10 +290,10 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [New stack creation view](../../concepts/stack/creating-a-stack.md)
-- [Auto Attaching Contexts](../../concepts/configuration/context.md#auto-attachments)
-- [Context Hooks](../../concepts/configuration/context.md#editing-hooks)
-- Additional [project globs](../../concepts/stack/stack-settings.md#project-globs)
+- [New stack creation view](../concepts/stack/creating-a-stack.md)
+- [Auto Attaching Contexts](../concepts/configuration/context.md#auto-attachments)
+- [Context Hooks](../concepts/configuration/context.md#editing-hooks)
+- Additional [project globs](../concepts/stack/stack-settings.md#project-globs)
 - [Pull request default behaviour change](https://spacelift.io/changelog/en/upcoming-pull-request-default-behaviour-change)
     - Spacelift will start handling pull request events and creating proposed runs if no push policy is set as the default behaviour
 
@@ -271,12 +305,12 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- Stack Dependencies with [output/input references](../../concepts/stack/stack-dependencies.md#defining-references-between-stacks).
-- [Ready run state](../../concepts/run/README.md#ready).
-- [Targeted replan support](../../concepts/run/tracked.md#targeted-replan).
+- Stack Dependencies with [output/input references](../concepts/stack/stack-dependencies.md#defining-references-between-stacks).
+- [Ready run state](../concepts/run/README.md#ready).
+- [Targeted replan support](../concepts/run/tracked.md#targeted-replan).
 - New detailed terraform changes view.
-- [Worker Pool Management views](../../concepts/worker-pools#worker-pool-management-views).
-- [Add OpenTofu and custom workflows support for terraform](../../vendors/terraform/workflow-tool.md).
+- [Worker Pool Management views](../concepts/worker-pools#worker-pool-management-views).
+- [Add OpenTofu and custom workflows support for terraform](../vendors/terraform/workflow-tool.md).
 
 ### Fixes
 
@@ -299,13 +333,13 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- Update CloudFormation worker pool template to allow [a custom instance role to be provided](../../concepts/worker-pools/docker-based-workers.md#using-a-custom-iam-role).
+- Update CloudFormation worker pool template to allow [a custom instance role to be provided](../concepts/worker-pools/docker-based-workers.md#using-a-custom-iam-role).
 - Update CloudFormation worker pool template to allow poweroff on crash to be disabled to aid debugging.
-- Update CloudFormation worker pool template to [allow custom user data to be provided](../../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup).
+- Update CloudFormation worker pool template to [allow custom user data to be provided](../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup).
 - Update frontend and backend to the latest versions.
 - Adding support for Terraform versions up to v1.5.4 and kubectl up to v1.27.4.
-- Added support for [External Dependencies](../../concepts/policy/push-policy/run-external-dependencies.md).
-- Added support for [Raw Git](../../integrations/source-control/raw-git.md) source code provider.
+- Added support for [External Dependencies](../concepts/policy/push-policy/run-external-dependencies.md).
+- Added support for [Raw Git](../integrations/source-control/raw-git.md) source code provider.
 
 ### Removals
 
