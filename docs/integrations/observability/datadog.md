@@ -50,6 +50,7 @@ Common tags for all metrics are the following:
 - `branch` (string): name of the Git branch the run was triggered from;
 - `drift_detection` (boolean): whether the run was triggered by drift detection;
 - `run_type` (string): type of a run, eg. "tracked", "proposed", etc.;
+- `run_url` (string): link to the run that generated the metric;
 - `final_state` (string): the terminal state of the run, eg. "finished", "failed", etc.;
 - `space` (string): name of the Spacelift space the run belongs to;
 - `stack` (string): name of the Spacelift stack the run belongs to;
