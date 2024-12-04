@@ -53,7 +53,7 @@ You will be presented with two options:
     The easiest and recommended way to install the custom Spacelift application in your GitHub account is by using the wizard.
 
     You will be asked a few questions, then you will be redirected to GitHub to create the application. Once it's done, you'll be redirected back to Spacelift to finish the integration.
-    
+
     <p align="center">
         <img src="../../assets/screenshots/GitHub_wizard_final_step.png"/>
     </p>
@@ -75,7 +75,7 @@ You will be presented with two options:
     <p align="center"><img src="../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png" width="450"></p>
 
     Let's choose a friendly name (it can contain spaces) for your integration and choose the integration type.
-    
+
     The integration type could be either **default** or **space-specific**. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
 
     Once the integration name and the type are chosen, a **webhook endpoint** and a **webhook secret** will be generated in the middle of the form. These two are enough to create the GitHub App, so let's do that now.
@@ -99,12 +99,12 @@ You will be presented with two options:
     | Permission      | Access       |
     | --------------- | ------------ |
     | Checks          | Read & write |
+    | Commit statuses | Read & write |
     | Contents        | Read-only    |
     | Deployments     | Read & write |
     | Metadata        | Read-only    |
     | Pull requests   | Read & write |
     | Webhooks        | Read & write |
-    | Commit statuses | Read & write |
 
     **Set the following Organization permissions:**
 
@@ -138,7 +138,7 @@ You will be presented with two options:
 
     !!! info
         If you are using `github.com` set your API host URL as: [https://api.github.com](https://api.github.com){: rel="nofollow"}.
-    
+
     !!! info
         User facing host URL is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the API host URL will look like `private://vcs-agent-pool-name`, but the User facing host URL can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
 
