@@ -242,17 +242,22 @@ The project globs option allows you to specify files and directories outside of 
 
 You aren't required to add any project globs if you don't want to, but you have the option to add as many project globs as you want for a stack.
 
-Under the hood, the project globs option takes advantage of the [doublestar.Match](https://github.com/bmatcuk/doublestar?tab=readme-ov-file#match){: rel="nofollow"} function to do pattern matching.
+When the [default push policy](../policy/push-policy/README.md#default-git-push-policy) is used, project globs are evaluated by the [`glob.match()` OPA function](https://www.openpolicyagent.org/docs/latest/policy-reference/#glob){: rel="nofollow"}.
 
-Example matches:
+Example matches, for the default push policy:
 
-- Any directory or file: `**`
-- A directory and all of its content: `dir/*`
-- Match all files with a specific extension: `dir/*.tf`
-- Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
-- Match all files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`
+- Any arbitrarily-nested file: `**`
+- A directory and all of its content (not including nested directories): `dir/*`
+- A directory and all of its arbitrarily-nested contents: `dir/**`
+- All files with a specific extension: `**.tf`
+- All files that start with a string, end with another and have a predefined number of chars in the middle -- `**/data-???-report` will match three chars between data and report
+- All files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`
 
-As you can see in the example matches, these are the regex rules that you are already accustomed to.
+As you can see, these are similar to the regex rules that you may already accustomed to.
+
+!!! warning
+    The above description does **not apply** if any custom push policies are attached to the stack.
+    In that case, the project globs are evaluated by the custom push policies in whatever way they evaluate them.
 
 ### VCS integration and repository
 
