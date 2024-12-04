@@ -250,8 +250,8 @@ Example matches, for the default push policy:
 - A directory and all of its content (not including nested directories): `dir/*`
 - A directory and all of its arbitrarily-nested contents: `dir/**`
 - All files with a specific extension: `**.tf`
-- All files that start with a string, end with another and have a predefined number of chars in the middle -- `**/data-???-report` will match three chars between data and report
-- All files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`
+- Files in the repo root that start with a string, end with another and have three chars in the middle: `data-???-report`
+- Files in the repo root that start with a string, and finish with any character from a sequence: `instance[0-9].tf`
 
 As you can see, these are similar to the regex rules that you may already accustomed to.
 
