@@ -81,7 +81,7 @@ To keep policies functionally pure and relatively snappy, we disabled some Rego 
 - `time.now_ns`
 - `trace`
 
-Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `request.timestamp_ns` in every policy payload, so please use it instead.
+Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in every policy payload, so please use it instead.
 
 Policies must be self-contained and cannot refer to external resources (e.g., files in a VCS repository).
 
@@ -244,7 +244,7 @@ You can also sample a certain percentage of policy evaluations. Given that we do
 
 ```opa
 sample {
-  millis := round(input.request.timestamp_ns / 1e6)
+  millis := round(input.spacelift.request.timestamp_ns / 1e6)
   millis % 100 <= 10
 }
 ```
