@@ -217,7 +217,7 @@ When triggered by a _new module version_, this is the schema of the data input t
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/trigger){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/trigger){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
