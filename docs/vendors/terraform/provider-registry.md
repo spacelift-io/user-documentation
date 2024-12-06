@@ -264,11 +264,11 @@ Terraform providers hosted by Spacelift can be used the same way as providers ho
 
 ```terraform title="main.tf"
 terraform {
-required_providers {
-yourprovider = {
+  required_providers {
+    yourprovider = {
       source  = "spacelift.io/your-org/yourprovider"
     }
-}
+  }
 }
 ```
 
@@ -278,11 +278,11 @@ yourprovider = {
 
 ```terraform title="main.tf"
 terraform {
-required_providers {
-yourprovider = {
+  required_providers {
+    yourprovider = {
       source  = "your-hostname/your-org/yourprovider"
     }
-}
+  }
 }
 ```
 
