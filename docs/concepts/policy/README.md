@@ -81,7 +81,7 @@ To keep policies functionally pure and relatively snappy, we disabled some Rego 
 - `time.now_ns`
 - `trace`
 
-Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in every policy payload, so please use it instead.
+Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in plan policy payloads, so please use it instead.
 
 Policies must be self-contained and cannot refer to external resources (e.g., files in a VCS repository).
 
@@ -240,7 +240,7 @@ If that feels a bit simplistic and spammy, you can adjust this rule to capture o
 sample { count(deny) == 0 }
 ```
 
-You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
+You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example relevant to a plan policy we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
 
 ```opa
 sample {
