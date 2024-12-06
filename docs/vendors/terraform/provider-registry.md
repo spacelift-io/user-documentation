@@ -260,33 +260,20 @@ Once published, your version is ready to use. See the next section for more info
 
 Terraform providers hosted by Spacelift can be used the same way as providers hosted by the Terraform Registry. The only difference is that you need to specify the Spacelift registry URL in your Terraform configuration.
 
-{% if is_saas() %}
-
 ```terraform title="main.tf"
 terraform {
   required_providers {
     yourprovider = {
+    {% if is_saas() %}
       source  = "spacelift.io/your-org/yourprovider"
-    }
-  }
-}
-```
-
-{% endif %}
-
-{% if is_self_hosted() %}
-
-```terraform title="main.tf"
-terraform {
-  required_providers {
-    yourprovider = {
+    {% endif %}
+    {% if is_self_hosted() %}
       source  = "your-hostname/your-org/yourprovider"
+    {% endif %}
     }
   }
 }
 ```
-
-{% endif %}
 
 The above example does not refer to a specific version, meaning that you are going to always use the latest available (published) version of your provider. That said, you can use any versioning syntax supported by the Terraform Registry - learn more about it [here](https://developer.hashicorp.com/terraform/language/expressions/version-constraints){: rel="nofollow"}.
 
