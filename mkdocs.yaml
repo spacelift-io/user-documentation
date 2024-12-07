@@ -19,7 +19,18 @@ theme:
   logo: !ENV [LOGO, "assets/images/logo.svg"]
   name: material
   palette:
-    scheme: spacelift
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: spacelift
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 use_directory_urls: false
 watch:
   - nav.yaml
