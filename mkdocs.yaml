@@ -9,6 +9,7 @@ theme:
   favicon: assets/images/favicon.png
   features:
     - content.code.annotate
+    - content.code.copy
     - content.tabs.link
     - navigation.indexes
     - navigation.instant
