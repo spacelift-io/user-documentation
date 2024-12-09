@@ -264,7 +264,7 @@ Terraform providers hosted by Spacelift can be used the same way as providers ho
 terraform {
   required_providers {
     yourprovider = {
-      source  = {% if is_saas() %}"spacelift.io/your-org/yourprovider"{% endif %} {% if is_self_hosted() %}"your-hostname/your-org/yourprovider"{% endif %}
+      source  = "{% if is_saas() %}spacelift.io{% else %}your-hostname{% endif %}/your-org/yourprovider"
     }
   }
 }
