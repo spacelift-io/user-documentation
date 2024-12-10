@@ -49,7 +49,7 @@ Note: It is possible to stop the queued actions if you make a mistake by clickin
 
 ### Stacks list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_floating-bar.png)
+![](../assets/screenshots/bulk-actions/floating-bar.png)
 
 When you make a selection on the "Stacks" page you can choose the intended action from the following options:
 
@@ -67,7 +67,7 @@ When you make a selection on the "Stacks" page you can choose the intended actio
 
 ### Stack runs list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_stack-runs.png)
+![](../assets/screenshots/bulk-actions/stack-runs.png)
 
 When you make a selection on the "Stack runs" page you can choose the intended action from the following options:
 
@@ -78,7 +78,7 @@ When you make a selection on the "Stack runs" page you can choose the intended a
 
 ### Runs view available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_runs.png)
+![](../assets/screenshots/bulk-actions/runs.png)
 
 On the "Runs" page all the filtered runs will be available for bulk actions. Once you filter out the items you will see the bulk actions floating bar (if any of the actions are applicable) from the following options:
 
@@ -89,7 +89,7 @@ On the "Runs" page all the filtered runs will be available for bulk actions. Onc
 
 ### Modules list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_modules.png)
+![](../assets/screenshots/bulk-actions/modules.png)
 
 When you make a selection on the "Modules" page you can choose the intended action from the following options:
 
@@ -100,7 +100,7 @@ When you make a selection on the "Modules" page you can choose the intended acti
 
 ### Notifications available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_notifications.png)
+![](../assets/screenshots/bulk-actions/notifications.png)
 
 When you make a selection on the "Notifications" page you can choose the intended action from the following options:
 
@@ -108,7 +108,7 @@ When you make a selection on the "Notifications" page you can choose the intende
 
 ### Private worker pool workers list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_private-worker-pool-workers.png)
+![](../assets/screenshots/bulk-actions/private-worker-pool-workers.png)
 
 When you make a selection on the "Private worker pool workers list" page you can choose the intended action from the following options:
 
@@ -117,7 +117,7 @@ When you make a selection on the "Private worker pool workers list" page you can
 
 ### Worker pool queued runs list available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_worker-pool-queued-runs.png)
+![](../assets/screenshots/bulk-actions/worker-pool-queued-runs.png)
 
 When you make a selection on the "Worker pools queued runs" (public or private) page you can choose the intended action from the following options:
 
@@ -127,7 +127,7 @@ When you make a selection on the "Worker pools queued runs" (public or private) 
 
 ### Run changes view available actions
 
-![](../assets/screenshots/bulk-actions/bulk-actions_run-changes.png)
+![](../assets/screenshots/bulk-actions/run-changes.png)
 
 When you make a selection on the "Run changes" page you can choose the intended action from the following options:
 
