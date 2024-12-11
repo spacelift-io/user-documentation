@@ -14,6 +14,9 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 !!! warning
     Due to a limitation in Azure AD, when you map the teams to spacelift it will only map the IDs of the teams. A workaround would be to rewrite the teams in the [login policy](../../concepts/policy/login-policy.md#rewriting-teams).
 
+!!! warning
+    Due to an Azure AD limitation, if a user is attached to more than 150 groups, this causes Microsoft Entra ID to not send any of the user's group claims.
+
 ## Pre-requisites
 
 - Spacelift account, with access to admin permissions
