@@ -80,7 +80,7 @@ Please select the options that meet your needs and then click the "Add" button.
 
 ![](<../../assets/screenshots/AzureGroupClaim.png>)
 
-As noted at the top of this page, due to a limitation in Azure AD, when you map the teams to Spacelift it will only map the IDs of the teams. This means Spaceilft will recieve the teams ID rather than names and you should specific the permissions to each team ID.
+As noted at the top of this page, due to a limitation in Azure AD, Group ID's will be passed through to Spacelift and not group names, this means that when you setting up your login policies or group mapping, you should map the ID's and now the ground names.
 
 ## Azure AD: Configure App Credentials
 
