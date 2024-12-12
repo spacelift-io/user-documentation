@@ -73,6 +73,15 @@ Click the **Add** button, making sure to enable the **Turn on the Microsoft Grap
 
 ![](<../../assets/screenshots/image (113).png>)
 
+## Azure AD: Add Groups Claim (Optional)
+
+To include group information, you can optionally add the "groups" claim.
+Please select the options that meet your needs and then click the "Add" button.
+
+![](<../../assets/screenshots/AzureGroupClaim.png>)
+
+As noted at the top of this page, due to a limitation in Azure AD, group ID's will be passed through to Spacelift and not group names, this means that when you are setting up your login policies or group mapping, you should map the ID's and not the group names.
+
 ## Azure AD: Configure App Credentials
 
 Navigate to the **Certificates & secrets** section of your application.
