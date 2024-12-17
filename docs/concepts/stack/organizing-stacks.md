@@ -42,7 +42,6 @@ Filtering stacks by state is a very useful mechanism for identifying action item
 
 Note that if no stacks in the account have a particular status at the moment, that status is missing from the list.
 
-
 You can also use our predefined tabs to filter some specific group of states:
 ![](<../../assets/screenshots/stack/list/tab-filters-highlight.png>)
 
