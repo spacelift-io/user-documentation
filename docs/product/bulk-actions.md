@@ -49,7 +49,7 @@ Note: It is possible to stop the queued actions if you make a mistake by clickin
 
 ### Stacks list available actions
 
-![](../assets/screenshots/bulk-actions/floating-bar.png)
+![](../assets/screenshots/stack/list/bulk-actions.png)
 
 When you make a selection on the "Stacks" page you can choose the intended action from the following options:
 
