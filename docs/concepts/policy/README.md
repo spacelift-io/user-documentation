@@ -262,11 +262,7 @@ In order to show you how to work with the policy workbench, we are going to use 
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM.png>)
 
-In order to get to the policy workbench, first click on the Edit button in the upper right hand corner of the policy screen:
-
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM (1).png>)
-
-Then, click on the Show simulation panel link on the right hand side of the screen:
+In order to get to the policy workbench, click on the Show simulation panel link on the right hand side of the screen:
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.19.27 PM.png>)
 
