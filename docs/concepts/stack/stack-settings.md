@@ -24,6 +24,8 @@ Indicates whether changes to the stack can be [applied](../run/tracked.md#applyi
 
 Consider setting it to _true_ if you always do a code review before merging to the tracked branch, and/or want to rely on [plan policies](../policy/terraform-plan-policy.md) to automatically flag potential problems. If each candidate change goes through a meaningful human code review with stack [writers](../policy/stack-access-policy.md#readers-and-writers) as reviewers, having a separate step to confirm deployment may be overkill. You may also want to refer to a [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code review.
 
+[Approval policies](../policy/approval-policy.md) can also be used in tandem with autodeploy or with it off.
+
 ### Autoretry
 
 Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](#vcs-integration-and-repository) conflicting with that change will be reevaluated based on the changed state.
