@@ -4,9 +4,6 @@ description: Integrating Spacelift with Microsoft Teams
 
 # Microsoft Teams
 
-!!! warning
-    [Microsoft has deprecated connectors in favor of workflows](https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook?tabs=newteams%2Cdotnet).  Your existing connectors should still work for some time but you won't be able to create new ones with Microsoft Teams.  Our product team is working on the integration so that it works with Microsoft Teams Workflows and once that's completed we'll add it to the documentation
-
 Microsoft Teams is a Slack alternative and a part of the Microsoft Office 365 suite. It's a chat-based workspace where teams can organize and discuss their work. Many DevOps teams use it to communicate and collaborate on infrastructure and application deployments. Hence, Spacelift has a first-class integration with Microsoft Teams.
 
 The integration creates a [webhook](../webhooks.md) in Spacelift that will send notifications to a Microsoft Teams channel when:
@@ -17,9 +14,11 @@ The integration creates a [webhook](../webhooks.md) in Spacelift that will send 
 
 Based on this configuration, the module will send notifications that look like these:
 
-![Run notification](../../assets/screenshots/msteams-run-state.png)
+![Run pending confirmation notification](../../assets/screenshots/msteams-run-pending.png)
 
-![Version notification](../../assets/screenshots/msteams-module-version.png)
+![Run finished notification](../../assets/screenshots/msteams-run-finished.png)
+
+![Module version notification](../../assets/screenshots/msteams-module-version.png)
 
 ## Prerequisites
 
@@ -27,13 +26,14 @@ In order to set up the integration, you'll to perform some manual steps in Micro
 
 ### In Microsoft Teams
 
-In order to set up the integration, you'll need to create a [Microsoft Teams webhook](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook){: rel="nofollow"} and copy its URL. You can do this by following these steps:
+In order to set up the integration, you'll need to create a [Microsoft Teams workflow](https://support.microsoft.com/en-us/office/create-incoming-webhooks-with-workflows-for-microsoft-teams-8ae491c7-0394-4861-ba59-055e33f75498){: rel="nofollow"} and copy its URL. You can do this by following these steps:
 
-1. Open the channel in which you want to receive notifications from Spacelift.
-2. Click the ellipsis (...) next to the channel name and select **Connectors**
-3. Search for **Incoming Webhook** and click **Configure**.
-4. Click **Add** to create the webhook.
-5. Copy the webhook URL, you'll need it in the next step.
+1. Open the Workflows section.
+2. Start a new workflow.
+3. Use the **Post to a channel when a webhook request is received** template to set up the workflow.
+4. Pick the **Team** and **Channel** where you want to receive the notifications.
+5. Create the workflow.
+6. Copy the webhook URL, you'll need it in the next step.
 
 ### In Spacelift
 
