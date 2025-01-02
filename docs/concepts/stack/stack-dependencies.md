@@ -361,3 +361,14 @@ You might notice the three destructors at the end. They don't do anything yet, b
 - Destroys the grandchild stack (`app`) **and** its resources
 - Destroys the parent stack (`infra`) **and** its resources
 - Finally, destroys the grandparent stack (`vpc`) **and** its resources
+
+## Troubleshooting
+
+If you're adding a large number of data sources to the parent stack and pushing them as an output you might get an error like this:
+```
+argument list too long
+```
+
+This is because one cannot have more than 128kB in any given argument. This is hard-coded in the kernel and difficult to work around.
+
+Depending on your use case it may be possible to work around this issue by using the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md) resources spacelift_mounted_file along with spacelift_run.
