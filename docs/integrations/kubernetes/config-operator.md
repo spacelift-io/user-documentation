@@ -1,7 +1,7 @@
 # Spacelift Configuration Operator
 
 !!! warning
-    The Spacelift Kubernetes Operator is currently in beta. We're actively working on improving it and adding new features. If you encounter any issues or have any feedback, please let us know.
+    The Spacelift Kubernetes Operator support is currently limited. Resources removed from the cluster are not removed in Spacelift.
 
 Spacelift Kubernetes Operator is an open-source ([`spacelift-operator`](https://github.com/spacelift-io/spacelift-operator){: rel="nofollow"}) [Kubernetes operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/){: rel="nofollow"} that allows you to manage Spacelift resources using Kubernetes [Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/){: rel="nofollow"} (CR).
 
