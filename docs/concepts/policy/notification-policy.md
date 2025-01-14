@@ -472,7 +472,7 @@ package spacelift
 import future.keywords.contains
 import future.keywords.if
 
-pull_request contains {"id": run.commit.pull_request_id} if {
+pull_request contains {"commit": run.commit.hash} if {
  run := input.run_updated.run
  run.state == "FINISHED"
 }
@@ -493,9 +493,9 @@ package spacelift
 import future.keywords
 
 pull_request contains {
-"id": run.commit.pull_request_id,
-"body": sprintf("Run %s is %s", [run.id, run.state]),
-"deduplication_key": deduplication_key,
+ "commit": run.commit.hash,
+ "body": sprintf("Run %s is %s", [run.id, run.state]),
+ "deduplication_key": deduplication_key,
 } if {
  run := input.run_updated.run
  deduplication_key := input.run_updated.stack.id
@@ -572,7 +572,7 @@ import future.keywords.contains
 import future.keywords.if
 
 pull_request contains {
- "id": run.commit.pull_request_id,
+ "commit": run.commit.hash,
  "body": body,
 } if {
  stack := input.run_updated.stack
@@ -708,7 +708,10 @@ forgotten contains row if {
 }
 
 # Define a rule to create a pull request object if certain conditions are met.
-pull_request contains {"commit": input.run_updated.run.commit.hash, "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources, importedresources, movedresources, forgottenresources]), "\n\n\n", "\n"), "\n\n", "\n")} if {
+pull_request contains {
+ "commit": input.run_updated.run.commit.hash,
+ "body": replace(replace(concat("\n", [header, addedresources, changedresources, deletedresources, importedresources, movedresources, forgottenresources]), "\n\n\n", "\n"), "\n\n", "\n"),
+ } if {
     input.run_updated.run.state == "FINISHED"  # Ensure the run state is 'FINISHED'.
     input.run_updated.run.type == "PROPOSED"   # Ensure the run type is 'PROPOSED'.
 }
