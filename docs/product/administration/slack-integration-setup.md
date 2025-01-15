@@ -96,3 +96,55 @@ Once it's done, you just need to copy the relevant information from the "Basic I
 Once you have populated your configuration, just run the installer as described in the [installation guide](./install.md#running-the-installer).
 
 After the installation script finishes. You can now go to your self-hosted Spacelift instance, to Settings -> Slack and install the Slack app into your workspace.
+
+## Updating the Slack integration
+
+To update the Slack integration for your self-hosted Spacelift instance:
+
+### 1. Modify the Installer Config
+
+Update the config.json file with the new Slack app details:
+
+```json
+{
+    "slack_config": {
+        "enabled": true,
+        "client_id": "<new client id here>",
+        "client_secret": "<new client secret here>",
+        "signing_secret": "<new signing secret here>"
+    }
+}
+```
+
+### 2. Restart the Server
+
+After updating the configuration: Re-run the install.sh script to apply the changes, please resetart The server ECS service as the configuration is loaded during startup.
+
+Note : If you are using Slack notification policies, ensure the updated channel IDs are reflected in the policies.
+
+## Removing Slack Integration
+
+To remove the Slack integration from your self-hosted Spacelift instance:
+
+### 1. Uninstall the Slack App
+
+Remove the Slack app from your workspace by following Slack's [guide](https://slack.com/intl/en-gb/help/articles/360003125231-Remove-apps-and-customised-integrations-from-your-workspace){: rel="nofollow"}
+
+### 2. Update the Installer Config
+
+Set the Slack configuration in the config.json file to enabled: false and clear the other fields:
+
+```json
+{
+    "slack_config": {
+        "enabled": false,
+        "client_id": "",
+        "client_secret": "",
+        "signing_secret": ""
+    }
+}
+```
+
+### 3. Restart the Server
+
+Re-run the install.sh script to apply the updated configuration. Restart the ECS service to ensure the changes are reflected.
