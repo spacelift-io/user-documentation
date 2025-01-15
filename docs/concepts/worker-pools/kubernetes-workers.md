@@ -623,6 +623,70 @@ spec:
           value: "https://gitlab.myorg.com
 ```
 
+### Controller metrics
+
+The workerpool controller does not expose any metrics by default.
+
+You can set `--metrics-bind-address=:8443` flag to enable them and activate the Prometheus endpoint.
+By default, the controller exposes metrics using HTTPS and a self-signed certificate.
+This endpoint is also protected using RBAC. If you use the helm chart to deploy the controller, you can use the built-in metrics reader role to grant access.
+
+You may also want to use a valid certificate for production workloads. You can mount your cert in the container to the following paths:
+
+```text
+/tmp/k8s-metrics-server/serving-certs/tls.crt
+/tmp/k8s-metrics-server/serving-certs/tls.key
+```
+
+It's also possible to fully disable TLS on the metrics endpoint and ask the controller to export metrics using http. You need to set --metrics-secure=false flag for that.
+
+More information about metrics authentication and TLS config can be found on the [kubebuilder docs](https://book.kubebuilder.io/reference/metrics#by-using-authnauthz-enabled-by-default).
+
+More information about exposed metrics can be found by scrapping the metrics endpoint, see and example below
+
+```shell
+# HELP spacelift_workerpool_controller_worker_creation_duration_seconds Time in seconds needed to create a new worker
+# TYPE spacelift_workerpool_controller_worker_creation_duration_seconds histogram
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="0.5"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="1"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="2"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="4"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="10"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_bucket{le="+Inf"} 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_sum 0
+spacelift_workerpool_controller_worker_creation_duration_seconds_count 0
+# HELP spacelift_workerpool_controller_worker_creation_errors_total Total number of worker creation errors
+# TYPE spacelift_workerpool_controller_worker_creation_errors_total counter
+spacelift_workerpool_controller_worker_creation_errors_total 0
+# HELP spacelift_workerpool_controller_worker_idle_total Number of idle worker
+# TYPE spacelift_workerpool_controller_worker_idle_total gauge
+spacelift_workerpool_controller_worker_idle_total{pool_ulid="01JHFXXPDC6J8XM2VB0M9CS338"} 0
+# HELP spacelift_workerpool_controller_worker_total Total number of workers
+# TYPE spacelift_workerpool_controller_worker_total gauge
+spacelift_workerpool_controller_worker_total{pool_ulid="01JHFXXPDC6J8XM2VB0M9CS338"} 2
+```
+
+#### Helm
+
+If you are using our Helm chart to deploy the controller, you can configure metrics by switching some boolean flags in `values.yml`.
+
+You can check the links in the comments below about how to secure your metrics endpoint.
+
+```yaml
+# The metric service will expose a metrics endpoint that can be scraped by a prometheus instance.
+# This is disabled by default, enable this if you want to enable controller observability.
+metricsService:
+  enabled: false
+  # Enabling secure will also create ClusterRole to enable authn/authz to the metrics endpoint through RBAC.
+  # More details here https://book.kubebuilder.io/reference/metrics#by-using-authnauthz-enabled-by-default
+  # Secure is enabled by default to be consistent with Kubebuilder defaults.
+  #
+  # If you want to avoid cluster roles, you can keep this set to false and configure a NetworkPolicu instead.
+  # An example can be found in Kubebuilder docs here https://github.com/kubernetes-sigs/kubebuilder/blob/d063d5af162a772379a761fae5aaea8c91b877d4/docs/book/src/getting-started/testdata/project/config/network-policy/allow-metrics-traffic.yaml#L2
+  secure: true
+  enableHTTP2: false
+```
+
 ## Scaling a pool
 
 To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
