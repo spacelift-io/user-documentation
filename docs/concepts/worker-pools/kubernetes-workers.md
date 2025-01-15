@@ -143,6 +143,52 @@ Some options for this include:
 
 That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
 
+## Upgrade
+
+Usually, there is nothing special to do for upgrading the controller.
+
+Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
+
+### Upgrading to 0.0.17
+
+This release changes the way the controller exposes metrics by removing usage of the `kube-rbac-proxy` container.
+
+You can find more context about the reason for this change in the [Kubebuilder repository](https://github.com/kubernetes-sigs/kubebuilder/discussions/3907).
+
+=== "Kubectl"
+    If the controller was installed using compiled Kubernetes manifest using `kubectl apply -f ...`,
+    you should first uninstall the current release before deploying the new one.
+
+    !!! warning
+        The command below will remove CRDs and thus also remove your `WorkerPool` from the cluster.
+        Before running it, make sure that you'll be able to recreate them after the upgrade.
+
+    ```shell
+    # Scale down all your workerpools to zero, and make sure there is no remaining Worker resource in the cluster.
+    # Otherwise the kubectl delete function below will be stuck and you'll have to remove finalizers by hand on Workers.
+    kubectl scale workerpool/${WORKERPOOL_NAME} --replicas 0
+    # If your're using v0.0.16, change the version to the one that is currently deployed in your cluster.
+    kubectl delete -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.16/manifests.yaml
+    ```
+
+    Then you can install the new controller version with the following command.
+
+    ```shell
+    kubectl apply -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.17/manifests.yaml
+    ```
+
+=== "Helm"
+
+    CRDs have been updated in this new version, and Helm does not perform CRDs update for us.
+    So before upgrading to the latest version of the chart, you should execute the following commands to upgrade CRDs.
+
+    ```shell
+    kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/worker-crd.yaml
+    kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/workerpool-crd.yaml
+    ```
+
+    Once done, you can upgrade the chart like usual with `helm upgrade`.
+
 ## Run Containers
 
 When a run assigned to a Kubernetes worker is scheduled by Spacelift, the worker pool controller creates a new Pod to process the run. This Pod consists of the following containers:
