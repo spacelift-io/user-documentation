@@ -75,6 +75,8 @@ job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_B
 
 We upload outputs during the [Apply phase](../run/tracked.md#applying). If you stumble upon the error above, you'll need to make sure that the stack producing the output had a tracked run **with an Apply phase**.
 
+The same applies if you have imported outputs into your stack, they also require an Apply phase in Spacelift. Outputs imported into a stack are only uploaded to the backend during this phase to be available for use as shared outputs. Without this step, the outputs will not propagate correctly.
+
 You can simply do it by adding a dummy output to the stack and removing it afterwards:
 
 ```terraform
@@ -365,7 +367,8 @@ You might notice the three destructors at the end. They don't do anything yet, b
 ## Troubleshooting
 
 If you're adding a large number of data sources to the parent stack and pushing them as an output you might get an error like this:
-```
+
+```terraform
 argument list too long
 ```
 
