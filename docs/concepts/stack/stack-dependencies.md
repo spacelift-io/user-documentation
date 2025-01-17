@@ -368,7 +368,7 @@ You might notice the three destructors at the end. They don't do anything yet, b
 
 ### Error: job assignment failed: the following inputs are missing
 
-This error can occur even if the outputs are already in your state file and also showing under the Outputs tab for the stack in the UI. For the dependencies to be recognized they would need to have been part of a tracked run with an apply phase.
+This error can occur even if the outputs are already in your state file and also showing under the Outputs tab for the stack in the UI. For the dependencies to be recognized the outputs would need to have been part of a tracked run with an apply phase.
 
 ### Error: argument list too long
 
