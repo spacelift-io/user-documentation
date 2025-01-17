@@ -64,7 +64,7 @@ graph TD;
     style storageColor fill:#51cbad
 ```
 
-If you trigger `StorageService` in the above scenario, `Storage` needs to have done a tracked run with an apply phase with produced `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
+If you trigger `StorageService` in the above scenario, `Storage` needs to have done a tracked run with an apply phase producing the output for `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
 
 ```plain
 job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_BUCKET_ARN => TF_VAR_AWS_S3_BUCKET_ARN
