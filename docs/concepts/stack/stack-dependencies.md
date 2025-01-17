@@ -64,7 +64,7 @@ graph TD;
     style storageColor fill:#51cbad
 ```
 
-If you trigger `StorageService` in the above scenario, you need to make sure `Storage` has produced `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
+If you trigger `StorageService` in the above scenario, `Storage` needs to have done a tracked run with an apply phase with produced `TF_VAR_AWS_S3_BUCKET_ARN` already. Otherwise you'll get the following error:
 
 ```plain
 job assignment failed: the following inputs are missing: Storage.TF_VAR_AWS_S3_BUCKET_ARN => TF_VAR_AWS_S3_BUCKET_ARN
@@ -365,6 +365,12 @@ You might notice the three destructors at the end. They don't do anything yet, b
 - Finally, destroys the grandparent stack (`vpc`) **and** its resources
 
 ## Troubleshooting
+
+### Error: job assignment failed: the following inputs are missing
+
+This error can occur even if the outputs are already in your state file and also showing under the Outputs tab for the stack in the UI. For the dependencies to be recognized they would need to have been part of a tracked run with an apply phase.
+
+### Error: argument list too long
 
 If you're adding a large number of data sources to the parent stack and pushing them as an output you might get an error like this:
 
