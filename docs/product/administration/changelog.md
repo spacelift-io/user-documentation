@@ -4,6 +4,25 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.3.0 and v2.4.0
+
+### Features
+
+- [MFA](../../product/security/mfa.md) - you can now enforce MFA for all users in your organization
+- Stack list redesign - we've revamped the stack list view to make it easier to navigate and manage your stacks
+- Policy templates: quickly create and customize policies using predefined templates
+
+![](../../assets/screenshots/selfhosted_policy_templates.png)
+
+### Fixes
+
+- Fixed an issue where certain API calls failed for newer Bitbucket Datacenter versions (8.19+)
+- Added an option to configure the `limit` query parameter of the [compare commits](https://developer.atlassian.com/server/bitbucket/rest/v905/api-group-repository/#api-api-latest-projects-projectkey-repos-repositoryslug-compare-changes-get){: rel="nofollow"} Bitbucket Datacenter API call. It is set by the `BITBUCKET_AFFECTED_CHANGES_PER_PAGE_FILES` environment variable.
+
+### Internal
+
+- The DB migrations will run during the application startup, instead of the installation script initiating it
+
 ## Changes between v2.2.0 and v2.3.0
 
 ### Features
