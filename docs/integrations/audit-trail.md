@@ -32,7 +32,7 @@ Logs are kept for 30 days.
 
 ## Webhook Setup
 
-In order to set up the audit trail, navigate to the Audit trail section of your account settings and choosing the _configuration_ tab, and click the _Set up_ button:
+In order to set up webhooks for audit events, navigate to the Audit trail section of your account settings and choosing the _configuration_ tab, and click the _Set up_ button:
 
 ![](<../assets/screenshots/audit-trail-page.png>)
 
