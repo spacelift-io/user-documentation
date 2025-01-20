@@ -118,7 +118,7 @@ Update the config.json file with the new Slack app details:
 
 ### 2. Restart the Server
 
-After updating the configuration: Re-run the install.sh script to apply the changes, please resetart The server ECS service as the configuration is loaded during startup.
+After updating the configuration, re-run the install.sh script to apply the changes. Once the installer finishes, please restart the server ECS service as the configuration is loaded during startup.
 
 Note : If you are using Slack notification policies, ensure the updated channel IDs are reflected in the policies.
 
