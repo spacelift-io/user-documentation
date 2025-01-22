@@ -368,7 +368,7 @@ You might notice the three destructors at the end. They don't do anything yet, b
 
 ### Error: job assignment failed: the following inputs are missing
 
-This error can occur even if the outputs are already in your state file and also showing under the Outputs tab for the stack in the UI. For the dependencies to be recognized the outputs would need to have been part of a tracked run with an apply phase.
+This error occurs when the outputs were not part of an apply phase in Spacelift, this includes if the outputs are available in your state file and visible under the Outputs tab. For the output references to be available, the outputs need to have been part of a tracked run with an apply phase. You can read more about this [here](https://support.spacelift.io/articles/2553817041-troubleshooting-stack-dependencies-and-output-issues){: rel="nofollow"}.
 
 ### Error: argument list too long
 
