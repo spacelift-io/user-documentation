@@ -198,6 +198,39 @@ This takes you to the policy creation screen where you can choose the type of po
 
 Once you're done, click on the _Create policy_ button to save it. Don't worry, policy body is mutable so you'll always be able to edit it if need be.
 
+### Policy structure
+
+We prepend variable definitions to each policy. These variables can be different for each type, but the prepended code is very similar. Here's an example for the [Approval](approval-policy.md) policy:
+
+```opa
+package spacelift
+
+# This is what Spacelift will query for when evaluating policies.
+result = {
+  "approve": approve,
+  "reject": reject,
+  "flag": flag,
+  "sample": sample,
+}
+
+# Default to ensure that "approve" is defined.
+default approve = false
+
+# Default to ensure that "reject" is defined.
+default reject = false
+
+# Default to ensure that "sample" is defined.
+default sample = false
+
+# Placeholder to ensure that "flag" will be a set.
+flag["never"] {
+  false
+}
+```
+
+!!! warning
+    Remember that you can't change predefined variable types. Doing so will result in a policy validation error and the policy won't be saved.
+
 ## Attaching policies
 
 ### Automatically
