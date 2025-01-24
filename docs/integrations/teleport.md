@@ -175,7 +175,7 @@ spec:
 This role grants access to create, update, delete, and list a number of Teleport
 resources. You may wish to remove resources that you do not intend to configure
 with Terraform from this list to reduce blast radius. See the [Teleport Role
-Reference](https://goteleport.com/docs/access-controls/reference/#rbac-for-dynamic-teleport-resources)
+Reference](https://goteleport.com/docs/reference/access-controls/roles/#rbac-for-dynamic-teleport-resources)
 for the dynamic resources you can grant access to in a Teleport role.
 
 Create this role by applying the manifest:
