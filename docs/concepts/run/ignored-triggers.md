@@ -1,6 +1,6 @@
-# Ignored run triggers
+# Ignored run warnings
 
-Ignored run triggers will help you identify why a run has not been triggered when a commit is pushed to your repository.
+Ignored run warnings will help you identify why a run has not been triggered when a commit is pushed to your repository.
 
 A run can be ignored because of the following reasons:
 
@@ -31,6 +31,6 @@ In case you want to re-enable it, you can find a toggle in your personal setting
 If you want to go back in time and try to understand why a run has not been triggered, you can open the Ignored runs tab.
 
 !!! info
-    The retention period for those ignored runs is currently **7 days**.
+    The retention period for those ignored runs is **7 days**.
 
 ![](../../assets/screenshots/run/ignored-triggers-list.png)
