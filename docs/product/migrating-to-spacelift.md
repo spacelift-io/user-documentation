@@ -21,8 +21,8 @@ The migration process is as follows:
 
 ## Prerequisites
 
-- [Python](https://www.python.org/downloads/) 3.10 or newer
-- [Poetry](https://python-poetry.org/)
+- [Python](https://www.python.org/downloads/) 3.13.1 or newer
+- [Poetry](https://python-poetry.org/) 2.0.1 or newer
 
 ## Installation
 
@@ -31,7 +31,7 @@ The migration process is as follows:
   methods in GitHub).
 - Go to the Migration Kit folder: `spacelift-migration-kit`.
 - Install the Python dependencies and the `spacemk` command in a Python virtual environment: `poetry install`.
-- Activate the Python virtual environment: `poetry shell`.
+- Activate the Python virtual environment: `$(poetry env activate)`.
 
 ## Usage
 
@@ -305,6 +305,25 @@ git rebase upstream/main
 ```
 
 There should not be any conflicts if you keep your modifications in the `custom` folder, but if there are, solve them as usual.
+
+## Using NonVCS Workspaces
+
+Spacelift requires a VCS provider to create a stack. However, you can migrate a non-VCS (cli driven) workspace to spacelift using the `spacemk update-vcs-config` command.
+This command will read a CSV that tells spacemk "this workspace is a non-VCS workspace and in spacelift should point at this repository".
+
+Before using the `generate` command, you need to create the csv that will tie workspaces to repositories in git. In the migration kit repo, there is a `vcs_config.csv` file that you can use as a template.
+Fill this CSV out for all non-vcs repositories and then run `spacemk update-vcs-config` to update the stack configurations. Once this is complete, you can run the `generate` command as usual and you will see that the stacks are now pointing to the provided repository.
+
+### vcs_config.csv
+
+The VCS Config CSV file must include the following headers:
+
+- `WorkspaceName` is the name of the workspace in your source TACOS provider.
+- `ProjectRoot` is the path to the project root your workspace should use.
+- `Branch` is the branch that the workspace should use.
+- `Namespace` is, generally, the organization or user that owns the repository. For example, if im using a repository in the spacelift-io GitHub organization, the namespace would be `spacelift-io`.
+- `RepoName` is the name of the repository.
+- `VCSProvider` is one of `gitlab`, `bitbucket` or `github_enterprise` depending on the provider you are using. Can also be unset if using the default VCS integration.
 
 ## Uninstallation
 
