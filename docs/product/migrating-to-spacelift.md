@@ -31,7 +31,7 @@ The migration process is as follows:
   methods in GitHub).
 - Go to the Migration Kit folder: `spacelift-migration-kit`.
 - Install the Python dependencies and the `spacemk` command in a Python virtual environment: `poetry install`.
-- Activate the Python virtual environment: `poetry shell`.
+- Install the poetry shell plugin `pipx inject poetry poetry-plugin-shell` and activate the Python virtual environment: `poetry shell`.
 
 ## Usage
 
