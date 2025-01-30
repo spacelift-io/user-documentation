@@ -143,6 +143,7 @@ stack:
   auto_deploy: false
   auto_retry: false
   local_preview_enabled: true
+  secret_masking_enabled: true
   protect_from_deletion: false
   runner_image: public.ecr.aws/mycorp/spacelift-runner:latest
   worker_pool: 01GQ29K8SYXKZVHPZ4HG00BK2E
@@ -179,6 +180,7 @@ stack:
             "a": "b"
           }
         description: This is the configuration of x feature
+        secret: true
   hooks:
     apply:
       before: ["sh", "-c", "echo 'before apply'"]
@@ -227,12 +229,14 @@ stack:
     # Note that this is just the name of the repository, not the full URL
     repository: my-repository
     provider: GITHUB_ENTERPRISE # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS, RAW_GIT
+    repository_url: "https://github.com/my-namespace/my-repository" # This is only needed for RAW_GIT provider
   vendor:
     terraform:
       manage_state: ${{ inputs.manage_state }}
       version: ${{ inputs.tf_version }}
       workspace: workspace-${{ inputs.environment }}
       use_smart_sanitization: ${{ inputs.environment != 'prod' }}
+      workflow_tool: OPEN_TOFU # Could be TERRAFORM_FOSS, OPEN_TOFU or CUSTOM
     ansible:
       playbook: playbook.yml
     cloudformation:
@@ -250,6 +254,7 @@ stack:
       terraform_version: "1.5.7"
       terragrunt_version: "0.55.0"
       use_run_all: true
+      terragrunt_tool: OPEN_TOFU # Could be OPEN_TOFU, TERRAFORM_FOSS or MANUALLY_PROVISIONED
 ```
 
 {% endraw %}
@@ -631,7 +636,9 @@ For simplicity, here is the current schema, but it might change in the future:
     "title": "Blueprint",
     "type": "object",
     "additionalProperties": false,
-    "required": ["stack"],
+    "required": [
+        "stack"
+    ],
     "properties": {
         "inputs": {
             "$ref": "#/definitions/inputs"
@@ -655,7 +662,10 @@ For simplicity, here is the current schema, but it might change in the future:
             "oneOf": [
                 {
                     "additionalProperties": false,
-                    "required": ["id", "name"],
+                    "required": [
+                        "id",
+                        "name"
+                    ],
                     "properties": {
                         "id": {
                             "type": "string"
@@ -668,9 +678,15 @@ For simplicity, here is the current schema, but it might change in the future:
                         },
                         "default": {
                             "oneOf": [
-                                { "type": "string" },
-                                { "type": "number" },
-                                { "type": "boolean" }
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
                             ]
                         },
                         "type": {
@@ -688,7 +704,12 @@ For simplicity, here is the current schema, but it might change in the future:
                 },
                 {
                     "additionalProperties": false,
-                    "required": ["id", "name", "type", "options"],
+                    "required": [
+                        "id",
+                        "name",
+                        "type",
+                        "options"
+                    ],
                     "properties": {
                         "id": {
                             "type": "string"
@@ -701,14 +722,22 @@ For simplicity, here is the current schema, but it might change in the future:
                         },
                         "default": {
                             "oneOf": [
-                                { "type": "string" },
-                                { "type": "number" },
-                                { "type": "boolean" }
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
                             ]
                         },
                         "type": {
                             "type": "string",
-                            "enum": ["select"]
+                            "enum": [
+                                "select"
+                            ]
                         },
                         "options": {
                             "type": "array",
@@ -724,7 +753,12 @@ For simplicity, here is the current schema, but it might change in the future:
         "stack": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["name", "space", "vcs", "vendor"],
+            "required": [
+                "name",
+                "space",
+                "vcs",
+                "vendor"
+            ],
             "properties": {
                 "name": {
                     "type": "string",
@@ -762,6 +796,9 @@ For simplicity, here is the current schema, but it might change in the future:
                 },
                 "runner_image": {
                     "type": "string"
+                },
+                "secret_masking_enabled": {
+                    "type": "boolean"
                 },
                 "space": {
                     "type": "string",
@@ -838,7 +875,11 @@ For simplicity, here is the current schema, but it might change in the future:
                     "oneOf": [
                         {
                             "additionalProperties": false,
-                            "required": ["branch", "provider", "repository"],
+                            "required": [
+                                "branch",
+                                "provider",
+                                "repository"
+                            ],
                             "properties": {
                                 "branch": {
                                     "type": "string",
@@ -881,7 +922,11 @@ For simplicity, here is the current schema, but it might change in the future:
                         },
                         {
                             "additionalProperties": false,
-                            "required": ["branch", "provider", "repository_url"],
+                            "required": [
+                                "branch",
+                                "provider",
+                                "repository_url"
+                            ],
                             "properties": {
                                 "branch": {
                                     "type": "string",
@@ -898,7 +943,9 @@ For simplicity, here is the current schema, but it might change in the future:
                                 },
                                 "provider": {
                                     "type": "string",
-                                    "enum": ["RAW_GIT"]
+                                    "enum": [
+                                        "RAW_GIT"
+                                    ]
                                 },
                                 "repository": {
                                     "type": "string",
@@ -935,6 +982,9 @@ For simplicity, here is the current schema, but it might change in the future:
                         },
                         "terraform": {
                             "$ref": "#/definitions/terraform_vendor"
+                        },
+                        "terragrunt": {
+                            "$ref": "#/definitions/terragrunt_vendor"
                         }
                     }
                 }
@@ -973,7 +1023,11 @@ For simplicity, here is the current schema, but it might change in the future:
         "aws_attachment": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "read", "write"],
+            "required": [
+                "id",
+                "read",
+                "write"
+            ],
             "properties": {
                 "id": {
                     "type": "string"
@@ -989,7 +1043,12 @@ For simplicity, here is the current schema, but it might change in the future:
         "azure_attachment": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id", "read", "write", "subscription_id"],
+            "required": [
+                "id",
+                "read",
+                "write",
+                "subscription_id"
+            ],
             "properties": {
                 "id": {
                     "type": "string"
@@ -1008,7 +1067,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "context": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["id"],
+            "required": [
+                "id"
+            ],
             "properties": {
                 "id": {
                     "type": "string"
@@ -1022,7 +1083,10 @@ For simplicity, here is the current schema, but it might change in the future:
         "mounted_file": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["path", "content"],
+            "required": [
+                "path",
+                "content"
+            ],
             "properties": {
                 "path": {
                     "type": "string"
@@ -1041,7 +1105,10 @@ For simplicity, here is the current schema, but it might change in the future:
         "variable": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["name", "value"],
+            "required": [
+                "name",
+                "value"
+            ],
             "properties": {
                 "name": {
                     "type": "string"
@@ -1093,14 +1160,17 @@ For simplicity, here is the current schema, but it might change in the future:
         "drift_detection_schedule": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["cron", "reconcile"],
+            "required": [
+                "cron",
+                "reconcile"
+            ],
             "properties": {
                 "cron": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/cron_schedule"
-                    },
-                    "maxLength": 1
+                        "$ref": "#/definitions/cron_schedule",
+                        "maxLength": 1
+                    }
                 },
                 "reconcile": {
                     "type": "boolean"
@@ -1116,13 +1186,21 @@ For simplicity, here is the current schema, but it might change in the future:
         "task_schedule": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["command"],
+            "required": [
+                "command"
+            ],
             "oneOf": [
                 {
-                    "required": ["command", "cron"]
+                    "required": [
+                        "command",
+                        "cron"
+                    ]
                 },
                 {
-                    "required": ["command", "timestamp_unix"]
+                    "required": [
+                        "command",
+                        "timestamp_unix"
+                    ]
                 }
             ],
             "properties": {
@@ -1133,9 +1211,9 @@ For simplicity, here is the current schema, but it might change in the future:
                 "cron": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/cron_schedule"
-                    },
-                    "minLength": 1
+                        "$ref": "#/definitions/cron_schedule",
+                        "minLength": 1
+                    }
                 },
                 "timestamp_unix": {
                     "type": "number",
@@ -1153,7 +1231,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "delete_schedule": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["timestamp_unix"],
+            "required": [
+                "timestamp_unix"
+            ],
             "properties": {
                 "delete_resources": {
                     "type": "boolean"
@@ -1167,7 +1247,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "ansible_vendor": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["playbook"],
+            "required": [
+                "playbook"
+            ],
             "properties": {
                 "playbook": {
                     "type": "string",
@@ -1206,7 +1288,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "kubernetes_vendor": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["namespace"],
+            "required": [
+                "namespace"
+            ],
             "properties": {
                 "namespace": {
                     "type": "string",
@@ -1217,7 +1301,10 @@ For simplicity, here is the current schema, but it might change in the future:
         "pulumi_vendor": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["stack_name", "login_url"],
+            "required": [
+                "stack_name",
+                "login_url"
+            ],
             "properties": {
                 "stack_name": {
                     "type": "string",
@@ -1232,7 +1319,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "terraform_vendor": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["manage_state"],
+            "required": [
+                "manage_state"
+            ],
             "properties": {
                 "version": {
                     "type": "string"
@@ -1252,6 +1341,32 @@ For simplicity, here is the current schema, but it might change in the future:
                         "TERRAFORM_FOSS",
                         "CUSTOM",
                         "OPEN_TOFU"
+                    ]
+                }
+            }
+        },
+        "terragrunt_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "terraform_version": {
+                    "type": "string"
+                },
+                "terragrunt_version": {
+                    "type": "string"
+                },
+                "use_run_all": {
+                    "type": "boolean"
+                },
+                "use_smart_sanitization": {
+                    "type": "boolean"
+                },
+                "terragrunt_tool": {
+                    "type": "string",
+                    "enum": [
+                        "TERRAFORM_FOSS",
+                        "OPEN_TOFU",
+                        "MANUALLY_PROVISIONED"
                     ]
                 }
             }
