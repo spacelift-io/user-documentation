@@ -273,5 +273,5 @@ In progress runs will be the first entries in the list when using the view witho
 
 ### Locally, the run completes in 10 minutes, but on Spacelift, it takes over 30 minutes with no new activity appearing in the logs for the entire 30-minute duration (if debug logging is set to on then only showing Still running... in the logs for that duration).
 
-The issue might be related to the instance size and its CPU limitations. Ensure that your instance is set to unlimited mode if it's burstable. If the CPU utilization remains at 100%, consider scaling up to a larger instance size.
+The issue might be related to the instance size and its CPU limitations. It's advisable to monitor CPU and memory usage and make adjustments as needed.
 
