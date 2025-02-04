@@ -5,7 +5,7 @@ When you are ready to delete your stack, you can do so by navigating to the Stac
 ![](<../../assets/screenshots/stack/settings/stack-deletion_form.png>)
 
 !!! warn
-    Note that, at least currently, resource deletion is not support while using the native Terragrunt support.
+    Resource deletion is not currently supported while using the native Terragrunt support.
 
 ## Deleting Resources Managed by a Stack
 
