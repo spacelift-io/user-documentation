@@ -28,3 +28,7 @@ Terragrunt consumes the mocked outputs and places those values within the plan f
 
 The [run_cmd](https://terragrunt.gruntwork.io/docs/reference/built-in-functions/#run_cmd) function is currently limited to only work with the `--terragrunt-quiet` flag.
 Ensure this flag is included in your command to avoid run failures.
+
+## Resource Deletion
+
+Our Terragrunt support currently does not support resource deletion, either through the Spacelift stack destructor or the "Delete Stack" option in the UI.
