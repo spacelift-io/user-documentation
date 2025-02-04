@@ -82,6 +82,9 @@ Please select the options that meet your needs and then click the "Add" button.
 
 As noted at the top of this page, due to a limitation in Azure AD, group ID's will be passed through to Spacelift and not group names, this means that when you are setting up your login policies or group mapping, you should map the ID's and not the group names.
 
+!!! warning
+    Due to a limitation in Azure AD, If you are a member of over 200 groups, the group information will not be sent. You can read more about this [here](https://learn.microsoft.com/en-us/security/zero-trust/develop/configure-tokens-group-claims-app-roles#group-overages){: rel="nofollow"}.
+
 ## Azure AD: Configure App Credentials
 
 Navigate to the **Certificates & secrets** section of your application.

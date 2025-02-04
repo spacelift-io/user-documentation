@@ -11,6 +11,12 @@
       "headers": {
         "Cookie": "INTERFACELANGUAGE=EN"
       }
+    },
+    {
+      "urls": ["https://jwt.io"],
+      "headers": {
+        "Accept-Language": "en"
+      }
     }
   ],
   "ignorePatterns": [

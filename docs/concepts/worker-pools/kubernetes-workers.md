@@ -149,7 +149,7 @@ Usually, there is nothing special to do for upgrading the controller.
 
 Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
 
-### Upgrading to 0.0.17
+### Upgrading to controller v0.0.17 - or Helm chart v0.33.0
 
 This release changes the way the controller exposes metrics by removing usage of the `kube-rbac-proxy` container.
 
