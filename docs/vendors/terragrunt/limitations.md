@@ -31,4 +31,4 @@ Ensure this flag is included in your command to avoid run failures.
 
 ## Resource Deletion
 
-Our Terragrunt support currently does not support resource deletion, this includes through the Spacelift stack destructor or the "Delete Stack" option in the UI.
+Our Terragrunt support currently does not support resources being deleted during stack deletion, this includes through the Spacelift stack destructor or the "Delete Stack" option in the UI.
