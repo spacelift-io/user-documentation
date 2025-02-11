@@ -250,6 +250,7 @@ Example matches:
 
 - Any directory or file: `**`
 - A directory and all of its content: `dir/*`
+- A directory path and all of its subdirectories and files: `dir/**`
 - Match all files with a specific extension: `dir/*.tf`
 - Match all files that start with a string, end with another and have a predefined number of chars in the middle -- `data-???-report` will match three chars between data and report
 - Match all files that start with a string, and finish with any character from a sequence: `dir/instance[0-9].tf`
