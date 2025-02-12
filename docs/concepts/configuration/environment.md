@@ -65,7 +65,7 @@ The _Spacelift environment_ section lists a special subset of [computed values](
 | TF_VAR_spacelift_repository      | The name of the Version Control System repository                    |
 | TF_VAR_spacelift_run_id          | The Run ID for the current run                                       |
 | TF_VAR_spacelift_run_state       | The state of the current run                                         |
-| TF_VAR_spacelift_run_trigger     | The trigger information of the run                                   |
+| TF_VAR_spacelift_run_trigger     | The trigger information of the run. This could be git or the user.   |
 | TF_VAR_spacelift_run_type        | The type of the current run                                          |
 | TF_VAR_spacelift_space_id        | The ID of the Space that the Stack belongs to                        |
 | TF_VAR_spacelift_stack_branch    | The tracked branch for the stack                                     |
