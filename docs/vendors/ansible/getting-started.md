@@ -20,23 +20,27 @@ Also, please take notice of the [Spacelift runtime config file](https://github.c
 
 In Spacelift, go ahead and click the **Add Stack** button to create a Stack in Spacelift.
 
-In the first tab, you should select the repository you've just forked, as can be seen in the picture.
+In the first step of the stack creation wizard, choose a name for your stack:
 
 ![Configuring the VCS settings.](../../assets/screenshots/ansible/ansible-1-create-new-stack.png)
 
-In the next tab, you should choose the **Ansible** backend. There, fill in the **Playbook** field with the playbook you want to run. In the case of our example, it is _playbook.yml_. You could also configure an option to [skip the planning phase](reference.md#stack-settings), but we will leave that disabled for now.
+In the next step, choose the repository that you have just cloned:
 
-![Configuring the backend settings.](../../assets/screenshots/ansible/ansible-2-configure-backend.png)
+![Choose GitHub repository](../../assets/screenshots/ansible/ansible-2-connect-to-source-code.png)
 
-On the next tab (**Define Behavior**), setting up a runner image with Ansible dependencies is required. You may use your image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible){: rel="nofollow"}. In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): `public.ecr.aws/spacelift/runner-ansible-aws:latest`.
+Next, choose the Ansible vendor, and enter the name of the playbook you want to execute. In the case of our example, it is _playbook.yml_.
+
+![Choose vendor](../../assets/screenshots/ansible/ansible-3-choose-vendor.png)
+
+Next, continue to the _define behavior_ section, and enter a runner image to use. This should point at a container image that contains the version of Ansible you require. You may use your own image (with the Ansible version you choose and all the required dependencies) or use one of our [default ones](https://github.com/spacelift-io/runner-ansible){: rel="nofollow"}. In this example we are using an AWS-based runner image defined in the [runtime configuration file](#initial-setup): `public.ecr.aws/spacelift/runner-ansible-aws:latest`.
 
 If you have a private worker pool you'd like to use, you can specify it there instead of the default public one as well.
 
-Finally, choose a name for your Spacelift Stack on the last page. We'll use _Ansible Example_ again.
+![Define behavior](../../assets/screenshots/ansible/ansible-4-define-behavior.png)
 
-![Naming the Stack.](../../assets/screenshots/ansible/ansible-3-name-stack.png)
+At this stage, you can go ahead and continue to the end of the stack creation wizard and create your stack:
 
-![Our newly created Stack.](../../assets/screenshots/ansible/ansible-4-stack-created.png)
+![Our newly created Stack.](../../assets/screenshots/ansible/ansible-5-stack-created.png)
 
 ## Triggering the Stack
 
