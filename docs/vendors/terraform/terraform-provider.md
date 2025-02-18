@@ -230,6 +230,16 @@ If you want to share data or outputs between stacks, please consider programmati
 !!! info
     Programmatically generated stacks can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
 
+### Generate Terraform code from an existing stack
+
+We have a convenience feature for generating Terraform code from an existing stack. Open the stack, then choose the three dots in the top-right corner and click the "As Terraform code" button.
+
+![](<../../assets/screenshots/generate_tf_code_button.png>)
+
+The resulting code will be displayed in a drawer. It includes all stack settings, as well as environment variables and attached contexts. You can copy it to your clipboard and paste it into your Terraform project.
+
+![](<../../assets/screenshots/generate_tf_code.png>)
+
 ## Boundaries of programmatic management
 
 Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#graphql-schema-s). They allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
