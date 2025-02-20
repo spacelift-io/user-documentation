@@ -426,6 +426,11 @@ spec:
     labels: {}
     annotations: {}
 
+    # customBinariesPath allows you to add additional directories to the start of the path used
+    # by the worker. This allows you to do things like use a custom tool version provided on the
+    # runner image instead of the version downloaded by Spacelift.
+    customBinariesPath: ""
+
     # customInitContainers allow you to define a list of custom init containers to be run before the builtin init one.
     customInitContainers: []
 
@@ -731,6 +736,33 @@ metricsService:
   # An example can be found in Kubebuilder docs here https://github.com/kubernetes-sigs/kubebuilder/blob/d063d5af162a772379a761fae5aaea8c91b877d4/docs/book/src/getting-started/testdata/project/config/network-policy/allow-metrics-traffic.yaml#L2
   secure: true
   enableHTTP2: false
+```
+
+### Custom binaries path
+
+Kubernetes workers download the `spacelift-worker` binary, along with any tools needed for your runs and mount them into a directory called `/opt/spacelift/binaries` in the worker. To ensure that these tools are used, this directory is added to the start of the worker's path.
+
+In some situations you may wish to use your own version of tools that are bundled with the runner image used for your stack. To support this, we provide a `spec.pod.customBinariesPath` option to allow you to customize this.
+
+The following example shows how to configure this:
+
+```yaml
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: test-workerpool
+spec:
+  poolSize: 2
+  token:
+    secretKeyRef:
+      name: test-workerpool
+      key: token
+  privateKey:
+    secretKeyRef:
+      name: test-workerpool
+      key: privateKey
+  pod:
+    customBinariesPath: "/bin" # This will result in "/bin:/opt/spacelift/binaries" being added to the start of the worker's path.
 ```
 
 ## Scaling a pool
