@@ -43,6 +43,8 @@ Published means that the blueprint is ready to be used. You can publish a bluepr
 
 A published blueprint cannot be moved back to draft state. You need to clone the blueprint, edit it and publish it.
 
+You can share published blueprints with other users in your organization. They can create stacks from the blueprint as long as they have the necessary permissions. The shared link will only show the template form, without the editor to make the flow easier. To share the blueprint, click on the `Share` button in the published blueprint view.
+
 ## Permissions
 
 Blueprints permissions are managed by [Spaces](../spaces/README.md). You can only create, update and delete a blueprint in a Space you have **admin** access to but can be read by anyone with **read** access to the Space.
