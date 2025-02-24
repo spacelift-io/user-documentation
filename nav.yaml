@@ -169,6 +169,8 @@ nav:
           - integrations/single-sign-on/backup-credentials.md
       - integrations/webhooks.md
       - integrations/teleport.md
+      - External Integrations:
+          - integrations/external-integrations/servicenow.md
   - 📖 Product:
       - product/notifications.md
       - product/feature-requests.md
