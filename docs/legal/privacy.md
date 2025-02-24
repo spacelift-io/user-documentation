@@ -109,10 +109,11 @@ CA 94063
 
 For GDPR related:
 
+Joanna Jastrzab<br>
 Spacelift<br>
-Podbipięty 47A<br>
-02-737 Warsaw<br>
-Poland
+ul. Nowowiejska 5/9 <br>
+30-052 Cracow <br>
+POLAND
 
 ## 12. How can you review, update, or delete the data we collect from you?
 
