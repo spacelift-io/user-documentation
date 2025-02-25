@@ -391,3 +391,5 @@ package spacelift
 
 trigger[stack.id] { stack := input.stacks[_] }
 ```
+
+Note that the stack would need to be have been triggered once successfully (initialized) prior to module start tracking it. It's also possible to combine this with a tag driven module version release push policy and [here is a link to an example of that.](https://github.com/spacelift-solutions/demo/blob/main/admin/policies.tf){: rel="nofollow"}
