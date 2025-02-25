@@ -7,9 +7,9 @@
 
 ## About the integration
 
-The ServiceNow integration with Spacelift enables seamless automation and management of infrastructure as code by leveraging ServiceNow's service catalog capabilities.
-By integrating Spacelift [Blueprints](../../concepts/blueprint/README.md) with ServiceNow,
-users can create service catalog items that facilitate the provisioning of Spacelift [stacks](../../concepts/stack/README.md) directly from ServiceNow.
+The ServiceNow integration with Spacelift creates a bridge between your infrastructure as code workflows and ServiceNow's enterprise platform.
+This integration enables teams to automate infrastructure provisioning and management tasks directly through ServiceNow,
+maintaining compliance and governance while leveraging Spacelift's powerful infrastructure management capabilities.
 
 ## Setup Guide
 
@@ -48,9 +48,17 @@ To create an integration with ServiceNow in Spacelift, follow these steps:
 
 After completing these steps, Spacelift will create a "REST Message" on the ServiceNow side (found under **System Web Services > Outbound > REST Message**) with the authorization details, which will be used for authentication in Spacelift.
 
-### Attaching Integration to Blueprint
+## Integration Capabilities
 
-The integration itself does not perform any actions until it is explicitly attached to a blueprint. To create a service catalog item, follow these steps:
+### Blueprints
+
+The Blueprint integration creates ServiceNow catalog items that correspond to your Spacelift [Blueprints](../../concepts/blueprint/README.md).
+When a user orders such a catalog item in ServiceNow, it triggers the creation of a new Spacelift [stack](../../concepts/stack/README.md)
+based on the associated blueprint.
+
+#### Attaching Integration to Blueprint
+
+To create a service catalog item using Blueprints, follow these steps:
 
 1. Navigate to **Blueprints**.
 2. Select the blueprint you want to use to create a service catalog item.
