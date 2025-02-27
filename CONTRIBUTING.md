@@ -34,7 +34,7 @@ To tweak the look and feel of the user documentation, you can:
 You can preview changes locally by running `mkdocs serve`. You can use the following command to run this inside a Docker container:
 
 ```shell
-docker run --pull always --rm -it -p 8000:8000 -v ${PWD}:/docs python:$(cat .python-version | tr -d '\n')-alpine sh -c "apk add git && pip install mkdocs && pip install -r /docs/requirements.txt && cd /docs && mkdocs serve -a '0.0.0.0:8000'"
+make run
 ```
 
 > 💡 These commands are [set up](.vscode/tasks.json) as [VS Code tasks](https://code.visualstudio.com/docs/editor/tasks), so you can just run them from the VS Code command palette. Or even better: download the [Task Explorer](https://marketplace.visualstudio.com/items?itemName=spmeesseman.vscode-taskexplorer) extension and you can run them from the sidebar.
