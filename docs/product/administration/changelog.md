@@ -4,6 +4,14 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.4.0 and v2.5.0
+
+### Features
+
+- [Built-in Audit Trails](../../integrations/audit-trail.md) - this aims to provide a faster, easier way to identify and fix issues without needing to reach out for support.
+
+![](../../assets/screenshots/audit-trail-logs.png)
+
 ## Changes between v2.3.0 and v2.4.0
 
 ### Features
