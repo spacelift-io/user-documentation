@@ -32,8 +32,8 @@ The controller may also work with older versions, but we do not guarantee and pr
     ```
 
     !!!warning
-        It is important to use the `--server-side` flag here. The reason is that our CRDs definitions are heavy and
-        contains long description fields. This is causing [issues](https://github.com/kubernetes-sigs/kubebuilder/issues/3460)
+        It is important to use the `--server-side` flag here. The reason is that our CRD definitions
+        contains long field descriptions. This causes the apply to fail, as detailed [in this kubebuilder issue](https://github.com/kubernetes-sigs/kubebuilder/issues/3460),
         because kubernetes sets the `kubectl.kubernetes.io/last-applied-configuration` annotation, and the size of the CRD exceed
         the maximum size of an annotation field.
 
