@@ -12,6 +12,10 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ![](../../assets/screenshots/audit-trail-logs.png)
 
+### Internal
+
+- We've increased the default Postgres version from 13.7 to 13.16 because AWS has deprecated 13.7.
+
 ## Changes between v2.3.0 and v2.4.0
 
 ### Features
