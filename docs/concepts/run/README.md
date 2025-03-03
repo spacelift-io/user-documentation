@@ -98,6 +98,8 @@ Finished is a _passive state_ meaning no operations are performed while a run is
 
 ### Full List of Potential Run States
 
+NONE - The stack is created but no initial runs have been triggered. This is not offically a run state but is listed in the UI for informational purposes.
+
 QUEUED - The run is queued and is either waiting for an available worker or for the stack lock to be released by another run.
 
 CANCELED - The run has been canceled by the user.
