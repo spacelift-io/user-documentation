@@ -97,9 +97,6 @@ To get to the replan screen after the run reaches the unconfirmed state, click o
 
 ![](../../assets/screenshots/run/run-changes-replanning.png)
 
-!!! warning
-    Targeted replan feature is currently in open public beta and is free to use regardless of your pricing plan. Once GA, it will be available as part of our [Enterprise plan](https://spacelift.io/pricing){: rel="nofollow"}.
-
 ### Discarded
 
 Discarded state follows [Unconfirmed](tracked.md#unconfirmed) and indicates that the user did not like the changes detected by the [Planning](proposed.md#planning) phase.
