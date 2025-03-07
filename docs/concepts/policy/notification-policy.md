@@ -565,6 +565,8 @@ You can customize the comment body, even include logs from various run phases by
 - `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
 - `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
 
+These placeholders will only work for pull request comments and not other types of notifications.
+
 ```opa
 package spacelift
 
