@@ -12,7 +12,7 @@ The easiest option is accessing modules from [Amazon S3](https://www.terraform.i
 
 ## Git repositories
 
-Git is by far the most popular external module source. This example will focus on [GitHub](https://www.terraform.io/docs/language/modules/sources.html#github){: rel="nofollow"} as the most popular one, but the advice applies to other VCS providers. In general, Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSL. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
+Git is by far the most popular external module source. This example will focus on [GitHub](https://www.terraform.io/docs/language/modules/sources.html#github){: rel="nofollow"} as the most popular one, but the advice applies to other VCS providers. In general, Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSH. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
 
 ### Using HTTPS
 
