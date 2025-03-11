@@ -24,16 +24,6 @@ To utilize the AWS integration, you need to set up at least one cloud integratio
 
 ## Trust Policy
 
-{% if is_saas() %}
-!!! warning
-    If you get the error `you need to configure trust relationship section in your AWS account` when attaching a cloud integration to a stack, it may be caused by not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled. Please make sure this service is [enabled](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate){: rel="nofollow"} for both the **eu-west-1** and **eu-central-1** (used for disaster recovery failover) regions in your account.
-{% endif %}
-
-{% if is_self_hosted() %}
-!!! warning
-    If you get the error `you need to configure trust relationship section in your AWS account` when attaching a cloud integration to a stack, it may be caused by also not having the [STS (Security Token Service)](https://spacelift.io/blog/aws-sts) enabled in the region that your self hosted was deployed in
-{% endif %}
-
 When setting up a Spacelift AWS Cloud Integration you need to specify the ARN of an IAM Role to use. The Trust Policy for this role must be configured to allow Spacelift to assume the role and generate temporary credentials.
 
 When completing the role assumption, Spacelift will pass extra information in the `ExternalId` attribute, allowing you to optionally add additional layers of security to your role.
@@ -153,7 +143,7 @@ When creating an integration, you will immediately notice that you need to speci
 If you enable the **assume role on worker** option, the role assumption will be performed on your private worker rather than at Spacelift's end. When role assumption on the worker is enabled, you can also optionally specify a custom External ID to use during role assumption.
 
 !!! info
-    **When creating your role in AWS, you need to ensure the role has a trust policy that allows Spacelift to assume the role to generate temporary credentials for runs.** Assuming you are following this guide, you should have configured this in the [previous section](#configure-trust-policy).
+    **When creating your role in AWS, you need to ensure the role has a trust policy that allows Spacelift to assume the role to generate temporary credentials for runs.** Assuming you are following this guide, you should have configured this in the [previous section](#configure-trust-policy). For troubleshooting, refer to the [Troubleshooting Trust Relationship Issues](#troubleshooting-trust-relationship-issues) section.
 
 ### Using the Integration
 
@@ -173,9 +163,6 @@ Click **Attach cloud integration** button, then select the **AWS** option, choos
 
 ![](<../../assets/screenshots/integrations/cloud-providers/aws/attach-integration-step-4.png>)
 
-!!! info
-    Once you have chosen your integration and specified whether it will be used for read or write phases, an example trust relationship statement will be displayed. This shows an example of how to configure your role for use by this exact stack, and based on whether the integration is being attached for read or write phases. This policy statement is provided for convenience only, and you can safely ignore it if you have already configured your trust relationship for your role.
-
 #### Read vs Write
 
 You can attach an AWS integration as read, write or read-write, and you can attach at most two integrations to any single stack. **Read** indicates that this integration will be used during read phases of runs (for example, plans), and **Write** indicates that this integration will be used during write phases of runs (for example, applies).
@@ -186,6 +173,35 @@ If the Cloud Integration has the "Assume Role on Worker" setting disabled, Space
 
 !!! success
     This somewhat counterintuitive extra check is to prevent against malicious takeover of your account by someone who happens to know your AWS account ID, which isn't all that secret, really. The security vulnerability we're addressing here is known as the [_confused deputy problem_](https://en.wikipedia.org/wiki/Confused_deputy_problem){: rel="nofollow"}.
+
+### Troubleshooting Trust Relationship Issues
+
+If you get the error `you need to configure trust relationship section in your AWS account` when attaching a cloud integration to a stack:
+
+![](../../assets/screenshots/integrations/cloud-providers/aws/trust-policy-error.png)
+
+There are a couple of common causes to check.
+
+#### Incorrect or Missing Trust Relationship Policy
+
+The error message in the UI includes a tailored trust relationship policy example. This policy allows Spacelift to assume the IAM role and must be added to the **Trust relationships** section of your role in AWS IAM. Check [previous section](#configure-trust-policy) for more information on how to configure the trust policy.
+
+#### STS (Security Token Service) Not Enabled
+
+{% if is_saas() %}
+This error can occur if the [AWS STS (Security Token Service)](https://spacelift.io/blog/aws-sts) is not enabled in your account.
+
+Make sure STS is enabled in the following regions:
+
+- **eu-west-1**
+- **eu-central-1** (used for disaster recovery failover)
+
+You can enable STS by following [this AWS guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate){: rel="nofollow"}.
+{% endif %}
+
+{% if is_self_hosted() %}
+This error can be caused by STS not being enabled in the AWS region where your Spacelift instance is deployed. Check your region settings and ensure STS is active. Learn more about [AWS STS here](https://spacelift.io/blog/aws-sts).
+{% endif %}
 
 ## Programmatic Setup
 
