@@ -20,9 +20,9 @@ A comparison table of what users with given roles are capable of can be found be
 | Setup SSO                     | ✅                | ❌     | ❌      | ❌      |
 | Setup VCS                     | ✅                | ❌     | ❌      | ❌      |
 | Manage Sessions               | ✅                | ❌     | ❌      | ❌      |
-| Manage Spaces                 | ✅                | ❌     | ❌      | ❌      |
 | Manage Login Policies         | ✅                | ❌     | ❌      | ❌      |
 | Manage Audit Trails           | ✅                | ❌     | ❌      | ❌      |
+| Manage Spaces                 | ✅                | ✅     | ❌      | ❌      |
 | Manage Stack Config Settings  | ✅                | ✅     | ❌      | ❌      |
 | Manage Worker Pools, Contexts | ✅                | ✅     | ❌      | ❌      |
 | Manage Stack Env Vars         | ✅                | ✅     | ✅      | ❌      |
