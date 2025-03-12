@@ -481,6 +481,8 @@ Our GraphQL schema is self-documenting. The best way to view the latest document
 
 You may also view the documentation using a static documentation website generator like [GraphDoc](https://graphdoc.io/preview/?endpoint=https://demo.app.spacelift.io/graphql){: rel="nofollow"}.
 
+Make sure to provide a valid JWT bearer token as described in [Authenticating with the GraphQL API](api.md#authenticating-with-the-graphql-api)
+
 _Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
 
 !!! warning
