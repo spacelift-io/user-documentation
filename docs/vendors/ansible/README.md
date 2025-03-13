@@ -10,6 +10,7 @@ You can find more details in the subpages:
 - [Reference](reference.md)
 - [Using Policies with Ansible stacks](policies.md)
 - [Ansible Galaxy](ansible-galaxy.md)
+- [Configuration Management View](configuration-management.md)
 
 ## Why use Ansible?
 
