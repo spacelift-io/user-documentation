@@ -72,7 +72,7 @@ Here's an example trust policy statement you can use, that allows any stack with
             },
             "Effect": "Allow",
             "Principal": {
-              "AWS": "324880187172"
+              "AWS": "<principal>"
             }
           }
   ]
@@ -81,6 +81,12 @@ Here's an example trust policy statement you can use, that allows any stack with
 
 !!! info
     Be sure to replace **yourSpaceliftAccountName** in the example above with your actual Spacelift account name.
+
+!!! info
+Ensure you replace `<principal>` based on your environment.
+
+    - for [spacelift.io](https://spacelift.io), use `324880187172`.
+    - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
 
 ![Configure a Custom Trust Policy on the IAM Role](<../../assets/screenshots/integrations/cloud-providers/aws/configure-trust-policy.png>)
 
@@ -106,12 +112,18 @@ For example, you may wish to lock down an IAM Role so that it can only be used b
             },
             "Effect": "Allow",
             "Principal": {
-              "AWS": "324880187172"
+              "AWS": "<principal>"
             }
           }
   ]
 }
 ```
+
+!!! info
+    Ensure you replace `<principal>` based on your environment.
+
+    - for [spacelift.io](https://spacelift.io), use `324880187172`.
+    - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
 
 #### Configure Role Permissions
 
@@ -336,7 +348,7 @@ This will generate a trust relationship that looks something like this:
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::324880187172:root"
+                "AWS": "arn:aws:iam::<principal>:root"
             },
             "Action": "sts:AssumeRole",
             "Condition": {
@@ -352,6 +364,12 @@ This will generate a trust relationship that looks something like this:
     ]
 }
 ```
+
+!!! info
+    The value of `<principal>` will be based on your environment.
+
+    - for [spacelift.io](https://spacelift.io), it will be `324880187172`.
+    - for [us.spacelift.io](https://us.spacelift.io), it will be `577638371743`.
 
 ## Is it safe?
 
