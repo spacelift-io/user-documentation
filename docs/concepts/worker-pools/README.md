@@ -112,6 +112,23 @@ Please see [injecting custom commands during instance startup](./docker-based-wo
 
 {% if is_saas() %}
 
+#### Provider Caching
+
+Provider caching is a feature that allows you to cache providers on your private workers.
+It can speed up your runs by avoiding the need to download providers from the internet every time a run is executed.
+Provider caching is supported in Spacelift with a little configuration on the worker side.
+
+To enable provider caching:
+
+1. On the worker itself export the `SPACELIFT_WORKER_EXTRA_MOUNTS` variable (see above) with the path to the directory where the providers will be stored.
+2. In the stack that you want to enable provider caching, set the `TF_PLUGIN_CACHE_DIR` environment variable to the path you specified in the `SPACELIFT_WORKER_EXTRA_MOUNTS` variable.
+3. Enjoy provider caching.
+
+!!! note
+    The extra mounts directory on the host _should_ use some shared storage that is accessible by all workers in the pool. This can be a shared filesystem, a network drive, or a cloud storage service.
+    If you choose not to use a shared storage solution you may run into an instance where the `plan` phase succeeds but the `apply` phase fails due to the provider cache not being available.
+    To avoid this, you can run `tofu init` (if using OpenTofu) as a before apply hook. Which will populate the cache on that node. Generally this should be fine, since once the cache is populated the re-initialization should quick.
+
 ### VCS Agents
 
 !!! tip
@@ -274,4 +291,3 @@ In progress runs will be the first entries in the list when using the view witho
 ### Locally, the run completes in 10 minutes, but on Spacelift, it takes over 30 minutes with no new activity appearing in the logs for the entire 30-minute duration (if debug logging is set to on then only showing Still running... in the logs for that duration).
 
 The issue might be related to the instance size and its CPU limitations. It's advisable to monitor CPU and memory usage and make adjustments as needed.
-
