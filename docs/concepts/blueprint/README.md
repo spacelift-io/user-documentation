@@ -96,6 +96,9 @@ The `Create a stack` button is inactive because the blueprint is in draft state.
 
 Now, let's look at a massive example that covers all the available configuration options:
 
+!!! info
+    Multiple stacks can be created using a single blueprint if `stacks` array is used instead of `stack` object. See the full schema below for more information.
+
 <details> <!-- markdownlint-disable-line MD033 -->
 <summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
 
@@ -134,6 +137,8 @@ inputs:
 options:
   # If true, a tracked run will be triggered right after the stack is created
   trigger_run: true
+  # If true, stack will not be created, useful when using inputs and multi stacks in a single template. 
+  do_not_create: false 
 stack:
   name: ${{ inputs.app }}-{{ inputs.environment }}-stack
   space: root
@@ -644,21 +649,69 @@ For simplicity, here is the current schema, but it might change in the future:
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Blueprint",
     "type": "object",
-    "additionalProperties": false,
-    "required": [
-        "stack"
-    ],
     "properties": {
         "inputs": {
             "$ref": "#/definitions/inputs"
         },
+        "options": {
+            "$ref": "#/definitions/options"
+        },
         "stack": {
             "$ref": "#/definitions/stack"
         },
-        "options": {
-            "$ref": "#/definitions/options"
+        "stacks": {
+            "type": "array",
+            "maxItems": 5,
+            "items": {
+                "$ref": "#/definitions/stackWithKey"
+            }
         }
     },
+    "additionalProperties": false,
+    "allOf": [
+        {
+            "oneOf": [
+                {
+                    "required": [
+                        "stack"
+                    ]
+                },
+                {
+                    "required": [
+                        "stacks"
+                    ]
+                }
+            ]
+        },
+        {
+            "if": {
+                "required": [
+                    "stack"
+                ]
+            },
+            "then": {
+                "not": {
+                    "required": [
+                        "stacks"
+                    ]
+                }
+            }
+        },
+        {
+            "if": {
+                "required": [
+                    "stacks"
+                ]
+            },
+            "then": {
+                "not": {
+                    "required": [
+                        "stack"
+                    ]
+                }
+            }
+        }
+    ],
     "definitions": {
         "inputs": {
             "type": "array",
@@ -996,8 +1049,27 @@ For simplicity, here is the current schema, but it might change in the future:
                             "$ref": "#/definitions/terragrunt_vendor"
                         }
                     }
+                },
+                "options": {
+                    "$ref": "#/definitions/options"
+                },
+                "key": {
+                    "type": "string"
                 }
             }
+        },
+        "stackWithKey": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/stack"
+                },
+                {
+                    "type": "object",
+                    "required": [
+                        "key"
+                    ]
+                }
+            ]
         },
         "attachment": {
             "type": "object",
@@ -1385,6 +1457,9 @@ For simplicity, here is the current schema, but it might change in the future:
             "additionalProperties": false,
             "properties": {
                 "trigger_run": {
+                    "type": "boolean"
+                },
+                "do_not_create": {
                     "type": "boolean"
                 }
             }
