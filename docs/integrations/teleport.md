@@ -13,13 +13,13 @@ You can use Spacelift with the [Teleport](https://goteleport.com/docs/reference/
 resources via GitOps and infrastructure as code. This gives you an audit trail of changes to your Teleport configuration
 and a single source of truth for operators to examine.
 
-This guide shows you how to use the Machine ID agent, `tbot`, to allow the
-Teleport Terraform provider running in a Spacelift stack to configure your
-Teleport cluster.
+This guide shows you how to configure the Teleport Terraform Provider to
+authenticate to a Teleport cluster using Machine ID when running on Spacelift.
 
-In this setup, `tbot` proves its identity to the Teleport Auth Service by
-presenting an ID token signed by Spacelift. This allows `tbot` to authenticate
-with the Teleport cluster without the need for a long-lived shared secret.
+In this setup, the Teleport Terraform Provider proves its identity to the
+Teleport Auth Service by presenting an ID token signed by Spacelift. This
+allows it to authenticate with the Teleport cluster without the need for a
+long-lived shared secret.
 
 While following this guide, you will create a Teleport user and role with no
 privileges in order to show you how to use Spacelift to create dynamic
@@ -29,16 +29,16 @@ resources.
 
 - Access to an Enterprise edition of Teleport running in your environment.
 
-- The Enterprise `tctl` admin tool and `tsh` client tool version >= 15.1.3.
-  
+- The Enterprise `tctl` admin tool and `tsh` client tool version >= 17.3.4.
+
     You can verify the tools you have installed by running the following commands:
 
     ```code
     $ tctl version
-    # Teleport Enterprise v15.1.3 git:v15.1.3-0-gc9d69ba go1.21.8
-    
+    # Teleport Enterprise v17.3.4 git:v15.1.3-0-gc9d69ba go1.21.8
+
     $ tsh version
-    # Teleport v15.1.3 git:v15.1.3-0-gc9d69ba go1.21.8
+    # Teleport v17.3.4 git:v15.1.3-0-gc9d69ba go1.21.8
     ```
 
     You can download these tools by following the appropriate [installation
@@ -54,7 +54,7 @@ resources.
     $ tsh login --proxy=name="teleport.example.com" --user=name="email@example.com"
     $ tctl status
     # Cluster  teleport.example.com
-    # Version  15.1.3
+    # Version  17.3.4
     # CA pin   sha256:abdc1245efgh5678abdc1245efgh5678abdc1245efgh5678abdc1245efgh5678
     ```
 
@@ -133,62 +133,14 @@ example-bot Bot
 
 ## Step 2/3. Create a role and Machine ID bot
 
-Create `example-bot-role.yaml`, which declares a Teleport role that we will
-assign to the bot user for Spacelift. `tbot` generates short-lived credentials
-that grant the user access to this role, allowing Spacelift to manage dynamic
-Teleport resources using Terraform:
-
-```yaml
-kind: role
-version: v5
-metadata:
-  name: example-bot
-spec:
-  allow:
-    rules:
-    - resources:
-      - app
-      - cluster_auth_preference
-      - cluster_networking_config
-      - db
-      - device
-      - github
-      - login_rule
-      - oidc
-      - okta_import_rule
-      - role
-      - saml
-      - session_recording_config
-      - token
-      - trusted_cluster
-      - user
-      verbs:
-      - create
-      - read
-      - update
-      - delete
-      - list
-  deny: {}
-  options: {}
-```
-
-This role grants access to create, update, delete, and list a number of Teleport
-resources. You may wish to remove resources that you do not intend to configure
-with Terraform from this list to reduce blast radius. See the [Teleport Role
-Reference](https://goteleport.com/docs/reference/access-controls/roles/#rbac-for-dynamic-teleport-resources)
-for the dynamic resources you can grant access to in a Teleport role.
-
-Create this role by applying the manifest:
-
-```shell
-$ tctl create -f example-bot-role.yaml
-# role "example-bot" has been created
-```
+Next, we'll create a Machine ID Bot for our Spacelift job to act as. We'll grant
+it the `terraform-provider` role, which automatically grants access to every
+resource supported by the Teleport terraform provider.
 
 Create the bot, specifying the role and token that you have created:
 
 ```shell
-$ tctl bots add example --roles=example-bot --token=example-bot
+$ tctl bots add example --roles=terraform-provider --token=example-bot
 # bot "example" has been created
 ```
 
@@ -203,51 +155,7 @@ While following this step, you will modify your git repo to:
 Before continuing, clone your GitHub repository. In the clone, check out a
 branch from your main branch.
 
-### Configure Spacelift to authenticate as a bot user
-
-Now that the bot has been successfully created, you now need to configure your
-Spacelift stack to authenticate as this bot using `tbot` and then configure
-the Terraform provider to use the credentials produced by `tbot`.
-
-To help with this, Teleport publishes a custom Spacelift container image. This
-image is based on the default image provided by Spacelift but additionally
-includes `tbot`.
-
-Within the repository linked to your Spacelift stack, create
-`.spacelift/config.yaml` to specify the `teleport-spacelift-runner` image and to
-include a `before_init` step that invokes `tbot` to produce credentials:
-
-```yaml
-version: "1"
-stack_defaults:
-  runner_image: public.ecr.aws/gravitational/teleport-spacelift-runner:(=teleport.version=)
-  before_init:
-  - |-
-    tbot start --oneshot \
-      --data-dir=memory:// \
-      --auth-server teleport.example.com:443 \
-      --join-method spacelift \
-      --token example-bot \
-      --destination-dir=/mnt/workspace/tbot-output
-```
-
-Replace:
-
-- `teleport.example.com:443` with the address of your Teleport cluster.
-- `example-bot` with the name of the token you created in the first step.
-
-#### Using multiple stacks in one repository?
-
-If you have multiple Spacelift stacks within a single repository, you should
-note that using `stack_defaults` will apply this configuration to all the
-stacks within the repository.
-
-To avoid this, you can use the `stacks` key instead of `stack_defaults` to
-configure a specific stack. See the
-[Spacelift Runtime configuration documentation](https://docs.spacelift.io/concepts/configuration/runtime-configuration/)
-for more information.
-
-### Declare configuration resources
+### Configure the Terraform Provider
 
 Add the following to a file called `main.tf` to configure the Teleport Terraform
 provider and declare two dynamic resources, a user and role:
@@ -263,8 +171,9 @@ terraform {
 }
 
 provider "teleport" {
-  addr               = "teleport.example.com:443"
-  identity_file_path = "/mnt/workspace/tbot-output/identity"
+  addr        = "teleport.example.com:443"
+  join_method = "spacelift"
+  join_token  = "example-bot"
 }
 
 resource "teleport_role" "terraform_test" {
@@ -294,8 +203,11 @@ resource "teleport_user" "terraform-test" {
 }
 ```
 
-In the `provider` block, change `teleport.example.com:443` to the host and HTTPS
-port of your Teleport Proxy Service.
+In the `provider` block, change:
+
+- `teleport.example.com:443` to the host and HTTPS port of your Teleport Proxy
+  Service.
+- `example-bot` to the name of the join token you created earlier.
 
 Commit your changes and push the branch to GitHub, then open a pull request
 against the `main` branch. (Do not merge it just yet.)
@@ -312,8 +224,9 @@ earlier:
   <img src="../assets/screenshots/teleport-pr-run.png"/>
 </p>
 
-When running `terraform plan`, Spacelift uses the identity file generated by
-`tbot` to authenticate to Teleport.
+When running `terraform plan`, the Teleport Terraform Provider uses Machine ID
+to generate the short-lived credentials necessary to authenticate to the
+Teleport cluster.
 
 Merge the PR, then navigate to your stack and click **Runs**. Click the status
 of the first run, which corresponds to merging your PR, to visit the page for
