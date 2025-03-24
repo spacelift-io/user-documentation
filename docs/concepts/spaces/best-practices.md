@@ -6,8 +6,8 @@ Think of this as your organizational structure for Spacelift: Who needs access t
 ## Plan your space structure
 
 Spaces are a hierarchical structure, with the `root` space at the top.
-You can create as many spaces as you need, and each space can have its own subspaces.
-Subspaces can "inherit" spacelift constructs from their parents, but they can also have their own.
+You can create as many spaces as you need, and each space can have its own child spaces.
+Child spaces can "inherit" spacelift constructs from their parents, but they can also have their own.
 This is a powerful tool for organizing your resources, but it can also be a bit overwhelming if you don’t plan it out.
 
 When planning your space structure, consider the following:
