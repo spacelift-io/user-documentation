@@ -332,18 +332,13 @@ You can configure the following options for the S3 buckets, they are all require
     }
 ```
 
-##### Telemetry
+##### Usage data
 
-You can configure the following options for the telemetry section:
-
-- `automatically_report_usage_data` - you can decide whether you automatically share usage data via our metrics endpoint, or manually by exporting it via Web UI. To enable automatic usage data reporting simply set the variable to `true`.
-
-Exemplary telemetry config:
+You can decide whether you automatically share usage data via our metrics endpoint, or manually by exporting it via Web UI. To enable automatic usage data reporting simply set the `automatically_report_usage_data` variable to `true`.
 
 ```json
-"telemetry": {
-    "automatically_report_usage_data": true
-}
+"automatically_report_usage_data": true,
+... other settings
 ```
 
 #### Identity Provider
