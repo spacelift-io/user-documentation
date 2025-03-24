@@ -220,7 +220,7 @@ the PR you opened.
 You should see a Terraform plan that includes the user and role you defined
 earlier:
 
-!<p align="center">
+<p align="center">
   <img src="../assets/screenshots/teleport-pr-run.png"/>
 </p>
 
