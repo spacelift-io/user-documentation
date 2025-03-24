@@ -332,6 +332,20 @@ You can configure the following options for the S3 buckets, they are all require
     }
 ```
 
+##### Telemetry
+
+You can configure the following options for the telemetry section:
+
+- `automatically_report_usage_data` - you can decide whether you automatically share usage data via our metrics endpoint, or manually by exporting it via Web UI. To enable automatic usage data reporting simply set the variable to `true`.
+
+Exemplary telemetry config:
+
+```json
+"telemetry": {
+    "automatically_report_usage_data": true
+}
+```
+
 #### Identity Provider
 
 Note: When using OIDC, the identity provider _must_ support the `email` scope. Identity providers that do not support the `email` scope are unsupported (Ex. GitHub). For more information, check out our docs on [SSO](../../integrations/single-sign-on/README.md#setting-up-oidc).
