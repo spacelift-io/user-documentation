@@ -35,3 +35,5 @@ This can be done by choosing a new parent in the space's settings:
 This operation affects the whole subtree, because all the children of the space being moved remain its children, so they change their location in the tree as well.
 
 Changing a parent for a space is possible only if after the re-parenting process all the stacks in the whole affected subtree would still be able to access any entities that are attached outside of the subtree, in compliance with the inheritance rules.
+
+By default, only `root` admin users can move spaces. This can be [overwritten in the account settings](./allowing-non-root-admins-to-manage-spaces.md).
