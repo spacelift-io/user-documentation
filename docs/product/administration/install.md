@@ -334,7 +334,11 @@ You can configure the following options for the S3 buckets, they are all require
 
 ##### Usage data
 
-You can decide whether you automatically share usage data via our metrics endpoint, or manually by exporting it via Web UI. To enable automatic usage data reporting simply set the `automatically_report_usage_data` variable to `true`.
+Usage data only involves data related to service operation such as Spacelift object creation and modifications.
+It does not involve any customer data such as object names, policy bodies, or free text fields.
+
+You can decide whether you automatically share usage data via our metrics endpoint, or manually by exporting it via Web UI.
+To enable automatic usage data reporting simply set the `automatically_report_usage_data` variable to `true`.
 
 ```json
 "automatically_report_usage_data": true,
