@@ -42,7 +42,12 @@ You can either choose an existing output value or add one that doesn't exist yet
 
 A stack output can be sensitive or non-sensitive. For example, in Terraform [you can mark an output](https://developer.hashicorp.com/terraform/language/values/outputs#sensitive-suppressing-values-in-cli-output){: rel="nofollow"} `sensitive = true`. Sensitive outputs are being masked in the Spacelift UI and in the logs.
 
-Spacelift will upload sensitive outputs to the server - this is enabled by default on our public worker pool.
+In order for Spacelift to start uploading sensitive outputs to the server you need to enable it explicitly both on the Stack and on the Worker Pool level.
+
+On the Stack level, you can enable it by setting the `Transfer sensitive outputs across dependencies` option to `Enabled`.
+![](../../assets/screenshots/stack-dependencies-upload-sensitive.png)
+
+As for the worker pools it depends whether you are using public or private workers as this is enabled by default on our public worker pool.
 
 On [private worker pools](../../concepts/worker-pools) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
 
