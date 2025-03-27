@@ -45,6 +45,7 @@ A stack output can be sensitive or non-sensitive. For example, in Terraform [you
 In order for Spacelift to start uploading sensitive outputs to the server you need to enable it explicitly both on the Stack and on the Worker Pool level.
 
 On the Stack level, you can enable it by setting the `Transfer sensitive outputs across dependencies` option to `Enabled`.
+
 ![](../../assets/screenshots/stack-dependencies-upload-sensitive.png)
 
 As for the worker pools it depends whether you are using public or private workers as this is enabled by default on our public worker pool.
