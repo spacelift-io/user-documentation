@@ -30,7 +30,7 @@ This list is consistent with the [defaults requested by the Terraform provider](
 
 If you're setting up the integration through the web UI, please go to the _Integrations_ tab in the stack settings page and choose GCP from the list of available integrations. You'll be presented with a form allowing you to customize the list of OAuth scopes for the temporary token we'll generate for each [Run](../../concepts/run/README.md) and [Task](../../concepts/run/task.md):
 
-![](../../assets/screenshots/Edit_stack_·_Spacelift_development.png)
+![](../../assets/screenshots/integrations/cloud-providers/gcp/attach-integration.png)
 
 Once you click _Attach_, the account is generated for you and we display its globally unique email. You'll need this email when [setting up access on the GCP end](gcp.md#setting-up-access-in-gcp).
 
