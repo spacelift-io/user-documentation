@@ -412,6 +412,41 @@ webhook[wbdata] {
 
 Using custom webhook requests also makes it quite easy to integrate Spacelift with any third-party webhook consumer.
 
+#### Including run logs in webhook requests
+
+You can include logs from various run phases in your webhook requests by using placeholders in any value field of the payload (note that placeholders in JSON keys will be ignored):
+
+- `spacelift::logs::initializing` placeholder will be replaced with logs from the [initializing](../run/README.md#initializing) phase
+- `spacelift::logs::preparing` placeholder will be replaced with logs from the [preparing](../run/README.md#preparing) phase
+- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
+- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
+
+Here's an example that includes logs from different phases in the webhook payload:
+
+```opa
+package spacelift
+
+webhook[wbdata] {
+  endpoint := input.webhook_endpoints[_]
+  endpoint.id == "test"
+  wbdata := {
+    "endpoint_id": endpoint.id,
+    "payload": {
+      "initializing": "spacelift::logs::initializing",
+      "preparing": "You can embed the placeholder within text like this: spacelift::logs::preparing",
+      "planning_and_applying": ["The placeholders also work in lists:", "spacelift::logs::planning", "spacelift::logs::applying"],
+    },
+    "method": "PUT",
+    "headers": {
+      "custom-header": "custom",
+    },
+  }
+
+  input.run_updated.run.type == "TRACKED"
+  input.run_updated.run.state == "FINISHED"
+}
+```
+
 #### Custom webhook requests in action
 
 ##### Discord integration
