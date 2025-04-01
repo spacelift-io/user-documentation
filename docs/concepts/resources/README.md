@@ -6,11 +6,11 @@ The Resources view is the result of multiple months of meticulous work understan
 
 ## Stack-level resources
 
-This screen shows you the stack-level resources view. By default, resources are shown on the list.
+This screen shows you the stack-level resources view. By default, resources are grouped to help you understand the structure of each of your infrastructure projects.
 
 ![](<../../assets/screenshots/stack-by-stack.png>)
 
-Resources can be grouped by provider and type. Let's group one of our small stacks by provider:
+Resources can be grouped by provider and type. Let's group by provider:
 
 ![](<../../assets/screenshots/stack-by-provider.png>)
 
@@ -22,11 +22,9 @@ Let's now take a look at this one:
 
 ![](<../../assets/screenshots/stack-by-provider-filter-tls-details.png>)
 
-The panel that is now showing on the right hand side of the Resources view shows the details of a single resource, which is now highlighted using a light blue overlay. On this panel, we see two noteworthy things.
+The panel that is now showing on the right hand side of the Resources view shows the details of a single resource, which is now highlighted using a blue background color. On this panel, we see two noteworthy things.
 
-Starting with the lower right hand corner, we have the vendor-specific representation of the resource. Note how for security purposes all string values are sanitized. In fact, we never get to see them directly - we only see first 7 characters of their checksum. If you know the possible value, you can easily do the comparison. If you don't, then the secret is safe. As a side note, we do not need to sanitize anything with Pulumi because the team there did an exceptional job with regards to secret management:
-
-![](<../../assets/screenshots/resources-pulumi-details.png>)
+Starting with the lower right hand corner, we have the vendor-specific representation of the resource. Note how for security purposes all string values are sanitized. In fact, we never get to see them directly - we only see first 7 characters of their checksum. If you know the possible value, you can easily do the comparison. If you don't, then the secret is safe.
 
 More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our `tls-key`, and click on the ID of the run shown in the _Updated by_ section.
 This will take you to the run in question:
