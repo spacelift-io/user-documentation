@@ -50,3 +50,25 @@ By default we group by stack, giving you the same view as for stack-level resour
 In this view you can also filter and group by different properties.
 
 ![](../../assets/screenshots/resources-account-group-and-filter.png)
+
+## Shared via a link
+
+You can share a resource via a link by clicking the icon in the top-right corner.
+
+![](../../assets/screenshots/stack-by-provider-filter-tls-details-share.png)
+
+The other way is to click on three dots on the table row and choose the _Copy link_ option.
+
+![](../../assets/screenshots/stack-by-provider-filter-tls-share.png)
+
+It's possible from both views - stack-level and account-level.
+
+![](../../assets/screenshots/resources-account-group-and-filter-share.png)
+
+## Add to filters - cell option
+
+On the left side, you can see the filter menu.
+You can also use filters by clicking on the three dots for a column.
+
+![](../../assets/screenshots/resources-account-filter.png)
+![](../../assets/screenshots/resources-account-filter2.png)
