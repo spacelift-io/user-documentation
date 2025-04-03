@@ -35,5 +35,6 @@ Our Terragrunt support currently does not support resources being deleted during
 
 ## Run-all with external dependencies
 
-By default, run-all within a stack that has external dependencies doesn't work as expected because it can't read the state from the dependent stacks.
-We provide a stack label `feature:terragrunt_permit_missing_planfiles`, which allows skipping failed plan read errors. Note that you will still see errors from terraform plan commands in the logs.
+When a Spacelift stack configured with `run-all` points to a module that is not at the root of the Terragrunt module tree, execution may fail due to missing plan files from upstream dependencies.
+This happens because Terragrunt expects to manage the full dependency graph starting from the root module, and cannot correctly resolve external dependencies from a partial context.
+To work around this limitation, you can add the stack label `feature:terragrunt_permit_missing_planfiles`, which allows Terragrunt to skip missing plan file errors. Be aware that you may still see errors from `terraform plan` commands in the logs—these are expected and will not interrupt the workflow.
