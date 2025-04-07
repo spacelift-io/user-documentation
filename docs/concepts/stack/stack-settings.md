@@ -184,11 +184,14 @@ spacectl stack local-preview --id <stack-id>
 This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
 - AWS Access Key Id
+- Azure AD Client Secret
+- Azure Connection Strings (`AccountKey=...`, `SharedAccessSignature=...`)
 - GitHub PAT
 - GitHub Fine-Grained PAT
 - GitHub App Token
 - GitHub Refresh Token
 - GitHub OAuth Access Token
+- JWT tokens
 - Slack Token
 - PGP Private Key
 - RSA Private Key
