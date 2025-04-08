@@ -57,7 +57,7 @@ Some identity providers (eg. [Okta](https://www.okta.com/){: rel="nofollow"}) wi
 
 ### NameID format
 
-The NameID format specifies the format that Spacelift requests user identifiers from your identity provider. The user identifier is used as the Spacelift login, and each unique identifier will count against your seat quota. Some identity providers allow you to configure this format, but certain providers (eg. Azure AD) do not.
+The NameID format specifies the format that Spacelift requests user identifiers from your identity provider. The user identifier is used as the Spacelift login, and each unique identifier will count against your seat quota. Some identity providers allow you to configure this format, but certain providers do not.
 
 If your identity provider does not allow the NameID format to be configured at their end, you can choose from one of the following options:
 
@@ -96,7 +96,7 @@ The following are links to example implementations you can use as a reference/gu
 - [GitLab](./gitlab-oidc-setup-guide.md)
 - [Okta](./okta-oidc-setup-guide.md)
 - [OneLogin](./onelogin-oidc-setup-guide.md)
-- [Azure AD](./azure-ad-oidc-setup-guide.md)
+- [Microsoft Entra ID (formerly Azure Active Directory)](./microsoft-entra-id-oidc-setup-guide.md)
 
 If you can't find your OIDC provider in the list above, don't worry - we do support all OIDC providers as long as they support the email scope and return the user's email. Fortunately, most OIDC providers do.
 
