@@ -4,6 +4,32 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.5.0 and v2.6.0
+
+### Features
+
+- Ignored run warnings: ever wondered why didn't your stack trigger? We've added a new tab on the stack page - **Ignored runs** - that shows you all the ignored runs for the last 7 days. Take a look at the [documentation](../../concepts/run/ignored-triggers.md) for more details.
+- Aggregated VCS checks: if you have multiple stacks tracking the same repository, you can enable the **Aggregate VCS checks** feature in the VCS integration's settings (**Source code** menu) which will allow you to group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit. Documentation: [Azure DevOps](../../integrations/source-control/azure-devops.md#aggregated-checks), [GitHub](../../integrations/source-control/github.md#aggregated-checks), [GitLab](../../integrations/source-control/gitlab.md#aggregated-checks), [Bitbucket Datacenter](../../integrations/source-control/bitbucket-datacenter-server.md#aggregated-checks), [Bitbucket Cloud](../../integrations/source-control/bitbucket-cloud.md#aggregated-checks).
+- [Added native ServiceNow integration](../../integrations/external-integrations/servicenow.md), allowing teams to provision and manage infrastructure directly from ServiceNow using Spacelift Blueprints. This integration enables automated stack creation via ServiceNow catalog items, while maintaining governance through Business Rules and REST Messages. **The feature is still in beta**.
+- Space management improvements: [added a new account-level toggle](../../concepts/spaces/allowing-non-root-admins-to-manage-spaces.md) that allows non-root admins to manage child spaces within their scope. When enabled, non-root admins can create and manage subspaces (with inheritance enforced), while root admins retain control over inheritance settings and overall topology.
+
+### Infrastructure
+
+- Disable XRay: if you wish to disable telemetry in the backend, you can do so by setting the `tracing_enabled` configuration value to `false` in the install script's config file.
+
+```json
+{
+    [...]
+    "account_name": "<account-name>",
+    "aws_region": "<region>",
+    "tracing_enabled": false
+    [...]
+}
+```
+
+- Enabled [AZ rebalancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html){: rel="nofollow"} in the ECS services: availability zone (AZ) rebalancing in Amazon ECS helps maintain high availability by automatically redistributing tasks across multiple AZs when an imbalance is detected, launching tasks in underutilized zones and stopping them in overloaded ones, all while minimizing manual intervention.
+- Cloudwatch log driver mode is now in set to `non-blocking` [with 25MB buffer size](https://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/){: rel="nofollow"}: in the default blocking mode, if CloudWatch Logs is unreachable, container logging can block stdout/stderr and potentially halt the app. To improve resilience, we're opting for non-blocking mode, where logs are buffered in memory (up to max-buffer-size) instead of blocking app execution. If the buffer fills up, logs are dropped, but the app stays available.
+
 ## Changes between v2.4.0 and v2.5.0
 
 ### Features
