@@ -887,6 +887,12 @@ For simplicity, here is the current schema, but it might change in the future:
                             "items": {
                                 "$ref": "#/definitions/variable"
                             }
+                        },
+                        "stack_dependency_references": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dependency_reference"
+                            }
                         }
                     }
                 },
@@ -1053,6 +1059,13 @@ For simplicity, here is the current schema, but it might change in the future:
                 "options": {
                     "$ref": "#/definitions/options"
                 },
+                "depends_on": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
                 "key": {
                     "type": "string"
                 }
@@ -1179,6 +1192,29 @@ For simplicity, here is the current schema, but it might change in the future:
                     "type": "string"
                 },
                 "secret": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "dependency_reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "from_stack",
+                "output"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "from_stack": {
+                    "type": "string"
+                },
+                "output": {
+                    "type": "string"
+                },
+                "trigger_always": {
                     "type": "boolean"
                 }
             }
