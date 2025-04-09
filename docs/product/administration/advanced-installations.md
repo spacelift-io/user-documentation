@@ -21,7 +21,7 @@ Also, see the section on [HTTP Proxies](#http-proxies) if you need to use a prox
 
 ### VPC
 
-The VPC needs to have a CIDR block large enough to run the Spacelift server and drain instances along with the database and a few other networking components. We would recommend using a minimum network prefix of `/27`.
+The VPC needs to have a CIDR block large enough to run the Spacelift server, drain and scheduler instances along with the database and a few other networking components. We would recommend using a minimum network prefix of `/27`.
 
 ### Private Subnets
 
@@ -37,6 +37,7 @@ Security groups need to be created for the following components:
 
 - Drain.
 - Server.
+- Scheduler.
 - Load Balancer.
 - Installation Task.
 - Database.
@@ -66,6 +67,31 @@ DrainSecurityGroup:
         IpProtocol: "-1"
         CidrIp: "0.0.0.0/0"
     VpcId: {Ref: VPC}
+```
+
+#### Scheduler
+
+Needs to be able to access the following components:
+
+- The AWS SQS API.
+- The Spacelift database.
+
+Our default CloudFormation template for the scheduler security group looks like the following, and allows unrestricted egress:
+
+```yaml
+SchedulerSecurityGroup:
+  Type: AWS::EC2::SecurityGroup
+  Properties:
+    GroupName: "scheduler_sg"
+    GroupDescription: "The security group for the Spacelift scheduler service"
+    SecurityGroupEgress:
+    - Description: Unrestricted egress
+      FromPort: 0
+      ToPort: 0
+      IpProtocol: "-1"
+      CidrIp: "0.0.0.0/0"
+    VpcId:
+      Ref: {Ref: VPC}
 ```
 
 #### Server
@@ -154,7 +180,7 @@ InstallationTaskSecurityGroup:
 
 #### Database
 
-The database security group needs to allow inbound access from the server, the drain and installation tasks. Our default CloudFormation template looks like the following:
+The database security group needs to allow inbound access from the server, drain, scheduler and installation tasks. Our default CloudFormation template looks like the following:
 
 ```yaml
 DatabaseSecurityGroup:
@@ -173,6 +199,11 @@ DatabaseSecurityGroup:
         ToPort: 5432
         IpProtocol: "tcp"
         SourceSecurityGroupId: {Ref: ServerSecurityGroup}
+      - Description: "Only accept TCP connections on appropriate port from the scheduler"
+        FromPort: 5432
+        ToPort: 5432
+        IpProtocol: "tcp"
+        SourceSecurityGroupId: {Ref: SchedulerSecurityGroup}
       - Description: "Only accept TCP connections on appropriate port from the installation tasks"
         FromPort: 5432
         ToPort: 5432
@@ -195,6 +226,7 @@ To install Spacelift into a custom VPC, create your VPC along with all the other
         "drain_security_group_id": "sg-045061f7120343acd",
         "load_balancer_security_group_id": "sg-086a38a75894c4fc5",
         "server_security_group_id": "sg-0cb943fd285fc5c85",
+        "scheduler_security_group_id": "sg-0ef464fd834fc5a43",
         "installation_task_security_group_id": "sg-03b9b0e17cce91d3a",
         "database_security_group_id": "sg-0b67dd8ad00e237fd",
         "availability_zones": "eu-west-1a,eu-west-1b,eu-west-1c"

@@ -34,6 +34,10 @@ As of today, both the server and the drain are ECS services running on Fargate. 
 
 ![Spacelift infrastructure](./services-infra.png)
 
+### Scheduler
+
+Scheduler is a service that is responsible for scheduling cron jobs and other periodic tasks (e.g. drift detection triggering). It uses the database as a basis for scheduling and puts messages into an SQS queue for the drain to consume.
+
 ### Worker pool infrastructure
 
 A worker pool is a group of workers that can be used to run workloads. During the startup the worker will attempt to connect to the regional AWS IoT Core broker endpoint and register itself. The drain and the server will then be able to communicate with the worker via AWS IoT Core, specifically via MQTT.
