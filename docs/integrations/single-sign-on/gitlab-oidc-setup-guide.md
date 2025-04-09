@@ -21,15 +21,19 @@ If you'd like to set up the ability to sign in to your Spacelift account using a
 
 ## Configure Account Settings
 
-You'll need to visit the Spacelift account settings page to set up this integration, from the navigation side bar menu, select "Settings."
+Open **Organization settings** for your Spacelift account.
+You can find this panel at the bottom left by clicking the arrow next to your name.
 
-![Click on Settings](../../assets/screenshots/Screen Shot 2022-07-01 at 4.12.30 PM (1).png)
+![Click on Settings](../../assets/screenshots/organization-settings-2025-05-08.png)
 
 ## Setup OIDC
 
-Next, you'll want to click the Set Up box underneath the "OIDC Settings" section. This will expand some configuration we will need to fill out in a few minutes, which we will be obtaining from GitLab. For now **copy the authorized redirect URL** as we will need to provide GitLab this URL when configuring our GitLab application.
+Select **Single Sign-On** under **Authorization**. Click **Set up** under the OIDC section.
 
-![Click on Set Up](../../assets/screenshots/Screen Shot 2022-07-01 at 4.16.00 PM.png)
+The drawer that opens contains the **Authorized redirect URL**, which you will need to copy for your login provider.
+The input fields will be filled later with information from your provider.
+
+![Click on Set Up](../../assets/screenshots/oidc/sso-set-up-oidc-2025-04-08.png)
 
 ## GitLab: Create GitLab Application
 
