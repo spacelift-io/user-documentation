@@ -540,6 +540,8 @@ Maps cannot be used in the `inputs` section, neither can `inputs` be used in the
 
 Example of using maps:
 
+{% raw %}
+
 ```yaml
 inputs:
   - id: env
@@ -575,6 +577,8 @@ stacks:
         manage_state: ${{ maps[inputs.env].manage_state }} 
         version: "1.3.0"
 ```
+
+{% endraw %}
 
 ### Context
 
