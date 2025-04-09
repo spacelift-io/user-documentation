@@ -1336,6 +1336,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#terraform-module" class="md-nav__link">
+    Terraform module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cloudformation-template" class="md-nav__link">
     CloudFormation Template
   </a>
@@ -4035,6 +4042,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#terraform-module" class="md-nav__link">
+    Terraform module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cloudformation-template" class="md-nav__link">
     CloudFormation Template
   </a>
@@ -4214,6 +4228,43 @@
 <p>You need to encode the <em>entire</em> private key using base-64, making it a single line of text. The simplest approach is to just run <code>cat spacelift.key | base64 -w 0</code> in your command line. For Mac users, the command is <code>cat spacelift.key | base64 -b 0</code>.</p>
 </div>
 <p>Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.</p>
+<p>There are two easy ways to deploy workers for self-hosting: either via our Terraform module or via the CloudFormation template that is attached to the installation package.</p>
+<h2 id="terraform-module">Terraform module<a class="headerlink" href="#terraform-module" title="Anchor link to this section">»</a></h2>
+<p>The <a href="https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2" rel="nofollow">terraform-aws-spacelift-workerpool-on-ec2</a> module can be used to deploy an EC2-based worker pool on AWS. The module is originally for our SaaS offering, but it's compatible with self-hosted when providing the <code>selfhosted_configuration</code> variable. For example:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">module</span><span class="w"> </span><span class="nv">&quot;my_workerpool&quot;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v3.0.2&quot;</span>
+
+<span class="w">  </span><span class="nb">secure_env_vars</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">SPACELIFT_TOKEN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.worker_pool_config</span>
+<span class="w">    </span><span class="na">SPACELIFT_POOL_PRIVATE_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.worker_pool_private_key</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="na">min_size</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+<span class="w">  </span><span class="na">max_size</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
+<span class="w">  </span><span class="na">worker_pool_id</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.worker_pool_id</span>
+<span class="w">  </span><span class="na">security_groups</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">var.worker_pool_security_groups</span>
+<span class="w">  </span><span class="na">vpc_subnets</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="nv">var.worker_pool_subnets</span>
+<span class="w">  </span><span class="nb">selfhosted_configuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">s3_uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;s3://spacelift-binaries-123ab/spacelift-launcher&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <h2 id="cloudformation-template">CloudFormation Template<a class="headerlink" href="#cloudformation-template" title="Anchor link to this section">»</a></h2>
 <p>The easiest way to deploy workers for self-hosting is to deploy the CloudFormation template found in <code>cloudformation/workerpool.yaml</code>.</p>
 <h3 id="pseudorandomsuffix">PseudoRandomSuffix<a class="headerlink" href="#pseudorandomsuffix" title="Anchor link to this section">»</a></h3>
