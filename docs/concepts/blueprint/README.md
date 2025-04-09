@@ -532,6 +532,50 @@ inputs:
     default: 1.5
 ```
 
+#### Maps
+
+Maps is an additional object which can be included in the template. The structure of maps is key-value pairs where the value is another map.
+Using maps you can preconfigure specific values in the template and allow users to set them in a determenistic way.
+Maps cannot be used in the `inputs` section, neither can `inputs` be used in the `maps` section.
+
+Example of using maps:
+
+```yaml
+inputs:
+  - id: env
+    name: Env
+    # This type can also be a regular free text input (string)
+    type: select 
+    options:
+      - prod
+      - dev
+
+maps:
+  prod:
+   stack_name: prod-stack 
+   descripiton: This is stack is in production
+   manage_state: true
+  dev:
+   stack_name: dev-stack 
+   descripiton: This is a development stack 
+   manage_state: false
+
+stacks:
+  - key: mystack
+    name: ${{ maps[inputs.env].stack_name }}
+    space: root
+    description: >
+      ${{ maps[inputs.env].descripiton }}
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: ${{ maps[inputs.env].manage_state }} 
+        version: "1.3.0"
+```
+
 ### Context
 
 We also provide an input object called `context`. It contains the following properties:
@@ -656,6 +700,9 @@ For simplicity, here is the current schema, but it might change in the future:
         "options": {
             "$ref": "#/definitions/options"
         },
+        "maps": {
+            "$ref": "#/definitions/maps"
+        },
         "stack": {
             "$ref": "#/definitions/stack"
         },
@@ -713,6 +760,25 @@ For simplicity, here is the current schema, but it might change in the future:
         }
     ],
     "definitions": {
+        "maps": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "boolean"
+                        }
+                    ]
+                }
+            }
+        },
         "inputs": {
             "type": "array",
             "items": {
