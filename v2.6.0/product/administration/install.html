@@ -3519,6 +3519,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    Scheduler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#worker-pool-infrastructure" class="md-nav__link">
     Worker pool infrastructure
   </a>
@@ -4293,6 +4300,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    Scheduler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#worker-pool-infrastructure" class="md-nav__link">
     Worker pool infrastructure
   </a>
@@ -4629,6 +4643,8 @@
 <p>The Spacelift infrastructure has two core parts: the server and the drain. The server is a web application that provides a GraphQL API that serves frontend and every HTTPS request in general. The drain is a worker that processes all asynchronous tasks such as VCS webhooks, run scheduling, worker handling, etc. The drain consumes messages from several SQS queues. The server serves requests through a load balancer.</p>
 <p>As of today, both the server and the drain are ECS services running on Fargate. We have autoscaling set up for the server so ideally you don't need to worry about scaling it.</p>
 <p><img alt="Spacelift infrastructure" src="services-infra.png" /></p>
+<h3 id="scheduler">Scheduler<a class="headerlink" href="#scheduler" title="Anchor link to this section">»</a></h3>
+<p>Scheduler is a service that is responsible for scheduling cron jobs and other periodic tasks (e.g. drift detection triggering). It uses the database as a basis for scheduling and puts messages into an SQS queue for the drain to consume.</p>
 <h3 id="worker-pool-infrastructure">Worker pool infrastructure<a class="headerlink" href="#worker-pool-infrastructure" title="Anchor link to this section">»</a></h3>
 <p>A worker pool is a group of workers that can be used to run workloads. During the startup the worker will attempt to connect to the regional AWS IoT Core broker endpoint and register itself. The drain and the server will then be able to communicate with the worker via AWS IoT Core, specifically via MQTT.</p>
 <p><img alt="Worker" src="worker-infra.png" /></p>

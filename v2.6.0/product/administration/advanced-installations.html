@@ -3562,6 +3562,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    Scheduler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#server" class="md-nav__link">
     Server
   </a>
@@ -4235,6 +4242,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#scheduler" class="md-nav__link">
+    Scheduler
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#server" class="md-nav__link">
     Server
   </a>
@@ -4473,7 +4487,7 @@
 <p>The following sections explain the requirements for each component.</p>
 <p>Also, see the section on <a href="#http-proxies">HTTP Proxies</a> if you need to use a proxy to allow the Spacelift components to make HTTP requests.</p>
 <h3 id="vpc">VPC<a class="headerlink" href="#vpc" title="Anchor link to this section">»</a></h3>
-<p>The VPC needs to have a CIDR block large enough to run the Spacelift server and drain instances along with the database and a few other networking components. We would recommend using a minimum network prefix of <code>/27</code>.</p>
+<p>The VPC needs to have a CIDR block large enough to run the Spacelift server, drain and scheduler instances along with the database and a few other networking components. We would recommend using a minimum network prefix of <code>/27</code>.</p>
 <h3 id="private-subnets">Private Subnets<a class="headerlink" href="#private-subnets" title="Anchor link to this section">»</a></h3>
 <p>The number of private subnets depends on the number of availability zones you want to deploy Spacelift to.</p>
 <h3 id="public-subnets">Public Subnets<a class="headerlink" href="#public-subnets" title="Anchor link to this section">»</a></h3>
@@ -4483,6 +4497,7 @@
 <ul>
 <li>Drain.</li>
 <li>Server.</li>
+<li>Scheduler.</li>
 <li>Load Balancer.</li>
 <li>Installation Task.</li>
 <li>Database.</li>
@@ -4519,6 +4534,39 @@
 <span class="w">        </span><span class="nt">IpProtocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-1&quot;</span>
 <span class="w">        </span><span class="nt">CidrIp</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0.0.0/0&quot;</span>
 <span class="w">    </span><span class="nt">VpcId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="nv">VPC</span><span class="p p-Indicator">}</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="scheduler">Scheduler<a class="headerlink" href="#scheduler" title="Anchor link to this section">»</a></h4>
+<p>Needs to be able to access the following components:</p>
+<ul>
+<li>The AWS SQS API.</li>
+<li>The Spacelift database.</li>
+</ul>
+<p>Our default CloudFormation template for the scheduler security group looks like the following, and allows unrestricted egress:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">SchedulerSecurityGroup</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWS::EC2::SecurityGroup</span>
+<span class="w">  </span><span class="nt">Properties</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">GroupName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;scheduler_sg&quot;</span>
+<span class="w">    </span><span class="nt">GroupDescription</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;The</span><span class="nv"> </span><span class="s">security</span><span class="nv"> </span><span class="s">group</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">Spacelift</span><span class="nv"> </span><span class="s">scheduler</span><span class="nv"> </span><span class="s">service&quot;</span>
+<span class="w">    </span><span class="nt">SecurityGroupEgress</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unrestricted egress</span>
+<span class="w">      </span><span class="nt">FromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">      </span><span class="nt">ToPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">      </span><span class="nt">IpProtocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;-1&quot;</span>
+<span class="w">      </span><span class="nt">CidrIp</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0.0.0/0&quot;</span>
+<span class="w">    </span><span class="nt">VpcId</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="nv">VPC</span><span class="p p-Indicator">}</span>
 </code></pre></div></td></tr></table></div>
 <h4 id="server">Server<a class="headerlink" href="#server" title="Anchor link to this section">»</a></h4>
 <p>Needs to be able to access the following components:</p>
@@ -4640,7 +4688,7 @@
 <span class="w">    </span><span class="nt">VpcId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="nv">VPC</span><span class="p p-Indicator">}</span>
 </code></pre></div></td></tr></table></div>
 <h4 id="database">Database<a class="headerlink" href="#database" title="Anchor link to this section">»</a></h4>
-<p>The database security group needs to allow inbound access from the server, the drain and installation tasks. Our default CloudFormation template looks like the following:</p>
+<p>The database security group needs to allow inbound access from the server, drain, scheduler and installation tasks. Our default CloudFormation template looks like the following:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -4662,7 +4710,12 @@
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">DatabaseSecurityGroup</span><span class="p">:</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">DatabaseSecurityGroup</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AWS::EC2::SecurityGroup</span>
 <span class="w">  </span><span class="nt">Properties</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">GroupName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;database_sg&quot;</span>
@@ -4678,6 +4731,11 @@
 <span class="w">        </span><span class="nt">ToPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
 <span class="w">        </span><span class="nt">IpProtocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tcp&quot;</span>
 <span class="w">        </span><span class="nt">SourceSecurityGroupId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="nv">ServerSecurityGroup</span><span class="p p-Indicator">}</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Only</span><span class="nv"> </span><span class="s">accept</span><span class="nv"> </span><span class="s">TCP</span><span class="nv"> </span><span class="s">connections</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">appropriate</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">scheduler&quot;</span>
+<span class="w">        </span><span class="nt">FromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
+<span class="w">        </span><span class="nt">ToPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
+<span class="w">        </span><span class="nt">IpProtocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tcp&quot;</span>
+<span class="w">        </span><span class="nt">SourceSecurityGroupId</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">Ref</span><span class="p">:</span><span class="w"> </span><span class="nv">SchedulerSecurityGroup</span><span class="p p-Indicator">}</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Only</span><span class="nv"> </span><span class="s">accept</span><span class="nv"> </span><span class="s">TCP</span><span class="nv"> </span><span class="s">connections</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">appropriate</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">installation</span><span class="nv"> </span><span class="s">tasks&quot;</span>
 <span class="w">        </span><span class="nt">FromPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
 <span class="w">        </span><span class="nt">ToPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
@@ -4700,7 +4758,8 @@
 <span class="normal">11</span>
 <span class="normal">12</span>
 <span class="normal">13</span>
-<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;vpc_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;use_custom_vpc&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;vpc_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;vpc-091e6f4d35908e7c1&quot;</span><span class="p">,</span>
@@ -4709,6 +4768,7 @@
 <span class="w">        </span><span class="nt">&quot;drain_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-045061f7120343acd&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;load_balancer_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-086a38a75894c4fc5&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;server_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-0cb943fd285fc5c85&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;scheduler_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-0ef464fd834fc5a43&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;installation_task_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-03b9b0e17cce91d3a&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;database_security_group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sg-0b67dd8ad00e237fd&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;availability_zones&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eu-west-1a,eu-west-1b,eu-west-1c&quot;</span>

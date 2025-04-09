@@ -5041,6 +5041,16 @@
 </ul>
 <h3 id="infrastructure">Infrastructure<a class="headerlink" href="#infrastructure" title="Anchor link to this section">»</a></h3>
 <ul>
+<li>Scheduler service: cron jobs are now triggered via a <a href="install.html#scheduler">new ECS service called scheduler</a>. This has no impact on the app functionality, but those who use custom VPCs will need to provide a new config value under <code>vpc_config</code> called <code>scheduler_security_group_id</code>. <strong>Important</strong>: the database security group must be updated as well since the scheduler service needs to access the database. So for custom VPC installations, the required updates are the following:<ul>
+<li>creating a new security group for the scheduler service<ul>
+<li>with no ingress</li>
+<li>an egress record to the database security group</li>
+</ul>
+</li>
+<li>updating the database security group ingress to allow connections from the scheduler security group</li>
+<li>please see the <a href="advanced-installations.html">advanced installations</a> page for code examples</li>
+</ul>
+</li>
 <li>Disable XRay: if you wish to disable telemetry in the backend, you can do so by setting the <code>tracing_enabled</code> configuration value to <code>false</code> in the install script's config file.</li>
 </ul>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
