@@ -30,6 +30,7 @@ You can configure the following resources in a Blueprint:
 {% else %}
 - Attaching [AWS](../../integrations/cloud-providers/aws.md) integrations
 {% endif %}
+- [Dependencies](../stack/stack-dependencies.md)
 - Schedules:
     - [Drift detection](../stack/drift-detection.md)
     - [Task](../stack/scheduling.md#scheduled-task)
@@ -650,6 +651,146 @@ Note that this is not a working example as it misses a few things (`inputs` sect
 
 !!! tip
     What can you do with `google.protobuf.Timestamp` and `google.protobuf.Duration`? Check out the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md#list-of-standard-definitions){: rel="nofollow"}, it contains all the methods and type conversions available.
+
+## Stack configuration
+
+Stacks can be configured in the similar fashion as if you'd be using the terraform provider or the UI.
+Most of the options are straightforward, however some require some deeper knowledge and are covered in the sections below.
+For full list of available options, please refer to the [Schema](#schema) section bellow.
+
+### Dependencies
+
+Dependencies follow the same rules and limitations as described in the [Stack dependencies](../stack/stack-dependencies.md) section. You cannot create dependency cycles, neither can you make a stack depend on itself.
+
+Dependencies can be configured using the:
+
+- `depends_on` field in the stack configuration
+- `stack_dependency_references` field in the environment configuration
+
+You can also mix the two approaches and define both fields in the same stack.
+If you define the same dependency in both `depends_on` and `stack_dependency_references`, the latter will take precedence.
+
+Also note that dependencies are defined on the stack `key` field and not the `name`. The value of this field is not unique
+and can be reused in multiple stacks, however it is recommended to use unique keys for each stack when creating dependencies.
+
+#### Example 1
+
+Here is a example of a blueprint with multiple stacks using the `stack_dependency_references` field:
+
+{% raw %}
+
+```yaml
+inputs:
+  - id: stack_name
+    name: The name of the stack
+
+stacks:
+  - name: ${{ inputs.stack_name }}-1
+    key: stack1
+    space: root
+    environment:
+      stack_dependency_references:
+        - name: TF_VAR_stack3_connection_string
+          from_stack: stack3
+          output: connection_string
+        - name: TF_VAR_stack3_additional_setting
+          from_stack: stack3
+          output: additional_setting 
+        - name: TF_VAR_stack2_connection_string
+          from_stack: stack2
+          output: connection_string
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+
+  - name: ${{ inputs.stack_name }}-2
+    key: stack2
+    space: root
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+
+  - name: ${{ inputs.stack_name }}-3
+    key: stack3
+    space: root
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+```
+
+{% endraw %}
+
+#### Example 2
+
+Here is a example of a blueprint with multiple stacks using the `depends_on` field:
+
+{% raw %}
+
+```yaml
+inputs:
+  - id: stack_name
+    name: The name of the stack
+
+stacks:
+  - name: ${{ inputs.stack_name }}-1
+    key: stack1
+    space: root
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+    depends_on:
+      - stack2
+      - stack3
+
+  - name: ${{ inputs.stack_name }}-2
+    key: stack2
+    space: root
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+    depends_on:
+      - stack3
+
+  - name: ${{ inputs.stack_name }}-3
+    key: stack3
+    space: root
+    vcs:
+      branch: master
+      repository: empty
+      provider: GITHUB
+    vendor:
+      terraform:
+        manage_state: true
+        version: "1.3.0"
+
+```
+
+{% endraw %}
 
 ## Validation
 
