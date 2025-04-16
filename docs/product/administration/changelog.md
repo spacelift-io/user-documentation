@@ -4,6 +4,26 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v2.6.0 and v2.6.1
+
+This release fixes an issue that could cause certain upgrades of existing Self-Hosted installations to fail. The issue was caused by one of our data migrations attempting to access the `allow_non_root_admin_space_creation` column on the `accounts` table before it existed.
+
+This failure could happen if the following scenario was true:
+
+- An upgrade was being performed on a self-hosted instance running v2.3.0 of Self-Hosted or older.
+- The version being upgraded to was v2.4.0 or higher.
+- An audit trail webhook was enabled.
+
+In this situation, the upgrade would fail with the following error messages:
+
+> could not run DB migrations and tasks: could not run migrations: could not migrate the database: failed to update encryption slug for webhook 1: a database constraint for which we have no friendly error message has been violated, we've been notified, reach out to us or wait until we add an error message if you want to know more
+
+And:
+
+> unexpected database error: ERROR: column \"allow_non_root_admin_space_creation\" of relation \"accounts\" does not exist (SQLSTATE 42703): ERROR: column \"allow_non_root_admin_space_creation\" of relation \"accounts\" does not exist (SQLSTATE 42703)
+
+In this scenario, running the v2.6.1 installer should resolve the problem.
+
 ## Changes between v2.5.0 and v2.6.0
 
 ### Features
