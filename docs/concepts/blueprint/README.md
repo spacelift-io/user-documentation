@@ -548,19 +548,19 @@ inputs:
   - id: env
     name: Env
     # This type can also be a regular free text input (string)
-    type: select 
+    type: select
     options:
       - prod
       - dev
 
 maps:
   prod:
-   stack_name: prod-stack 
+   stack_name: prod-stack
    descripiton: This is stack is in production
    manage_state: true
   dev:
-   stack_name: dev-stack 
-   descripiton: This is a development stack 
+   stack_name: dev-stack
+   descripiton: This is a development stack
    manage_state: false
 
 stacks:
@@ -575,7 +575,7 @@ stacks:
       provider: GITHUB
     vendor:
       terraform:
-        manage_state: ${{ maps[inputs.env].manage_state }} 
+        manage_state: ${{ maps[inputs.env].manage_state }}
         version: "1.3.0"
 ```
 
@@ -691,7 +691,7 @@ stacks:
           output: connection_string
         - name: TF_VAR_stack3_additional_setting
           from_stack: stack3
-          output: additional_setting 
+          output: additional_setting
         - name: TF_VAR_stack2_connection_string
           from_stack: stack2
           output: connection_string
@@ -790,9 +790,11 @@ stacks:
 
 ## Validation
 
-We do not validate drafted blueprints; you can do whatever you want with them. However, if you publish your blueprint, we'll make sure it includes the required fields, and you'll get an error if it doesn't.
+### Blueprint Validation
 
-**One caveat**: We cannot validate fields that have variables because we don't know the value of the variable. On the other hand, if you try to create a stack from the blueprint and supply the inputs to the template, we'll be able to do the full validation. Let's say:
+We do not validate drafted blueprints, you can do whatever you want with them. However, if you publish your blueprint, we'll make sure it includes the required fields and you'll get an error if it doesn't.
+
+**One caveat**: we cannot validate fields that have variables because we don't know the value of the variable. On the other hand, if you try to create a stack from the blueprint and supply the inputs to the template, we'll be able to do the full validation. Let's say:
 
 {% raw %}
 
@@ -810,6 +812,55 @@ stack:
 {% endraw %}
 
 We cannot ensure that the input variable is indeed a proper 10-digit epoch timestamp; we will only find out once you supply the actual input.
+
+### Input Validation
+
+You can add validations to your input fields to ensure users provide valid data. The available validations depend on the input type:
+
+#### String Validation
+
+```yaml
+inputs:
+  - id: username
+    name: Username
+    type: short_text
+    validations:
+      required: true
+      min_length: 3
+      max_length: 20
+      pattern: "^[a-zA-Z0-9_]+$"
+```
+
+Available string validations:
+
+- `required`: Boolean indicating if the field must be filled
+- `min_length`: Minimum number of characters
+- `max_length`: Maximum number of characters
+- `length_equal`: Exact number of characters required
+- `pattern`: Regular expression pattern the input must match
+
+#### Number Validation
+
+```yaml
+inputs:
+  - id: age
+    name: Age
+    type: number
+    validations:
+      required: true
+      greater_than: 0
+      less_than_or_equal: 120
+```
+
+Available number validations:
+
+- `required`: Boolean indicating if the field must be filled
+- `greater_than`: Value must be greater than this number
+- `greater_than_or_equal`: Value must be greater than or equal to this number
+- `less_than`: Value must be less than this number
+- `less_than_or_equal`: Value must be less than or equal to this number
+- `not_equal`: Value must not equal this number
+- `step`: For integers, specifies the increment (e.g., step: 2 allows only even numbers)
 
 ### Schema
 
@@ -958,15 +1009,95 @@ For simplicity, here is the current schema, but it might change in the future:
                                 }
                             ]
                         },
+                        "validations": {
+                            "$ref": "#/definitions/string_validations"
+                        },
                         "type": {
                             "type": "string",
                             "enum": [
                                 "short_text",
                                 "long_text",
-                                "secret",
-                                "boolean",
+                                "secret"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "validations": {
+                            "$ref": "#/definitions/number_validations"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
                                 "number",
                                 "float"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "boolean"
                             ]
                         }
                     }
@@ -1692,6 +1823,57 @@ For simplicity, here is the current schema, but it might change in the future:
                         "OPEN_TOFU",
                         "MANUALLY_PROVISIONED"
                     ]
+                }
+            }
+        },
+        "string_validations": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "min_length": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "max_length": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "length_equal": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "pattern": {
+                    "type": "string"
+                }
+            }
+        },
+        "number_validations": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "greater_than": {
+                    "type": "number"
+                },
+                "greater_than_or_equal": {
+                    "type": "number"
+                },
+                "less_than": {
+                    "type": "number"
+                },
+                "less_than_or_equal": {
+                    "type": "number"
+                },
+                "not_equal": {
+                    "type": "number"
+                },
+                "step": {
+                    "type": "integer"
                 }
             }
         },
