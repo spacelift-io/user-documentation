@@ -7,7 +7,7 @@
 
 There are multiple ways to create [stacks](../stack/README.md) in Spacelift. Our recommended way is to use [our Terraform provider](../../vendors/terraform/terraform-provider.md) and programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
 
-However, some users might not be comfortable using Terraform code to create stacks, this is where Blueprints come in handy.
+However, some users might not be comfortable using Terraform code to create stacks. This is where Blueprints come in handy.
 
 ## What is a Blueprint?
 
@@ -17,16 +17,16 @@ You can configure the following resources in a Blueprint:
 
 - All [stack settings](../stack/stack-settings.md) including:
     - Name, description, labels, [Space](../spaces/README.md)
-    - Behavioral settings: administrative, auto-apply, auto-destroy, hooks, runner image etc.
+    - Behavioral settings: administrative, auto-apply, auto-destroy, hooks, runner image, etc.
 - [VCS configuration](../../integrations/source-control/README.md)
     - Both default and Space-level VCS integrations
-- Vendor configuration for your IaaC provider
+- Vendor configuration for your IaC provider
 - [Environment variables](../configuration/environment.md#environment-variables), both non-sensitive and sensitive
 - [Mounted files](../configuration/environment.md#mounted-files)
 - Attaching [Contexts](../configuration/context.md)
 - Attaching [Policies](../policy/README.md)
 {% if is_saas() %}
-- Attaching [AWS](../../integrations/cloud-providers/aws.md), [GCP](../../integrations/cloud-providers/gcp.md) and [Azure](../../integrations/cloud-providers/azure.md) integrations
+- Attaching [AWS](../../integrations/cloud-providers/aws.md), [GCP](../../integrations/cloud-providers/gcp.md), and [Azure](../../integrations/cloud-providers/azure.md) integrations
 {% else %}
 - Attaching [AWS](../../integrations/cloud-providers/aws.md) integrations
 {% endif %}
@@ -38,15 +38,15 @@ You can configure the following resources in a Blueprint:
 
 ## Blueprint states
 
-There are two states: draft and published. Draft is the default state, it means that the blueprint "development" is in progress and not meant to be used. You cannot create a stack from a draft blueprint.
+There are two states: draft and published. Draft is the default state, meaning the blueprint "development" is in progress and not meant to be used. You cannot create a stack from a draft blueprint.
 
 Published means that the blueprint is ready to be used. You can publish a blueprint by clicking the `Publish` button in the UI.
 
-A published blueprint cannot be moved back to draft state. You need to clone the blueprint, edit it and publish it.
+A published blueprint cannot be moved back to draft state. You need to clone the blueprint, edit it, and publish it.
 
-You can share published blueprints with other users in your organization. They can create stacks from the blueprint as long as they have the necessary permissions. To share a blueprint, click on the Share button in the published blueprint view to generate a link. When users navigate to the link, they will be presented with the full screen template form without the blueprint editor.
+You can share published blueprints with other users in your organization. They can create stacks from the blueprint as long as they have the necessary permissions. To share a blueprint, click on the Share button in the published blueprint view to generate a link. When users navigate to the link, they will be presented with the full-screen template form without the blueprint editor.
 
-<p align="center" >
+<p align="center">
     <img src="../../assets/screenshots/blueprints/blueprint-shared.png">
 </p>
 <figure markdown> <!-- markdownlint-disable-line MD033 -->
@@ -55,15 +55,15 @@ You can share published blueprints with other users in your organization. They c
 
 ## Permissions
 
-Blueprints permissions are managed by [Spaces](../spaces/README.md). You can only create, update and delete a blueprint in a Space you have **admin** access to but can be read by anyone with **read** access to the Space.
+Blueprint permissions are managed by [Spaces](../spaces/README.md). You can only create, update, and delete a blueprint in a Space where you have **admin** access, but it can be read by anyone with **read** access to the Space.
 
-Once the blueprint is published and you want to create a stack from it, the **read** access will be enough as long as you have **admin** access to the Space where the stack will be created.
+Once the blueprint is published and you want to create a stack from it, **read** access will be enough as long as you have **admin** access to the Space where the stack will be created.
 
 ## How to create a Blueprint
 
-Choose `Blueprints` on the left menu and click on `Create blueprint`. As of now, we only support YAML format. The template engine will be familiar for those who used GitHub Actions before.
+Choose `Blueprints` on the left menu and click on `Create blueprint`. As of now, we only support YAML format. The template engine will be familiar to those who have used GitHub Actions before.
 
-The absolute minimum you'll need to provide is `name`, `space`, `vcs` and `vendor`; all others are optional. Here's a small working example:
+The absolute minimum you'll need to provide is `name`, `space`, `vcs`, and `vendor`; all others are optional. Here's a small working example:
 
 {% raw %}
 
@@ -86,7 +86,7 @@ stack:
 
 {% endraw %}
 
-<p align="center" >
+<p align="center">
     <img src="../../assets/screenshots/blueprint_preview.png">
 </p>
 <figure markdown> <!-- markdownlint-disable-line MD033 -->
@@ -95,10 +95,10 @@ stack:
 
 The `Create a stack` button is inactive because the blueprint is in draft state. You can publish it by clicking the `Publish` button. After that, you can create a stack from the blueprint.
 
-Now, let's look at a massive example that covers all the available configuration options:
+Now, let's look at a comprehensive example that covers all the available configuration options:
 
 !!! info
-    Multiple stacks can be created using a single blueprint if `stacks` array is used instead of `stack` object. See the full schema below for more information.
+    Multiple stacks can be created using a single blueprint if the `stacks` array is used instead of the `stack` object. See the full schema below for more information.
 
 <details> <!-- markdownlint-disable-line MD033 -->
 <summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
@@ -138,13 +138,13 @@ inputs:
 options:
   # If true, a tracked run will be triggered right after the stack is created
   trigger_run: true
-  # If true, stack will not be created, useful when using inputs and multi stacks in a single template. 
-  do_not_create: false 
+  # If true, the stack will not be created, useful when using inputs and multiple stacks in a single template.
+  do_not_create: false
 stack:
   name: ${{ inputs.app }}-{{ inputs.environment }}-stack
   space: root
   # The single-quote is needed to avoid YAML parsing errors since the question mark
-  # and the colon is a reserved character in YAML.
+  # and the colon are reserved characters in YAML.
   description: '${{ inputs.environment == "prod" ? "Production stack" : "Non-production stack" }}. Stack created at ${{ string(context.time) }}.'
   is_disabled: ${{ inputs.environment != 'prod' }}
   labels:
@@ -183,7 +183,7 @@ stack:
     variables:
       - name: MY_ENV_VAR
         value: my-env-var-value
-        description: This is my non-encrypted env var
+        description: This is my non-encrypted environment variable
       - name: TF_VAR_CONNECTION_STRING
         value: ${{ inputs.connstring }}
         description: The connection string to the database
@@ -251,7 +251,7 @@ stack:
       version: ${{ inputs.tf_version }}
       workspace: workspace-${{ inputs.environment }}
       use_smart_sanitization: ${{ inputs.environment != 'prod' }}
-      workflow_tool: OPEN_TOFU # Could be TERRAFORM_FOSS, OPEN_TOFU or CUSTOM
+      workflow_tool: OPEN_TOFU # Could be TERRAFORM_FOSS, OPEN_TOFU, or CUSTOM
     ansible:
       playbook: playbook.yml
     cloudformation:
@@ -269,7 +269,7 @@ stack:
       terraform_version: "1.5.7"
       terragrunt_version: "0.55.0"
       use_run_all: true
-      terragrunt_tool: OPEN_TOFU # Could be OPEN_TOFU, TERRAFORM_FOSS or MANUALLY_PROVISIONED
+      terragrunt_tool: OPEN_TOFU # Could be OPEN_TOFU, TERRAFORM_FOSS, or MANUALLY_PROVISIONED
 ```
 
 {% endraw %}
@@ -278,7 +278,7 @@ stack:
 
 As you noticed if we attach an existing resource to the stack (such as Worker Pool, Cloud integration, Policy or Context) we use the unique identifier of the resource. Typically, there is a button for it in the UI but you can also find it in the URL of the resource.
 
-<p align="center" >
+<p align="center">
     <img src="../../assets/screenshots/resource_ids.jpg">
 </p>
 <figure markdown> <!-- markdownlint-disable-line MD033 -->
@@ -647,35 +647,31 @@ stack:
       timestamp_unix: 1674139424 # Delete the stack in 30 minutes
 ```
 
-Note that this is not a working example as it misses a few things (`inputs` section, `vcs` etc.), but it should give you an idea of what you can do.
+Note that this is not a working example as it is missing a few things (`inputs` section, `vcs`, etc.), but it should give you an idea of what you can do.
 
 !!! tip
-    What can you do with `google.protobuf.Timestamp` and `google.protobuf.Duration`? Check out the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md#list-of-standard-definitions){: rel="nofollow"}, it contains all the methods and type conversions available.
+    What can you do with `google.protobuf.Timestamp` and `google.protobuf.Duration`? Check out the [language definition](https://github.com/google/cel-spec/blob/v0.7.1/doc/langdef.md#list-of-standard-definitions){: rel="nofollow"}, which contains all the methods and type conversions available.
 
-## Stack configuration
+## Stack Configuration
 
-Stacks can be configured in the similar fashion as if you'd be using the terraform provider or the UI.
-Most of the options are straightforward, however some require some deeper knowledge and are covered in the sections below.
-For full list of available options, please refer to the [Schema](#schema) section bellow.
+Stacks can be configured in a similar fashion as if you were using the Terraform provider or the UI. Most of the options are straightforward; however, some require deeper knowledge and are covered in the sections below. For a full list of available options, please refer to the [Schema](#schema) section below.
 
 ### Dependencies
 
-Dependencies follow the same rules and limitations as described in the [Stack dependencies](../stack/stack-dependencies.md) section. You cannot create dependency cycles, neither can you make a stack depend on itself.
+Dependencies follow the same rules and limitations as described in the [Stack dependencies](../stack/stack-dependencies.md) section. You cannot create dependency cycles, nor can you make a stack depend on itself.
 
 Dependencies can be configured using the:
 
 - `depends_on` field in the stack configuration
 - `stack_dependency_references` field in the environment configuration
 
-You can also mix the two approaches and define both fields in the same stack.
-If you define the same dependency in both `depends_on` and `stack_dependency_references`, the latter will take precedence.
+You can also mix the two approaches and define both fields in the same stack. If you define the same dependency in both `depends_on` and `stack_dependency_references`, the latter will take precedence.
 
-Also note that dependencies are defined on the stack `key` field and not the `name`. The value of this field is not unique
-and can be reused in multiple stacks, however it is recommended to use unique keys for each stack when creating dependencies.
+Also note that dependencies are defined on the stack `key` field and not the `name`. The value of this field is not unique and can be reused in multiple stacks; however, it is recommended to use unique keys for each stack when creating dependencies.
 
 #### Example 1
 
-Here is a example of a blueprint with multiple stacks using the `stack_dependency_references` field:
+Here is an example of a blueprint with multiple stacks using the `stack_dependency_references` field:
 
 {% raw %}
 
@@ -737,7 +733,7 @@ stacks:
 
 #### Example 2
 
-Here is a example of a blueprint with multiple stacks using the `depends_on` field:
+Here is an example of a blueprint with multiple stacks using the `depends_on` field:
 
 {% raw %}
 
@@ -794,9 +790,9 @@ stacks:
 
 ## Validation
 
-We do not validate drafted blueprints, you can do whatever you want with them. However, if you publish your blueprint, we'll make sure it includes the required fields and you'll get an error if it doesn't.
+We do not validate drafted blueprints; you can do whatever you want with them. However, if you publish your blueprint, we'll make sure it includes the required fields, and you'll get an error if it doesn't.
 
-**One caveat**: we cannot validate fields that have variables because we don't know the value of the variable. On the other hand, if you try to create a stack from the blueprint and supply the inputs to the template, we'll be able to do the full validation. Let's say:
+**One caveat**: We cannot validate fields that have variables because we don't know the value of the variable. On the other hand, if you try to create a stack from the blueprint and supply the inputs to the template, we'll be able to do the full validation. Let's say:
 
 {% raw %}
 
@@ -813,7 +809,7 @@ stack:
 
 {% endraw %}
 
-We cannot make sure that the input variable is indeed a proper 10 digit epoch timestamp, we will only find out once you supply the actual input.
+We cannot ensure that the input variable is indeed a proper 10-digit epoch timestamp; we will only find out once you supply the actual input.
 
 ### Schema
 
@@ -826,7 +822,7 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 ```
 
 !!! tip
-    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"} or the web UI itself if you're feeling fancy.
+    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}, or the web UI itself if you're feeling fancy.
 
 For simplicity, here is the current schema, but it might change in the future:
 
