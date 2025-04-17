@@ -86,5 +86,40 @@ Here is an example of us using a Spacelift [context](../../../concepts/configura
 
 For more information about configuring the Terraform provider, please see the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}.
 
-!!! tip
-    You get a PERMISSION_DENIED for the iam.serviceAccounts.getAccessToken permission if you have specified some kind of permission about what principals are allowed to use your service account in the "Connected Service Accounts" section, and that condition isn't fulfilled (e.g. You specify that only stacks from a certain space are allowed to use your service account, and you try to trigger a run on a stack in a different space).
+## Configuring the Pulumi GCP Provider
+
+To configure the Pulumi [GCP provider](https://www.pulumi.com/registry/packages/gcp/api-docs/provider/){: rel="nofollow"} follow the same steps as for the [Terraform provider](#configuring-the-terraform-provider).
+
+## Troubleshooting
+
+### iam.serviceAccounts.getAccessToken PERMISSION_DENIED
+
+If your Spacelift stack does not have permission to impersonate your Service Account, you may receive an error message in your run logs like the following:
+
+```shell
+"error": {
+  "code": 403,
+  "message": "Permission 'iam.serviceAccounts.getAccessToken' denied on resource (or it may not exist).",
+  "status": "PERMISSION_DENIED",
+  "details": [
+    {
+      "@type": "type.googleapis.com/google.rpc.ErrorInfo",
+      "reason": "IAM_PERMISSION_DENIED",
+      "domain": "iam.googleapis.com",
+      "metadata": {
+        "permission": "iam.serviceAccounts.getAccessToken"
+      }
+    }
+  ]
+}
+```
+
+If this happens, check the `service_account_impersonation_url` property in your configuration file and make sure it points at the service account you are trying to use. For example if you are trying to use a service account called `spacelift@my-gcp-org.iam.gserviceaccount.com`, you should have a value like the following:
+
+```text
+https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/spacelift@my-gcp-org.iam.gserviceaccount.com:generateAccessToken
+```
+
+Next, check the conditions about who is allowed to impersonate your service account in your workflow identity pool. For example, in the following screenshot, only stacks in the `development-01JS1ZCWC4VYKR20SBRDAAFX6D` space are allowed to impersonate your service account:
+
+![connected service accounts](../../../assets/screenshots/oidc/gcp-connected-service-accounts.png)
