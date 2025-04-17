@@ -295,6 +295,8 @@ The Slack rules accept multiple configurable parameters:
 
 - `channel_id` - the Slack channel to which the message will be delivered (**Required**)
 - `message` - a custom message to be sent (**Optional**)
+- `mention_users` - an array of users to mention in the default message (**Optional**)
+- `mention_groups` - an array of groups to mention in the default message (**Optional**)
 
 #### Filtering and routing messages
 
@@ -336,6 +338,36 @@ slack[{
 ```
 
 [View the example in the rego playground](https://play.openpolicyagent.org/p/KyN5EHeyhk){: rel="nofollow"}.
+
+#### Mentioning users and groups
+
+You can provide an array of user IDs and group IDs to mention in the default message.
+
+The following example shows how to mention a user and a group (conditionally) in a Slack message:
+
+```opa
+package spacelift
+
+users := {
+  "bob": "U08MA4D50RY"
+}
+groups := {
+  "devs": "S08MA51EW4S"
+}
+
+mention_groups(run) = [groups.devs] {
+  run.state == "UNCONFIRMED"
+} else = []
+
+slack[{
+  "channel_id": "C08MA83LAD9",
+  "mention_users": [users.bob],
+  "mention_groups": mention_groups(run)
+}] {
+  run := input.run_updated.run
+  run.type == "TRACKED"
+}
+```
 
 ### Webhook requests
 
