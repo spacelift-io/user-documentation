@@ -192,7 +192,7 @@ In addition to our [helper functions](./README.md#helper-functions), we provide 
 
 ## String Sanitization
 
-Sensitive properties in `"before"` and `"after"` objects will be sanitized to protect secret values. Sanitization hashes the value and takes the last 8 bytes of the hash.
+Sensitive properties in `"before"` and `"after"` objects will be sanitized to protect secret values. Sanitization hashes the value with the sha256 algorithm and takes the last 8 bytes of the hash.
 
 If you need to compare a string property to a constant, you can use the `sanitized(string)` helper function.
 
