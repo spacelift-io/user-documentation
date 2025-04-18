@@ -271,7 +271,7 @@ deny[sprintf(message, [resource.address])] {
 
 Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/kNUYOa4vX4){: rel="nofollow"}.
 
-If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://www.terraform.io/docs/configuration/resources.html#create_before_destroy){: rel="nofollow"} or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among others. So here it is:
+If that makes sense, let's try defining a policy that implements a slightly more sophisticated piece of knowledge - that when some resources are recreated, they should be [created before they're destroyed](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#create_before_destroy){: rel="nofollow"} or an outage will follow. We found that to be the case with the [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among others. So here it is:
 
 ```opa
 package spacelift
