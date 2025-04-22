@@ -20,7 +20,7 @@ Depending on the backend of your stack, there are different commands you can run
 | **Kubernetes** | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |
 
 !!! tip
-    For Terraform, you can also run a task through our CLI tool [spacectl](../../vendors/terraform/provider-registry.md#use-our-cli-tool-called-spacectl).
+    You can also run a task through our CLI tool [spacectl](../../vendors/terraform/provider-registry.md#use-our-cli-tool-called-spacectl).
 
 ## Scheduled Delete
 

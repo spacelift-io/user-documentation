@@ -165,7 +165,7 @@ The following helper functions can be used in Spacelift policies:
 
 ## Creating policies
 
-There are two ways of creating policies - through the web UI and through the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](#testing-policies). Here's how you'd define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration for completeness):
+There are two ways of creating policies - through the web UI and through the [OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](#testing-policies). Here's how you'd define a plan policy in OpenTofu/Terraform and attach it to a stack (also created here with minimal configuration for completeness):
 
 ```opa
 resource "spacelift_stack" "example-stack" {
@@ -179,7 +179,7 @@ resource "spacelift_stack" "example-stack" {
 resource "spacelift_policy" "example-policy" {
   name = "Example policy"
   body = file("${path.module}/policies/example-policy.rego")
-  type = "TERRAFORM_PLAN"
+  type = "PLAN"
 }
 
 resource "spacelift_policy_attachment" "example-attachment" {

@@ -8,7 +8,7 @@ Three of them are children of [Stacks](../stack/README.md):
 - [proposed run](proposed.md), which serves as a preview of introduced changes;
 - [tracked run](tracked.md), which is a form of deployment;
 
-There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a Terraform module.
+There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on an OpenTofu/Terraform module.
 
 ## Execution model
 
@@ -71,7 +71,7 @@ Once the worker is able to pull the Docker image and use it to start the contain
 
 ### Initializing
 
-The last phase where actual work is done and which is common to all types of run is the _initialization_. This phase is handled exclusively by the worker and involves running [pre-initialization hooks](../stack/stack-settings.md#customizing-workflow) and vendor-specific initialization process. For Terraform stacks it would mean running `terraform init`, in the right directory and with the right parameters.
+The last phase where actual work is done and which is common to all types of run is the _initialization_. This phase is handled exclusively by the worker and involves running [pre-initialization hooks](../stack/stack-settings.md#customizing-workflow) and vendor-specific initialization process. For OpenTofu/Terraform stacks it would mean running `tofu/terraform init`, in the right directory and with the right parameters.
 
 Important thing to note with regards to pre-initialization hooks and the rest of the initialization process is that all these run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
 

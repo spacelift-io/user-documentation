@@ -1,6 +1,6 @@
 # Resource Sanitization
 
-The Terraform state can contain very sensitive data. Sometimes this is unavoidable because of the design of certain Terraform providers or because the definition of what is sensitive isn't always simple and may vary between individuals and organizations.
+The OpenTofu/Terraform state can contain very sensitive data. Sometimes this is unavoidable because of the design of certain OpenTofu/Terraform providers or because the definition of what is sensitive isn't always simple and may vary between individuals and organizations.
 
 Spacelift provides two different approaches for sanitizing values when resources are stored or passed to [Plan policies](../../concepts/policy/terraform-plan-policy.md):
 
@@ -177,21 +177,21 @@ Unless you enable Smart Sanitization, or [disable Sanitization](#disabling-sanit
 ## Smart Sanitization
 
 !!! info
-    Due to limitations in the data output by Terraform, Smart Sanitization can only be used on stacks that use Terraform versions 1.0.1 or above. Using an unsupported version will fail.
+    Due to limitations in the data output by OpenTofu/Terraform, Smart Sanitization can only be used on stacks that use OpenTofu (any version) or Terraform versions 1.0.1 or above. Using an unsupported version will fail.
 
-As we rely on the sensitive argument in Terraform to determine which of your values are sensitive we recommend that you ensure your [variables](https://www.terraform.io/language/values/variables#suppressing-values-in-cli-output){: rel="nofollow"}, [outputs](https://www.terraform.io/language/values/outputs#sensitive-suppressing-values-in-cli-output){: rel="nofollow"}, and resources have their `sensitive` arguments set properly.
+As we rely on the sensitive argument in OpenTofu/Terraform to determine which of your values are sensitive we recommend that you ensure your [variables](https://opentofu.org/docs/language/values/variables/#suppressing-values-in-cli-output){: rel="nofollow"}, [outputs](https://opentofu.org/docs/language/values/outputs/#sensitive--suppressing-values-in-cli-output){: rel="nofollow"}, and resources have their `sensitive` arguments set properly.
 
 ### How to enable Smart Sanitization in your stacks
 
 #### When using the Spacelift User Interface
 
-If you're using the Spacelift user interface to create your stacks, you can enable Smart Sanitization in your existing stack settings page under the "Vendor" section. If you're creating new stacks it will be an option when you select your Terraform version in our wizard.
+If you're using the Spacelift user interface to create your stacks, you can enable Smart Sanitization in your existing stack settings page under the "Vendor" section. If you're creating new stacks it will be an option when you select your OpenTofu/Terraform version in our wizard.
 
 ![](../../assets/screenshots/stack/settings/stack-vendor_smart-sanitization.png)
 
-#### When creating stacks with the Spacelift Terraform Provider
+#### When creating stacks with the Spacelift OpenTofu/Terraform Provider
 
-If you’re using the [Spacelift Terraform](../../vendors/terraform/terraform-provider.md) provider for creating Spacelift stacks, you are able to set the property `terraform_smart_sanitization`. For example, to create a simple stack you can use the following code:
+If you’re using the [Spacelift OpenTofu/Terraform](../../vendors/terraform/terraform-provider.md) provider for creating Spacelift stacks, you are able to set the property `terraform_smart_sanitization`. For example, to create a simple stack you can use the following code:
 
 ```terraform
 resource "spacelift_stack" "user_dashboard_internal" {

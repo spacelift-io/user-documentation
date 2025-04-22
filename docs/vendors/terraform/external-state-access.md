@@ -1,6 +1,9 @@
 # External state access
 
-External state access allows you to read the state of the stack from outside authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this enables sharing the outputs between stacks using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"} or even accessing the state offline for analytical or compliance purposes.
+!!! info
+    While this feature allows sharing outputs between stacks, we recommend using Spacelift's native [stack dependencies](../../concepts/configuration/stack-dependencies.md) instead when possible. Available for all supported IaC vendors, Stack dependencies provide a more integrated workflow with granular access, proper dependency tracking and access control, and they don't require external state access to be enabled.
+
+External state access allows you to read the state of the stack from outside authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this enables sharing the outputs between stacks using the OpenTofu/Terraform mechanism of [remote state](https://opentofu.org/docs/language/state/remote-state-data/){: rel="nofollow"} or even accessing the state offline for analytical or compliance purposes.
 
 If enabled for a particular stack, any user or stack with [Write](../../concepts/spaces/access-control.md) permission to that stack's space will be able to access its state.
 
@@ -17,7 +20,7 @@ You can enable the external access in a couple of ways.
 
 ![](../../assets/screenshots/stack/settings/stack-vendor_external-state-access.png)
 
-- using the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift){: rel="nofollow"}.
+- using the [OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest){: rel="nofollow"}.
 
 ```terraform
 resource "spacelift_stack" "example" {
@@ -30,9 +33,9 @@ resource "spacelift_stack" "example" {
 
 ## Sharing outputs between stacks
 
-Sharing the outputs between stacks can be achieved using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}.
+Sharing the outputs between stacks can be achieved using the OpenTofu/Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}.
 
-Given an account called _spacecorp_, and a stack named _deep-thought_, having the following Terraform configuration.
+Given an account called _spacecorp_, and a stack named _deep-thought_, having the following OpenTofu/Terraform configuration.
 
 ```terraform
 output "answer" {
@@ -40,7 +43,7 @@ output "answer" {
 }
 ```
 
-You can read that output from a different stack by using the [`terraform_remote_state`](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"} data source.
+You can read that output from a different stack by using the [`terraform_remote_state`](https://opentofu.org/docs/language/state/remote-state-data/){: rel="nofollow"} data source.
 
 ```terraform
 data "terraform_remote_state" "deepthought" {
@@ -67,7 +70,7 @@ output "ultimate_answer" {
 
 ## Offline state access
 
-Given an account called `spacecorp`, and a stack named `deep-thought`, having the following Terraform configuration.
+Given an account called `spacecorp`, and a stack named `deep-thought`, having the following OpenTofu/Terraform configuration.
 
 ```terraform
 output "answer" {
@@ -81,7 +84,7 @@ Before you will be able to access the state of the stack, you need to retrieve a
 terraform login spacelift.io
 ```
 
-Next, you need a [remote backend](https://developer.hashicorp.com/terraform/language/settings/backends/remote){: rel="nofollow"} configuration.
+Next, you need a [remote backend](https://opentofu.org/docs/language/settings/backends/remote/){: rel="nofollow"} configuration.
 
 ```terraform
 terraform {
@@ -104,5 +107,5 @@ terraform {
 Finally, you can download the state of the stack.
 
 ```shell
-terraform state pull > terraform.tfstate
+tofu/terraform state pull > terraform.tfstate
 ```

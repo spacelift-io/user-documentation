@@ -5,24 +5,6 @@
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-!!! warning
-    <!-- markdownlint-disable-next-line MD044 -->
-    <!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
-    While the [Terraform AWS provider supports authenticating with OIDC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration){: rel="nofollow"}, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} does not support it yet.
-
-    If you need to use the AWS S3 state backend, you can use the following workaround:
-
-    - Add the following command as a [`before_init` hook](../../../concepts/stack/stack-settings.md#customizing-workflow) (make sure to replace `<ROLE ARN>` with your IAM role ARN)
-
-    ```shell
-    export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" $(aws sts assume-role-with-web-identity --web-identity-token "$(cat /mnt/workspace/spacelift.oidc)" --role-arn <ROLE ARN> --role-session-name spacelift-run-${TF_VAR_spacelift_run_id} --query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" --output text))
-    ```
-
-    - Comment out the `role_arn` argument in the `backend` block
-    - Comment out the `assume_role_with_web_identity` section in the AWS provider block
-
-    Alternatively, you can use the dedicated [AWS Cloud Integration](../aws.md) that uses AWS STS to obtain temporary credentials.
-
 ## Configuring Spacelift as an Identity Provider
 
 In order to be able to do that, you will need to set up Spacelift as a valid identity provider for your AWS account. This is done by creating an [OpenID Connect identity provider
@@ -73,7 +55,7 @@ You can also restrict the role to be assumable only by a specific stack by match
 
 You can mix and match these to get the exact constraints you need. It is not the purpose of this guide to go into the intricacies of AWS IAM conditions - you can learn all about these in the [official doc](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html){: rel="nofollow"}. One important thing to remember though is that AWS does not seem to support custom claims so you will need to use the standard ones to do the matching - primarily `sub`, as shown above.
 
-## Configuring the Terraform Provider
+## Configuring the OpenTofu/Terraform Provider
 
 Once the Spacelift-AWS OIDC integration is set up, the provider can be configured without the need for any static credentials. The `aws_role_arn` variable should be set to the ARN of the role that you want to assume:
 
