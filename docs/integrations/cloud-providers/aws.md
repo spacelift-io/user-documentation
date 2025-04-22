@@ -16,7 +16,7 @@ The AWS integration allows either Spacelift [runs](../../concepts/run/README.md)
 - `AWS_SECURITY_TOKEN`
 - `AWS_SESSION_TOKEN`
 
-This is enough for both the [AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#environment-variables){: rel="nofollow"} and/or [Amazon S3 state backend](https://www.terraform.io/docs/backends/types/s3.html){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration. However, you will likely need to select one of the available regions with the former.
+This is enough for both the [AWS OpenTofu/Terraform provider](https://search.opentofu.org/provider/hashicorp/aws/latest#environment-variables){: rel="nofollow"} and/or [Amazon S3 state backend](https://opentofu.org/docs/language/settings/backends/s3/){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration. However, you will likely need to select one of the available regions with the former.
 
 ### Usage
 
@@ -130,7 +130,7 @@ For example, you may wish to lock down an IAM Role so that it can only be used b
 Next, you need to attach at least one IAM Policy to your IAM Role to provide it with sufficient permissions to deploy any resources that your IaC code defines.
 
 !!! info
-    For Terraform users that are managing their own state file, don't forget to give your role sufficient permissions to access your state (Terraform documents the permissions required for S3-managed state [here](https://www.terraform.io/language/settings/backends/s3#s3-bucket-permissions){: rel="nofollow"}, and for DynamoDB state locking [here](https://www.terraform.io/language/settings/backends/s3#dynamodb-table-permissions){: rel="nofollow"}).
+    For OpenTofu/Terraform users that are managing their own state file, don't forget to give your role sufficient permissions to access your state (OpenTofu documents the permissions required for S3-managed state [here](https://opentofu.org/docs/language/settings/backends/s3/#s3-bucket-permissions){: rel="nofollow"}, and for DynamoDB state locking [here](https://opentofu.org/docs/language/settings/backends/s3/#dynamodb-table-permissions){: rel="nofollow"}).
 
 #### Create IAM Role
 
@@ -217,7 +217,7 @@ This error can be caused by STS not being enabled in the AWS region where your S
 
 ## Programmatic Setup
 
-You can also use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from an [administrative stack](../../concepts/stack/stack-settings.md#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
+You can also use the [Spacelift OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from an [administrative stack](../../concepts/stack/stack-settings.md#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
 
 Here's a little example of what that might look like to create a Cloud Integration programmatically:
 
@@ -285,7 +285,7 @@ resource "spacelift_aws_integration_attachment" "this" {
 
 ### Attaching a Role to Multiple Stacks
 
-The previous example explained how to use the `spacelift_aws_integration_attachment_external_id` data-source to generate the assume role policy for using the integration with a single stack, but what if you want to attach the integration to multiple stacks? The simplest option would be to create multiple instances of the data-source - one for each stack - but you can also use a Terraform `for_each` condition to reduce the amount of code required:
+The previous example explained how to use the `spacelift_aws_integration_attachment_external_id` data-source to generate the assume role policy for using the integration with a single stack, but what if you want to attach the integration to multiple stacks? The simplest option would be to create multiple instances of the data-source - one for each stack - but you can also use a OpenTofu/Terraform `for_each` condition to reduce the amount of code required:
 
 ```terraform
 locals {
@@ -377,7 +377,7 @@ Assuming roles and generating credentials **on the private worker** is **perfect
 
 Probably safer than storing static credentials in your stack environment. Unlike user keys that you'd normally have to use, role credentials are dynamically created and short-lived. We use the default expiration which is **1 hour**, and do not store them anywhere. Leaking them **accidentally** through the logs is not an option either because we mask AWS credentials.
 
-The most tangible safety feature of the AWS integration is the breadcrumb trail it leaves in [CloudTrail](https://aws.amazon.com/cloudtrail/){: rel="nofollow"}. Every resource change can be mapped to an individual Terraform [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) whose ID automatically becomes the username as the [`sts:AssumeRole`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html){: rel="nofollow"} API call with that ID as `RoleSessionName`. In conjunction with AWS tools like [Config](https://aws.amazon.com/config/){: rel="nofollow"}, it can be a very powerful compliance tool.
+The most tangible safety feature of the AWS integration is the breadcrumb trail it leaves in [CloudTrail](https://aws.amazon.com/cloudtrail/){: rel="nofollow"}. Every resource change can be mapped to an individual OpenTofu/Terraform [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) whose ID automatically becomes the username as the [`sts:AssumeRole`](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html){: rel="nofollow"} API call with that ID as `RoleSessionName`. In conjunction with AWS tools like [Config](https://aws.amazon.com/config/){: rel="nofollow"}, it can be a very powerful compliance tool.
 
 Let's have a look at a CloudTrail event showing an IAM role being created by what seems to be a Spacelift run:
 
@@ -391,9 +391,9 @@ OK, we get it. Using everyone's favorite Inception meme:
 
 ![](../../assets/screenshots/integrations/cloud-providers/aws/inception-meme.png)
 
-Indeed, the AWS Terraform provider allows you to [assume an IAM role during setup](https://www.terraform.io/docs/providers/aws/index.html#assume-role){: rel="nofollow"}, effectively doing the same thing over again. This approach is especially useful if you want to control resources in multiple AWS accounts from a single Spacelift stack. This is totally fine - in IAM, roles can assume other roles, though what you need to do on your end is set up the trust relationship between the role you have Spacelift assume and the role for each provider instance to assume. But let's face it - at this level of sophistication, you sure know what you're doing.
+Indeed, the AWS OpenTofu/Terraform provider allows you to [assume an IAM role during setup](https://search.opentofu.org/provider/hashicorp/aws/latest#assume_role-configuration-block){: rel="nofollow"}, effectively doing the same thing over again. This approach is especially useful if you want to control resources in multiple AWS accounts from a single Spacelift stack. This is totally fine - in IAM, roles can assume other roles, though what you need to do on your end is set up the trust relationship between the role you have Spacelift assume and the role for each provider instance to assume. But let's face it - at this level of sophistication, you sure know what you're doing.
 
-One bit you might not want to miss though, is the guaranteed ability to map the change to a particular [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) that we described in the [previous section](#is-it-safe). One way of fixing that would be to use the `TF_VAR_spacelift_run_id` [computed environment variable](../../concepts/configuration/environment.md#computed-values) available to each Spacelift workflow. Conveniently, it's already a [Terraform variable](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"}, so a setup like this should do the trick:
+One bit you might not want to miss though, is the guaranteed ability to map the change to a particular [run](../../concepts/run/README.md) or [task](../../concepts/run/task.md) that we described in the [previous section](#is-it-safe). One way of fixing that would be to use the `TF_VAR_spacelift_run_id` [computed environment variable](../../concepts/configuration/environment.md#computed-values) available to each Spacelift workflow. Conveniently, it's already a [OpenTofu/Terraform variable](https://opentofu.org/docs/language/values/variables/#environment-variables){: rel="nofollow"}, so a setup like this should do the trick:
 
 ```terraform
 variable "spacelift_run_id" {}
@@ -401,7 +401,7 @@ variable "spacelift_run_id" {}
 # That's our default provider with credentials generated by Spacelift.
 provider "aws" {}
 
-# That's where Terraform needs to run sts:AssumeRole with your
+# That's where OpenTofu/Terraform needs to run sts:AssumeRole with your
 # Spacelift-generated credentials to obtain ones for the second account.
 provider "aws" {
   alias = "second-account"

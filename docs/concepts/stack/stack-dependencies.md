@@ -36,11 +36,11 @@ You can either choose an existing output value or add one that doesn't exist yet
 ![](../../assets/screenshots/Screenshot_Stack_Dependencies_added_input.png)
 
 !!! tip
-    If you use Terraform, make sure to use [`TF_VAR_`](https://developer.hashicorp.com/terraform/language/values/variables#environment-variables){: rel="nofollow"} prefix for environment variable names.
+    If you use OpenTofu/Terraform, make sure to use [`TF_VAR_`](https://opentofu.org/docs/language/values/variables/#environment-variables){: rel="nofollow"} prefix for environment variable names.
 
 #### Enabling sensitive outputs for references
 
-A stack output can be sensitive or non-sensitive. For example, in Terraform [you can mark an output](https://developer.hashicorp.com/terraform/language/values/outputs#sensitive-suppressing-values-in-cli-output){: rel="nofollow"} `sensitive = true`. Sensitive outputs are being masked in the Spacelift UI and in the logs.
+A stack output can be sensitive or non-sensitive. For example, in OpenTofu/Terraform [you can mark an output](https://opentofu.org/docs/language/values/outputs/#sensitive--suppressing-values-in-cli-output){: rel="nofollow"} `sensitive = true`. Sensitive outputs are being masked in the Spacelift UI and in the logs.
 
 In order for Spacelift to start uploading sensitive outputs to the server you need to enable it explicitly both on the Stack and on the Worker Pool level.
 
@@ -294,7 +294,7 @@ A stack cannot be deleted if it has downstream dependencies (child stacks depend
 
 As [mentioned earlier](#goals), Stack Dependencies do not aim to handle the lifecycle of the stacks.
 
-Ordering the creation and deletion of stacks in a specific order is not impossible though. If you manage your Spacelift stacks with the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md), you can easily do it by setting [`spacelift_stack_destructor`](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack_destructor){: rel="nofollow"} resources and setting the [`depends_on`](https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on){: rel="nofollow"} Terraform attribute on them.
+Ordering the creation and deletion of stacks in a specific order is not impossible though. If you manage your Spacelift stacks with the [Spacelift OpenTofu/Terraform Provider](../../vendors/terraform/terraform-provider.md), you can easily do it by setting [`spacelift_stack_destructor`](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/stack_destructor){: rel="nofollow"} resources and setting the [`depends_on`](https://opentofu.org/docs/language/meta-arguments/depends_on/){: rel="nofollow"} OpenTofu/Terraform attribute on them.
 
 Here is a simple example of creating a dependency between 3 stacks and setting up a destructor for them. By setting up a destructor resource with the proper `depends_on` attribute, it ensures that the deletion of the stacks will happen in the proper order. First child, then parent. This is also an easy way to create short-lived environments.
 
@@ -358,14 +358,14 @@ resource "spacelift_stack_destructor" "app" {
 }
 ```
 
-What happens during `terraform apply`:
+What happens during `tofu/terraform apply`:
 
-- Terraform creates the 3 stacks
+- OpenTofu/Terraform creates the 3 stacks
 - Sets up the dependency between them
 
-You might notice the three destructors at the end. They don't do anything yet, but they will be used during `terraform destroy`. Destroy order:
+You might notice the three destructors at the end. They don't do anything yet, but they will be used during `tofu/terraform destroy`. Destroy order:
 
-- Terraform destroys the dependencies and dependency references
+- OpenTofu/Terraform destroys the dependencies and dependency references
 - Destroys the grandchild stack (`app`) **and** its resources
 - Destroys the parent stack (`infra`) **and** its resources
 - Finally, destroys the grandparent stack (`vpc`) **and** its resources
@@ -386,4 +386,4 @@ argument list too long
 
 This is because one cannot have more than 128kB in any given argument. This is hard-coded in the kernel and difficult to work around.
 
-Depending on your use case it may be possible to work around this issue by using the [Spacelift Terraform Provider](../../vendors/terraform/terraform-provider.md) resources spacelift_mounted_file along with spacelift_run.
+Depending on your use case it may be possible to work around this issue by using the [Spacelift OpenTofu/Terraform Provider](../../vendors/terraform/terraform-provider.md) resources spacelift_mounted_file along with spacelift_run.

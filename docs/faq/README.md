@@ -64,7 +64,7 @@ The state file can be pulled and then exported using a [Task](../concepts/run/ta
 For example, to export the state to an Amazon S3 bucket, you would run the following command or equivalent as a Task:
 
 ```shell
-terraform state pull > state.json && aws s3 cp state.json s3://<PATH>
+tofu/terraform state pull > state.json && aws s3 cp state.json s3://<PATH>
 ```
 
 !!! warning
@@ -78,13 +78,13 @@ The state management setting can not be changed once a stack has been created so
 
 #### How do I manipulate the state file?
 
-You can manipulate the state by running a command such as `terraform state <SUBCOMMAND>` commands in a [Task](../concepts/run/task.md).
+You can manipulate the state by running a command such as `tofu/terraform state <SUBCOMMAND>` commands in a [Task](../concepts/run/task.md).
 
 This applies whether you or Spacelift manages the state file.
 
 #### How do I import existing resources into a stack?
 
-Just [run the `terraform import …`](../vendors/terraform/state-management.md#importing-resources-into-your-terraform-state) or equivalent in a [Task](../concepts/run/task.md).
+Just [run the `tofu/terraform import …`](../vendors/terraform/state-management.md#importing-resources-into-your-terraform-state) or equivalent in a [Task](../concepts/run/task.md).
 
 This applies whether you or Spacelift manages the state file.
 

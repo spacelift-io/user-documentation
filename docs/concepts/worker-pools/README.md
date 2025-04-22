@@ -34,7 +34,7 @@ openssl req -new -newkey rsa:4096 -nodes -keyout spacelift.key -out spacelift.cs
 !!! warning
     Don't forget to store the `spacelift.key` file (private key) in a secure location. You’ll need it later, when launching workers in your worker pool.
 
-You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md).
+You can set up your worker pool from the Spacelift UI by navigating to Worker Pools section of your account, or you can also create it programmatically using the `spacelift_worker_pool` resource type within the [Spacelift OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md).
 
 ### Navigate to Worker Pools
 

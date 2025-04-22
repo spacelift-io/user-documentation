@@ -6,9 +6,9 @@ What would you say if you could manage Spacelift resources - that is [stacks](..
 
 ## Self-Hosted Version Compatibility
 
-The Terraform provider uses our [GraphQL API](../../integrations/api.md) to manage Spacelift, and relies on certain features being available in the API in order to work. What this can sometimes mean is that a new feature is added to the Terraform provider which hasn't yet been made available in the GraphQL API for Self-Hosted versions of Spacelift.
+The OpenTofu/Terraform provider uses our [GraphQL API](../../integrations/api.md) to manage Spacelift, and relies on certain features being available in the API in order to work. What this can sometimes mean is that a new feature is added to the OpenTofu/Terraform provider which hasn't yet been made available in the GraphQL API for Self-Hosted versions of Spacelift.
 
-Because of this, it's not always possible to use the latest version of the Terraform provider with Self-Hosted, and we recommend that you pin to a known-compatible version. You can do this using a `required_providers` block like in the following example:
+Because of this, it's not always possible to use the latest version of the OpenTofu/Terraform provider with Self-Hosted, and we recommend that you pin to a known-compatible version. You can do this using a `required_providers` block like in the following example:
 
 ```terraform
 terraform {
@@ -21,7 +21,7 @@ terraform {
 }
 ```
 
-The following table shows the latest version of the Terraform provider known to work with our Self-Hosted versions:
+The following table shows the latest version of the OpenTofu/Terraform provider known to work with our Self-Hosted versions:
 
 | Self-Hosted Version | Max Provider Version |
 | ------------------- | -------------------- |
@@ -50,7 +50,7 @@ The following table shows the latest version of the Terraform provider known to 
 
 ## Taking it for a spin
 
-Our Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"} always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
+Our OpenTofu/Terraform provider is open source and its [README](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"} always contains the latest available documentation. It's also distributed as part of our [Docker runner image](../../integrations/docker.md#standard-runner-image) and available through our [own provider registry](terraform-provider.md#how-it-works). The purpose of this article isn't as much to document the provider itself but to show how it can be used to incorporate Spacelift resources into your infra-as-code.
 
 So, without further ado, let's define a stack:
 
@@ -64,7 +64,7 @@ resource "spacelift_stack" "managed-stack" {
 }
 ```
 
-That's awesome. But can we put Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/README.md#access-readers-and-writers-teams), so why don't we define some?
+That's awesome. But can we put OpenTofu/Terraform to good use and integrate it with resources from a completely different provider? Sure we can, and we have a good excuse, too. Stacks accessibility can be managed [by GitHub teams](../../concepts/stack/README.md#access-readers-and-writers-teams), so why don't we define some?
 
 ```terraform title="stack-and-teams.tf"
 resource "github_team" "stack-readers" {
@@ -137,7 +137,7 @@ resource "spacelift_stack_aws_role" "managed-stack" {
 
 ## How it works
 
-Depending on whether you're using Terraform _0.12.x_ or higher, the Spacelift provider is distributed slightly differently. For _0.12.x_ users, the provider is distributed as a binary available in the [runner Docker image](../../integrations/docker.md#standard-runner-image) in the same folder we put the Terraform binary. If you're using Terraform _0.13_ and above, you can benefit from pulling our provider directly from our own provider registry. In order to do that, just point Terraform to the right location:
+Depending on whether you're using Terraform _0.12.x_ or higher, the Spacelift provider is distributed slightly differently. For _0.12.x_ users, the provider is distributed as a binary available in the [runner Docker image](../../integrations/docker.md#standard-runner-image) in the same folder we put the Terraform binary. If you're using Terraform _0.13_ and above, or OpenTofu, you can benefit from pulling our provider directly from our own provider registry. In order to do that, just point Terraform to the right location:
 
 ```terraform
 provider "spacelift" {}
@@ -153,11 +153,11 @@ terraform {
 
 ### Using inside Spacelift
 
-Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to [stacks](../../concepts/stack/README.md) **marked as** [**administrative**](../../concepts/stack/README.md#administrative). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/README.md) responsible for generating it is in [_Planning_](../../concepts/run/README.md#planning), [_Applying_](../../concepts/run/README.md#applying) or [Performing](../../concepts/run/task.md#performing) (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides full administrative access to Spacelift entities [that can be managed by Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
+Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to [stacks](../../concepts/stack/README.md) **marked as** [**administrative**](../../concepts/stack/README.md#administrative). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/README.md) responsible for generating it is in [_Planning_](../../concepts/run/README.md#planning), [_Applying_](../../concepts/run/README.md#applying) or [Performing](../../concepts/run/task.md#performing) (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides full administrative access to Spacelift entities [that can be managed by OpenTofu/Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
 
 ### Using outside of Spacelift
 
-If you want to run the Spacelift provider outside of Spacelift, or you need to manage resources across multiple Spacelift accounts from the same Terraform project, the preferred method is to generate and use dedicated [API keys](../../integrations/api.md#api-key-management). Note that unless you're just accessing whitelisted data resources, the Terraform use case will normally require marking the API key as administrative.
+If you want to run the Spacelift provider outside of Spacelift, or you need to manage resources across multiple Spacelift accounts from the same OpenTofu/Terraform project, the preferred method is to generate and use dedicated [API keys](../../integrations/api.md#api-key-management). Note that unless you're just accessing whitelisted data resources, the OpenTofu/Terraform use case will normally require marking the API key as administrative.
 
 In order to set up the provider to use an API key, you will need the key ID, secret, and the API key endpoint:
 
@@ -230,22 +230,22 @@ We suggest to first manually create a single administrative stack, and then use 
 If you want to share data or outputs between stacks, please consider programmatically creating [Stack Dependencies](../../concepts/stack/stack-dependencies.md).
 
 !!! info
-    Programmatically generated stacks can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
+    Programmatically generated stacks can still be manually augmented, for example by setting extra elements of the environment. Thanks to the magic of OpenTofu/Terraform, these will simply be invisible to (and thus not disturbed by) your resource definitions.
 
 ### Generate Terraform code from an existing stack
 
-We have a convenience feature for generating Terraform code from an existing stack. Open the stack, then choose the three dots in the top-right corner and click the "As Terraform code" button.
+We have a convenience feature for generating OpenTofu/Terraform code from an existing stack. Open the stack, then choose the three dots in the top-right corner and click the "As Terraform code" button.
 
 ![](<../../assets/screenshots/generate_tf_code_button.png>)
 
-The resulting code will be displayed in a drawer. It includes all stack settings, as well as environment variables and attached contexts. You can copy it to your clipboard and paste it into your Terraform project.
+The resulting code will be displayed in a drawer. It includes all stack settings, as well as environment variables and attached contexts. You can copy it to your clipboard and paste it into your OpenTofu/Terraform project.
 
 ![](<../../assets/screenshots/generate_tf_code.png>)
 
 ## Boundaries of programmatic management
 
-Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#graphql-schema-s). They allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
+Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#graphql-schema-s). They allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [OpenTofu/Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
 
 Administrative tokens have no superpowers either. They can't read write-only configuration elements any more than you can as a user. Unlike human users with user tokens, administrative tokens won't allow you to run `env` in a [task](../../concepts/run/task.md) and read back the logs.
 
-In general, we believe that things like runs or tasks do not fit the (relatively static) Terraform resource lifecycle model and that hiding those parts of the API from Terraform helps us ensure the integrity of potentially sensitive data - just see the example above.
+In general, we believe that things like runs or tasks do not fit the (relatively static) OpenTofu/Terraform resource lifecycle model and that hiding those parts of the API from OpenTofu/Terraform helps us ensure the integrity of potentially sensitive data - just see the example above.

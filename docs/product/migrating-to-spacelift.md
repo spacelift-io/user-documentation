@@ -11,9 +11,9 @@ There is no one-size-fits-all for this kind of migration. This is why we designe
 The migration process is as follows:
 
 - Export the definition for your resources at your current vendor.
-- Generate the Terraform code to recreate similar resources at Spacelift using the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}.
-- Review and possibly edit the generated Terraform code.
-- Commit the Terraform code to a repository.
+- Generate the Terraform code to recreate similar resources at Spacelift using the [OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest){: rel="nofollow"}.
+- Review and possibly edit the generated OpenTofu/Terraform code.
+- Commit the OpenTofu/Terraform code to a repository.
 - Create a manager Spacelift stack that points to the repository with the Terraform code.
 
 !!! tip
@@ -63,19 +63,19 @@ That file can be reviewed and modified before moving to the next step.
 
 #### Generate
 
-The `spacemk generate` command uses the normalized JSON file from the export step and uses a [Jinja template](https://jinja.palletsprojects.com/) to generate Terraform code that uses the [Spacelift provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) to create Spacelift entities that mimic the behavior of the source provider entities.
+The `spacemk generate` command uses the normalized JSON file from the export step and uses a [Jinja template](https://jinja.palletsprojects.com/) to generate code that uses the [Spacelift provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest) to create Spacelift entities that mimic the behavior of the source provider entities.
 
 The generated code can be found in the `tmp/code/main.tf` file. Feel free to review and edit it as needed.
 
 #### Publish
 
-Once the Terraform code has been generated, push the `tmp/code/main.tf` file to a git repository of your choosing that is available to your Spacelift account.
+Once the code has been generated, push the `tmp/code/main.tf` file to a git repository of your choosing that is available to your Spacelift account.
 
 #### Deploy
 
-After pushing the generated Terraform has been pushed to a git repository, create a manager stack in Spacelift.
+After the generated Terraform has been pushed to a git repository, create a manager stack in Spacelift.
 
-Point it to the repository, and possibly folder, where you stored the Terraform code, and make sure to **mark it as administrative**.
+Point it to the repository, and possibly folder, where you stored the OpenTofu/Terraform code, and make sure to **mark it as administrative**.
 
 Finally, trigger a run to create the Spacelift entities.
 
@@ -83,20 +83,20 @@ Finally, trigger a run to create the Spacelift entities.
 
 This step can be skipped if there are no sensitive variables defined.
 
-To avoid storing sensitive variable values in Terraform code and the state file, the `generate` command does not set the value for those variables.
+To avoid storing sensitive variable values in OpenTofu/Terraform code and the state file, the `generate` command does not set the value for those variables.
 
 Once the stacks have been created, set the values for the `spacelift` section of the `config.yml` file and run the
 `spacemk set-sensitive-env-vars` command to set the value for the sensitive environment variables.
 
-#### Set Terraform Variables with Invalid Names
+#### Set OpenTofu/Terraform Variables with Invalid Names
 
-This step can be skipped if there are no Terraform variables with an invalid name.
+This step can be skipped if there are no variables with an invalid name.
 
 Among [the different ways to pass variable values to Terraform](https://developer.hashicorp.com/terraform/language/values/variables#using-input-variable-values), Spacelift uses environment variables named `TF_VAR_` followed by the name of a declared variable.
 
-However, Terraform allows the use of characters in variable names that are not allowed in environment variable names (e.g., `-`).
+However, OpenTofu/Terraform allows the use of characters in variable names that are not allowed in environment variable names (e.g., `-`).
 
-To work around this issue, the Spacelift Migration Kit identifies Terraform variables with invalid names and stores them in a mounted file named `tf_vars_with_invalid_name.auto.tfvars` so that it gets automatically loaded by Terraform.
+To work around this issue, the Spacelift Migration Kit identifies OpenTofu/Terraform variables with invalid names and stores them in a mounted file named `tf_vars_with_invalid_name.auto.tfvars` so that it gets automatically loaded by Terraform.
 
 Once the stacks have been created, set the values for the `spacelift` section of the `config.yml` file and run the
 `spacemk set-tf-vars-with-invalid-name` command to set the values for the Terraform variables with invalid names.
@@ -154,7 +154,7 @@ Here is an example:
 
 {% block stacks %}
 …
-custom code to generate the Terraform code to define the Spacelift stacks
+custom code to generate the OpenTofu/Terraform code to define the Spacelift stacks
 …
 {% endblock %}
 {% endraw %}

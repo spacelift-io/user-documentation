@@ -59,7 +59,7 @@ In cases where there is no stack slug defined in the config, only the first two 
 
 ## Purpose of runtime configuration
 
-The whole concept of runtime configuration may initially sound unnecessary, but it ultimately allows flexibility that would otherwise be hard to achieve. In general, its purpose is to **preview effects of changes not related to the source code** (eg. Terraform or Pulumi version upgrades, variable changes etc.), before they become an established part of your infra.
+The whole concept of runtime configuration may initially sound unnecessary, but it ultimately allows flexibility that would otherwise be hard to achieve. In general, its purpose is to **preview effects of changes not related to the source code** (eg. OpenTofu/Terraform or Pulumi version upgrades, variable changes etc.), before they become an established part of your infra.
 
 While stack environment applies both to tracked and non-tracked branches, a runtime configuration change can be pushed to a feature branch, which triggers [proposed runs](../../run/README.md#where-do-runs-come-from) allowing you to preview the changes before they have a chance to affect your state.
 
@@ -113,7 +113,7 @@ The runner image is the Docker image used to run your workloads. By making it a 
 !!! info
     Defaults to the **latest known supported Terraform version.**
 
-This setting is only valid on Terraform stacks and specifies the Terraform version that the run will use. The main use case is testing a newer version of Terraform before you use it to change the state since the way back is very hard. This version can only be equal to or higher than the one already used to apply state changes. For more details on Terraform version management, please refer to its [dedicated help section](../../../vendors/terraform/version-management.md).
+This setting is only valid on Terraform stacks and specifies the binary version that the run will use. The main use case is testing a newer version of the binary before you use it to change the state since the way back is very hard. This version can only be equal to or higher than the one already used to apply state changes. For more details on OpenTofu/Terraform version management, please refer to its [dedicated help section](../../../vendors/terraform/version-management.md).
 
 ### `opentofu_version` setting
 
@@ -128,8 +128,8 @@ Example: `opentofu_version: "1.6.2"`
 
 This setting determines the Terraform implementation used in the workflow. Choose based on your project needs and the specific features or support each option offers:
 
-- `TERRAFORM_FOSS` (default) - Utilizes the official Terraform by HashiCorp. Best for standard Terraform operations and official provider support.
-- `OPEN_TOFU` - An open-source Terraform fork. Choose this for enhanced features or modifications not available in the official version.
+- `TERRAFORM_FOSS` (default) - Utilizes the legacy (FOSS) Terraform by IBM/HashiCorp.
+- `OPEN_TOFU` - An open-source Terraform fork. Choose this for enhanced features or modifications not available in the legacy tool.
 - `CUSTOM` - Enables the use of [Custom Workflows](https://spacelift.io/blog/introducing-custom-workflows) for highly customized or unique deployment processes.
 
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).

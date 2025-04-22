@@ -53,4 +53,4 @@ Note that the scope claim, as well as other claims presented by the Spacelift to
 
 ## Using the Spacelift OIDC token
 
-You can follow guidelines under this section to see how to use the Spacelift OIDC token to authenticate with [AWS](aws-oidc.md), [GCP](gcp-oidc.md), [Azure](azure-oidc.md), and [HashiCorp Vault](vault-oidc.md). In particular, we will focus on setting up the integration and using it from these services' respective Terraform providers
+You can follow guidelines under this section to see how to use the Spacelift OIDC token to authenticate with [AWS](aws-oidc.md), [GCP](gcp-oidc.md), [Azure](azure-oidc.md), and [HashiCorp Vault](vault-oidc.md). In particular, we will focus on setting up the integration and using it from these services' respective OpenTofu/Terraform providers

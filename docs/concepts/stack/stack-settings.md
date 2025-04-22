@@ -10,13 +10,13 @@ This article covers all settings that are set **directly on the stack**. It's im
 
 ### Administrative
 
-This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
+This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
 
 The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools) etc. in order to avoid ClickOps.
 
-Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
+Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the OpenTofu/Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
-If this sounds interesting and you want to give it a try, please refer to the [help article exclusively dedicated to Spacelift's Terraform provider](../../vendors/terraform/terraform-provider.md).
+If this sounds interesting and you want to give it a try, please refer to the [help article exclusively dedicated to Spacelift's OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md).
 
 ### Autodeploy
 
@@ -49,10 +49,10 @@ Spacelift workflow can be customized by adding extra commands to be executed bef
 
 Note here that all hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
 
-These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
+These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `tofu/terraform fmt`.
 
 !!! tip
-    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
+    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `tofu/terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
 
     Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) or wrap your hook in parentheses to ensure that to ensure that "after" commands are only executed if the phase succeed.
 
@@ -63,11 +63,11 @@ These commands may serve one of two general purposes - either to make some modif
     If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed, except in the case where the "after" hook is using a semicolon (`;`). For more information on the use of semicolons and ampersands in hooks, please refer to the tip two above.
 
 {% if is_saas() %}
-The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
+The workflow can be customized either using our [OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
 
 ![](<../../assets/screenshots/context/stack_init_phase_hooks.png>)
 {% else %}
-The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
+The workflow can be customized either using our [OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
 {% endif %}
@@ -268,10 +268,10 @@ We have two types of integrations types: default and Space-level. Default integr
 
 _Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift  (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively.
 
-Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
+Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [OpenTofu/Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
 
 !!! info
-    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while recreating the stack (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
+    Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your OpenTofu/Terraform state, download it and import it while recreating the stack (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
 
     Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
@@ -298,17 +298,17 @@ You can find more information about our use of Docker in [this dedicated help ar
 
 ### Worker pool
 
-## Terraform-specific settings
+## OpenTofu/Terraform-specific settings
 
 ### Version {: #terraform-version}
 
-The Terraform version is set when a stack is created to indicate the version of Terraform that will be used with this project. However, Spacelift covers the entire [Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
+The version is set when a stack is created to indicate the version of OpenTofu/Terraform that will be used with this project. However, Spacelift covers the entire [OpenTofu/Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
 
 ### Workspace {: #terraform-workspace}
 
-[Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html){: rel="nofollow"} are supported by Spacelift, too, as long as your state backend supports them. If the workspace is set, Spacelift will try to first [_select_, and then - should that fail - automatically _create_](https://www.terraform.io/docs/language/state/workspaces.html#using-workspaces){: rel="nofollow"} the required workspace on the state backend.
+[OpenTofu/Terraform workspaces](https://opentofu.org/docs/language/state/workspaces/){: rel="nofollow"} are supported by Spacelift, too, as long as your state backend supports them. If the workspace is set, Spacelift will try to first [_select_, and then - should that fail - automatically _create_](https://opentofu.org/docs/language/state/workspaces/#using-workspaces){: rel="nofollow"} the required workspace on the state backend.
 
-If you're [managing Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
+If you're [managing OpenTofu/Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
 
 ## Pulumi-specific settings
 

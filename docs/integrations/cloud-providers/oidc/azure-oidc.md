@@ -5,7 +5,7 @@
 
 ## Configuring workload identity federation
 
-In order to enable Spacelift runs to access Azure resources, you need to set up Spacelift as a valid identity provider for your account. This is done using [workload identity federation](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation){: rel="nofollow"}. The set up process involves creating an App Registration, and then adding federated credentials that tell Azure which Spacelift runs should be able to use which App Registrations. This process can be completed via the Azure Portal, Azure CLI or Terraform. For illustrative purposes we will use the Azure Portal.
+In order to enable Spacelift runs to access Azure resources, you need to set up Spacelift as a valid identity provider for your account. This is done using [workload identity federation](https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation){: rel="nofollow"}. The set up process involves creating an App Registration, and then adding federated credentials that tell Azure which Spacelift runs should be able to use which App Registrations. This process can be completed via the Azure Portal, Azure CLI or OpenTofu/Terraform. For illustrative purposes we will use the Azure Portal.
 
 !!! info
     Note that the following instructions show how to setup federation using a Microsoft Entra App, but the same approach can also be used with a user-assigned managed identity.
@@ -18,7 +18,7 @@ Specify a name for your registration, select the _Accounts in this organizationa
 
 ![Register](<../../../assets/screenshots/oidc-federation-azure-register-app.png>)
 
-On the overview page, take a note of the _Application (client) ID_ and _Directory (tenant) ID_ - you will need them later when configuring the Terraform provider.
+On the overview page, take a note of the _Application (client) ID_ and _Directory (tenant) ID_ - you will need them later when configuring the OpenTofu/Terraform provider.
 
 ![App registration overview](<../../../assets/screenshots/oidc-federation-azure-app-registration-overview.png>)
 
@@ -65,9 +65,9 @@ After adding all the credentials for a stack, it should look something like this
 !!! info
     Please see the [Standard claims](README.md#standard-claims) section for more information about the subject format.
 
-## Configuring the Terraform Provider
+## Configuring the OpenTofu/Terraform Provider
 
-Once workload identity federation is set up, the AzureRM provider [can be configured](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_oidc){: rel="nofollow"} without the need for any static credentials. To do this, enable the `use_oidc` feature of the provider, and use the `oidc_token_file_path` setting to tell the provider where to find the token:
+Once workload identity federation is set up, the AzureRM provider [can be configured](https://search.opentofu.org/provider/hashicorp/azurerm/latest/docs/guides/service_principal_oidc){: rel="nofollow"} without the need for any static credentials. To do this, enable the `use_oidc` feature of the provider, and use the `oidc_token_file_path` setting to tell the provider where to find the token:
 
 ```terraform
 provider "azurerm" {
