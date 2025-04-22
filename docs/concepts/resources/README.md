@@ -2,7 +2,7 @@
 
 One major benefit of specialized tools like Spacelift - as opposed to general-purpose CI/CD platforms - is that they intimately understand the material they're working with. With regards to infra-as-code, the most important part of this story is understanding your managed resources in-depth. Both from the current perspective, but also being able to put each resource in its historical context.
 
-The Resources view is the result of multiple months of meticulous work understanding and documenting the lifecycle of each resource managed by Spacelift, regardless of the technology used - Terraform, Terragrunt, Pulumi or AWS CloudFormation.
+The Resources view is the result of multiple months of meticulous work understanding and documenting the lifecycle of each resource managed by Spacelift, regardless of the technology used - OpenTofu, Terraform, Terragrunt, Pulumi or AWS CloudFormation.
 
 ## Stack-level resources
 

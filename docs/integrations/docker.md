@@ -7,7 +7,7 @@ Every job in Spacelift is processed inside a fresh, isolated Docker container. T
 By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"} image, a simple Alpine image with a small bunch of universally useful packages. Feel free to refer to the [Dockerfile](https://github.com/spacelift-io/runner-terraform/blob/main/Dockerfile){: rel="nofollow"} that builds this image.
 
 !!! info
-    Given that we use Continuous Deployment on our backend and Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
+    Given that we use Continuous Deployment on our backend and OpenTofu/Terraform provider, we **explicitly don't want to version** the runner image. Feature previews are available under a `future` tag, but we'd advise against using these as the API might change unexpectedly.
 
 ### Standard runner image flavors
 
@@ -36,7 +36,7 @@ On public worker pools, only Docker images from the following registries are all
 
 ## Customizing the runner image
 
-The best way to customizing your Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/README.md#runner_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
+The best way to customizing your OpenTofu/Terraform execution environment is to build a custom runner image and use [runtime configuration](../concepts/configuration/runtime-configuration/README.md#runner_image-setting) to tell Spacelift to use it instead of the standard runner. If you're not using [Spacelift provider](../vendors/terraform/terraform-provider.md) with Terraform 0.12, you can use any image supporting (by far the most popular) AMD64 architecture and add your dependencies to it.
 
 If you want our tooling in your image, there are two possible approaches. The first approach is to **build on top of our image**. We'd suggest doing that only if your customizations are relatively simple. For example, let's add a custom CircleCI provider to your image. They have a releases page allowing you to just `curl` the right version of the binary and put it in the `/bin` directory:
 
@@ -56,9 +56,9 @@ RUN curl -O -L https://github.com/mrolla/terraform-provider-circleci/releases/do
 USER spacelift
 ```
 
-For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building a Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
+For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building an OpenTofu/Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 
-The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the Terraform binary are automatically used.
+The following approach works for Terraform version 0.12 and below, where custom OpenTofu/Terraform providers colocated with the `tofu/terraform` binary are automatically used.
 
 ```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest as spacelift

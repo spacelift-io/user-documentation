@@ -7,14 +7,14 @@
 
 Spacelift GCP integration allows Spacelift to manage your Google Cloud resources without the need for long-lived static credentials. In order to achieve that Spacelift create a [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} inside our project dedicated for your Stack. We show you the globally unique email of this service account, which you can add to your GCP organizations and/or projects with the right level of access.
 
-With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/README.md) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#access_token-1){: rel="nofollow"} for the Google Terraform provider, so you can define it like this:
+With the service account already created, we generate temporary OAuth token for this service account and put it as a `GOOGLE_OAUTH_ACCESS_TOKEN` variable in the environment of your [Runs](../../concepts/run/README.md) and [Tasks](../../concepts/run/task.md). This is [one of the configuration options](https://search.opentofu.org/provider/hashicorp/google/latest/docs/guides/provider_reference#authentication-configuration){: rel="nofollow"} for the Google OpenTofu/Terraform provider, so you can define it like this:
 
 ```terraform
 provider "google" {}
 ```
 
 !!! info
-    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#project-1){: rel="nofollow"}identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
+    Note that a lot of GCP resources require [`project`](https://search.opentofu.org/provider/hashicorp/google/latest/docs/guides/provider_reference){: rel="nofollow"}identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
 
 You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes){: rel="nofollow"} that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
 
@@ -24,7 +24,7 @@ You can customize the list of [OAuth scopes](https://developers.google.com/ident
 - `https://www.googleapis.com/auth/devstorage.full_control`
 - `https://www.googleapis.com/auth/userinfo.email`
 
-This list is consistent with the [defaults requested by the Terraform provider](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#scopes-1){: rel="nofollow"}.
+This list is consistent with the `scopes` [defaults requested by the OpenTofu/Terraform provider](https://search.opentofu.org/provider/hashicorp/google/latest/docs/guides/provider_reference){: rel="nofollow"}.
 
 ## Setting up in Spacelift
 
@@ -36,9 +36,9 @@ Once you click _Attach_, the account is generated for you and we display its glo
 
 ![](<../../assets/screenshots/Edit_stack_·_Spacelift_development (2).png>)
 
-### Using Terraform
+### Using OpenTofu/Terraform
 
-If you're using Spacelift Terraform provider to create the integration programmatically, you can do the following:
+If you're using Spacelift OpenTofu/Terraform provider to create the integration programmatically, you can do the following:
 
 ```terraform
 resource "spacelift_gcp_service_account" "gcp-integration" {
