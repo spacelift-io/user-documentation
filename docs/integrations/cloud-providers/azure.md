@@ -2,7 +2,7 @@
 
 ## About the integration
 
-Spacelift provides support for managing Azure resources via the Terraform [Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs){: rel="nofollow"}. The documentation for the Azure Provider outlines the different authentication methods it supports, and it should always be considered the ultimate source of truth.
+Spacelift provides support for managing Azure resources via the OpenTofu/Terraform [Azure Provider](https://search.opentofu.org/provider/hashicorp/azurerm/latest){: rel="nofollow"}. The documentation for the Azure Provider outlines the different authentication methods it supports, and it should always be considered the ultimate source of truth.
 
 This page explains how to configure the following authentication methods in Spacelift:
 
@@ -195,7 +195,7 @@ To use a managed identity, you need to take the following steps:
 
 - Follow the [instructions](../../concepts/worker-pools) to setup a private worker pool.
 - Create an Azure VM with a managed identity, and install the worker binary on it.
-- Configure the [Azure provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity){: rel="nofollow"} to use the managed identity for authentication.
+- Configure the [Azure provider](https://search.opentofu.org/provider/hashicorp/azurerm/latest/docs/guides/managed_service_identity#configuring-terraform-to-use-a-managed-identity){: rel="nofollow"} to use the managed identity for authentication.
 
 To configure the Azure provider to use the managed identity, add the following environment variables to your stack:
 

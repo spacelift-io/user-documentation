@@ -48,16 +48,16 @@ Additionally, if you use [Spacelift AMIs](https://github.com/spacelift-io/spacel
 
 {% if is_saas() %}
 
-## Terraform Modules and Helm Chart
+## OpenTofu/Terraform Modules and Helm Chart
 
-For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
+For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} contains the code for Spacelift's base images, and the following repositories contain OpenTofu/Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
 
 - AWS: [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}.
 - Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
 - GCP: [terraform-google-spacelift-workerpool](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"}.
 
 !!! info
-    AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a Terraform module for this setup.
+    AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a OpenTofu/Terraform module for this setup.
 
 {% endif %}
 
@@ -65,7 +65,7 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 
 There are two easy ways to deploy workers for self-hosting: either via our Terraform module or via the CloudFormation template that is attached to the installation package.
 
-## Terraform module
+## OpenTofu/Terraform module
 
 The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} module can be used to deploy an EC2-based worker pool on AWS. The module is originally for our SaaS offering, but it's compatible with self-hosted when providing the `selfhosted_configuration` variable. For example:
 
@@ -328,8 +328,8 @@ aws cloudformation deploy --no-cli-pager \
   --capabilities "CAPABILITY_NAMED_IAM"
 ```
 
-## Terraform Modules
+## OpenTofu/Terraform Modules
 
-Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} Terraform modules are not currently compatible with self-hosting.
+Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} OpenTofu/Terraform modules are not currently compatible with self-hosting.
 
 {% endif %}
