@@ -1,14 +1,18 @@
-# AI
+---
+description: >-
+  This article explains how you can use Saturnhead AI to get feedback on your runs.
+---
 
-!!! warning
-    This feature is still in beta testing. It will be available soon to Enterprise plan.
+# AI
 
 Spacelift now provides a way to harvest the power of AI to summarize failed runs. By clicking the `Explain` button in the runs history page, Saturnhead will use an advanced LLM to digest the logs of your failed runs and provide useful insights into what went wrong.
 
 ## Enabling Saturnhead features
 
-!!! info
-    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing) for more information.
+{% if is_saas() %}
+!!! Info
+    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 Saturnhead features have to be enabled by an admin user. Admins can locate the settings screen in `Organization settings > Artificial Intelligence`. When enabling the Saturnhead Assist features for the first time, you'll be asked to accept the Terms and Conditions. Once accepted, all the users with read access to runs will be able to ask for assistance on failed runs.
 
