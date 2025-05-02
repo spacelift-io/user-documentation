@@ -771,6 +771,39 @@ spec:
     customBinariesPath: "/bin" # This will result in "/bin:/opt/spacelift/binaries" being added to the start of the worker's path.
 ```
 
+### FIPS
+
+With Go 1.24, the Go runtime [has added support for FIPS mode](https://tip.golang.org/doc/security/fips140){: rel="nofollow"}. This allows you to run your Spacelift workerpool-controller in a [FIPS 140-3](https://en.wikipedia.org/wiki/FIPS_140-3){: rel="nofollow"}-compliant manner.
+
+!!! note
+    Note that the above Go documentation mentions that FIPS mode is best effort based and doesn't guarantee compliance with all requirements.
+
+If you'd like to have the workerpool-controller run in FIPS mode, turn the `controllerManager.enforceFips140` flag to `true` in the Helm chart values. We introduced this in the [v0.42.0 release](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.42.0){: rel="nofollow"} of the Helm chart.
+
+=== "Helm"
+    You can set this in your `values.yaml` file like so:
+    ```yaml
+    controllerManager:
+      enforceFips140: true
+    ```
+
+    Or pass it as a parameter: `--set controllerManager.enforceFips140=true`.
+=== "Kubernetes"
+    When deployed without helm, you'll need to set the `GODEBUG=fips140=only` environment variable manually on the controller container. The command to do this is:
+
+    ```shell
+    # List all deployments to get the name of the controller deployment:
+    kubectl get deployments --all-namespaces
+
+    # Edit the deployment to add the environment variable:
+    kubectl edit deployment/<deployment-name> -n <namespace>
+    ```
+
+During the controller's startup, you should see the `FIPS 140 mode {"enabled": true}` message in the logs.
+
+!!! note
+    This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
+
 ## Scaling a pool
 
 To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
