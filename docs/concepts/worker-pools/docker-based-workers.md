@@ -43,8 +43,13 @@ This setup ensures that the worker binary is always up to date, but the launcher
 
 ![Cycle worker pool](../../assets/screenshots/concepts/worker-pools/cycle-pool.png)
 
-Additionally, if you use [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, they [receive](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} routine system updates every few weeks so it's worth bumping the AMI to the latest version from time to time. That automatically takes care of downloading fresh launcher binaries as well.
 {% endif %}
+
+## AMI updates & deprecation policy
+
+If you run your workers in AWS and use the [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, make sure to update your worker pool routinely as they receive [weekly updates](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} to ensure all system components are up-to-date.
+
+Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 365 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
 
 {% if is_saas() %}
 
