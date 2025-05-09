@@ -5,16 +5,19 @@ See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/
 */
 
 :root {
-  --color-default-white: #fff;
+  --top-banner-height: 40px;
+  --header-padding: 100px;
   --color-primary-main: #7C47FC;
   --color-primary-light: #9A70FF;
+}
+
+[data-md-color-scheme="spacelift"] {
+  --color-default-white: #fff;
   --color-default-primary: #131417;
   --color-default-outline: #D1D2D9;
   --bg-dark: #171721;
   --color-gradient-dark: #70dfcd;
   --color-info-light: #2e89f3;
-  --top-banner-height: 40px;
-  --header-padding: 100px;
 }
 
 
@@ -25,7 +28,7 @@ See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/
 }
 
 [data-md-color-scheme="slate"] {
-  --color-default-primary: #8B8BA6;
+  --md-default-bg-color: #1A1A25;
 }
 
 #hubspot-messages-iframe-container {
@@ -33,6 +36,9 @@ See Sass variables available: https://github.com/squidfunk/mkdocs-material/blob/
 }
 
 header.md-header {
+  --color-default-white: #fff;
+  --color-default-primary: #131417;
+  --color-default-outline: #D1D2D9;
   background-color: #131417;
   height: 88px;
   padding-left: var(--header-padding);
