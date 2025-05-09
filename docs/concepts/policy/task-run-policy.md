@@ -81,7 +81,7 @@ deny["only admins can run tasks"] { not input.session.admin }
 
 Let's look at an example of this simple policy in [the Rego playground](https://play.openpolicyagent.org/p/wKLPjJ4dEF){: rel="nofollow"}.
 
-That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}. Let's try then, and please excuse the regex:
+That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://opentofu.org/docs/cli/commands/taint/){: rel="nofollow"}. Let's try then, and please excuse the regex:
 
 ```opa
 package spacelift

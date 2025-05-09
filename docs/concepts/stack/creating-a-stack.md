@@ -1,6 +1,6 @@
 # Creating a stack
 
-Unless you're defining a stack programmatically using our [Terraform provider](../../vendors/terraform/terraform-provider.md), you will be creating one from the root of your Spacelift account:
+Unless you're defining a stack programmatically using our [OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md), you will be creating one from the root of your Spacelift account:
 
 ![](<../../assets/screenshots/Create_Stack_Overview.png>)
 
@@ -11,7 +11,7 @@ The stack creation process involves nine simple steps:
 
 1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
 2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
-3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md))
+3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [OpenTofu/Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md))
 4. [Defining common behavior of the stack](#define-behavior);
 5. [Creating stack hooks](#create-stack-hooks);
 6. [Attaching a cloud integration](#attach-stack-cloud-integration);
@@ -65,7 +65,7 @@ When selecting **Terraform**, you can choose which **version of Terraform** to s
 The next decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
 
 !!! info
-    If you want to bring your own backend, there's no point in doing additional [state locking](https://www.terraform.io/docs/state/locking.html){: rel="nofollow"} - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
+    If you want to bring your own backend, there's no point in doing additional [state locking](https://opentofu.org/docs/language/state/locking/){: rel="nofollow"} - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
 
 If you choose not to use our state backend, feel free to proceed. If you do want us to manage your state, you have an option to import an existing state file from your previous backend. This is only relevant if you're migrating an existing Terraform project to Spacelift. If you have no state yet and Spacelift will be creating resources from scratch, this step is unnecessary.
 
@@ -84,7 +84,7 @@ Right now, creating an OpenTofu has only one slight difference from creating a T
 
 ![](<../../assets/screenshots/Create_Stack_Pulumi.png>)
 
-When creating a Pulumi stack, you will need to provide two things. First, the login URL to your Pulumi state backend, as currently we don't provide one like we do for Terraform, so you will need to bring your own.
+When creating a Pulumi stack, you will need to provide two things. First, the login URL to your Pulumi state backend, as currently we don't provide one like we do for OpenTofu/Terraform, so you will need to bring your own.
 
 Second, you need to specify the name of the Pulumi stack. This is separate from the name of the Spacelift stack, which you will specify in the [next step](creating-a-stack.md#define-behaviour). That said, nothing prevents you from keeping them in sync.
 
@@ -109,7 +109,7 @@ You can also provide the version of kubectl that you want the worker to download
 ### Terragrunt
 
 ![](<../../assets/screenshots/Create_Stack_Terragrunt.png>)
-Creating a Terragrunt stack in Spacelift, gives you the option to specify the Terraform and Terragrunt versions you want to use.
+Creating a Terragrunt stack in Spacelift, gives you the option to specify the OpenTofu/Terraform and Terragrunt versions you want to use.
 
 You also have the possibility of enabling the run-all feature of Terragrunt, which is useful in scenarios where organizations rely on this in their current process and are unable to do a full migration yet.
 
@@ -133,7 +133,7 @@ You have the flexibility to either take shortcuts to specific configurations or 
 
 ## Define behavior
 
-Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
+Regardless of which of the supported backends (OpenTofu/Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
 
 ![](<../../assets//screenshots/Create_Stack_Define_Behavior.png>)
 
@@ -171,7 +171,7 @@ Here you have the ability to attach any Cloud Integrations you have configured.
 
 Cloud integrations allow Spacelift to manage your resources without the need for long-lived static credentials.
 
-Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
+Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding OpenTofu/Terraform providers.
 
 Currently, AWS, Azure and GCP are natively supported.
 

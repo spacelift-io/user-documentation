@@ -1,14 +1,14 @@
 ---
 description: >-
-  Describes how to store complex Terraform variable types within Spacelift
+  Describes how to store complex OpenTofu/Terraform variable types within Spacelift
   Contexts and/or a Spacelift Stack's environment.
 ---
 
 # Storing Complex Variables
 
-Terraform supports a variety of variable types such as `string`, `number`, `list`, `bool`, and `map`. The full list of Terraform's variable types can be found in the Terraform documentation [here](https://www.terraform.io/language/expressions/types){: rel="nofollow"}.
+OpenTofu/Terraform supports a variety of variable types such as `string`, `number`, `list`, `bool`, and `map`. The full list of Terraform's variable types can be found in the documentation [here](https://opentofu.org/docs/language/expressions/types/){: rel="nofollow"}.
 
-When using "complex" variable types with Spacelift such as `map` and `list` you'll need to utilize Terraform's [jsonencode](https://www.terraform.io/language/functions/jsonencode){: rel="nofollow"} function when storing these variables as an environment variable in your Spacelift Stack [environment](../../concepts/configuration/environment.md) or [context](../../concepts/configuration/context.md).
+When using "complex" variable types with Spacelift such as `map` and `list` you'll need to utilize OpenTofu/Terraform's [jsonencode](https://opentofu.org/docs/language/functions/jsonencode/){: rel="nofollow"} function when storing these variables as an environment variable in your Spacelift Stack [environment](../../concepts/configuration/environment.md) or [context](../../concepts/configuration/context.md).
 
 ## Usage Example
 
@@ -22,7 +22,7 @@ locals {
 
 resource "spacelift_context" "example" {
   description = "Example of storing complex variable types"
-  name        = "Terraform Complex Variable Types Example"
+  name        = "OpenTofu Complex Variable Types Example"
 }
 
 resource "spacelift_environment_variable" "map_example" {
