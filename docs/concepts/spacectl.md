@@ -2,7 +2,7 @@
 
 `spacectl` is a utility wrapping Spacelift's [GraphQL API](../integrations/api.md) for easy programmatic access in command-line contexts - either in manual interactive mode (in your local shell), or in a predefined CI pipeline (GitHub actions, CircleCI, Jenkins etc).
 
-Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programmatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
+Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programmatically, you can use the [Spacelift OpenTofu/Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
 
 ## Installation
 
@@ -140,7 +140,7 @@ VERSION:
 COMMANDS:
    module                   Manage a Spacelift module
    profile                  Manage Spacelift profiles
-   provider                 Manage a Terraform provider
+   provider                 Manage an OpenTofu/Terraform provider
    run-external-dependency  Manage Spacelift Run external dependencies
    stack                    Manage a Spacelift stack
    whoami                   Print out logged-in users information
