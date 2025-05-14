@@ -10,14 +10,14 @@ description: Create complex workflows using trigger policies
 ## Purpose
 
 !!! info
-    Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
 Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.
 
 Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) as well as on module version releases and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
 
 !!! warning
-    Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/README.md#canceled), [Discarded](../run/tracked.md#discarded), [Stopped](../run/README.md#stopping-runs) or [Failed](../run/README.md#failed) in addition to the more obvious [Finished](../run/README.md#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
+    Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/README.md), [Discarded](../run/tracked.md#discarded), [Stopped](../run/README.md#stopping-runs) or [Failed](../run/README.md#failed) in addition to the more obvious [Finished](../run/README.md#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
 
 All runs triggered - directly or indirectly - by trigger policies as a result of the same initial run are grouped into a so-called workflow. In the trigger policy you can access all other runs in the same workflow as the currently finished run, regardless of their Stack. This lets you coordinate executions of multiple Stacks and build workflows which require multiple runs to finish in order to commence to the next stage (and trigger another Stack).
 
@@ -242,7 +242,7 @@ finished {
 
 Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/gz547MYtfN){: rel="nofollow"}. But it's **far from ideal**. We can't be guaranteed that stacks with these IDs still exist in this account. Spacelift will handle that just fine, but you'll likely find if confusing. Also, for any new Stack that appears you will need to explicitly add it to the list. That's annoying.
 
-We can do better, and to do that, we'll use Stack [labels](../stack/README.md#labels). Labels are completely arbitrary strings that you can attach to individual Stacks, and we can use them to do something magical - have "client" Stacks "subscribe" to "parent" ones.
+We can do better, and to do that, we'll use Stack [labels](../stack/stack-settings.md#labels). Labels are completely arbitrary strings that you can attach to individual Stacks, and we can use them to do something magical - have "client" Stacks "subscribe" to "parent" ones.
 
 So how's that:
 

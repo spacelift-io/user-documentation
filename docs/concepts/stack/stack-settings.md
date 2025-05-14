@@ -1,90 +1,88 @@
-# Stack settings
+# Stack Settings
 
-This article covers all settings that are set **directly on the stack**. It's important to note that these are not the only settings that affect how [runs](../run/README.md) and [tasks](../run/task.md) within a given stack are processed - [environment](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md) and various integrations will all play a role here, too.
+This article explains all the settings that can be configured **directly on the stack**. However, these are not the only settings that influence how [runs](../run/README.md) and [tasks](../run/task.md) within a stack are processed. Other factors, such as [environment variables](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md), and various integrations, also play a significant role.
 
 ## Video Walkthrough
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1046826238?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="stack_options"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
-## Common settings
+## Common Settings
 
 ### Administrative
 
-This setting indicates whether a stack has administrative privileges within the [space](../spaces/README.md) it lives in. Runs executed by administrative stacks receive an API token that gives them administrative access to a subset of the Spacelift API used by our [Terraform provider](../../vendors/terraform/terraform-provider.md), which means they can create, update and destroy Spacelift resources.
+This setting determines whether a stack has administrative privileges within its [space](../spaces/README.md). Administrative stacks receive an API token that grants them elevated access to a subset of the Spacelift API, which is used by the [Terraform provider](../../vendors/terraform/terraform-provider.md). This allows them to create, update, and destroy Spacelift resources.
 
 !!! info
-    Administrative stacks get the Admin role in the [space they belong to](https://docs.spacelift.io/concepts/spaces/access-control#access-control).
+    Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control).
 
-The main use case is to create one or a small number of administrative stacks that declaratively define the rest of Spacelift resources like other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), [worker pools](../worker-pools) etc. in order to avoid ClickOps.
+The primary use case for administrative stacks is to declaratively manage Spacelift resources, such as other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
 
-Another pattern we've seen is stacks exporting their outputs as a [context](../configuration/context.md) to avoid exposing their entire state through the Terraform remote state pattern or using external storage mechanisms, like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
+Another common pattern is exporting stack outputs as a [context](../configuration/context.md) to avoid exposing the entire state through Terraform's remote state or external storage mechanisms like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
-If this sounds interesting and you want to give it a try, please refer to the [help article exclusively dedicated to Spacelift's Terraform provider](../../vendors/terraform/terraform-provider.md).
+For more details, refer to the [help article on Spacelift's Terraform provider](../../vendors/terraform/terraform-provider.md).
 
 ### Autodeploy
 
-Indicates whether changes to the stack can be [applied](../run/tracked.md#applying) automatically. When autodeploy is set to _true_, any change to the tracked branch will automatically be [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase was successful and there are no plan policy warnings.
+This setting determines whether changes to the stack can be [applied](../run/tracked.md#applying) automatically. When Autodeploy is enabled (_true_), any change to the tracked branch will be automatically [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase is successful and there are no plan policy warnings.
 
-Consider setting it to _true_ if you always do a code review before merging to the tracked branch, and/or want to rely on [plan policies](../policy/terraform-plan-policy.md) to automatically flag potential problems. If each candidate change goes through a meaningful human code review with stack [writers](../policy/stack-access-policy.md#readers-and-writers) as reviewers, having a separate step to confirm deployment may be overkill. You may also want to refer to a [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code review.
+You might consider enabling Autodeploy if you always perform a code review before merging to the tracked branch or if you rely on [plan policies](../policy/terraform-plan-policy.md) to flag potential issues automatically. If every change undergoes a meaningful human review by stack [writers](../policy/stack-access-policy.md#readers-and-writers), requiring an additional step to confirm deployment may be unnecessary. For more information, refer to the [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code reviews.
 
-[Approval policies](../policy/approval-policy.md) can also be used in tandem with autodeploy or with it off.
+When Autodeploy is enabled, [Approval policies](../policy/approval-policy.md) are only evaluated during the queued stage, not during the unconfirmed state.
 
 ### Autoretry
 
-Indicates whether obsolete proposed changes will be retried automatically. When autoretry is set to _true_ and a change gets applied, all Pull Requests to the [tracked branch](#vcs-integration-and-repository) conflicting with that change will be reevaluated based on the changed state.
+This setting determines whether obsolete proposed changes are retried automatically. When Autoretry is enabled (_true_), any Pull Requests to the [tracked branch](#vcs-integration-and-repository) that conflict with an applied change will be reevaluated based on the updated state.
 
-This saves you from manually retrying runs on Pull Requests when the state changes. This way it also gives you more confidence, that the proposed changes will actually be the actual changes you get after merging the Pull Request.
+This feature saves you from manually retrying runs on Pull Requests when the state changes. It also provides greater confidence that the proposed changes will match the actual changes after merging the Pull Request.
 
-Autoretry is only supported for [Stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
+Autoretry is only supported for [stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
 
-### Customizing workflow
+### Customizing Workflow
 
-Spacelift workflow can be customized by adding extra commands to be executed before and after each of the following phases:
+Spacelift workflows can be customized by adding extra commands to be executed before and after specific phases:
 
-- [Initialization](../run/README.md#initializing) (`before_init` and `after_init`, respectively)
-- [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`, respectively)
-- [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`, respectively)
-- Destroying (`before_destroy` and `after_destroy`, respectively)
-    - [used during module test cases](../run/test-case.md)
-    - used by stacks during destruction that have corresponding [stack_destructor_resource](../stack/stack-dependencies.md#ordered-stack-creation-and-deletion)
-- [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`, respectively)
-- Finally (`after_run`): Executed after each actively processed run, regardless of its outcome. These hooks will execute as part of the last "active" state of the run and will have access to an environment variable called `TF_VAR_spacelift_final_run_state` indicating the final state of the run.
+- [Initialization](../run/README.md#initializing) (`before_init` and `after_init`)
+- [Planning](../run/proposed.md#planning) (`before_plan` and `after_plan`)
+- [Applying](../run/tracked.md#applying) (`before_apply` and `after_apply`)
+- Destroying (`before_destroy` and `after_destroy`)
+    - Used during [module test cases](../run/test-case.md)
+    - Used by stacks during destruction with corresponding [stack_destructor_resource](../stack/stack-dependencies.md#ordered-stack-creation-and-deletion)
+- [Performing](../run/task.md#performing-a-task) (`before_perform` and `after_perform`)
+- Finally (`after_run`): Executed after each actively processed run, regardless of its outcome. These hooks have access to an environment variable called `TF_VAR_spacelift_final_run_state`, which indicates the final state of the run.
 
-Note here that all hooks, including the `after_run` ones, execute on the worker. Hence, the `after_run` hooks will not fire if the run is not being processed by the worker - for example, if the run is terminated outside of the worker (eg. canceled, discarded), there is an issue setting up the workspace or starting the worker container, or the worker container is killed while processing the run.
+All hooks, including `after_run`, execute on the worker. If the run is terminated outside the worker (e.g., canceled or discarded), or if there is an issue setting up the workspace or starting the worker container, the hooks will not fire.
 
-These commands may serve one of two general purposes - either to make some modifications to your workspace (eg. set up symlinks, move files around etc.) or perhaps to run validations using something like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"} or `terraform fmt`.
+These commands can serve two main purposes: modifying the workspace (e.g., setting up symlinks or moving files) or running validations using tools like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"}, or `terraform fmt`.
 
 !!! tip
-    We don’t recommend using newlines (`\n`) in hooks. The reason is that we are chaining the Spacelift commands (eg. `terraform plan`) commands with pre/post hooks with double ampersand (`&&`) and using commands separated by newlines can cause a non-zero exit code by a command to be hidden if the last command in the newline-separated block succeeds. If you'd like to run multiple commands in a hook, you can either add multiple hooks or add a script as a [mounted file](../configuration/environment.md#mounted-files) and call it with a hook.
+    Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
 
-    Additionally, since we chain the commands, if you use a semicolon (`;`), the hooks will continue to run even if the phase fails. Therefore, you should use (`&&`) or wrap your hook in parentheses to ensure that to ensure that "after" commands are only executed if the phase succeed.
+    Additionally, using a semicolon (`;`) in hooks will cause subsequent commands to run even if the phase fails. Use `&&` or wrap your hook in parentheses to ensure "after" commands only execute if the phase succeeds.
 
 !!! danger
-    When a run resumes after having been paused for any reason (e.g., confirmation, approval policy), the remaining phases are run in a new container. As a result, any tool installed in a phase that occurred before the pause won't be available in the subsequent phases. A better way to achieve this would be to bake the tool into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
+    When a run resumes after being paused (e.g., for confirmation or approval), the remaining phases run in a new container. Any tools installed in earlier phases will not be available. To avoid this, bake the tools into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
 
 !!! info
-    If any of the "before" hooks fail (non-zero exit code), the relevant phase is not executed. If the phase itself fails, none of the "after" hooks get executed, except in the case where the "after" hook is using a semicolon (`;`). For more information on the use of semicolons and ampersands in hooks, please refer to the tip two above.
+    If a "before" hook fails (non-zero exit code), the corresponding phase will not execute. Similarly, if a phase fails, none of the "after" hooks will execute unless the hook uses a semicolon (`;`). For more details, refer to the tip above.
 
 {% if is_saas() %}
-The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to customize commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
+The workflow can be customized using either the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or the GUI. The GUI provides an intuitive editor that allows you to add, remove, and reorder commands using drag-and-drop functionality. Commands preceding a phase are "before" hooks, while those following it are "after" hooks:
 
 ![](<../../assets/screenshots/context/stack_init_phase_hooks.png>)
 {% else %}
-The workflow can be customized either using our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or in the GUI. The GUI has a very nice editor that allows you to select the phase you want to customize and add commands before and after each phase. You will be able to add and remove commands, reorder them using _drag and drop_ and edit them in-line. Note how the commands that precede the customized phase are the "before" hooks (`ps aux` and `ls` in the example below), and the ones that go after it are the "after" hooks (`ls -la .terraform`):
+The workflow can be customized using either the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or the GUI. The GUI allows you to select a phase, add commands before and after it, and reorder them using drag-and-drop functionality. Commands preceding a phase are "before" hooks, while those following it are "after" hooks:
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay (7).png>)
 {% endif %}
 
-Perhaps worth noting is the fact that these commands run in the same shell session as the phase itself. So the phase will have access to any shell variables exported by the preceding scripts.
-
-Environment variables are preserved from one phase to the next.
+Commands run in the same shell session as the phase itself, so the phase will have access to any shell variables exported by preceding scripts. Environment variables are preserved across phases.
 
 !!! info
-    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#before_init-scripts) specified in the `.spacelift/config.yml` file.
+    These scripts can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md) specified in the `.spacelift/config.yml` file.
 
 {% if is_saas() %}
 
-#### Note on hook ordering
+#### Note on Hook Ordering
 
 Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically or reversed alphabetically depending on the operation type (before/after).
 
@@ -129,7 +127,7 @@ After phase order:
 
 {% endif %}
 
-### Runtime commands
+### Runtime Commands
 
 Spacelift can handle special commands to change the workflow behavior.
 Runtime commands use the echo command in a specific format.
@@ -167,7 +165,7 @@ echo "::add-mask secret-string another-secret-string"
 echo "::add-mask $(aws sts get-caller-identity | jq -r .Account)"
 ```
 
-### Enable local preview
+### Enable Local Preview
 
 Indicates whether creating [proposed Runs](../run/proposed.md) based on user-uploaded local workspaces is allowed.
 
@@ -182,7 +180,7 @@ spacectl stack local-preview --id <stack-id>
 
     Use with caution.
 
-### Enable well known secret masking
+### Enable Well Known Secret Masking
 
 This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
@@ -200,7 +198,7 @@ This setting determines if secret patterns will be automatically redacted from l
 - RSA Private Key
 - PEM block with BEGIN PRIVATE KEY header
 
-### Name and description
+### Name and Description
 
 Stack name and description are pretty self-explanatory. The required _name_ is what you'll see in the stack list on the home screen and menu selection dropdown. Make sure that it's informative enough to be able to immediately communicate the purpose of the stack, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
 
@@ -213,7 +211,7 @@ The optional _description_ is completely free-form and it supports [Markdown](ht
 
 ### Labels
 
-Labels are arbitrary, user-defined tags that can be attached to Stacks. A single Stack can have an arbitrary number of these, but they **must** be unique. Labels can be used for any purpose, including UI filtering, but one area where they shine most is user-defined [policies](../policy/README.md#policies-and-stack-labels) which can modify their behavior based on the presence (or lack thereof) of a particular label.
+Labels are arbitrary, user-defined tags that can be attached to Stacks. A single Stack can have an arbitrary number of these, but they **must** be unique. Labels can be used for any purpose, including UI filtering, but one area where they shine most is user-defined [policies](../policy/README.md#policy-library) which can modify their behavior based on the presence (or lack thereof) of a particular label.
 
 There are some **magic** labels that you can add to your stacks. These labels add/remove functionalities based on their presence.
 
@@ -232,14 +230,14 @@ List of the most useful labels:
 - **autoattach:autoattached_label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing `autoattached_label`
 - **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
 
-### Project root
+### Project Root
 
 Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
 
-### Project globs
+### Project Globs
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
@@ -263,7 +261,7 @@ Example matches:
 
 As you can see in the example matches, these are the regex rules that you are already accustomed to.
 
-### VCS integration and repository
+### VCS Integration and Repository
 
 ![](<../../assets/screenshots/stack/settings/source-code_vcs-details.png>)
 
@@ -285,7 +283,7 @@ Results of both tracked and proposed runs are displayed in the source control pr
 !!! info
     A branch _must_ exist before it's pointed to in Spacelift.
 
-### Runner image
+### Runner Image
 
 Since every Spacelift job (which we call [runs](../run/README.md)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
 
@@ -299,9 +297,9 @@ You can find more information about our use of Docker in [this dedicated help ar
 !!! warning
     On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.
 
-### Worker pool
+### Worker Pool
 
-## Terraform-specific settings
+## Terraform-specific Settings
 
 ### Version {: #terraform-version}
 
@@ -313,7 +311,7 @@ The Terraform version is set when a stack is created to indicate the version of 
 
 If you're [managing Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
 
-## Pulumi-specific settings
+## Pulumi-specific Settings
 
 ### Login URL {: #pulumi-login-url}
 
@@ -321,6 +319,6 @@ Login URL is the address Pulumi should log into during Run initialization. Since
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 
-### Stack name {: #pulumi-stackname}
+### Stack Name {: #pulumi-stackname}
 
-The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](stack-settings.md#stack-name) - they _may_ be different, though it's probably good if you can keep them identical.
+The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](#name-and-description) - they _may_ be different, though it's probably good if you can keep them identical.

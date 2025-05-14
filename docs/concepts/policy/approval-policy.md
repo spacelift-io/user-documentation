@@ -1,11 +1,13 @@
-# Approval policy
+# Approval Policy
 
 !!! info
-    Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
-The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this way more granular and contextual.
+The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this process more granular and contextual.
 
-Runs can be reviewed when they enter one of the three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#unconfirmed). When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
+Runs can be reviewed when they enter one of three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#pending-review). Please note if a stack has [auto-deploy](../stack/stack-settings.md#autodeploy) enabled, then the approval policy will not be evaluated here, and you should use a [plan policy](../policy/terraform-plan-policy.md) to warn which will force the stack into an unconfirmed state and the approval policy will get evaluated as a safeguard.
+
+When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
 
 Here's an example of a queued run waiting for a human review - note how the last approval policy evaluation returned an _Undecided_ decision. There's also a Review button next to the Cancel button:
 
@@ -15,41 +17,41 @@ Review can be positive (approve) or negative (reject):
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (1).png>)
 
-With a positive review, the approval policy could evaluate to Approve thus unblocking the run:
+With a positive review, the approval policy could evaluate to Approve, thus unblocking the run:
 
 ![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon.png)
 
-When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you will not be able to [confirm](../run/tracked.md#confirmed) it until that approval is received. The run can however be [discarded](../run/tracked.md#discarded) at any point:
+When an [unconfirmed](../run/tracked.md#unconfirmed) run needs approval, you will not be able to [confirm](../run/tracked.md#confirmed) it until that approval is received. The run can, however, be [discarded](../run/tracked.md#discarded) at any point:
 
 ![](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (3).png>)
 
-In principle, the run review and approval process are very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
+In principle, the run review and approval process is very similar to GitHub's Pull Request review, the only exception being that it's the Rego policy (rather than a set of checkboxes and dropdowns) that defines the exact conditions to approve the run.
 
 !!! tip
-    If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged". A run approval means "I'm OK with that action being executed".
+    If separate run approval and confirmation steps sound confusing, don't worry. Just think about how GitHub's Pull Requests work - you can approve a PR before merging it in a separate step. A PR approval means "I'm OK with this being merged." A run approval means "I'm OK with that action being executed."
 
 ## Rules
 
 Your approval policy can define the following boolean rules:
 
 - **approve**: the run is approved and no longer requires (or allows) review;
-- **reject**: the run fails immediately;
+- **reject**: the run fails immediately.
 
 While the 'approve' rule must be defined in order for the run to be able to progress, it's perfectly valid to not define the 'reject' rule. In that case, runs that look invalid can be cleaned up ([canceled](../run/README.md#canceled) or [discarded](../run/tracked.md#discarded)) manually.
 
-It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided' and more reviews will be necessary to reach the conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true'.
+It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided,' and more reviews will be necessary to reach a conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true.'
 
 !!! info
     Users must have [`write`](./stack-access-policy.md#readers-and-writers) or [`admin`](./login-policy.md#purpose) access to the stack to be able to approve changes.
 
-### How it works
+### How It Works
 
 When a user reviews the run, Spacelift persists their review and passes it to the approval policy, along with other reviews, plus some information about the run and its stack. The same user can review the same run as many times as they want, but only their newest review will be presented to the approval policy. This mechanism allows you to change your mind, very similar to Pull Request reviews.
 
-## Data input
+## Data Input
 
 !!! info
-    Note that this is just an example meant for informational purposes (json doesn't support comments by design).  You can get a sample using the [policy workbench](./README.md#policy-workbench).
+    Note that this is just an example meant for informational purposes (JSON doesn't support comments by design). You can get a sample using the [policy workbench](./README.md#policy-workbench).
 
 This is the schema of the data input that each policy request will receive:
 
@@ -61,14 +63,14 @@ This is the schema of the data input that each policy request will receive:
         "author": "string - reviewer username",
         "request": { // request data of the review
           "remote_ip": "string - user IP",
-          "timestamp_ns": "number - review creation Unix timestamp in nanoseconds",
+          "timestamp_ns": "number - review creation Unix timestamp in nanoseconds"
         },
         "session": { // session data of the review
           "login": "string - username of the reviewer",
           "name": "string - full name of the reviewer",
           "teams": ["string - names of teams the reviewer was a member of"]
         },
-        "state": "string - the state of the run at the time of the approval",
+        "state": "string - the state of the run at the time of the approval"
       }],
       "rejections": [/* negative reviews, see "approvals" for schema */]
     },
@@ -95,7 +97,7 @@ This is the schema of the data input that each policy request will receive:
     "commit": {
       "author": "string - GitHub login if available, name otherwise",
       "branch": "string - branch to which the commit was pushed",
-      "created_at": "number  - creation Unix timestamp in nanoseconds",
+      "created_at": "number - creation Unix timestamp in nanoseconds",
       "hash": "string - the commit hash",
       "message": "string - commit message",
       "exist_on_tracked_branch": "boolean - true if commit with this hash exist on tracked branch"
@@ -110,16 +112,16 @@ This is the schema of the data input that each policy request will receive:
       "machine": "boolean - whether the run was initiated by a human or a machine"
     },
     "drift_detection": "boolean - is this a drift detection run",
-    "flags" : ["string - list of flags set on the run by other policies" ],
+    "flags": ["string - list of flags set on the run by other policies"],
     "id": "string - the run ID",
     "runtime_config": {
       "before_init": ["string - command to run before run initialization"],
       "project_root": "string - root of the Terraform project",
       "runner_image": "string - Docker image used to execute the run",
-      "terraform_version": "string - Terraform version used to for the run"
+      "terraform_version": "string - Terraform version used for the run"
     },
     "state": "string - the current run state",
-    "triggered_by": "string or null - user, trigger policy, or dependent stack that triggered the run.  For a dependent stack is set to the stack id that triggered it.",
+    "triggered_by": "string or null - user, trigger policy, or dependent stack that triggered the run. For a dependent stack, this is set to the stack ID that triggered it.",
     "type": "string - type of the run",
     "updated_at": "number - last update Unix timestamp in nanoseconds",
     "user_provided_metadata": [
