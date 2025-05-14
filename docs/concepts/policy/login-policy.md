@@ -7,6 +7,9 @@
 
 Login policies allow users to log in to the Spacelift account and can grant admin privileges. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
 
+!!! info
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
+
 API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an admin key.
 
 !!! tip
@@ -125,7 +128,7 @@ deny  { not input.session.member }
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
 
-For Single Sign-On integrations, only the [integration creator](../../integrations/single-sign-on/README.md#managing-integrations) gets administrative permissions by default, so all other administrators must be granted access using a login policy.
+This is also important for Single Sign-On integrations: only the [integration creator](../../integrations/single-sign-on/README.md) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
 
 ### Granting access to external contributors
 
