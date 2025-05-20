@@ -179,7 +179,7 @@ OIDC-based API keys are a more secure alternative to secret-based API keys. They
   <img src="../assets/screenshots/create-oidc-api-key.png"/>
 </p>
 
-The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token.
+The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token. For GitHub Actions, this is `https://token.actions.githubusercontent.com`.
 
 The **Client ID (audience)** field is the client ID of the OIDC application you've created in the identity provider. That's what the identity provider puts in the `aud` claim of the JWT token. Some identity providers allow you to customize it and some don't.
 
