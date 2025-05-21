@@ -3,7 +3,7 @@
 ## Purpose
 
 !!! info
-    Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
 Login policies can allow users to log in to the account, and optionally give them admin privileges, too. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
 
@@ -82,7 +82,7 @@ When using the default identity provider (GitHub), Teams are only queried for or
 
 Note that Spacelift treats GitHub team membership as transitive - for example let's assume Charlie is a member of the _Badass_ team, which is a child of team _Awesome_. Charlie's list of teams includes both _Awesome_ and _Badass_, even though he's not a **direct** member of the team _Awesome_.
 
-For Single Sign-On, the list of teams is pretty much arbitrary and depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see the [relevant article](../../integrations/single-sign-on/README.md#setting-up-the-integration) for more details.
+For Single Sign-On, the list of teams is pretty much arbitrary and depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see the [relevant article](../../integrations/single-sign-on/README.md) for more details.
 
 !!! warning
     Watch this field very closely - it may be _very_ useful for your **allow** and **admin** rules.
@@ -116,7 +116,7 @@ deny  { not input.session.member }
 
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
 
-This is also important for Single Sign-On integrations: only the [integration creator](../../integrations/single-sign-on/README.md#setting-up-the-integration) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
+This is also important for Single Sign-On integrations: only the [integration creator](../../integrations/single-sign-on/README.md) gets administrative permissions by default, so all other administrators must be granted their access using a login policy.
 
 ### Granting access to external contributors
 

@@ -3,7 +3,7 @@
 ## Purpose
 
 !!! info
-    Please note, we currently don't support importing rego.v1
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
 Plan policies are evaluated during a planning phase after vendor-specific change preview command (eg. `terraform plan`) executes successfully. The body of the change is exported to JSON and parts of it are combined with Spacelift metadata to form the data input to the policy.
 
