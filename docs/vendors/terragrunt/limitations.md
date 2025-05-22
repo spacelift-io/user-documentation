@@ -32,3 +32,9 @@ Ensure this flag is included in your command to avoid run failures.
 ## Resource Deletion
 
 Our Terragrunt support currently does not support resources being deleted during stack deletion, this includes through the Spacelift stack destructor or the "Delete Stack" option in the UI.
+
+## Run-all with external dependencies
+
+When a Spacelift stack configured with `run-all` points to a module that is not at the root of the Terragrunt module tree, execution may fail due to missing plan files from upstream dependencies.
+This happens because Terragrunt expects to manage the full dependency graph starting from the root module, and cannot correctly resolve external dependencies from a partial context.
+To work around this limitation, you can add the stack label `feature:terragrunt_permit_missing_planfiles`, which allows Terragrunt to skip missing plan file errors. Be aware that you may still see errors from `terraform plan` commands in the logs—these are expected and will not interrupt the workflow.
