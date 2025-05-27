@@ -369,6 +369,26 @@ slack[{
 }
 ```
 
+#### Organizing messages in Slack threads
+
+You can use the `thread_key` parameter to group related messages in a single Slack thread. When the first message with a specific `thread_key` is sent, it creates a new message in the channel. Subsequent messages with the same `thread_key` will be sent as replies in that thread instead of creating new messages.
+
+The following example shows how to use `thread_key` to group all updates for a single run in one thread:
+
+```opa
+package spacelift
+
+slack[{"channel_id": "C08TULY2SBS", "thread_key": run.id}] {
+ run := input.run_updated.run
+ run.type == "TRACKED"
+}
+```
+
+This will send a message every time the run is updated, with each update appearing as a reply in the same thread.
+
+!!! note
+    Using `thread_key` changes the default behavior of run update notifications. Without `thread_key`, only one message is sent per run and that message is updated every time the run is updated. With `thread_key`, every state change will be sent as a separate message in the thread.
+
 ### Webhook requests
 
 !!! info
