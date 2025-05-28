@@ -11,7 +11,7 @@ While tasks enjoy the privilege of having their own GUI screen, they're just ano
 
 ## The purpose of tasks
 
-The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the Terraform state](https://www.terraform.io/docs/commands/state/show.html){: rel="nofollow"}, or even make changes to the state itself, like [tainting a resource](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}.
+The main purpose of task is to perform arbitrary changes to your infrastructure in a coordinated, safe and audited way. Tasks allow ultimate flexibility and can be used to check the environment (see the humble `ls -la` on the above screenshot), perform benign read-only operations like [showing parts of the OpenTofu/Terraform state](https://opentofu.org/docs/cli/commands/state/show/){: rel="nofollow"}, or even make changes to the state itself, like [tainting a resource](https://opentofu.org/docs/cli/commands/taint/){: rel="nofollow"}.
 
 Given that thanks to the [Docker integration](../../integrations/docker.md) you have full control over the execution environment of your workloads, there's hardly a limit to what you can do.
 
@@ -54,7 +54,7 @@ Performing a task will succeed and the task will transition to the [finished](./
 
 ## Skipping initialization
 
-In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
+In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are OpenTofu/Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
 
 ![](<../../assets/screenshots/run/task-init-toggle.png>)
 

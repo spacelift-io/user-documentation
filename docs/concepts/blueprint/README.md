@@ -5,9 +5,9 @@
     This feature is only available on the Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-There are multiple ways to create [stacks](../stack/README.md) in Spacelift. Our recommended way is to use [our Terraform provider](../../vendors/terraform/terraform-provider.md) and programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
+There are multiple ways to create [stacks](../stack/README.md) in Spacelift. Our recommended way is to use [our OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md) and programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
 
-However, some users might not be comfortable using Terraform code to create stacks. This is where Blueprints come in handy.
+However, some users might not be comfortable using OpenTofu/Terraform code to create stacks. This is where Blueprints come in handy.
 
 ## What is a Blueprint?
 
@@ -122,14 +122,14 @@ inputs:
     type: secret
     # secret means the input will be masked in the UI
   - id: tf_version
-    name: Terraform version of the stack
+    name: OpenTofu/Terraform version of the stack
     type: select
     options:
       - "1.3.0"
       - "1.4.6"
       - "1.5.0"
   - id: manage_state
-    name: Should Spacelift manage the state of Terraform
+    name: Should Spacelift manage the state of OpenTofu/Terraform
     default: true
     type: boolean
   - id: destroy_task_epoch
@@ -149,7 +149,7 @@ stack:
   is_disabled: ${{ inputs.environment != 'prod' }}
   labels:
     - Environment/${{ inputs.environment }}
-    - Vendor/Terraform
+    - Vendor/OpenTofu
     - Owner/${{ context.user.login }}
     - Blueprint/${{ context.blueprint.name }}
     - Space/${{ context.blueprint.space }}
@@ -380,9 +380,9 @@ stack:
   name: 'yes-my-stack'
 ```
 
-### Interaction with Terraform `templatefile`
+### Interaction with OpenTofu/Terraform `templatefile`
 
-When using the Terraform [`templatefile`](https://developer.hashicorp.com/terraform/language/functions/templatefile){: rel="nofollow"} function to generate a Blueprint template body, you can run into issues because the Blueprint template engine and `templatefile` both use `$` as template delimiters. This can result in error messages like the following:
+When using the OpenTofu/Terraform [`templatefile`](https://opentofu.org/docs/language/functions/templatefile/){: rel="nofollow"} function to generate a Blueprint template body, you can run into issues because the Blueprint template engine and `templatefile` both use `$` as template delimiters. This can result in error messages like the following:
 
 {% raw %}
 
@@ -654,7 +654,7 @@ Note that this is not a working example as it is missing a few things (`inputs` 
 
 ## Stack Configuration
 
-Stacks can be configured in a similar fashion as if you were using the Terraform provider or the UI. Most of the options are straightforward; however, some require deeper knowledge and are covered in the sections below. For a full list of available options, please refer to the [Schema](#schema) section below.
+Stacks can be configured in a similar fashion as if you were using the OpenTofu/Terraform provider or the UI. Most of the options are straightforward; however, some require deeper knowledge and are covered in the sections below. For a full list of available options, please refer to the [Schema](#schema) section below.
 
 ### Dependencies
 
@@ -873,7 +873,7 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 ```
 
 !!! tip
-    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}, or the web UI itself if you're feeling fancy.
+    Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [OpenTofu/Terraform Provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest){: rel="nofollow"}, or the web UI itself if you're feeling fancy.
 
 For simplicity, here is the current schema, but it might change in the future:
 

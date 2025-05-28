@@ -52,9 +52,9 @@ EOF
 
 The `bound_audiences` parameter is the hostname of your Spacelift account, which is used as the audience claim in the OIDC token you receive from Spacelift. The `bound_claims` parameter is a JSON object that contains the claims that the OIDC token must contain in order to be able to access the Vault secrets. How you scope this will very much depend on your use case. In the above example, only runs belonging to a stack or module in the `spaceId` claim can assume "infra-preprod" Vault role. You can refer to this document to see the available [standard](README.md#standard-claims) and [custom claims](README.md#custom-claims) presented by the Spacelift OIDC token.
 
-## Configuring the Terraform Provider
+## Configuring the OpenTofu/Terraform Provider
 
-Once the Vault setup is complete, you need to configure the [Terraform Vault provider](https://registry.terraform.io/providers/hashicorp/vault/latest){: rel="nofollow"} to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://registry.terraform.io/providers/hashicorp/vault/latest/docs#jwt){: rel="nofollow"} to the provider, and set the `role` parameter to the name of the role you created in the previous section:
+Once the Vault setup is complete, you need to configure the [OpenTofu/Terraform Vault provider](https://search.opentofu.org/provider/hashicorp/vault/latest){: rel="nofollow"} to use the Spacelift OIDC JWT token to assume a particular role. To do this, you will provide the [`auth_login_jwt` configuration block](https://search.opentofu.org/provider/hashicorp/vault/latest#jwt){: rel="nofollow"} to the provider, and set the `role` parameter to the name of the role you created in the previous section:
 
 ```hcl
 provider "vault" {

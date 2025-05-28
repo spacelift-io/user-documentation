@@ -4,7 +4,7 @@ There are many ways to onboard new groups of users into Spacelift. Below are thr
 
 ## The Onboarding and Stack Modules
 
-Spacelift is API first, which means everything in Spacelift is able to be terraformed.
+Spacelift is API first, which means everything in Spacelift is able to be defined using OpenTofu or Terraform.
 All the suggested approaches we list here will involve creating a module that will create the necessary resources for a group to be onboarded into Spacelift and a module that will create stacks inside the Space(s) that the group will be assigned to.
 
 The module should, minimally, create the following resources:
@@ -111,7 +111,7 @@ Moving forward, all teams would work out of the administrative stack in the `roo
 Spacelift will always suggest keeping your organization's Spacelift configuration in code at all times.
 This is the most flexible and scalable way to manage your Spacelift configuration.
 This means, when you use the Blueprints approach, we suggest your organization chooses between Approach 1 or Approach 2, and then creates a blueprint for the onboarding process.
-The blueprint would then create commits in git adding terraform code to repositories controlled via Approach 1/2.
+The blueprint would then create commits in Git adding OpenTofu/Terraform code to repositories controlled via Approach 1/2.
 
 The process of this would be as follows (for simplicity, we will choose approach 2):
 
