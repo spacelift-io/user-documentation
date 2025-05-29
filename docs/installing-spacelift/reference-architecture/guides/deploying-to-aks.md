@@ -185,7 +185,7 @@ provider "azurerm" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-azure-spacelift-selfhosted?ref=v0.0.6"
+  source = "github.com/spacelift-io/terraform-azure-spacelift-selfhosted?ref=v1.0.0"
 
   app_domain                 = var.website_domain
   spacelift_version          = var.spacelift_version
