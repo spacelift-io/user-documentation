@@ -269,7 +269,7 @@ provider "google" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0..0"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
 
   region                     = var.region
   project                    = var.project
