@@ -72,7 +72,7 @@ resource "google_compute_subnetwork" "default" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v0.0.7"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
 
   region         = var.region
   project        = var.project
@@ -144,7 +144,7 @@ resource "google_service_account" "gke-nodes" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v0.0.7"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
 
   region         = var.region
   project        = var.project
@@ -269,7 +269,7 @@ provider "google" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v0.0.8"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0..0"
 
   region                     = var.region
   project                    = var.project
