@@ -33,7 +33,7 @@ nav:
           - installing-spacelift/cloudformation/advanced-installations.md
           - installing-spacelift/cloudformation/disaster-recovery.md
           - installing-spacelift/cloudformation/slack-integration-setup.md
-          - installing-spacelift/cloudformation/v2-to-v3-migration.md
+          - installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.md
   - getting-started.md
   - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:

@@ -1,8 +1,8 @@
 ---
-description: Moving from V2 self-hosted to V3.
+description: Moving from Cloudformation-based installation to the reference architecture
 ---
 
-# V2 to V3 migration
+# CloudFormation to OpenTofu/Terraform migration
 
 If you seek to migrate from the Cloudformation-based installation to the reference architecture, we developed [a small migration toolkit to help you with the process](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"}.
 

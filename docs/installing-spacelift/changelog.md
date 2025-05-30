@@ -26,11 +26,11 @@ Self-Hosted v3 introduces [a new licensing method](./reference-architecture/refe
 
 We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/general-configuration.md#usage-reporting).
 
-### Migration from v2
+### Migration from CloudFormation to OpenTofu/Terraform
 
-We've developed a comprehensive [migration toolkit](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"} to facilitate the transition from the v2 CloudFormation-based deployment to the v3 OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the [migration guide](./cloudformation/v2-to-v3-migration.md).
+We've developed a comprehensive [migration toolkit](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"} to facilitate the transition from the CloudFormation-based deployment to the OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the [migration guide](./cloudformation/cloudformation-to-opentofu-terraform-migration.md).
 
-**Prerequisites**: The migration toolkit requires a working installation of `v2.6.0` or later.
+**Prerequisites**: The migration toolkit requires a working installation of `v2.6.0` or later. You can also upgrade to `v3.0.0` with CloudFormation and later switch to the new Terraform modules.
 
 ### Artifacts and installation package
 
