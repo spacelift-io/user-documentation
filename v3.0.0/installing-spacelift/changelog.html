@@ -457,8 +457,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#migration-from-v2" class="md-nav__link">
-    Migration from v2
+  <a href="#migration-from-cloudformation-to-opentofuterraform" class="md-nav__link">
+    Migration from CloudFormation to OpenTofu/Terraform
   </a>
   
 </li>
@@ -1543,8 +1543,8 @@
   
   
     <li class="md-nav__item">
-      <a href="cloudformation/v2-to-v3-migration.html" class="md-nav__link">
-        V2 to V3 migration
+      <a href="cloudformation/cloudformation-to-opentofu-terraform-migration.html" class="md-nav__link">
+        CloudFormation to OpenTofu/Terraform migration
       </a>
     </li>
   
@@ -5051,8 +5051,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#migration-from-v2" class="md-nav__link">
-    Migration from v2
+  <a href="#migration-from-cloudformation-to-opentofuterraform" class="md-nav__link">
+    Migration from CloudFormation to OpenTofu/Terraform
   </a>
   
 </li>
@@ -5650,9 +5650,9 @@
 <p>Self-Hosted v3 introduces <a href="reference-architecture/reference/general-configuration.html#licensing">a new licensing method</a>. As we no longer rely on AWS License Manager, we've transitioned to a new JWT-based license token system. A Spacelift representative will provide you with a license token to activate your v3 instance. The license token has a defined validity period and requires renewal upon expiration.</p>
 <h4 id="usage-reporting">Usage reporting<a class="headerlink" href="#usage-reporting" title="Anchor link to this section">»</a></h4>
 <p>We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the <code>SPACELIFT_PUBLIC_API</code> variable to <code>https://app.spacelift.io</code>. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the <a href="reference-architecture/reference/general-configuration.html#usage-reporting">general configuration reference</a>.</p>
-<h3 id="migration-from-v2">Migration from v2<a class="headerlink" href="#migration-from-v2" title="Anchor link to this section">»</a></h3>
-<p>We've developed a comprehensive <a href="https://github.com/spacelift-io/self-hosted-v2-to-v3-kit" rel="nofollow">migration toolkit</a> to facilitate the transition from the v2 CloudFormation-based deployment to the v3 OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the <a href="cloudformation/v2-to-v3-migration.html">migration guide</a>.</p>
-<p><strong>Prerequisites</strong>: The migration toolkit requires a working installation of <code>v2.6.0</code> or later.</p>
+<h3 id="migration-from-cloudformation-to-opentofuterraform">Migration from CloudFormation to OpenTofu/Terraform<a class="headerlink" href="#migration-from-cloudformation-to-opentofuterraform" title="Anchor link to this section">»</a></h3>
+<p>We've developed a comprehensive <a href="https://github.com/spacelift-io/self-hosted-v2-to-v3-kit" rel="nofollow">migration toolkit</a> to facilitate the transition from the CloudFormation-based deployment to the OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the <a href="cloudformation/cloudformation-to-opentofu-terraform-migration.html">migration guide</a>.</p>
+<p><strong>Prerequisites</strong>: The migration toolkit requires a working installation of <code>v2.6.0</code> or later. You can also upgrade to <code>v3.0.0</code> with CloudFormation and later switch to the new Terraform modules.</p>
 <h3 id="artifacts-and-installation-package">Artifacts and installation package<a class="headerlink" href="#artifacts-and-installation-package" title="Anchor link to this section">»</a></h3>
 <p>Currently, the installation artifacts remain unchanged. The package continues to include CloudFormation templates and shell scripts, allowing you to deploy Spacelift Self-Hosted v3 using existing methods. However, we recommend migrating to the new Terraform modules, as they offer greater flexibility and customization options for your deployment process.</p>
 <p><strong>Note</strong>: We will continue to support the CloudFormation approach and will provide customers with notice well in advance before discontinuing support for this installation method.</p>
