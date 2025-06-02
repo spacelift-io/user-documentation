@@ -1,7 +1,9 @@
 # Microsoft Azure
 
+{% if is_saas() %}
 !!! hint
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+{% endif %}
 
 ## Configuring workload identity federation
 

@@ -84,6 +84,8 @@ hooks:
 plugins:
   - search
   - macros
+  - glightbox:
+      manual: true
   - mike:
       # These fields are all optional; the defaults are as below...
       alias_type: symlink

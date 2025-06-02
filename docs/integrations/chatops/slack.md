@@ -12,15 +12,76 @@ Here are examples of messages the Spacelift application sends to Slack;
 
 ![](../../assets/screenshots/CleanShot 2022-09-23 at 09.52.06.png)
 
-## Linking your Spacelift account to the Slack workspace
+{% if is_self_hosted() %}
 
-As a Spacelift and Slack admin, you can link your Spacelift account to the Slack workspace by going to the _Slack_ section of the _Settings_ screen.
+## Configuring a Slack app
 
-The integration is an OAuth2 exchange which installs Slack Spacelift app in your workspace.
+In a Self-Hosted installation, you need to create your own Slack app to allow Spacelift to integrate with your Slack workspace. This Slack app provides credentials needed by Spacelift to communicate with Slack, and also contains configuration information like the webhooks URL that Slack should send requests to.
 
-Once you install the Spacelift app, the account-level integration is finished and the _Slack_ section of the _Settings_ screen informs you that the two are talking to one another:
+There are two options for configuring the Slack app:
 
-![](../../assets/screenshots/Mouse_Highlight_Overlay_and_Slack_integration_·_spacelift-io.png)
+1. Via environment variables.
+2. Dynamically via the Spacelift frontend.
+
+This section walks you through the steps to create and configure the Slack app dynamically via the Spacelift frontend. If you want to configure it via the environment please see our [configuration reference](../../installing-spacelift/reference-architecture/reference/slack.md).
+
+### Create Slack app
+
+To start the process, go to the _Integrations_ section of your _Organization settings_, and choose the _Set up_ option next to the Slack integration:
+
+![Set up Slack](../../assets/screenshots/integrations/chatops/slack/create-app-set-up.png)
+
+The side bar is split into two sections. The top section contains the manifest you should use when creating your Slack app, and the bottom section contains fields to enter the credentials for your Slack app.
+
+Copy the app manifest then click on the _Create Slack app_ button. This will take you to Slack and start the app creation process. Choose the _From a manifest_ option when the dialog appears:
+
+![Create an app from a manifest](../../assets/screenshots/integrations/chatops/slack/create-app-from-a-manifest.png)
+
+On the next step, choose the Slack workspace you want to connect Spacelift to:
+
+![Choose workspace](../../assets/screenshots/integrations/chatops/slack/create-app-pick-workspace.png)
+
+Next, paste the manifest that your copied from the Spacelift frontend:
+
+![Paste manifest](../../assets/screenshots/integrations/chatops/slack/create-app-paste-manifest.png)
+
+Finally, click _Create_ on the summary page to create your app:
+
+![Create app](../../assets/screenshots/integrations/chatops/slack/create-app-summary-page.png)
+
+### Add Slack app details to Spacelift
+
+Once your app has been created, go to its _Basic Information_ configuration section and find the _Client ID_, _Client Secret_ and _Signing Secret_:
+
+![Basic information](../../assets/screenshots/integrations/chatops/slack/create-app-basic-information.png)
+
+Enter these details into Spacelift and click the _Save & Connect_ button to continue:
+
+![Save and connect](../../assets/screenshots/integrations/chatops/slack/create-app-save-and-connect.png)
+
+You will now be redirected to Slack, and asked to grant the app you just created access to your Slack workspace. Click on _Allow_ to continue:
+
+![Allow permissions](../../assets/screenshots/integrations/chatops/slack/slack-grant-permission-to-connect.png)
+
+You should now be redirected to Spacelift, and the status of your integration should be marked as active:
+
+![Integration active](../../assets/screenshots/integrations/chatops/slack/slack-connected.png)
+
+At this point you can skip the next section and go straight to finding out how to [manage access to Stacks](#managing-access-to-stacks-with-policies).
+
+{% endif %}
+
+## Connecting your Spacelift account to the Slack workspace
+
+As a Spacelift and Slack admin, you can connect your Spacelift account to the Slack workspace via the _Integrations_ section of your _Organization Settings_:
+
+![Connect to Slack](../../assets/screenshots/integrations/chatops/slack/connect-to-slack.png)
+
+When you click on _Connect_, it performs an OAuth2 exchange which installs Slack Spacelift app in your workspace.
+
+Once the connection is complete, the Slack integration should be marked as active:
+
+![Integration active](../../assets/screenshots/integrations/chatops/slack/slack-connected.png)
 
 Installing the Slack app doesn't automatically cause Spacelift to flood your Slack channels with torrents of notifications. These are set up on a per-stack basis using [Notification policies](https://docs.spacelift.io/concepts/policy/notification-policy#slack-messages).
 

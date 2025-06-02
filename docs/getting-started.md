@@ -70,7 +70,7 @@ NOTE: if you attempt to sign up with a Microsoft account, and receive a message 
 
 ### Step 1: Install Spacelift
 
-Follow the [install guide](product/administration/install.md) to get Spacelift up and running.
+Follow the [install guide](installing-spacelift/install-methods.md) to get Spacelift up and running.
 
 {% endif %}
 

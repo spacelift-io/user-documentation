@@ -96,7 +96,7 @@ module "my_workerpool" {
 
 ## CloudFormation Template
 
-The easiest way to deploy workers for self-hosting is to deploy the CloudFormation template found in `cloudformation/workerpool.yaml`.
+Another way to deploy workers for self-hosting is to deploy the CloudFormation template found in `cloudformation/workerpool.yaml`.
 
 ### PseudoRandomSuffix
 
@@ -335,6 +335,6 @@ aws cloudformation deploy --no-cli-pager \
 
 ## Terraform Modules
 
-Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}, [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} Terraform modules are not currently compatible with self-hosting.
+Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} Terraform module is compatible with self-hosting, but the [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} are not, yet.
 
 {% endif %}

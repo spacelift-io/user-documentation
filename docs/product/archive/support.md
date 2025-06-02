@@ -113,7 +113,7 @@ Spacelift cannot provide training on the use of the underlying technologies that
 
 For example, a customer looking for help with a Kubernetes integration should understand Kubernetes to the extent that they can retrieve log files or perform other essential tasks without in-depth instruction.
 
-{% if is_self_hosted() %}For Self-Hosted, we do not provide support for the underlying cloud account that hosts Spacelift. We expect the network, security, and other components to be configured and maintained in a way that is compatible with [Spacelift requirements](../administration/install.md){% endif %}
+{% if is_self_hosted() %}For Self-Hosted, we do not provide support for the underlying cloud account that hosts Spacelift. We expect the network, security, and other components to be configured and maintained in a way that is compatible with [Spacelift requirements](../../installing-spacelift/cloudformation/install.md){% endif %}
 
 ### Feature Preview
 
