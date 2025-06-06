@@ -82,13 +82,13 @@ Here's an example trust policy statement you can use, that allows any stack with
 !!! info
     Be sure to replace **yourSpaceliftAccountName** in the example above with your actual Spacelift account name.
 
+{% if is_saas() %}
 !!! info
-Ensure you replace `<principal>` based on your environment.
+    Ensure you replace `<principal>` based on your environment.
 
     - for [spacelift.io](https://spacelift.io), use `324880187172`.
     - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
-
-![Configure a Custom Trust Policy on the IAM Role](<../../assets/screenshots/integrations/cloud-providers/aws/configure-trust-policy.png>)
+{% endif %}
 
 #### Optionally Configure Further Constraints on the Trust Policy
 
