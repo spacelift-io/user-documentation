@@ -3,9 +3,6 @@
 {% if is_saas() %}
 !!! hint
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
-{% else %}
-!!! hint
-    For this feature to work, the service you are integrating with needs to be able to access your Spacelift instance. For example, if you have deployed your Spacelift instance with an internal rather than public-facing load balancer, you will not be able to use OIDC Federation for AWS role assumption.
 {% endif %}
 
 OpenID Connect is a federated identity technology that allows you to exchange short-lived Spacelift credentials for temporary credentials valid for external service providers like AWS, GCP, Azure, HashiCorp Vault etc. This allows you to use Spacelift to manage your infrastructure on these cloud providers without the need of using static credentials.
@@ -17,6 +14,18 @@ OIDC is also an attractive alternative to our native [AWS](aws-oidc.md) integrat
 {% endif %}
 
 It is not the purpose of this document to explain the details of the OpenID Connect protocol. If you are not familiar with it, we recommend you read the [OpenID Connect specification](https://openid.net/specs/openid-connect-core-1_0.html){: rel="nofollow"} or GitHub's excellent introduction to [security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect){: rel="nofollow"}.
+
+{% if is_self_hosted() %}
+
+## Considerations when Self-Hosting
+
+For this feature to work, the service you are integrating with needs to be able to verify that tokens issued by Spacelift are valid. To do this it needs to be able to access the JWKs used by Spacelift.
+
+The simplest option is to allow the service you are integrating with to access your Spacelift server directly. In this case it will access the `/.well-known/openid-configuration` and `/.well-known/jwks` endpoints on your Spacelift server during the token exchange.
+
+Another option is to manually upload the JWKs (that you can get from the `/.well-known/jwks` endpoint on your Spacelift server) to the service you are integrating with if they support doing so.
+
+{% endif %}
 
 ## About the Spacelift OIDC token
 
