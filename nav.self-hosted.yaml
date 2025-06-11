@@ -184,9 +184,6 @@ nav:
           - integrations/source-control/bitbucket-cloud.md
           - integrations/source-control/bitbucket-datacenter-server.md
           - integrations/source-control/raw-git.md
-      - Kubernetes:
-          - integrations/kubernetes/operator.md
-          - integrations/kubernetes/config-operator.md
       - integrations/docker.md
       - integrations/api.md
       - integrations/webhooks.md
