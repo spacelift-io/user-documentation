@@ -189,6 +189,7 @@ nav:
       - integrations/webhooks.md
       - integrations/teleport.md
       - External Integrations:
+          - integrations/external-integrations/backstage.md
           - integrations/external-integrations/servicenow.md
   - 📖 Product:
       - product/notifications.md
