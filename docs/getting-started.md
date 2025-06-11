@@ -111,7 +111,7 @@ This sub-section is intended for users who created their Spacelift account using
 
 ### Step 3: Create Your First Spacelift Stack
 
-In this section we will be cover creating your first Spacelift Stack. For more detailed instructions on creating your first Spacelift Stack, click [here](concepts/stack/creating-a-stack.md).
+In this section we will cover creating your first Spacelift Stack. For more detailed instructions on creating your first Spacelift Stack, click [here](concepts/stack/creating-a-stack.md).
 
 Click on the Create **Stack** button.
 
