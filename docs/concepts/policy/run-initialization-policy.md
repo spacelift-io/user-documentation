@@ -75,7 +75,7 @@ This is the schema of the data input that each policy request will receive:
       "before_init": ["string - command to run before run initialization"],
       "project_root": "string - root of the Terraform project",
       "runner_image": "string - Docker image used to execute the run",
-      "terraform_version": "string - Terraform version used to for the run"
+      "terraform_version": "string - OpenTofu/Terraform version used to for the run"
     },
     "state": "string - the current run state",
     "triggered_by": "string or null - user or trigger policy who triggered the run, if applicable",
@@ -96,7 +96,7 @@ This is the schema of the data input that each policy request will receive:
     "project_root": "optional string - project root as set on the Stack, if any",
     "repository": "string - name of the source GitHub repository",
     "state": "string - current state of the stack",
-    "terraform_version": "string or null - last Terraform version used to apply changes"
+    "terraform_version": "string or null - last OpenTofu/Terraform version used to apply changes"
   }
 }
 ```

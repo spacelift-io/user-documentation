@@ -66,7 +66,7 @@ This is the schema of the data input that each policy request will receive:
     "project_root": "optional string - project root as set on the Stack, if any",
     "repository": "string - name of the source repository",
     "state": "string - current state of the stack",
-    "terraform_version": "string or null - last Terraform version used to apply changes"
+    "terraform_version": "string or null - last OpenTofu/Terraform version used to apply changes"
   },
   "module": { // when access to a module is being evaluated
     "id": "string - unique ID of the module",
