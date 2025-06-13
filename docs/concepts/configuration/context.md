@@ -249,6 +249,8 @@ Once complete, Spacelift will automatically link the context to all projects sha
 
 !!! tip
     If you want to attach a context to all projects, you can use the `autoattach:*` label on the context. This will attach the context to all projects, regardless of their labels.
+
+    If the context is in a specific space, the `autoattach:*` label will only attach the context to stacks in that space and its child spaces.    
 {% endif %}
 
 #### A note on priority
