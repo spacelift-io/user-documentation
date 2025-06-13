@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Documentation Build System
 
-This is the Spacelift user documentation repository using MkDocs with Material theme. The live documentation is at https://docs.spacelift.io/.
+This is the Spacelift user documentation repository using MkDocs with Material theme. The live documentation is at <https://docs.spacelift.io/>.
 
 ## Common Commands
 
 ### Development
 
-- `make run` - Run the documentation site locally via Docker Compose (http://localhost:8000)
+- `make run` - Run the documentation site locally via Docker Compose (<http://localhost:8000>)
 - `mkdocs serve` - Run locally with MkDocs directly
 - `mkdocs serve -a '0.0.0.0:8000'` - Run with external access
 

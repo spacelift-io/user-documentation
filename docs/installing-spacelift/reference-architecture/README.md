@@ -59,7 +59,7 @@ Once Spacelift has been deployed to your environment, follow our [first setup gu
 
 ## Upgrading
 
-Spacelift supports zero downtime upgrades unless otherwise mentioned in the [changelog](../changelog.md). The process for upgrading to a new release is as follows:
+Spacelift supports zero downtime upgrades. The process for upgrading to a new release is as follows:
 
 1. Make any required infrastructure adjustments.
 2. Push the latest container images to your registry.

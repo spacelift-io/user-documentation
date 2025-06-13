@@ -1,7 +1,7 @@
 # External state access
 
 !!! info
-    While this feature allows sharing outputs between stacks, we recommend using Spacelift's native [stack dependencies](../../concepts/configuration/stack-dependencies.md) instead when possible. Available for all supported IaC vendors, Stack dependencies provide a more integrated workflow with granular access, proper dependency tracking and access control, and they don't require external state access to be enabled.
+    While this feature allows sharing outputs between stacks, we recommend using Spacelift's native [stack dependencies](../../concepts/stack/stack-dependencies.md) instead when possible. Available for all supported IaC vendors, Stack dependencies provide a more integrated workflow with granular access, proper dependency tracking and access control, and they don't require external state access to be enabled.
 
 External state access allows you to read the state of the stack from outside authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this enables sharing the outputs between stacks using the OpenTofu/Terraform mechanism of [remote state](https://opentofu.org/docs/language/state/remote-state-data/){: rel="nofollow"} or even accessing the state offline for analytical or compliance purposes.
 
