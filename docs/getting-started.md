@@ -127,7 +127,7 @@ Now choose your VCS provider, select the repository that you gave access to Spac
 
 Click **Continue** to configure your vendor.
 
-Choose **Terraform** as your vendor with a supported version. Leave the default option to let Spacelift manage state for this stack. Please refer to the [creating a stack](concepts/stack/creating-a-stack.md) section of the documentation for information on using a different backend.
+Choose **OpenTofu** or **Terraform** as your vendor with a supported version. Leave the default option to let Spacelift manage state for this stack. Please refer to the [creating a stack](concepts/stack/creating-a-stack.md) section of the documentation for information on using a different backend.
 
 ![](<./assets/screenshots/ConfigureBackendGS.png>)
 
