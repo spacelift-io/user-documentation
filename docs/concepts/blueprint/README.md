@@ -122,14 +122,14 @@ inputs:
     type: secret
     # secret means the input will be masked in the UI
   - id: tf_version
-    name: OpenTofu/Terraform version of the stack
+    name: Terraform version of the stack
     type: select
     options:
       - "1.3.0"
       - "1.4.6"
       - "1.5.0"
   - id: manage_state
-    name: Should Spacelift manage the state of OpenTofu/Terraform
+    name: Should Spacelift manage the state of OpenTofu
     default: true
     type: boolean
   - id: destroy_task_epoch

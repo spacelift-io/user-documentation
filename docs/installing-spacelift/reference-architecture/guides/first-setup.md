@@ -35,7 +35,7 @@ The account name is used for a number of purposes including but not limited to t
 
 - For informational purposes in the Spacelift frontend.
 - When generating the default AWS external ID and session names when performing role assumption as part of the [AWS Cloud integration](../../../integrations/cloud-providers/aws.md).
-- As part of the URL when accessing [Terraform modules](../../../vendors/terraform/module-registry.md) and [providers](../../../vendors/terraform/provider-registry.md) via the Spacelift private registry.
+- As part of the URL when accessing [OpenTofu/Terraform modules](../../../vendors/terraform/module-registry.md) and [providers](../../../vendors/terraform/provider-registry.md) via the Spacelift private registry.
 
 The account name must meet the following requirements:
 

@@ -9,14 +9,14 @@ teams, fortifying infrastructure against bad actors or error, and simplifying co
 Teleport Access Platform delivers on-demand, least privileged access to infrastructure on a foundation of cryptographic
 identity and zero trust, with built-in identity security and policy governance.
 
-You can use Spacelift with the [Teleport](https://goteleport.com/docs/reference/terraform-provider/) Terraform provider to manage dynamic configuration
+You can use Spacelift with the [Teleport](https://goteleport.com/docs/reference/terraform-provider/) OpenTofu/Terraform provider to manage dynamic configuration
 resources via GitOps and infrastructure as code. This gives you an audit trail of changes to your Teleport configuration
 and a single source of truth for operators to examine.
 
-This guide shows you how to configure the Teleport Terraform Provider to
+This guide shows you how to configure the Teleport OpenTofu/Terraform Provider to
 authenticate to a Teleport cluster using Machine ID when running on Spacelift.
 
-In this setup, the Teleport Terraform Provider proves its identity to the
+In this setup, the Teleport OpenTofu/Terraform Provider proves its identity to the
 Teleport Auth Service by presenting an ID token signed by Spacelift. This
 allows it to authenticate with the Teleport cluster without the need for a
 long-lived shared secret.
