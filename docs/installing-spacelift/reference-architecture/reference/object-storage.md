@@ -13,7 +13,7 @@ The following table explains each of the buckets that are required. For each buc
 | Deliveries               | No         | User configurable (1 day)   | Used to store the request and response bodies of outbound webhooks.                              |
 | Large queue messages     | No         | 2 days                      | Stores inbound webhook payloads that are too large to be posted to a message queue.              |
 | Metadata                 | No         | 2 days                      | Stores the metadata required by workers to process runs.                                         |
-| Modules                  | Suggested  | Infinite                    | Stores Terraform modules and providers.                                                          |
+| Modules                  | Suggested  | Infinite                    | Stores OpenTofu/Terraform modules and providers.                                                          |
 | Policy inputs            | No         | User configurable (7 days)  | Stores sampled policy evaluations.                                                               |
 | Run logs                 | Suggested  | User configurable (60 days) | Stores the content of run logs.                                                                  |
 | States                   | Required   | Infinite                    | Stores OpenTofu/Terraform state files when using the built-in Spacelift state server.            |
@@ -103,4 +103,4 @@ The uploads bucket is used to allow users to upload certain items like Terraform
     }
     ```
 
-Note that the platform-specific Terraform modules ([terraform-azure-spacelift-selfhosted](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"}, [terraform-google-spacelift-selfhosted](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, [terraform-aws-spacelift-selfhosted](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted){: rel="nofollow"}) take care of the CORS configuration.
+Note that the platform-specific OpenTofu/Terraform modules ([terraform-azure-spacelift-selfhosted](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"}, [terraform-google-spacelift-selfhosted](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, [terraform-aws-spacelift-selfhosted](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted){: rel="nofollow"}) take care of the CORS configuration.

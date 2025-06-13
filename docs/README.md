@@ -6,10 +6,10 @@ Spacelift is a specialized CI/CD platform designed to address the collaborative 
 
 Infrastructure as Code projects create a unique set of challenges:
 
-- **State management**: Unlike application code, infrastructure changes rely on state files that track what's currently deployed
 - **Coordination**: Multiple team members working on the same infrastructure can create conflicts
 - **Dependencies**: Infrastructure components often depend on one another, creating complex deployment ordering requirements
 - **Security**: Infrastructure credentials have significant privileges and require careful handling
+- **State management**: Unlike application code, infrastructure changes rely on tracking what's currently deployed - this is particularly important for tools like Terraform, OpenTofu and Pulumi, which externally store a "digital twin" of your infrastructure state
 
 Spacelift transforms infrastructure management from a risky solo endeavor into a collaborative experience with guardrails.
 
@@ -70,4 +70,4 @@ New to Spacelift? We recommend exploring our documentation in this order:
 4. [Integrations](integrations/source-control/README.md) - Connect Spacelift to your existing tools
 5. [Workers](concepts/worker-pools/README.md) - Execute jobs securely in your environment
 
-If you're ready to try Spacelift, [sign up for a free trial](https://spacelift.io/free-trial) or [contact our team](https://spacelift.io/contact) for a personalized demo.
+If you're ready to try Spacelift, sign up for a free trial in [the EU region 🇪🇺](https://spacelift.io/free-trial), [the US region 🇺🇸](https://spacelift.io/free-trial) or [contact our team](https://spacelift.io/contact) for a personalized demo.

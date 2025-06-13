@@ -144,7 +144,7 @@ programmatically:
 SECRET_VALUE40ffc46887297384892384789239
 
 Please add this snippet to your .terraformrc file if you want to use this API
-key to access Spacelift-hosted Terraform modules outside of Spacelift:
+key to access Spacelift-hosted OpenTofu/Terraform modules outside of Spacelift:
 
 credentials "spacelift.io" {
   token = "TOKEN_VALUEQwZmZjNDY4ODdiMjI2ZWE4NDhjMWQwNWZiMWE5MGU4NWMwZTFlY2Q4NDAxMGI2ZjA2NzkwMmI1YmVlMWNmMGE"

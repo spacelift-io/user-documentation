@@ -238,7 +238,7 @@ The following S3 buckets have replication enabled, so you will need to run a bat
 
 - `spacelift-states` - contains any Spacelift-managed state files.
 - `spacelift-run-logs` - contains the logs shown for runs in the Spacelift UI.
-- `spacelift-modules` - contains the code for any modules uploaded to your Terraform module registry.
+- `spacelift-modules` - contains the code for any modules uploaded to your OpenTofu/Terraform module registry.
 - `policy-inputs` - contains any policy samples.
 - `spacelift-workspaces` - used to store the temporary data used by in-progress Spacelift runs.
 
