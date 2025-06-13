@@ -22,7 +22,7 @@ Based on this configuration, the module will send notifications that look like t
 
 ## Prerequisites
 
-In order to set up the integration, you'll to perform some manual steps in Microsoft Teams. The Spacelift end of the integration is handled programmatically, by a [Terraform module](https://registry.terraform.io/modules/spacelift-io/msteams/spacelift/latest){: rel="nofollow"}.
+In order to set up the integration, you'll to perform some manual steps in Microsoft Teams. The Spacelift end of the integration is handled programmatically, by a [OpenTofu/Terraform module](https://search.opentofu.org/provider/spacelift-io/spacelift/latest){: rel="nofollow"}.
 
 ### In Microsoft Teams
 
@@ -37,7 +37,7 @@ In order to set up the integration, you'll need to create a [Microsoft Teams wor
 
 ### In Spacelift
 
-The Teams integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing){: rel="nofollow"} subscription. While building a notification-based Teams integration from scratch is possible, we've created a [Terraform module](https://registry.terraform.io/modules/spacelift-io/msteams/spacelift/latest){: rel="nofollow"} that will set up all the necessary integration elements for you.
+The Teams integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing){: rel="nofollow"} subscription. While building a notification-based Teams integration from scratch is possible, we've created a [OpenTofu/Terraform module](https://registry.terraform.io/modules/spacelift-io/msteams/spacelift/latest){: rel="nofollow"} that will set up all the necessary integration elements for you.
 
 This module will only create Spacelift assets:
 

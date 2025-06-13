@@ -1,6 +1,6 @@
 ---
 description: >-
-  This page explains what the workflow tool setting on a Terraform stack is, as well as how to configure it.
+  This page explains what the workflow tool setting on an OpenTofu/Terraform stack is, as well as how to configure it.
 ---
 
 # Workflow Tool
