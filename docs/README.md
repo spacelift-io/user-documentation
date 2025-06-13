@@ -9,7 +9,7 @@ Infrastructure as Code projects create a unique set of challenges:
 - **Coordination**: Multiple team members working on the same infrastructure can create conflicts
 - **Dependencies**: Infrastructure components often depend on one another, creating complex deployment ordering requirements
 - **Security**: Infrastructure credentials have significant privileges and require careful handling
-- **State management**: Unlike application code, infrastructure changes rely on tracking what's currently deployed - this is particularly important for tools like Terraform, OpenTofu and Pulumi, which externally store a "digital twin" of your infrastructure state
+- **State management**: Unlike application code, infrastructure changes rely on tracking what's currently deployed - this is particularly important for tools like OpenTofu, Terraform and Pulumi, which externally store a "digital twin" of your infrastructure state
 
 Spacelift transforms infrastructure management from a risky solo endeavor into a collaborative experience with guardrails.
 

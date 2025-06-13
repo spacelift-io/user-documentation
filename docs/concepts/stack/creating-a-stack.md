@@ -60,9 +60,9 @@ At this point you'll probably know whether you want to create a [Terraform](crea
 
 ![](<../../assets/screenshots/Create_Stack_Terraform.png>)
 
-When selecting **Terraform**, you can choose which **version of Terraform** to start with - we support Terraform 0.12.0 and above, up to the latest version of MPL Terraform. You don't need to dwell on this decision since you can change the version later - Spacelift supports full [Terraform version management](../../vendors/terraform/version-management.md) allowing you to even preview the impact of upgrading to a newer version.
+When selecting **OpenTofu** or **Terraform**, you can choose which **version of OpenTofu/Terraform** to start with - we support Terraform 0.12.0 and above, up to the latest version of MPL Terraform, as well as all OpenTofu versions. You don't need to dwell on this decision since you can change the version later - Spacelift supports full [OpenTofu/Terraform version management](../../vendors/terraform/version-management.md) allowing you to even preview the impact of upgrading to a newer version.
 
-The next decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
+The next decisions involves your OpenTofu/Terraform state. First, whether you want us to provide an OpenTofu/Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
 
 !!! info
     If you want to bring your own backend, there's no point in doing additional [state locking](https://opentofu.org/docs/language/state/locking/){: rel="nofollow"} - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.

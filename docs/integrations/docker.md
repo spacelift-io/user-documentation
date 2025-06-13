@@ -58,11 +58,11 @@ USER spacelift
 
 For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building an OpenTofu/Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 
-The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the `tofu/terraform` binary are automatically used.
+The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the `terraform` binary are automatically used.
 
 ```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest as spacelift
-FROM golang:1.13-alpine as builder
+FROM golang:1.21-alpine as builder
 
 WORKDIR /tmp
 
@@ -97,7 +97,7 @@ An additional requirement is the presence of `ps` command in the image. The Spac
 
 ### Custom providers in OpenTofu and Terraform >= 0.13
 
-Since Terraform 0.13, custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13 if the following stanza is added to the `Dockerfile`.
+Since Terraform 0.13 (and for all OpenTofu versions), custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13+ and OpenTofu if the following stanza is added to the `Dockerfile`.
 
 ```docker
 COPY --from=builder /terraform-provider-sops /plugins/registry.myorg.io/myorg/sops/1.0.0/linux_amd64/terraform-provider-sops
@@ -139,7 +139,7 @@ Building from the source is generally safer than using a pre-built binary, espec
 
 ### Use well-known bases
 
-If you're building an image from a source other than [`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"}, please prefer well-known and well-supported base images. Official images are generally safe, so choose something like `golang:1.13-alpine` over things like `imtotallylegit/notascamipromise:best-golang-image`. There's a bunch of services out there offering Docker image vulnerability scanning, so that's an option as well.
+If you're building an image from a source other than [`public.ecr.aws/spacelift/runner-terraform`](https://gallery.ecr.aws/spacelift/runner-terraform){: rel="nofollow"}, please prefer well-known and well-supported base images. Official images are generally safe, so choose something like `golang:1.21-alpine` over things like `imtotallylegit/notascamipromise:best-golang-image`. There's a bunch of services out there offering Docker image vulnerability scanning, so that's an option as well.
 
 ### Limit push access
 

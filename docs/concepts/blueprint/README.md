@@ -122,7 +122,7 @@ inputs:
     type: secret
     # secret means the input will be masked in the UI
   - id: tf_version
-    name: Terraform version of the stack
+    name: OpenTofu/Terraform version of the stack
     type: select
     options:
       - "1.3.0"
