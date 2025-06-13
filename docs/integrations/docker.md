@@ -58,7 +58,7 @@ USER spacelift
 
 For more sophisticated use cases it may be cleaner to **use Docker's** [**multistage build feature**](https://docs.docker.com/develop/develop-images/multistage-build/){: rel="nofollow"} to build your image and add our tooling on top of it. As an example, here's the case of us building an OpenTofu/Terraform [sops](https://github.com/mozilla/sops){: rel="nofollow"} [provider](https://github.com/carlpett/terraform-provider-sops){: rel="nofollow"} from source using a particular version. We want to keep our image small so we'll use a separate builder stage.
 
-The following approach works for Terraform version 0.12 and below, where custom OpenTofu/Terraform providers colocated with the `tofu/terraform` binary are automatically used.
+The following approach works for Terraform version 0.12 and below, where custom Terraform providers colocated with the `tofu/terraform` binary are automatically used.
 
 ```docker
 FROM public.ecr.aws/spacelift/runner-terraform:latest as spacelift
@@ -95,7 +95,7 @@ An additional requirement is the presence of `ps` command in the image. The Spac
 
     If you need to customize the shell (e.g., dynamically set environment variables or export functions), you can do so in a [`before_init` hook](../concepts/stack/stack-settings.md#customizing-workflow).
 
-### Custom providers from Terraform 0.13 onwards
+### Custom providers in OpenTofu and Terraform >= 0.13
 
 Since Terraform 0.13, custom providers require a slightly different approach. You will build them the same way as described above, but the path now will be different. In order to work with the new API, we require that you put the provider binaries in the `/plugins` directory and maintain a particular naming scheme. The above `sops` provider example will work with Terraform 0.13 if the following stanza is added to the `Dockerfile`.
 
@@ -103,7 +103,7 @@ Since Terraform 0.13, custom providers require a slightly different approach. Yo
 COPY --from=builder /terraform-provider-sops /plugins/registry.myorg.io/myorg/sops/1.0.0/linux_amd64/terraform-provider-sops
 ```
 
-In addition, the custom provider must be explicitly required in the Terraform code, like this:
+In addition, the custom provider must be explicitly required in the OpenTofu/Terraform code, like this:
 
 ```terraform
 terraform {

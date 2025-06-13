@@ -4,3 +4,4 @@ __pycache__
 /.idea
 /.envrc
 /.direnv/
+/.claude
