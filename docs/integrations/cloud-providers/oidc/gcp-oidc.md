@@ -105,7 +105,7 @@ For more information about configuring the OpenTofu/Terraform provider, please s
 
 ## Configuring the Pulumi GCP Provider
 
-To configure the Pulumi [GCP provider](https://www.pulumi.com/registry/packages/gcp/api-docs/provider/){: rel="nofollow"} follow the same steps as for the [OpenTofu/Terraform provider](#configuring-the-terraform-provider).
+To configure the Pulumi [GCP provider](https://www.pulumi.com/registry/packages/gcp/api-docs/provider/){: rel="nofollow"} follow the same steps as for the [OpenTofu/Terraform provider](#configuring-the-opentofuterraform-provider).
 
 ## Troubleshooting
 
