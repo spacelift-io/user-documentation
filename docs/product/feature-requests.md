@@ -2,7 +2,7 @@
 
 ## We value your feedback
 
-At Spacelift we really value your feedback on how to improve our platform. We strive to engage with you at every step of our development journey, whether it’s evaluating feature requests or doing user research (if you’re interested in having more impact, go ahead and check out our [Test Pilot Programme](https://spacelift.io/test-pilot-program)).
+At Spacelift we really value your feedback on how to improve our platform. We strive to engage with you at every step of our development journey, whether it’s evaluating feature requests or doing user research (if you’re interested in having more impact, go ahead and check out our [Test Pilot Program](https://spacelift.io/test-pilot-program)).
 
 We value your ideas and will always be honest about how feasible or viable they are for our company. We hope you understand!
 
