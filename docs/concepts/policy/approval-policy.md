@@ -1,11 +1,11 @@
-# Approval Policy
+# Approval policy
 
 !!! info
     Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
 The approval policy allows organizations to create sophisticated run review and approval flows that reflect their preferred workflow, security goals, and business objectives. Without an explicit approval policy, anyone with write access to a stack can create a [run](../run/README.md) (or a [task](../run/task.md)). An approval policy can make this process more granular and contextual.
 
-Runs can be reviewed when they enter one of three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#pending-review). Please note if a stack has [auto-deploy](../stack/stack-settings.md#autodeploy) enabled, then the approval policy will not be evaluated here, and you should use a [plan policy](../policy/terraform-plan-policy.md) to warn which will force the stack into an unconfirmed state and the approval policy will get evaluated as a safeguard.
+Runs can be reviewed when they enter one of three states - [queued](../run/README.md#queued), [unconfirmed](../run/tracked.md#unconfirmed), or [pending review](../run/proposed.md#pending-review). Please note if a stack has [autodeploy](../stack/stack-settings.md#autodeploy) enabled, then the approval policy will not be evaluated here, and you should use a [plan policy](../policy/terraform-plan-policy.md) to warn which will force the stack into an unconfirmed state and the approval policy will get evaluated as a safeguard.
 
 When a [queued](../run/README.md#queued) run needs approval, it will not be scheduled before that approval is received, and if it is of a blocking type, it will block newer runs from scheduling, too. A [queued](../run/README.md#queued) run that's pending approval can be [canceled](../run/README.md#canceled) at any point.
 
