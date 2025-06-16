@@ -39,7 +39,7 @@ Your approval policy can define the following boolean rules:
 
 While the 'approve' rule must be defined in order for the run to be able to progress, it's perfectly valid to not define the 'reject' rule. In that case, runs that look invalid can be cleaned up ([canceled](../run/README.md#canceled) or [discarded](../run/tracked.md#discarded)) manually.
 
-It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided,' and more reviews will be necessary to reach a conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true.'
+It's also perfectly acceptable for any given policy evaluation to return 'false' on both 'approve' and 'reject' rules. This only means that the result is yet 'undecided', and more reviews will be necessary to reach a conclusion. A perfect example would be a policy that requires 2 approvals for a given job - the first review is not yet supposed to set the 'approve' value to 'true'.
 
 !!! info
     Users must have [`write`](./stack-access-policy.md#readers-and-writers) or [`admin`](./login-policy.md#purpose) access to the stack to be able to approve changes.
