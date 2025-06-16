@@ -56,3 +56,7 @@ jobs:
       - name: Run link check against all files
         run: |
           pre-commit run --color=always --all-files markdown-link-check
+
+      - name: Check for unused assets
+        run: |
+          scripts/unused-assets-linter.py
