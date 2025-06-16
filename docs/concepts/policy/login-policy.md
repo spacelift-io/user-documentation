@@ -1,14 +1,11 @@
 # Login policy
 
 !!! info
-    We do not support importing rego.v1 at this time.
+    We do not support importing rego.v1 at this time. For more details, see the [introduction](../policy/README.md).
 
 ## Purpose
 
 Login policies allow users to log in to the Spacelift account and can grant admin privileges. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
-
-!!! info
-    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
 API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an admin key.
 
@@ -28,7 +25,7 @@ A login policy can define the following types of boolean rules:
 
 If no rules match, the default action will be to **deny** a login attempt.
 
-!!! danger "Define Restrictions"
+!!! warning "Define Restrictions"
     Any time you define an **allow** or **admin** rule, consider restricting access using a **deny** rule, too. See an example [below](#managing-access-levels-within-an-organization).
 
 Admins have significant privileges and can create and delete stacks; trigger runs or tasks; create, delete, and attach contexts and policies; etc. Unless full admin access is necessary, grant users _limited_ admin access using the **space_admin** rule.
@@ -69,7 +66,7 @@ Two fields in the `session` object require further explanation: _member_ and _te
 
 ### _member_
 
-=== "Using GitHub (Default Identity Provider)
+=== "Using GitHub (Default Identity Provider)"
 
   When you first log in to Spacelift, we retrieve some details (such as username) from GitHub, our default identity provider. Each Spacelift account is linked to only one GitHub account. Thus, when you log in to a Spacelift account, we're checking if you're a member of the associated GitHub account.
 
@@ -92,7 +89,7 @@ Two fields in the `session` object require further explanation: _member_ and _te
 
 === "Using Single Sign-On"
 
-For Single Sign-On, the list of teams depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see [Single Sign-On](../../integrations/single-sign-on/README.md#setting-up-saml) for more details.
+  For Single Sign-On, the list of teams depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see [Single Sign-On](../../integrations/single-sign-on/README.md#setting-up-saml) for more details.
 
 !!! tip
     The `teams` field is useful for your **allow** and **admin** rules.
@@ -170,7 +167,7 @@ Sometimes people who are not members of your organization, such as consultants, 
     ```
 
 !!! warning
-   Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your GitHub organization, they automatically lose access to Spacelift. But when allowlisting individuals and not restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
+    Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your GitHub organization, they automatically lose access to Spacelift. But when allowlisting individuals and not restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
 
 ### Restricting access in specific circumstances
 
@@ -250,7 +247,7 @@ Here's an [example to play with](https://play.openpolicyagent.org/p/dM8P83sk4l){
 
 ## Default login policy
 
-If no login policies are defined on the account, Spacelift behaves as if it had this policy:
+If no login policies are defined on the account, Spacelift behaves as if it had this policy and **allows** all users:
 
 ```opa
 package spacelift
