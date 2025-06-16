@@ -53,7 +53,7 @@ To install the Backstage plugins, follow the instructions that you will find in 
 
     ```yaml
         spacelift:
-          hostUrl: 'https://<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL
+          hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
           apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID
           apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret
     ```
@@ -63,7 +63,7 @@ To install the Backstage plugins, follow the instructions that you will find in 
 
     ```yaml
         spacelift:
-          hostUrl: 'https://<your-selfhosted-spacelift-domain>' # Your Spacelift instance URL
+          hostUrl: '<your-selfhosted-spacelift-domain>' # Your Spacelift instance URL (WITHOUT https://)
           apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID
           apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret
     ```
