@@ -156,7 +156,9 @@ nav:
           - integrations/source-control/bitbucket-datacenter-server.md
           - integrations/source-control/raw-git.md
       - integrations/docker.md
-      - integrations/api.md
+      - API:
+          - integrations/api.md
+          - integrations/api-development-with-mcp.md
       - Single Sign-On:
           - integrations/single-sign-on/README.md
           - integrations/single-sign-on/gitlab-oidc-setup-guide.md
