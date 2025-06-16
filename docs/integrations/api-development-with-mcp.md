@@ -1,14 +1,14 @@
 ---
-description: Use spacectl's MCP server to build against the Spacelift GraphQL API without learning it.
+description: Use `spacectl`'s MCP server to build against the Spacelift GraphQL API without learning it.
 ---
 
-# Spacelift API integration via spacectl MCP server
+# Spacelift API integration via `spacectl` MCP server
 
-You don't need to learn the Spacelift GraphQL API. We've built GraphQL introspection tooling into spacectl's MCP server that lets your coding assistant discover and use the API automatically.
+You don't need to learn the Spacelift GraphQL API. We've built GraphQL introspection tooling into `spacectl`'s MCP server that lets your coding assistant discover and use the API automatically.
 
 ## How it works
 
-The spacectl MCP server includes:
+The `spacectl` MCP server includes:
 
 - Complete GraphQL schema introspection
 - Authentication guide with working examples
@@ -19,9 +19,38 @@ Your coding assistant uses these tools to discover the API structure, understand
 
 ## Setup
 
-### Install spacectl MCP server
+### Install `spacectl`
 
-Configure spacectl as an MCP server in your coding assistant. The server provides tools for API discovery and includes authentication handling.
+First, install [`spacectl`](https://github.com/spacelift-io/spacectl) following the installation instructions in the repository.
+
+After installation, log in to your Spacelift account:
+
+```bash
+spacectl profile login
+```
+
+See the [`spacectl` documentation](../concepts/spacectl.md) for more details on authentication and usage.
+
+### Configure your coding assistant
+
+Configure `spacectl` as an MCP server in your coding assistant.
+
+**Claude Code example:**
+
+Add this to your Claude Code MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "spacectl": {
+      "command": "spacectl",
+      "args": ["mcp", "server"]
+    }
+  }
+}
+```
+
+The server provides tools for API discovery and includes authentication handling.
 
 ### Authentication
 
@@ -30,7 +59,7 @@ The MCP server includes a complete authentication guide covering:
 - API key setup and token exchange
 - GitHub token authentication (for GitHub SSO accounts)
 - OIDC-based authentication
-- spacectl CLI token export
+- `spacectl` CLI token export
 
 Your coding assistant will retrieve this information automatically when building applications.
 
@@ -60,23 +89,24 @@ Your coding assistant will retrieve this information automatically when building
 
 ## Development workflow
 
-1. **Tell your assistant what you want to build**
+**Step 1:** Tell your assistant what you want to build
 
-   - "Build a React dashboard showing stack status"
-   - "Create a Python script for automated deployments"
-   - "Make a CLI tool for managing stacks"
+- "Build a React dashboard showing stack status"
+- "Create a Python script for automated deployments"
+- "Make a CLI tool for managing stacks"
 
-2. **Assistant explores the API**
+**Step 2:** Assistant explores the API
 
-   - Introspects GraphQL schema
-   - Finds relevant operations
-   - Understands data structures
+- Introspects GraphQL schema
+- Finds relevant operations
+- Understands data structures
 
-3. **Assistant generates working code**
-   - Handles authentication setup
-   - Creates properly typed API clients
-   - Implements error handling
-   - Follows best practices
+**Step 3:** Assistant generates working code
+
+- Handles authentication setup
+- Creates properly typed API clients
+- Implements error handling
+- Follows best practices
 
 ## Example applications
 
@@ -100,6 +130,8 @@ The introspection works with any language or framework:
 
 ## Getting started
 
-Configure spacectl as an MCP server in your coding assistant, then start building. The assistant will handle API discovery, authentication setup, and code generation automatically.
+1. [Install `spacectl`](https://github.com/spacelift-io/spacectl)
+2. Configure it as an MCP server in your coding assistant (see configuration example above)
+3. Start building - the assistant will handle API discovery, authentication setup, and code generation automatically
 
 No API documentation reading required.
