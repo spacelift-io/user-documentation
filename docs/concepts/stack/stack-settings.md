@@ -1,4 +1,4 @@
-# Stack Settings
+# Stack settings
 
 This article explains all the settings that can be configured **directly on the stack**. However, these are not the only settings that influence how [runs](../run/README.md) and [tasks](../run/task.md) within a stack are processed. Other factors, such as [environment variables](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md), and various integrations, also play a significant role.
 
@@ -6,7 +6,7 @@ This article explains all the settings that can be configured **directly on the 
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1046826238?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="stack_options"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
-## Common Settings
+## Common settings
 
 ### Administrative
 
@@ -37,7 +37,7 @@ This feature saves you from manually retrying runs on Pull Requests when the sta
 
 Autoretry is only supported for [stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
 
-### Customizing Workflow
+### Customizing workflow
 
 Spacelift workflows can be customized by adding extra commands to be executed before and after specific phases:
 
@@ -82,7 +82,7 @@ Commands run in the same shell session as the phase itself, so the phase will ha
 
 {% if is_saas() %}
 
-#### Note on Hook Ordering
+#### Note on hook ordering
 
 Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically or reversed alphabetically depending on the operation type (before/after).
 
@@ -127,7 +127,7 @@ After phase order:
 
 {% endif %}
 
-### Runtime Commands
+### Runtime commands
 
 Spacelift can handle special commands to change the workflow behavior.
 Runtime commands use the echo command in a specific format.
@@ -165,7 +165,7 @@ echo "::add-mask secret-string another-secret-string"
 echo "::add-mask $(aws sts get-caller-identity | jq -r .Account)"
 ```
 
-### Enable Local Preview
+### Enable local preview
 
 Indicates whether creating [proposed Runs](../run/proposed.md) based on user-uploaded local workspaces is allowed.
 
@@ -180,7 +180,7 @@ spacectl stack local-preview --id <stack-id>
 
     Use with caution.
 
-### Enable Well Known Secret Masking
+### Enable well known secret masking
 
 This setting determines if secret patterns will be automatically redacted from logs. If enabled, the following secrets will be masked from logs:
 
@@ -198,7 +198,7 @@ This setting determines if secret patterns will be automatically redacted from l
 - RSA Private Key
 - PEM block with BEGIN PRIVATE KEY header
 
-### Name and Description
+### Name and description
 
 Stack name and description are pretty self-explanatory. The required _name_ is what you'll see in the stack list on the home screen and menu selection dropdown. Make sure that it's informative enough to be able to immediately communicate the purpose of the stack, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
 
@@ -230,14 +230,14 @@ List of the most useful labels:
 - **autoattach:autoattached_label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing `autoattached_label`
 - **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
 
-### Project Root
+### Project root
 
 Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
 
-### Project Globs
+### Project globs
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
@@ -261,7 +261,7 @@ Example matches:
 
 As you can see in the example matches, these are the regex rules that you are already accustomed to.
 
-### VCS Integration and Repository
+### VCS integration and repository
 
 ![](<../../assets/screenshots/stack/settings/source-code_vcs-details.png>)
 
@@ -283,7 +283,7 @@ Results of both tracked and proposed runs are displayed in the source control pr
 !!! info
     A branch _must_ exist before it's pointed to in Spacelift.
 
-### Runner Image
+### Runner image
 
 Since every Spacelift job (which we call [runs](../run/README.md)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
 
@@ -297,9 +297,9 @@ You can find more information about our use of Docker in [this dedicated help ar
 !!! warning
     On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.
 
-### Worker Pool
+### Worker pool
 
-## Terraform-specific Settings
+## Terraform-specific settings
 
 ### Version {: #terraform-version}
 
@@ -311,7 +311,7 @@ The Terraform version is set when a stack is created to indicate the version of 
 
 If you're [managing Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
 
-## Pulumi-specific Settings
+## Pulumi-specific settings
 
 ### Login URL {: #pulumi-login-url}
 
@@ -319,6 +319,6 @@ Login URL is the address Pulumi should log into during Run initialization. Since
 
 You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 
-### Stack Name {: #pulumi-stackname}
+### Stack name {: #pulumi-stackname}
 
 The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](#name-and-description) - they _may_ be different, though it's probably good if you can keep them identical.
