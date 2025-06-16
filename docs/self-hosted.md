@@ -8,7 +8,7 @@ Alongside our SaaS product, we also provide a self-hosted version of Spacelift t
 
 ## Documentation
 
-You can find the documentation for the latest version of self-hosted [here](./self-hosted/latest/). You can find our installation guide [here](./self-hosted/latest/product/administration/install).
+You can find the documentation for the latest version of self-hosted [here](./self-hosted/latest/). You can find our installation guide [here](./self-hosted/latest/installing-spacelift/install-methods.html).
 
 ## Differences between SaaS and Self-Hosted
 

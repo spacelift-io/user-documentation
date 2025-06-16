@@ -18,6 +18,248 @@ Here's a very simple dashboard we've created based on this integration that show
 
 ![Dashboard screenshot](../../assets/screenshots/datadog-screenshot.png)
 
+If you'd like to use the same dashboard, the JSON is provided below.
+
+<details> <!-- markdownlint-disable-line MD033 -->
+<summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
+
+{% raw %}
+
+```json
+{
+  "title": "Spacelift CI performance",
+  "description": "",
+  "widgets": [
+    {
+      "id": 1204455947489370,
+      "definition": {
+        "title": "Overall time spent",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.timing{$Space AND $Stack AND $Environment AND $WorkerPool AND state NOT IN (queued,confirmed,unconfirmed)} by {state}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 0, "y": 0, "width": 6, "height": 4 }
+    },
+    {
+      "id": 4165236413630572,
+      "definition": {
+        "title": "Resource changes",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.resources{$Space,$Stack,$Environment,run_type:tracked} by {change_type}.as_count()"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 6, "y": 0, "width": 6, "height": 4 }
+    },
+    {
+      "id": 7535326510979494,
+      "definition": {
+        "title": "Run outcomes",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.count{$Space,$Stack,$Environment} by {final_state}.as_count()"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 0, "y": 4, "width": 6, "height": 4 }
+    },
+    {
+      "id": 3687311929209224,
+      "definition": {
+        "title": "Worker pool usage",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.count{$Environment,$Space} by {worker_pool}.as_count()"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 6, "y": 4, "width": 6, "height": 4 }
+    },
+    {
+      "id": 3469740549844082,
+      "definition": {
+        "title": "Drift detection load",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.count{$Environment,$Space,$WorkerPool,$Stack} by {drift_detection}.as_count()"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 0, "y": 8, "width": 6, "height": 3 }
+    },
+    {
+      "id": 2802853783337572,
+      "definition": {
+        "title": "Plan policy outcomes",
+        "title_size": "16",
+        "title_align": "left",
+        "show_legend": true,
+        "legend_layout": "auto",
+        "legend_columns": ["avg", "min", "max", "value", "sum"],
+        "type": "timeseries",
+        "requests": [
+          {
+            "formulas": [{ "formula": "query1" }],
+            "queries": [
+              {
+                "name": "query1",
+                "data_source": "metrics",
+                "query": "sum:spacelift.integration.run.policies{$Environment,$Space,$WorkerPool,$Stack,policy_type:plan} by {policy_outcome}"
+              }
+            ],
+            "response_format": "timeseries",
+            "style": {
+              "palette": "dog_classic",
+              "line_type": "solid",
+              "line_width": "normal"
+            },
+            "display_type": "bars"
+          }
+        ]
+      },
+      "layout": { "x": 6, "y": 8, "width": 6, "height": 3 }
+    }
+  ],
+  "template_variables": [
+    {
+      "name": "Environment",
+      "prefix": "env",
+      "available_values": ["preprod", "prod"],
+      "default": "*"
+    },
+    {
+      "name": "Space",
+      "prefix": "space",
+      "available_values": [],
+      "default": "*"
+    },
+    {
+      "name": "WorkerPool",
+      "prefix": "worker_pool",
+      "available_values": [],
+      "default": "*"
+    },
+    {
+      "name": "Stack",
+      "prefix": "stack",
+      "available_values": [],
+      "default": "*"
+    }
+  ],
+  "layout_type": "ordered",
+  "notify_list": [],
+  "reflow_type": "fixed",
+  "tags": []
+}
+```
+
+{% endraw %}
+
+</details>
+
 ## Prerequisites
 
 The Datadog integration is based on our [notification policy](../../concepts/policy/notification-policy.md) feature, which requires at least an active [Cloud tier](https://spacelift.io/pricing){: rel="nofollow"} subscription. While building a notification-based Datadog integration from scratch is possible, we've created a [Terraform module](https://registry.terraform.io/modules/spacelift-io/datadog/spacelift/latest){: rel="nofollow"} that will set up all the necessary integration elements for you.

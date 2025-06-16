@@ -130,17 +130,16 @@ EOF
 
 ### Grant access to the Launcher image
 
-During your Self-Hosted installation process, the Spacelift launcher image is uploaded to a private ECR in the AWS account your Self-Hosted instance is installed into. This repository is called `spacelift-launcher`:
+During your Self-Hosted installation process, the Spacelift launcher image should be uploaded to a container repository. For instance, it could be Artifact Registry in GCP or ECR in AWS.
 
 ![spacelift-launcher ECR](../../assets/screenshots/worker-pools-kubernetes-self-hosted-ecr.png)
 
-The launcher image is used during runs on Kubernetes workers to prepare the workspace for the run, and the Kubernetes cluster that you want to run your workers on needs to be able to pull that image for runs to succeed.
+The launcher image is used during runs on Kubernetes workers to prepare the workspace for the run, and the Kubernetes cluster that you want to run your workers on **needs to be able to pull that image** for runs to succeed.
 
 Some options for this include:
 
-1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes.
-2. You can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
-3. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
+1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes. Alternatively, you can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
+2. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
 
 {% endif %}
 
@@ -770,6 +769,115 @@ spec:
   pod:
     customBinariesPath: "/bin" # This will result in "/bin:/opt/spacelift/binaries" being added to the start of the worker's path.
 ```
+
+### Autoscaling
+
+Careful consideration should be given when scheduling the controller in the cluster.
+If the worker pool controller is evicted due to autoscaling or other reasons, it may miss MQTT messages and cause
+temporary run failures.
+
+**Therefore, it is strongly recommended to deploy the controller on nodes with high stability and availability.**
+
+#### EKS
+
+For EKS Auto cluster you can set the following Karpenter annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    karpenter.sh/do-not-disrupt: "true"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."karpenter\.sh/do-not-disrupt"="true"
+    ```
+
+For Standard clusters:
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
+
+#### GKE
+
+For autopilot cluster you can set the following annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    # Bear in mind that this will not 100% prevent autopilot from evicting pods.
+    # Please refer to autopilot documentation for more details.
+    autopilot.gke.io/priority: high
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."autopilot\.gke\.io/priority"="high"
+    ```
+
+For Standard clusters:
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
+
+#### AKS
+
+For Azure cluster you can set the following annotation on the controller pod.
+
+=== "Kubectl"
+    ```yaml
+    cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+    ```
+
+=== "Helm"
+    ```shell
+    --set-string controllerManager.podAnnotations."cluster-autoscaler\.kubernetes\.io/safe-to-evict"="false"
+    ```
+
+### FIPS
+
+With Go 1.24, the Go runtime [has added support for FIPS mode](https://tip.golang.org/doc/security/fips140){: rel="nofollow"}. This allows you to run your Spacelift workerpool-controller in a [FIPS 140-3](https://en.wikipedia.org/wiki/FIPS_140-3){: rel="nofollow"}-compliant manner.
+
+!!! note
+    Note that the above Go documentation mentions that FIPS mode is best effort based and doesn't guarantee compliance with all requirements.
+
+If you'd like to have the workerpool-controller run in FIPS mode, turn the `controllerManager.enforceFips140` flag to `true` in the Helm chart values. We introduced this in the [v0.42.0 release](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.42.0){: rel="nofollow"} of the Helm chart.
+
+=== "Helm"
+    You can set this in your `values.yaml` file like so:
+    ```yaml
+    controllerManager:
+      enforceFips140: true
+    ```
+
+    Or pass it as a parameter: `--set controllerManager.enforceFips140=true`.
+=== "Kubernetes"
+    When deployed without helm, you'll need to set the `GODEBUG=fips140=only` environment variable manually on the controller container. The command to do this is:
+
+    ```shell
+    # List all deployments to get the name of the controller deployment:
+    kubectl get deployments --all-namespaces
+
+    # Edit the deployment to add the environment variable:
+    kubectl edit deployment/<deployment-name> -n <namespace>
+    ```
+
+During the controller's startup, you should see the `FIPS 140 mode {"enabled": true}` message in the logs.
+
+!!! note
+    This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
 
 ## Scaling a pool
 

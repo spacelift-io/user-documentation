@@ -97,7 +97,8 @@ This is the schema of the data input that each policy request will receive:
       "branch": "string - branch to which the commit was pushed",
       "created_at": "number  - creation Unix timestamp in nanoseconds",
       "hash": "string - the commit hash",
-      "message": "string - commit message"
+      "message": "string - commit message",
+      "exist_on_tracked_branch": "boolean - true if commit with this hash exist on tracked branch"
     },
     "created_at": "number - creation Unix timestamp in nanoseconds",
     "creator_session": {

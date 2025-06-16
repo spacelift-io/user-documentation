@@ -102,7 +102,7 @@ Spacelift self-hosted is distributed as an archive containing everything needed 
 Along with the release archive, we also provide a SHA-256 checksum of the archive as well as a GPG signature. The fingerprint of our GPG key is `380BD7699053035B71D027B173EBA0CF3B3F4A46`, and you can import it using the following command:
 
 ```shell
-gpg --recv-keys 380BD7699053035B71D027B173EBA0CF3B3F4A46
+gpg --keyserver hkps://keys.openpgp.org --recv-keys 380BD7699053035B71D027B173EBA0CF3B3F4A46
 ```
 
 You can verify the integrity of the release archive using the following command:

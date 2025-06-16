@@ -32,6 +32,8 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+      primary: black
+      accent: indigo
 use_directory_urls: false
 watch:
   - nav.yaml
@@ -84,6 +86,8 @@ hooks:
 plugins:
   - search
   - macros
+  - glightbox:
+      manual: true
   - mike:
       # These fields are all optional; the defaults are as below...
       alias_type: symlink
