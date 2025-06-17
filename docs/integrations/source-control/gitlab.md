@@ -61,7 +61,7 @@ Spacelift is interested in pushes, tags and merge requests, so make sure you add
 
 ![](../../assets/screenshots/Webhooks_·_Settings_·_spacelift-test___demo_·_GitLab.png)
 
-If that sounds like hassle (it sure does to us), you can do the same thing automatically using [GitLab's Terraform provider](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/resources/project_hook){: rel="nofollow"}.
+If that sounds like hassle (it sure does to us), you can do the same thing automatically using [GitLab's OpenTofu/Terraform provider](https://search.opentofu.org/provider/gitlabhq/gitlab/latest/docs/resources/project_hook){: rel="nofollow"}.
 
 !!! warning
     Note that you only need to set it up one hook for each repo used by Spacelift, regardless of how many stacks it is used by. Setting up multiple hooks for a single repo may lead to unintended behavior.
@@ -78,7 +78,7 @@ The rest of the process is exactly the same as with [creating a GitHub-backed st
 
 ### Namespaces
 
-When utilizing the Terraform provider to provision Spacelift Stacks for GitLab, you are required to specify a `namespace`.
+When utilizing the OpenTofu/Terraform provider to provision Spacelift Stacks for GitLab, you are required to specify a `namespace`.
 
 The `namespace` value should be set to the grouping mechanism that your project (repository) is within. For example, if you are simply referencing a project (repository) within your GitLab account, that is not within any group, then the namespace value should be set to your GitLab username.
 

@@ -12,10 +12,10 @@ If you take a look at the Environment screen of a stack you will notice it's pre
 
 ## Environment variables
 
-The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"} _input variables_.
+The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and OpenTofu/Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in OpenTofu/Terraform to [use environment variables as OpenTofu/Terraform](https://opentofu.org/docs/cli/config/environment-variables/#tf_var_name){: rel="nofollow"} _input variables_.
 
 !!! info
-    Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
+    Spacelift does not provide a dedicated mechanism of defining [OpenTofu/Terraform input variables](https://opentofu.org/docs/language/values/variables/){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
@@ -53,7 +53,7 @@ If you delete this variable, it will again be replaced by the computed one. If y
 
 #### Spacelift environment
 
-The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
+The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to OpenTofu/Terraform configuration, and their names always clearly suggest the content:
 
 | Environment Variable            | Type   | Description                                                         | Possible Values / Format                                                                                                                                                         |
 |---------------------------------|--------|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -90,7 +90,7 @@ Spacelift supports a more security-conscious approach by allowing users to defin
 
 An environment variable whose name starts with the `ro_` prefix is only passed to read stages but not to the write ([_Applying_](../run/tracked.md#applying)) stage. On the other hand, an environment variable whose name starts with the `wo_` prefix is only passed to the write ([_Applying_](../run/tracked.md#applying)) stage but not to the read ones.
 
-Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs){: rel="nofollow"} variable split into two separate environment variables:
+Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub OpenTofu/Terraform provider](https://search.opentofu.org/provider/integrations/github/latest){: rel="nofollow"} variable split into two separate environment variables:
 
 ![](../../assets/screenshots/Environment_·_Bacon_bacon.png)
 
@@ -103,7 +103,7 @@ A similar approach can be used for AWS, GCP, Azure, or any other cloud provider 
 
 ## Mounted files
 
-Every now and then an environment variable is not what you need - you need a file instead. Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path){: rel="nofollow"} which needs to be present in your workspace as well.
+Every now and then an environment variable is not what you need - you need a file instead. OpenTofu/Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://search.opentofu.org/provider/hashicorp/kubernetes/latest#file-config){: rel="nofollow"} which needs to be present in your workspace as well.
 
 It's almost like creating an environment variable, though instead of typing (or pasting) the value you'll be uploading a file:
 

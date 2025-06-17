@@ -5,7 +5,7 @@
 !!! info
     Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
 
-Plan policies are evaluated during a planning phase after vendor-specific change preview command (eg. `terraform plan`) executes successfully. The body of the change is exported to JSON and parts of it are combined with Spacelift metadata to form the data input to the policy.
+Plan policies are evaluated during a planning phase after vendor-specific change preview command (eg. `tofu/terraform plan`) executes successfully. The body of the change is exported to JSON and parts of it are combined with Spacelift metadata to form the data input to the policy.
 
 Plan policies are the only ones that have access to the actual changes to the managed resources, so this is probably the best place to enforce organizational rules and best practices as well as do automated code review. There are two types of rules here that Spacelift will care about: **deny** and **warn**. Each of them must come with an appropriate message that will be shown in the logs. Any **deny** rules will print in red and will automatically fail the run, while **warn** rules will print in yellow and will at most mark the run for human review if the change affects the tracked branch and the Stack is set to [autodeploy](../stack/README.md#autodeploy).
 
@@ -184,11 +184,11 @@ In addition to our [helper functions](./README.md#helper-functions), we provide 
 
 | Alias                 | Description |
 |-----------------------|-------------|
-| `affected_resources`  | List of the resources that will be created, deleted, and updated by Terraform |
-| `created_resources`   | List of the resources that will be created by Terraform |
-| `deleted_resources`   | List of the resources that will be deleted by Terraform |
-| `recreated_resources` | List of the resources that will be deleted and then created by Terraform |
-| `updated_resources`   | List of the resources that will be updated by Terraform |
+| `affected_resources`  | List of the resources that will be created, deleted, and updated |
+| `created_resources`   | List of the resources that will be created |
+| `deleted_resources`   | List of the resources that will be deleted |
+| `recreated_resources` | List of the resources that will be deleted and then created |
+| `updated_resources`   | List of the resources that will be updated |
 
 ## String Sanitization
 
@@ -211,14 +211,14 @@ deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
 
 ## Custom inputs
 
-Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing Terraform configuration and the other exposing the result of a third-party security tool.
+Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the OpenTofu/Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing OpenTofu/Terraform configuration and the other exposing the result of a third-party security tool.
 
 !!! Tip
     To learn more about integrating security tools with Spacelift using custom inputs, please refer to our [blog post](https://spacelift.io/blog/integrating-security-tools-with-spacelift){: rel="nofollow"}.
 
-### Example: exposing Terraform configuration to the plan policy
+### Example: exposing OpenTofu/Terraform configuration to the plan policy
 
-Let's say you want to expose the Terraform configuration to the plan policy to ensure that only the "blessed" modules are used to provision resources. You would then add the following command to the list of [`after_plan` hooks](../stack/stack-settings.md#customizing-workflow):
+Let's say you want to expose the OpenTofu/Terraform configuration to the plan policy to ensure that only the "blessed" modules are used to provision resources. You would then add the following command to the list of [`after_plan` hooks](../stack/stack-settings.md#customizing-workflow):
 
 ```bash
 terraform show -json spacelift.plan | jq -c '.configuration' > configuration.custom.spacelift.json
@@ -228,15 +228,15 @@ The data will be available in the policy input as `input.third_party_metadata.cu
 
 ### Example: passing custom tool output to the plan policy
 
-For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec){: rel="nofollow"}. What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
+For this example, let's use the awesome open-source security scanner called [_Trivy_](https://trivy.dev/latest/){: rel="nofollow"}. What you want to accomplish is to generate `trivy` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `trivy` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
 
 ```bash
-tfsec -s --format=json . > tfsec.custom.spacelift.json
+trivy config --format=json --output=tfsec.custom.spacelift.json .
 ```
 
-The data will be available in the policy input as `input.third_party_metadata.custom.tfsec`. Note that this depends on the `tfsec` tool being available in the runner image - you will need to install it yourself, either directly on the image, or as part of your `before_init` hook.
+The data will be available in the policy input as `input.third_party_metadata.custom.trivy`. Note that this depends on the `trivy` tool being available in the runner image - you will need to install it yourself, either directly on the image, or as part of your `before_init` hook.
 
-Some vulnerability scanning tools, like tfsec, will return a non-zero exit code when they encounter vulnerabilities, which will result in a stack failure. As the majority of these tools provide a soft scanning option that will show all the vulnerabilities without considering the command as failed, we can leverage those.
+Some vulnerability scanning tools will return a non-zero exit code when they encounter vulnerabilities, which will result in a stack failure. As the majority of these tools provide a soft scanning option that will show all the vulnerabilities without considering the command as failed, we can leverage those.
 
 However, if there is a tool that doesn't offer that possibility, you can easily overcome this by appending `|| true` at the end of the command as this will always return a zero exit code.
 

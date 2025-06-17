@@ -1,5 +1,5 @@
 ---
-description: This article shows how Spacelift can help you manage Terraform providers
+description: This article shows how Spacelift can help you manage OpenTofu/Terraform providers
 ---
 
 # Provider registry
@@ -11,23 +11,23 @@ description: This article shows how Spacelift can help you manage Terraform prov
 
 ## Intro
 
-While the Terraform ecosystem is vast and growing, sometimes there is no official provider for your use case, especially if you need to interface with internal or niche tooling. This is where the Spacelift provider registry comes in. It's a place where you can publish your own providers. These providers can be used both inside, and outside of Spacelift.
+While the OpenTofu/Terraform ecosystem is vast and growing, sometimes there is no official provider for your use case, especially if you need to interface with internal or niche tooling. This is where the Spacelift provider registry comes in. It's a place where you can publish your own providers. These providers can be used both inside, and outside of Spacelift.
 
 ## Publishing a provider
 
 ### Assumptions
 
-We will not be covering the process of writing a Terraform provider in this article. If you are interested in that, please refer to the [official documentation](https://www.terraform.io/docs/extend/writing-custom-providers.html){: rel="nofollow"}. In this article, we will assume that you **already have a provider** that you want to publish.
+We will not be covering the process of writing a OpenTofu/Terraform provider in this article. If you are interested in that, please refer to the [official documentation](https://opentofu.org/docs/language/providers/#how-to-develop-providers){: rel="nofollow"}. In this article, we will assume that you **already have a provider** that you want to publish.
 
 We will also focus on providing step-by-step instructions for [GitHub Actions](https://github.com/features/actions){: rel="nofollow"} users. If you are using a different CI/CD tool, you will need to adapt the steps accordingly based on its documentation. Note that you don't need to use a CI/CD tool to publish a provider - you could do it from your laptop. However, we recommend using a CI/CD tool to automate the process and provide an audit trail of what's been done, when, and by whom.
 
-Last but not least, we assume you're going to use GoReleaser to build your provider. This is by far the most common way of managing Terraform providers which need to be available for different operating systems and architectures. If you're not familiar with GoReleaser, please refer to the [official documentation](https://goreleaser.com/){: rel="nofollow"}. You can also check out Terraform's official [`terraform-provider-scaffolding` template repository](https://github.com/hashicorp/terraform-provider-scaffolding){: rel="nofollow"} for an example of using GoReleaser with Terraform providers.
+Last but not least, we assume you're going to use GoReleaser to build your provider. This is by far the most common way of managing OpenTofu/Terraform providers which need to be available for different operating systems and architectures. If you're not familiar with GoReleaser, please refer to the [official documentation](https://goreleaser.com/){: rel="nofollow"}. You can also check out OpenTofu/Terraform's official [`terraform-provider-scaffolding` template repository](https://github.com/hashicorp/terraform-provider-scaffolding){: rel="nofollow"} for an example of using GoReleaser with OpenTofu/Terraform providers.
 
 ### Creating a provider
 
 To create a provider in Spacelift, you have three options:
 
-#### Use our Terraform provider (preferable)
+#### Use our OpenTofu/Terraform provider (preferable)
 
 This is the easiest way to do it, as it will let you manage your provider declaratively in the future:
 
@@ -47,9 +47,9 @@ It is possible to mark the provider as public, which will make it available to e
 
 #### Use the API
 
-To create a Terraform Provider using the GraphQL API, you can use the `terraformProviderCreate` mutation. This mutation allows you to create a new provider with the specified inputs.
+To create a OpenTofu/Terraform Provider using the GraphQL API, you can use the `terraformProviderCreate` mutation. This mutation allows you to create a new provider with the specified inputs.
 
-After successfully creating the Terraform Provider, you will receive an output of type `TerraformProvider`, which contains various fields providing information about the provider. These fields include the ID, creation timestamp, description, labels, latest version number, public accessibility, associated space details, update timestamp, specific version details, and a list of all versions of the provider.
+After successfully creating the OpenTofu/Terraform Provider, you will receive an output of type `OpenTofu/TerraformProvider`, which contains various fields providing information about the provider. These fields include the ID, creation timestamp, description, labels, latest version number, public accessibility, associated space details, update timestamp, specific version details, and a list of all versions of the provider.
 
 For more detailed information about the GraphQL API and its integration, please refer to the [API documentation](../../integrations/api.md).
 
@@ -71,11 +71,11 @@ In the _Create Terraform provider_ drawer, you will need to provide the type, sp
 !!! warning
     Only Spacelift root admins can manage account GPG keys. If you're not a root admin, you will need to ask one to do it for you.
 
-Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. Similarly to creating a provider, you have three options to register a GPG key:
+OpenTofu/Terraform uses GPG keys to verify the authenticity of providers. Before you can publish a provider version, you need to register a GPG key with Spacelift. Similarly to creating a provider, you have three options to register a GPG key:
 
 #### Use our CLI tool called `spacectl`
 
-One reason we do not want to do it declaratively through the Terraform provider is that it would inevitably lead to the private key being stored in some Terraform state, which is not ideal. [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"} will let you register a GPG key without storing the private key anywhere outside of your system.
+One reason we do not want to do it declaratively through the OpenTofu/Terraform provider is that it would inevitably lead to the private key being stored in some OpenTofu/Terraform state, which is not ideal. [`spacectl`](https://github.com/spacelift-io/spacectl){: rel="nofollow"} will let you register a GPG key without storing the private key anywhere outside of your system.
 
 If you have an existing GPG key that you want to use, you can use `spacectl` to register it:
 
@@ -258,7 +258,7 @@ Once published, your version is ready to use. See the next section for more info
 
 ## Using providers
 
-Terraform providers hosted by Spacelift can be used the same way as providers hosted by the Terraform Registry. The only difference is that you need to specify the Spacelift registry URL in your Terraform configuration.
+OpenTofu/Terraform providers hosted by Spacelift can be used the same way as providers hosted by the OpenTofu/Terraform Registry. The only difference is that you need to specify the Spacelift registry URL in your OpenTofu/Terraform configuration.
 
 ```terraform title="main.tf"
 terraform {
@@ -270,7 +270,7 @@ terraform {
 }
 ```
 
-The above example does not refer to a specific version, meaning that you are going to always use the latest available (published) version of your provider. That said, you can use any versioning syntax supported by the Terraform Registry - learn more about it [here](https://developer.hashicorp.com/terraform/language/expressions/version-constraints){: rel="nofollow"}.
+The above example does not refer to a specific version, meaning that you are going to always use the latest available (published) version of your provider. That said, you can use any versioning syntax supported by the OpenTofu/Terraform Registry - learn more about it [here](https://opentofu.org/docs/language/expressions/version-constraints/){: rel="nofollow"}.
 
 ### Using providers inside Spacelift
 

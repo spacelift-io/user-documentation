@@ -21,7 +21,7 @@ The list of contexts merely shows the name, description and labels of the contex
 
 ## Management
 
-Managing a context is quite straightforward - you can [create](context.md#creating), [edit](context.md#editing), [attach, detach](context.md#attaching-and-detaching) and [delete](context.md#deleting) it. The below paragraphs will focus on doing that through the web GUI but doing it programmatically using [our Terraform provider](../../vendors/terraform/terraform-provider.md) is an attractive alternative.
+Managing a context is quite straightforward - you can [create](context.md#creating), [edit](context.md#editing), [attach, detach](context.md#attaching-and-detaching) and [delete](context.md#deleting) it. The below paragraphs will focus on doing that through the web GUI but doing it programmatically using [our OpenTofu/Terraform provider](../../vendors/terraform/terraform-provider.md) is an attractive alternative.
 
 ### Creating
 
@@ -284,23 +284,23 @@ We can see two main use cases for contexts, depending on whether the context dat
 
 ### Shared setup
 
-If the data is external to Spacelift, it's likely that this is a form of shared setup - that is, configuration elements that are common to multiple stacks, and grouped as a context for convenience. One example of this use case is cloud provider configuration, either for Terraform or Pulumi. Instead of attaching the same values - some of them probably secret and pretty sensitive - to individual stacks, contexts allow you to define those once and then have admins attach them to the stacks that need them.
+If the data is external to Spacelift, it's likely that this is a form of shared setup - that is, configuration elements that are common to multiple stacks, and grouped as a context for convenience. One example of this use case is cloud provider configuration, either for OpenTofu/Terraform or Pulumi. Instead of attaching the same values - some of them probably secret and pretty sensitive - to individual stacks, contexts allow you to define those once and then have admins attach them to the stacks that need them.
 
-A variation of this use case is collections of [Terraform input variables](https://www.terraform.io/docs/configuration/variables.html#assigning-values-to-root-module-variables){: rel="nofollow"} that may be shared by multiple stacks - for example things relating to a particular system environment (staging, production etc). In this case the collection of variables can specify things like environment name, DNS domain name or a reference to it (eg. zone ID), tags, references to provider accounts and similar settings. Again, instead of setting these on individual stacks, an admin can group them into a context, and attach to the eligible stacks.
+A variation of this use case is collections of [OpenTofu/Terraform input variables](https://opentofu.org/docs/language/values/variables/#assigning-values-to-root-module-variables){: rel="nofollow"} that may be shared by multiple stacks - for example things relating to a particular system environment (staging, production etc). In this case the collection of variables can specify things like environment name, DNS domain name or a reference to it (eg. zone ID), tags, references to provider accounts and similar settings. Again, instead of setting these on individual stacks, an admin can group them into a context, and attach to the eligible stacks.
 
-### Remote state alternative (Terraform-specific)
+### Remote state alternative (OpenTofu/Terraform-specific)
 
-If the data in the context is produced by one or more Spacelift stacks, contexts can be an attractive alternative to the Terraform [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"}. In this use case, contexts can serve as outputs for stacks that can be consumed by (attached to) other stacks. So, instead of exposing the entire state, a stack can use Spacelift Terraform provider to define values on a context - either managed by the same stack , or managed externally. Managing a context externally can be particularly useful when multiple stacks contribute to a particular context.
+If the data in the context is produced by one or more Spacelift stacks, contexts can be an attractive alternative to the OpenTofu/Terraform [remote state](https://opentofu.org/docs/language/state/remote/){: rel="nofollow"}. In this use case, contexts can serve as outputs for stacks that can be consumed by (attached to) other stacks. So, instead of exposing the entire state, a stack can use Spacelift OpenTofu/Terraform provider to define values on a context - either managed by the same stack , or managed externally. Managing a context externally can be particularly useful when multiple stacks contribute to a particular context.
 
 !!! info
-    In order to use the Terraform provider to define contexts or its configuration elements the stack has to be marked as [administrative](../stack/README.md#administrative).
+    In order to use the OpenTofu/Terraform provider to define contexts or its configuration elements the stack has to be marked as [administrative](../stack/README.md#administrative).
 
-As an example of one such use case, let's imagine an organization where shared infrastructure (VPC, DNS, compute cluster etc.) is centrally managed by a DevOps team, which exposes it as a service to be used by individual product development teams. In order to be able to use the shared infrastructure, each team needs to address multiple entities that are generated by the central infra repo. In vanilla Terraform one would likely use remote state provider, but that might expose secrets and settings the DevOps team would rather keep it to themselves. Using a context on the other hand allows the team to decide (and hopefully document) what constitutes their "external API".
+As an example of one such use case, let's imagine an organization where shared infrastructure (VPC, DNS, compute cluster etc.) is centrally managed by a DevOps team, which exposes it as a service to be used by individual product development teams. In order to be able to use the shared infrastructure, each team needs to address multiple entities that are generated by the central infra repo. In vanilla OpenTofu/Terraform one would likely use remote state provider, but that might expose secrets and settings the DevOps team would rather keep it to themselves. Using a context on the other hand allows the team to decide (and hopefully document) what constitutes their "external API".
 
 The proposed setup for the above use case would involve two administrative stacks - one to manage all the stacks, and the other for the DevOps team. The management stack would programmatically define the DevOps one, and possibly also its context. The DevOps team would receive the context ID as an input variable, and use it to expose outputs as [`spacelift_environment_variable`](https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_environment_variable-resource){: rel="nofollow"} and/or [`spacelift_mounted_file`](https://github.com/spacelift-io/terraform-provider-spacelift#spacelift_mounted_file-resource){: rel="nofollow"} resources. The management stack could then simply attach the context populated by the DevOps stack to other stacks it defines and manages.
 
-### Extending Terraform CLI Configuration (Terraform-specific)
+### Extending OpenTofu/Terraform CLI Configuration (OpenTofu/Terraform-specific)
 
-For some of our Terraform users, a convenient way to configure the Terraform CLI behavior is through customizing the `~/.terraformrc` file.
+For some of our OpenTofu/Terraform users, a convenient way to configure the OpenTofu/Terraform CLI behavior is through customizing the `~/.terraformrc` file.
 
 Spacelift allows you to extend terraform CLI configuration through the use of [mounted files](../../vendors/terraform/cli-configuration.md#using-mounted-files).

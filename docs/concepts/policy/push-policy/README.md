@@ -16,7 +16,7 @@ Git push policies are triggered on a per-stack basis to determine the action tha
 - **propose**: create a [proposed Run](../../run/proposed.md) against a proposed version of infrastructure;
 - **ignore**: do not schedule a new Run;
 
-Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
+Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple OpenTofu/Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
 
 ### Git push policy and tracked branch
 
@@ -164,11 +164,11 @@ As a result of the above policy, users would then see this behavior within their
 !!! info
     Note that this behavior (customization of the message and failing of the check within the VCS), **is only applicable when runs do not take place within Spacelift.**
 
-### Tag-driven Terraform Module Release Flow
+### Tag-driven OpenTofu/Terraform Module Release Flow
 
-Some users prefer to manage their Terraform Module versions using git tags, and would like git tag events to push their module to the Spacelift module registry. Using a fairly simple Push policy, this is supported. To do this, you'll want to make sure of the `module_version` block within a Push policy attached your module, and then set the version using the tag information from the git push event.
+Some users prefer to manage their OpenTofu/Terraform Module versions using git tags, and would like git tag events to push their module to the Spacelift module registry. Using a fairly simple Push policy, this is supported. To do this, you'll want to make sure of the `module_version` block within a Push policy attached your module, and then set the version using the tag information from the git push event.
 
-For example, the following example Push policy will trigger a tracked run when a tag event is detected. The policy then parses the tag event data and uses that value for the module version, in the below example we remove a git tag prefixed with `v` as the Terraform Module Registry only supports versions in a numeric `X.X.X` format.
+For example, the following example Push policy will trigger a tracked run when a tag event is detected. The policy then parses the tag event data and uses that value for the module version, in the below example we remove a git tag prefixed with `v` as the OpenTofu/Terraform Module Registry only supports versions in a numeric `X.X.X` format.
 
 It's important to note that for this policy, you will need to provide a mock, non-existent version for proposed runs. This precaution has been taken to ensure that pull requests do not encounter check failures due to the existence of versions that are already in use.
 
@@ -184,15 +184,15 @@ module_version := "<X.X.X>" {
     propose
 }
 
-propose { 
-  not is_null(input.pull_request) 
+propose {
+  not is_null(input.pull_request)
   }
 ```
 
 If you wish to add a track rule to your push policy, the below will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking.
 
 ```opa
-track { 
+track {
   module_version != ""
   input.push.branch == input.module.branch
  }
@@ -500,12 +500,12 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 
 ### Ignoring certain paths
 
-Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
+Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple OpenTofu/Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
 
 !!! info
     This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
 
-Let's imagine a situation where you only want to look at changes to Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html){: rel="nofollow"}  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
+Let's imagine a situation where you only want to look at changes to OpenTofu/Terraform definitions - in HCL or [JSON](https://opentofu.org/docs/language/syntax/json/){: rel="nofollow"}  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
 
 ```opa
 package spacelift

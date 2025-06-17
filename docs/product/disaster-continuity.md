@@ -30,12 +30,12 @@ In the event of a disaster, Spacelift will presumably not be accessible or usabl
 - Provided yourself access to the deployment role that Spacelift is using
 - Have a plan to create, or have already created a break-glass role that you can use for disaster purposes
 
-## Terraform Break Glass Example Procedure
+## Terraform/OpenTofu Break Glass Example Procedure
 
 ### Pre-requisites
 
 - Access to assume your deployment role(s)
-- Terraform installed locally
+- OpenTofu/Terraform installed locally
 - Managing your state externally (not Spacelift-managed state)
 
 ### Assume deployment role locally

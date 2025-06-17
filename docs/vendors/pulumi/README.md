@@ -7,7 +7,7 @@ description: Learn how Pulumi integrates with Spacelift in this article.
 !!! info
     Feature previews are subject to change, may contain bugs, and have not yet been refined based on real production usage.
 
-At a high level, [Pulumi](https://github.com/pulumi/pulumi){: rel="nofollow"} works similarly to Terraform. It uses a state backend, supports dry runs, and reconciles the actual infrastructure with your desired state. In this article, we’ll explain how Spacelift concepts map to Pulumi workflows.
+On a high level, [Pulumi](https://github.com/pulumi/pulumi){: rel="nofollow"} has a very similar flow to OpenTofu/Terraform. It uses a state backend, provides dry run functionality, reconciles the actual world with the desired state. In this article we'll dive into how each of the concepts in Spacelift translates into working with Pulumi.
 
 If you prefer hands-on learning, check out our quickstart guides for each Pulumi-supported runtime:
 
@@ -45,7 +45,7 @@ You can pass additional CLI arguments using the `SPACELIFT_PULUMI_CLI_ARGS_previ
 
 ## Policies
 
-Most policies remain unchanged. The main difference is with the plan policy. Instead of a raw Terraform plan in the `terraform` field, you’ll receive a `pulumi` field containing the raw Pulumi plan, following this schema:
+Most policies don't change at all. The one that changes most is the plan policy. Instead of the OpenTofu/Terraform raw plan in the `terraform` field, you'll get a `pulumi` field with the raw Pulumi plan and the following schema:
 
 ```json
 {

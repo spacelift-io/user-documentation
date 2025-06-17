@@ -1,22 +1,22 @@
 # External modules
 
-Those of our customers who are not yet using our private module registry may want to pull modules from various external sources supported by Terraform. This article discusses a few most popular types of module sources and how to use them in Spacelift.
+Those of our customers who are not yet using our private module registry may want to pull modules from various external sources supported by OpenTofu/Terraform. This article discusses a few most popular types of module sources and how to use them in Spacelift.
 
 ## Cloud storage
 
 {% if is_saas() %}
-The easiest ones to handle are cloud sources - [Amazon S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket){: rel="nofollow"} and [GCS](https://www.terraform.io/docs/language/modules/sources.html#gcs-bucket){: rel="nofollow"} buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools) hosted on either of these clouds, you may not require any authentication at all!
+The easiest ones to handle are cloud sources - [Amazon S3](https://opentofu.org/docs/language/modules/sources/#s3-bucket){: rel="nofollow"} and [GCS](https://opentofu.org/docs/language/modules/sources/#gcs-bucket){: rel="nofollow"} buckets. Access to these can be granted using our [AWS](../../integrations/cloud-providers/aws.md) and [GCP](../../integrations/cloud-providers/gcp.md) integrations - or - if you're using [private Spacelift workers](../../concepts/worker-pools) hosted on either of these clouds, you may not require any authentication at all!
 {% else %}
-The easiest option is accessing modules from [Amazon S3](https://www.terraform.io/docs/language/modules/sources.html#s3-bucket){: rel="nofollow"} buckets. Access to S3 can be granted using our [AWS](../../integrations/cloud-providers/aws.md) integration. Alternatively if your [worker pool](../../concepts/worker-pools) has the correct IAM permissions, you may not require any authentication at all!
+The easiest option is accessing modules from [Amazon S3](https://opentofu.org/docs/language/modules/sources/#s3-bucket){: rel="nofollow"} buckets. Access to S3 can be granted using our [AWS](../../integrations/cloud-providers/aws.md) integration. Alternatively if your [worker pool](../../concepts/worker-pools) has the correct IAM permissions, you may not require any authentication at all!
 {% endif %}
 
 ## Git repositories
 
-Git is by far the most popular external module source. This example will focus on [GitHub](https://www.terraform.io/docs/language/modules/sources.html#github){: rel="nofollow"} as the most popular one, but the advice applies to other VCS providers. In general, Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSH. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
+Git is by far the most popular external module source. This example will focus on [GitHub](https://opentofu.org/docs/language/modules/sources/#github){: rel="nofollow"} as the most popular one, but the advice applies to other VCS providers. In general, OpenTofu/Terraform retrieves Git-based modules using one of the two supported transports - HTTPS or SSH. Assuming your repository is private, you will need to give Spacelift credentials required to access it.
 
 ### Using HTTPS
 
-Git with HTTPS is slightly simpler than SSH - all you need is a personal access token, and you need to make sure that it ends up in the `~/.netrc` file, which Terraform will use to log in to the host that stores your source code.
+Git with HTTPS is slightly simpler than SSH - all you need is a personal access token, and you need to make sure that it ends up in the `~/.netrc` file, which OpenTofu/Terraform will use to log in to the host that stores your source code.
 
 Assuming you already have a token you can use, create a file like this:
 
@@ -62,7 +62,7 @@ The above example warrants a little explanation. First, we're making sure that t
 
 ## Dedicated third-party registries
 
-For users storing their modules in dedicated external private registries, like [Terraform Cloud's one](https://www.terraform.io/docs/cloud/registry/index.html){: rel="nofollow"}, you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [official documentation](https://www.terraform.io/docs/cli/config/config-file.html#credentials){: rel="nofollow"}.
+For users storing their modules in dedicated external private registries, like [HCP Terraform's one](https://developer.hashicorp.com/terraform/cloud-docs/registry){: rel="nofollow"}, you will need to supply credentials in the `.terraformrc` file - this approach is documented in the [documentation](https://opentofu.org/docs/cli/config/config-file/#credentials){: rel="nofollow"}.
 
 In order to facilitate that, we've introduced a special mechanism for extending the CLI configuration that does not even require using `before_init` hooks. You can read more about it [here](cli-configuration.md).
 
