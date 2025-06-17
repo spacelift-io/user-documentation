@@ -6,10 +6,13 @@ description: >-
 
 # Microsoft Entra ID OIDC Setup Guide
 
-This guide provides step-by-step instructions to set up Single Sign-On (SSO) with Microsoft Entra ID (formerly Azure Active Directory) for Spacelift. The process includes creating an app registration in Azure, configuring token claims, and finalizing the setup within Spacelift.
+This guide provides step-by-step instructions to set up Single Sign-On (SSO) with Microsoft Entra ID (formerly Azure Active Directory) for Spacelift.
+The process includes creating an app registration in Azure, configuring token claims, and finalizing the setup within Spacelift.
 
 !!! warning
-    Before setting up SSO, it's recommended to create backup credentials for your Spacelift account. These can be used in case of SSO misconfiguration or for other emergency procedures. You can find more details in the [Backup Credentials](./backup-credentials.md) section.
+    Before setting up SSO, it's recommended to create backup credentials for your Spacelift account.
+    These can be used in case of SSO misconfiguration or for other emergency procedures.
+    You can find more details in the [Backup Credentials](./backup-credentials.md) section.
 
 ## Prerequisites
 
@@ -27,7 +30,8 @@ You can find this panel at the bottom left by clicking the arrow next to your na
 
 Select **Single Sign-On** under **Authorization**. Click **Set up** under the OIDC section.
 
-The drawer that opens contains the **Authorized redirect URL**, which you will need to copy for your login provider. The input fields will be filled later with information from your provider.
+The drawer that opens contains the **Authorized redirect URL**, which you will need to copy for your login provider.
+The input fields will be filled later with information from your provider.
 
 ![Click on Set Up](../../assets/screenshots/oidc/sso-set-up-oidc-2025-04-08.png)
 
@@ -63,11 +67,18 @@ This allows you to assign permissions to user groups in Spacelift using the **Id
 To enable this, add the `groups` optional claim to the ID token. Most likely, you will want to choose **Security** or **Groups assigned to the application**.
 
 !!! warning
-    The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).
-    You may want to use **Application Groups** to avoid hitting the limit.
-    That requires a paid Microsoft Entra ID plan and will be discussed later.
+The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).
+You may want to use **Application Groups** to avoid hitting the limit.
+That requires a paid Microsoft Entra ID plan and will be discussed later.
 
 ![Add groups claim to ID token](<../../assets/screenshots/oidc/microsoft-entra-id-token-configuration-groups-2025-04-08.png>)
+
+!!! info
+    To use Spacelift's IdP Group Mapping feature, navigate to **Spacelift > Organization Settings > IdP Group Mapping** and select **Map IdP group**.
+    Microsoft Entra ID sends Group IDs to Spacelift, instead of group names. When setting up your group mapping, ensure you map the Group IDs, not the group names.
+    You can add a human-readable name in the description field for easier identification.
+
+![IdP Setup](../../assets/screenshots/oidc/Idp_group_mapping.png)
 
 ## Azure: Configure Application Credentials
 
@@ -92,7 +103,8 @@ You can find both in the application's **Overview** section.
 
 ![Copy client ID and provider URL](../../assets/screenshots/oidc/microsoft-entra-id-app-overview-2025-04-08.png)
 
-Your Spacelift OIDC configuration should now look similar to the example below. Click **Save** to continue — this will redirect you to perform the first login. If the login succeeds, SSO will become active.
+Your Spacelift OIDC configuration should now look similar to the example below. Click **Save** to continue — this will redirect you to perform the first login.
+If the login succeeds, SSO will become active.
 
 ![Complete configuration](../../assets/screenshots/oidc/sso-set-up-oidc-filled-microsoft-2025-04-08.png)
 
@@ -100,19 +112,13 @@ If you selected **Application Groups** for the `groups` claim, consider completi
 
 ## Azure: Assign Application Groups (optional)
 
-If you are part of a large organization where users may belong to more than 200 groups, the group list will not fit into the ID token. Fortunately, Microsoft Entra ID provides an option to assign ("bind") groups to an application.
+If you are part of a large organization where users may belong to more than 200 groups, the group list will not fit into the ID token.
+Fortunately, Microsoft Entra ID provides an option to assign ("bind") groups to an application.
 
-If you previously configured the `groups` claim to include only assigned application groups, all that remains is to complete the group assignment. The ID token will then contain only the intersection of the user's groups and the application's assigned groups. This way, you have the option to send only relevant groups to Spacelift.
+If you previously configured the `groups` claim to include only assigned application groups, all that remains is to complete the group assignment.
+The ID token will then contain only the intersection of the user's groups and the application's assigned groups. This way, you have the option to send only relevant groups to Spacelift.
 
 Go to the **Enterprise Applications** service in the Azure portal and find your application. From there, complete the group assignment.
 
 ![Enterprise Applications list](../../assets/screenshots/oidc/microsoft-enterprise-applications-2025-04-08.png)
 ![Assign group to Enterprise Application](../../assets/screenshots/oidc/microsoft-enterprise-applications-group-assignment-2025-04-08.png)
-
-## Spacelift: Set Up IdP Group Mapping (Optional)
-
-To use Spacelift's IdP Group Mapping feature, navigate to **Spacelift > Organization Settings > IdP Group Mapping** and select **Map IdP group**.
-
-Due to a limitation in Microsoft Entra ID, Group IDs are passed to Spacelift instead of group names. When setting up your group mapping, ensure you map the Group IDs, not the group names. You can add a human-readable name in the description field for easier identification.
-
-![IdP Setup](../../assets/screenshots/oidc/Idp_group_mapping.png)
