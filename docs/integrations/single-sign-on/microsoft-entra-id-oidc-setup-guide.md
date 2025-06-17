@@ -67,9 +67,9 @@ This allows you to assign permissions to user groups in Spacelift using the **Id
 To enable this, add the `groups` optional claim to the ID token. Most likely, you will want to choose **Security** or **Groups assigned to the application**.
 
 !!! warning
-The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).
-You may want to use **Application Groups** to avoid hitting the limit.
-That requires a paid Microsoft Entra ID plan and will be discussed later.
+    The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).
+    You may want to use **Application Groups** to avoid hitting the limit.
+    That requires a paid Microsoft Entra ID plan and will be discussed later.
 
 ![Add groups claim to ID token](<../../assets/screenshots/oidc/microsoft-entra-id-token-configuration-groups-2025-04-08.png>)
 
