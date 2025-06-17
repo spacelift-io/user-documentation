@@ -32,8 +32,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-      primary: black
-      accent: indigo
 use_directory_urls: false
 watch:
   - nav.yaml
