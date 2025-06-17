@@ -9,6 +9,9 @@ on:
 concurrency:
   group: "deployment"
 
+permissions:
+  contents: read
+
 jobs:
   deploy-to-preprod:
     name: Deploy to pre-production
