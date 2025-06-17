@@ -18,7 +18,7 @@ This guide provides step-by-step instructions to set up Single Sign-On (SSO) wit
 
 ## Configure Account Settings
 
-Open **Organization settings** for your Spacelift account.  
+Open **Organization settings** for your Spacelift account.
 You can find this panel at the bottom left by clicking the arrow next to your name.
 
 ![Open organization settings](../../assets/screenshots/organization-settings-2025-05-08.png)
@@ -33,15 +33,15 @@ The drawer that opens contains the **Authorized redirect URL**, which you will n
 
 ## Azure: Navigate to Microsoft Entra ID
 
-In Microsoft Entra ID, make sure you are in the directory where you want to set up the application.  
+In Microsoft Entra ID, make sure you are in the directory where you want to set up the application.
 Select **App registrations** from the left-side panel, then click **New registration**.
 
 ![Navigate to your Microsoft Entra ID](../../assets/screenshots/oidc/microsoft-entra-id-app-registrations-menu-2025-04-08.png)
 
 ## Azure: Register the Application
 
-The **application name** is for your reference only — pick something that fits your organization.  
-For **supported account types**, choose either single-tenant or multi-tenant, depending on your organization's setup.  
+The **application name** is for your reference only — pick something that fits your organization.
+For **supported account types**, choose either single-tenant or multi-tenant, depending on your organization's setup.
 Select "Web" as the type for the **redirect URL**, and paste the **Authorized redirect URL** you copied from Spacelift.
 
 Click **Register**.
@@ -50,7 +50,7 @@ Click **Register**.
 
 ## Azure: Add UPN Claim
 
-Under the newly created application, go to **Token configuration** and add the `upn` optional claim to the ID token.  
+Under the newly created application, go to **Token configuration** and add the `upn` optional claim to the ID token.
 Click the **Add** button and make sure the **Turn on the Microsoft Graph profile permission** checkbox is selected in the popup.
 
 ![Add UPN claim to ID token](<../../assets/screenshots/oidc/microsoft-entra-id-token-configuration-upn-2025-04-08.png>)
@@ -58,13 +58,13 @@ Click the **Add** button and make sure the **Turn on the Microsoft Graph profile
 
 ## Azure: Add Groups Claim
 
-This step is not strictly required, but you will likely want to send user group information to Spacelift.  
-This allows you to assign permissions to user groups in Spacelift using the **IdP Group Mapping** feature.  
+This step is not strictly required, but you will likely want to send user group information to Spacelift.
+This allows you to assign permissions to user groups in Spacelift using the **IdP Group Mapping** feature.
 To enable this, add the `groups` optional claim to the ID token. Most likely, you will want to choose **Security** or **Groups assigned to the application**.
 
 !!! warning
-    The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).  
-    You may want to use **Application Groups** to avoid hitting the limit.  
+    The number of groups in the ID token cannot exceed 200 (Azure limit related to HTTP header size).
+    You may want to use **Application Groups** to avoid hitting the limit.
     That requires a paid Microsoft Entra ID plan and will be discussed later.
 
 ![Add groups claim to ID token](<../../assets/screenshots/oidc/microsoft-entra-id-token-configuration-groups-2025-04-08.png>)
@@ -84,10 +84,10 @@ Create a new **Client secret** and copy it into Spacelift's OIDC setup panel, wi
 
 ## Azure: Client ID and Provider URL
 
-To complete your configuration, you need two more pieces of information.  
+To complete your configuration, you need two more pieces of information.
 You can find both in the application's **Overview** section.
 
-- Copy the **Application (client) ID** into the **Client ID** field in Spacelift.  
+- Copy the **Application (client) ID** into the **Client ID** field in Spacelift.
 - Under **Endpoints**, copy the **OpenID Connect metadata document** URL into the **Provider URL** field.
 
 ![Copy client ID and provider URL](../../assets/screenshots/oidc/microsoft-entra-id-app-overview-2025-04-08.png)
