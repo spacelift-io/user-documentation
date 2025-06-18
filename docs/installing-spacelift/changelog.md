@@ -4,6 +4,29 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v3.1.0 and v3.0.0
+
+### Features
+
+- To be able to transfer sensitive outputs between stacks, a new [stack-level setting](../concepts/stack/stack-dependencies.md#enabling-sensitive-outputs-for-references) needs to be explicitly enabled
+
+### Fixes
+
+- Fixed an issue where in certain cases (5000+ tasks) Ansible tracked runs could fail at the planning phase.
+
+### Infrastructure
+
+- Configurable database [backup retention period](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.BackupRetention.html){: rel="nofollow"} via the `.database.backup_retention_period_days` variable in the JSON config file for Cloudformation-based installations.
+
+```json
+{
+    [...]
+    "database": {
+        "backup_retention_period_days": 7
+    }
+}
+```
+
 ## Changes between v2.6.1 and v3.0.0
 
 We’re excited to announce Spacelift Self-Hosted v3! This version represents a significant milestone in Spacelift’s evolution, delivering enhanced flexibility and control to our users.
