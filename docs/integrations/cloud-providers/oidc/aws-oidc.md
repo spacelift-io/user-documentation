@@ -6,11 +6,9 @@
 {% endif %}
 
 !!! warning
-    <!-- markdownlint-disable-next-line MD044 -->
-    <!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
-    While the [Terraform AWS provider supports authenticating with OIDC](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration){: rel="nofollow"}, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} does not support it yet.
+    Until Terraform and OpenTofu versions 1.6.0, the [AWS S3 state backend](https://developer.hashicorp.com/terraform/language/settings/backends/s3){: rel="nofollow"} did not support authenticating with OIDC.
 
-    If you need to use the AWS S3 state backend, you can use the following workaround:
+    If you need to use the AWS S3 state backend with older versions, you can use the following workaround:
 
     - Add the following command as a [`before_init` hook](../../../concepts/stack/stack-settings.md#customizing-workflow) (make sure to replace `<ROLE ARN>` with your IAM role ARN)
 
