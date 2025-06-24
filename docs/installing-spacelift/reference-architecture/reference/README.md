@@ -14,3 +14,4 @@ The following sections contain detailed information about configuring Spacelift:
 - [Object storage](./object-storage.md).
 - [Slack](./slack.md).
 - [Telemetry](./telemetry.md).
+- [Usage reporting](./usage-reporting.md).
