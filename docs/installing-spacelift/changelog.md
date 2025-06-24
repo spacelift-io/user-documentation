@@ -47,7 +47,7 @@ Self-Hosted v3 introduces [a new licensing method](./reference-architecture/refe
 
 #### Usage reporting
 
-We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/general-configuration.md#usage-reporting).
+We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/usage-reporting.md).
 
 ### Migration from CloudFormation to OpenTofu/Terraform
 

@@ -74,13 +74,3 @@ When using Google Cloud, please make sure that the following environment variabl
 | Environment variable | Description                                                                 |
 | -------------------- | --------------------------------------------------------------------------- |
 | `GCP_PROJECT`        | The GCP project containing your GCP resource (e.g. object storage buckets). |
-
-## Usage reporting
-
-We support two ways of usage reporting, automatic and manual.
-The manual one simply exports usage data via Web UI, to a file, that can be later shared with Spacelift.
-The automatic one periodically sends usage data to Spacelift via our metrics endpoint if `SPACELIFT_PUBLIC_API` is set.
-
-| Environment variable   | Required | Description                                                                                                                                   |
-| ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SPACELIFT_PUBLIC_API` | No       | Should be pointed at Spacelift's public API (`https://app.spacelift.io`), to enable automatic usage data reporting. Defaults to empty string. |
