@@ -704,6 +704,8 @@
         
           
         
+          
+        
       
       
         
@@ -820,13 +822,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#usage-reporting" class="md-nav__link">
-    Usage reporting
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -928,6 +923,20 @@
     <li class="md-nav__item">
       <a href="telemetry.html" class="md-nav__link">
         Telemetry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="usage-reporting.html" class="md-nav__link">
+        Usage reporting
       </a>
     </li>
   
@@ -4576,13 +4585,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#usage-reporting" class="md-nav__link">
-    Usage reporting
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -4792,26 +4794,6 @@
 <tr>
 <td><code>GCP_PROJECT</code></td>
 <td>The GCP project containing your GCP resource (e.g. object storage buckets).</td>
-</tr>
-</tbody>
-</table>
-<h2 id="usage-reporting">Usage reporting<a class="headerlink" href="#usage-reporting" title="Anchor link to this section">»</a></h2>
-<p>We support two ways of usage reporting, automatic and manual.
-The manual one simply exports usage data via Web UI, to a file, that can be later shared with Spacelift.
-The automatic one periodically sends usage data to Spacelift via our metrics endpoint if <code>SPACELIFT_PUBLIC_API</code> is set.</p>
-<table>
-<thead>
-<tr>
-<th>Environment variable</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>SPACELIFT_PUBLIC_API</code></td>
-<td>No</td>
-<td>Should be pointed at Spacelift's public API (<code>https://app.spacelift.io</code>), to enable automatic usage data reporting. Defaults to empty string.</td>
 </tr>
 </tbody>
 </table>
