@@ -6,26 +6,26 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Slack configuration.">
+        <meta name="description" content="Usage reporting reference documentation.">
       
       
         <meta name="author" content="Spacelift">
       
       
-        <link rel="canonical" href="https://docs.spacelift.io/self-hosted/latest/installing-spacelift/reference-architecture/reference/slack.html">
+        <link rel="canonical" href="https://docs.spacelift.io/self-hosted/latest/installing-spacelift/reference-architecture/reference/usage-reporting.html">
       
       
-        <link rel="prev" href="object-storage.html">
+        <link rel="prev" href="telemetry.html">
       
       
-        <link rel="next" href="telemetry.html">
+        <link rel="next" href="../../cloudformation/install.html">
       
       <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.18">
     
     
       
-        <title>Slack - Spacelift Documentation</title>
+        <title>Usage reporting - Spacelift Documentation</title>
       
     
     
@@ -174,7 +174,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slack" class="md-skip">
+        <a href="#usage-reporting" class="md-skip">
           Skip to content
         </a>
       
@@ -244,7 +244,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slack
+              Usage reporting
             
           </span>
         </div>
@@ -869,66 +869,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Slack
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="slack.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="slack.html" class="md-nav__link">
         Slack
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#networking" class="md-nav__link">
-    Networking
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-slack-app" class="md-nav__link">
-    Create Slack app
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -952,11 +897,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="usage-reporting.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Usage reporting
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="usage-reporting.html" class="md-nav__link md-nav__link--active">
         Usage reporting
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#automatic" class="md-nav__link">
+    Automatic
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manual" class="md-nav__link">
+    Manual
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-script" class="md-nav__link">
+    Python script
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4550,22 +4550,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#networking" class="md-nav__link">
-    Networking
+  <a href="#automatic" class="md-nav__link">
+    Automatic
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-slack-app" class="md-nav__link">
-    Create Slack app
+  <a href="#manual" class="md-nav__link">
+    Manual
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
+  <a href="#python-script" class="md-nav__link">
+    Python script
   </a>
   
 </li>
@@ -4626,148 +4626,36 @@
                   
 
 
-<h1 id="slack">Slack<a class="headerlink" href="#slack" title="Anchor link to this section">»</a></h1>
-<p>The Spacelift Slack integration relies on a Slack app being created to allow you to link Spacelift to your Slack workspace. There are two ways you can do this:</p>
-<ol>
-<li>Dynamically via your organization settings.</li>
-<li>Statically via the environment.</li>
-</ol>
-<p>To find out how to dynamically configure your Slack app via the frontend, take a look at our <a href="../../../integrations/chatops/slack.html#create-slack-app">Slack integration documentation</a>. This page explains how to configure Slack statically via the environment.</p>
-<h2 id="networking">Networking<a class="headerlink" href="#networking" title="Anchor link to this section">»</a></h2>
-<p>Please note that in order for Slack to send messages to Spacelift (for example Slash Commands), Slack needs to be able to access your Spacelift server. This means that if you want the full functionality of the integration to work your Spacelift server needs to be accessible via the public internet.</p>
-<h2 id="create-slack-app">Create Slack app<a class="headerlink" href="#create-slack-app" title="Anchor link to this section">»</a></h2>
-<p>Before you can configure Slack, you need to create a Slack app in your workspace. This app provides credentials necessary for Spacelift and Slack to communicate, and also tells Slack about certain endpoints in Spacelift that it needs to use.</p>
-<p>Create a new Slack app in your workspace by navigating to <a href="https://api.slack.com/apps">https://api.slack.com/apps</a> and following these instructions:</p>
-<ul>
-<li>Click "Create New App"</li>
-<li>Choose "From an app manifest"</li>
-<li>Select your workspace</li>
-<li>Paste following manifest, replacing <code>&lt;your-domain&gt;</code> with the domain you want to host the self-hosted Spacelift instance on.</li>
-</ul>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;display_information&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Spacelift&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Taking your infra-as-code to the next level&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;background_color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#131417&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;long_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Spacelift is a sophisticated and compliant infrastructure delivery platform for Terraform (including Terragrunt), Pulumi, CloudFormation, Ansible, and Kubernetes.\r\n\r\n• No lock-in. Under the hood, Spacelift uses your choice of Infrastructure as Code providers: open-source projects with vibrant ecosystems and a multitude of existing providers, modules, and tutorials.\r\n\r\n• Works with your Git flow. Spacelift integrates with GitHub (and other VCSes) to provide feedback on commits and Pull Requests, allowing you and your team to preview the changes before they are applied.\r\n\r\n• Drift detection. Spacelift natively detects drift, and can optionally revert it, to provide visibility and awareness to those \&quot;changes\&quot; that will inevitably happen.\r\n\r\n• Policy as a Code. With Open Policy Agent (OPA) Rego, you can programmatically define policies, approval flows, and various decision points within your Infrastructure as Code flow.\r\n\r\n• Customize your runtime. Spacelift uses Docker to run its workflows, which allows you to fully control your execution environment.\r\n\r\n• Share config using contexts. Spacelift contexts are collections of configuration files and environment variables that can be attached to multiple stacks.\r\n\r\n• Look ma, no credentials. Spacelift integrates with identity management systems from major cloud providers; AWS, Azure, and Google Cloud, allowing you to set up limited temporary access to your resources without the need to supply powerful static credentials.\r\n\r\n• Manage programmatically. With the Terraform provider, you can manage Spacelift resources as code.\r\n\r\n• Protect your state. Spacelift supports a sophisticated state backend and can optionally manage the state on your behalf.&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;features&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;bot_user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;display_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Spacelift&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;always_online&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;slash_commands&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/spacelift&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://&lt;your-domain&gt;/webhooks/slack&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Get notified about Spacelift events&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;usage_hint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;subscribe, unsubscribe or help&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;should_escape&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">]</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;oauth_config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;redirect_urls&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;https://&lt;your-domain&gt;/slack_oauth&quot;</span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;bot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;channels:read&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;chat:write&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;chat:write.public&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;commands&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;links:write&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;team:read&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;users:read&quot;</span>
-<span class="w">      </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;event_subscriptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;request_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://&lt;your-domain&gt;/webhooks/slack&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;bot_events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;app_uninstalled&quot;</span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;interactivity&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;is_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;request_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://&lt;your-domain&gt;/webhooks/slack&quot;</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;org_deploy_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;socket_mode_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;token_rotation_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></td></tr></table></div>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Anchor link to this section">»</a></h2>
-<p>The following table contains the environment variables required for the Slack integration to work:</p>
+<h1 id="usage-reporting">Usage reporting<a class="headerlink" href="#usage-reporting" title="Anchor link to this section">»</a></h1>
+<p>Spacelift supports three methods for reporting usage: automatic, manual, and via script. Please choose the method that best suits your environment and operational requirements to ensure timely and accurate reporting.</p>
+<h2 id="automatic">Automatic<a class="headerlink" href="#automatic" title="Anchor link to this section">»</a></h2>
+<p><strong>Best for</strong>: Standard deployments with internet access.</p>
+<p>The easiest way to enable usage reporting is to set the <code>SPACELIFT_PUBLIC_API</code> environment variable to point to our public API (<code>https://app.spacelift.io</code>). Ensure that the <a href="general-configuration.html#command-reference">Drain</a> service can access this endpoint.</p>
 <table>
 <thead>
 <tr>
 <th>Environment variable</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>SLACK_APP_CLIENT_ID</code></td>
-<td>Corresponds to the <em>Client ID</em> of your Slack app.</td>
-</tr>
-<tr>
-<td><code>SLACK_APP_CLIENT_SECRET</code></td>
-<td>Corresponds to the <em>Client Secret</em> of your Slack app.</td>
-</tr>
-<tr>
-<td><code>SLACK_SECRET</code></td>
-<td>Corresponds to the <em>Signing Secret</em> of your Slack app.</td>
+<td><code>SPACELIFT_PUBLIC_API</code></td>
+<td>No</td>
+<td>Should be pointed at Spacelift's public API (<code>https://app.spacelift.io</code>). Defaults to empty string.</td>
 </tr>
 </tbody>
 </table>
+<h2 id="manual">Manual<a class="headerlink" href="#manual" title="Anchor link to this section">»</a></h2>
+<p><strong>Best for</strong>: Air-gapped environments or networks with restricted internet access.</p>
+<p>If your instance cannot reach the public API (e.g., due to network restrictions), you can export usage data manually:</p>
+<p>Navigate to <strong>Organization Settings</strong> in the Spacelift UI, select <strong>Usage Export</strong> from the left menu, choose the desired date range and click <strong>Export</strong> to download the report. Finally, share the file with your Spacelift contact.</p>
+<p><img alt="" src="../../../assets/screenshots/usage_export_download.png" /></p>
+<h2 id="python-script">Python script<a class="headerlink" href="#python-script" title="Anchor link to this section">»</a></h2>
+<p><strong>Best for</strong>: Automated workflows or programmatic access to usage data.</p>
+<p>You can also use the <a href="https://github.com/spacelift-io/self-hosted-usage-data-exporter" rel="nofollow">self-hosted-usage-data-exporter</a> script to fetch and optionally upload usage data.</p>
+<p>By default, it generates a local report. Use the <code>--send-to-spacelift</code> flag to upload it automatically to Spacelift’s backend, eliminating the need to share the file manually.</p>
 
 
 

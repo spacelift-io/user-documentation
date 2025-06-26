@@ -751,6 +751,8 @@
         
           
         
+          
+        
       
       
         
@@ -879,6 +881,20 @@
     <li class="md-nav__item">
       <a href="../../../installing-spacelift/reference-architecture/reference/telemetry.html" class="md-nav__link">
         Telemetry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../installing-spacelift/reference-architecture/reference/usage-reporting.html" class="md-nav__link">
+        Usage reporting
       </a>
     </li>
   
@@ -4599,10 +4615,8 @@
 <h1 id="amazon-web-services-aws">Amazon Web Services (AWS)<a class="headerlink" href="#amazon-web-services-aws" title="Anchor link to this section">»</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><!-- markdownlint-disable-next-line MD044 -->
-<!-- KLUDGE: https://github.com/hashicorp/terraform/pull/31276 -->
-While the <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration" rel="nofollow">Terraform AWS provider supports authenticating with OIDC</a>, the <a href="https://developer.hashicorp.com/terraform/language/settings/backends/s3" rel="nofollow">AWS S3 state backend</a> does not support it yet.</p>
-<p>If you need to use the AWS S3 state backend, you can use the following workaround:</p>
+<p>Until Terraform and OpenTofu versions 1.6.0, the <a href="https://developer.hashicorp.com/terraform/language/settings/backends/s3" rel="nofollow">AWS S3 state backend</a> did not support authenticating with OIDC.</p>
+<p>If you need to use the AWS S3 state backend with older versions, you can use the following workaround:</p>
 <ul>
 <li>Add the following command as a <a href="../../../concepts/stack/stack-settings.html#customizing-workflow"><code>before_init</code> hook</a> (make sure to replace <code>&lt;ROLE ARN&gt;</code> with your IAM role ARN)</li>
 </ul>

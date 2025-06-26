@@ -1381,6 +1381,8 @@
         
           
         
+          
+        
       
       
         
@@ -1509,6 +1511,20 @@
     <li class="md-nav__item">
       <a href="reference-architecture/reference/telemetry.html" class="md-nav__link">
         Telemetry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference-architecture/reference/usage-reporting.html" class="md-nav__link">
+        Usage reporting
       </a>
     </li>
   
@@ -5795,7 +5811,7 @@
 <h3 id="licensing-system">Licensing system<a class="headerlink" href="#licensing-system" title="Anchor link to this section">»</a></h3>
 <p>Self-Hosted v3 introduces <a href="reference-architecture/reference/general-configuration.html#licensing">a new licensing method</a>. As we no longer rely on AWS License Manager, we've transitioned to a new JWT-based license token system. A Spacelift representative will provide you with a license token to activate your v3 instance. The license token has a defined validity period and requires renewal upon expiration.</p>
 <h4 id="usage-reporting">Usage reporting<a class="headerlink" href="#usage-reporting" title="Anchor link to this section">»</a></h4>
-<p>We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the <code>SPACELIFT_PUBLIC_API</code> variable to <code>https://app.spacelift.io</code>. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the <a href="reference-architecture/reference/general-configuration.html#usage-reporting">general configuration reference</a>.</p>
+<p>We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the <code>SPACELIFT_PUBLIC_API</code> variable to <code>https://app.spacelift.io</code>. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the <a href="reference-architecture/reference/usage-reporting.html">general configuration reference</a>.</p>
 <h3 id="migration-from-cloudformation-to-opentofuterraform">Migration from CloudFormation to OpenTofu/Terraform<a class="headerlink" href="#migration-from-cloudformation-to-opentofuterraform" title="Anchor link to this section">»</a></h3>
 <p>We've developed a comprehensive <a href="https://github.com/spacelift-io/self-hosted-v2-to-v3-kit" rel="nofollow">migration toolkit</a> to facilitate the transition from the CloudFormation-based deployment to the OpenTofu/Terraform-based process. A detailed overview of the migration process is available in the <a href="cloudformation/cloudformation-to-opentofu-terraform-migration.html">migration guide</a>.</p>
 <p><strong>Prerequisites</strong>: The migration toolkit requires a working installation of <code>v2.6.0</code> or later. You can also upgrade to <code>v3.0.0</code> with CloudFormation and later switch to the new Terraform modules.</p>
