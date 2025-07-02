@@ -4,6 +4,14 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v3.2.0 and v3.1.0
+
+### Features
+
+### Fixes
+
+### Infrastructure
+
 ## Changes between v3.1.0 and v3.0.0
 
 ### Features
