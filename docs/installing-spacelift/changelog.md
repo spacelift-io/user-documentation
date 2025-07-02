@@ -8,9 +8,15 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
+- Add ability to reset policy flags. It add a comprehensive policy flag reset mechanism with a multi-owner security model. Policies can now reset flags they have set, providing fine-grained control over flag management while preventing malicious policies from hijacking flags set by other policies.
+
+- Add audit trail for user management login failures.
+
+- Add Ready as a valid stack state for filtering.
+
 ### Fixes
 
-### Infrastructure
+- Load runtime configs only for the triggered stacks.
 
 ## Changes between v3.1.0 and v3.0.0
 
