@@ -172,10 +172,12 @@ Your worker needs access to the following AWS services in order to function corr
 - Access to the public Elastic Container Registry if using our default runner image.
 - Access to `app.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
 - Access to `worker-iot.spacelift.io`. This points at the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html){: rel="nofollow"} for worker communication via MQTT.
+    - !!! info "US Regional URLs"
+          If your account is in the US region, your workers need access to `app.us.spacelift.io`, `<your account name>.app.us.spacelift.io`, `downloads.us.spacelift.io`, and `worker-iot.us.spacelift.io` instead.
 - Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html){: rel="nofollow"} for uploading run logs.
 
-!!! info
-    You should allow access to the IoT Core and S3 endpoints in both the `eu-west-1` and `eu-central-1` regions. Typically we use services in `eu-west-1`, however in the case of a full regional outage of `eu-west-1` we would failover to the `eu-central-1` region.
+!!! tip "Failover"
+    Allow access to the IoT Core and S3 endpoints in both the `eu-west-1` and `eu-central-1` regions. Typically we use services in `eu-west-1`, however in the case of a full regional outage of `eu-west-1` we would failover to the `eu-central-1` region.
 
 {% else %}
 
