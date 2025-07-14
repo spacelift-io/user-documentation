@@ -1,8 +1,5 @@
 # ServiceNow
 
-!!! warning
-    This feature is still in beta testing.
-
 {% if is_saas() %}
 !!! Info
     This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
