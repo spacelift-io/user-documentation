@@ -1,6 +1,6 @@
 # Terms and Conditions
 
-Last updated: June 9, 2025
+Last updated: July 14, 2025
 
 These Terms and Conditions (**“Terms”**, **“T&C”**) are between the entity you represent, or, if you do not indicate an entity in connection with the Services, you individually (**“Customer”**, **“you”** or **“your”**), and Spacelift, Inc. with its principal office at 541 Jefferson Ave. Suite 100, Redwood City CA 94063, United States of America (“Spacelift”, “the Company” “we”, “us”, or “our”). These terms incorporate by reference the Data Processing Agreement, the Privacy Policy, the Refund Policy and the Cookie Policy (together, they are the basis for your contractual relationship with Spacelift).
 
@@ -32,15 +32,23 @@ These Terms and Conditions (**“Terms”**, **“T&C”**) are between the enti
 
 - 1.6.4. **“Worker(s)”** means a predefined set(s) of computing resources that are specifically optimized for the development and provisioning and deployment of cloud-based infrastructures based on IaC; a Worker can be either a self-hosted agent performing infrastructure management in a Customer-controlled environment (**“Private Worker”**) or any other software agent, provided and managed by Spacelift in a common secure worker pool (**“Public Worker”**).
 
-1.7. **“Services”** means the Spacelift’s specialized, continuous integration and deployment (CI/CD) platform for infra-as-code;
+1.7.  **“Patch”**   means   a   modification   of   the   self-hosted   version   of   the   Services,   released
+independently of the latest Version of the Services, aimed at prompt improvement of Services’
+security or operation, or prompt resolution of any incidents.
 
-1.8. **“Subscription”** means enrollment for Services for a Subscription Plan on Subscription Details as defined in the Terms;
+1.8. **“Services”** means the Spacelift’s specialized, continuous integration and deployment (CI/CD) platform for infra-as-code;
 
-1.9. **“Subscription Plan(s)”** means Subscription offer(s) for use of the Services as described on [https://spacelift.io/pricing/](https://spacelift.io/pricing){: rel="nofollow"}, which include paid plans (**“Paid Subscription Plan(s)”**) and the Free Plan;
+1.9. **“Subscription”** means enrollment for Services for a Subscription Plan on Subscription Details as defined in the Terms;
 
-1.10. **“Subscription Details(s)”** means the conditions under which a Subscription is made under the Terms, including the Subscription Period, Metrics, and Subscription Fees;
+1.10. **“Subscription Plan(s)”** means Subscription offer(s) for use of the Services as described on [https://spacelift.io/pricing/](https://spacelift.io/pricing){: rel="nofollow"}, which include paid plans (**“Paid Subscription Plan(s)”**) and the Free Plan;
 
-1.11. **“Website** means [https://spacelift.io](https://spacelift.io){: rel="nofollow"} website managed by Spacelift.
+1.11. **“Subscription Details(s)”** means the conditions under which a Subscription is made under the Terms, including the Subscription Period, Metrics, and Subscription Fees;
+
+1.12.  **“Version”** means a version of the self-hosted Services made available to Customer for
+implementation in Customer Systems, which includes improvements and modifications to the
+previous version of the Services.
+
+1.13. **“Website** means [https://spacelift.io](https://spacelift.io){: rel="nofollow"} website managed by Spacelift.
 
 ## 2. GENERAL
 
@@ -58,7 +66,10 @@ These Terms and Conditions (**“Terms”**, **“T&C”**) are between the enti
 
 3.2. **Confidential Information**. All our Confidential Information and derivations thereof will remain our sole and exclusive property. You should not disclose, use or publish Confidential Information without our prior written consent. You must hold all our Confidential Information in strict confidence and safeguard the Confidential Information from unauthorized use, access, or disclosure using at least the degree of care you use to protect your similarly sensitive information and in no event less than a reasonable degree of care. If parties execute a separate NDA, its provisions will govern the use and disclosure of Confidential Information.
 
-3.3. **License**. Spacelift makes the Services available to you during the Subscription Period, subject to the provisions of the Terms and Subscription Details. Spacelift grants you a limited, non-exclusive, non-sublicensable, non-transferable right to access and use the Services and its Documentation during the Subscription Period, solely for your internal business purposes or your personal use.
+3.3. **License**. Spacelift makes the Services available to you during the Subscription Period, subject to the provisions of the Terms and Subscription Details. Spacelift grants you a limited, non-exclusive, non-sublicensable, non-transferable right to access and use the Services and its Documentation during the Subscription Period, solely for your internal business purposes or your personal use. For self-hosted deployments operated in your own environment (i.e. air-gapped, on-
+prem), license keys with expiration dates may be issued to enable access to the Services during
+the  Term.  Renewal  of   such   licenses  may  require  periodic  manual  key  updates  provided   by
+Spacelift.
 
 3.4. **Restrictions**. You will not, and will not permit any other person to, access or use the Services except as expressly permitted by these Terms. For purposes of clarity and without limiting the generality of the foregoing, you will not, except as the Terms expressly permit: (a) copy, modify, or create derivative works or improvements of the Services or Documentation; (b) rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer, or otherwise make available any Services or Documentation to any person; (c) reverse engineer, disassemble, decompile, decode, adapt, or otherwise attempt to derive or gain access to the source code of the Services, in whole or in part; (d) bypass or breach any security device or protection used by the Services or access or use the Services other than by an Authorized User through the use of his or her own then valid access credentials; (e) input, upload, transmit, or otherwise provide to or through the Services or Documentation, any information or materials that are unlawful, illegal, illicit or injurious, or contain, transmit, or activate any harmful code; (f) damage, destroy, disrupt, disable, impair, interfere with, or otherwise impede or harm in any manner the Services or Documentation, or our provision of services to any third party, in whole or in part; (g) remove, delete, alter, or obscure any trademarks, Documentation, warranties, or disclaimers, or IPR notices from any Services; (h) access or use the Services or Documentation in any manner or for any purpose that is illegal, illicit, unlawful or infringes, misappropriates, or otherwise violates any IPR or other right of any third party or that violates any applicable law; or (i) access or use the Services or Documentation for purposes of competitive analysis of the Services, the development, provision, or use of a competing software service or product.
 
@@ -66,13 +77,18 @@ These Terms and Conditions (**“Terms”**, **“T&C”**) are between the enti
 
 3.6. **Consent to Use Customer Data**. You grant all such rights and permissions in or relating to Customer Data as are reasonably necessary or useful to us to enforce these Terms and exercise our rights and perform our obligations hereunder.
 
-3.7. **Use of Resultant Data**. We may collect data and information related to your use of the Services that is used by us in an aggregate manner, including to compile statistical and performance information related to the provision and operation of the Services (**“Resultant Data”**). You unconditionally and irrevocably grant to us an assignment of all rights, title, and interest in and to the Resultant Data, including all IPR relating thereto, if any.
+3.7. **Use of Resultant Data**. We may collect data and information related to your use of the Services that is used by us in an aggregate manner, including to compile statistical and performance information related to the provision and operation of the Services (**“Resultant Data”**). You unconditionally and irrevocably grant to us an assignment of all rights, title, and interest in and to the Resultant Data, including all IPR relating thereto, if any. For self-hosted
+deployments   operated   in   Customer’s   own   environment   (i.e.   air-gapped,   on-prem),   certain
+Resultant Data may not be collected unless Customer voluntarily submits such data via manual
+export.
 
 ## 4. PROVISION OF SERVICES»
 
 4.1. **Metrics**. Use of the Services is subject to usage limits reflected in Metrics, as set forth in the Subscription Plan. We will monitor your use of the Services in order to verify whether you comply with the presented limits, and, if you exceed the limits, we reserve the right to calculate additional fees (overages).
 
 4.2. **Services Modifications**. We reserve the right to make any changes to the Services or Documentation (including modifications to the scope of the features available in Subscription Plans) that we deem necessary or useful to: (a) maintain or enhance: (i) the quality or delivery of Services to you and other clients; (ii) the competitive strength of or market for Services; or (iii) the Services' cost efficiency or performance; or (b) to comply with applicable law.
+
+    4.2.1.  If Customer has purchased a self-hosted offering, Spacelift will notify Customer of any Updates or Patches to the Software and provide reasonable implementation instructions. Customer agrees to implement any such Update or Patch without undue delay and shall, upon request, either confirm successful implementation or notify Spacelift if the Update or Patch will not be implemented, including the reasons for such decision. Customer acknowledges that timely application of Updates and Patches is essential to ensure the proper performance and security of the Software. Spacelift may (a) withhold Support Services if Customer fails to apply a Patch and (b) limit Support Services to Software Versions released within the six (6) months preceding the request for support.
 
 4.3. **Privacy**. When applicable, we will comply with all applicable laws, regulations, and government orders relating to personally identifiable information and data privacy with respect to any such Customer Data that we receive or have access to under the Terms or in connection with the performance of the Services. In particular, regulations for the protection of personally identifiable information are indicated in the Data Processing Agreement [https://docs.spacelift.io/legal/dpa](./DPA.md) and Privacy Policy [https://docs.spacelift.io/legal/privacy](https://docs.spacelift.io/legal/privacy){: rel="nofollow"} incorporated herein by reference.
 
