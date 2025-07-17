@@ -13,20 +13,19 @@ This integration allows Backstage to check the current status of your team's sta
 
 ## Setup Guide
 
-### Create an API key in Spacelift
+### Create an Integration key in Spacelift
 
-To handle the communication between Spacelift and Backstage, we will use a Spacelift API key.
+To handle the communication between Spacelift and Backstage, we will use a Spacelift Integration key. An integration key is an API key with admin role that will not consume API key seats. The tokens issued with an integration key are short-lived, improving security for the integration communications.
 
-1. Navigate to **Organization settings > API Keys**
-2. Click on **Create API key**
-3. Select type `Secret`
-4. Select the **Space and Role** of the API key.
-5. Click **Create**
+1. Navigate to **Integrations > Backstage**
+2. Click on **Set up integration**
+3. Select the **Space** where the integration will have access.
+4. Click **Create**
 
 A file with the API secret will be downloaded automatically.
 
 !!! warning
-    Note that the Space and Role access provided to the API key will determine the level of access to your Spacelift resources. Use this to limit the resources that a user can access in Backstage.
+    Note that the integration key will provide Admin access to the selected Space. Use the appropriate space to limit the resources that a user can access in Backstage.
 
 ### Install the Backstage plugins
 
@@ -51,7 +50,7 @@ To install the Backstage plugins, follow the instructions that you will find in 
     ```yaml
         spacelift:
           hostUrl: '<your-subdomain>.app.spacelift.io' # Your Spacelift instance URL (WITHOUT https://)
-          apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID
+          apiKey: ${SPACELIFT_API_KEY} # Your Spacelift integration Key ID
           apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret
     ```
 
@@ -61,7 +60,7 @@ To install the Backstage plugins, follow the instructions that you will find in 
     ```yaml
         spacelift:
           hostUrl: '<your-selfhosted-spacelift-domain>' # Your Spacelift instance URL (WITHOUT https://)
-          apiKey: ${SPACELIFT_API_KEY} # Your Spacelift API Key ID
+          apiKey: ${SPACELIFT_API_KEY} # Your Spacelift integration Key ID
           apiSecret: ${SPACELIFT_API_SECRET} # Your Spacelift API Key Secret
     ```
 
@@ -77,17 +76,17 @@ To install the Backstage plugins, follow the instructions that you will find in 
 
 ## Important note on security and permissions
 
-The plugins operate using the permissions granted to the Spacelift API Key configured in Spacelift. They do not implement any additional user-level permission handling within Backstage.
+The plugins operate using the permissions granted to the Spacelift Integration Key configured in Spacelift. They do not implement any additional user-level permission handling within Backstage.
 
 It is the responsibility of the Backstage instance administrator to ensure that appropriate Backstage permissions are configured to control access to the Spacelift plugin pages and features, thereby preventing unauthorized actions or information exposure.
 
-We recommend allowing the API key to have **Write** access to the top level Space that the Backstage users will be able to see, limiting access within Backstage to any users that lack the appropriated permissions to trigger runs on the associated subspaces.
+We recommend configuring the integration key to the top level Space that the Backstage users will be able to see, limiting access within Backstage to any users that lack the appropriated permissions to trigger runs on the associated subspaces.
 
 ## Integration Capabilities
 
 ### Stacks list
 
-The plugin will show a list of all the stacks visible based on the API key Space and Role. It will display the status of the stacks and allow users to trigger a rerun when the stack allows it.
+The plugin will show a list of all the stacks visible based on the integration key Space. It will display the status of the stacks and allow users to trigger a rerun when the stack allows it.
 
 ![](../../assets/screenshots/integrations/external/backstage-integration-plugin.png)
 
@@ -97,21 +96,21 @@ The plugin will show a list of all the stacks visible based on the API key Space
 
 1. **Plugin not appearing in Backstage**: Ensure you've correctly configured the plugin in your `app-config.yaml` and properly imported and registered the plugin in your Backstage app.
 
-2. **Authentication errors**: Verify your API key has the correct permissions and that your `apiKey` and `apiSecret` environment variables are properly set.
+2. **Authentication errors**: Verify that your integration key `apiKey` and `apiSecret` environment variables are properly set.
 
-3. **Stack listing is empty**: Check that the API key has access to the appropriate spaces containing your stacks.
+3. **Stack listing is empty**: Check that the integration key has access to the appropriate spaces containing your stacks.
 
 If you encounter issues not covered here, please check our [GitHub repository issues](https://github.com/spacelift-io/backstage-plugins/issues) or contact our support.
 
 ## Removing Integration
 
-To remove the integration, you need to delete the API key associated with it.
+To remove the integration, you need to delete the integration key associated with it.
 
-1. Go to **Organization settings > API Keys**
-2. Find the API key used to integrate with Backstage
+1. Go to **Integrations > Backstage**
+2. Find the integration key used to integrate with Backstage
 3. From the three dots menu, select **Delete**
 
-After deleting the API key, the integration won't be able to access Spacelift resources any more.
+After deleting the integration key, the integration won't be able to access Spacelift resources any more.
 You can safely uninstall the packages and remove the code associated to them.
 
 ```sh
