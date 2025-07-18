@@ -68,28 +68,28 @@ Two fields in the `session` object require further explanation: _member_ and _te
 
 === "Using GitHub (Default Identity Provider)"
 
-  When you first log in to Spacelift, we retrieve some details (such as username) from GitHub, our default identity provider. Each Spacelift account is linked to only one GitHub account. Thus, when you log in to a Spacelift account, we're checking if you're a member of the associated GitHub account.
+    When you first log in to Spacelift, we retrieve some details (such as username) from GitHub, our default identity provider. Each Spacelift account is linked to only one GitHub account. Thus, when you log in to a Spacelift account, we're checking if you're a member of the associated GitHub account.
 
-  When the GitHub account is an organization, we can explicitly query for your organization membership. If you're a member, the `member` field is set to _true_. If you're not, it's _false_. Private accounts only have one member, so the check is even simpler: if your login is the same as the name of the linked GitHub account, the member field is set to _true_. If not, it's _false_.
+    When the GitHub account is an organization, we can explicitly query for your organization membership. If you're a member, the `member` field is set to _true_. If you're not, it's _false_. Private accounts only have one member, so the check is even simpler: if your login is the same as the name of the linked GitHub account, the member field is set to _true_. If not, it's _false_.
 
 === "Using Single Sign-On"
 
-  When using Single Sign-On with SAML, every successful login attempt will require that the `member` field is set to _true_. If the linked IdP could verify you, you **must** be a member.
+    When using Single Sign-On with SAML, every successful login attempt will require that the `member` field is set to _true_. If the linked IdP could verify you, you **must** be a member.
 
 !!! tip
     The `member` field is useful for your **deny** rules.
 
 ### _teams_
 
-=== "Using GitHub"
+=== "Using GitHub (Default Identity Provider)"
 
-  When using the default identity provider (GitHub), _teams_ are only queried for organization accounts. If you're a member of the GitHub organization linked to a Spacelift account, Spacelift will query the GitHub API for the full list of teams you're a member of. This list will be available in the `session.teams` field. For private accounts and non-members, the field will be empty.
+    When using the default identity provider (GitHub), _teams_ are only queried for organization accounts. If you're a member of the GitHub organization linked to a Spacelift account, Spacelift will query the GitHub API for the full list of teams you're a member of. This list will be available in the `session.teams` field. For private accounts and non-members, the field will be empty.
 
-  Spacelift treats GitHub team membership as transitive. For example, let's assume Charlie is a member of the _Badass_ team, which is a child of team _Awesome_. Charlie's list of teams includes both _Awesome_ and _Badass_, even though he's not a **direct** member of the team _Awesome_.
+    Spacelift treats GitHub team membership as transitive. For example, let's assume Charlie is a member of the _Badass_ team, which is a child of team _Awesome_. Charlie's list of teams includes both _Awesome_ and _Badass_, even though he's not a **direct** member of the team _Awesome_.
 
 === "Using Single Sign-On"
 
-  For Single Sign-On, the list of teams depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see [Single Sign-On](../../integrations/single-sign-on/README.md#setting-up-saml) for more details.
+    For Single Sign-On, the list of teams depends on how the SAML assertion attribute is mapped to your user record on the IdP end. Please see [Single Sign-On](../../integrations/single-sign-on/README.md#setting-up-saml) for more details.
 
 !!! tip
     The `teams` field is useful for your **allow** and **admin** rules.
