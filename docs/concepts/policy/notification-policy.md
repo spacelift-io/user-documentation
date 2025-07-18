@@ -202,6 +202,26 @@ This is the schema of the data input that each policy request can receive:
 
 The final JSON object received as input will depend on the type of notification being sent. Event-dependent objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
 
+### Ansible vendor changes structure
+
+For Ansible runs, the `changes` array contains objects with different `action` values and `entity` objects that contain Ansible-specific fields:
+
+```json
+"changes": [
+  {
+    "action": "string enum - changed | ok | skipped | rescued | ignored | unreachable | failed",
+    "entity": {
+      "host_name": "string",
+      "playbook_name": "string",
+      "role_name": "string",
+      "task_name": "string",
+      "task_action": "string"
+    },
+    "phase": "string enum - plan | apply"
+  }
+]
+```
+
 | Object Received     | Event                                                                |
 | ------------------- | -------------------------------------------------------------------- |
 | `account`           | Any event                                                            |
