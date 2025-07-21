@@ -223,6 +223,7 @@ List of the most useful labels:
 - **feature:disable_pr_comments** - Disables Pull Request Comments
 - **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
+- **feature:enable_git_checkout** -- Enables support for downloading source code using standard Git checkout rather than downloading a tarball via API
 - **feature:ignore_runtime_config** -- Ignores .spacelift/config
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
