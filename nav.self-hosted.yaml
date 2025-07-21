@@ -28,6 +28,7 @@ nav:
               - installing-spacelift/reference-architecture/reference/object-storage.md
               - installing-spacelift/reference-architecture/reference/slack.md
               - installing-spacelift/reference-architecture/reference/telemetry.md
+              - installing-spacelift/reference-architecture/reference/usage-reporting.md
       - CloudFormation:
           - installing-spacelift/cloudformation/install.md
           - installing-spacelift/cloudformation/advanced-installations.md

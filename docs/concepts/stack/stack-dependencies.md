@@ -53,7 +53,7 @@ As for the worker pools it depends whether you are using public or private worke
 On [private worker pools](../../concepts/worker-pools) however, it needs to be enabled **explicitly** by adding `SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` [environment variable](../../concepts/worker-pools#configuration-options) to the worker. This is a requirement if you wish to utilize sensitive outputs for stack dependencies.
 
 {% if is_self_hosted() %}
-In self-hosted, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` to your `CustomUserDataSecretName` secret. You'll find more information about that variable at the [Worker Pool](../../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup) page.
+In self-hosted, when using Cloudformation to deploy your worker pool, make sure to add `export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true` to your `CustomUserDataSecretName` secret. You'll find more information about that variable at the [Worker Pool](../../concepts/worker-pools/docker-based-workers.md#injecting-custom-commands-during-instance-startup) page.
 {% endif %}
 
 #### Stack dependency reference limitations

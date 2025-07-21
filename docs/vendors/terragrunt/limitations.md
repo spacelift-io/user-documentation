@@ -26,7 +26,7 @@ Terragrunt consumes the mocked outputs and places those values within the plan f
 
 ## Usage of the run_cmd function
 
-The [run_cmd](https://terragrunt.gruntwork.io/docs/reference/built-in-functions/#run_cmd) function is currently limited to only work with the `--terragrunt-quiet` flag.
+The [run_cmd](https://terragrunt-v1.gruntwork.io/docs/reference/hcl/functions/#run_cmd){: rel="nofollow"} function is currently limited to only work with the `--terragrunt-quiet` flag.
 Ensure this flag is included in your command to avoid run failures.
 
 ## Resource Deletion

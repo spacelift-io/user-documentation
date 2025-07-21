@@ -1,8 +1,5 @@
 # Backstage
 
-!!! warning
-    This feature is still in beta testing.
-
 ## About the integration
 
 The Backstage integration with Spacelift creates a bridge between your infrastructure as code workflows and Backstage.

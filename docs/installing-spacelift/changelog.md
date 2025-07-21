@@ -4,6 +4,43 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v3.2.0 and v3.1.0
+
+### Features
+
+- Add ability to reset policy flags. It add a comprehensive policy flag reset mechanism with a multi-owner security model. Policies can now reset flags they have set, providing fine-grained control over flag management while preventing malicious policies from hijacking flags set by other policies.
+
+- Add audit trail for user management login failures.
+
+- Add Ready as a valid stack state for filtering.
+
+### Fixes
+
+- Load runtime configs only for the triggered stacks.
+
+## Changes between v3.1.0 and v3.0.0
+
+### Features
+
+- To be able to transfer sensitive outputs between stacks, a new [stack-level setting](../concepts/stack/stack-dependencies.md#enabling-sensitive-outputs-for-references) needs to be explicitly enabled
+
+### Fixes
+
+- Fixed an issue where in certain cases (5000+ tasks) Ansible tracked runs could fail at the planning phase.
+
+### Infrastructure
+
+- Configurable database [backup retention period](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.BackupRetention.html){: rel="nofollow"} via the `.database.backup_retention_period_days` variable in the JSON config file for Cloudformation-based installations.
+
+```json
+{
+    [...]
+    "database": {
+        "backup_retention_period_days": 7
+    }
+}
+```
+
 ## Changes between v2.6.1 and v3.0.0
 
 We’re excited to announce Spacelift Self-Hosted v3! This version represents a significant milestone in Spacelift’s evolution, delivering enhanced flexibility and control to our users.
@@ -24,7 +61,7 @@ Self-Hosted v3 introduces [a new licensing method](./reference-architecture/refe
 
 #### Usage reporting
 
-We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/general-configuration.md#usage-reporting).
+We support two ways of usage reporting: automatic and manual. You can enable automatic reporting by setting the `SPACELIFT_PUBLIC_API` variable to `https://app.spacelift.io`. In case your network policies prevent Spacelift from reaching our public API, you can still use the manual reporting method. More information about usage reporting is available in the [general configuration reference](./reference-architecture/reference/usage-reporting.md).
 
 ### Migration from CloudFormation to OpenTofu/Terraform
 

@@ -86,7 +86,7 @@ When events are deduplicated and you're sampling policy evaluations, you may not
 
 ### Canceling in-progress runs
 
-The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued) or are [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
+The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued), [ready](../../run/README.md#ready) or are [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
 ```opa
 cancel[run.id] { run := input.in_progress[_] }
