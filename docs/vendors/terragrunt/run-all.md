@@ -6,7 +6,7 @@ description: Details about using run-all based Terragrunt stacks in spacelift.
 
 ## Introduction
 
-Terragrunt's [run-all](https://terragrunt.gruntwork.io/docs/features/execute-terraform-commands-on-multiple-units-at-once/#the-run-all-command){: rel="nofollow"} feature allows you to deploy multiple modules at the same time. This very powerful feature allows you to develop large amounts of infrastructure as code with dependencies, mocked values, and while keeping things [DRY](https://terragrunt.gruntwork.io/docs/features/keep-your-terraform-code-dry/){: rel="nofollow"}.
+Terragrunt's [run-all](https://terragrunt-v1.gruntwork.io/docs/reference/hcl/functions/#run_cmd){: rel="nofollow"} feature allows you to deploy multiple modules at the same time. This very powerful feature allows you to develop large amounts of infrastructure as code with dependencies, mocked values, and while keeping things [DRY](https://terragrunt.gruntwork.io/docs/features/keep-your-terraform-code-dry/){: rel="nofollow"}.
 
 ## How to use run-all
 
