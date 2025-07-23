@@ -17,6 +17,8 @@ Webhooks can be set up by Spacelift administrators. They can be easily created o
 
 ### Navigate to the webhooks section
 
+You can find the Webhooks section under **Integrations > Webhooks**
+
 ![](<../assets/screenshots/named-hooks-nav.png>)
 
 ### Fill required fields
