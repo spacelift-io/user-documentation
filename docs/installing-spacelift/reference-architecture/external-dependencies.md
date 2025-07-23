@@ -53,12 +53,12 @@ An object storage backend is essential for Spacelift to store various files, inc
 
 This storage ensures the proper management and persistence of critical information needed for the operation of Spacelift.
 
-|                      |        Supported         |
-| :------------------- | :----------------------: |
-| AWS S3               |            ✅             |
-| Google Cloud Storage |            ✅             |
-| Azure Blob Storage   |            ✅             |
-| MinIO                |            ✅             |
+|                      | Supported |
+| :------------------- | :-------: |
+| AWS S3               |     ✅     |
+| Google Cloud Storage |     ✅     |
+| Azure Blob Storage   |     ✅     |
+| MinIO                |     ✅     |
 
 🔗 [Object storage reference](./reference/object-storage.md)
 
@@ -75,10 +75,10 @@ Spacelift also requires the use of an asymmetric key pair for performing the sig
 
 The asymmetric key pair consists of a private key, which is used to sign the token, and a corresponding public key, which is used to verify its authenticity. This process ensures that the integrity of the tokens is maintained, and that they can be trusted by the recipient, as the signature is uniquely tied to the private key and cannot be altered without detection.
 
-|                             |        Supported        |
-| :-------------------------- | :---------------------: |
-| AWS KMS                     |            ✅            |
-| Built-in RSA + AES256       |            ✅            |
+|                       | Supported |
+| :-------------------- | :-------: |
+| AWS KMS               |     ✅     |
+| Built-in RSA + AES256 |     ✅     |
 
 🔗 [Encryption reference](./reference/encryption.md)
 
@@ -100,7 +100,7 @@ A MQTT broker is required for communication with workers.
 Spacelift can run its own MQTT broker embedded with the Spacelift Server.
 
 !!! info
-  If you want to use IoT Core as the MQTT broker, [you must](./reference/mqtt-broker.md#message-queue-type) use AWS SQS for message queues.
+    If you want to use IoT Core as the MQTT broker, [you must](./reference/mqtt-broker.md#message-queue-type) use AWS SQS for message queues.
 
 |              | Supported |
 | :----------- | :-------: |
