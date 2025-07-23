@@ -4,6 +4,20 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v3.3.0 and v3.2.0
+
+### Features
+
+- Allow machine users to discard runs
+
+- Allow filtering by stack name in resources view
+
+- Added a filter to view enabled/disabled stacks in the stack list view.
+
+### Fixes
+
+- Fixed an issue where a user who locked a stack needed admin access to unlock it.
+
 ## Changes between v3.2.0 and v3.1.0
 
 ### Features
