@@ -158,7 +158,7 @@ api_key_secret = SECRET_VALUE40ffc46887297384892384789239
 # For Terraform configuration, add this to your .terraformrc file:
 
 credentials "spacelift.io" {
-token = "TOKEN_VALUEQwZmZjNDY4ODdiMjI2ZWE4NDhjMWQwNWZiMWE5MGU4NWMwZTFlY2Q4NDAxMGI2ZjA2NzkwMmI1YmVlMWNmMGE"
+  token = "TOKEN_VALUEQwZmZjNDY4ODdiMjI2ZWE4NDhjMWQwNWZiMWE5MGU4NWMwZTFlY2Q4NDAxMGI2ZjA2NzkwMmI1YmVlMWNmMGE"
 }
 ```
 
