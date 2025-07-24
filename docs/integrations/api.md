@@ -149,11 +149,11 @@ api_key_secret = SECRET_VALUE40ffc46887297384892384789239
 
 # Usage Instructions:
 #
-# 1. UI Login:
-#    Visit /apikeytoken and enter the credentials above
-#
-# 2. Programmatic Access:
+# 1. Programmatic Access:
 #    Use api_key_secret in your API calls
+#
+# 2. UI Login:
+#    Visit /apikeytoken and enter the credentials above
 
 # For Terraform configuration, add this to your .terraformrc file:
 
