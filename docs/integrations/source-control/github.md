@@ -23,17 +23,17 @@ The easiest way to connect your GitHub account (personal or organization) is to 
 
 ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.27.12.png>)
 
-At the bottom of the page, select the GitHub account where you want to install the Spacelift application and then click on the _Install it for free_ button.
+1. At the bottom of the page, select the GitHub account where you want to install the Spacelift application and click **Install it for free**.
 
-![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.44.49.png>)
+    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.44.49.png>)
 
-On the next page click on the _Complete order and begin installation_ button.
+2. On the next page click **Complete order and begin installation**.
 
-![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.46.56.png>)
+    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.46.56.png>)
 
-On the last screen, you will be able to select which repositories should be available to Spacelift, and review the required permissions. When ready, click on the _Install_ button, and voilà!
+3. Select which repositories should be available to Spacelift and review the required permissions, then click **Install**.
 
-![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
+    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
 
 {% endif %}
 
@@ -65,36 +65,17 @@ You will be presented with two options:
 
 === "Manual setup"
 
-    You can create the custom Spacelift application for GitHub manually.
+    **Initial setup**
 
-    !!! warning
-        This should be used as a last resort when the other methods can not be used as it is more tedious and error-prone.
+   1. Open GitHub, navigate to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and click **New GitHub App**.
+   2. You can either create the App in an individual user account or within an organization account:
+      ![](<../../assets/screenshots/image (52).png>)
+   3. Give your app a name and homepage URL (these are only used for informational purposes within GitHub):
+      ![](<../../assets/screenshots/image (53).png>)
+   4. Paste your Webhook URL and secret from Spacelift:
+      ![](<../../assets/screenshots/image (54).png>)
 
-    After selecting the option to enter your details manually, you should see the following form:
-
-    <p align="center"><img src="../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png" width="450"></p>
-
-    Let's choose a friendly name (it can contain spaces) for your integration and choose the integration type.
-
-    The integration type could be either **default** or **space-specific**. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
-
-    Once the integration name and the type are chosen, a **webhook endpoint** and a **webhook secret** will be generated in the middle of the form. These two are enough to create the GitHub App, so let's do that now.
-
-    Open GitHub, navigate to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and click on _New GitHub App._
-
-    You can either create the App in an individual user account or within an organization account:
-
-    ![](<../../assets/screenshots/image (52).png>)
-
-    Give your app a name and homepage URL (these are only used for informational purposes within GitHub):
-
-    ![](<../../assets/screenshots/image (53).png>)
-
-    Enter your Webhook URL and secret:
-
-    ![](<../../assets/screenshots/image (54).png>)
-
-    **Set the following Repository permissions:**
+    Now you can set the following **Repository permissions**:
 
     | Permission      | Access       |
     | --------------- | ------------ |
@@ -106,87 +87,67 @@ You will be presented with two options:
     | Pull requests   | Read & write |
     | Webhooks        | Read & write |
 
-    **Set the following Organization permissions:**
+    Set the following **Organization permissions**:
 
     | Permission | Access    |
     | ---------- | --------- |
     | Members    | Read-only |
 
-    **Subscribe to the following events:**
+    Subscribe to the following events:
 
-    - Organization
-    - Pull request
-    - Pull request review
-    - Push
-    - Repository
+      - Organization
+      - Pull request
+      - Pull request review
+      - Push
+      - Repository
+    
+    Choose whether you want to allow the App to be installed on any account or only the current account, then click **Create GitHub App**:
+       ![](<../../assets/screenshots/image (55).png>)
 
-    Finally, choose whether you want to allow the App to be installed on any account or only on the account it is being created in and click on _Create GitHub App:_
+   Now you need to **generate a private key**.
 
-    ![](<../../assets/screenshots/image (55).png>)
+   1. Copy the _App ID_ in the _About_ section:
+       ![](<../../assets/screenshots/image (56).png>)
+   2. Scroll down to the _Private keys_ section of the page and click **Generate a private key**:
+       ![](<../../assets/screenshots/image (57).png>)
+       This will download the private key file for your GitHub app named `<app-name>.<date>.private-key.pem` (for example: `spacelift.2025-05-11.private-key.pem`).
 
-    Once your App has been created, make a note of the _App ID_ in the _About_ section:
+   Finally, **copy the API details** into Spacelift. Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
 
-    ![](<../../assets/screenshots/image (56).png>)
-
-    Now scroll down to the _Private keys_ section of the page and click on _Generate a private key:_
-
-    ![](<../../assets/screenshots/image (57).png>)
-
-    This will download a file onto your machine containing the private key for your GitHub app. The file will be named `<app-name>.<date>.private-key.pem`, for example `spacelift.2021-05-11.private-key.pem`.
-
-    Now that your GitHub App has been created, go back to the integration configuration screen in Spacelift, and enter your _API host URL_ (the URL to your GitHub server), _User facing host URL_, the _App ID_, and paste the contents of your private key file into the Private key box:
-
-    !!! info
-        If you are using `github.com` set your API host URL as: [https://api.github.com](https://api.github.com){: rel="nofollow"}.
-
-    !!! info
-        User facing host URL is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the API host URL will look like `private://vcs-agent-pool-name`, but the User facing host URL can look more friendly (for example `https://vcs-agent-pool.mycompany.com/`) since it isn't actually being used by Spacelift.
-
-    <p align="center"><img src="../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png" width="450"></p>
-
-    Click on the **Set up** button to save your integration settings.
-
-Congratulations! You are almost done! 🎉
-
-The last step is to install the application you just created so that Spacelift can interact with GitHub. This is what the next section is about.
+   1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
+   2. **User facing host URL**: Enter the URL that will be shown to the user. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md).
+   3. **App ID**: Enter the App ID you copied before generating the private key.
+   4. **Private key**: Paste the contents of your private key file.
+       ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
+   5. **Labels:** Organize integrations by assigning labels to them.
+   6. **Description:** A markdown-formatted free-form text field that can be used to describe the integration.
+   7. Click **Set up** to save your integration settings.
 
 #### Installing the custom application
 
-Now that you've created a GitHub App and configured it in Spacelift, the last step is to install your App in one or more accounts or organizations you have access to. You can either use the shortcut link on the Spacelift UI, or manually navigating to it in GitHub.
+Once your GitHub app has been created and configured in Spacelift, you can install it on one or more accounts or organizations you have access to.
 
-### Via Spacelift UI
+=== "Via Spacelift UI"
 
-On the Source code page:
+    1. On the _Source code_ page, click **Install the app**:
 
-<p align="center">
-  <img src="../../assets/screenshots/github_install_app.png" width="400"/>
-</p>
+        ![](<../../assets/screenshots/github_install_app.png>)
+    2. On GitHub, click **Install**.
+    3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
+        
+        ![](<../../assets/screenshots/image (60).png>)
+    4. Click **Install** to link your GitHub account to Spacelift.
 
-#### Via GitHub UI
+=== "Via GitHub UI"
 
-Find your App in the GitHub Apps page in your account settings, and click on the _Edit_ button next to it:
-
-![](<../../assets/screenshots/image (58).png>)
-
-Go to the _Install App_ section, and click on the _Install_ button next to the account your want Spacelift to access:
-
-![](<../../assets/screenshots/image (59).png>)
-
-Choose whether you want to allow Spacelift access to all the repositories in the account, or only certain ones:
-
-![](<../../assets/screenshots/image (60).png>)
-
-Congrats, you've just linked your GitHub account to Spacelift!
-
-## Using GitHub with stacks and modules
-
-If your Spacelift account is integrated with GitHub, the stack or module creation and editing forms will show a dropdown from which you can choose the VCS integration to use.
-
-<p align="center">
-  <img src="../../assets/screenshots/Screen Shot 2022-04-21 at 12.43.09 PM.png"/>
-</p>
-
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't go into further details.
+    1. Find your app on the _GitHub Apps_ page in your account settings, and click **Edit**:
+        ![](<../../assets/screenshots/image (58).png>)
+    2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
+        ![](<../../assets/screenshots/image (59).png>)
+    3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
+        
+        ![](<../../assets/screenshots/image (60).png>)
+    4. Click **Install** to link your GitHub account to Spacelift.
 
 ## Access controls
 
@@ -388,7 +349,7 @@ Whenever a review is added or dismissed from a Pull Request, we check whether a 
 
 ### Repository renamed
 
-If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/stack-settings.md#repository-and-branch) pointing to it.
+If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/stack-settings.md#vcs-integration-and-repository) pointing to it.
 
 ## GitHub Action
 

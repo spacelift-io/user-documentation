@@ -123,21 +123,39 @@ export ENCRYPTION_RSA_PRIVATE_KEY="<base64-encoded-private-key>"
 You need to provide container registries for the backend image and the launcher image.
 This script assumes that you are logged in into your registry.
 
-```shell
+=== "Docker"
+    ```shell
 
-export LAUNCHER_IMAGE="your docker registry address for the launcher image"
-export BACKEND_IMAGE="your docker registry address for the backend image"
+    export LAUNCHER_IMAGE="your docker registry address for the launcher image"
+    export BACKEND_IMAGE="your docker registry address for the backend image"
 
-tar -xzf self-hosted-${SPACELIFT_VERSION}.tar.gz -C .
+    tar -xzf self-hosted-${SPACELIFT_VERSION}.tar.gz -C .
 
-docker image load --input="self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-launcher.tar"
-docker tag "spacelift-launcher:${SPACELIFT_VERSION}" "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
-docker push "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
+    docker image load --input="self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-launcher.tar"
+    docker tag "spacelift-launcher:${SPACELIFT_VERSION}" "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
+    docker push "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
 
-docker image load --input="self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-backend.tar"
-docker tag "spacelift-backend:${SPACELIFT_VERSION}" "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
-docker push "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
-```
+    docker image load --input="self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-backend.tar"
+    docker tag "spacelift-backend:${SPACELIFT_VERSION}" "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
+    docker push "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
+    ```
+
+=== "Podman"
+    ```shell
+
+    export LAUNCHER_IMAGE="your podman registry address for the launcher image"
+    export BACKEND_IMAGE="your podman registry address for the backend image"
+
+    tar -xzf self-hosted-${SPACELIFT_VERSION}.tar.gz -C .
+
+    podman load -i {self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-launcher.tar}
+    podman tag "spacelift-launcher:${SPACELIFT_VERSION}" "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
+    podman push "${LAUNCHER_IMAGE}:${SPACELIFT_VERSION}"
+
+    podman load -i {self-hosted-${SPACELIFT_VERSION}/container-images/spacelift-backend.tar}
+    podman tag "spacelift-backend:${SPACELIFT_VERSION}" "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
+    podman push "${BACKEND_IMAGE}:${SPACELIFT_VERSION}"
+    ```
 
 ## Setup required buckets in MinIO
 
