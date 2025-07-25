@@ -12,7 +12,7 @@ API Keys are treated as virtual users and evaluated with login policy unless the
 !!! tip
     GitHub or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners always have admin access to their respective Spacelift accounts, regardless of login policies, so login policy errors can't lock everyone out of the account.
 
-!!! danger
+!!! warning
     Any changes (create, update, or delete) made to a login policy will invalidate **all** active sessions except the session making the change.
 
 A login policy can define the following types of boolean rules:
@@ -25,7 +25,7 @@ A login policy can define the following types of boolean rules:
 
 If no rules match, the default action will be to **deny** a login attempt.
 
-!!! warning "Define Restrictions"
+!!! tip "Define Restrictions"
     Any time you define an **allow** or **admin** rule, consider restricting access using a **deny** rule, too. See an example [below](#managing-access-levels-within-an-organization).
 
 Admins have significant privileges and can create and delete stacks; trigger runs or tasks; create, delete, and attach contexts and policies; etc. Unless full admin access is necessary, grant users _limited_ admin access using the **space_admin** rule.

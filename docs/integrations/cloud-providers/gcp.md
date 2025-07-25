@@ -14,7 +14,7 @@ provider "google" {}
 ```
 
 !!! info
-    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#project-1){: rel="nofollow"}identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
+    Note that a lot of GCP resources require [`project`](https://www.terraform.io/docs/providers/google/guides/provider_reference.html#project-1){: rel="nofollow"} identifier too, so if you don't specify a default in your provider, you will need to pass it to each individual resource that requires it.
 
 You can customize the list of [OAuth scopes](https://developers.google.com/identity/protocols/googlescopes){: rel="nofollow"} that the token is granted when it's generated. When you're setting up your GCP integration through the web UI, we suggest the following list of scopes:
 
