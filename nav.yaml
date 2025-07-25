@@ -1,7 +1,23 @@
 nav:
-  - README.md
-  - getting-started.md
-  - ✋ FAQ: faq/README.md
+  - 🚀 Getting Started:
+    - README.md
+    - Step 1. Integrate source code:
+      - getting-started/integrate-source-code/README.md
+      - GitHub: getting-started/integrate-source-code/GitHub.md
+      - GitLab: getting-started/integrate-source-code/GitLab.md
+      - Bitbucket Cloud: getting-started/integrate-source-code/Bitbucket-Cloud.md
+      - Bitbucket Data Center: getting-started/integrate-source-code/Bitbucket-DataCenter.md
+      - Azure DevOps: getting-started/integrate-source-code/Azure-DevOps.md
+    - Step 2. Connect cloud account:
+      - getting-started/integrate-cloud/README.md
+      - Amazon Web Services: getting-started/integrate-cloud/AWS.md
+      - Microsoft Azure: getting-started/integrate-cloud/Azure.md
+      - Google Cloud Platform: getting-started/integrate-cloud/GCP.md
+    - Step 3. Create a stack:
+      - getting-started/create-stack/README.md
+    - Step 4. Invite teammates:
+      - getting-started/invite-teammates/README.md
+    - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:
       - Stack:
           - concepts/stack/README.md

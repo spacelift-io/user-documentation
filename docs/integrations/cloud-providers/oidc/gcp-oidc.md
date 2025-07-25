@@ -60,13 +60,11 @@ The file that is downloaded will include the format type in the credentials sour
 
 ## Internal Only Load Balancer Configuration
 
-GCP needs information about the Spacelift OIDC provider to enable trust between Spacelift and GCP.
-Generally, GCP will gather this information itself via a JWKS endpoint hosted by Spacelift.
-However, if you're using an internal only load balancer, GCP will not have access to that endpoint.
+GCP needs information about the Spacelift OIDC provider to enable trust between Spacelift and GCP. Generally, GCP will gather this information itself via a JWKS endpoint hosted by Spacelift.
 
-In this case, you will need to provide the JWKS details manually.
+However, if you're using an internal only load balancer, GCP will not have access to that endpoint and you will need to provide the JWKS details manually.
 
-1. You can download your JWKS from `https://{your-spacelift-url}/.well-known/jwks`
+1. Download your JWKS from `https://{your-spacelift-url}/.well-known/jwks`
 2. Follow [this guide](https://cloud.google.com/iam/docs/workload-identity-federation-with-other-providers#manage-oidc-keys) on GCP to upload the JWKS to GCP manually.
 
 Once the JWKS is uploaded, OIDC between Spacelift and GCP should work as expected.

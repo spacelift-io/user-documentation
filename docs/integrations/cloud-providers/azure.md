@@ -8,7 +8,7 @@ This page explains how to configure the following authentication methods in Spac
 
 - [Spacelift Managed Integration](azure.md#spacelift-managed-integration) - the simplest way to get up and running. Handles automatic secret creation and rotation.
 - [Static Credentials](azure.md#static-credentials) - useful when using the public worker pool, or workers that are not hosted in Azure. Simple to setup, but requires you to manually manage secret rotation.
-- [Managed Service Identities](azure.md#managed-service-identities) - ideal when using [private workers](../../concepts/worker-pools) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
+- [Managed Service Identities](azure.md#managed-identities) - ideal when using [private workers](../../concepts/worker-pools) hosted in Azure. Requires managing your own workers, but secret rotation is handled automatically by Azure.
 
 !!! info
     This guide explains how to configure the Azure provider using environment variables. Although you can add these environment variables directly to individual stacks, it may be worth creating a [Spacelift Context](../../concepts/configuration/context.md) to store your Azure credentials. This allows you to easily add the same credentials to any stack that requires them.

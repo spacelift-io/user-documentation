@@ -141,6 +141,10 @@ This is because you are responsible for ensuring that the tool is available to t
 
 ## Troubleshooting
 
+### Extra debug info
+
+Set the environment variable `SPACELIFT_KUBERNETES_DEBUG` to `1` on a kube stack to get additional debug information.
+
 ### Workflow file not found
 
 If no workflow.yml file has been created but your Stack has been configured to use a custom tool, you may get an error message like the following:
