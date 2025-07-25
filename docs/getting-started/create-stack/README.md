@@ -106,7 +106,7 @@ Determine and set additional behaviors for your stack.
 
 1. **Worker pool**: Choose which [worker pool](../../concepts/worker-pools/README.md) to use (default is public workers).
 2. **Runner image**: Use a custom runner for your runtime environment.
-3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack has privileges to create ohter Spacelift resources via our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
+3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack has privileges to create other Spacelift resources via our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
 4. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Allows you to promote a proposed run to a tracked run (i.e. deploy from a feature branch).
 5. **Autodeploy**: Automatically deploy changes to your code.
 6. [**Autoretry**](../../concepts/stack/stack-settings.md#autoretry): Automatically retry deployment of invalidated proposed runs. For stacks using private workers only.
