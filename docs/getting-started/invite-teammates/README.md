@@ -75,4 +75,4 @@ Now your colleagues can access your Spacelift account as well.
 
 ✅ Step 4 of the LaunchPad is complete! Now you can explore and configure Spacelift as needed. Consider triggering your [first stack run](../../README.md#trigger-your-first-run), or creating a [policy](../../concepts/policy/README.md#creating-policies) or a [context](../../concepts/configuration/context.md#creating).
 
-![](<../../assets/screenshots/getting-started/invite-teammates/Launchpad-step-4-complete.png>)
+![LaunchPad Step 4 complete](<../../assets/screenshots/getting-started/invite-teammates/Launchpad-step-4-done.png>)
