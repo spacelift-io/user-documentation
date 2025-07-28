@@ -11,7 +11,7 @@ By default, Spacelift supports logging in using GitHub, GitLab, or Google. Some 
 ## Managed Identity Provider vs SSO
 
 !!! tip
-    The SSO integration can only be configured once the [Spacelift account has been created using one of the supported Identity Providers](../../getting-started.md#step-1-create-your-spacelift-account).
+    The SSO integration can only be configured once the [Spacelift account has been created using one of the supported Identity Providers](../../README.md#create-your-spacelift-account).
 
 To create a Spacelift account, a user needs to choose one of the supported managed identity providers. That user then becomes the "Managed IdP Admin".
 
