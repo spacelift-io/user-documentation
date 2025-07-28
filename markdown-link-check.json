@@ -44,6 +44,9 @@
     },
     {
       "pattern": "^https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD"
+    },
+    {
+      "pattern": "^https://azure.microsoft.com/en-us/products/kubernetes-service"
     }
   ]
 }
