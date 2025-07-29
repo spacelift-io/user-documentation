@@ -1,8 +1,5 @@
 # ServiceNow
 
-!!! warning
-    This feature is still in beta testing.
-
 {% if is_saas() %}
 !!! Info
     This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
@@ -34,7 +31,7 @@ To enable Spacelift to create resources on the ServiceNow side, you need to set 
 
 To create an integration with ServiceNow in Spacelift, follow these steps:
 
-1. Navigate to **ServiceNow Integration > Create Integration**.
+1. Navigate to **Integrations > ServiceNow > Create Integration**.
 
     ![Creating the ServiceNow integration.](<../../assets/screenshots/external-integration/create_integration_step_1.png>)
 

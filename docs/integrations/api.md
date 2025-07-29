@@ -141,13 +141,23 @@ Once you click the _Add Key_ button, the API Key will be generated and a file wi
 The config file looks something like this:
 
 ```text
-Please use the following API secret when communicating with Spacelift
-programmatically:
+# Spacelift API Key Configuration
 
-SECRET_VALUE40ffc46887297384892384789239
+[credentials]
+api_key_id     = ID_VALUEW2EWGQ9F7AVF41CG1
+api_key_secret = SECRET_VALUE40ffc46887297384892384789239
 
-Please add this snippet to your .terraformrc file if you want to use this API
-key to access Spacelift-hosted Terraform modules outside of Spacelift:
+# Usage Options:
+#
+# - Programmatic Access:
+#   Use the api_key_secret above in your API calls
+#
+# - UI Login:
+#   Visit /apikeytoken and enter the credentials above
+
+# Terraform Module Access:
+# Add this snippet to your .terraformrc file to access 
+# Spacelift-hosted Terraform modules outside of Spacelift:
 
 credentials "spacelift.io" {
   token = "TOKEN_VALUEQwZmZjNDY4ODdiMjI2ZWE4NDhjMWQwNWZiMWE5MGU4NWMwZTFlY2Q4NDAxMGI2ZjA2NzkwMmI1YmVlMWNmMGE"

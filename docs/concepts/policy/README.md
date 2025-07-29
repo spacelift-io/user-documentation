@@ -466,7 +466,7 @@ approve {
 There are a few things worth knowing about flags:
 
 - They are **arbitrary strings** and Spacelift makes no assumptions about their format or content.
-- They are **immutable**. Once set, they cannot be changed or unset;
+- They can be **reset** by policies that set them - see [policy flag reset](policy-flag-reset.md) for details;
 - They are **passed between policy types**. If you have multiple policies of the same type, they will not be able to see each other's flags;
 - They can be set by any policies that explicitly **touch a run**: [push](./push-policy/README.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
 - They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document;
