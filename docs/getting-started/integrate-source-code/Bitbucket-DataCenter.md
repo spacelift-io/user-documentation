@@ -21,7 +21,7 @@ You can set up multiple Space-level and one default Bitbucket Data Center integr
 You will need to create an access token in Bitbucket to use with Spacelift. The token requires the following access:
 
 - _Read_ access to any projects Spacelift needs to be able to access.
-- _Read_ access to the repositories within those projects that Spacelift should have access to.
+- _Read_ access to the repositories within those projects.
 
 ![Personal token creation](<../../assets/screenshots/image (65).png>)
 
