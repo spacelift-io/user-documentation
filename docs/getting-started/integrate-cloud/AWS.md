@@ -7,7 +7,7 @@ The AWS integration allows Spacelift [runs](../../concepts/run/README.md) or [ta
 - `AWS_SECURITY_TOKEN`
 - `AWS_SESSION_TOKEN`
 
-These temporary credentials are enough for both the [AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#environment-variables){: rel="nofollow"} and/or [Amazon S3 state backend](https://www.terraform.io/docs/backends/types/s3.html){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration.
+These temporary credentials are enough for both the [AWS Terraform provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#environment-variables){: rel="nofollow"} and the [Amazon S3 state backend](https://www.terraform.io/docs/backends/types/s3.html){: rel="nofollow"} to generate a fully authenticated AWS session without further configuration.
 
 To use the AWS integration, you need to set it up and attach it to any stacks that need it.
 
@@ -132,7 +132,7 @@ Given the format of the External ID passed by Spacelift, you can further secure 
 3. Once the role is created, click **View role** or its name in the list.
 4. Copy the IAM role _ARN_ to set up the integration in Spacelift.
 
-    ![](../../assets/screenshots/integrations/cloud-providers/aws/copy-role-arn.png)
+    ![Copy the listed ARN](<../../assets/screenshots/getting-started/cloud-provider/AWS-ARN.png>)
 
 ## Create the cloud integration in Spacelift
 

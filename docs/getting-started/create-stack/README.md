@@ -43,14 +43,14 @@ Connect your VCS provider as configured during [LaunchPad step 1](../integrate-s
 
 ## 3. Choose vendor
 
-Select your IaC vendor and fill in the required details, then click **Create & continue**. You can find more [details on each vendor](../../concepts/stack/creating-a-stack.md#configure-backend) and how they interact with Spacelift stacks in our stack documentation.
+Select your IaC vendor and fill in the required details, then click **Create & continue**. You can find more details on each vendor and how they interact with Spacelift stacks in our [stack documentation](../../concepts/stack/creating-a-stack.md#configure-backend).
 
 ![](<../../assets/screenshots/getting-started/create-stack/choose-vendor.png>)
 
 ### OpenTofu/Terraform
 
 1. **Workflow tool**: Set to OpenTofu, Terraform (FOSS), or Custom.
-      - With OpenTofu or Terraform (FOSS), select a specific version or enter a version range.
+      - With OpenTofu or Terraform (FOSS), select a specific **version** or enter a **version range**.
 2. **Smart Sanitization** (recommended): Choose whether Spacelift attempts to sanitize sensitive resources created by OpenTofu/Terraform.
 3. **Manage State** (recommended): Choose whether Spacelift should handle the OpenTofu/Terraform state.
       1. If **disabled**: Optionally enter a **workspace**.
@@ -67,7 +67,7 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 
 ### AWS CloudFormation
 
-1. **Region**: Enter the AWS region your stack will be located (e.g. `us-east-2`).
+1. **Region**: Enter the AWS region your stack will be located in (e.g. `us-east-2`).
 2. **Stack name**: Enter the name of the corresponding CloudFormation stack.
 3. **Entry template file**: Enter the path to the template file in your repo describing the root CloudFormation stack.
 4. **Template bucket**: Enter the location of the S3 bucket to store processed CloudFormation templates, so Spacelift can manage the state properly.
@@ -75,7 +75,7 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 
 ### Kubernetes
 
-1. **Namespace** (optional): Enter the namespace of the Kubernetes cluster you wnat to run commands on. Leave blank for multi-namespace stacks.
+1. **Namespace** (optional): Enter the namespace of the Kubernetes cluster you want to run commands on. Leave blank for multi-namespace stacks.
 2. **Workflow tool**: Select the tool used to execute workflow commands.
       - **Kubernetes**: Provide the **kubectl version** the worker will download.
       - **Custom**: No configuration needed.
@@ -83,7 +83,7 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 
 ### Terragrunt
 
-1. **Terragrunt version**: Select a specific Terraform version or enter a version range.
+1. **Terragrunt version**: Select a specific Terraform **version** or enter a **version range**.
 2. **Tool**: Select the tool used to make infrastructure changes:
       - **OpenTofu/Terraform (FOSS)**: Select a specific Terraform version or enter a version range.
       - **Manually provisioned**: Outside of Spacelift, ensure the tool is available to the worker via a custom image or hook and set the `TERRAGRUNT_TFPATH` environment variable to tell Terragrunt where to find it.
@@ -96,9 +96,9 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 1. **Playbook**: Enter the playbook file to run in the stack.
 2. Click **Create & continue**.
 
-Click **Continue** to **Define stack behavior**.
+Once youv'e configured your vendor information, click **Continue** to **Define stack behavior**.
 
-![](<../../assets/screenshots/DefineStackBehaviorGS.png>)
+![Define stack behavior](<../../assets/screenshots/DefineStackBehaviorGS.png>)
 
 ## 4. Define behavior
 
@@ -119,7 +119,7 @@ Once you've configured your settings, click **Save & continue**.
 
 ## 5. Add hooks
 
-You also have the ability to control what happens before and after each runner phase using [stack hooks](../../concepts/stack/stack-settings.md#customizing-workflow). Define commands that run in between the following phases:
+You also have the ability to control what happens before and after each runner phase using [stack hooks](../../concepts/stack/stack-settings.md#customizing-workflow). Define commands that run during the following phases:
 
 - Initialization
 - Planning
@@ -143,7 +143,7 @@ If desired, attach the cloud provider integration configured in [LaunchPad step 
 
 ## 7. Attach policies
 
-If you're just following the LaunchPad steps, you won't have any [policies](../../concepts/policy/README.md) yet. If you did configure any policies, you will be able to attach them here:
+If you're just following the LaunchPad steps, you won't have any [policies](../../concepts/policy/README.md) yet. If you did configure policies, you will be able to attach them here:
 
 - [Approval](../../concepts/policy/approval-policy.md): Who can approve or reject a run and how a run can be approved.
 - [Plan](../../concepts/policy/terraform-plan-policy.md): Which changes can be applied.
@@ -156,7 +156,7 @@ Click **Continue**.
 
 Contexts are sets of environment variables and related configuration, including hooks, that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
 
-If you're just following the LaunchPad steps, you won't have any [contexts](../../concepts/configuration/context.md) yet. If you did configure any contexts, you will be able to attach them here.'
+If you're just following the LaunchPad steps, you won't have any [contexts](../../concepts/configuration/context.md) yet. If you did configure contexts, you will be able to attach them here.
 
 Click **Continue**.
 

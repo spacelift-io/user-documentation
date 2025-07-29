@@ -50,7 +50,6 @@ You will need to create a GitHub application to link it to Spacelift.
     1. Enter a name for your integration. This can be changed later.
     2. Click **Create GitHub app**. You will be redirected back to Spacelift.
 4. Fill in the additional information:
-
     ![](<../../assets/screenshots/GitHub_wizard_final_step.png>)
     1. **Integration name**: Must be unique, and cannot be changed after app creation because the Spacelift webhook endpoint is generated based on this name.
     2. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
@@ -146,8 +145,8 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 === "Via GitHub UI"
 
-    1. Find your app on the _GitHub Apps_ page in your account settings, and click **Edit**:
-        ![](<../../assets/screenshots/image (58).png>)
+    1. Find your Spacelift app on the _GitHub Apps_ page in your account settings, and click **Edit**:
+        ![](<../..0n m/assets/screenshots/image (58).png>)
     2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
         ![](<../../assets/screenshots/image (59).png>)
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:

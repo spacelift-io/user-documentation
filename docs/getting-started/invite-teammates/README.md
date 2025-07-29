@@ -16,7 +16,7 @@ Before you go live with Spacelift, we recommend you use [login policies](../../c
       - Alternatively, click your name in the bottom left, then **Organization settings**.
 2. In the "Collaborate with your team" section:
       1. **Email**: Enter the email address of the user to add.
-      2. **Role**: Select the user's role, admin or user.
+      2. **Role**: Select the user's role, _admin_ or _user_.
       3. Click **Send invite**.
 
 ## Add users via policies
@@ -26,7 +26,7 @@ While we recommend using policies to implement [team-based access](../../concept
 ![](<../../assets/screenshots/getting-started/invite-teammates/create-policy.png>)
 
 1. Click your name in the bottom left, then **Organization settings**, then **Management strategy**.
-2. Beside _login policy_, click **Enable**, then **Enable** again.
+2. Beside _login policy_, click **Enable**, then **Enable** in the pop-up window.
 3. Click the _Login policy_ tab, then click **Create policy**.
 4. **Name**: Enter a name for your policy. Choose a name that explains who or what the policy grants access to.
 5. **Labels**: Organize policies by assigning labels to them.
