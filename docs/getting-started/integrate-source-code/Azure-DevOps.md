@@ -33,10 +33,12 @@ You will need your [Azure DevOps organization URL](https://docs.microsoft.com/en
 You need to create a [personal access token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate){: rel="nofollow"} in Azure DevOps to create the integration with Spacelift.
 
 1. Navigate to _User settings_ > _Personal access tokens_ in the top-right section of the Azure DevOps page.
-    ![Personal access tokens menu in Azure DevOps](../../assets/screenshots/azureDevOpsPersonalAccessToken1.png)
+
+    ![Personal access tokens menu in Azure DevOps](<../../assets/screenshots/azureDevOpsPersonalAccessToken1.png>)
+
 2. Click **New Token**.
 3. Fill in the details to create a new personal access token:
-    ![Creating a new personal access token in Azure DevOps](../../assets/screenshots/azureDevOps-personalAccessToken3.png)
+    ![Creating a new personal access token in Azure DevOps](<../../assets/screenshots/azureDevOps-personalAccessToken3.png>)
     1. **Name**: Enter a descriptive name for the token.
     2. **Organization**: Select the organization to connect to Spacelift.
     3. **Expiration**: Select an expiration date for the token.
