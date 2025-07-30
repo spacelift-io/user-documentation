@@ -49,7 +49,7 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 
 ### OpenTofu/Terraform
 
-1. **Workflow tool**: Set to OpenTofu, Terraform (FOSS), or Custom.
+1. **Workflow tool**: Set to OpenTofu, Terraform (FOSS), or [Custom](../../vendors/terraform/workflow-tool.md).
       - With OpenTofu or Terraform (FOSS), select a specific **version** or enter a **version range**.
 2. **Smart Sanitization** (recommended): Choose whether Spacelift attempts to sanitize sensitive resources created by OpenTofu/Terraform.
 3. **Manage State** (recommended): Choose whether Spacelift should handle the OpenTofu/Terraform state.
