@@ -6,7 +6,7 @@ description: >-
 
 # Storing Complex Variables
 
-Terraform supports a variety of variable types such as `string`, `number`, `list`, `bool`, and `map`. The full list of Terraform's variable types can be found in the Terraform documentation [here](https://www.terraform.io/language/expressions/types){: rel="nofollow"}.
+Terraform supports a variety of variable types such as `string`, `number`, `list`, `bool`, and `map`. The full list of Terraform's variable types can be/ found in the [Terraform documentation](https://www.terraform.io/language/expressions){: rel="nofollow"}.
 
 When using "complex" variable types with Spacelift such as `map` and `list` you'll need to utilize Terraform's [jsonencode](https://www.terraform.io/language/functions/jsonencode){: rel="nofollow"} function when storing these variables as an environment variable in your Spacelift Stack [environment](../../concepts/configuration/environment.md) or [context](../../concepts/configuration/context.md).
 
