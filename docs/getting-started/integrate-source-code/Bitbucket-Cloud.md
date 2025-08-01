@@ -54,7 +54,7 @@ For every Bitbucket Cloud repository being used in Spacelift stacks or modules, 
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/Screenshot from 2021-06-11 14-52-40.png>)
 
-#### Create hook in Bitbucket Cloud
+#### Configure webhooks in Bitbucket Cloud
 
 For each repository you want to use with Spacelift, you now need to add webhooks in Bitbucket Cloud.
 

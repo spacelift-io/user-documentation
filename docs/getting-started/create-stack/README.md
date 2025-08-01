@@ -96,7 +96,7 @@ Select your IaC vendor and fill in the required details, then click **Create & c
 1. **Playbook**: Enter the playbook file to run in the stack.
 2. Click **Create & continue**.
 
-Once youv'e configured your vendor information, click **Continue** to **Define stack behavior**.
+Once you've configured your vendor information, click **Continue** to **Define stack behavior**.
 
 ![Define stack behavior](<../../assets/screenshots/DefineStackBehaviorGS.png>)
 
@@ -104,10 +104,10 @@ Once youv'e configured your vendor information, click **Continue** to **Define s
 
 Determine and set additional behaviors for your stack.
 
-1. **Worker pool**: Choose whether the stack uses public or private [worker pools](../../concepts/worker-pools/README.md) (default is public).
+1. **Worker pool**: Choose which [worker pool](../../concepts/worker-pools/README.md) to use (default is public workers).
 2. **Runner image**: Use a custom runner for your runtime environment.
-3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack receives administrator access to other stacks in the same environment.
-4. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Deploy runs via the [Spacelift API](../../integrations/api.md) or GitHub Actions.
+3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack has privileges to create ohter Spacelift resources via our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
+4. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Allows you to promote a proposed run to a tracked run (i.e. deploy from a feature branch).
 5. **Autodeploy**: Automatically deploy changes to your code.
 6. [**Autoretry**](../../concepts/stack/stack-settings.md#autoretry): Automatically retry deployment of invalidated proposed runs. For stacks using private workers only.
 7. **Enable local preview**: Preview how code changes will execute with the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature.

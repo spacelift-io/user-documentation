@@ -71,7 +71,7 @@ For every Azure DevOps repository being used in Spacelift stacks or modules, you
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/azure_devops_details.png>)
 
-#### Create hook in Azure DevOps
+#### Configure webhooks in Azure DevOps
 
 1. In Azure DevOps, select the project you are connecting to Spacelift.
 2. Navigate to _Project settings_ > _Service hooks_.
