@@ -47,6 +47,9 @@
     },
     {
       "pattern": "^https://azure.microsoft.com/en-us/products/kubernetes-service"
+    },
+    {
+      "pattern": "^https://feedback.spacelift.io/"
     }
   ]
 }
