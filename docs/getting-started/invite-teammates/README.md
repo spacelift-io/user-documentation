@@ -8,8 +8,6 @@ You have two options for inviting people to your Spacelift account:
 !!! warning
     Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your organization, they automatically lose access to Spacelift. But when allowlisting individuals and _not_ restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
 
-Before you go live with Spacelift, we recommend you use [login policies](../../concepts/policy/login-policy.md) and configure the [Single Sign-On (SSO) integration](../../integrations/single-sign-on/README.md), if applicable.
-
 ## Add single users
 
 1. From the LaunchPad, click **Invite teammates**.
@@ -21,9 +19,7 @@ Before you go live with Spacelift, we recommend you use [login policies](../../c
 
 ## Add users via policies
 
-While we recommend using policies to implement [team-based access](../../concepts/policy/login-policy.md#teams) to Spacelift in most cases, you can add single users to get started.
-
-![](<../../assets/screenshots/getting-started/invite-teammates/create-policy.png>)
+![Create login policy](<../../assets/screenshots/getting-started/invite-teammates/create-policy.png>)
 
 1. Click your name in the bottom left, then **Organization settings**, then **Management strategy**.
 2. Beside _login policy_, click **Enable**, then **Enable** in the pop-up window.

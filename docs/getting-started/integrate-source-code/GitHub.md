@@ -26,7 +26,7 @@ You can set up multiple Space-level and one default GitHub integration per accou
 
 ## Signed in with another option
 
-If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub application to link it to Spacelift.
+If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom applicationto link it to Spacelift.
 
 {% else %}
 You will need to create a GitHub application to link it to Spacelift.

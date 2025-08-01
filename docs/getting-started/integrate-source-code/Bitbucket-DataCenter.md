@@ -62,7 +62,7 @@ For every Bitbucket Data Center repository being used in Spacelift stacks or mod
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/BitbucketDatacenter_details.png>)
 
-#### Create hook in Bitbucket Data Center
+#### Configure webhooks in Bitbucket Data Center
 
 For each repository you want to use with Spacelift, you now need to add webhooks in Bitbucket Data Center.
 
