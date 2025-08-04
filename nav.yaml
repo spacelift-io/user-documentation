@@ -80,6 +80,13 @@ nav:
           - concepts/spaces/migrating-out-of-the-legacy-space.md
           - concepts/spaces/best-practices.md
           - concepts/spaces/allowing-non-root-admins-to-manage-spaces.md
+      - Authorization & RBAC:
+          - concepts/authorization/README.md
+          - concepts/authorization/rbac-system.md
+          - Assigning Roles:
+              - concepts/authorization/assigning-roles-users.md
+              - concepts/authorization/assigning-roles-groups.md
+              - concepts/authorization/assigning-roles-api-keys.md
       - User Management:
           - concepts/user-management/README.md
           - concepts/user-management/admin.md
