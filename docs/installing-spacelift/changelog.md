@@ -280,7 +280,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sampling-policy-inputs)
 - Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
 - Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
-- Support for [moved](https://developer.hashicorp.com/terraform/language/modules/develop/refactoring) and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
+- Support for moved and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
 - Installation script:
     - [We added support for defining custom retention periods for all of the S3 buckets.](./cloudformation/install.md#s3-config) If you don't specify it, they remain untouched.
 
