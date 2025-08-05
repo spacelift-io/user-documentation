@@ -17,7 +17,7 @@ On the Agent there are very conservative checks on what requests are let through
 
 ## Create the VCS Agent Pool
 
-Navigate to VCS Agent Pools using the Spacelift navigation sidebar. Click **Add VCS Agent Pool.**
+Navigate to VCS Agent Pools by clicking on Source code on the left menu, then **VCS Agent pools** on the top. Click **Create VCS agent pool**.
 
 ![](../assets/screenshots/Screen Shot 2022-06-21 at 11.31.39 AM.png)
 
@@ -29,12 +29,14 @@ Give your VCS Agent Pool a name and description, and you're done! A configuratio
 
 ### Download the VCS Agent binaries
 
-The latest version of the VCS Agent binaries are available at Spacelift's CDN:
+The latest version of the VCS Agent binaries for Linux are available at Spacelift's CDN:
 
 | Binary name                                                                               | SHA256 checksum                                                                                                 | GPG signature                                                                                                           |
 | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [spacelift-vcs-agent-x86_64](https://downloads.spacelift.io/spacelift-vcs-agent-x86_64)   | [spacelift-vcs-agent-x86_64_SHA256SUMS](https://downloads.spacelift.io/spacelift-vcs-agent-x86_64_SHA256SUMS)   | [spacelift-vcs-agent-x86_64_SHA256SUMS.sig](https://downloads.spacelift.io/spacelift-vcs-agent-x86_64_SHA256SUMS.sig)   |
 | [spacelift-vcs-agent-aarch64](https://downloads.spacelift.io/spacelift-vcs-agent-aarch64) | [spacelift-vcs-agent-aarch64_SHA256SUMS](https://downloads.spacelift.io/spacelift-vcs-agent-aarch64_SHA256SUMS) | [spacelift-vcs-agent-aarch64_SHA256SUMS.sig](https://downloads.spacelift.io/spacelift-vcs-agent-aarch64_SHA256SUMS.sig) |
+
+Binaries for other operating systems are available on the [GitHub Releases](https://github.com/spacelift-io/vcs-agent/releases){: rel="nofollow"} page.
 
 #### Checksum verification
 
@@ -60,7 +62,7 @@ The VCS Agent is also available as a multi-arch (amd64 and arm64) Docker image:
 - `public.ecr.aws/spacelift/vcs-agent:latest`
 - `public.ecr.aws/spacelift/vcs-agent:<version>`
 
-The available versions are listed in the [GitHub Releases](https://github.com/spacelift-io/vcs-agent/releases) page.
+The available versions are listed on the [GitHub Releases](https://github.com/spacelift-io/vcs-agent/releases){: rel="nofollow"} page.
 
 ```shell
 docker run -it --rm -e "SPACELIFT_VCS_AGENT_POOL_TOKEN=<VCS TOKEN>" \
@@ -109,8 +111,7 @@ Within the VCS Agent Pools page, you will be able to see the number of active co
 
 ![VCS Agent Pool Connections](<../assets/screenshots/image (47).png>)
 
-!!! warning
-    Now whenever you need to specify an endpoint inside of Spacelift which should use your VCS Agent Pool, you should write it this way: `private://my-vcs-agent-pool-name/possible/path`
+Now whenever you need to specify an endpoint inside of Spacelift which should use your VCS Agent Pool, you should write it this way: `private://my-vcs-agent-pool-name/possible/path`
 
 ![](<../assets/screenshots/Screen Shot 2022-06-21 at 11.34.18 AM.png>)
 
@@ -118,7 +119,14 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 
 ![Access Log example](<../assets/screenshots/image (50).png>)
 
-### Passing Metadata Tags
+## Worker pool settings
+
+{% if is_saas() %}
+VCS agents are only supported when using private worker pools.
+{% endif %}
+Since your source code is downloaded directly by Spacelift workers, you need to configure them to access your VCS instance. Instructions for doing this are available on the [worker pools](./worker-pools/README.md#vcs-agents) page.
+
+## Passing Metadata Tags
 
 When the VCS Agent from a VCS Agent Pool is connecting to the gateway, you can send along some tags that will allow you to uniquely identify the process / machine for the purpose of debugging. Any environment variables using `SPACELIFT_METADATA_` prefix will be passed on. As an example, if you're running Spacelift VCS Agents in EC2, you can do the following just before you execute the VCS Agent binary:
 
@@ -127,10 +135,6 @@ export SPACELIFT_METADATA_instance_id=$(ec2-metadata --instance-id | cut -d ' ' 
 ```
 
 Doing so will set your EC2 instance ID as _instance_id_ tag in your VCS Agent connections.
-
-## Private Workers
-
-VCS agents are only supported when using private worker pools. Because your source code is downloaded directly by Spacelift workers, you need to configure your workers to know how to reach your VCS instance. Information on how to do this is provided on the [worker pools](worker-pools#vcs-agents) page.
 
 ## Debug Information
 

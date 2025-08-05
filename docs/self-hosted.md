@@ -18,7 +18,6 @@ In general, Self-Hosted includes all the functionality available in our Enterpri
 
 The following is a list of features that are not available in Self-Hosted:
 
-- [VCS Agents](./concepts/vcs-agent-pools.md) - Self-Hosted installations should be able to connect directly to your VCS system.
 - Public worker pool - in Self-Hosted you manage your own workers.
 - Azure and GCP [cloud integrations](./integrations/cloud-providers/README.md) - for now we recommend that you use [OIDC Federation](./integrations/cloud-providers/oidc/README.md) instead.
 
