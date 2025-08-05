@@ -19,8 +19,7 @@ This guide outlines the key considerations and implementation strategies for dep
 
 If your Spacelift network has connectivity to your VCS providers, you can skip this section.
 
-VCS agents are not supported yet for Self-Hosted installations, so if your VCS provider is located in another network than
-your spacelift installation, you must update your network policies and firewall to allow Spacelift to communicate with it.
+If it doesn't, it's recommended to set up connectivity between the two networks, or alternatively use [VCS Agents](../../../concepts/vcs-agent-pools.md) to connect Spacelift to your VCS provider.
 
 ## OpenTofu/Terraform
 

@@ -129,6 +129,7 @@ To enable provider caching:
     The extra mounts directory on the host _should_ use some shared storage that is accessible by all workers in the pool. This can be a shared filesystem, a network drive, or a cloud storage service.
     If you choose not to use a shared storage solution you may run into an instance where the `plan` phase succeeds but the `apply` phase fails due to the provider cache not being available.
     To avoid this, you can run `tofu init` (if using OpenTofu) as a before apply hook. Which will populate the cache on that node. Generally this should be fine, since once the cache is populated the re-initialization should quick.
+{% endif %}
 
 ### VCS Agents
 
@@ -156,8 +157,6 @@ export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
 ```
 
 When using Kubernetes workers, please see the [VCS Agents](./kubernetes-workers.md#using-vcs-agents-with-kubernetes-workers) section in the Kubernetes workers docs for specific information on how to configure this.
-
-{% endif %}
 
 ### Network Security
 

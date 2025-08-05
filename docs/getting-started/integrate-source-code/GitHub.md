@@ -120,7 +120,7 @@ Once the integration name and the type are chosen, a **webhook endpoint** and a 
 Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
 
 1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
-2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md).
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
 3. **App ID**: Enter the App ID you copied before generating the private key.
 4. **Private key**: Paste the contents of your private key file.
     ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
