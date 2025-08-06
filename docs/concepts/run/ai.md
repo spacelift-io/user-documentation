@@ -24,6 +24,9 @@ Furthermore, admins can select the LLM model that will be used to provide assist
 
 After enabling the feature, the users with read access to the runs will be able to summarize failed executions.
 
+!!! Info
+    This feature is only supported on stacks using OpenTofu or Terraform.
+
 The results of a summary change on each case due to the LLM being non-deterministic, but they generally provide the following information:
 
 - Human readable summary of the logs.
