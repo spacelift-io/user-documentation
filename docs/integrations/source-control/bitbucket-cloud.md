@@ -9,44 +9,52 @@ In order to set up the integration from the Spacelift side, please navigate to t
 This form will appear:
 
 <p align="center">
-  <img src="../../assets/screenshots/Screenshot from 2021-06-10 16-05-39.png" width="450" alt="VCS form" />
+  <img src="../../assets/screenshots/Bitbucket-cloud-form.png" width="450" alt="VCS form" />
 </p>
 
 Explanation of the fields:
 
 - **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
 - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
-- **Username** - a username of your Bitbucket account.
-- **App password** - app passwords are user-based access tokens for scripting tasks and integrating tools. You can find a little how-to below: [Creating an App Password](#creating-an-app-password).
+- **Email** - an email of your Bitbucket account.
+- **API token** - API tokens are user-based access tokens for scripting tasks and integrating tools. You can find a little how-to below: [Creating an API Token](#creating-an-api-token).
 - **Labels** - a set of labels to help you organize integrations.
 - **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
-  
+
 ### Choosing the right Integration type
 
 Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them. Visit the [Spaces](../../concepts/spaces/README.md) documentation to learn more about access controls.
 
-### Creating an App Password
+### Creating an API Token
 
-In order to get the [App password](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/){: rel="nofollow"} you'll need to go to the Bitbucket Cloud site and navigate to **Personal settings** -> **App passwords** (it's under Access management) -> **Create app password**. There, you will need to give your new app password a label and give it read access to repositories and pull requests:
+In order to get the API token you'll need to go to Bitbucket Cloud and navigate to **Atlassian account settings** -> **Security** -> **Create API token with scopes**. In the form, you will need to:
 
-![App password creation](<../../assets/screenshots/Screenshot from 2021-06-10 16-16-53.png>)
+1. Choose a name for your API token
+2. Set an expiration date
+3. Select **Bitbucket** as the app
 
-This will give you an app password token which you can put into the **App Password** field in the integration configuration.
+    ![Api token app](<../../assets/screenshots/api-token-app.png>)
 
-![Created new app password](<../../assets/screenshots/Screenshot from 2021-06-10 16-39-03.png>)
+4. Select read permissions for:
+    - Repository
+    - Pull requests
+
+    ![Api token permissions](<../../assets/screenshots/api-token-permissions.png>)
+
+This will generate an API token which you can put into the **API Token** field in the integration configuration.
 
 ### Finishing the setup
 
 After doing all this you should have all fields filled in.
 
 <p align="center">
-  <img src="../../assets/screenshots/Screenshot from 2021-06-11 10-50-38.png" width="450" alt="Filled in Bitbucket Cloud integration form" />
+  <img src="../../assets/screenshots/Bitbucket-cloud-form-filled.png" width="450" alt="Filled in Bitbucket Cloud integration form" />
 </p>
 
 Once you've finished saving the form, you can find your **webhook endpoint** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
 
 <p align="center">
-  <img src="../../assets/screenshots/Screenshot from 2021-06-11 14-52-40.png" width="450" alt="Integration details" />
+  <img src="../../assets/screenshots/Bitbucket-cloud-integration-details.png" width="450" alt="Integration details" />
 </p>
 
 For each repository you want to use with Spacelift, you now have to go into its **Repository settings -> Webhooks -> Add webhook**, and configure the webhook accordingly, by activating the following events:
