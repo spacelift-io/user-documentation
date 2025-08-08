@@ -43,7 +43,7 @@ Connect your VCS provider as configured during [LaunchPad step 1](../integrate-s
 
 ## 3. Choose vendor
 
-Select your IaC vendor and fill in the required details, then click **Create & continue**. You can find more details on each vendor and how they interact with Spacelift stacks in our [stack documentation](../../concepts/stack/creating-a-stack.md#configure-backend).
+Select your IaC vendor and fill in the required details, then click **Create & continue**.
 
 ![](<../../assets/screenshots/getting-started/create-stack/choose-vendor.png>)
 
