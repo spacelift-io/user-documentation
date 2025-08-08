@@ -49,7 +49,7 @@ This setup ensures that the worker binary is always up to date, but the launcher
 
 If you run your workers in AWS and use the [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, make sure to update your worker pool routinely as they receive [weekly updates](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} to ensure all system components are up-to-date.
 
-Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 365 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
+Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 420 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
 
 {% if is_saas() %}
 
@@ -76,12 +76,16 @@ The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/
 
 ```hcl
 module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v3.0.2"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.0.1"
 
   secure_env_vars = {
-    SPACELIFT_TOKEN = var.worker_pool_config
+    SPACELIFT_TOKEN            = var.worker_pool_config
     SPACELIFT_POOL_PRIVATE_KEY = var.worker_pool_private_key
   }
+
+  configuration = <<EOF
+    export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true
+  EOF
 
   min_size                 = 1
   max_size                 = 10

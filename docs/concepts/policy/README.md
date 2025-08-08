@@ -291,7 +291,7 @@ Capturing all evaluations sounds tempting but it will also be extremely messy. W
 In order to show you how to work with the policy workbench, we are going to use a [task policy](task-run-policy.md) that whitelists just two tasks - an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty:
 
 !!! info
-    This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-in experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
+    This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
 
 ![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM.png>)
 
