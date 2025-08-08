@@ -1,100 +1,106 @@
-# Organizing stacks
+# Organize stacks
 
-Depending on the complexity of your infrastructure, the size of your team, your particular needs and your preferred way of working you may end up managing a lot of stacks. This obviously makes it harder to quickly find what you're looking for. As practitioners ourselves, we're providing you a few tools to make this process more manageable - from the basic [query-based searching](organizing-stacks.md#query-based-searching-and-filtering) to [filtering by status](organizing-stacks.md#label-based-folders) and the coolest of all, [label-based folders](organizing-stacks.md#label-based-folders).
+Depending on the complexity of your infrastructure, the size of your team, your particular needs, and your preferred way of working, you may end up managing a lot of stacks. Spacelift offers several options for searching through your stacks, from basic [query-based searching](organizing-stacks.md#query-based-search-and-filter) to [filtering by status](organizing-stacks.md#label-based-folders) and' [label-based folders](organizing-stacks.md#label-based-folders).
 
 ## Video Walkthrough
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/754795106?h=c4e1f101d8&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Organizing a Stack"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
-## Customizing table view
+## Customize your table view
 
-Based on the table configuration, you'll be able to customize the view to suit your needs. A settings drawer for customizing the list is available under the icon in the top right corner.
-![](<../../assets/screenshots/stack/list/customize-list-button.png>)
+You can customize the table view to suit your needs. Click the **Customize list** gear icon at the top-right to open a customizing drawer.
 
-Clicking the icon opens a drag-and-drop menu where you can hide columns (except for _name_) or rearrange their order:
-![](<../../assets/screenshots/stack/list/customize-list-drawer.png>)
+![Customize list icon](<../../assets/screenshots/stack/list/customize-list-button.png>)
+![Customize list drawer](<../../assets/screenshots/stack/list/customize-list-drawer.png>)
 
-To reset your settings, use the _Reset to default_ button located at the bottom of the customization drawer.
+1. Drag and drop columns to rearrange or hide them from view. The _name_ column cannot be hidden.
+      - Alternatively, outside the customize list drawer, hover over the column header and click **Hide**.
+       ![Hide column](<../../assets/screenshots/stack/list/column-options-highlight.png>)
+2. To reset your settings, click **Reset to default** at the bottom of the customization drawer.
 
-Each column can be resized by dragging the column separator:
-![](<../../assets/screenshots/stack/list/resize-column-highlight.png>)
+You can also resize columns in the list by dragging the separator:
+![Column resize separator](<../../assets/screenshots/stack/list/resize-column-highlight.png>)
 
-Additionally, you can hover over one of the column headers and leverage the dropdown menu to hide them:
-![](<../../assets/screenshots/stack/list/column-options-highlight.png>)
+## Query-based search and filter
 
-## Query-based searching and filtering
+![Stacks list search](../../assets/screenshots/stack/list/search-highlight.png)
 
-Historically the first tool we offered was the search bar:
+You can search and filter by these stack properties in the search bar:
 
-![](../../assets/screenshots/stack/list/search-highlight.png)
+- name
+- ID (slug)
+- any of its [labels](stack-settings.md#labels)
 
-The search bar allows you to search and filter by the following stack properties:
+## Filter by state
 
-- name;
-- ID (slug);
-- any of its [labels](stack-settings.md#labels);
+Filtering stacks by state is useful for identifying action items like plans pending confirmation ([unconfirmed](../run/tracked.md#unconfirmed) state) or [failed](../run/README.md#failed) jobs that require fixing. Use the _State_ section on the left-hand sidebar, which displays all states attached to your stacks. Click state checkboxes to filter the list of stacks.
 
-## Filtering by state
-
-Filtering stacks by state is a very useful mechanism for identifying action items like plans pending confirmation ([unconfirmed](../run/tracked.md#unconfirmed) state) or [failed](../run/README.md#failed) jobs that require fixing. For that, use the _State_ section on the sidebar to the left. Clicking on any status filters the list of stacks to show only those with the selected status,
-
-![](<../../assets/screenshots/stack/list/finished-filter.png>)
-
-Note that if no stacks in the account have a particular status at the moment, that status is missing from the list.
+![Filter stacks in the list by state](<../../assets/screenshots/stack/list/finished-filter.png>)
 
 You can also use our predefined tabs to filter some specific group of states:
-![](<../../assets/screenshots/stack/list/tab-filters-highlight.png>)
+![Predefined tabs](<../../assets/screenshots/stack/list/tab-filters-highlight.png>)
 
-- Needs Attention: _unconfirmed_ state
-- Failed: _failed_ state
-- On Hold: _none_, _confirmed_ or _replan-requested_ states
-- In progress: _applying_, _destroying_, _initializing_, _planning_, _preparing-apply_ or _preparing-replan_ states
-- Finished: _finished_ state
+| **Predefined Tab Label** | **State** |
+| -----------------------  | --------- |
+| Needs Attention          | _unconfirmed_ |
+| Failed                   | _failed_ |
+| On Hold                  | _none_, _confirmed_, or _replan-requested_ |
+| In Progress              | _applying_, _destroying_, _initializing_, _planning_, _preparing-apply_, or _preparing-replan_ |
+| Finished                 | _finished_ |
 
 ## Label-based folders
 
-Probably the most useful way of grouping stacks is by attaching folder labels to them. You can read more about [labels](stack-settings.md#labels) here, including how to set them, and folder labels are just regular labels, prefixed with `folder:`. In order to make it more obvious in the GUI and save some screen real estate, we replace the `folder:` prefix by the folder icon...
+You can group stacks by attaching folder labels to them, which are [regular labels](./stack-settings.md#labels) prefixed with `folder:`. In the stacks list, the `folder:` prefix is replaced width a folder icon.
 
-![](<../../assets/screenshots/stack/list/labels-folders-highlight.png>)
+![Folder icon for prefix](<../../assets/screenshots/stack/list/labels-folders-highlight.png>)
 
-...but once you start editing labels, the magic is gone:
+Your folder labels will appear in the _Folders_ section of the _Filters_ sidebar menu, allowing you to use the checkboxes to filter the list by folder labels.
 
-![](../../assets/screenshots/stack/settings/stack-details_set-folder-label.png)
-
-For every folder label, a sidebar section is included in the _Folders_ menu, allowing you to search by that label. The number to the right hand side indicates that number of stacks with that label:
-
-![](<../../assets/screenshots/stack/list/folder-section-highlight.png>)
+![Filter by folder labels](<../../assets/screenshots/stack/list/folder-section-highlight.png>)
 
 ### Nesting and multiple folder labels
 
-Perhaps worth mentioning is the fact that folder labels can be nested, allowing you to create either hierarchies, or arbitrary classifications of your stacks.
+Folder labels can be nested, allowing you to create hierarchies or arbitrary classifications of your stacks.
 
-Also, a single stack can have any number of folder labels set, in which case it belongs to all the collections. In that, folder labels are like labels in Gmail rather than directories in your filesystem.
+A single stack can have _any number of folder labels_ set, in which case it belongs to **all** the collections. If you use more than one folder label on a single stack, they act more like labels in e-mail inboxes rather than directories in your filesystem.
 
-## Saving filters in views
+## Save filters in views
 
-It is possible to save your filters with a Filters Tab. You can select all the filters that you would like to apply, add a search query or sorting in the top right corner, click New View, enter the view name, and click Save. This view is now saved for this account. You can also mark your new view as your default view during creation. Next time you log in or navigate to stacks, your personal default view will be applied.
+You can save filter views to easily apply filters to your stacks list.
 
-![](../../assets/screenshots/stack/list/saved-view-create-highlight.png)
+![Create filter view](<../../assets/screenshots/stack/list/saved-view-create-highlight.png>)
 
-If you forgot to mark your view as default then you can easily do the same thing in the Views Tab.
+1. Select all filters you would like to apply.
+2. If desired, add a search query or sorting option in the top-right.
+3. Click **New View**, then enter a descriptive name for the filter view.
+4. Check the box to set the new view as your default, if desired.
+     - If you want to edit your default view, click **Views**, click the three dots beside the view name you want to use as default, then click **Use as your default view**.
+     ![Set filter view as default](<../../assets/screenshots/stack/filter-views-default.png>)
+5. Click **Save**.
 
-![](../../assets/screenshots/stack/list/saved-view-default-highlight.png)
+If you set a filter view as your default, the next time you log in or navigate to the _Stacks_ tab, your personal default view will be applied.
 
 ### Shared views
 
-Views can be shared or private. While first creating the view, it is available only to your user. If you have admin access, you can make it public for all the users of the account by hovering over the saved view and clicking the small eye icon "Share within account". This way, all the users within this application can see the saved view and who created it.
+Filter views can be private (default for new views) or public to all users of the account. To share a filter view, if you are an admin user, click the three dots beside the view name and click **Share within the account**. The view will now be visible for all users within the account.
 
-### Resetting
+### Reset to default view
 
-To quickly reset your default view to Spacelift default state, click the "Reset to Spacelift default view" button. It will result in clearing all sorting, search, and filter parameters, as well as managed filter settings.
+To quickly reset your default view to Spacelift's default (no active filters):
 
-![](../../assets/screenshots/stack/list/saved-view-reset-highlight.png)
+1. Click **Views** to see your available filter views.
+2. Click the three dots beside the view name you're using as default.
+3. Click **Reset to Spacelift default view**.
+4. All sorting, search, and filter parameters will be cleared.
+
+![Reset filter view](<../../assets/screenshots/stack/filter-views-reset.png>)
 
 ### Manage view
 
-- If you change your filter, search and/or sorting settings, you can update the currently selected view by clicking on Update item under "Manage view" button. The blue icon on the manage view button indicates an update possibility.
-- Edit name allows editing name of the current view
-- Delete allows removing your private view (Shared and Spacelift default views can not be removed). You can delete the view from the Views tab as well.
+Manage existing views when you click the three dots next to _New view_.
 
-![](../../assets/screenshots/stack/list/saved-view-manage-highlight.png)
+- Click **Update** to update your current filter view with any new filters, searches, and/or sorting settings.
+- Click **Edit name** to change the name of the current filter view.
+- Click **Delete** to remove a private view. If the view has been shared with other users on the account, it cannot be deleted.
+
+![Manage view menu](../../assets/screenshots/stack/list/saved-view-manage-highlight.png)
