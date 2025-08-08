@@ -1,158 +1,136 @@
-# Creating a stack
+# Create, delete, and lock stacks
 
-Unless you're defining a stack programmatically using our [Terraform provider](../../vendors/terraform/terraform-provider.md), you will be creating one from the root of your Spacelift account:
+## Create a stack in Spacelift
 
-![](<../../assets/screenshots/Create_Stack_Overview.png>)
+[Creating a stack](../../concepts/stack/creating-a-stack.md) involves 9 steps, most of which are optional. Required tasks are marked with an asterisk here:
+
+1. *[Name, describe, and label](#1-stack-details) the stack.
+2. *[Create a link](#2-connect-to-source-code) between your new stack and an existing source code repository.
+3. *[Choose the backend vendor](#3-choose-vendor).
+4. [Define common behavior](#4-define-behavior) of the stack.
+5. [Create stack hooks](#5-add-hooks).
+6. [Attach a cloud integration](#6-attach-cloud).
+7. [Attach policies](#7-attach-policies).
+8. [Attach contexts](#8-attach-context).
+9. *[Review the summary and create your stack](#9-summary).
 
 !!! info
     You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on/README.md).
 
-The stack creation process involves nine simple steps:
+To get started, click **Create stack** on the _Stacks_ page or **Create first stack** from the _LaunchPad_ if you haven't set up a stack before.
 
-1. [Naming, describing and labeling](creating-a-stack.md#name-your-stack);
-2. [Creating a link between your new stack and an existing Git repository](#integrate-vcs);
-3. [Defining backend-specific behavior](creating-a-stack.md#configure-backend) (different for each supported backend, eg. [Terraform](creating-a-stack.md#terraform), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), or [Kubernetes](../../vendors/kubernetes/README.md))
-4. [Defining common behavior of the stack](#define-behavior);
-5. [Creating stack hooks](#create-stack-hooks);
-6. [Attaching a cloud integration](#attach-stack-cloud-integration);
-7. [Attaching policies](#attach-stack-policies);
-8. [Attaching contexts](#attach-stack-contexts);
-9. [Review the summary and create your stack](#summary);
+![Create a new stack](<../../assets/screenshots/CreateStackGS.png>)
 
-## Name your stack
+### 1. Stack details
 
-![](<../../assets/screenshots/Create_Stack_Stack_Details.png>)
+Fill in required _stack details_.
 
-Starting with the most difficult step - naming things. Here's where you give your new stack a nice informative [name and an optional description](stack-settings.md#name-and-description) - this one even supports Markdown:
+![Fill in stack details](<../../assets/screenshots/getting-started/create-stack/Stack-details.png>)
 
-![](<../../assets/screenshots/Create_Stack_Labels.png>)
+1. **Name**: Enter a unique, descriptive name for your stack.
+2. **Space**: Select the [space](../../concepts/stack/README.md) to create the stack in.
+3. [**Labels**](../../concepts/stack/stack-settings.md#labels) (optional): Add labels to help sort and filter your stacks.
+4. **Description** (optional): Enter a (markdown-supported) description of the stack and the resources it manages.
+5. Click **Continue**.
 
-You'll be able to change the name and description later, too - with one caveat. Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
+### 2. Connect to source code
 
-Here you will be able to choose which [space](../spaces/README.md) your stack belongs to. Initially, you start with a root and a legacy space. The root space is the top-level space of your account, while the legacy space exists for backward compatibility with pre-spaces RBAC.
+Connect your [VCS provider](../../getting-started/integrate-source-code/README.md) and fill in the details.
 
-Also, this is the opportunity to set a few [labels](stack-settings.md#labels). Labels are useful for searching and grouping things, but also work extremely well with policies.
+![](<../../assets/screenshots/getting-started/create-stack/connect-source-code.png>)
 
-## Integrate VCS
+1. **Integration**: Verify the VCS integration name is correct.
+2. **Repository**: Select the repository to manage in Spacelift. If you have multiple repositories linked to one VCS, leave blank.
+3. **Branch**: Select the branch of the repository to manage with this stack.
+4. [**Project root**](../../concepts/stack/stack-settings.md#project-root) (optional): If the entrypoint of the stack is different than the root of the repo, enter its path here.
+5. [**Project globs**](../../concepts/stack/stack-settings.md#project-globs) (optional): Enter additional files and directories that should be managed by the stack.
+6. Click **Continue**.
 
-![](<../../assets/screenshots/Create_Stack_VCS.png>)
+### 3. Choose vendor
 
-In this step, you will need to tell Spacelift where to look for the IaC code for the stack - if you have multiple integrations per VCS type, then you'll need to choose the one which includes your repository. Please note that only those VCS integrations will appear which the stack Space (set in the previous step) has access to. For example, if the stack Space is `ParentSpace` and the VCS integration Space is `ChildSpace` with inheritance enabled, it will appear. Integrations marked as default will always appear here, regardless of the stack Space. Take a look at the [source control](../../integrations/source-control/README.md) docs for more details.
+Select your IaC vendor and fill in the required details, then click **Create & continue**.
 
-The branch that you specify set here is what we called a _tracked_ branch. By default, anything that you push to this branch will be considered for deployment. Anything you push to a different branch will be tested for changes against the current state.
+![](<../../assets/screenshots/getting-started/create-stack/choose-vendor.png>)
 
- The project root configuration is where inside the repository Spacelift should look for the infra project source code (e.g. create a stack for a specific folder in the repository).
+#### OpenTofu/Terraform
 
-A few things worth noting:
-
-- you can point multiple Spacelift stacks to the same repository, even the same branch;
-- the default behavior can be tweaked extensively to work with all sorts of Git and deployment workflows (yes, we like monorepos, too) using [push](../policy/push-policy/README.md) and [trigger](../policy/trigger-policy.md) policies, which are more advanced topics;
-- in order to learn what exactly our Git hosting provider integration means, please refer to [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) integration documentation;
-
-!!! info
-    If you're using our default GitHub App integration, we only list the repositories you've given us access to. If some repositories appear to be missing in the selection dropdown, it's likely that you've installed the app on a few selected repositories. That's fine, too, just [whitelist the desired repositories](../../integrations/source-control/github.md) and retry.
-
-## Configure backend
-
-At this point you'll probably know whether you want to create a [Terraform](creating-a-stack.md#terraform), [OpenTofu](creating-a-stack.md#opentofu), [Terragrunt](creating-a-stack.md#terragrunt), [AWS CloudFormation](../../vendors/cloudformation/README.md), [Pulumi](creating-a-stack.md#pulumi), [Ansible](creating-a-stack.md#ansible) or [Kubernetes](../../vendors/kubernetes/README.md) stack. Each of the supported vendors has some settings that are specific to it, and the backend configuration step is where you can define them.
-
-### Terraform
-
-![](<../../assets/screenshots/Create_Stack_Terraform.png>)
-
-When selecting **Terraform**, you can choose which **version of Terraform** to start with - we support Terraform 0.12.0 and above, up to the latest version of MPL Terraform. You don't need to dwell on this decision since you can change the version later - Spacelift supports full [Terraform version management](../../vendors/terraform/version-management.md) allowing you to even preview the impact of upgrading to a newer version.
-
-The next decisions involves your Terraform state. First, whether you want us to provide a Terraform state backend for your state. We do offer that as a convenience feature, though Spacelift works just fine with any remote backend, like Amazon S3.
-
-!!! info
-    If you want to bring your own backend, there's no point in doing additional [state locking](https://www.terraform.io/docs/state/locking.html){: rel="nofollow"} - Spacelift itself provides a more sophisticated state access control mechanism than Terraform.
-
-If you choose not to use our state backend, feel free to proceed. If you do want us to manage your state, you have an option to import an existing state file from your previous backend. This is only relevant if you're migrating an existing Terraform project to Spacelift. If you have no state yet and Spacelift will be creating resources from scratch, this step is unnecessary.
+We support Terraform 0.12.0 and above, and all OpenTofu versions. Spacelift also supports full [Terraform version management](../../vendors/terraform/version-management.md) allowing you to preview the impact of upgrading to a newer version.
 
 !!! warning
-    Remember - this is the only time you can ask Spacelift to be the state backend for a given stack, so choose wisely. You can read more about state management [here](../../vendors/terraform/state-management.md).
 
-In addition to these options, we also offer [external state access](../../vendors/terraform/external-state-access.md) for read-only purposes, this is available for administrative stacks or users with write permission to this Stack's space.
+    This is the only time you can ask Spacelift to be the state backend for a given [OpenTofu/Terraform stack](../../vendors/terraform/state-management.md).
 
-### OpenTofu
+1. **Workflow tool**: Set to OpenTofu, Terraform (FOSS), or [Custom](../../vendors/terraform/workflow-tool.md).
+      - With OpenTofu or Terraform (FOSS), select a specific **version** or enter a **version range**.
+2. **Smart Sanitization** (recommended): Choose whether Spacelift attempts to sanitize sensitive resources created by OpenTofu/Terraform.
+3. **Manage State** (recommended): Choose whether Spacelift should handle the OpenTofu/Terraform state.
+      1. If **disabled**: Optionally enter a **workspace**.
+      2. If **enabled**: Configure these options:
+         - [**External state access**](../../vendors/terraform/external-state-access.md): Allow external read-only access for administrative stacks or users with write permissions to the Stack's space.
+         - **Import existing state file**: Enable to import a state file from your previous backend.
+4. Click **Create & continue**.
 
-![](<../../assets/screenshots/Create_Stack_OpenTofu.png>)
+#### Pulumi
 
-Right now, creating an OpenTofu has only one slight difference from creating a Terraform stack and that difference refers to setting the workflow tool to OpenTofu.
+1. **Login URL**: Enter the URL to your Pulumi state backend.
+2. **Stack name**: Enter a name for your Pulumi stack. This is separate from the name of the Spacelift stack, but you can give both the same name.
+3. Click **Create & continue**.
 
-### Pulumi
+#### AWS CloudFormation
 
-![](<../../assets/screenshots/Create_Stack_Pulumi.png>)
+1. **Region**: Enter the AWS region your stack will be located in (e.g. `us-east-2`).
+2. **Stack name**: Enter the name of the corresponding CloudFormation stack.
+3. **Entry template file**: Enter the path to the template file in your repo describing the root CloudFormation stack.
+4. **Template bucket**: Enter the location of the S3 bucket to store processed CloudFormation templates, so Spacelift can manage the state properly.
+5. Click **Create & continue**.
 
-When creating a Pulumi stack, you will need to provide two things. First, the login URL to your Pulumi state backend, as currently we don't provide one like we do for Terraform, so you will need to bring your own.
+#### Kubernetes
 
-Second, you need to specify the name of the Pulumi stack. This is separate from the name of the Spacelift stack, which you will specify in the [next step](creating-a-stack.md#define-behaviour). That said, nothing prevents you from keeping them in sync.
+1. **Namespace** (optional): Enter the namespace of the Kubernetes cluster you want to run commands on. Leave blank for multi-namespace stacks.
+2. **Workflow tool**: Select the tool used to execute workflow commands.
+      - **Kubernetes**: Provide the **kubectl version** the worker will download.
+      - **Custom**: No configuration needed.
+3. Click **Create & continue**.
 
-### CloudFormation
+#### Terragrunt
 
-![](<../../assets/screenshots/Create_Stack_CF.png>)
+1. **Terragrunt version**: Select a specific Terraform **version** or enter a **version range**.
+2. **Tool**: Select the tool used to make infrastructure changes:
+      - **OpenTofu/Terraform (FOSS)**: Select a specific Terraform version or enter a version range.
+      - **Manually provisioned**: Outside of Spacelift, ensure the tool is available to the worker via a custom image or hook and set the `TERRAGRUNT_TFPATH` environment variable to tell Terragrunt where to find it.
+3. **Smart Sanitization** (recommended): Choose whether Spacelift attempts to sanitize sensitive resources created by OpenTofu/Terraform.
+4. **Use All Run**: Enable to use Terragrunt's run-all feature.
+5. Click **Create & continue**.
 
-If you're using CloudFormation with Spacelift, there are a few pieces of information you'll need to provide. First, you'll need to specify the region where your CloudFormation stack will be located.
+#### Ansible
 
-Additionally, you'll need to provide the name of the corresponding CloudFormation stack for this Spacelift stack. This will help us keep track of the different resources in your infrastructure.
+1. **Playbook**: Enter the playbook file to run in the stack.
+2. Click **Create & continue**.
 
-You'll also need to provide the path to the template file in your repository that describes the root CloudFormation stack and finally you'll need to specify the S3 bucket where your processed CloudFormation templates will be stored. This will enable us to manage your CloudFormation state and ensure that all changes are properly applied.
+Once you've configured your vendor information, click **Continue** to **Define stack behavior**.
 
-### Kubernetes
+![Define stack behavior](<../../assets/screenshots/DefineStackBehaviorGS.png>)
 
-![](<../../assets/screenshots/Create_Stack_K8s.png>)
+### 4. Define behavior
 
-When you create a Kubernetes stack in Spacelift, you have the option to specify the namespace of the Kubernetes cluster that you want to run commands on. You can leave this empty for multi-namespace Stacks.
+Determine and set additional behaviors for your stack.
 
-You can also provide the version of kubectl that you want the worker to download. This is useful if you need to work with a specific version of kubectl for compatibility or testing purposes. The worker will download the specified version of kubectl at runtime, ensuring that the correct version is available for executing commands on the cluster.
+1. **Worker pool**: Choose which [worker pool](../../concepts/worker-pools/README.md) to use (default is public workers).
+2. **Runner image**: Use a custom runner for your runtime environment.
+3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack has privileges to create ohter Spacelift resources via our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
+4. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Allows you to promote a proposed run to a tracked run (i.e. deploy from a feature branch).
+5. **Autodeploy**: Automatically deploy changes to your code.
+6. [**Autoretry**](../../concepts/stack/stack-settings.md#autoretry): Automatically retry deployment of invalidated proposed runs. For stacks using private workers only.
+7. **Enable local preview**: Preview how code changes will execute with the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature.
+8. **Enable** [**secret masking**](../../concepts/stack/stack-settings.md#enable-well-known-secret-masking): Automatically redact secret patterns from logs.
+9. **Protect from deletion** (recommended): Protect your stacks from accidental deletion.
+10. **Transfer sensitive outputs across dependencices**: Pass sensitive outputs from this stack to dependent stacks.
 
-### Terragrunt
+Once you've configured your settings, click **Save & continue**.
 
-![](<../../assets/screenshots/Create_Stack_Terragrunt.png>)
-Creating a Terragrunt stack in Spacelift, gives you the option to specify the Terraform and Terragrunt versions you want to use.
+### 5. Add hooks
 
-You also have the possibility of enabling the run-all feature of Terragrunt, which is useful in scenarios where organizations rely on this in their current process and are unable to do a full migration yet.
-
-Support is currently in Beta.
-
-### Ansible
-
-![](<../../assets/screenshots/Create_Stack_Ansible.png>)
-
-When you create an Ansible stack in Spacelift, you have the option to select the playbook file you want to use. You can define policies for your stack as you would do for any other stack.
-
-Support is currently in Beta.
-
-### Stack Created
-
-![](<../../assets/screenshots/Stack_Created.png>)
-
-With the exception of Pulumi, which requires additional mandatory steps first. After selecting the vendor for your stack, you're brought to a new screen indicating that your stack has been successfully created. This screen serves as a branching point where you can enhance the functionality of your stack through various integrations and customizations.
-
-You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your stack.
-
-## Define behavior
-
-Regardless of which of the supported backends (Terraform, Pulumi etc.) you're setting up your stack to use, there are a few common settings that apply to all of them. You'll have a chance to define them in the next step:
-
-![](<../../assets//screenshots/Create_Stack_Define_Behavior.png>)
-
-The behavior settings are:
-
-- whether the stack is [administrative](./stack-settings.md#administrative);
-- [worker pool](../worker-pools) to use, if applicable (default uses the Spacelift public worker pool);
-- whether the changes should [automatically deploy](./stack-settings.md#autodeploy);
-- whether obsolete tests should be [automatically retried](./stack-settings.md#autoretry);
-- whether or not to protect the stack from deletion;
-- whether or not to enable the local preview [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature;
-- whether or not [run promotion](../run/run-promotion.md) is enabled;
-- optionally specify a custom Docker image to use to for your job container;
-
-## Create Stack Hooks
-
-![](<../../assets/screenshots/Create_Stack_Hooks.png>)
-
-You also have the ability to control what happens before and after each runner phase using Stack Hooks. In this phase, you can define commands that run in between the following phases:
+You also have the ability to control what happens before and after each runner phase using [stack hooks](../../concepts/stack/stack-settings.md#customizing-workflow). Define commands that run during the following phases:
 
 - Initialization
 - Planning
@@ -161,53 +139,86 @@ You also have the ability to control what happens before and after each runner p
 - Performing
 - Finally
 
-You can read more about stack hooks [here](../stack/stack-settings.md#customizing-workflow).
+Once you've added all hooks, click **Save & continue**.
 
-## Attach Stack Cloud Integration
+### 6. Attach cloud
 
-![](<../../assets/screenshots/Create_Stack_Cloud_Integrations.png>)
+If desired, attach your [cloud provider integration](../../getting-started/integrate-cloud/README.md).
 
-Here you have the ability to attach any Cloud Integrations you have configured.
+1. Select the cloud provider the stack will use.
+2. **Attach integration**: Choose the name of the integration the stack will use.
+3. **Read**: Use the integration during read phases.
+4. **Write**: Use the integration during write phases.
+5. Click **Attach**.
+6. Click **Continue**.
 
-Cloud integrations allow Spacelift to manage your resources without the need for long-lived static credentials.
+### 7. Attach policies
 
-Spacelift integrates with identity management systems from major cloud providers to dynamically generate short-lived access tokens that can be used to configure their corresponding Terraform providers.
+If you're just following the LaunchPad steps, you won't have any [policies](../../concepts/policy/README.md) yet. If you did configure policies, you will be able to attach them here:
 
-Currently, AWS, Azure and GCP are natively supported.
+- [Approval](../../concepts/policy/approval-policy.md): Who can approve or reject a run and how a run can be approved.
+- [Plan](../../concepts/policy/terraform-plan-policy.md): Which changes can be applied.
+- [Push](../../concepts/policy/push-policy/README.md): How Git push events are interpreted.
+- [Trigger](../../concepts/policy/trigger-policy.md): What happens when blocking runs terminate.
 
-You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
+Click **Continue**.
 
-## Attach Stack Policies
+### 8. Attach context
 
-![](<../../assets/screenshots/Create_Stack_Policies.png>)
+Contexts are sets of environment variables and related configuration, including hooks, that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
 
-Spacelift as a development platform is built around the concept of policies and allows defining policies that involve various decision points in the application.
+If you're just following the LaunchPad steps, you won't have any [contexts](../../concepts/configuration/context.md) yet. If you did configure contexts, you will be able to attach them here.
 
-In this section, you can attach the following policy types:
+Click **Continue**.
 
-- [Approval:](../../concepts/policy/approval-policy.md) who can approve or reject a run and how a run can be approved;
-- [Plan:](../../concepts/policy/terraform-plan-policy.md) which changes can be applied;
-- [Push:](../../concepts/policy/push-policy/README.md) how Git push events are interpreted;
-- [Trigger:](../../concepts/policy/trigger-policy.md) what happens when blocking runs terminate;
+### 9. Summary
 
-Policies can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+Review your settings before finalizing your stack, then click **Confirm**.
 
-You can read more about policies [here](../../concepts/policy/README.md).
+## Delete a stack in Spacelift
 
-## Attach Stack Contexts
+If you want to save the state file before deleting a stack, you can retrieve it with a task.
 
-![](<../../assets/screenshots/Create_stack_contexts.png>)
+1. On the _Stacks_ tab, click the three dots next to the stack you want to delete.
+2. Click **Settings**, then click **Stack deletion**.
+3. Choose whether to delete or keep the stack's resources.
+4. Type "**delete**" in the box, then click **Delete**.
 
-Contexts are sets of environment variables and related configuration,including hooks that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
+![Delete a stack](<../../assets/screenshots/stack/delete-stack.png>)
 
-Contexts can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the context to be attached to.
+!!! info
+    Resource deletion is not currently supported while using the native Terragrunt support.
 
-You can read more about contexts [here](../../concepts/configuration/context.md).
+### Deleting resources managed by a stack
 
-## Summary
+Depending on the backend of your stack, there are different commands you can run as a [task](../run/task.md) before deleting the stack.
 
-![](<../../assets/screenshots/create_stack_summary_v2.png>)
+| Backend           | Command                                        |
+| -------------- | ------------------------------------------------------------ |
+| **Terraform**       | `terraform destroy -auto-approve`           |
+| **OpenTofu**       | `tofu destroy -auto-approve` |
+| **CloudFormation**      | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>` |
+| **Pulumi** | `pulumi destroy --non-interactive --yes` |
+| **Kubernetes** | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |
 
- On the summary section, you can now review your settings before finalizing the creation of your stack. This modular approach ensures your stack gets set up with all the necessary components.
+!!! tip
+    For Terraform, you can also run a task through our CLI tool [spacectl](../../vendors/terraform/provider-registry.md#use-our-cli-tool-called-spacectl).
 
- Congratulations on creating your stack! 🚀
+### Scheduled delete
+
+You can use [scheduling to delete a stack](./scheduling.md) at a specified time and date.
+
+### Using the API
+
+You can also use Spacelift's [GraphQL API to delete a stack](../../integrations/api.md).
+
+## Lock a stack in Spacelift
+
+Spacelift supports locking a stack for one person's exclusive use. This is useful to prevent someone else's changes to the strack from impacting delicate operations. Every stack [writer](../policy/stack-access-policy.md#readers-and-writers) can lock a stack unless it's already locked.
+
+The owner of the lock is the only one who can trigger [runs](../run/README.md) and [tasks](../run/task.md) for the entire duration of the lock. Locks never expire, and only its creator and Spacelift admins can release it.
+
+![Lock a stack](<../../assets/screenshots/lockstackss.png>)
+
+!!! info
+    Note that while a stack is locked, [auto deploy](stack-settings.md#autodeploy) is disabled to prevent accidental deployments.
