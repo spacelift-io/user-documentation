@@ -151,8 +151,37 @@ Given the format of the External ID passed by Spacelift, you can further secure 
 3. Click **Set up**.
 
 !!! warning
-    If you receive an error message when trying to set up the integration in Spacelift, see [Troubleshooting Trust Relationship Issues](../../integrations/cloud-providers/aws.md#troubleshooting-trust-relationship-issues).
+    If you receive an error message when trying to set up the integration in Spacelift, see [Troubleshoot trust relationship issues](#troubleshoot-trust-relationship-issues).
 
 ✅ Step 2 of the LaunchPad is complete! Now you can [create your first stack](../create-stack/README.md).
 
-![](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)
+![Launchpad Step 2 complete](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)
+
+## Troubleshoot trust relationship issues
+
+If you get the error `you need to configure trust relationship section in your AWS account` when attaching a cloud integration to a stack:
+
+![](<../../assets/screenshots/integrations/cloud-providers/aws/trust-policy-error.png>)
+
+There are a couple of common causes to check.
+
+### Incorrect or missing trust relationship policy
+
+The error message in the UI includes a tailored trust relationship policy example. This policy allows Spacelift to assume the IAM role and must be added to the **Trust relationships** section of your role in AWS IAM. See [Step 2: Configure trust policy](#step-2-configure-trust-policy) for more information.
+
+### STS (Security Token Service) not enabled
+
+{% if is_saas() %}
+This error can occur if the [AWS STS (Security Token Service)](https://spacelift.io/blog/aws-sts) is not enabled in your account.
+
+Make sure STS is enabled in the following regions:
+
+- **eu-west-1**
+- **eu-central-1** (used for disaster recovery failover)
+
+You can enable STS by following [this AWS guide](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html#sts-regions-activate-deactivate){: rel="nofollow"}.
+{% endif %}
+
+{% if is_self_hosted() %}
+This error can be caused by STS not being enabled in the AWS region where your Spacelift instance is deployed. Check your region settings and ensure STS is active. Learn more about [AWS STS here](https://spacelift.io/blog/aws-sts).
+{% endif %}

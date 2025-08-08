@@ -95,8 +95,6 @@ You will be presented with two options:
 
     Subscribe to the following events:
 
-      - Check run
-      - Issue comment
       - Organization
       - Pull request
       - Pull request review

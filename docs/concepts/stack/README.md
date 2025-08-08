@@ -1,23 +1,26 @@
 # Stack
 
-_Stack_ is one of the core concepts in Spacelift. A stack is an isolated, independent entity and the choice of the word mirrors products like [AWS CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html){: rel="nofollow"}, or [Pulumi](https://www.pulumi.com/docs/intro/concepts/stack/){: rel="nofollow"} (of which we support both). You can think about a stack as a combination of source code, current state of the managed infrastructure (eg. Terraform state file) and configuration in the form of [environment](../configuration/environment.md) variables and mounted files.
+If you're managing your infrastructure in Spacelift, you're managing them with stacks. A stack is a combination of source code, the current state of the managed infrastructure (e.g. Terraform state file) and the configuration ([environment](../configuration/environment.md) variables and mounted files). A stack is also an isolated, independent entity.
 
-Unless you're using Spacelift only to host and test private [Terraform modules](../../vendors/terraform/module-registry.md), your account should probably contain one or more stacks to be of any use. For example:
+Unless you're only using Spacelift to host and test private [Terraform modules](../../vendors/terraform/module-registry.md), your account should contain one or more stacks.
 
-![](<../../assets/screenshots/stack/list/page-view.png>)
+![Stacks list in UI](<../../assets/screenshots/stack/list/page-view.png>)
 
-Here's a few helpful articles about stacks:
+## What can I do with stacks?
 
-- In [this article](creating-a-stack.md), you can learn how to create a new stack;
-- [Here](stack-settings.md) you can see all the settings that are available for the stack;
-- [Here](stack-locking.md#stack-locking) you can learn about stack locking;
+- [Create, delete, and lock](./creating-a-stack.md) stacks.
+- [Organize](./organizing-stacks.md) stacks.
+- Configure [stack settings](./stack-settings.md).
+- [Schedule](./scheduling.md) stack runs.
+- Set up [stack dependencies](./stack-dependencies.md).
+- [Detect drift](./drift-detection.md) in managed stacks.
 
 ## Stack state
 
-Similar to [runs](../run/README.md) and [tasks](../run/task.md), stacks also have states.
-A stack's state is the last state of its most recently processed [tracked run](../run/README.md#where-do-runs-come-from) that has progressed beyond the [queued](../run/README.md#queued) state and which was not [canceled](../run/README.md#canceled).
-Only if the stack has no runs yet a special state "None" is applied:
+Similar to [runs](../run/README.md) and [tasks](../run/task.md), stacks also have states that are generally equal to their most recent [tracked run state](../run/README.md#common-run-states).
 
-![](<../../assets/screenshots/stack/list/none-state-item.png>)
+The state is set to "None" on stacks with no runs:
 
-Stack states allow users to see at a glance the overall health of their infrastructure, and the level of development activity associated with it.
+![None state](<../../assets/screenshots/stack/list/none-state-item.png>)
+
+Stack states show users the overall health of their infrastructure, and the level of development activity associated with it, at a glance.
