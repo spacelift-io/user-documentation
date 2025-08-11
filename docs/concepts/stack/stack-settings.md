@@ -238,6 +238,28 @@ Project root points to the directory within the repo where the project should st
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
 
+### Git sparse checkout paths
+
+Git sparse checkout paths allow you to specify a list of directories and files that will be used in sparse checkout, meaning that only the specified directories and files from the list will be cloned. This can help reduce the size of the workspace by only downloading the parts of the repository that are needed for the stack.
+
+Only path values are allowed - glob patterns are not supported.
+
+Example valid paths:
+
+- `./infrastructure/`
+- `infrastructure/`
+- `infrastructure`
+- `./infrastructure/main.tf`
+
+Example invalid path (glob pattern):
+
+- `./infrastructure/*`
+
+!!! info
+    This feature is still in beta and may not be visible for everyone.
+
+![](../../assets/screenshots/stack/settings/sparse-checkout.png)
+
 ### Project globs
 
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.

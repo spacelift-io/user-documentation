@@ -38,7 +38,7 @@ Assuming you don't already have an access token at the ready, navigate to your G
 Now that your GitLab access token has been created, return to the integration configuration screen in Spacelift.
 
 1. **API host URL**: Enter the URL of your GitLab server. For SaaS GitLab, this is `https://gitlab.com`.
-2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md).
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
 3. **API token**: Enter the access token that Spacelift will use to access your GitLab.
 4. **Labels**: Organize integrations by assigning labels to them.
 5. **Description**: A markdown-formatted free-form text field to describe the integration.

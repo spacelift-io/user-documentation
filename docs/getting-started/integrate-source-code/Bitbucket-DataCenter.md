@@ -40,7 +40,7 @@ You will need to create an access token in Bitbucket to use with Spacelift. The 
 Now that your Bitbucket Data Center access token has been created, return to the integration configuration screen in Spacelift.
 
 1. **API host URL**: Enter the URL of your Bitbucket server. This will likely use a format like: `https://bitbucket.<myorganization>.com`
-2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md).
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
 3. **Username**: Enter the username for the Bitbucket account where you created the access token.
 4. **Access token**: Enter the access token that Spacelift will use to access your Bitbucket.
 5. **Labels**: Organize integrations by assigning labels to them.

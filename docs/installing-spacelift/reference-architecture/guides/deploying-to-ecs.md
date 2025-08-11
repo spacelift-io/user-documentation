@@ -272,7 +272,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 6.0"
     }
   }
 }
@@ -289,7 +289,7 @@ provider "aws" {
 
 # Deploy the basic infrastructure needed for Spacelift to function.
 module "spacelift-infra" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.3.1"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"
 
   region = var.aws_region
 
@@ -312,7 +312,7 @@ module "spacelift-infra" {
 module "spacelift-services" {
   count = var.deploy_services ? 1 : 0
 
-  source = "github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v1.1.0"
+  source = "github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v1.3.0"
 
   region        = var.aws_region
   unique_suffix = module.spacelift-infra.unique_suffix
@@ -515,6 +515,45 @@ One for the main application and one for the MQTT endpoint for the workers.
     ${TF_VAR_mqtt_domain}               300 IN  CNAME     $(tofu output -raw mqtt_lb_dns_name)
     ```
 
+### VCS Gateway Service
+
+Ideally, your VCS provider [should be accessible](../reference/networking.md) from both the Spacelift backend and its workers. If direct access is not possible, you can use [VCS Agent Pools](../../../concepts/vcs-agent-pools.md) to proxy the connections from the Spacelift backend to your VCS provider.
+
+The VCS Agent Pool architecture introduces a separate ECS service, deployed alongside the Spacelift backend, and exposed via a dedicated Application Load Balancer. This load balancer listens on port 443 and requires a valid TLS certificate to be attached to it.
+
+To support this setup, extend your module configuration with the following:
+
+```hcl
+module "spacelift-infra" {
+  create_vcs_gateway = true
+
+  # Other settings are omitted for brevity
+}
+
+module "spacelift-services" {
+  vcs_gateway_domain = "vcs-gateway.mycorp.io" # The DNS record for the VCS Gateway service, without protocol.
+  vcs_gateway_security_group_id = module.spacelift-infra.vcs_gateway_security_group_id
+  vcs_gateway_certificate_arn = "<VCS Gateway certificate ARN>" # Note that this certificate MUST be successfully issued. It cannot be attached to the load balancer in a pending state.
+  vcs_gateway_lb_subnets = module.spacelift-infra.public_subnet_ids # The subnets for the load balancer. Make these public if the LB is internet-facing (default). The LB scheme can be modified with the `vcs_gateway_internal` variable.
+
+  # Other settings are omitted for brevity
+}
+```
+
+Don't forget to set up the DNS record for the VCS Gateway service, pointing to the load balancer's DNS name:
+
+```hcl
+resource "aws_route53_record" "vcs_gateway" {
+  zone_id = data.aws_route53_zone.spacelift-zone.zone_id
+  name    = "vcs-gateway.mycorp.io"
+  type    = "CNAME"
+  ttl     = 300
+  records = [module.spacelift-services.vcs_gateway_lb_dns_name]
+}
+```
+
+With the backend now configured, proceed to the [VCS Agent Pools guide](../../../concepts/vcs-agent-pools.md) to complete the setup.
+
 ## Next steps
 
 Now that your Spacelift installation is up and running, take a look at the [initial installation](./first-setup.md) section for the next steps to take.
@@ -593,11 +632,14 @@ data "aws_security_group" "default" {
 }
 
 module "default-pool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v2.15.0"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.0.1"
 
+  secure_env_vars = {
+    SPACELIFT_TOKEN            = var.worker_pool_config
+    SPACELIFT_POOL_PRIVATE_KEY = var.worker_pool_private_key
+  }
   configuration = <<-EOT
-    export SPACELIFT_TOKEN="${var.worker_pool_config}"
-    export SPACELIFT_POOL_PRIVATE_KEY="${var.worker_pool_private_key}"
+    export SPACELIFT_SENSITIVE_OUTPUT_UPLOAD_ENABLED=true
   EOT
 
   min_size           = 2
@@ -605,7 +647,6 @@ module "default-pool" {
   worker_pool_id     = var.worker_pool_id
   security_groups    = [data.aws_security_group.default.id]
   vpc_subnets        = var.private_subnet_ids
-  enable_autoscaling = false
 
   selfhosted_configuration = {
     s3_uri = local.launcher_s3_uri
@@ -619,7 +660,7 @@ Before running `tofu destroy` on the infrastructure, you may want to set the fol
 
 ```hcl
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.3.1"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"
 
   # Other settings...
 
