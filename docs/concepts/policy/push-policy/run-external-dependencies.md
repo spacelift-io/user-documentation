@@ -30,17 +30,19 @@ You can of course have more complex rules, that decide on the set of external de
 
 ### Marking dependencies as finished or failed
 
-To mark a dependency as finished or failed, you need to use the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} command line tool.
+To mark a dependency as finished, failed or skipped, you need to use the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} command line tool.
 You can do so with following commands:
 
 ```bash
 spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build" --status finished
 
 spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build" --status failed
+
+spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build" --status skipped 
 ```
 
 !!! info
-    Run will be eligible for execution only after all of its dependencies are marked as finished.
+    Run will be eligible for execution only after all of its dependencies are marked as finished or skipped.
     At the same time, if any of the dependencies has failed, the run will be marked as failed as well.
 
 !!! warning
