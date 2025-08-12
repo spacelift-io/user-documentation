@@ -12,11 +12,11 @@ Spacelift currently supports [AWS](./aws.md){% if is_saas() %}, [Azure](./azure.
 {% if is_saas() %}
 Select your cloud provider to set up the integration:
 
-- [Amazon Web Services (AWS)](../../getting-started/integrate-cloud/AWS.md)
-- [Microsoft Azure](../../getting-started/integrate-cloud/Azure.md)
-- [Google Cloud Platform (GCP)](../../getting-started/integrate-cloud/GCP.md)
+- [Amazon Web Services (AWS)](./aws.md)
+- [Microsoft Azure](./azure.md)
+- [Google Cloud Platform (GCP)](./gcp.md)
 {% endif %}
 {% if is_self_hosted() %}
-- Configure [Amazon Web Services (AWS)](../../getting-started/integrate-cloud/AWS.md).{% endif %}
+- Configure [Amazon Web Services (AWS)](./aws.md).{% endif %}
 
 You can also use [OIDC](../cloud-providers/oidc/README.md) for available cloud providers.
