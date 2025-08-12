@@ -1,12 +1,24 @@
 # Stack settings
 
-This article explains all the settings that can be configured **directly on the stack**. However, these are not the only settings that influence how [runs](../run/README.md) and [tasks](../run/task.md) within a stack are processed. Other factors, such as [environment variables](../configuration/environment.md), attached [contexts](../configuration/context.md), [runtime configuration](../configuration/runtime-configuration/README.md), and various integrations, also play a significant role.
+Many settings can be configured directly on the stack to influence how [runs](../run/README.md) and [tasks](../run/task.md) within a stack are processed. Other factors that influence runs and tasks include:
+
+- [Environment variables](../configuration/environment.md)
+- Attached [contexts](../configuration/context.md)
+- [Runtime configuration](../configuration/runtime-configuration/README.md)
+- Integrations
 
 ## Video Walkthrough
 
 <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1046826238?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="stack_options"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
 
 ## Common settings
+
+You can configure these settings when you first [create a stack](../../getting-started/create-stack/README.md) or when it's already created. If you're editing an existing stack's settings:
+
+1. Navigate to the _Stacks_ page in Spacelift.
+2. Click the three dots beside a stack name you want to configure.
+3. Click **Settings**, then click **Behavior**.
+4. Make your adjustments and click **Save**.
 
 ### Administrative
 
@@ -15,7 +27,7 @@ This setting determines whether a stack has administrative privileges within its
 !!! info
     Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control).
 
-The primary use case for administrative stacks is to declaratively manage Spacelift resources, such as other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
+Administrative stacks can declaratively manage other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
 
 Another common pattern is exporting stack outputs as a [context](../configuration/context.md) to avoid exposing the entire state through Terraform's remote state or external storage mechanisms like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
