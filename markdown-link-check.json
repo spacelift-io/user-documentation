@@ -50,6 +50,15 @@
     },
     {
       "pattern": "^https://feedback.spacelift.io/"
+    },
+    {
+      "pattern": "^https://aur.archlinux.org/packages/spacectl-bin/"
+    },
+    {
+      "pattern": "^https://aur.archlinux.org/"
+    },
+    {
+      "pattern": "^https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin"
     }
   ]
 }
