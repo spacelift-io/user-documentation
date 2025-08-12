@@ -1,8 +1,6 @@
 # Stack dependencies
 
-Stacks can depend on other stacks. This is useful when you want to run a stack
-only after another stack have finished running. For example, you might want to
-deploy a database stack before a stack that uses the database.
+Stacks can depend on other stacks. This is useful when you want to run a stack only after another stack have finished running. For example, you might want to deploy a database stack before a stack that uses the database.
 
 !!! info
     Stack dependencies only respect [tracked runs](../run/tracked.md). [Proposed runs](../run/proposed.md) and [tasks](../run/task.md) are not considered.
