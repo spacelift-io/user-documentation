@@ -166,4 +166,4 @@ Review your settings before finalizing your stack, then click **Confirm**.
 
 ✅ Step 3 of the LaunchPad is complete! Now you can [invite teammates](../invite-teammates/README.md).
 
-![](<../../assets/screenshots/getting-started/create-stack/Launchpad-step3-complete.png>)
+![LaunchPad step 3 complete](<../../assets/screenshots/getting-started/create-stack/Launchpad-step3-complete.png>)
