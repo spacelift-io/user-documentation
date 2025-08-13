@@ -188,13 +188,11 @@ resource "spacelift_policy_attachment" "example-attachment" {
 }
 ```
 
-On the other hand, if you want to create a policy in the UI, here's how you could go about that. **Note that you must be a Spacelift admin to manage policies**. First, go to the Policies screen in your account view, and click the _Add policy_ button:
+On the other hand, if you want to create a policy in the UI, here's how you could go about that. **Note that you must be a Spacelift admin to manage policies**. First, go to the Policies screen in your account view, and click the _Create policy_ button:
 
-![Click the Add Policy button at the top right of the view.](<../../assets/screenshots/Screen Shot 2022-06-28 at 10.25.21 AM (1).png>)
+![Click the Create Policy button at the top right of the view.](<../../assets/screenshots/create-policy1.png>)
 
-This takes you to the policy creation screen where you can choose the type of policy you want to create, and edit its body. For each type of policy you're also given an explanation and a few examples. We'll be creating an [access policy](stack-access-policy.md) that gives members of the _Engineering_ GitHub team read access to a stack:
-
-![Define your policy, optionally add labels, and click Create policy.](<../../assets/screenshots/Screen Shot 2022-06-28 at 10.30.12 AM.png>)
+This takes you to the policy creation screen where you can choose the type of policy you want to create, and edit its body. For each type of policy you're also given an explanation and a few examples.
 
 Once you're done, click on the _Create policy_ button to save it. Don't worry, policy body is mutable so you'll always be able to edit it if need be.
 
@@ -239,9 +237,9 @@ Policies, with the exception of [Login policies](login-policy.md), can be automa
 
 #### Policy Attachment Example
 
-In the example below, the policy will be automatically attached to all stacks/modules with the label `production`.
+In the example below, the policy will be automatically attached to all stacks/modules with the label `needs_approval`.
 
-![Require at least one approval on all tracked runs for Stacks/Modules that have the label "needs_approval".](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.07.11 PM.png>)
+![Require at least one approval on all tracked runs for Stacks/Modules that have the label "needs_approval".](<../../assets/screenshots/approval_needed.png>)
 
 #### Wildcard Policy Attachments
 
@@ -251,7 +249,7 @@ In addition to being able to automatically attach policies using a specific labe
 
 In the web UI attaching policies is done in the stack management view, in the Policies tab:
 
-![Select a Policy and manually attach it to the Stack.](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.10.26 PM.png>)
+![Select a Policy and manually attach it to the Stack.](<../../assets/screenshots/Manually_attach_policies.png>)
 
 ## Policy workbench
 
@@ -293,42 +291,53 @@ In order to show you how to work with the policy workbench, we are going to use 
 !!! info
     This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.17.46 PM.png>)
+![](<../../assets/screenshots/Sampling-1.png>)
 
 In order to get to the policy workbench, click on the Show simulation panel link on the right hand side of the screen:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 12.19.27 PM.png>)
+![](<../../assets/screenshots/Simulation-panel.png>)
 
 If your policy has been used evaluated and sampled, your screen should look something like this:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 1.52.26 PM.png>)
+![](<../../assets/screenshots/Simulation-panel2.png>)
 
 On the left hand side you have the policy body. On the right hand side there's a dropdown with timestamped evaluations (inputs) of this policy, color-coded for their ultimate outcome. Selecting one of the inputs allows you to simulate the evaluation:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 1.53.12 PM.png>)
+![](<../../assets/screenshots/Simulation-panel3.png>)
 
-While running simulations, you can edit both the input and the policy body. If you edit the policy body, or choose an input that has been evaluated with a different policy body, you will get a warning like this:
+While running simulations, you can modify both the input and the policy body. If you change the policy body, or select an input that was evaluated using a different policy version, a warning will appear:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 1.53.40 PM.png>)
+![](<../../assets/screenshots/Simulation-change1.png>)
 
-Clicking on the _Show changes_ link within that warning shows you the exact difference between the policy body in the editor panel, and the one used for evaluating the selected input:
+Clicking the _Show changes_ link in this warning displays the exact differences between the policy body in the editor and the one used for the selected input:
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 1.54.12 PM.png>)
+![](<../../assets/screenshots/Simulation-change2.png>)
 
-Once you're happy with your new policy body, you can click on the _Save changes_ button to make sure that the new body is used for future evaluations.
+Once you are satisfied with your updated policy body, click the _Save changes_ button to ensure future evaluations use the new version.
+
+### Filtering Samples
+
+The Samples view offers powerful filtering options to help you quickly locate relevant samples.
+
+You can filter samples by:
+
+- Stack name
+- Outcome
+- Pull request ID
+- Push branch
+- Stack repository
+
+![](<../../assets/screenshots/policy-samples.png>)
+
+Once you have identified the sample you want, click the three-dot menu (...) and select "Use to simulate" to run a simulation with that sample.
 
 ### Is it safe?
 
 Yes, policy sampling is perfectly safe. Session data may contain some personal information like username, name and IP, but that data is only persisted for 7 days. Most importantly, in [plan policies](terraform-plan-policy.md) the inputs hash all the string attributes of resources, ensuring that no sensitive data leaks through this means.
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 1.54.48 PM.png>)
-
 Last but not least, the policy workbench - including access to previous inputs - is only available to **Spacelift account administrators**.
 
 ## Policy library
-
-!!! info
-    This feature is currently in open-beta.
 
 Sometimes, OPA can be hard, especially if you are just starting out with it. [The Policy Workbench](https://docs.spacelift.io/concepts/policy/#policy-workbench) is great for helping you get policies right, but with the Policy library, we take it up a notch.
 
