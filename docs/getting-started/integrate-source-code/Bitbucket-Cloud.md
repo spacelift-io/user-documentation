@@ -12,34 +12,41 @@ You can set up multiple Space-level and one default Bitbucket Cloud integration 
 ### Initial setup
 
 1. On the _Source control_ tab, click **Set up integration**, then choose **Bitbucket Cloud** on the dropdown.
-    ![Create a Bitbucket integration](<../../assets/screenshots/Screenshot from 2021-06-10 16-05-39.png>)
+    ![Create a Bitbucket integration](<../../assets/screenshots/Bitbucket-cloud-form.png>)
 2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
 3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
 
-### Create your app password
+### Create your API token
 
-You will need to create an [app password](https://support.atlassian.com/bitbucket-cloud/docs/app-passwords/){: rel="nofollow"} for this integration on the Bitbucket Cloud site.
+You will need to create an [API token](https://support.atlassian.com/bitbucket-cloud/docs/using-api-tokens) for this integration on the Bitbucket Cloud site.
 
-1. Navigate to _Personal settings_ > _App passwords_.
-2. Click **Create app password**.
-3. Fill in the details to create a new app password:
-    ![App password creation](<../../assets/screenshots/Screenshot from 2021-06-10 16-16-53.png>)
-      1. Label: Enter a descriptive name (label) for the password.
-      2. Permissions: Check the **Read** box for _Repositories_ and _Pull requests_ to grant read access.
-4. Click **Create**.
-5. Copy the app password details to finish the integration in Spacelift.
-    ![Created new app password](<../../assets/screenshots/Screenshot from 2021-06-10 16-39-03.png>)
+1. Navigate to **Atlassian account settings** > **Security** > **Create API token with scopes**.
+2. Fill in the details to create a new API token:
+    1. Choose a name for your API token.
+    2. Set an expiration date.
+    3. Select **Bitbucket** as the app.
+
+        ![Api token app](<../../assets/screenshots/api-token-app.png>)
+
+    4. Select read permissions for:
+        - Repository
+        - Pull requests
+
+        ![Api token permissions](<../../assets/screenshots/api-token-permissions.png>)
+
+3. Click **Create**.
+4. Copy the API token details to finish the integration in Spacelift.
 
 ### Copy details into Spacelift
 
-Now that your personal access token has been created, return to the integration configuration screen in Spacelift.
+Now that your API token has been created, return to the integration configuration screen in Spacelift.
 
-1. **Username**: Enter your Bitbucket Cloud username.
-2. **App password**: Paste the [app password](#create-your-app-password) that Spacelift will use to access your Bitbucket Cloud repository.
+1. **Email**: Enter your Bitbucket Cloud email address.
+2. **API token**: Paste the [API token](#create-your-api-token) that Spacelift will use to access your Bitbucket Cloud repository.
 3. **Labels**: Organize integrations by assigning labels to them.
 4. **Description**: A markdown-formatted free-form text field to describe the integration.
 5. Click **Set up** to save your integration details.
-    ![Filled integration details](<../../assets/screenshots/Screenshot from 2021-06-11 10-50-38.png>)
+    ![Filled integration details](<../../assets/screenshots/Bitbucket-cloud-form-filled.png>)
 
 ### Set up webhooks
 
@@ -52,7 +59,7 @@ For every Bitbucket Cloud repository being used in Spacelift stacks or modules, 
 
 1. On the _Source code_ page, click the **three dots** next to the integration name.
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
-    ![Find webhook endpoint and secret](<../../assets/screenshots/Screenshot from 2021-06-11 14-52-40.png>)
+    ![Find webhook endpoint and secret](<../../assets/screenshots/Bitbucket-cloud-integration-details.png>)
 
 #### Configure webhooks in Bitbucket Cloud
 
