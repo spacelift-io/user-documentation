@@ -38,7 +38,7 @@ You can set up your worker pool from the Spacelift UI by navigating to Worker Po
 
 ### Navigate to Worker Pools
 
-![](<../../assets/screenshots/Screen Shot 2022-06-29 at 6.45.15 PM (1).png>)
+<img src="../../assets/screenshots/worker_pools_navigate.png" alt="drawing" width=200/>
 
 ### Add Worker Pool Entity
 
@@ -47,9 +47,7 @@ Give your worker pool a name, and submit the `spacelift.csr` file in the worker 
 !!! warning
     After clicking create, you will receive a token for the worker pool. Don't forget to save your **Spacelift token** in a secure location as you'll need this later when launching the worker pool.
 
-![Upload the certificate you generated previously and create a worker pool.](<../../assets/screenshots/worker_pool_create.png>)
-
-![](<../../assets/screenshots/worker_pools.png>)
+![Upload the certificate you generated previously and create a worker pool.](<../../assets/screenshots/worker_pools_create.png>)
 
 ### Launch Worker Pool
 
