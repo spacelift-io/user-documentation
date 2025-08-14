@@ -39,6 +39,45 @@ However, if you choose not to reconcile changes, you can still get value out of 
 
 ![Resource marked as drifted in the stack's Resources view](<../../assets/screenshots/Spacelift (4).png>)
 
+### Drift Detection Run Limits
+
+Private worker pools support configurable drift detection run limits to prevent resource exhaustion. This allows you to control how many drift detection runs can execute concurrently on a specific worker pool.
+
+#### Configuration
+
+Drift detection run limits are configured at the [worker pool](../worker-pools/README.md#drift-detection-run-limits) level through the Spacelift UI:
+
+- **Enable Drift Detection Run Limits**: Use the toggle switch in worker pool settings
+- **Set Limit Options**:
+    - **Disable drift detection entirely**: Prevents all drift detection runs on this worker pool
+    - **Set a numeric limit**: Specify the maximum number of concurrent drift detection runs
+
+![](../../assets/screenshots/worker_pools_update.png)
+
+#### Behavior
+
+When drift detection run limits are configured:
+
+- **Default Behavior**: Without limits, drift detection runs have no concurrency restrictions
+- **With Numeric Limit**: The job scheduler ensures concurrent drift detection runs don't exceed the configured limit
+- **When Disabled**: Drift detection runs are prevented, and failed runs are created with explanatory notes for record keeping purposes
+- **Limit Exceeded**: Additional drift detection runs are skipped until existing ones complete, preventing queue buildup
+
+#### Use Cases
+
+Drift detection run limits are particularly useful for:
+
+- **Resource Management**: Private worker pools with limited compute capacity
+- **Priority Management**: Ensuring regular infrastructure changes take precedence over drift detection
+- **Maintenance Windows**: Temporarily disabling drift detection during scheduled maintenance
+- **Cost Control**: Reducing resource consumption when drift detection frequency is high
+
+!!! warning
+    This feature only applies to private worker pools. Public worker pools managed by Spacelift do not support drift detection run limits.
+
+!!! warning
+    If drift detection is disabled on a worker pool, you will not be able to create drift detection schedules for stacks using that worker pool.
+
 ## Drift detection in practice
 
 With drift detection enabled on the stack, [proposed runs](../run/proposed.md) are quietly executing in the background. If they do not detect any changes, the only way you'd know about them is by viewing all runs in the _Account > Runs_ section and filtering or grouping by drift detection parameter - here is an example:

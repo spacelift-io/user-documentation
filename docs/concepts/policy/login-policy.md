@@ -5,9 +5,16 @@
 
 ## Purpose
 
-Login policies allow users to log in to the Spacelift account and can grant admin privileges. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
+Login policies provide policy-as-code authorization for Spacelift, allowing users to log in and
+assign [RBAC roles](../authorization/README.md) programmatically. Unlike all other policy types, login policies are
+global and can't be attached to individual stacks. They take effect immediately once they're created and affect all
+future login attempts.
 
-API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an admin key.
+Login policies are one of two authorization strategies available in
+Spacelift. The other is [User Management](../user-management/) for GUI-based permission management.
+
+API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an
+admin key.
 
 !!! tip
     GitHub or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners always have admin access to their respective Spacelift accounts, regardless of login policies, so login policy errors can't lock everyone out of the account.
@@ -15,13 +22,26 @@ API Keys are treated as virtual users and evaluated with login policy unless the
 !!! warning
     Any changes (create, update, or delete) made to a login policy will invalidate **all** active sessions except the session making the change.
 
+### Authentication rules
+
 A login policy can define the following types of boolean rules:
 
 - **allow**: Allows the user to log in as a _non-admin_
 - **admin**: Allows the user to log in as an account-wide _admin_. You don't need to explicitly **allow** admin users
 - **deny**: Denies the login attempt, regardless of other (**allow** and **admin**) rules
 - **deny_admin**: Denies the current user **admin** access to the stack, regardless of other rules
-- **space_admin/space_write/space_read**: Manages access levels to spaces. Learn more in [Spaces Access Control](../spaces/access-control.md)
+
+### RBAC Role Assignment
+
+- **roles**: Assigns [RBAC roles](../authorization/rbac-system.md) to users for specific spaces. This is the modern
+  approach for fine-grained permissions.
+
+### Legacy space rules (deprecated)
+
+space_admin/space_write/space_read:
+
+!!! warning "Legacy Space Rules"
+    The `space_admin`, `space_write`, and `space_read` rules are deprecated. Use the `roles` rule to assign [RBAC roles](../authorization/rbac-system.md) for better granularity and security.
 
 If no rules match, the default action will be to **deny** a login attempt.
 
@@ -45,13 +65,17 @@ Each policy request will receive this data input:
     "login": "string - username of the user trying to log in",
     "member": "boolean - is the user a member of the account",
     "name": "string - full name of the user trying to log in - may be empty",
-    "teams": ["string - names of teams the user is a member of"]
+    "teams": [
+      "string - names of teams the user is a member of"
+    ]
   },
   "spaces": [
     {
       "id": "string - ID of the space",
       "name": "string - name of the space",
-      "labels": ["string - label of the space"]
+      "labels": [
+        "string - label of the space"
+      ]
     }
   ]
 }
@@ -97,7 +121,7 @@ Two fields in the `session` object require further explanation: _member_ and _te
 ## Login policy examples
 
 !!! abstract "Example Policies Library"
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/login){: rel="nofollow"} that are ready to use as-is or tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/login){:rel="nofollow"} that are ready to use as-is or tweak to meet your specific needs.
 
     If you can't find what you're looking for below or in the library, please reach out to [Spacelift support](../../product/support/README.md#contact-support) and we will craft a policy to meet your needs.
 

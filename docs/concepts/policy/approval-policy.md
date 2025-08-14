@@ -290,3 +290,26 @@ reject { input.stack.worker_pool.public }
 Here's a [minimal example to play with](https://play.openpolicyagent.org/p/o8e5NxhsSh){: rel="nofollow"}.
 
 You probably want to [auto-attach this policy](./README.md#automatically) to some, if not all, of your stacks.
+
+### Use more descriptive approvals
+
+Sometimes it is worth adding notes about approval/rejection to see why without rego code analysis.
+
+```opa
+package spacelift
+
+allowlist := ["ps", "ls"]
+denylist := ["rm -rf /"]
+
+approve_with_note[note] {
+  input.run.type == "TASK"
+  input.run.command == allowlist[_]
+  note := sprintf("always approve tasks with command %s", [input.run.command])
+}
+
+reject_with_note[note] {
+  input.run.type == "TASK"
+  input.run.command == denylist[_]
+  note := sprintf("always reject tasks with command %s", [input.run.command])
+}
+```
