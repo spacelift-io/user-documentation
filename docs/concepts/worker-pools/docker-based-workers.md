@@ -64,6 +64,36 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 !!! info
     AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a Terraform module for this setup.
 
+## EC2 Spot Instances
+
+The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
+
+!!! warning "Not Recommended for Production/Critical Workloads"
+    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
+
+    - Incomplete or corrupted Terraform state
+    - Failed deployments leaving infrastructure in inconsistent state
+    - Loss of work-in-progress for long-running operations
+
+    Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
+
+```hcl
+module "my_workerpool" {
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
+
+The Spacelift worker includes graceful interruption handling: it monitors for spot interruption notices and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
+
+Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
+
 {% endif %}
 
 {% if is_self_hosted() %}
@@ -76,7 +106,7 @@ The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/
 
 ```hcl
 module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.0.1"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.2.0"
 
   secure_env_vars = {
     SPACELIFT_TOKEN            = var.worker_pool_config
@@ -97,6 +127,36 @@ module "my_workerpool" {
   }
 }
 ```
+
+## EC2 Spot Instances
+
+The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
+
+!!! warning "Not Recommended for Production/Critical Workloads"
+    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
+
+    - Incomplete or corrupted Terraform state
+    - Failed deployments leaving infrastructure in inconsistent state
+    - Loss of work-in-progress for long-running operations
+    
+     Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
+
+```hcl
+module "my_workerpool" {
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
+
+The Spacelift worker includes graceful interruption handling: it monitors for [spot interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-instance-termination-notices.html){: rel="nofollow"} and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
+
+Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
 
 ## CloudFormation Template
 
@@ -336,9 +396,5 @@ aws cloudformation deploy --no-cli-pager \
     InstanceRoleName="default-worker-role" \
   --capabilities "CAPABILITY_NAMED_IAM"
 ```
-
-## Terraform Modules
-
-Our public [AWS](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} Terraform module is compatible with self-hosting, but the [Azure](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"} and [GCP](https://github.com/spacelift-io/terraform-google-spacelift-workerpool){: rel="nofollow"} are not, yet.
 
 {% endif %}
