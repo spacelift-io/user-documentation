@@ -24,7 +24,7 @@ With the above caveat, let's go through the main benefits of using Spacelift tas
 
 Tasks are always treated as operations that may change the underlying state, and are thus serialized. No two tasks will ever run simultaneously, nor will a task execute while a [tracked run](tracked.md) is in progress. This prevents possible concurrent updates to the state that would be possible without a centrally managed mutex.
 
-What's more, some tasks will be more sensitive than others. While a simple `ls` is probably nothing to be afraid of, the two-way state migration described above could have gone wrong in great many different ways. The [stack locking mechanism](../stack/stack-locking.md) thus allows taking exclusive control over one or more stacks by a single individual, taking the possibility of coordination to a whole new level.
+What's more, some tasks will be more sensitive than others. While a simple `ls` is probably nothing to be afraid of, the two-way state migration described above could have gone wrong in great many different ways. The [stack locking mechanism](../stack/creating-a-stack.md#lock-a-stack-in-spacelift) thus allows taking exclusive control over one or more stacks by a single individual, taking the possibility of coordination to a whole new level.
 
 ### Safe
 

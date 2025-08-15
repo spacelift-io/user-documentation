@@ -146,7 +146,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 === "Via GitHub UI"
 
     1. Find your Spacelift app on the _GitHub Apps_ page in your account settings, and click **Edit**:
-        ![](<../..0n m/assets/screenshots/image (58).png>)
+        ![](<../../assets/screenshots/image (58).png>)
     2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
         ![](<../../assets/screenshots/image (59).png>)
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
@@ -156,4 +156,4 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 ✅ Step 1 of the LaunchPad is complete! Now you can [connect your cloud account](../integrate-cloud/README.md).
 
-![](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
+![LaunchPad step 1 complete](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
