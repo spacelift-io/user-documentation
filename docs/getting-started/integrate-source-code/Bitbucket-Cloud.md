@@ -16,9 +16,12 @@ You can set up multiple Space-level and one default Bitbucket Cloud integration 
 2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
 3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
 
+!!! warning "Migration from App Passwords to API Tokens"
+    Previously, this integration used Bitbucket App Passwords for authentication. Atlassian has deprecated App Passwords and [replaced them with API tokens](https://www.atlassian.com/blog/bitbucket/bitbucket-cloud-transitions-to-api-tokens-enhancing-security-with-app-password-deprecation){: rel="nofollow"}.
+
 ### Create your API token
 
-You will need to create an [API token](https://support.atlassian.com/bitbucket-cloud/docs/using-api-tokens) for this integration on the Bitbucket Cloud site.
+You will need to create an [API token](https://support.atlassian.com/bitbucket-cloud/docs/using-api-tokens){: rel="nofollow"} for this integration on the Bitbucket Cloud site.
 
 1. Navigate to **Atlassian account settings** > **Security** > **Create API token with scopes**.
 2. Fill in the details to create a new API token:

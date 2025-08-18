@@ -25,9 +25,12 @@ Explanation of the fields:
 
 Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them. Visit the [Spaces](../../concepts/spaces/README.md) documentation to learn more about access controls.
 
+!!! warning "Migration from App Passwords to API Tokens"
+    Previously, this integration used Bitbucket App Passwords for authentication. Atlassian has deprecated App Passwords and [replaced them with API tokens](https://www.atlassian.com/blog/bitbucket/bitbucket-cloud-transitions-to-api-tokens-enhancing-security-with-app-password-deprecation){: rel="nofollow"}.
+
 ### Creating an API Token
 
-In order to get the API token you'll need to go to Bitbucket Cloud and navigate to **Atlassian account settings** -> **Security** -> **Create API token with scopes**. In the form, you will need to:
+In order to get the [API token](https://support.atlassian.com/bitbucket-cloud/docs/using-api-tokens){: rel="nofollow"} you'll need to go to Bitbucket Cloud and navigate to **Atlassian account settings** -> **Security** -> **Create API token with scopes**. In the form, you will need to:
 
 1. Choose a name for your API token
 2. Set an expiration date
