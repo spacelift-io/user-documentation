@@ -7,9 +7,6 @@
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-!!! info
-    Please note, we currently don't support importing rego.v1. For more, refer to the note in the [introduction](../README.md) section
-
 Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
 - **track**: set the new head commit on the [stack](../../stack/README.md) / [module](../../../vendors/terraform/module-registry.md) and create a [tracked](../../run/tracked.md) [Run](../../run/README.md), ie. one that can be [applied](../../run/tracked.md#applying);
@@ -184,15 +181,15 @@ module_version := "<X.X.X>" {
     propose
 }
 
-propose { 
-  not is_null(input.pull_request) 
+propose {
+  not is_null(input.pull_request)
   }
 ```
 
 If you wish to add a track rule to your push policy, the below will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking.
 
 ```opa
-track { 
+track {
   module_version != ""
   input.push.branch == input.module.branch
  }
