@@ -1,8 +1,5 @@
 # Login policy
 
-!!! info
-    We do not support importing rego.v1 at this time. For more details, see the [introduction](../policy/README.md).
-
 ## Purpose
 
 Login policies provide policy-as-code authorization for Spacelift, allowing users to log in and
