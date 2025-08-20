@@ -29,17 +29,15 @@ This setting determines whether a stack has administrative privileges within its
 
 Administrative stacks can declaratively manage other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
 
-Another common pattern is exporting stack outputs as a [context](../configuration/context.md) to avoid exposing the entire state through Terraform's remote state or external storage mechanisms like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
-
-For more details, refer to the [help article on Spacelift's Terraform provider](../../vendors/terraform/terraform-provider.md).
+You can also export stack outputs as a [context](../configuration/context.md) to avoid exposing the entire state through Terraform's remote state or external storage mechanisms like [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html){: rel="nofollow"} or [Secrets Manager](https://aws.amazon.com/secrets-manager/){: rel="nofollow"}.
 
 ### Autodeploy
 
-This setting determines whether changes to the stack can be [applied](../run/tracked.md#applying) automatically. When Autodeploy is enabled (_true_), any change to the tracked branch will be automatically [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase is successful and there are no plan policy warnings.
+When Autodeploy is enabled (_true_), any change to the tracked branch will be automatically [applied](../run/tracked.md#applying) if the [planning](../run/proposed.md#planning) phase is successful and there are no plan policy warnings.
 
-You might consider enabling Autodeploy if you always perform a code review before merging to the tracked branch or if you rely on [plan policies](../policy/terraform-plan-policy.md) to flag potential issues automatically. If every change undergoes a meaningful human review by stack [writers](../policy/stack-access-policy.md#readers-and-writers), requiring an additional step to confirm deployment may be unnecessary. For more information, refer to the [dedicated section](../policy/terraform-plan-policy.md#automated-code-review) on using plan policies for automated code reviews.
+You might consider enabling Autodeploy if you always perform an [automated code review](../policy/terraform-plan-policy.md#automated-code-review) before merging to the tracked branch or if you rely on [plan policies](../policy/terraform-plan-policy.md) to flag potential issues. If every change undergoes a meaningful human review by stack [writers](../policy/stack-access-policy.md#readers-and-writers), requiring an additional step to confirm deployment may be unnecessary.
 
-When Autodeploy is enabled, [Approval policies](../policy/approval-policy.md) are only evaluated during the queued stage, not during the unconfirmed state.
+When Autodeploy is enabled, [approval policies](../policy/approval-policy.md) are only evaluated during the **queued** stage, not in the unconfirmed state.
 
 ### Autoretry
 
@@ -47,7 +45,7 @@ This setting determines whether obsolete proposed changes are retried automatica
 
 This feature saves you from manually retrying runs on Pull Requests when the state changes. It also provides greater confidence that the proposed changes will match the actual changes after merging the Pull Request.
 
-Autoretry is only supported for [stacks](./README.md) with a private [Worker Pool](../worker-pools) attached.
+Autoretry is only supported for [stacks](./README.md) with a private [worker pool](../worker-pools/README.md) attached.
 
 ### Customizing workflow
 
@@ -64,18 +62,19 @@ Spacelift workflows can be customized by adding extra commands to be executed be
 
 All hooks, including `after_run`, execute on the worker. If the run is terminated outside the worker (e.g., canceled or discarded), or if there is an issue setting up the workspace or starting the worker container, the hooks will not fire.
 
-These commands can serve two main purposes: modifying the workspace (e.g., setting up symlinks or moving files) or running validations using tools like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"}, or `terraform fmt`.
-
-!!! tip
-    Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
-
-    Additionally, using a semicolon (`;`) in hooks will cause subsequent commands to run even if the phase fails. Use `&&` or wrap your hook in parentheses to ensure "after" commands only execute if the phase succeeds.
-
-!!! danger
-    When a run resumes after being paused (e.g., for confirmation or approval), the remaining phases run in a new container. Any tools installed in earlier phases will not be available. To avoid this, bake the tools into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
-
 !!! info
-    If a "before" hook fails (non-zero exit code), the corresponding phase will not execute. Similarly, if a phase fails, none of the "after" hooks will execute unless the hook uses a semicolon (`;`). For more details, refer to the tip above.
+    If a "before" hook fails (non-zero exit code), the corresponding phase will not execute. Similarly, if a phase fails, none of the "after" hooks will execute unless the hook uses a semicolon (`;`).
+
+These commands can serve two main purposes: modifying the workspace (such as setting up symlinks or moving files) or running validations using tools like [`tfsec`](https://github.com/tfsec/tfsec){: rel="nofollow"}, [`tflint`](https://github.com/terraform-linters/tflint){: rel="nofollow"}, or `terraform fmt`.
+
+#### How to run multiple commands
+
+Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
+
+Additionally, using a semicolon (`;`) in hooks will cause subsequent commands to run even if the phase fails. Use `&&` or wrap your hook in parentheses to ensure "after" commands only execute if the phase succeeds.
+
+!!! warning
+    When a run resumes after being paused (e.g., for confirmation or approval), the remaining phases run in a new container. Any tools installed in earlier phases will not be available. To avoid this, bake the tools into a [custom runner image](../../integrations/docker.md#customizing-the-runner-image).
 
 {% if is_saas() %}
 The workflow can be customized using either the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/stack){: rel="nofollow"} or the GUI. The GUI provides an intuitive editor that allows you to add, remove, and reorder commands using drag-and-drop functionality. Commands preceding a phase are "before" hooks, while those following it are "after" hooks:
@@ -94,19 +93,23 @@ Commands run in the same shell session as the phase itself, so the phase will ha
 
 {% if is_saas() %}
 
-#### Note on hook ordering
+#### Note on hook order
 
-Hooks added to stacks and contexts attached to them follow distinct ordering principles. Stack hooks are organized through a drag-and-drop mechanism, while context hooks adhere to prioritization based on context priority. Additionally, auto-attached contexts are arranged alphabetically or reversed alphabetically depending on the operation type (before/after).
+Hooks added to stacks and contexts attached to them follow distinct ordering principles.
+
+- **Stack hooks** are organized through a drag-and-drop mechanism.
+- **Context hooks** adhere to prioritization based on context priority
+- **Auto-attached contexts** are arranged alphabetically or reversed alphabetically depending on the operation type (before/after).
 
 Hooks from manually and auto-attached contexts can only be edited from their respective views.
 
-In the before phase, hook priorities work as follows:
+In the _before_ phase, hook priorities work as follows:
 
 - context hooks (based on set priorities)
 - context auto-attached hooks (reversed alphabetically)
 - stack hooks
 
-In the after phase, hook priorities work as follows:
+In the _after_ phase, hook priorities work as follows:
 
 - stack hooks
 - context auto-attached hooks (alphabetically)
@@ -121,7 +124,7 @@ Let's suppose you have 4 contexts attached to a stack:
 
 In all of these contexts, we have added hooks that echo the context name before and after phases. To add to this, we will also add two static hooks on the stack level that will do a simple "echo stack".
 
-Before phase order:
+_Before_ phase order:
 
 - context_c
 - context_d
@@ -129,7 +132,7 @@ Before phase order:
 - context_a
 - stack
 
-After phase order:
+_After_ phase order:
 
 - stack
 - context_a
@@ -141,15 +144,12 @@ After phase order:
 
 ### Runtime commands
 
-Spacelift can handle special commands to change the workflow behavior.
-Runtime commands use the echo command in a specific format.
-
-You could use those commands in any lifecycle step of the workflow.
+Spacelift can handle special commands to change the workflow behavior. Runtime commands use the echo command in a specific format. You can use those commands in any lifecycle step of the workflow.
 
 {% if is_saas() %}
-![stack_runtime_command](../../assets/screenshots/context/stack_hooks.png)
+![stack_runtime_command](<../../assets/screenshots/context/stack_hooks.png>)
 {% else %}
-![stack_runtime_command](../../assets/screenshots/stack_runtime_command.png)
+![stack_runtime_command](<../../assets/screenshots/stack_runtime_command.png>)
 {% endif %}
 
 ```bash
@@ -164,8 +164,7 @@ Below is a list of supported commands. See the more detailed doc after this tabl
 
 #### ::add-mask
 
-When you mask a value, it is treated as a secret and will be redacted in the logs output.
-Each masked word separated by whitespace is replaced with five `*` characters.
+When you mask a value, it is treated as a secret and will be redacted in the logs output. Each masked word separated by whitespace is replaced with five `*` characters.
 
 ##### Example
 
@@ -187,10 +186,8 @@ If this is enabled, you can use [spacectl](https://github.com/spacelift-io/space
 spacectl stack local-preview --id <stack-id>
 ```
 
-!!! danger
-    This in effect allows anybody with write access to the Stack to execute arbitrary code with access to all the environment variables configured in the Stack.
-
-    Use with caution.
+!!! warning
+    Use this setting with caution, as it allows anybody with write access to the Stack to execute arbitrary code with access to all the environment variables configured in the Stack.
 
 ### Enable well known secret masking
 
@@ -214,12 +211,12 @@ This setting determines if secret patterns will be automatically redacted from l
 
 Stack name and description are pretty self-explanatory. The required _name_ is what you'll see in the stack list on the home screen and menu selection dropdown. Make sure that it's informative enough to be able to immediately communicate the purpose of the stack, but short enough so that it fits nicely in the dropdown, and no important information is cut off.
 
-The optional _description_ is completely free-form and it supports [Markdown](https://daringfireball.net/projects/markdown/){: rel="nofollow"}. This is perhaps a good place for a thorough explanation of the purpose of the stack, perhaps a link or two, and an obligatory cat GIF.
+The optional _description_ is completely free-form and it supports [Markdown](https://daringfireball.net/projects/markdown/){: rel="nofollow"}. This is a good place for a thorough explanation of the purpose of the stack and a link or two.
 
-!!! warning
+!!! tip
     Based on the original _name_, Spacelift generates an immutable slug that serves as a unique identifier of this stack. If the name and the slug diverge significantly, things may become confusing.
 
-    So even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
+    Even though you can change the stack name at any point, we strongly discourage all non-trivial changes.
 
 ### Labels
 
@@ -245,7 +242,7 @@ List of the most useful labels:
 
 ### Project root
 
-Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos, or indeed repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
+Project root points to the directory within the repo where the project should start executing. This is especially useful for monorepos or repositories hosting multiple somewhat independent projects. This setting plays very well with [Git push policies](../policy/push-policy/README.md), allowing you to easily express generic rules on what it means for the stack to be affected by a code change. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 !!! info
     The project root can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#project_root-setting) specified in the `.spacelift/config.yml` file.
@@ -254,7 +251,7 @@ Project root points to the directory within the repo where the project should st
 
 Git sparse checkout paths allow you to specify a list of directories and files that will be used in sparse checkout, meaning that only the specified directories and files from the list will be cloned. This can help reduce the size of the workspace by only downloading the parts of the repository that are needed for the stack.
 
-Only path values are allowed - glob patterns are not supported.
+Only path values are allowed; glob patterns are not supported.
 
 Example valid paths:
 
@@ -277,7 +274,7 @@ Example invalid path (glob pattern):
 The project globs option allows you to specify files and directories outside of the project root that the stack cares about. In the absence of push policies, any changes made to the project root and any paths specified by project globs will trigger Spacelift runs.
 
 !!! warning
-    Project globs do not mount the files or directories in your project root.  They are used primarily for triggering your stack when for example there are changes to a module outside of the project root.
+    Project globs do not mount the files or directories in your project root.  They are used primarily for triggering your stack when, for example, there are changes to a module outside of the project root.
 
 ![](../../assets/screenshots/stack/settings/source-code_project-globs.png)
 
@@ -300,60 +297,59 @@ As you can see in the example matches, these are the regex rules that you are al
 
 ![](<../../assets/screenshots/stack/settings/source-code_vcs-details.png>)
 
-We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, however Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../integrations/source-control/README.md) page.
+We have two types of integrations types: default and Space-level. Default integrations will be always available for all stacks, and Space-level integrations will be available only for stacks that are in the same Space as the integration or have access to it [via inheritance](../spaces/access-control.md#inheritance). Read more about VCS integrations in the [source control](../../getting-started/integrate-source-code/README.md) page.
 
-_Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift  (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively.
+_Repository_ and _branch_ point to the location of the source code for a stack. The repository must either belong to the GitHub account linked to Spacelift (its choice may further be limited by the way the Spacelift GitHub app has been installed) or to the GitLab server integrated with your Spacelift account. For more information about these integrations, please refer to our [GitHub](../../getting-started/integrate-source-code/GitHub.md) and [GitLab](../../getting-started/integrate-source-code/GitLab.md) documentation.
 
-Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab then you need to make sure to manually (or programmatically, using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
+Thanks to the strong integration between GitHub and Spacelift, the link between a stack and a repository can survive the repository being renamed in GitHub. If you're storing your repositories in GitLab, then you need to make sure to manually (or programmatically using [Terraform](../../vendors/terraform/terraform-provider.md)) point the stack to the new location of the source code.
 
 !!! info
     Spacelift does not support moving repositories between GitHub accounts, since Spacelift accounts are strongly linked to GitHub ones. In that case the best course of action is to take your Terraform state, download it and import it while recreating the stack (or multiple stacks) in a different account. After that, all the stacks pointing to the old repository can be safely deleted.
 
     Moving a repository between GitHub and GitLab or the other way around is simple, however. Just change the provider setting on the Spacelift project, and point the stack to the new source code location.
 
-_Branch_ signifies the repository branch **tracked** by the stack. By default, that is unless a [Git push policy](../policy/push-policy/README.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run. More information about git push policies, tracked branches, and head commits can be found [here](../policy/push-policy/README.md#git-push-policy-and-tracked-branch).
+_Branch_ signifies the repository branch **tracked** by the stack. By default, unless a [Git push policy](../policy/push-policy/README.md) explicitly determines otherwise, a commit pushed to the tracked branch triggers a deployment represented by a **tracked** run. A push to any other branch by default triggers a test represented by a **proposed** run. Learn more about [git push policies](../policy/push-policy/README.md#git-push-policy-and-tracked-branch), tracked branches, and head commits.
 
-Results of both tracked and proposed runs are displayed in the source control provider using their specific APIs - please refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation respectively to understand how Spacelift feedback is provided for your infrastructure changes.
+Results of both tracked and proposed runs are displayed in the source control provider using their specific APIs. Refer to our [GitHub](../../integrations/source-control/github.md) and [GitLab](../../integrations/source-control/gitlab.md) documentation to understand how Spacelift feedback is provided for your infrastructure changes.
 
 !!! info
-    A branch _must_ exist before it's pointed to in Spacelift.
+    A branch must exist **before** it's pointed to in Spacelift.
 
 ### Runner image
 
-Since every Spacelift job (which we call [runs](../run/README.md)) is executed in a separate Docker container, setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
+Since every Spacelift job (which we call a [run](../run/README.md)) is executed in a [separate Docker container](../../integrations/docker.md), setting a custom runner image provides a convenient way to prepare the exact runtime environment your infra-as-code flow is designed to use.
 
-Additionally, for our Pulumi integration overriding the default runner image is the canonical way of selecting the exact Pulumi version and its corresponding language SDK.
-
-You can find more information about our use of Docker in [this dedicated help article](../../integrations/docker.md).
+Additionally, for our Pulumi integration, overriding the default runner image is the canonical way of selecting the exact Pulumi version and its corresponding language SDK.
 
 !!! info
     Runner image can be overridden by the [runtime configuration](../configuration/runtime-configuration/README.md#runner_image-setting) specified in the `.spacelift/config.yml` file.
 
-!!! warning
-    On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.
+On the public worker pool, Docker images can only be pulled from [allowed registries](../../integrations/docker.md#allowed-registries-on-public-worker-pools). On private workers, images can be stored in any registry, including self-hosted ones.
 
 ### Worker pool
 
-## Terraform-specific settings
+Use this setting to choose which [worker pool](../worker-pools/README.md) to use. The default is public workers.
 
-### Version {: #terraform-version}
+## OpenTofu/Terraform-specific settings
 
-The Terraform version is set when a stack is created to indicate the version of Terraform that will be used with this project. However, Spacelift covers the entire [Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
+### Version {: #terraform-version or #opentofu-version}
 
-### Workspace {: #terraform-workspace}
+The OpenTofu/Terraform version is set when a stack is created to indicate the version of OpenTofu/Terraform that will be used with this project. However, Spacelift covers the entire [Terraform version management](../../vendors/terraform/version-management.md) story, and applying a change with a newer version will automatically update the version on the stack.
 
-[Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html){: rel="nofollow"} are supported by Spacelift, too, as long as your state backend supports them. If the workspace is set, Spacelift will try to first [_select_, and then - should that fail - automatically _create_](https://www.terraform.io/docs/language/state/workspaces.html#using-workspaces){: rel="nofollow"} the required workspace on the state backend.
+### Workspace {: #terraform-workspace or #opentofu-workspace}
 
-If you're [managing Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
+[OpenTofu workspaces](https://opentofu.org/docs/language/state/workspaces/) and [Terraform workspaces](https://www.terraform.io/docs/language/state/workspaces.html){: rel="nofollow"} are supported by Spacelift, too, as long as your state backend supports them. If the workspace is set, Spacelift will try to first _select_, and then (should that fail) automatically _create_ the required [OpenTofu](https://opentofu.org/docs/language/state/workspaces/#using-workspaces){: rel="nofollow"}/[Terraform](https://www.terraform.io/docs/language/state/workspaces.html#using-workspaces){: rel="nofollow"} workspace on the state backend.
+
+If you're [managing your OpenTofu/Terraform state through Spacelift](../../vendors/terraform/state-management.md), the workspace argument is ignored since Spacelift gives each stack a separate workspace by default.
 
 ## Pulumi-specific settings
 
 ### Login URL {: #pulumi-login-url}
 
-Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (eg. [Amazon S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend){: rel="nofollow"}).
+Login URL is the address Pulumi should log into during Run initialization. Since we do not yet provide a full-featured Pulumi state backend, you need to bring your own (e.g. [Amazon S3](https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-aws-s3-backend){: rel="nofollow"}).
 
-You can read more about the login process [here](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"}. More general explanation of Pulumi state management and backends is available [here](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
+You can read more about the [login process](https://www.pulumi.com/docs/reference/cli/pulumi_login/){: rel="nofollow"} and a general explanation of [Pulumi state management and backends](https://www.pulumi.com/docs/intro/concepts/state/){: rel="nofollow"}.
 
 ### Stack name {: #pulumi-stackname}
 
-The name of the Pulumi stack which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](#name-and-description) - they _may_ be different, though it's probably good if you can keep them identical.
+The name of the Pulumi stack, which should be selected for backend operations. Please do not confuse it with the [Spacelift stack name](#name-and-description). They _may_ be different, but it's useful to keep them identical.

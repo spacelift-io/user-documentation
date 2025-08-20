@@ -125,4 +125,4 @@ For more information about configuring the OpenTofu/Terraform provider, please s
 
 ✅ Step 2 of the LaunchPad is complete! Now you can [create your first stack](../create-stack/README.md).
 
-![](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)
+![LaunchPad step 2 complete](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)

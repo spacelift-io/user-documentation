@@ -80,4 +80,4 @@ You will need to add a new role assignment for the Spacelift integration.
 
 ✅ Step 2 of the LaunchPad is complete! Now you can [create your first stack](../create-stack/README.md).
 
-![](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)
+![LaunchPad step 2 complete](<../../assets/screenshots/getting-started/cloud-provider/Launchpad-step-2-complete.png>)
