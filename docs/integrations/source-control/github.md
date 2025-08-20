@@ -6,94 +6,99 @@ description: >-
 
 # GitHub
 
-One of the things we're most proud of at Spacelift is the deep integration with everyone's favorite version control system - GitHub.
+Spacelift is deeply integrated with GitHub, providing organizations a simple way to manage IaC versioned in GitHub.
 
 You can set up multiple Space-level and one default GitHub integration per account.
 
-!!! warning
-    There is a built-in integration set up automatically for users who select GitHub as their logic source. If you wish to utilize multiple GitHub accounts or organizations or connect Spacelift to your GitHub Enterprise instance, you will need to set up a custom GitHub integration via a [GitHub App](#setting-up-the-custom-application).
-
-## Setting up the integration
+!!! info "Using multiple GitHub accounts"
+    If you want to use multiple GitHub accounts or organizations, or connect Spacelift to your GitHub Enterprise instance, you will need to set up a custom GitHub integration via a [GitHub App](github.md#create-the-github-application).
 
 {% if is_saas() %}
+ If you used GitHub to create your Spacelift account, the flow for also connecting GitHub as your [VCS provider](./README.md) is slightly different. Select the option that applies to your account:
 
-### Installing the Marketplace application (Preferred)
+1. Created Spacelift account with [GitHub](github.md#signed-in-with-github).
+2. Created Spacelift account with [GitLab, Google, or Microsoft](github.md#signed-in-with-another-option).
 
-The easiest way to connect your GitHub account (personal or organization) is to install the [Spacelift application](https://github.com/marketplace/spacelift-io){: rel="nofollow"} from the GitHub Marketplace.
+## Signed in with GitHub
 
-![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.27.12.png>)
+1. [Install the Spacelift GitHub App](https://github.com/apps/spacelift-io/installations/new){: rel="nofollow"} from the GitHub Marketplace.
+2. Select the GitHub repository or repositories to manage in Spacelift.
+      - If you do not have a GitHub repository of this kind, you can fork our [terraform-starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}. Allow the installed GitHub app access to the forked repository.
 
-1. At the bottom of the page, select the GitHub account where you want to install the Spacelift application and click **Install it for free**.
+![](<../../assets/screenshots/InstallAppGS.png>)
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.44.49.png>)
+## Signed in with another option
 
-2. On the next page click **Complete order and begin installation**.
+If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom applicationto link it to Spacelift.
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.46.56.png>)
+{% else %}
 
-3. Select which repositories should be available to Spacelift and review the required permissions, then click **Install**.
+## Create and link a custom application
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.50.03.png>)
-
+You will need to create a GitHub application to link it to Spacelift.
 {% endif %}
 
-### Setting up the custom application
+### Create the GitHub application
 
-In some cases, using the Spacelift application from the Marketplace is not an option, or you might already have it installed and want to link another GitHub account with your Spacelift account. For these advanced uses cases, you can use the custom Spacelift application.
-
-#### Creating the custom application
-
-In order to do so, navigate to the **Source code** page, click on the **Set up integration** button and choose GitHub.
-You will be presented with two options:
+1. On the _Source control_ tab, click **Set up integration**, then choose **GitHub** on the dropdown.
+2. Click [**Set up via wizard**](github.md#set-up-via-wizard) (_recommended_) or [**Set up manually**](github.md#set-up-manually).
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
 
-=== "Wizard"
+!!! warning
+    Manual application setup is more prone to errors and should only be used if other methods will not work.
 
-    The easiest and recommended way to install the custom Spacelift application in your GitHub account is by using the wizard.
+### Set up via wizard
 
-    You will be asked a few questions, then you will be redirected to GitHub to create the application. Once it's done, you'll be redirected back to Spacelift to finish the integration.
+1. Select whether you're integrating with GitHub.com or a self-hosted installation, then click **Continue**.
+2. Select whether the GitHub integration should be owned by a personal or organization account, then click **Continue**.
+3. Click **Continue** to create the application on GitHub.com.
+    1. Enter a name for your integration. This can be changed later.
+    2. Click **Create GitHub app**. You will be redirected back to Spacelift.
+4. Fill in the additional information:
+    ![](<../../assets/screenshots/GitHub_wizard_final_step.png>)
+    1. **Integration name**: Must be unique, and cannot be changed after app creation because the Spacelift webhook endpoint is generated based on this name.
+    2. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
+    3. **VCS checks**: Individual checks (one per stack) or aggregated checks (summarized checks across all affected stacks).
+    4. **Labels**: Organize integrations by assigning labels to them.
+    5. **Description**: A markdown-formatted free-form text field to describe the integration.
+5. Click **Set up**. Once the application is created, you will automatically be redirected to install it in GitHub.
 
-    <p align="center">
-        <img src="../../assets/screenshots/GitHub_wizard_final_step.png"/>
-    </p>
+### Set up manually
 
-    - **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoint are generated based on the integration name.
-    - **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
-    - **Labels** - a set of labels to help you organize integrations.
-    - **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
+After selecting the option to enter your details manually, you should see the following form:
 
-=== "Manual setup"
+![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.14.05.png>)
 
-    **Initial setup**
+1. **Integration name:** Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
+2. **Integration type:** Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
 
-   1. Open GitHub, navigate to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and click **New GitHub App**.
-   2. You can either create the App in an individual user account or within an organization account:
-      ![](<../../assets/screenshots/image (52).png>)
-   3. Give your app a name and homepage URL (these are only used for informational purposes within GitHub):
-      ![](<../../assets/screenshots/image (53).png>)
-   4. Paste your Webhook URL and secret from Spacelift:
-      ![](<../../assets/screenshots/image (54).png>)
+Once the integration name and the type are chosen, a **webhook endpoint** and a **webhook secret** will be generated for the GitHub app in the middle of the form.
 
-    Now you can set the following **Repository permissions**:
+#### Create app in GitHub
 
-    | Permission      | Access       |
-    | --------------- | ------------ |
-    | Checks          | Read & write |
-    | Commit statuses | Read & write |
-    | Contents        | Read-only    |
-    | Deployments     | Read & write |
-    | Metadata        | Read-only    |
-    | Pull requests   | Read & write |
-    | Webhooks        | Read & write |
+##### Initial setup
 
-    Set the following **Organization permissions**:
+1. Open GitHub, navigate to the _GitHub Apps_ page in the _Developer Settings_ for your account/organization, and click **New GitHub App**.
+2. You can either create the App in an individual user account or within an organization account:
+   ![](<../../assets/screenshots/image (52).png>)
+3. Give your app a name and homepage URL (these are only used for informational purposes within GitHub):
+   ![](<../../assets/screenshots/image (53).png>)
+4. Paste your Webhook URL and secret from Spacelift:
+   ![](<../../assets/screenshots/image (54).png>)
+5. Set the following Repository permissions:
 
-    | Permission | Access    |
-    | ---------- | --------- |
-    | Members    | Read-only |
+     | Permission      | Access       |
+     | --------------- | ------------ |
+     | Checks          | Read & write |
+     | Commit statuses | Read & write |
+     | Contents        | Read-only    |
+     | Deployments     | Read & write |
+     | Metadata        | Read-only    |
+     | Pull requests   | Read & write |
+     | Webhooks        | Read & write |
 
-    Subscribe to the following events:
+6. Set the following Organization permissions:
 
       - Check run
       - Issue comment
@@ -102,30 +107,31 @@ You will be presented with two options:
       - Pull request review
       - Push
       - Repository
-    
-    Choose whether you want to allow the App to be installed on any account or only the current account, then click **Create GitHub App**:
-       ![](<../../assets/screenshots/image (55).png>)
+8. Choose whether you want to allow the App to be installed on any account or only the current account, then click **Create GitHub App**:
+    ![](<../../assets/screenshots/image (55).png>)
 
-   Now you need to **generate a private key**.
+##### Generate key
 
-   1. Copy the _App ID_ in the _About_ section:
-       ![](<../../assets/screenshots/image (56).png>)
-   2. Scroll down to the _Private keys_ section of the page and click **Generate a private key**:
-       ![](<../../assets/screenshots/image (57).png>)
-       This will download the private key file for your GitHub app named `<app-name>.<date>.private-key.pem` (for example: `spacelift.2025-05-11.private-key.pem`).
+1. Copy the _App ID_ in the _About_ section:
+    ![](<../../assets/screenshots/image (56).png>)
+2. Scroll down to the _Private keys_ section of the page and click **Generate a private key**:
+    ![](<../../assets/screenshots/image (57).png>)
+    This will download the private key file for your GitHub app named `<app-name>.<date>.private-key.pem` (for example: `spacelift.2025-05-11.private-key.pem`).
 
-   Finally, **copy the API details** into Spacelift. Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
+##### Copy API details into Spacelift
 
-   1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
-   2. **User facing host URL**: Enter the URL that will be shown to the user. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md).
-   3. **App ID**: Enter the App ID you copied before generating the private key.
-   4. **Private key**: Paste the contents of your private key file.
-       ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
-   5. **Labels:** Organize integrations by assigning labels to them.
-   6. **Description:** A markdown-formatted free-form text field that can be used to describe the integration.
-   7. Click **Set up** to save your integration settings.
+Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
 
-#### Installing the custom application
+1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
+3. **App ID**: Enter the App ID you copied before generating the private key.
+4. **Private key**: Paste the contents of your private key file.
+    ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
+5. **Labels**: Organize integrations by assigning labels to them.
+6. **Description**: A markdown-formatted free-form text field to describe the integration.
+7. Click **Set up** to save your integration settings.
+
+### Install the GitHub application
 
 Once your GitHub app has been created and configured in Spacelift, you can install it on one or more accounts or organizations you have access to.
 
@@ -142,7 +148,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 === "Via GitHub UI"
 
-    1. Find your app on the _GitHub Apps_ page in your account settings, and click **Edit**:
+    1. Find your Spacelift app on the _GitHub Apps_ page in your account settings, and click **Edit**:
         ![](<../../assets/screenshots/image (58).png>)
     2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
         ![](<../../assets/screenshots/image (59).png>)
@@ -157,19 +163,20 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 {% if is_saas() %}
 !!! hint
-    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+    This feature is only available on the Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-If you're using Space-level integrations, you can use the [Spaces](../../concepts/spaces/README.md) to control the access of your GitHub integrations. For example, if you have a Space called `Rideshare`, you can create a GitHub integration in that Space, and that can only be attached to those stacks and modules that are in the same Space (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space).
+You can use the [Spaces](../../concepts/spaces/README.md) to control what can access your integrations. For example, if you have a Space called `Rideshare`, you can create a GitHub integration in that Space, and that can only be attached to those stacks and modules that are in the same Space (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space).
 
 #### Integration details visibility
 
 Only Space **admins** will be able to see the webhook URLs and secrets of Space-level integrations. Space **readers** will only be able to see the name, description, and labels of the integration.
+
 The details of default integrations are only visible to **root** Space admins.
 
 ### Legacy method
 
-You can reuse GitHub's native teams as well. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/README.md).
+You can also use GitHub's native teams. If you're using GitHub as your identity provider (which is the default), upon login, Spacelift uses the                   GitHub API to determine organization membership level and team membership within an organization and persists it in the session token which is valid for one hour. Based on that token, you can set up [login policies](../../concepts/policy/login-policy.md) to determine who can log in to your Spacelift account, and [stack access policies](../../concepts/policy/stack-access-policy.md) that can grant an appropriate level of access to individual [Stacks](../../concepts/stack/README.md).
 
 !!! info
     The list of teams is empty for individual/private GitHub accounts.
@@ -178,21 +185,21 @@ You can reuse GitHub's native teams as well. If you're using GitHub as your iden
 
 ### Commit status notifications
 
-Commit status notifications are triggered for [_proposed_ runs](../../concepts/run/proposed.md) to provide feedback on the proposed changes to your stack - running a preview command (eg. `terraform plan` for Terraform) with the source code of a short-lived feature branch with the state and config of the stack that's pointing to another, long-lived branch. Here's what such a notification looks like:
+Commit status notifications are triggered for [_proposed_ runs](../../concepts/run/proposed.md) to provide feedback on the proposed changes to your stack. You can trigger a proposed run using a preview command (e.g. `terraform plan` for Terraform) with the source code of a short-lived feature branch with the state and config of the stack that's pointing to another, long-lived branch. Here's what commit status notifications looks like:
 
-...when the run is in progress ([initializing](../../concepts/run/README.md#initializing)):
+1\. When the run is in progress ([initializing](../../concepts/run/README.md#initializing)):
 
 ![](../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end.png)
 
-...when it succeeds _without changes_:
+2\. When it succeeds _without changes_:
 
 ![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (2).png>)
 
-...when it succeeds _with changes_:
+3\. When it succeeds _with changes_:
 
 ![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (1).png>)
 
-...and when it fails:
+4\. And when it fails:
 
 ![](<../../assets/screenshots/Test_a_change_by_marcinwyszynski_·_Pull_Request__6_·_spacelift-io_marcinw-end-to-end (3).png>)
 
@@ -200,12 +207,12 @@ In each case, clicking on the _Details_ link will take you to the GitHub check v
 
 ![](<../../assets/screenshots/Add_Azure_integration_variables_by_adamconnelly_·_Pull_Request__561_·_spacelift-io_infra (1).png>)
 
-The Check view provides high-level information about the changes introduced by the push, including the list of changing resources, including cost data if [Infracost](../../vendors/terraform/infracost.md) is set up.
+The check view provides high-level information about the changes introduced by the push, including the list of changing resources and cost data if [Infracost](../../vendors/terraform/infracost.md) is set up.
 
 From this view you can also perform two types of Spacelift actions:
 
-- **Preview** - execute a [proposed run](../../concepts/run/proposed.md) against the tested commit;
-- **Deploy** - execute a tracked run against the tested commit;
+- **Preview**: Execute a [proposed run](../../concepts/run/proposed.md) against the tested commit.
+- **Deploy**: Execute a tracked run against the tested commit.
 
 #### PR (Pre-merge) Deployments
 
@@ -222,17 +229,17 @@ deny["Do not deploy from GitHub"] {
 }
 ```
 
-The effect is as follows:
+The effect is this:
 
-![](../../assets/screenshots/Update_README_md_·_Private_worker_pool.png)
+![](<../../assets/screenshots/Update_README_md_·_Private_worker_pool.png>)
 
 #### Using Spacelift checks to protect branches
 
 You can use commit statuses to protect your branches tracked by Spacelift stacks by ensuring that _proposed_ runs succeed before merging their Pull Requests:
 
-![](<../../assets/screenshots/New_branch_protection_rule (1).png>)
+![Protect branches with Spacelift](<../../assets/screenshots/New_branch_protection_rule (1).png>)
 
-This is an important part of our proposed workflow - please refer to [this section](github.md#proposed-workflow) for more details.
+This is an important part of our [proposed workflow](github.md#proposed-workflow).
 
 ##### Aggregated checks
 
@@ -242,17 +249,18 @@ This is an important part of our proposed workflow - please refer to [this secti
 {% endif %}
 
 If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
+
 This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
 
 ![](<../../assets/screenshots/aggregated-checks-github-settings.png>)
 
 When the aggregated option is enabled, Spacelift will post the following checks:
 
-- **spacelift/tracked** - groups all checks from tracked runs
-- **spacelift/proposed** - groups all checks from proposed runs
-- **spacelift/modules** - groups all checks from module runs
+- **spacelift/tracked**: Groups all checks from tracked runs.
+- **spacelift/proposed**: Groups all checks from proposed runs.
+- **spacelift/modules**: Groups all checks from module runs.
 
-Here's how the summary looks like:
+Here's how the summary looks:
 
 ![](<../../assets/screenshots/aggregated-checks-github-summary.png>)
 
@@ -262,23 +270,23 @@ In each case, clicking on the _Details_ link will take you to the GitHub check v
 
 ### Deployment status notifications
 
-[Deployments](https://developer.github.com/v3/guides/delivering-deployments/){: rel="nofollow"} and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to [Unconfirmed](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
+[Deployments](https://developer.github.com/v3/guides/delivering-deployments/){: rel="nofollow"} and their associated statuses are created by tracked runs to indicate that changes are being made to the Terraform state. A GitHub deployment is created and marked as _Pending_ when the [planning](../../concepts/run/proposed.md#planning) phase detects changes and a [tracked run](../../concepts/run/tracked.md) either transitions to the [_Unconfirmed_](../../concepts/run/tracked.md#unconfirmed) state or automatically starts [applying](../../concepts/run/tracked.md#applying) the diff:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (1).png>)
 
-If the user does not like the proposed changes during the manual review and [discards](../../concepts/run/tracked.md#discarded) the [tracked run](../../concepts/run/tracked.md), its associated GitHub deployment is immediately marked as a _Failure_. Same happens when the user [confirms](../../concepts/run/tracked.md#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [Applying](../../concepts/run/tracked.md#applying) phase fails:
+If the user does not like the proposed changes and [discards](../../concepts/run/tracked.md#discarded) the [tracked run](../../concepts/run/tracked.md) during the manual review, its associated GitHub deployment is immediately marked as a _Failure_. The same thing happens when the user [confirms](../../concepts/run/tracked.md#confirmed) the [tracked run](../../concepts/run/tracked.md) but the [_Applying_](../../concepts/run/tracked.md#applying) phase fails:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (2).png>)
 
-If the [Applying](../../concepts/run/tracked.md#applying) phase succeeds (fingers crossed!), the deployment is marked as _Active_:
+If the [_Applying_](../../concepts/run/tracked.md#applying) phase succeeds, the deployment is marked as _Active_:
 
-![](../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end.png)
+![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end.png>)
 
-The whole deployment history broken down by stack can be accessed from your repo's _Environments_ section - a previously obscure feature that's recently getting more and more love from GitHub:
+Your repository's _Environments_ section displays the entire deployment history broken down by stack:
 
 ![](../../assets/screenshots/spacelift-io_infra__Infrastructure_definitions_for_Spacelift.png)
 
-That's what it looks like for our test repo, with just a singe stack pointing at it:
+That's what it looks like for our test repo, with a single stack pointing at it:
 
 ![](<../../assets/screenshots/Deployments_·_spacelift-io_marcinw-end-to-end (4).png>)
 
@@ -289,111 +297,90 @@ GitHub deployment environment names are derived from their respective stack name
 
 ## Pull Requests
 
-In order to help you keep track of all the pending changes to your infrastructure, Spacelift also has a PRs tab that lists all the active Pull Request against your tracked branch. Each of the entries shows the current status of the change as determined by Spacelift, and a link to the most recent Run responsible for determining that status:
+In order to help you keep track of all the pending changes to your infrastructure, Spacelift also has a PRs tab that lists all the active Pull Requests against your tracked branch. Each of the entries shows the current status of the change as determined by Spacelift, and a link to the most recent Run responsible for determining that status:
 
-![](../../assets/screenshots/Pull_Requests_·_Spacelift_development.png)
+![](<../../assets/screenshots/Pull_Requests_·_Spacelift_development.png>)
 
-Note that this view is read-only - you can't change a Pull Request through here, but clicking on the name will take you to GitHub where you can make changes.
+Note that this view is read-only. You can't change a Pull Request through the Spacelift UI, but clicking on the PR name will take you to GitHub where you can make changes.
 
-Once a Pull Request is closed, whether with or merging or without merging, it disappears from this list.
+Once a Pull Request is closed, either with or without merging, it disappears from this list.
 
 ## Proposed workflow
 
-In this section, we'd like to propose a workflow that has worked for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow){: rel="nofollow"}.
+This proposed workflow has been effective for us and many other DevOps professionals working with infrastructure-as-code. Its simplest version is based on a single stack tracking a long-lived branch like _main_, and short-lived feature branches temporarily captured in Pull Requests. A more sophisticated version can involve multiple stacks and a process like [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow){: rel="nofollow"}.
 
 !!! tip
-    These are mere suggestions and Spacelift will fit pretty much any Git workflow, but feel free to experiment and find what works best for you.
+    These are simply suggestions and Spacelift will fit almost any Git workflow. Feel free to experiment and find what works best for you.
 
 ### Single stack version
 
-Let's say you have a single stack called _Infra_. Let's have it track the default `master` branch in the repository called... `infra`. Let's say you want to introduce some changes - define an Amazon S3 bucket, for example. What we suggest is opening a short-lived feature branch, making your change there, and opening a Pull Request from that branch to `master`.
+You have a single stack named _Infra_ tracking the default `master` branch in your repository, also called `infra`. If you want to introduce some changes, for example define an Amazon S3 bucket, we suggest this workflow:
 
-At this point, a proposed run is triggered by the push notification, and the result of running `terraform plan` with the new code but existing state and config is reported to the Pull Request. First, we should ensure that the Pull Request does not get merged to master without a successful run, so we'd protect the branch by **requiring a successful status check** from your stack.
+1. Open a short-lived feature branch.
+2. Make your changes on the branch.
+3. Open a Pull Request from that branch to `master`.
 
-Second, we can decide whether we just need a tick from Spacelift, or we'd rather **require a manual review**. We generally believe that more eyes is always better, but sometimes that's not practicable. Still, it's possible to protect the tracked branch in a way that requires manual Pull Request approval before merging.
+At this point, a proposed run is triggered by the push notification, and the result of running `terraform plan` with the new code (but existing state and configuration) is reported to the Pull Request.
 
-We're almost there, but let's also consider a scenario where our coworkers are also busy modifying the same stack. One way of preventing snafus as a team and get meaningful feedback from Spacelift is to **require that branches are up to date before merging**. If the current feature branch is behind the PR target branch, it needs to be rebased, which triggers a fresh Spacelift run that will ultimately produce the newest and most relevant commit status.
+1. Ensure that the Pull Request does not get merged to `master` without a successful run by **requiring a successful status check** from your stack.
+2. Decide whether you should **require a manual review** before merging the Pull Request on top of Spacelift's automated checks.
+3. If coworkers are also modifying the branch, **require branches be up-to-date before merging**.
+
+If the current feature branch is behind the PR target branch, it needs to be rebased, which triggers a fresh Spacelift run that will ultimately produce the newest and most relevant commit status.
 
 ### Multi-stack version
 
-One frequent type of setup involves two similar or even identical environments - for example, _staging_ and _production_. One approach would be to have them in a single repository but in different directories, setting [`project_root`](../../concepts/configuration/runtime-configuration/README.md#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory a lot and using as much or as little duplication as necessary to keep things moving, and a lot of commits will necessarily be no-ops for the _production_ stack. This is a very flexible approach, and we generally like it, but it leaves Git history pretty messy and some people really don't like that.
+A common setup involves two similar (or even identical) environments, for example, _staging_ and _production_. One approach would be to have them in a single repository but different directories, setting the [`project_root`](../../concepts/configuration/runtime-configuration/README.md#project_root-setting) runtime configuration accordingly. This approach means changing the _staging_ directory often and using as much or little duplication as necessary to keep things moving. Many commits will be no-ops for the _production_ stack. This is a very flexible approach, but it leaves Git history messy.
 
-If you're in that group, you can create two long-lived Git branches, each linked to a different stack - the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack. Most development thus occurs on the staging branch and once the code is perfected there over a few iterations, a Pull Request can be opened from the `staging` to `production` branch, incorporating all the changes. That's essentially how we've seen most teams implement [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow){: rel="nofollow"}. This approach keeps the history of the `production` branch clear and allows plenty of experimentation in the `staging` branch.
+If you prefer a cleaner Git history:
 
-With the above GitFlow-like setup, we propose protecting both `staging` and `production` branches in GitHub. To maximize flexibility, `staging` branch may require a green commit status from its associated stack but not necessarily a manual review. In the meantime, `production` branch should probably require both a manual approval and a green commit status from its associated stack.
+1. Create two long-lived Git branches, each linked to a different stack: the default `staging` branch linked to the _staging_ stack, and a `production` branch linked to the _production_ stack.
+2. Develop and perfect the code on the `staging` branch.
+3. Open a Pull Request from the `staging` to `production` branch, incorporating all the changes.
+
+We've seen many teams use this workflow to implement [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow){: rel="nofollow"}. This approach keeps the history of the `production` branch clean and allows plenty of experimentation in the `staging` branch.
+
+With this GitFlow-like setup, we propose protecting both `staging` and `production` branches in GitHub. To maximize flexibility, the `staging` branch may require a green commit status from its associated stack but not necessarily a manual review. In the meantime, the `production` branch should require **both** a manual approval and a green commit status from its associated stack.
 
 ## Webhook integrations
 
-Below is the list of some of the GitHub webhooks we subscribe to with a brief explanation of what we do with those.
+We subscribe to many GitHub webhooks:
 
-### Push events
-
-Any time we receive a repository code push notification, we match it against Spacelift repositories and - if necessary - [create runs](../../concepts/run/README.md). We'll also _stop proposed runs_ that have been superseded by a newer commit on their branch.
-
-### App installation creation
-
-When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account.
-
-### Organization renamed
-
-If a GitHub organization name is changed, we change the name of the corresponding account in Spacelift.
-
-!!! warning
-    This is only applicable for accounts that were created using GitHub originally.
-
-### Pull Request events
-
-Whenever a Pull Request is opened or reopened, we generate a record in our database to show it on the Stack's _PRs_ page. When it's closed, we delete that record. When it's synchronized (eg. new push) or renamed, we update the record accordingly. This way, what you see in Spacelift should be consistent with what you see in GitHub.
-
-### Pull Request Review events
-
-Whenever a review is added or dismissed from a Pull Request, we check whether a new run should be triggered based on any push policies attached to your stacks. This allows you to make decisions about whether or not to trigger runs based on the approval status of your Pull Request.
-
-### Repository renamed
-
-If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/stack-settings.md#vcs-integration-and-repository) pointing to it.
-
-## GitHub Action
-
-You can use the [Setup Spacectl](https://github.com/marketplace/actions/setup-spacectl){: rel="nofollow"} GitHub Action to install our [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI tool to easily interact with Spacelift.
-
-## Git checkout support
-
-By default Spacelift uses the GitHub API to download a tarball containing the source code for your stack or module. We are introducing experimental support for downloading the code using a standard Git checkout. If you would like to enable this for your stacks/modules, there are currently two options available:
-
-1. Add a label called `feature:enable_git_checkout` to each stack or module that you want to use Git checkout on. This allows you to test the new support without switching over all your stacks at once.
-2. Contact our support team and ask us to enable the feature for all stacks/modules in your account.
+| **Webhook** | **How Spacelift uses it** |
+| ------- | --------------------- |
+| Push events | Any time we receive a repository code push notification, we match it against Spacelift repositories and, if necessary, [create runs](../../concepts/run/README.md). We'll also **stop** _proposed_ runs that have been superseded by a newer commit on their branch. |
+| App installation creation | When the Spacelift GitHub app is installed on an account, we create a corresponding Spacelift account. |
+| Organization renamed | If a GitHub organization name is changed, we change the name of the corresponding account in Spacelift. (Only applicable for accounts that were created using GitHub originally.) |
+| Pull request events | Whenever a Pull Request is opened or reopened, we generate a record in our database to show it on the Stack's _PRs_ page. When it's closed, we delete that record. When it's synchronized (eg. new push) or renamed, we update the record accordingly. This way, what you see in Spacelift should be consistent with what you see in GitHub. |
+| Pull request review events | Whenever a review is added or dismissed from a Pull Request, we check whether a new run should be triggered based on any push policies attached to your stacks. This allows you to make decisions about whether or not to trigger runs based on the approval status of your Pull Request. |
+| Repository renamed | If a GitHub repository is renamed, we update its name in all the [stacks](../../concepts/stack/stack-settings.md#vcs-integration-and-repository) pointing to it. |
+| **GitHub Action** | You can use the [Setup Spacectl](https://github.com/marketplace/actions/setup-spacectl){: rel="nofollow"} GitHub Action to install our [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI tool to easily interact with Spacelift. |
+| **Git checkout support** | By default Spacelift uses the GitHub API to download a tarball containing the source code for your stack or module. We are introducing experimental support for downloading the code using a standard Git checkout. To enable this feature for your stacks/modules, either add a label called `feature:enable_git_checkout` to each stack or module that you want to use Git checkout on (which allows you to test without switching all stacks over), or contact our support team and ask us to enable the feature for all stacks/modules in your account. |
 
 ## Unlinking GitHub and Spacelift
 
 === "Uninstalling the Marketplace application"
 
-    If you wish to uninstall the Spacelift application you installed from the GitHub Marketplace, go to the GitHub account settings and select the *Applications* menu item.
+    To uninstall the Spacelift application you installed on the GitHub Marketplace:
 
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.54.57.png>)
-
-    Click on the *Configure* button for the *spacelift.io* application.
-
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.57.41.png>)
-
-    Finally, click on the *Uninstall* button.
-
-    ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.58.05.png>)
+    1. Go to your GitHub account settings and select **Applications**.
+        ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.54.57.png>)
+    2. Click **Configure** for the _spacelift.io_ application.
+        ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.57.41.png>)
+    3. Click **Uninstall**.
+        ![](<../../assets/screenshots/CleanShot 2022-09-15 at 17.58.05.png>)
 
 === "Uninstalling the custom application"
 
-    Go to the _Developer settings_ of the GitHub account, then in the _GitHub Apps_ section click on the _Edit_ button for the Spacelift application.
-
-    ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.28.11.png>)
-
-    On the page for the Spacelift application, go to the *Advanced* section and click on the _Delete GitHub App_ button. Confirm by typing the name of the application and it is gone.
-
-    ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
-
-    You can now remove the integration via the *Delete* button on the *Source code* page:
-
-    <p align="center"><img src="../../assets/screenshots/Gitlab_delete.png"/></p>
+    1. Go to the _Developer settings_ of your GitHub account.
+    2. In the _GitHub Apps_ section, click **Edit** for the Spacelift application.
+        ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.28.11.png>)
+    3. On the page for the Spacelift application, go to the _Advanced_ section and click **Delete GitHub App**. Confirm by typing the name of the application.
+        ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
+    4. You can now remove the integration via **Delete** on the *Source code* page in Spacelift:
+        ![](<../../assets/screenshots/Gitlab_delete.png>)
 
     !!! warning
         Please note that you can delete integrations **while stacks are still using them**. As a consequence, when a stack has a detached integration, it will no longer be able to receive webhooks from Github and you won't be able to trigger runs manually either.
+
         To fix it, you'll need to open the stack, go to the **Settings** tab and choose a new integration.
