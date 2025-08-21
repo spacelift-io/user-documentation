@@ -154,15 +154,15 @@ jobs:
 ### Testing example
 
 Having the policy and the pipeline defined, we can now test it. Creating a new commit in the repository will trigger the pipeline.
-As we can see a run was created in Spacelift, but it's in queued state. The run will not start until all the dependencies are marked as finished.
+As we can see a run was created in Spacelift, but it's in queued state. The run will not start until all the dependencies are marked as finished or skipped.
 
 ![](<../../../assets/screenshots/run-external-dependency-queued.png>)
 
-After the binary-build dependency has been marked as completed the run is still queued, as the docker-image-build dependency is still not resolved.
+After the binary-build dependency has been marked as skipped the run is still queued, as the docker-image-build dependency is still not resolved.
 
 ![](<../../../assets/screenshots/run-external-dependency-completed-1.png>)
 
-The run starts only after all the dependencies are marked as finished.
+The run starts only after all the dependencies reach a terminal state.
 
 ![](<../../../assets/screenshots/run-external-dependency-completed-2.png>)
 
