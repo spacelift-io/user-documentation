@@ -5,57 +5,27 @@ description: >-
 
 # Docker-based Workers
 
-{% if is_saas() %}
 Spacelift Docker-based workers consist of two main components: the launcher binary, and the worker binary. The launcher is responsible for downloading the correct version of the worker binary to be able to execute Spacelift runs, and for starting new Docker containers in response to those runs being scheduled.
 
-The launcher is distributed as a statically-linked Go binary, which can be downloaded using the following links:
+{% if is_self_hosted() %}
+In a Self-Hosted install, the version of the launcher binary that is provided comes with the correct worker binary for your version of Self-Hosted embedded. This means that it doesn't need to download the worker binary separately when executing runs.
+{% endif %}
 
-- [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64){: rel="nofollow"} (amd64 CPU).
-- [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64){: rel="nofollow"} (arm64 CPU).
+{% if is_saas() %}
+
+We suggest using our [Terraform modules](#terraform-modules) to deploy your workers, but you can also follow our instructions on [manual setup](#manual-setup) if you need to deploy workers to an environment not supported by our Terraform modules.
+
 {% else %}
-The Self-Hosted release archive contains a copy of the Spacelift launcher binary built specifically for your version of Self-Hosted. You can find this at `bin/spacelift-launcher`. This binary is also uploaded to the downloads S3 bucket during the Spacelift installation process. For more information on how to find your bucket name see [here](#get-the-downloads-bucket-name).
-{% endif %}
 
-In order to work, the launcher expects to be able to write to the local Docker socket. Unless you're using a Docker-based container scheduler like Kubernetes or ECS, please make sure that Docker is installed and running.
+We suggest using our [Terraform module](#terraform-module) or [Cloudformation template](#cloudformation-template) to deploy your workers, but you can also follow our instructions on [manual setup](#manual-setup) if you need to deploy workers to an environment not supported by either approach.
 
-Finally, you can run the launcher binary by setting two environment variables:
-
-- `SPACELIFT_TOKEN` - the token you’ve received from Spacelift on worker pool creation.
-- `SPACELIFT_POOL_PRIVATE_KEY` - the contents of the private key file you generated, in base64.
-
-!!! info
-    You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run `cat spacelift.key | base64 -w 0` in your command line. For Mac users, the command is `cat spacelift.key | base64 -b 0`.
-
-Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.
-
-{% if is_saas() %}
-!!! tip
-    In general, arm64-based virtual machines are cheaper than amd64-based ones, so if your cloud provider supports them, we recommend using them. If you choose to do so, and you're using [custom runner images](../../concepts/stack/stack-settings.md#runner-image), make sure they're compatible with ARM64. All Spacelift provided runner images are compatible with both CPU architectures.
 {% endif %}
 
 {% if is_saas() %}
 
-## Periodic updates
+## Terraform Modules
 
-Our worker infrastructure consists of two binaries: launcher and worker. The latest version of the launcher binary is downloaded during the instance startup. The launcher then establishes a connection with the Spacelift backend and waits for messages. When it gets a message, it downloads the latest version of the worker binary and executes it. The worker binary is responsible for running the actual Spacelift runs.
-
-This setup ensures that the worker binary is always up to date, but the launcher may not be. Typically, the worker binaries receive more updates but it's still recommended to recycle the worker pool every once in a while to ensure that the launcher is up to date. The simplest way to do this is via the _Cycle_ option on the worker pool page:
-
-![Cycle worker pool](../../assets/screenshots/concepts/worker-pools/cycle-pool.png)
-
-{% endif %}
-
-## AMI updates & deprecation policy
-
-If you run your workers in AWS and use the [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, make sure to update your worker pool routinely as they receive [weekly updates](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} to ensure all system components are up-to-date.
-
-Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 420 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
-
-{% if is_saas() %}
-
-## Terraform Modules and Helm Chart
-
-For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker pools. [This repository](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} contains the code for Spacelift's base images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
+For AWS, Azure and GCP users we provide an easy way to run Spacelift worker pools. The [spacelift-io/spacelift-worker-image](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"} repository contains the code for Spacelift's base virtual machine images, and the following repositories contain Terraform modules to customize and deploy worker pools to AWS, Azure or GCP:
 
 - AWS: [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"}.
 - Azure: [terraform-azure-spacelift-workerpool](https://github.com/spacelift-io/terraform-azure-spacelift-workerpool){: rel="nofollow"}.
@@ -64,41 +34,7 @@ For AWS, Azure and GCP users we've prepared an easy way to run Spacelift worker 
 !!! info
     AWS ECS is supported when using the EC2 launch type but Spacelift does not currently provide a Terraform module for this setup.
 
-## EC2 Spot Instances
-
-The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
-
-!!! warning "Not Recommended for Production/Critical Workloads"
-    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
-
-    - Incomplete or corrupted Terraform state
-    - Failed deployments leaving infrastructure in inconsistent state
-    - Loss of work-in-progress for long-running operations
-
-    Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
-
-```hcl
-module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
-
-  # Other settings are omitted for brevity
-
-  instance_market_options = {
-    market_type = "spot"
-  }
-  ec2_instance_type = "t3.medium"
-}
-```
-
-The Spacelift worker includes graceful interruption handling: it monitors for spot interruption notices and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
-
-Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
-
-{% endif %}
-
-{% if is_self_hosted() %}
-
-There are two easy ways to deploy workers for self-hosting: either via our Terraform module or via the CloudFormation template that is attached to the installation package.
+{% else %}
 
 ## Terraform module
 
@@ -127,36 +63,6 @@ module "my_workerpool" {
   }
 }
 ```
-
-## EC2 Spot Instances
-
-The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
-
-!!! warning "Not Recommended for Production/Critical Workloads"
-    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
-
-    - Incomplete or corrupted Terraform state
-    - Failed deployments leaving infrastructure in inconsistent state
-    - Loss of work-in-progress for long-running operations
-    
-     Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
-
-```hcl
-module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
-
-  # Other settings are omitted for brevity
-
-  instance_market_options = {
-    market_type = "spot"
-  }
-  ec2_instance_type = "t3.medium"
-}
-```
-
-The Spacelift worker includes graceful interruption handling: it monitors for [spot interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-instance-termination-notices.html){: rel="nofollow"} and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
-
-Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
 
 ## CloudFormation Template
 
@@ -396,5 +302,139 @@ aws cloudformation deploy --no-cli-pager \
     InstanceRoleName="default-worker-role" \
   --capabilities "CAPABILITY_NAMED_IAM"
 ```
+
+{% endif %}
+
+## Manual setup
+
+### Pre-requisites
+
+In order to work, the launcher expects to be able to write to the local Docker socket. Please make sure that Docker is installed and running.
+
+### Downloading the launcher
+
+{% if is_saas() %}
+The launcher is distributed as a statically-linked Go binary, and we provide slightly different versions depending on whether you are using one of our standard environments (for example app.spacelift.io or us.app.spacelift.io) or our FedRAMP environment. The main difference between them is that the FedRAMP version has some of the telemetry we use to help investigate customer issues disabled.
+
+For each environment, we provide amd64 and arm64 versions, so that you can use the correct version depending on the architecture you use. Please download the appropriate version for your Spacelift environment and host architecture.
+
+=== "Standard"
+
+    - [x86_64](https://downloads.spacelift.io/spacelift-launcher-x86_64){: rel="nofollow"} (amd64 CPU).
+    - [aarch64](https://downloads.spacelift.io/spacelift-launcher-aarch64){: rel="nofollow"} (arm64 CPU).
+
+=== "FedRAMP"
+
+    - [x86_64](https://downloads.spacelift.io/spacelift-launcher-fedramp-x86_64){: rel="nofollow"} (amd64 CPU).
+    - [aarch64](https://downloads.spacelift.io/spacelift-launcher-fedramp-aarch64){: rel="nofollow"} (arm64 CPU).
+
+!!! tip
+    In general, arm64-based virtual machines are cheaper than amd64-based ones, so if your cloud provider supports them, we recommend using them. If you choose to do so, and you're using [custom runner images](../../concepts/stack/stack-settings.md#runner-image), make sure they're compatible with ARM64. All Spacelift provided runner images are compatible with both CPU architectures.
+
+{% else %}
+The Self-Hosted release archive contains a copy of the Spacelift launcher binary built specifically for your version of Self-Hosted. You can find this at `bin/spacelift-launcher`. This binary is also uploaded to the downloads S3 bucket during the Spacelift installation process. For more information on how to find your bucket name see [here](#get-the-downloads-bucket-name).
+{% endif %}
+
+### Running the launcher
+
+You can run the launcher binary using the following commands (replacing `<worker-pool-id>` with the ID of your pool):
+
+```shell
+export SPACELIFT_TOKEN=$(cat worker-pool-<worker-pool-id>.config)
+export SPACELIFT_POOL_PRIVATE_KEY=$(cat spacelift.key | base64 -w0)
+./spacelift-launcher
+```
+
+These commands set the following environment variables and then execute the launcher binary:
+
+- `SPACELIFT_TOKEN` - the token you’ve received from Spacelift on worker pool creation.
+- `SPACELIFT_POOL_PRIVATE_KEY` - the contents of the private key file you generated, in base64.
+
+!!! info
+    You need to encode the _entire_ private key using base-64, making it a single line of text. The simplest approach is to just run `cat spacelift.key | base64 -w 0` in your command line. For Mac users, the command is `cat spacelift.key | base64 -b 0`.
+
+Congrats! Your launcher should now connect to the Spacelift backend and start handling runs.
+
+{% if is_saas() %}
+
+## Periodic updates
+
+Our worker infrastructure consists of two binaries: launcher and worker. The latest version of the launcher binary is downloaded during the instance startup. The launcher then establishes a connection with the Spacelift backend and waits for messages. When it gets a message, it downloads the latest version of the worker binary and executes it. The worker binary is responsible for running the actual Spacelift runs.
+
+This setup ensures that the worker binary is always up to date, but the launcher may not be. Typically, the worker binaries receive more updates but it's still recommended to recycle the worker pool every once in a while to ensure that the launcher is up to date. The simplest way to do this is via the _Cycle_ option on the worker pool page:
+
+![Cycle worker pool](../../assets/screenshots/concepts/worker-pools/cycle-pool.png)
+
+{% endif %}
+
+## AMI updates & deprecation policy
+
+If you run your workers in AWS and use the [Spacelift AMIs](https://github.com/spacelift-io/spacelift-worker-image){: rel="nofollow"}, make sure to update your worker pool routinely as they receive [weekly updates](https://github.com/spacelift-io/spacelift-worker-image/releases){: rel="nofollow"} to ensure all system components are up-to-date.
+
+Currently, the AWS AMIs are [set to be deprecated in 364 days](https://github.com/spacelift-io/spacelift-worker-image/blob/409fff993556d53225c70a9736771a9808d89e1d/aws.pkr.hcl#L131){: rel="nofollow"} after its release and removed after 420 days. You won't be able to start new instances using a deprecated AMI, but existing instances will continue to run.
+
+{% if is_saas() %}
+
+## EC2 Spot Instances
+
+The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
+
+!!! warning "Not Recommended for Production/Critical Workloads"
+    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
+
+    - Incomplete or corrupted Terraform state
+    - Failed deployments leaving infrastructure in inconsistent state
+    - Loss of work-in-progress for long-running operations
+
+    Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
+
+```hcl
+module "my_workerpool" {
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
+
+The Spacelift worker includes graceful interruption handling: it monitors for spot interruption notices and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
+
+Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
+
+{% else %}
+
+## EC2 Spot Instances
+
+The [AWS Terraform module](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2){: rel="nofollow"} supports [EC2 Spot Instances](https://aws.amazon.com/ec2/spot/){: rel="nofollow"} for up to 90% cost savings.
+
+!!! warning "Not Recommended for Production/Critical Workloads"
+    Spot instances are **NOT recommended for critical or production workloads** as they can be interrupted with only 2 minutes notice, potentially causing:
+
+    - Incomplete or corrupted Terraform state
+    - Failed deployments leaving infrastructure in inconsistent state
+    - Loss of work-in-progress for long-running operations
+    
+     Use Spot instances only for development, testing, or fault-tolerant workloads where interruption is acceptable: for example, ephemeral environments, Terraform modules, or operations with guaranteed runtimes under one minute.
+
+```hcl
+module "my_workerpool" {
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
+
+The Spacelift worker includes graceful interruption handling: it monitors for [spot interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-instance-termination-notices.html){: rel="nofollow"} and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
+
+Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
 
 {% endif %}
