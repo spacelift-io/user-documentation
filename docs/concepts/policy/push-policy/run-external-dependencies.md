@@ -158,7 +158,7 @@ As we can see a run was created in Spacelift, but it's in queued state. The run 
 
 ![](<../../../assets/screenshots/run-external-dependency-queued.png>)
 
-After the binary-build dependency has been marked as skipped the run is still queued, as the docker-image-build dependency is still not resolved.
+After the docker-image-build dependency has been marked as skipped the run is still queued, as the binary-build dependency is still not resolved.
 
 ![](<../../../assets/screenshots/run-external-dependency-completed-1.png>)
 
