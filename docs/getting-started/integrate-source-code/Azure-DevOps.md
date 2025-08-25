@@ -38,7 +38,7 @@ You need to create a [personal access token](https://docs.microsoft.com/en-us/az
 
 2. Click **New Token**.
 3. Fill in the details to create a new personal access token:
-    ![Creating a new personal access token in Azure DevOps](<../../assets/screenshots/azureDevOps-personalAccessToken3.png>)
+    ![Creating a new personal access token in Azure DevOps](<../../assets/screenshots/azureDevOpsPersonalAccessToken3.png>)
     1. **Name**: Enter a descriptive name for the token.
     2. **Organization**: Select the organization to connect to Spacelift.
     3. **Expiration**: Select an expiration date for the token.
