@@ -5,38 +5,58 @@ description: >-
 
 # Raw Git
 
-Spacelift supports a whole range of version control systems but all of them require setup.
-
-This integration enables you to create stacks right from a publicly accessible Git repository, which also include GitHub gists.
+Spacelift supports a range of [version control systems](./README.md) that all require setup. With the raw Git integration, you can create stacks straight from a publicly accessible Git repository, including GitHub gists, without additional setup.
 
 !!! info
 
-    Using Raw Git gives you a one-way connection to the repository. Pushes, PRs, etc. are not supported.
+    Using Raw Git with Spacelift gives you a one-way connection to the repository. Pushes, PRs, etc. are not supported.
 
-    This provider is best suited for consuming public content.
+    This integration is best for _consuming_ public content.
 
-## Using Raw Git with stacks and modules
+## Use Raw Git with stacks and modules
 
-The stack or module creation and editing forms will show a dropdown from which you can choose the Raw Git VCS provider. What's different from other VCS providers, you need to specify the repository URL.
+To get started, click **Create stack** on the _Stacks_ page or **Create module** on the _Terraform registry_ page. When creating a module instead of a stack, you will connect to source code first, then enter module details.
 
-![](<../../assets/screenshots/raw-git-stack.png>)
+![Create a stack](<../../assets/screenshots/CreateStackGS.png>)
 
-The rest of the process is exactly the same as with [creating a GitHub-backed stack](../../concepts/stack/creating-a-stack.md#integrate-vcs) or module, so we won't go into further details.
+### Stack or module details
 
-## Using GitHub gists
+Fill in required _stack details_ or _module details_.
 
-To create a stack backed by a GitHub gist, you enter the gist's URL into the repository URL field.
+![Add stack details](<../../assets/screenshots/getting-started/create-stack/Stack-details.png>)
 
-![](<../../assets/screenshots/raw-git-gist.png>)
+1. **Name**: Enter a unique, descriptive name for your stack or module.
+2. **Space**: Select the [space](../../concepts/stack/README.md) to create the stack or module in.
+3. [**Labels**](../../concepts/stack/stack-settings.md#labels) (optional): Add labels to help sort and filter your stacks or modules.
+4. **Description** (optional): Enter a (markdown-supported) description of the stack or module and the resources it manages.
+5. Click **Continue**.
 
-## Triggering runs on updates
+### Connect to source code
 
-This provider gives you a one-way connection to the repository. New runs won't get triggered automatically on updates to the repository.
+![Create stack with raw Git](<../../assets/screenshots/stack/create-stack-raw-git.png>)
 
-The run can be triggered manually, though.
+1. **Integration**: Click the Raw Git integration.
+2. **URL**: Enter the repository URL you would like to use.
+3. **Repository**: Ensure the name of the repository is correct when autofilled from the URL.
+4. **Branch**: Select the branch of the repository to manage with this stack.
+5. [**Project root**](../../concepts/stack/stack-settings.md#project-root) (optional): If the entrypoint of the stack is different than the root of the repo, enter its path here.
+6. [**Project globs**](../../concepts/stack/stack-settings.md#project-globs) (optional): Enter additional files and directories that should be managed by the stack.
+7. Click **Continue**.
 
-![](<../../assets/screenshots/raw-git-updates.png>)
+The rest of the process is exactly the same as [creating a GitHub-backed stack](../../getting-started/create-stack/README.md#2-connect-to-source-code) or module.
 
-1. You can use the Sync button to check for updates,
-2. If there are any updates since the last sync or creation of the stack, the tracked commit will change,
-3. You can use the Trigger button to invoke a run.
+## Use GitHub gists
+
+To create a stack backed by a GitHub gist, enter the gist's URL into the **URL** field.
+
+![Use a GitHub gist](<../../assets/screenshots/stack/create-stack-git-gist.png>)
+
+## Trigger runs on updates
+
+This integration gives you a one-way connection to the repository. New runs aren't automatically triggered on updates to the repository. However, you can trigger runs manually.
+
+![Trigger manual runs](<../../assets/screenshots/raw-git-updates.png>)
+
+1. Click **Sync** to check for updates.
+2. If there are any updates since the last sync or creation of the stack, the tracked commit will change.
+3. Click **Trigger** to invoke a run.

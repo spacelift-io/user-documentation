@@ -2,7 +2,7 @@
 
 For everything but raw Git, integrate your source code with Spacelift on the _Source code_ tab.
 
-![](<../../assets/screenshots/getting-started/source-code/set-up-integration.png>)
+![Set up source code integration](<../../assets/screenshots/getting-started/source-code/set-up-integration.png>)
 
 1. Click **Set up integration**.
 2. Select your VCS from the dropdown.
@@ -16,7 +16,7 @@ Your source code can be stored on any of the supported version control systems (
     - [Cloud](Bitbucket-Cloud.md)
     - [Data Center/Server](Bitbucket-DataCenter.md)
 - [Azure DevOps](Azure-DevOps.md)
-- Raw Git
+- [Raw Git](../../integrations/source-control/raw-git.md)
 
 ## Example starter repository
 

@@ -2,40 +2,40 @@
 
 IdP groups can receive roles through direct group assignment. Assign roles to the entire group, which automatically applies to all members of that group.
 
-## Assigning roles
+## Assign roles
 
-### Assigning roles to IdP groups using the web UI
+### Assign roles to IdP groups using the web UI
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be User Management
-    2. Your identity provider [must be connected to Spacelift](../../integrations/single-sign-on/README.md)
-    3. You must have appropriate permissions to manage user group roles
-    4. Target spaces must exist where you want to assign roles
-2. Navigate to IdP Group Mapping
-    1. Click your name in the bottom left corner of the Spacelift interface
-    2. Go to **Organization Settings** → **Identity Management** -> **IdP group mapping**
-3. Create IdP group mapping
-    1. Click **Map IdP group**
-    2. Enter the id of the IdP group (this is the id of the group in your identity provider, e.g., GitHub team slug)
-    3. Select the Role you want to assign to the group
-    4. Select the Space where the group should have this role
-    5. Click **Add** to add role assignment
-    6. Click **Add** to save the group mapping
-4. Access Group Role Management
-    1. Click on the group row in the group list
-    2. Click the **Manage Roles** button
-    3. This opens the group role assignment interface
+1. Verify you meet the prerequisites:
+    1. The selected management strategy for your organization must be User Management.
+    2. Your identity provider [must be connected to Spacelift](../../integrations/single-sign-on/README.md).
+    3. You must have appropriate permissions to manage user group roles.
+    4. Target spaces must exist where you want to assign roles.
+2. Navigate to IdP group mapping:
+    1. Click your name in the bottom left corner of the Spacelift interface.
+    2. Go to **Organization Settings** → **Identity Management** -> **IdP group mapping**.
+3. Create IdP group mapping:
+    1. Click **Map IdP group**.
+    2. Enter the id of the IdP group (this is the id of the group in your identity provider, e.g., GitHub team slug).
+    3. Select the role you want to assign to the group.
+    4. Select the space where the group should have this role.
+    5. Click **Add** to add role assignment.
+    6. Click **Add** to save the group mapping.
+4. Access group role management:
+    1. Click on the group row in the group list.
+    2. Click **Manage Roles**.
+    3. This opens the group role assignment interface.
 
-### Assigning roles to IdP groups using the terraform provider
+### Assign roles to IdP groups using the Terraform provider
 
 Refer to the [Spacelift Terraform provider documentation](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/idp_group_mapping) for detailed instructions on creating IdP group mappings programmatically.
 
-### Assigning roles to IdP groups using the login policies
+### Assign roles to IdP groups using the login policies
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be Login Policies
-    2. You must have appropriate permissions to create or modify login policies
-    3. Understanding of OPA/Rego policy language
+1. Verify you meet the prerequisites:
+    1. The selected management strategy for your organization must be Login Policies.
+    2. You must have appropriate permissions to create or modify login policies.
+    3. Understanding of OPA/Rego policy language.
 2. Use the `roles` rule to assign roles to users:
 
 ```opa
@@ -188,22 +188,20 @@ roles["production"]["prod-deployer-role-id"] {
 
 ## Troubleshooting
 
-### Common issues
+### Group permissions not working
 
-**Group Permissions Not Working**:
+- Verify group-to-role assignments are correct.
+- Check if user is actually a member of the group.
+- Ensure user has re-authenticated since group assignment.
+- Validate role includes required actions.
 
-- Verify group-to-role assignments are correct
-- Check if user is actually a member of the group
-- Ensure user has re-authenticated since group assignment
-- Validate role includes required actions
+### Conflicting group permissions
 
-**Conflicting Group Permissions**:
+- Multiple groups can provide different roles.
+- Permissions are additive across group memberships.
+- Regular audit of group role combinations.
 
-- Multiple groups can provide different roles
-- Permissions are additive across group memberships
-- Regular audit of group role combinations
-
-### Debugging steps
+## Debugging
 
 1. **Verify Group Membership**: Check user is member of expected groups in IdP
 2. **Validate Role Assignment**: Confirm group has correct role assignments

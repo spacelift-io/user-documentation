@@ -52,7 +52,7 @@ You need to create a [personal access token](https://docs.microsoft.com/en-us/az
 Now that your personal access token has been created, return to the integration configuration screen in Spacelift.
 
 1. **Organization URL**: Paste your [Azure DevOps organization URL](#find-your-organization-url).
-2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>/<path>`.
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>/<azure-organization-name>`.
 3. **Personal access token**: Paste the [personal access token](#create-a-personal-access-token) that Spacelift will use to access your Azure DevOps organization.
 4. **Labels**: Organize integrations by assigning labels to them.
 5. **Description**: A markdown-formatted free-form text field to describe the integration.
@@ -98,4 +98,4 @@ Once all hooks are created, you should see them on the _Service Hooks_ page.
 
 ✅ Step 1 of the LaunchPad is complete! Now you can [connect your cloud account](../integrate-cloud/README.md).
 
-![](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
+![LaunchPad step 1 complete](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
