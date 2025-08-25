@@ -1,47 +1,47 @@
 # API key role bindings
 
-[API](./../../integrations/api.md#spacelift-api-key-token) keys can receive roles through three methods:
+[API keys](./../../integrations/api.md#spacelift-api-key--token) can receive roles through three methods:
 
-- **Direct Assignment**: Assign roles directly to the API key
-- **IdP Group Assignment**: Associate API keys with IdP groups to inherit group-based role assignment
-- **Login Policy Assignment**: Use OPA policies to assign roles based on API key attributes (this can include assignment based on IdP group membership)
+- **Direct assignment**: Assign roles directly to the API key.
+- **IdP group assignment**: Associate API keys with IdP groups to inherit group-based role assignment.
+- **Login policy assignment**: Use OPA policies to assign roles based on API key attributes (this can include assignment based on IdP group membership).
 
-!!! note "Immediate Role Changes"
-    Except for Login Policies, role assignments and changes to roles take effect immediately (they force re-authentication if needed).
+!!! note "Immediate role changes"
+    Except for login policies, role assignments and changes to roles take effect immediately (they force re-authentication if needed).
 
-## Assigning roles
+## Assign roles
 
-### Assigning roles to API keys directly using the web UI
+### Assign roles to API keys directly using the web UI
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be User Management
-    2. The key must exist in your Spacelift organization
-    3. You must have appropriate permissions to manage API key roles
-    4. Spaces where you want to assign roles must exist
-2. Navigate to API Key Management
-    1. Click your name in the bottom left corner of the Spacelift interface
-    2. Go to **Organization Settings**
-    3. Go to ** **API Keys** in the **Identity Management** section
-    4. Find the API key you want to assign roles to
-    5. Click on the API key row to open its details
-3. Access Role Management
-    1. In the API key details page, click **Manage Roles**
-    2. This opens the role assignment interface for the API key
-4. Assign Roles
-    1. **Select Role**: Choose appropriate role for the automation
-    2. **Select Space**: Choose the space where the role applies
-    3. **Save Assignment**: Confirm the role assignment
+1. Verify you meet the prerequisites:
+    1. The selected management strategy for your organization must be User Management.
+    2. The key must exist in your Spacelift organization.
+    3. You must have appropriate permissions to manage API key roles.
+    4. Spaces where you want to assign roles must exist.
+2. Navigate to _API Key Management_:
+    1. Click your name in the bottom left corner of the Spacelift interface.
+    2. Go to **Organization Settings**.
+    3. Go to ** **API Keys** in the **Identity Management** section.
+    4. Find the API key you want to assign roles to.
+    5. Click on the API key row to open its details.
+3. Access role management:
+    1. In the API key details page, click **Manage Roles**.
+    2. This opens the role assignment interface for the API key.
+4. Assign roles:
+    1. **Select Role**: Choose appropriate role for the automation.
+    2. **Select Space**: Choose the space where the role applies.
+    3. **Save Assignment**: Confirm the role assignment.
 
-### Assigning roles to API keys directly using the terraform provider
+### Assign roles to API keys directly using the Terraform provider
 
-Refer to [Spacelift Terraform provider documentation](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) for more details).
+Refer to [Spacelift Terraform provider documentation](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) for more details.
 
-### Assigning roles to API keys directly using the login policies
+### Assign roles to API keys directly using login policies
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be Login Policies
-    2. You must have appropriate permissions to create or modify login policies
-    3. Understanding of OPA/Rego policy language
+1. Verify you meet the prerequisites:
+    1. The selected management strategy for your organization must be Login Policies.
+    2. You must have appropriate permissions to create or modify login policies.
+    3. Understanding of OPA/Rego policy language.
 2. Use the `roles` rule to assign roles to users:
 
 ```opa
@@ -238,76 +238,73 @@ is_secure_network {
 }
 ```
 
-### Assigning roles to API keys using IdP groups
+### Assign roles to API keys using IdP groups
 
-See [IdP Group Role Bindings](assigning-roles-groups.md) for details on how to assign roles to IdP groups. Once a role is assigned to an IdP group, all actors (api keys and users that your identity provider reports as being members of that group) will inherit the assigned roles.
+See [IdP group role bindings](assigning-roles-groups.md) for details on how to assign roles to IdP groups. Once a role is assigned to an IdP group, all actors (api keys and users that your identity provider reports as being members of that group) will inherit the assigned roles.
 
-## Removing an API key role binding
+## Remove an API key role binding
 
-1. Navigate to API Key Management
-    1. Click your name in the bottom left corner of the Spacelift interface
-    2. Go to **Organization Settings**
-    3. Go to ** **API Keys** in the **Identity Management** section
-    4. Find the API key you want to assign roles to
-    5. Click on the API key row to open its details
-2. Access Role Management
-    1. In the API key details page, click **Manage Roles**
-    2. This opens the role assignment interface for the API key
-3. Remove Role Assignment
-    1. Find the role assignment to remove
-    2. Click the **Unassign** button from the dropdown
-    3. Confirm the removal
+1. Navigate to API Key Management:
+    1. Click your name in the bottom left corner of the Spacelift interface.
+    2. Go to **Organization Settings**.
+    3. Go to **API Keys** in the **Identity Management** section.
+    4. Find the API key you want to assign roles to.
+    5. Click on the API key row to open its details.
+2. Access role management:
+    1. In the API key details page, click **Manage Roles**.
+    2. This opens the role assignment interface for the API key.
+3. Remove role assignment:
+    1. Find the role assignment to remove.
+    2. Click **Unassign** from the dropdown.
+    3. Confirm the removal.
 
 ## Multiple roles
 
 Actors can have multiple roles across different spaces:
 
-- Different roles in different spaces for varied access levels
-- Multiple roles in the same space (permissions are additive)
-- Roles inherited from group membership plus individual assignments
+- Different roles in different spaces for varied access levels.
+- Multiple roles in the same space (permissions are additive).
+- Roles inherited from group membership plus individual assignments.
 
-## Getting role IDs
+## Find role IDs
 
 To use custom roles in login policies, you need their role IDs:
 
-1. Navigate to **Organization Settings** → **Access Control Center** → **Roles**
-2. Click on the custom role you want to use
-3. Click **Copy ID** from the role detail page
-4. Use this ID in your login policy
+1. Navigate to **Organization Settings** → **Access Control Center** → **Roles**.
+2. Click on the custom role you want to use.
+3. Click **Copy ID** from the role detail page.
+4. Use this ID in your login policy.
 
 ## Troubleshooting
 
-### Common issues
+### API Key authentication failures
 
-**API Key Authentication Failures**:
+- Verify key is active and not expired.
+- Ensure key is being used with correct endpoints.
+- Validate key format and encoding.
 
-- Verify key is active and not expired
-- Ensure key is being used with correct endpoints
-- Validate key format and encoding
+### Permission denied errors
 
-**Permission Denied Errors**:
+- Confirm API key has required role assignments.
+- Verify role includes necessary actions for the operation.
+- Check if operation is being performed in correct space.
+- Ensure space exists and API key has access.
 
-- Confirm API key has required role assignments
-- Verify role includes necessary actions for the operation
-- Check if operation is being performed in correct space
-- Ensure space exists and API key has access
+### Inconsistent behavior
 
-**Inconsistent Behavior**:
-
-- API key permissions don't require re-authentication
-- Changes to role assignments take effect immediately
-- Check for policy conflicts or syntax errors
-- Validate role IDs are correct in login policies
+- API key permissions don't require re-authentication.
+- Changes to role assignments take effect immediately.
+- Check for policy conflicts or syntax errors.
+- Validate role IDs are correct in login policies.
 
 ### Debugging
 
-1. **Test API Key Authentication**: You can create an interactive session with an API key (as if it was a user) to test the key's permissions and actions. To do that, go to
-   `<your-spacelift-subdomain>.spacelift.io/apikeytoken` and enter your API key.
-2. **Check Role Assignments**: Confirm key has correct roles in target spaces
-3. **Validate Actions**: Ensure assigned roles include required permissions
-4. **Test Operations**: Use API key to perform expected operations
-5. **Review Audit Logs**: Check for API key related errors or warnings
-6. **Policy Validation**: If using login policies, verify syntax and logic, use the sample and simulate feature
+1. **Test API key authentication**: You can create an interactive session with an API key (as if it was a user) to test the key's permissions and actions. To do that, go to `<your-spacelift-subdomain>.spacelift.io/apikeytoken` and enter your API key.
+2. **Check role assignments**: Confirm key has correct roles in target spaces.
+3. **Validate actions**: Ensure assigned roles include required permissions.
+4. **Test operations**: Use API key to perform expected operations.
+5. **Review audit Logs**: Check for API key related errors or warnings.
+6. **Policy validation**: If using login policies, verify syntax and logic, use the sample and simulate feature.
 
 ## Related Topics
 

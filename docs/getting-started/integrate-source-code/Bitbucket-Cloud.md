@@ -95,4 +95,4 @@ Finally, you should install the **Pull Request Commit Links** app to be able to 
 
 ✅ Step 1 of the LaunchPad is complete! Now you can [connect your cloud account](../integrate-cloud/README.md).
 
-![](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
+![LaunchPad step 1 complete](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)

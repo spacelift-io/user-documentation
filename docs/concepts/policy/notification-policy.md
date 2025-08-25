@@ -2,19 +2,21 @@
 
 ## Purpose
 
-Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [Space level](../spaces/README.md)
-meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the Space it's in can be accessed by whatever action is being evaluated.
-It's also important to note that all notifications go through the policy evaluation.
-This means any of them can be redirected to the routes defined in the policy.
+!!! info
+    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
+
+Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md) meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space it's in can be accessed by whatever action is being evaluated.
+
+All notifications go through the policy evaluation. This means any of them can be redirected to the routes defined in the policy.
 
 A notification policy can define the following rules:
 
-- **inbox** - allows messages to be routed to the Spacelift notification inbox;
-- **slack** - allows messages to be routed to a given slack channel;
-- **webhook** - allows messages to be routed to a given webhook;
-- **pull_request** - allows messages to be routed to one or more pull requests;
+- **inbox**: Allows messages to be routed to the Spacelift notification inbox.
+- **slack**: Allows messages to be routed to a given slack channel.
+- **webhook**: Allows messages to be routed to a given webhook.
+- **pull_request**: Allows messages to be routed to one or more pull requests.
 
-If no rules match no action is taken.
+If no rules match, no action is taken.
 
 ## Data input
 
@@ -229,24 +231,20 @@ For Ansible runs, the `changes` array contains objects with different `action` v
 
 ## Policy in practice
 
-Using the notification policy, you can completely re-write notifications or control where and when they are sent. Let's look into how
-the policy works for each of the defined routes.
+Using the notification policy, you can completely re-write notifications or control where and when they are sent. Let's look into how the policy works for each of the defined routes.
 
-### Choosing a Space for your policy
+### Choose a space for your policy
 
-When creating notification policies you should take into account the Space in which you're creating them.
-Generally the policy follows the same conventions as any other Spacelift component, with a few small caveats.
+When creating notification policies you should take into account the space in which you're creating them. Generally the policy follows the same conventions as any other Spacelift component, with a few small caveats.
 
-#### Determining Space for run update notifications
+#### Determine space for run update notifications
 
-Run update messages will rely on the Space that the run is happening in.
-It will check any policies in that Space including policies inherited from other Spaces.
+Run update messages will rely on the space that the run is happening in. It will check any policies in that Space including policies inherited from other Spaces.
 
-#### Determining Space for internal errors
+#### Determine space for internal errors
 
-Most internal errors will check for notification policies inside of the root Space.
-However if the policy is reporting about a component that belongs to a certain Space
-and it can determine to which one it is, then it will check for policies in that or any inherited Space.
+Most internal errors will check for notification policies inside of the root space. However if the policy is reporting about a component that belongs to a certain space and it can determine to which one it is, then it will check for policies in that or any inherited space.
+
 Here is a list of components it will check in order:
 
 - Stack
@@ -259,21 +257,19 @@ Here is a list of components it will check in order:
 
 ### Inbox notifications
 
-Inbox notifications are what you receive in your [Spacelift notification inbox](../../product/notifications.md). By default, these are errors that happened during
-some kind of action execution inside Spacelift and are always sent even if you do not have a policy created.
-However using the policy allows you to alter the body of those errors to add additional context, or even more importantly
-it allows you to create your own unique notifications.
+Inbox notifications are what you receive in your [Spacelift notification inbox](../../product/notifications.md). By default, these are errors that happened during some kind of action execution inside Spacelift and are always sent even if you do not have a policy created.
 
-The inbox rule accepts multiple configurable parameters:
+However using the policy allows you to alter the body of those errors to add additional context, or even more importantly it allows you to create your own unique notifications.
 
-- `title` - a custom title for the message (**Optional**)
-- `body` - a custom message body (**Optional**)
-- `severity` - the severity level for the message (**Optional**)
+The inbox rule accepts multiple configurable parameters, all _optional_:
 
-#### Creating new inbox notifications
+- `title`: A custom title for the message.
+- `body`: A custom message body.
+- `severity`: The severity level for the message.
 
-For example here is an inbox rule which will send `INFO` level notification messages to your inbox
-when a tracked run has finished:
+#### Create new inbox notifications
+
+This inbox rule which will send `INFO` level notification messages to your inbox when a tracked run has finished:
 
 ```opa
 package spacelift
@@ -294,12 +290,10 @@ package spacelift
 
 ### Slack messages
 
-[Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack
-you will need to [add the slack integration to your Spacelift account](../../integrations/chatops/slack.md#linking-your-spacelift-account-to-the-slack-workspace).
+[Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack you will need to [add the slack integration to your Spacelift account](../../integrations/chatops/slack.md#connecting-your-spacelift-account-to-the-slack-workspace).
 
 !!! info
-    The documentation section about [Slack](../../integrations/chatops/slack.md) includes additional information like: available actions,
-    slack access policies and more. Consider exploring that part of documentation first.
+    The documentation section about [Slack](../../integrations/chatops/slack.md) contains more information about available actions, Slack access policies, and more.
 
 Another important point to mention is that the rules for Slack require a `channel_id` to be defined. This can be found at the bottom of a channel's _About_ section in Slack:
 

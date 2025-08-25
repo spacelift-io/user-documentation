@@ -1,89 +1,100 @@
 # Bitbucket Datacenter/Server
 
-Spacelift supports using an on-premises Bitbucket installation as the source of code for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md). You can set up multiple Space-level and one default Bitbucket Data Center integration per account.
+Spacelift supports Bitbucket Data Center (on-premise) as the code source for your [stacks](../../concepts/stack/README.md) and [modules](../../vendors/terraform/module-registry.md).
 
-## Setting up the integration
+You can set up multiple Space-level and one default Bitbucket Data Center integration per account.
 
-### Creating the integration
+## Create the Bitbucket Data Center integration
 
-In order to set up the integration from the Spacelift side, please navigate to the **Source code** page of Spacelift, click on the **Set up integration** button in the top right corner and choose Bitbucket Data Center
+### Initial setup
 
-![Click on Source code from the Left Navigation Sidebar to access your VCS integrations.](../../assets/screenshots/BitbucketDatacenter_vcs_management.png)
+1. On the _Source control_ tab, click **Set up integration**, then choose **Bitbucket Data Center** on the dropdown.
+    ![Create a Bitbucket integration](<../../assets/screenshots/BitbucketDatacenter_create_form.png>)
+2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
+3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
 
- ![Click on the Set Up Integration button in the top-right corner.](../../assets/screenshots/BitbucketDatacenter_set_up_integration.png)
+### Create an access token
 
-This should open a form like this one:
-
-<p align="center"><img src="../../assets/screenshots/BitbucketDatacenter_create_form.png" width="450"></p>
-
-Explanation of the fields:
-
-- **Integration name** - the friendly name of the integration. The name cannot be changed after the integration is created. That is because the Spacelift webhook endpoints are generated based on the integration name.
-- **Integration type** - either default or [Space](../../concepts/spaces/README.md)-specific. The default integration is available to **all** stacks and modules. There can be only one default integration per VCS provider. Space-level integrations however are only available to those stacks and modules that are in the same Space as the integration (or [inherit](../../concepts/spaces/access-control.md#inheritance) permissions through a parent Space). For example if your integration is in `ParentSpace` and your stack is in `ChildSpace` with inheritance enabled, you'll be able to attach the integration to that stack. Refer to the [Spaces documentation](../../concepts/spaces/access-control.md) to learn more about Space access controls and inheritance.
-- **API host URL** - the URL of your Bitbucket server.
-- **User facing host URL** - friendly URL of your Bitbucket server. This is the URL that will be displayed in the Spacelift UI. Typically, this is the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md): in that case, the **API host URL** will look like `private://vcs-agent-pool-name`, but the **User facing host URL** can look more friendly (for example `https://vcs-agent-pool.mycompany.com`) since it isn't actually being used by Spacelift.
-- **Username** -  the user name that Spacelift will use to access your Bitbucket.
-- **Access token** - the access token that Spacelift will use to access your Bitbucket. See [below](#creating-an-access-token) for more details.
-- **Labels** - a set of labels to help you organize integrations.
-- **Description** - a markdown-formatted free-form text field that can be used to describe the integration.
-
-Let's collect these details.
-
-### Creating an access token
-
-In order to use the integration, you need a user account for Spacelift to use, and you need to generate an access token for that account. The user account requires the following access:
+You will need to create an access token in Bitbucket to use with Spacelift. The token requires the following access:
 
 - _Read_ access to any projects Spacelift needs to be able to access.
-- _Read_ access to the repositories within those projects that Spacelift should have access to.
-
-Once you have a user account created, login as that user and go to **Manage account -> Personal access tokens -> create**. There, you will need to give your new access token a name and give it read access to repositories:
+- _Read_ access to the repositories within those projects.
 
 ![Personal token creation](<../../assets/screenshots/image (65).png>)
 
-This will give you an access token which you can put into the **Access token** field in the integration configuration.
+1. Navigate to _Manage account_ > _Personal access tokens_.
+2. Click **Create**.
+3. **Name**: Enter a descriptive name for the token.
+4. **Permissions > Projects**: Select **Read**.
+5. **Permissions > Repositories**: Select **Read**.
+6. **Automated expiry**: Select **No**.
+7. Click **Create**.
+    ![Created personal token](<../../assets/screenshots/image (66).png>)
+8. Copy the token details to finish the integration in Spacelift.
 
-![Created personal token](<../../assets/screenshots/image (66).png>)
+### Copy details into Spacelift
 
-### Saving the integration
+Now that your Bitbucket Data Center access token has been created, return to the integration configuration screen in Spacelift.
 
-Once you have your access token, enter it into Spacelift. At this point all the fields should be filled out:
+1. **API host URL**: Enter the URL of your Bitbucket server. This will likely use a format like: `https://bitbucket.<myorganization>.com`
+2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
+3. **Username**: Enter the username for the Bitbucket account where you created the access token.
+4. **Access token**: Enter the access token that Spacelift will use to access your Bitbucket.
+5. **Labels**: Organize integrations by assigning labels to them.
+6. **Description**: A markdown-formatted free-form text field to describe the integration.
+7. Click **Set up** to save your integration settings.
 
-<p align="center"><img src="../../assets/screenshots/BitbucketDatacenter_save_form.png" width="450"></p>
+![Completed integration](<../../assets/screenshots/BitbucketDatacenter_save_form.png>)
 
-You can now save the integration.
+### Set up webhooks
 
-### Configuring webhooks
-
-In order for Spacelift to be notified of any changes made in your repositories, you need to setup webhooks in Bitbucket Data Center. You can find your **webhook endpoint** and **webhook secret** after clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **See details**.
+For every Bitbucket Data Center repository being used in Spacelift stacks or modules, you will need to set up a webhook to notify Spacelift about project changes.
 
 !!! note
-    Space-level integrations will be listed to users with **read** access to the integration Space. Integration details however contain sensitive information (such as webhook secret) so they are only visible to those with **admin** access. On the other hand, default integrations are visible to all users of the account, but only **root** Space admins can see the details of them.
+    Default integrations are visible to all users of the account, but only **root** Space admins can see their details.
 
-<p align="center">
-  <img src="../../assets/screenshots/BitbucketDatacenter_details.png"/>
-</p>
+    Space-level integrations will be listed to users with **read** access to the integration Space. Integration details, however, contain sensitive information (such as the webhook secret) and are only visible to those with **admin** access.
 
-For each repository you want to use with Spacelift, you need to go into its **Repository settings -> Webhooks -> Create webhook**, and configure the webhooks accordingly, by activating the following events:
+1. On the _Source code_ page, click the **three dots** next to the integration name.
+2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
+    ![Find webhook endpoint and secret](<../../assets/screenshots/BitbucketDatacenter_details.png>)
 
-- Repository > Push
-- Pull Request > Opened
-- Pull Request > Source branch updated
-- Pull Request > Modified
-- Pull Request > Approved
-- Pull Request > Unapproved
-- Pull Request > Merged
-- Pull Request > Comment added
+#### Configure webhooks in Bitbucket Data Center
 
-It should look something like this:
+For each repository you want to use with Spacelift, you now need to add webhooks in Bitbucket Data Center.
 
-![Configuring Webhooks](<../../assets/screenshots/bitbucket-datacenter-webhook-settings.png>)
+1. In Bitbucket Data Center, select the repository you are connecting to Spacelift.
+2. Navigate to _Repository settings_ > _Webhooks_.
+3. Click **Add webhook**.
+    ![Configuring Webhooks](<../../assets/screenshots/bitbucket-datacenter-webhook-settings.png>)
+4. **Title**: Enter a name for the webhook.
+5. **URL**: Paste the _webhook endpoint_ from Spacelift.
+6. **Secret**: Paste the _webhook secret_ from Spacelift.
+7. **Status**: Check **Active**.
+8. **Triggers**:
+      1. Under _Repository_, check **Push**.
+      2. Under _Pull Request_, check:
+         - **Opened**
+         - **Source branch updated**
+         - **Modified**
+         - **Approved**
+         - **Unapproved**
+         - **Merged**
+         - **Comment added**
+9. Click **Save**.
 
 !!! warning
     Don't forget to enter a secret when configuring your webhook. Bitbucket will allow you to create your webhook with no secret specified, but any webhook requests to Spacelift will fail without one configured.
 
-## Using the integration
+#### Install Pull Request Commit Links app
 
-When creating a Stack, you will now be able to choose the Bitbucket Data Center provider and a repository inside of it:
+Finally, you should install the **Pull Request Commit Links** app to be able to use [this API](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bcommit%7D/pullrequests){: rel="nofollow"}. The app is installed automatically when you go to the commit's details and click **Pull requests**.
+
+![Commit's details](<../../assets/screenshots/Screenshot from 2021-06-15 11-19-56.png>)
+
+## Use the integration
+
+When creating a stack, you will now be able to choose the Bitbucket Data Center provider and a repository inside of it:
 
 ![Creating a Stack with the Bitbucket Data Center integration](<../../assets/screenshots/BitbucketDatacenter_create_stack.png>)
 
@@ -98,41 +109,36 @@ You can use commit statuses to protect your branches tracked by Spacelift stacks
     This feature is only available to Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings.
-This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
+If you have multiple stacks tracking the same repository, you can enable the _Aggregate VCS checks_ feature in the integration's settings. This will group all the checks from the same commit into a predefined set of checks, making it easier to see the overall status of the commit.
 
-![](<../../assets/screenshots/aggregated-checks-bitbucketserver-settings.png>)
+![Enable aggregated checks](<../../assets/screenshots/aggregated-checks-bitbucketserver-settings.png>)
 
 When the aggregated option is enabled, Spacelift will post the following checks:
 
-- **spacelift/tracked** - groups all checks from tracked runs
-- **spacelift/proposed** - groups all checks from proposed runs
-- **spacelift/modules** - groups all checks from module runs
+- **spacelift/tracked**: Groups all checks from tracked runs
+- **spacelift/proposed**: Groups all checks from proposed runs
+- **spacelift/modules**: Groups all checks from module runs
 
-Here's how the summary looks like:
+The summary should look like this:
 
-![](<../../assets/screenshots/aggregated-checks-bitbucketserver-summary.png>)
+![Summary with aggregated checks](<../../assets/screenshots/aggregated-checks-bitbucketserver-summary.png>)
 
-## Deleting the Integration
+## Delete the integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the **Source code** page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the _Source code_ page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
-<p align="center">
-  <img src="../../assets/screenshots/BitbucketDatacenter_deletion_button.png"/>
-</p>
+![Delete the integration](<../../assets/screenshots/BitbucketDatacenter_deletion_button.png>)
 
 !!! warning
-    Please note that you can delete integrations **while stacks are still using them**. See the next section for more details.
+    You can delete integrations **while stacks are still using them**, which will have consequences.
 
 ### Consequences
 
 When a stack has a detached integration, it will no longer be able to receive webhooks from Bitbucket Data Center and you won't be able to trigger runs manually either.
 
-<p align="center">
-  <img src="../../assets/screenshots/BitbucketDatacenter_detached_stack.png"/>
-</p>
+![Detached stack](<../../assets/screenshots/BitbucketDatacenter_detached_stack.png>)
 
-You'll need to open the stack, go to the **Settings** tab and choose a new integration.
+To fix the issue, click the stack name on the _Stacks_ tab, navigate to the **Settings** tab, and choose a new integration.
 
 !!! tip
     You can save a little time if you create the new integration with the exact same name as the old one. This way, the webhook URL will remain the same and you won't have to update it in Bitbucket Data Center. You will still need to update the webhook secret though.

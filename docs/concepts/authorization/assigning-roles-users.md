@@ -2,46 +2,46 @@
 
 Users can get permissions from three sources:
 
-- **Direct Role Assignment**: Assign roles directly to individual users
-- **IdP Group Assignment**: Assign roles based on group memberships defined in your identity provider
-- **Login Policy**: Use Open Policy Agent (OPA) policies to dynamically assign roles (this can include assignment based on IdP group membership)
+- **Direct Role Assignment**: Assign roles directly to individual users.
+- **IdP Group Assignment**: Assign roles based on group memberships defined in your identity provider.
+- **Login Policy**: Use Open Policy Agent (OPA) policies to dynamically assign roles (this can include assignment based on IdP group membership).
 
 !!! note "Immediate Role Changes"
-    Except for Login Policies, role assignments and changes to roles take effect immediately (they force re-authentication if needed).
+    Except for login policies, role assignments and changes to roles take effect immediately (they force re-authentication if needed).
 
-## Assigning roles
+## Assign roles
 
-### Assigning roles to users directly using the web UI
+### Assign roles to users directly using the web UI
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be User Management
-    2. User must be invited to the Spacelift organization
-    3. You must have appropriate permissions to manage user roles
-    4. Target spaces must exist where you want to assign roles
-2. Navigate to User Management:
-    1. Click your name in the bottom left corner of the Spacelift interface
-    2. Select **Organization Settings**
-    3. Navigate to **Users** in the **Identity Management** section
-    4. Find the user you want to modify
-3. Access Role Management
-    1. Click on the user's row in the user list
-    2. Click the **Manage Roles** button
-    3. This opens the role assignment interface
-4. Assign Roles
-    1. **Select Role**: Choose from predefined roles or custom roles
-    2. **Select Space**: Choose the space where the role applies
-    3. **Save Assignment**: Click **Add** to confirm the assignment
+1. Verify you meet the prerequisites:
+      - User must be invited to the Spacelift organization.
+      - You must have appropriate permissions to manage user roles.
+      - Target spaces must exist where you want to assign roles.
+      - The selected management strategy for your organization must be User Management.
+2. Navigate to _User Management_:
+    1. Click your name in the bottom left corner of the Spacelift interface.
+    2. Select **Organization Settings**.
+    3. Navigate to **Users** in the **Identity Management** section.
+    4. Find the user you want to modify.
+3. Access role management:
+    1. Click on the user's row in the user list.
+    2. Click the **Manage Roles** button.
+    3. This opens the role assignment interface.
+4. Assign roles:
+    1. **Select Role**: Choose from predefined roles or custom roles.
+    2. **Select Space**: Choose the space where the role applies.
+    3. **Save Assignment**: Click **Add** to confirm the assignment.
 
-### Assigning roles to users directly using the terraform provider
+### Assign roles to users directly using the Terraform provider
 
-Refer to [Spacelift Terraform provider documentation](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) for more details).
+Refer to [Spacelift Terraform provider documentation](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs) for more details.
 
-### Assigning roles to users directly using the login policies
+### Assign roles to users directly using the login policies
 
-1. Prerequisites
-    1. The selected management strategy for your organization must be Login Policies
-    2. You must have appropriate permissions to create or modify login policies
-    3. Understanding of OPA/Rego policy language
+1. Verify you meet the prerequisites:
+      - The selected management strategy for your organization must be Login Policies.
+      - You have the appropriate permissions to create or modify login policies.
+      - You understand the OPA/Rego policy language.
 2. Use the `roles` rule to assign roles to users:
 
 ```opa
@@ -177,68 +177,66 @@ is_office_network {
 
 ### Assigning roles to users via IdP groups
 
-See [IdP Group Role Bindings](assigning-roles-groups.md) for details on how to assign roles to IdP groups. Once a role is assigned to an IdP group, all actors (api keys and users that your identity provider reports as being members of that group) will inherit the assigned roles.
+See [IdP Group Role Bindings](assigning-roles-groups.md) for details on how to assign roles to IdP groups. Once a role is assigned to an IdP group, all actors (API keys and users that your identity provider reports as being members of that group) will inherit the assigned roles.
 
 ## Removing a user role binding
 
-1. Navigate to User Management:
-    1. Click your name in the bottom left corner of the Spacelift interface
-    2. Select **Organization Settings**
-    3. Navigate to **Users** in the **Identity Management** section
-    4. Find the user you want to modify
-2. Access Role Management
-    1. Click on the user's row in the user list
-    2. Click the **Manage Roles** button
-    3. This opens the role assignment interface
-3. Remove Role Assignment
-    1. Find the role assignment to remove
-    2. Click the **Unassign** button from the dropdown
-    3. Confirm the removal
+1. Navigate to _User Management_:
+    1. Click your name in the bottom left corner of the Spacelift interface.
+    2. Select **Organization Settings**.
+    3. Navigate to **Users** in the **Identity Management** section.
+    4. Find the user you want to modify.
+2. Access role management:
+    1. Click on the user's row in the user list.
+    2. Click the **Manage Roles** button.
+    3. This opens the role assignment interface.
+3. Remove role assignment:
+    1. Find the role assignment to remove.
+    2. Click the **Unassign** button from the dropdown.
+    3. Confirm the removal.
 
 ## Multiple roles
 
 Actors can have multiple roles across different spaces:
 
-- Different roles in different spaces for varied access levels
-- Multiple roles in the same space (permissions are additive)
-- Roles inherited from group membership plus individual assignments
+- Different roles in different spaces for varied access levels.
+- Multiple roles in the same space (permissions are additive).
+- Roles inherited from group membership plus individual assignments.
 
 ## Getting role IDs
 
 To use custom roles in login policies, you need their role IDs:
 
-1. Navigate to **Organization Settings** → **Access Control Center** → **Roles**
-2. Click on the custom role you want to use
-3. Click **Copy ID** from the role detail page
-4. Use this ID in your login policy
+1. Navigate to **Organization Settings** → **Access Control Center** → **Roles**.
+2. Click on the custom role you want to use.
+3. Click **Copy ID** from the role detail page.
+4. Use this ID in your login policy.
 
 ## Troubleshooting
 
-### Common issues
+### User cannot see resources
 
-**User Cannot See Resources**:
+- Verify user has `space:read` action.
+- Check if user is assigned to correct space.
 
-- Verify user has `space:read` action
-- Check if user is assigned to correct space
+### Role assignment not taking effect
 
-**Role Assignment Not Taking Effect**:
+- Check login policy syntax for errors.
+- Verify role ID is correct in login policies.
 
-- Check if login policy has syntax errors
-- Verify role ID is correct in login policies
+### Permission denied errors
 
-**Permission Denied Errors**:
+- Verify user has required actions for the operation.
+- Check if operation is being performed in correct space.
+- Confirm role includes necessary permissions.
 
-- Verify user has required actions for the operation
-- Check if operation is being performed in correct space
-- Confirm role includes necessary permissions
+### Login policy not working
 
-**Login Policy Not Working**:
-
-- Check policy syntax for errors
-- Verify input data structure matches policy conditions
-- Use policy sampling to debug input data
-- Check for typos in team names or user logins
-- Check for case sensitivity in team names and user logins
+- Check policy syntax for errors.
+- Verify input data structure matches policy conditions.
+- Use policy sampling to debug input data.
+- Check for typos in team names or user logins.
+- Check for case sensitivity in team names and user logins.
 
 ## Related Topics
 

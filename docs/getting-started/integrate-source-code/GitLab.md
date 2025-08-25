@@ -73,4 +73,4 @@ For every GitLab project being used in Spacelift stacks or modules, you will nee
 
 ✅ Step 1 of the LaunchPad is complete! Now you can [connect your cloud account](../integrate-cloud/README.md).
 
-![](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
+![LaunchPad step 1 complete](<../../assets/screenshots/getting-started/source-code/Launchpad-step-1-complete.png>)
