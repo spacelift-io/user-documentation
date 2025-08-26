@@ -253,7 +253,7 @@ Here is a list of components it will check in order:
 - Policy
 
 !!! info
-    If you are new to spaces, consider further exploring our documentation about them [here](../spaces/README.md)
+    If you are new to spaces, consider exploring our [spaces documentation](../spaces/README.md).
 
 ### Inbox notifications
 
