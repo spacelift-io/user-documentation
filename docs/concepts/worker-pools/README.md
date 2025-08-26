@@ -69,6 +69,8 @@ A number of configuration variables are available to customize how your launcher
 - `SPACELIFT_LAUNCHER_LOGS_TIMEOUT` - custom timeout (the default is _7 minutes_) for killing jobs not producing any logs. This is a duration flag, expecting a duration-formatted value, eg `1000s`. Please see the [Kubernetes-specific configuration](#kubernetes-specific-configuration) section for more information.
 - `SPACELIFT_LAUNCHER_RUN_TIMEOUT` - custom maximum run time - the default is _70 minutes_. This is a duration flag, expecting a duration-formatted value, eg. `120m`. Please see the [Kubernetes-specific configuration](#kubernetes-specific-configuration) section for more information.
 - `SPACELIFT_DEBUG`- if set to true, this will output the exact commands spacelift runs to the worker logs.
+- `SPACELIFT_DEFAULT_RUNNER_IMAGE` if set, this will override the default runner image used for non-ansible runs. The default is `public.ecr.aws/spacelift/runner-terraform:latest`. Note this will not override a custom runner image on a stack, it will only take effect if no custom image is set.
+- `SPACELIFT_DEFAULT_ANSIBLE_RUNNER_IMAGE` if set, this will override the default runner image used for ansible runs. The default is `public.ecr.aws/spacelift/runner-ansible:latest`. Note this will not override a custom runner image on a stack, it will only take effect if no custom image is set.
 
 !!! warning
     [Server-side initialization policies](../../concepts/policy/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
