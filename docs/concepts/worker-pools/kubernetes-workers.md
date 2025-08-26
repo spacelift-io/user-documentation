@@ -5,7 +5,7 @@ description: >-
 
 # Kubernetes Workers
 
-We provide a Kubernetes operator for managing Spacelift worker pools. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
+We provide a Kubernetes operator for managing Spacelift worker pools. The operator also works on OpenShift. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
 
 !!! info
     Previously we provided a [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool){: rel="nofollow"} for deploying worker pools to Kubernetes using Docker-in-Docker. This approach is no-longer recommended, and you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
@@ -67,6 +67,48 @@ The controller may also work with older versions, but we do not guarantee and pr
         --set spacelift-promex.apiKeySecretName="spacelift-api-key"
         ```
         Read more on the exporter on its repository [here](https://github.com/spacelift-io/prometheus-exporter) and see more config options in the `values.yaml` file for the subchart.
+
+#### OpenShift
+
+If you are using OpenShift, additional steps are required to allow the controller to run properly.
+
+1. Get the controllers service account name:
+
+    ```shell
+    kubectl get serviceaccounts -n {namespace_of_controller}
+    ```
+
+2. Add the `anyuid` security context constraint to the service account:
+
+    ```shell
+    oc adm policy add-scc-to-user anyuid -z {service_account_name} -n {namespace_of_controller} --as system:admin
+    ```
+
+3. Create a Spacelift Admin role in the namespace where your worker pods will run (note this may be different from the namespace you installed the controller into):
+
+    ```shell
+    oc create role spacelift-admin --verb='*' --resource='*' -n {namespace_of_worker_pods}
+    ```
+
+4. Bind the role to the controller's service account:
+
+    ```shell
+    oc create rolebinding spacelift-admin-binding --role=spacelift-admin --serviceaccount={namespace_of_controller}:{service_account_name} -n {namespace_of_worker_pods}
+    ```
+
+5. Ensure the controller can indeed use the kubernetes api in the namespace where your worker pods will run:
+
+    ```shell
+    oc auth can-i '*' '*' --as=system:serviceaccount:{namespace_of_controller}:{service_account_name} -n {namespace_of_worker_pods}
+    ```
+
+    Note: this should return `yes` if everything is set up correctly.
+
+6. Restart the worker controller pod to make sure it picks up the new permissions.
+
+    ```shell
+    kubectl rollout restart deployments -n {namespace_of_controller}
+    ```
 
 ### Create a Secret
 
