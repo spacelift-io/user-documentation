@@ -107,7 +107,7 @@ Once the integration name and the type are chosen, a **webhook endpoint** and a 
       - Pull request review
       - Push
       - Repository
-8. Choose whether you want to allow the App to be installed on any account or only the current account, then click **Create GitHub App**:
+7. Choose whether you want to allow the App to be installed on any account or only the current account, then click **Create GitHub App**:
     ![](<../../assets/screenshots/image (55).png>)
 
 ##### Generate key
