@@ -44,7 +44,7 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 | Setup SSO                     | ✅                | ❌           | ❌            | ❌            |
 | Setup VCS                     | ✅                | ❌           | ❌            | ❌            |
 | Manage Sessions               | ✅                | ❌           | ❌            | ❌            |
-| Manage Login Policies         | ✅                | ❌           | ❌            | ❌            |
+| Manage Login Policies & User Management Controls         | ✅                | ❌           | ❌            | ❌            |
 | Manage Audit Trails           | ✅                | ❌           | ❌            | ❌            |
 | Manage Spaces                 | ✅                | ✅*          | ❌            | ❌            |
 | Manage Stack Config Settings  | ✅                | ✅           | ❌            | ❌            |
