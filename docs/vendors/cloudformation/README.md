@@ -30,3 +30,13 @@ Yes! We support [AWS CDK](https://github.com/aws/aws-cdk){: rel="nofollow"}, [AW
 ## Template bucket limitations
 
 Spacelift uses a user-provided S3 bucket to upload templates to as part of applying your changes. When creating this bucket, please make sure that the bucket name does not contain any periods (`.`). Using a bucket name containing periods will cause the template upload to fail.
+
+## Drift Detection limitations
+
+Spacelift does not support true drift detection for CloudFormation stacks. Currently, Spacelift relies on AWS ChangeSets to preview potential updates. ChangeSets only indicate what would change if the current template were reapplied, but they do not detect whether resources have been modified outside of CloudFormation.
+
+This means that if infrastructure changes are made manually (for example, directly in the AWS Console or via the CLI), those changes may not be flagged as drift in Spacelift.
+
+In contrast, AWS provides a separate DetectStackDrift API which can detect out-of-band modifications, but this is not currently used by Spacelift.
+
+Important: Customers should not rely on Spacelift’s CloudFormation integration for full drift detection. If you need guaranteed drift detection, you must run AWS’s native drift detection (DetectStackDrift) outside of Spacelift.
