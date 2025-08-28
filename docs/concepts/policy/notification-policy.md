@@ -286,8 +286,6 @@ package spacelift
  }
 ```
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/WGRgvTbU77){: rel="nofollow"}.
-
 ### Slack messages
 
 [Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack you will need to [add the slack integration to your Spacelift account](../../integrations/chatops/slack.md#connecting-your-spacelift-account-to-the-slack-workspace).
@@ -324,8 +322,6 @@ slack[{"channel_id": "C0000000000"}] {
 }
 ```
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/kPtk55QHPK){: rel="nofollow"}.
-
 #### Changing the message body
 
 Together with filtering and routing messages you can also alter the message body itself, here is an example
@@ -347,8 +343,6 @@ slack[{
   change.entity.type == "spacelift_policy_attachment"
 }
 ```
-
-[View the example in the rego playground](https://play.openpolicyagent.org/p/KyN5EHeyhk){: rel="nofollow"}.
 
 #### Mentioning users and groups
 
@@ -438,8 +432,6 @@ webhook[{"endpoint_id": endpoint.id}] {
 }
 ```
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/qiMTWbTJxm){: rel="nofollow"}.
-
 #### Creating a custom webhook request
 
 All requests sent will always include the default headers for verification, a payload which is
@@ -470,8 +462,6 @@ webhook[wbdata] {
   input.run_updated.run.type == "TRACKED"
 }
 ```
-
-[View the example in the rego playground](https://play.openpolicyagent.org/p/fbfiiYEots){: rel="nofollow"}.
 
 Using custom webhook requests also makes it quite easy to integrate Spacelift with any third-party webhook consumer.
 
@@ -579,8 +569,6 @@ pull_request contains {"commit": run.commit.hash} if {
 !!! hint
     It works best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/i4hswca0Fr){: rel="nofollow"}.
-
 #### Updating an existing pull request comment
 
 The following example will add a comment to the pull request that triggered the run, and will update that comment for every run state change, instead of creating new comments.
@@ -605,8 +593,6 @@ If the `deduplication_key` changes but a comment was created with the old dedupl
 The deduplication_key is associated with the PR using it, so using the same `deduplication_key` on different PRs is safe and will not cause collisions.<br><br>
 To use this with existing policies, simply add `deduplication_key := input.run_updated.stack.id` (or another constant value) to the condition of the pull_request rule.
 
-[View the example in the rego playground](https://play.openpolicyagent.org/p/XxY05GcENG){: rel="nofollow"}.
-
 #### Adding a comment to pull requests targeting a specific commit
 
 You specify a target commit SHA using the `commit` parameter:
@@ -626,8 +612,6 @@ pull_request contains {
  run.state == "FINISHED"
 }
 ```
-
-[View the example in the rego playground](https://play.openpolicyagent.org/p/TAKb5hEB5A){: rel="nofollow"}.
 
 #### Adding a comment to pull requests targeting a specific branch
 
@@ -651,8 +635,6 @@ pull_request contains {
 
 !!! hint
     Please note that `branch` is the base branch of the pull request. For example, if it's `"branch": input.run_updated.stack.branch`, that'd mean that the policy would comment into every pull request that targets the tracked branch of the stack.
-
-[View the example in the rego playground](https://play.openpolicyagent.org/p/Lfjp37sTBV){: rel="nofollow"}.
 
 #### Changing the comment body
 
@@ -690,8 +672,6 @@ spacelift::logs::planning
  )
 }
 ```
-
-[View the example in the rego playground](https://play.openpolicyagent.org/p/S1MICPJvus){: rel="nofollow"}.
 
 #### Complex example: adding a comment to a pull request about changed resources
 
