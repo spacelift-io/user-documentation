@@ -279,7 +279,8 @@ sample {
 
 ### Why sample?
 
-Capturing all evaluations sounds tempting but it will also be extremely messy. We're only showing **100 most recent evaluations from the past 7 days**, so if you capture everything then the most valuable samples can be drowned by irrelevant or uninteresting ones. Also, sampling adds a small performance penalty to your operations.
+Capturing all evaluations sounds tempting but it will also be extremely messy. We're only showing **100 most recent evaluations from the past 7 days in the drop down**, so if you capture everything then the most valuable samples can be drowned by irrelevant or uninteresting ones. Also, sampling adds a small performance penalty to your operations. The samples section has a higher rate limit with Push and Notification policies: each get a separate limit of 200 per hour
+All remaining policies: share the same 500 per hour in total.
 
 ### Policy workbench in practice
 
