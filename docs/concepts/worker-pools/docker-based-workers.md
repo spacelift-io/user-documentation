@@ -314,7 +314,7 @@ In order to work, the launcher expects to be able to write to the local Docker s
 ### Downloading the launcher
 
 {% if is_saas() %}
-The launcher is distributed as a statically-linked Go binary, and we provide slightly different versions depending on whether you are using one of our standard environments (for example app.spacelift.io or us.app.spacelift.io) or our FedRAMP environment. The main difference between them is that the FedRAMP version has some of the telemetry we use to help investigate customer issues disabled.
+The launcher is distributed as a statically-linked Go binary, and we provide slightly different versions depending on whether you are using one of our standard environments (for example app.spacelift.io or us.app.spacelift.io) or our FedRAMP environment. The key difference is that the FedRAMP version disables some of the telemetry we use to investigate customer issues.
 
 For each environment, we provide amd64 and arm64 versions, so that you can use the correct version depending on the architecture you use. Please download the appropriate version for your Spacelift environment and host architecture.
 
