@@ -124,7 +124,7 @@ In order to validate the incoming payload, you will need to have the secret hand
 
 Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
 
-For clients with FIPS (Federal Information Processing Standards) enabled, only the SHA-256 signature will be used for webhook payload validation. The `X-Signature` header containing the SHA1 hash will not be provided when FIPS mode is active, ensuring compliance with FIPS requirements that prohibit the use of SHA-1 for cryptographic purposes.
+For clients in FedRAMP environment, only the SHA-256 signature will be used for webhook payload validation. The `X-Signature` header containing the SHA1 hash will not be provided, ensuring compliance with FIPS requirements that prohibit the use of SHA-1 for cryptographic purposes.
 
 ## Attaching webhooks to stacks
 
