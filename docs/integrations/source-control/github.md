@@ -62,6 +62,7 @@ You will need to create a GitHub application to link it to Spacelift.
     3. **VCS checks**: Individual checks (one per stack) or aggregated checks (summarized checks across all affected stacks).
     4. **Labels**: Organize integrations by assigning labels to them.
     5. **Description**: A markdown-formatted free-form text field to describe the integration.
+    6. **Use Git checkout**: Toggle that defines if integration should use git checkout to download source code, otherwise source code will be downloaded as archive through API. This is required for [sparse checkout](../../concepts/stack/stack-settings.md#git-sparse-checkout-paths) to work.
 5. Click **Set up**. Once the application is created, you will automatically be redirected to install it in GitHub.
 
 ### Set up manually
@@ -129,7 +130,8 @@ Now that your GitHub App has been created, return to the integration configurati
     ![](<../../assets/screenshots/Screen Shot 2022-04-20 at 4.30.53 PM.png>)
 5. **Labels**: Organize integrations by assigning labels to them.
 6. **Description**: A markdown-formatted free-form text field to describe the integration.
-7. Click **Set up** to save your integration settings.
+7. **Use Git checkout**: Toggle that defines if integration should use git checkout to download source code, otherwise source code will be downloaded as archive through API. This is required for [sparse checkout](../../concepts/stack/stack-settings.md#git-sparse-checkout-paths) to work.
+8. Click **Set up** to save your integration settings.
 
 ### Install the GitHub application
 
