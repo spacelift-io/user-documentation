@@ -180,6 +180,7 @@ nav:
       - API:
           - integrations/api.md
           - integrations/api-development-with-mcp.md
+      - integrations/plugins.md
       - Single Sign-On:
           - integrations/single-sign-on/README.md
           - integrations/single-sign-on/gitlab-oidc-setup-guide.md
