@@ -122,9 +122,15 @@ Internal errors will always have the same fields set and some of them will be st
 
 In order to validate the incoming payload, you will need to have the secret handy - the one you've generated yourself when creating or updating the webhook.
 
-Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
+=== "Standard"
 
-For clients in FedRAMP environment, only the SHA-256 signature will be used for webhook payload validation. The `X-Signature` header containing the SHA1 hash will not be provided, ensuring compliance with FIPS requirements that prohibit the use of SHA-1 for cryptographic purposes.
+    Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
+
+=== "FedRAMP"
+
+    Only the SHA-256 signature will be used for webhook payload validation. The `X-Signature` header containing the SHA1 hash will not be provided, ensuring compliance with FIPS requirements that prohibit the use of SHA-1 for cryptographic purposes.
+    
+    We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
 
 ## Attaching webhooks to stacks
 
