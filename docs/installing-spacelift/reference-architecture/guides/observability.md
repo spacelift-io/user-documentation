@@ -32,7 +32,16 @@ The Drain service uses a number of different message queues to perform asynchron
 
 One caveat to this is the webhooks queue. Because webhooks processing involves making lots of requests to your source control system, they can sometimes take several minutes to process. It is not unusual to see small backlogs on the webhooks queue, or messages that take several minutes to process. This is ok as long as the messages are eventually being processed and the queue length is not constantly increasing.
 
+If backlogs start to build up and require immediate attention, you have two mitigation options:
+
+- **Adjust the message processing timeout** - The `MESSAGE_PROCESSING_TIMEOUT_SECONDS` environment variable controls how long messages can process before timing out (default: 900 seconds). Reducing this value (e.g., to 300 seconds) causes long-running messages to return to the queue faster, allowing other messages to be processed. This variable is exposed via the `.services.drain.message_processing_timeout_seconds` configuration option for CloudFormation deployments, and can be directly passed as an environment variable for Terraform deployments.
+- **Scale the Drain service** - For CloudFormation deployments, increase the `.services.drain.desired_count` parameter to run more Drain instances in parallel. For Terraform deployments, you could configure autoscaling based on queue length metrics - this is an easy task for SQS queues as they automatically provide metrics through CloudWatch, but require some additional setup for Postgres-based queues where you need to rely on telemetry (see below).
+
+#### SQS metrics
+
 The message queue length is easy to monitor for [SQS-based message queues](../reference/message-queues.md) - you can use the `ApproximateNumberOfMessagesVisible` metric [provided by SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-available-cloudwatch-metrics.html){: rel="nofollow"}.
+
+#### Postgres metrics
 
 For the `postgres`-based message queue however, you will need [telemetry](#telemetry) enabled. When telemetry is enabled, we expose the following metrics:
 

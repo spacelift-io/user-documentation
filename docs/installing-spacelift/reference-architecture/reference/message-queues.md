@@ -6,7 +6,7 @@ description: Documents the types of message queues supported by Spacelift.
 
 Spacelift uses a number of message queues to support asynchronous processing. We support two options for message queues: AWS SQS, or a built-in message broker that uses your Postgres database.
 
-For new installations we suggest using the Postgres message broker. The main exception to this is if you want to use AWS IoT Core rather than our built-in MQTT broker. In that case you **must** use SQS.
+For new installations we suggest using the Postgres message broker. The main exception to this is if you want to use AWS IoT Core rather than our built-in MQTT broker. In that case you **must** use SQS as IoT Core can only deliver messages to SQS queues by design.
 
 ## Configuration
 
@@ -74,3 +74,7 @@ resource "aws_iot_topic_rule" "iot-to-sqs" {
 ## Postgres
 
 The Postgres message broker doesn't require any specific additional configuration other than setting the `MESSAGE_QUEUE_TYPE` environment variable to `postgres`.
+
+## Monitoring & scaling
+
+For detailed information on monitoring message queue performance and metrics, see the [observability guide](../guides/observability.md#message-queues).
