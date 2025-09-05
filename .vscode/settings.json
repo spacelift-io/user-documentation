@@ -1,11 +1,12 @@
 {
-    "cSpell.words": [
-        "Infracost",
-        "Rego",
-        "spacectl",
-        "Spacelift",
-        "sprintf",
-        "tfsec"
-    ],
-    "markdown.validate.enabled": true
+  "cSpell.words": [
+    "Infracost",
+    "MNDA",
+    "Rego",
+    "spacectl",
+    "Spacelift",
+    "sprintf",
+    "tfsec"
+  ],
+  "markdown.validate.enabled": true
 }
