@@ -382,77 +382,6 @@ To configure the binaries cache volume, you can use exactly the same approach as
 
 See the section on [configuration](#configuration) for more details on how to configure these two volumes along with any additional volumes you require.
 
-## Pod History Management
-
-The Kubernetes operator provides flexible pod history management to control how long completed run pods are retained. This allows you to balance between debugging capabilities and resource usage.
-
-### Overview
-
-The pod history management system supports both count-based and time-based cleanup strategies that work together:
-
-- **Count-based limits**: Control how many completed pods to keep per worker
-- **Time-based cleanup (TTL)**: Automatically remove pods after a specified duration
-- **Combined strategy**: Pods are removed when they exceed **either** the count limit **or** the time limit
-
-### Default Behavior
-
-- **Successful pods**: Removed immediately (limit: 0)  
-- **Failed pods**: Keep 5 most recent (limit: 5)
-- **Time limits**: No automatic TTL cleanup (unless explicitly configured)
-
-### Configuration Options
-
-#### Count-Based Limits
-
-```yaml
-spec:
-  # Keep 3 most recent successful pods per individual worker
-  successfulPodsHistoryLimit: 3
-  
-  # Keep 10 most recent failed pods per individual worker  
-  failedPodsHistoryLimit: 10
-```
-
-#### Time-Based Cleanup (TTL)
-
-```yaml
-spec:
-  # Remove successful pods older than 24 hours
-  successfulPodsHistoryTTL: "24h"
-  
-  # Remove failed pods older than 72 hours
-  failedPodsHistoryTTL: "72h"
-```
-
-#### Special Modes
-
-**Delete-All Mode**: Set limit to 0 to remove all pods immediately
-
-```yaml
-spec:
-  successfulPodsHistoryLimit: 0  # Remove all successful pods immediately
-  failedPodsHistoryLimit: 0      # Remove all failed pods immediately
-```
-
-**TTL-Only Mode**: Set TTL without limit for time-based cleanup only
-
-```yaml
-spec:
-  # Only time-based cleanup, no count limits
-  successfulPodsHistoryTTL: "48h"
-  # successfulPodsHistoryLimit is intentionally unset
-```
-
-### Behavior Details
-
-- **Pod selection**: Uses creation time for consistent ordering (oldest removed first)
-- **Running pods**: Never affected by cleanup, only applies to completed pods
-- **WorkerPool scope**: Cleanup is managed centrally at the WorkerPool level across all workers in the pool
-- **Deletion safety**: Pods already being deleted are excluded from counts
-
-!!! note "Migration from keepSuccessfulPods"
-    The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.8.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
-
 ## Configuration
 
 The following example shows all the configurable options for a WorkerPool:
@@ -658,6 +587,77 @@ spec:
       - name: redis
         image: redis
 ```
+
+### Pod History Management
+
+The Kubernetes operator provides flexible pod history management to control how long completed run pods are retained. This allows you to balance between debugging capabilities and resource usage.
+
+#### Overview
+
+The pod history management system supports both count-based and time-based cleanup strategies that work together:
+
+- **Count-based limits**: Control how many completed pods to keep per worker
+- **Time-based cleanup (TTL)**: Automatically remove pods after a specified duration
+- **Combined strategy**: Pods are removed when they exceed **either** the count limit **or** the time limit
+
+#### Default Behavior
+
+- **Successful pods**: Removed immediately (limit: 0)  
+- **Failed pods**: Keep 5 most recent (limit: 5)
+- **Time limits**: No automatic TTL cleanup (unless explicitly configured)
+
+#### Configuration Options
+
+##### Count-Based Limits
+
+```yaml
+spec:
+  # Keep 3 most recent successful pods per individual worker
+  successfulPodsHistoryLimit: 3
+  
+  # Keep 10 most recent failed pods per individual worker  
+  failedPodsHistoryLimit: 10
+```
+
+##### Time-Based Cleanup (TTL)
+
+```yaml
+spec:
+  # Remove successful pods older than 24 hours
+  successfulPodsHistoryTTL: "24h"
+  
+  # Remove failed pods older than 72 hours
+  failedPodsHistoryTTL: "72h"
+```
+
+##### Special Modes
+
+**Delete-All Mode**: Set limit to 0 to remove all pods immediately
+
+```yaml
+spec:
+  successfulPodsHistoryLimit: 0  # Remove all successful pods immediately
+  failedPodsHistoryLimit: 0      # Remove all failed pods immediately
+```
+
+**TTL-Only Mode**: Set TTL without limit for time-based cleanup only
+
+```yaml
+spec:
+  # Only time-based cleanup, no count limits
+  successfulPodsHistoryTTL: "48h"
+  # successfulPodsHistoryLimit is intentionally unset
+```
+
+#### Behavior Details
+
+- **Pod selection**: Uses creation time for consistent ordering (oldest removed first)
+- **Running pods**: Never affected by cleanup, only applies to completed pods
+- **WorkerPool scope**: Cleanup is managed centrally at the WorkerPool level across all workers in the pool
+- **Deletion safety**: Pods already being deleted are excluded from counts
+
+!!! note "Migration from keepSuccessfulPods"
+    The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.8.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
 
 ### Configure a docker daemon as a sidecar container
 
