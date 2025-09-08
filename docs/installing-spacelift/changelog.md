@@ -8,8 +8,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
-- Github Enterprise Identity Provider support
-
 - [Support for VCS agent pools for self-hosted distributions](../concepts/vcs-agent-pools.md): [installation instruction](../installing-spacelift/reference-architecture/guides/deploying-to-ecs.md#vcs-gateway-service)
 
 - [Role Based Access Control](../concepts/spaces/access-control.md) is now available for self-hosted distributions
