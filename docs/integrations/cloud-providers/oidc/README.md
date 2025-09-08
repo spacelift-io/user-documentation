@@ -27,18 +27,27 @@ Another option is to manually upload the JWKs (that you can get from the `/.well
 
 ### Overriding issuer and JWKS endpoints (Self-Hosted)
 
-For Self-Hosted installations, you can override the `issuer` and `jwks_uri` values in the OpenID Connect discovery document by adding the following to your `config.json`:
+For Self-Hosted installations, you can override the `issuer` and `jwks_uri` values in the OpenID Connect Discovery Document by adding the following environment variables to your deployment:
+
+```bash
+FEDERATION_CUSTOM_ISSUER=https://id.example.com
+FEDERATION_CUSTOM_JWKS_URI=https://id.example.com/.well-known/jwks.json
+```
+
+Alternatively, if you use CloudFormation, you can use the following configuration values:
 
 ```json
 {
-  "FEDERATION_CUSTOM_ISSUER": "https://id.example.com",
-  "FEDERATION_CUSTOM_JWKS_URI": "https://id.example.com/.well-known/jwks.json"
+  "federation_config": {
+    "issuer": "https://id.example.com",
+    "jwks_uri": "https://id.example.com/.well-known/jwks.json"
+  }
 }
 ```
 
 The behavior follows this precedence:
 
-- **If only `federation-custom-issuer` is provided** → `jwks_uri` is automatically derived from it
+- **If only the issuer is provided** → `jwks_uri` is automatically derived from it
 - **If both are provided** → both override values are used
 - **If neither is provided** → fallback to current behavior (account URL)
 
