@@ -264,9 +264,6 @@ Example invalid path (glob pattern):
 
 - `./infrastructure/*`
 
-!!! info
-    This feature is still in beta and may not be visible for everyone.
-
 ![](../../assets/screenshots/stack/settings/sparse-checkout.png)
 
 ### Project globs

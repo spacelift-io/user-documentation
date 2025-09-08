@@ -134,6 +134,26 @@ This setting determines the Terraform implementation used in the workflow. Choos
 
 Pulumi version management is based on [Docker images](../../../integrations/docker.md).
 
+### `git_sparse_checkout_paths` setting
+
+!!! info
+    Defaults to an **empty list**. If empty, the value from the stack option will be applied.
+
+Git sparse checkout paths allow you to specify a list of directories and files that will be used in sparse checkout, meaning that only the specified directories and files from the list will be cloned. This can help reduce the size of the workspace by only downloading the parts of the repository that are needed for the stack.
+
+Only path values are allowed; glob patterns are not supported.
+
+Example valid paths:
+
+- `./infrastructure/`
+- `infrastructure/`
+- `infrastructure`
+- `./infrastructure/main.tf`
+
+Example invalid path (glob pattern):
+
+- `./infrastructure/*`
+
 ### `terragrunt` setting
 
 This setting determines the Terragrunt parametrization.
