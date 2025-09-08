@@ -1,0 +1,5095 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Collaborative Infrastructure For Modern Software Teams">
+      
+      
+        <meta name="author" content="Spacelift">
+      
+      
+        <link rel="canonical" href="https://docs.spacelift.io/self-hosted/latest/integrations/single-sign-on/aws-iam-identity-saml-setup-guide.html">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>AWS IAM Identity Center SAML Setup Guide - Spacelift Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+  
+    
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-W9B4T9S');</script>
+
+    
+    <script>
+      function debounce(func, wait) {
+	      var timeout;
+	      return function() {
+		      var context = this, args = arguments;
+		      clearTimeout(timeout);
+		      timeout = setTimeout(function() {
+			      timeout = null;
+			      func.apply(context, args);
+		      }, wait);
+	      };
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("[data-md-component=search-query]").addEventListener("input", debounce(function(event) {
+          var value = event.target.value;
+          if (!value) {
+            return;
+          }
+          window.dataLayer.push({
+            event: "search",
+            searchTerm: value,
+          });
+        }, 1000))
+      });
+      
+    </script>
+
+    
+    <script> (function(ss,ex){ window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));}; (function(d,s){ fs=d.getElementsByTagName(s)[0]; function ce(src){ var cs=d.createElement(s); cs.src=src; cs.async=1; fs.parentNode.insertBefore(cs,fs); }; ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js'); })(document,'script'); })('3P1w24dxn2k4mY5n'); </script>
+
+    
+    <script type="text/javascript">
+      window._mfq = window._mfq || [];
+      (function() {
+        var mf = document.createElement("script");
+        mf.type = "text/javascript"; mf.defer = true;
+        mf.src = "//cdn.mouseflow.com/projects/00dd0e5e-d30d-4b59-a7cc-fbacc9ea1f57.js";
+        document.getElementsByTagName("head")[0].appendChild(mf);
+      })();
+    </script>
+    
+    <script>
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="WPnjYyyzDs7aCZdEvAX8ajH8Fvg5rbis";;analytics.SNIPPET_VERSION="4.15.3";
+      var middleware = function ({ payload, next, integrations }) {
+        if(!payload.obj.userId) {
+          payload.obj.integrations["Actions Amplitude"] = false;
+          payload.obj.integrations["Pendo"] = false;
+        }
+        next(payload);
+      };
+      analytics.addSourceMiddleware(middleware);
+      analytics.load("WPnjYyyzDs7aCZdEvAX8ajH8Fvg5rbis");
+      analytics.page();
+
+      document.addEventListener("DOMContentLoaded", function() {
+        location$.subscribe(function(url) {
+          analytics.page();
+        })
+      });
+      }}();
+    </script>
+  
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      location$.subscribe(function (url) {
+        analytics.page({url: url.href, path: url.pathname, title: ""})
+      })
+    });
+  </script>
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Nunito Sans";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  
+    <meta name="googlebot" content="index,follow"/>
+    <meta name="robots" content="index,follow"/>
+  
+
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="spacelift" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aws-iam-identity-center-saml-setup-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+
+<header class="md-header " data-md-component="header">
+  
+
+  <nav class="md-header__inner md-grid" aria-label="">
+    <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo-selfhosted.svg" alt="logo">
+
+    </a>
+    <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
+      <svg width="127" height="29" viewBox="0 0 127 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_1558_12595)">
+  <path d="M4.14743 20.2839C2.37689 20.0464 2.23263 19.7222 2.23263 19.3541C2.23263 19.0409 2.42089 18.5155 3.68104 18.5155C5.12227 18.5155 5.4322 19.1021 5.53956 19.5432L5.55886 19.6229H7.42966L7.41889 19.5092C7.36579 18.9461 6.94637 17.1099 3.77146 17.1099C1.24549 17.1099 0.348912 18.3995 0.348912 19.504C0.348912 20.8483 1.3723 21.5818 3.66807 21.8823C5.63045 22.1198 5.79261 22.5281 5.79261 22.9613C5.79261 23.5972 5.21412 23.92 4.07263 23.92C2.87747 23.92 2.15074 23.5073 1.91186 22.693L1.8899 22.6179H0L0.0192943 22.7382C0.285581 24.4015 1.72484 25.3553 3.96797 25.3553C6.32461 25.3553 7.67638 24.4335 7.67638 22.8265C7.67638 21.7578 7.24877 20.71 4.14743 20.2839Z" fill="white"/>
+  <path d="M13.9331 17.1099C12.45 17.1099 11.6169 17.7189 11.155 18.3264C11.1504 17.9594 11.1372 17.5881 11.1116 17.4088L11.0988 17.3195H9.24176L9.24435 17.4261C9.2592 18.0535 9.2592 18.6965 9.2592 19.3244V28.4533H11.1576V24.3204C11.469 24.6735 11.8583 24.9506 12.2951 25.1301C12.732 25.3096 13.2047 25.3866 13.6764 25.3552C15.9282 25.3552 17.6266 23.5282 17.6266 21.1055C17.6266 18.8277 16.0386 17.1099 13.9331 17.1099ZM15.6827 21.1801C15.6827 22.3749 15.0823 23.7701 13.3903 23.7701C11.964 23.7701 11.1124 22.8354 11.1124 21.27C11.1124 19.6333 11.9538 18.695 13.4206 18.695C14.9836 18.695 15.6827 19.9432 15.6827 21.1801V21.1801Z" fill="white"/>
+  <path d="M26.3254 23.0963V19.8785C26.3254 18.0419 25.1082 17.1104 22.7076 17.1104C19.6657 17.1104 19.1752 18.8828 19.1051 19.6447L19.0948 19.7582H20.9825L21.0005 19.6759C21.1192 19.1289 21.3594 18.5459 22.723 18.5459C24.2603 18.5459 24.4573 19.2822 24.4573 19.9236V20.1936H22.768C20.0089 20.1936 18.6674 21.0455 18.6674 22.7974C18.6674 24.0707 19.6181 25.3558 21.7426 25.3558C23.0544 25.3558 23.9816 25.0083 24.5048 24.322C24.512 24.5714 24.5374 24.82 24.581 25.0657L24.5999 25.1462H26.3956L26.3858 25.0332C26.3704 24.8513 26.3254 23.903 26.3254 23.0963ZM20.5356 22.7072C20.5356 21.8779 21.2122 21.5241 22.7982 21.5241C23.6952 21.5241 24.204 21.5241 24.4572 21.5337V21.7043C24.4572 23.145 23.6706 23.8752 22.1195 23.8752C21.113 23.8753 20.5356 23.4497 20.5356 22.7073V22.7072Z" fill="white"/>
+  <path d="M34.1918 22.5736C34.0301 22.9752 33.7422 23.3144 33.3709 23.5408C32.9996 23.7671 32.5647 23.8686 32.1307 23.8302C30.7467 23.8302 29.8528 22.8079 29.8528 21.2254C29.8528 19.652 30.7467 18.6355 32.1307 18.6355C32.5675 18.5974 33.0045 18.7056 33.3721 18.9429C33.7397 19.1802 34.0165 19.5329 34.1585 19.9447L34.1841 20.0124H36.0523L36.0334 19.8926C35.8733 18.859 34.874 17.1102 32.1455 17.1102C31.5892 17.0887 31.0343 17.1808 30.5154 17.3809C29.9964 17.581 29.5244 17.8848 29.1286 18.2735C28.7328 18.6621 28.4217 19.1274 28.2145 19.6403C28.0073 20.1532 27.9085 20.7029 27.9242 21.2553C27.9242 23.7461 29.5756 25.3555 32.1308 25.3555C34.1509 25.3555 35.6208 24.3415 36.0616 22.6433L36.0953 22.5133H34.2197L34.1918 22.5736Z" fill="white"/>
+  <path d="M41.2361 17.1099C38.795 17.1099 37.09 18.8145 37.09 21.255C37.09 23.296 38.3813 25.3552 41.2662 25.3552C43.9407 25.3552 44.8943 23.8018 45.2252 22.8761L45.2749 22.7373H43.3754L43.3457 22.7909C42.9376 23.5199 42.3153 23.8451 41.3266 23.8451C40.7363 23.8688 40.1604 23.6603 39.7242 23.2648C39.2879 22.8694 39.0266 22.3189 38.9971 21.7333H45.3368V21.2101C45.3368 19.3188 44.2627 17.1099 41.2361 17.1099ZM41.2213 18.5754C42.9008 18.5754 43.3028 19.6722 43.3836 20.4026H39.0329C39.2016 19.2394 39.9933 18.5754 41.2213 18.5754V18.5754Z" fill="white"/>
+  <path d="M48.7889 13.7126H46.89V25.1457H48.7889V13.7126Z" fill="white"/>
+  <path d="M51.8953 13.7429C51.7046 13.7429 51.5182 13.799 51.3597 13.9042C51.2011 14.0093 51.0775 14.1588 51.0046 14.3336C50.9316 14.5085 50.9125 14.7009 50.9497 14.8865C50.9869 15.0721 51.0787 15.2427 51.2135 15.3765C51.3483 15.5103 51.5201 15.6015 51.7071 15.6384C51.8942 15.6753 52.088 15.6564 52.2642 15.5839C52.4403 15.5115 52.5909 15.3888 52.6968 15.2315C52.8028 15.0741 52.8593 14.8891 52.8593 14.6998C52.859 14.4461 52.7573 14.203 52.5766 14.0236C52.3959 13.8442 52.1509 13.7433 51.8953 13.7429V13.7429Z" fill="white"/>
+  <path d="M52.8593 17.3196H50.9604V25.1456H52.8593V17.3196Z" fill="white"/>
+  <path d="M64.3173 18.8148V17.3196H62.3722V14.9248H60.474V17.3196H57.4872V16.5556C57.4872 15.4766 57.7552 15.1479 58.6343 15.1479C58.839 15.1467 59.0432 15.1659 59.2441 15.205L59.3724 15.2344V13.7067L59.2947 13.6862C58.9791 13.6164 58.656 13.5851 58.3326 13.593C56.5381 13.593 55.5894 14.5966 55.5894 16.4957V17.3196H54.1865V18.8148H55.5894V25.1456H57.4873V18.8148H60.474V22.8868C60.474 24.5445 61.129 25.2206 62.7349 25.2206C63.1738 25.238 63.6127 25.1857 64.035 25.0658L64.1066 25.042V23.6414L63.9798 23.6682C63.7479 23.7088 63.5128 23.728 63.2774 23.7257C62.5833 23.7257 62.3722 23.4738 62.3722 22.6472V18.815L64.3173 18.8148Z" fill="white"/>
+  <path d="M85.0313 13.3309C84.7135 15.7217 83.7448 17.1479 82.3735 17.244C81.9088 17.248 81.4495 17.1448 81.0319 16.9424C80.6143 16.7401 80.2498 16.4442 79.9671 16.078C80.9802 15.3705 81.834 14.4616 82.4744 13.4091C83.1148 12.3566 83.5278 11.1834 83.6871 9.96411C78.2026 11.5851 72.53 12.4954 66.8103 12.6724C67.4741 14.0378 68.4801 15.2111 69.732 16.0798C67.5305 18.588 66.3489 21.82 66.4172 25.1459H68.7289C68.6742 22.5575 69.5236 20.03 71.1329 17.9925C70.7869 20.3637 70.5695 22.7516 70.4817 25.1459H74.5859C74.5859 25.1459 73.8332 22.0568 75.0587 22.0541C76.2841 22.0568 75.5313 25.1459 75.5313 25.1459H79.6357C79.5544 22.884 79.3552 20.6277 79.0389 18.3862C79.4956 18.7514 80.0086 19.0413 80.5581 19.2449C81.1894 19.479 81.8637 19.5773 82.5362 19.5332C83.1422 19.4881 83.7323 19.3196 84.2697 19.0382C84.8072 18.7567 85.2805 18.3685 85.6601 17.8975C86.5236 16.8739 87.083 15.4385 87.3234 13.6311L85.0313 13.3309Z" fill="white"/>
+  <path d="M75.4568 12.6078C83.6095 11.2913 89.9565 8.62502 89.6332 6.65259C89.3099 4.68017 82.4388 4.14848 74.2861 5.46504C66.1334 6.7816 59.7864 9.44784 60.1097 11.4203C60.433 13.3927 67.3041 13.9244 75.4568 12.6078Z" fill="url(#paint0_linear_1558_12595)"/>
+  <path d="M82.8799 5.00777C81.9499 3.09289 80.3567 1.57417 78.3915 0.729234C76.4263 -0.1157 74.2204 -0.230408 72.177 0.406083C70.1337 1.04257 68.3893 2.38775 67.2629 4.1957C66.1364 6.00365 65.7031 8.15361 66.0421 10.2526C66.4721 12.8929 84.0988 10.1931 83.6483 7.4274C83.5107 6.58838 83.2519 5.77345 82.8799 5.00777V5.00777Z" fill="white"/>
+  <path d="M91.605 24.8349V13.1858H95.6015C97.5158 13.1858 98.9935 13.687 100.035 14.6894C101.076 15.6808 101.596 17.1184 101.596 19.0021C101.596 20.8858 101.076 22.3288 100.035 23.3312C98.9935 24.3337 97.5158 24.8349 95.6015 24.8349H91.605ZM92.9819 23.6782H95.5008C98.5905 23.6782 100.135 22.1195 100.135 19.0021C100.135 15.8957 98.5905 14.3424 95.5008 14.3424H92.9819V23.6782Z" fill="white"/>
+  <path d="M107.275 24.9836C106.48 24.9836 105.792 24.8129 105.21 24.4714C104.628 24.1299 104.174 23.6507 103.85 23.0338C103.536 22.4059 103.379 21.6679 103.379 20.8197C103.379 19.9715 103.536 19.2389 103.85 18.622C104.174 17.9941 104.628 17.5095 105.21 17.168C105.792 16.8265 106.48 16.6557 107.275 16.6557C108.059 16.6557 108.742 16.8265 109.324 17.168C109.917 17.5095 110.371 17.9941 110.684 18.622C111.009 19.2389 111.171 19.9715 111.171 20.8197C111.171 21.6679 111.009 22.4059 110.684 23.0338C110.371 23.6507 109.917 24.1299 109.324 24.4714C108.742 24.8129 108.059 24.9836 107.275 24.9836ZM107.275 23.9096C108.036 23.9096 108.647 23.6452 109.106 23.1164C109.564 22.5767 109.794 21.8111 109.794 20.8197C109.794 19.8172 109.564 19.0517 109.106 18.5229C108.647 17.9941 108.036 17.7298 107.275 17.7298C106.503 17.7298 105.887 17.9941 105.428 18.5229C104.98 19.0517 104.756 19.8172 104.756 20.8197C104.756 21.8111 104.98 22.5767 105.428 23.1164C105.887 23.6452 106.503 23.9096 107.275 23.9096Z" fill="white"/>
+  <path d="M116.673 24.9836C115.856 24.9836 115.151 24.8129 114.557 24.4714C113.964 24.1189 113.505 23.6287 113.18 23.0008C112.867 22.3619 112.71 21.6183 112.71 20.7701C112.71 19.4923 113.063 18.4899 113.768 17.7628C114.473 17.0248 115.442 16.6557 116.673 16.6557C117.177 16.6557 117.675 16.7439 118.168 16.9201C118.66 17.0964 119.069 17.3442 119.393 17.6637L118.923 18.6386C118.599 18.3301 118.24 18.1043 117.849 17.9611C117.468 17.8179 117.104 17.7463 116.757 17.7463C115.906 17.7463 115.251 18.0107 114.792 18.5394C114.333 19.0572 114.104 19.8062 114.104 20.7866C114.104 21.745 114.333 22.5051 114.792 23.0669C115.251 23.6177 115.906 23.8931 116.757 23.8931C117.104 23.8931 117.468 23.8214 117.849 23.6782C118.24 23.535 118.599 23.3037 118.923 22.9843L119.393 23.9591C119.069 24.2786 118.655 24.532 118.151 24.7192C117.658 24.8955 117.166 24.9836 116.673 24.9836Z" fill="white"/>
+  <path d="M123.741 24.9836C123.103 24.9836 122.498 24.8955 121.927 24.7192C121.356 24.543 120.886 24.2951 120.517 23.9757L120.953 23.0338C121.356 23.3533 121.798 23.5901 122.28 23.7443C122.772 23.8875 123.271 23.9591 123.774 23.9591C124.412 23.9591 124.894 23.8435 125.218 23.6122C125.543 23.3808 125.705 23.0669 125.705 22.6703C125.705 22.3619 125.599 22.1195 125.386 21.9433C125.174 21.756 124.838 21.6128 124.379 21.5137L122.851 21.1832C121.463 20.8858 120.769 20.1808 120.769 19.0682C120.769 18.3411 121.06 17.7573 121.642 17.3167C122.235 16.8761 123.007 16.6557 123.959 16.6557C124.519 16.6557 125.051 16.7439 125.554 16.9201C126.069 17.0853 126.495 17.3332 126.831 17.6637L126.377 18.6055C126.052 18.3081 125.672 18.0823 125.235 17.9281C124.81 17.7628 124.384 17.6802 123.959 17.6802C123.332 17.6802 122.856 17.8014 122.532 18.0437C122.207 18.2861 122.045 18.6055 122.045 19.0021C122.045 19.619 122.459 20.0155 123.287 20.1918L124.815 20.5057C125.532 20.6599 126.075 20.9078 126.444 21.2493C126.814 21.5798 126.998 22.0314 126.998 22.6042C126.998 23.3423 126.702 23.9261 126.108 24.3557C125.515 24.7743 124.726 24.9836 123.741 24.9836Z" fill="white"/>
+  </g>
+  <defs>
+  <linearGradient id="paint0_linear_1558_12595" x1="60.0978" y1="9.0365" x2="89.645" y2="9.0365" gradientUnits="userSpaceOnUse">
+  <stop offset="0.0817" stop-color="#82FFE8"/>
+  <stop offset="0.9512" stop-color="#7C47FC"/>
+  </linearGradient>
+  <clipPath id="clip0_1558_12595">
+  <rect width="127" height="29" fill="white"/>
+  </clipPath>
+  </defs>
+  </svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Spacelift Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AWS IAM Identity Center SAML Setup Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="spacelift" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    <div class="header__links">
+      <a href="https://spacelift.io" class="header__link" target="_blank" rel='noreferrer'>
+        spacelift.io
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="header__link-icon">
+          <g clip-path="url(#clip0_1505_28312)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.76562 1.33339C8.76562 1.02043 9.01933 0.766724 9.33229 0.766724H14.6656C14.9786 0.766724 15.2323 1.02043 15.2323 1.33339V6.66672C15.2323 6.97969 14.9786 7.23339 14.6656 7.23339C14.3527 7.23339 14.099 6.97969 14.099 6.66672V2.70144L7.73299 9.06742C7.51169 9.28872 7.15289 9.28872 6.9316 9.06742C6.7103 8.84612 6.7103 8.48733 6.9316 8.26603L13.2976 1.90006H9.33229C9.01933 1.90006 8.76562 1.64635 8.76562 1.33339ZM1.26354 3.26464C1.58236 2.94583 2.01476 2.76672 2.46563 2.76672H5.29896C5.61192 2.76672 5.86563 3.02043 5.86563 3.33339C5.86563 3.64635 5.61192 3.90006 5.29896 3.90006H2.46563C2.31534 3.90006 2.1712 3.95976 2.06493 4.06603C1.95866 4.1723 1.89896 4.31643 1.89896 4.46672V13.5334C1.89896 13.6837 1.95866 13.8278 2.06493 13.9341C2.1712 14.0404 2.31534 14.1001 2.46563 14.1001H11.5323C11.6826 14.1001 11.8267 14.0404 11.933 13.9341C12.0393 13.8278 12.099 13.6837 12.099 13.5334V10.7001C12.099 10.3871 12.3527 10.1334 12.6656 10.1334C12.9786 10.1334 13.2323 10.3871 13.2323 10.7001V13.5334C13.2323 13.9843 13.0532 14.4167 12.7344 14.7355C12.4156 15.0543 11.9832 15.2334 11.5323 15.2334H2.46563C2.01476 15.2334 1.58235 15.0543 1.26354 14.7355C0.944732 14.4167 0.765625 13.9843 0.765625 13.5334V4.46672C0.765625 4.01586 0.944732 3.58345 1.26354 3.26464Z" fill="currentColor"/>
+          </g>
+          <defs>
+          <clipPath id="clip0_1505_28312">
+          <rect width="16" height="16" fill="currentColor"/>
+          </clipPath>
+          </defs>
+        </svg>
+      </a>
+      <a href="https://spacelift.io/login" class="header__link" target="_blank" rel='noreferrer'>
+        Login
+      </a>
+      <a href="https://spacelift.io/schedule-demo" class="header__button header__button--outlined" target="_blank" rel='noreferrer'>Book a demo</a>
+      <a href="https://spacelift.io/free-trial" class="header__button header__button--contained" target="_blank" rel='noreferrer'>Start for free</a>
+    </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Spacelift Documentation" class="md-nav__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo-selfhosted.svg" alt="logo">
+
+    </a>
+    Spacelift Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        Getting Started with Spacelift
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          🔧 Installing Spacelift
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          🔧 Installing Spacelift
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/install-methods.html" class="md-nav__link">
+        Install Methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/changelog.html" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../installing-spacelift/reference-architecture.html">Reference Architecture</a>
+          
+            <label for="__nav_2_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Reference Architecture
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/external-dependencies.html" class="md-nav__link">
+        External Dependencies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/environment-requirements.html" class="md-nav__link">
+        Environment Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../installing-spacelift/reference-architecture/guides.html">Guides</a>
+          
+            <label for="__nav_2_3_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-aks.html" class="md-nav__link">
+        Deploying to AKS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-ecs.html" class="md-nav__link">
+        Deploying to ECS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-eks.html" class="md-nav__link">
+        Deploying to EKS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-gke.html" class="md-nav__link">
+        Deploying to GKE
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-onprem.html" class="md-nav__link">
+        Deploying to an on-prem Kubernetes cluster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/first-setup.html" class="md-nav__link">
+        First setup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/observability.html" class="md-nav__link">
+        Observability
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/air-gapped.html" class="md-nav__link">
+        Deploying to air-gapped environments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/guides/disaster-recovery.html" class="md-nav__link">
+        Disaster recovery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../installing-spacelift/reference-architecture/reference.html">Reference</a>
+          
+            <label for="__nav_2_3_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/general-configuration.html" class="md-nav__link">
+        General configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/encryption.html" class="md-nav__link">
+        Encryption
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/message-queues.html" class="md-nav__link">
+        Message queues
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/mqtt-broker.html" class="md-nav__link">
+        MQTT Broker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/networking.html" class="md-nav__link">
+        Networking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/object-storage.html" class="md-nav__link">
+        Object storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/slack.html" class="md-nav__link">
+        Slack
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/telemetry.html" class="md-nav__link">
+        Telemetry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/reference-architecture/reference/usage-reporting.html" class="md-nav__link">
+        Usage reporting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+          CloudFormation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          CloudFormation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/cloudformation/install.html" class="md-nav__link">
+        Installation Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/cloudformation/advanced-installations.html" class="md-nav__link">
+        Advanced Installations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/cloudformation/disaster-recovery.html" class="md-nav__link">
+        Disaster Recovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/cloudformation/slack-integration-setup.html" class="md-nav__link">
+        Slack integration setup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.html" class="md-nav__link">
+        CloudFormation to OpenTofu/Terraform migration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../index.html">🚀 Getting Started</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          🚀 Getting Started
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../getting-started/integrate-source-code.html">Step 1. Integrate source code</a>
+          
+            <label for="__nav_3_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Step 1. Integrate source code
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-source-code/GitHub.html" class="md-nav__link">
+        GitHub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-source-code/GitLab.html" class="md-nav__link">
+        GitLab
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-source-code/Bitbucket-Cloud.html" class="md-nav__link">
+        Bitbucket Cloud
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-source-code/Bitbucket-DataCenter.html" class="md-nav__link">
+        Bitbucket Data Center
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-source-code/Azure-DevOps.html" class="md-nav__link">
+        Azure DevOps
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../getting-started/integrate-cloud.html">Step 2. Connect cloud account</a>
+          
+            <label for="__nav_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Step 2. Connect cloud account
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/integrate-cloud/AWS.html" class="md-nav__link">
+        Amazon Web Services
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../getting-started/create-stack.html">Step 3. Create a stack</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Step 3. Create a stack
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../getting-started/invite-teammates.html">Step 4. Invite teammates</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Step 4. Invite teammates
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq.html" class="md-nav__link">
+        ✋ FAQ
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          ⭐ Main Concepts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          ⭐ Main Concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/stack.html">Stack</a>
+          
+            <label for="__nav_5_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Stack
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/creating-a-stack.html" class="md-nav__link">
+        Create, delete, and lock stacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/stack-settings.html" class="md-nav__link">
+        Stack settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/organizing-stacks.html" class="md-nav__link">
+        Organize stacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/stack-dependencies.html" class="md-nav__link">
+        Stack dependencies
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/drift-detection.html" class="md-nav__link">
+        Drift detection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/stack/scheduling.html" class="md-nav__link">
+        Scheduling stack actions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/blueprint.html">Blueprint</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Blueprint
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/configuration.html">Configuration</a>
+          
+            <label for="__nav_5_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/configuration/environment.html" class="md-nav__link">
+        Environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/configuration/context.html" class="md-nav__link">
+        Context
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/configuration/runtime-configuration.html">Runtime Configuration</a>
+          
+            <label for="__nav_5_3_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Runtime Configuration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/configuration/runtime-configuration/runtime-yaml-reference.html" class="md-nav__link">
+        YAML reference
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/run.html">Run</a>
+          
+            <label for="__nav_5_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_4">
+          <span class="md-nav__icon md-icon"></span>
+          Run
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/task.html" class="md-nav__link">
+        Task
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/proposed.html" class="md-nav__link">
+        Proposed run (preview)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/tracked.html" class="md-nav__link">
+        Tracked run (deployment)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/test-case.html" class="md-nav__link">
+        Module test case
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/user-provided-metadata.html" class="md-nav__link">
+        User-Provided Metadata
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/run-promotion.html" class="md-nav__link">
+        Run Promotion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/pull-request-comments.html" class="md-nav__link">
+        Pull Request Comments
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/run/ai.html" class="md-nav__link">
+        AI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/policy.html">Policy</a>
+          
+            <label for="__nav_5_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_5">
+          <span class="md-nav__icon md-icon"></span>
+          Policy
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/login-policy.html" class="md-nav__link">
+        Login policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/stack-access-policy.html" class="md-nav__link">
+        Access policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/approval-policy.html" class="md-nav__link">
+        Approval policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/run-initialization-policy.html" class="md-nav__link">
+        Initialization policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/notification-policy.html" class="md-nav__link">
+        Notification policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/terraform-plan-policy.html" class="md-nav__link">
+        Plan policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_8" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/policy/push-policy.html">Push Policy</a>
+          
+            <label for="__nav_5_5_8">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_5_8">
+          <span class="md-nav__icon md-icon"></span>
+          Push Policy
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/push-policy/run-external-dependencies.html" class="md-nav__link">
+        External Dependencies
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/task-run-policy.html" class="md-nav__link">
+        Task policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/policy/trigger-policy.html" class="md-nav__link">
+        Trigger policy
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/resources.html">Resources</a>
+          
+            <label for="__nav_5_6">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_6">
+          <span class="md-nav__icon md-icon"></span>
+          Resources
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/resources/configuration-management.html" class="md-nav__link">
+        Configuration Management
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/worker-pools.html">Worker pools</a>
+          
+            <label for="__nav_5_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_7">
+          <span class="md-nav__icon md-icon"></span>
+          Worker pools
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/worker-pools/docker-based-workers.html" class="md-nav__link">
+        Docker-based Workers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/worker-pools/kubernetes-workers.html" class="md-nav__link">
+        Kubernetes Workers
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spacectl.html" class="md-nav__link">
+        spacectl, the Spacelift CLI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/spaces.html">Spaces</a>
+          
+            <label for="__nav_5_9">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_9">
+          <span class="md-nav__icon md-icon"></span>
+          Spaces
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/access-control.html" class="md-nav__link">
+        Access control
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/creating-a-space.html" class="md-nav__link">
+        Creating a Space
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/moving-a-space-or-an-entity.html" class="md-nav__link">
+        Moving a Space or any Entity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/deleting-a-space.html" class="md-nav__link">
+        Deleting a Space
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/structuring-your-spaces-tree.html" class="md-nav__link">
+        Structuring your Spaces Tree
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/migrating-out-of-the-legacy-space.html" class="md-nav__link">
+        Migrating out of the Legacy Space
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/spaces/best-practices.html" class="md-nav__link">
+        Spaces Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../concepts/user-management.html">User Management</a>
+          
+            <label for="__nav_5_10">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_10">
+          <span class="md-nav__icon md-icon"></span>
+          User Management
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/user-management/admin.html" class="md-nav__link">
+        Admin / Owner
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/user-management/user.html" class="md-nav__link">
+        User
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/vcs-agent-pools.md" class="md-nav__link">
+        None
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          🛰️ Platforms
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          🛰️ Platforms
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/terraform.html">Terraform</a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          Terraform
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/module-registry.html" class="md-nav__link">
+        Module registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/provider-registry.html" class="md-nav__link">
+        Provider registry
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/external-modules.html" class="md-nav__link">
+        External modules
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/terraform-provider.html" class="md-nav__link">
+        Provider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/state-management.html" class="md-nav__link">
+        State management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/external-state-access.html" class="md-nav__link">
+        External state access
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/terragrunt.html" class="md-nav__link">
+        Terragrunt
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/version-management.html" class="md-nav__link">
+        Version management
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/handling-tfvars.html" class="md-nav__link">
+        Handling .tfvars
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/cli-configuration.html" class="md-nav__link">
+        CLI Configuration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/infracost.html" class="md-nav__link">
+        Cost Estimation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/resource-sanitization.html" class="md-nav__link">
+        Resource Sanitization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/storing-complex-variables.html" class="md-nav__link">
+        Storing Complex Variables
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/debugging-guide.html" class="md-nav__link">
+        Debugging Guide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/dependency-lock-file.html" class="md-nav__link">
+        Dependency Lock File
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/cdktf.html" class="md-nav__link">
+        Cloud Development Kit for Terraform (CDKTF)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terraform/workflow-tool.html" class="md-nav__link">
+        Workflow Tool
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/terragrunt.html">Terragrunt</a>
+          
+            <label for="__nav_6_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_2">
+          <span class="md-nav__icon md-icon"></span>
+          Terragrunt
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terragrunt/getting-started.html" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terragrunt/run-all.html" class="md-nav__link">
+        Using Run-All
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terragrunt/limitations.html" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terragrunt/terragrunt-tool.html" class="md-nav__link">
+        Terragrunt Tool
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/terragrunt/reference.html" class="md-nav__link">
+        Reference
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/pulumi.html">Pulumi</a>
+          
+            <label for="__nav_6_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_3">
+          <span class="md-nav__icon md-icon"></span>
+          Pulumi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/pulumi/c-sharp.html" class="md-nav__link">
+        C#
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/pulumi/golang.html" class="md-nav__link">
+        Go
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/pulumi/javascript.html" class="md-nav__link">
+        Javascript
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/pulumi/python.html" class="md-nav__link">
+        Python
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/cloudformation.html">AWS CloudFormation</a>
+          
+            <label for="__nav_6_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_4">
+          <span class="md-nav__icon md-icon"></span>
+          AWS CloudFormation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/cloudformation/getting-started.html" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/cloudformation/reference.html" class="md-nav__link">
+        Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/cloudformation/integrating-with-sam.html" class="md-nav__link">
+        Integrating with AWS Serverless Application Model (SAM)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/cloudformation/integrating-with-the-serverless-framework.html" class="md-nav__link">
+        Integrating with the Serverless Framework
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/cloudformation/integrating-with-cdk.html" class="md-nav__link">
+        Integrating with AWS Cloud Development Kit (CDK)
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/kubernetes.html">Kubernetes</a>
+          
+            <label for="__nav_6_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_5">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/getting-started.html" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/authenticating.html" class="md-nav__link">
+        Authenticating
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/custom-resources.html" class="md-nav__link">
+        Custom Resources
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/helm.html" class="md-nav__link">
+        Helm
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/kustomize.html" class="md-nav__link">
+        Kustomize
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/kubernetes/workflow-tool.html" class="md-nav__link">
+        Workflow Tool
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../vendors/ansible.html">Ansible</a>
+          
+            <label for="__nav_6_6">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_6">
+          <span class="md-nav__icon md-icon"></span>
+          Ansible
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/ansible/getting-started.html" class="md-nav__link">
+        Getting Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/ansible/reference.html" class="md-nav__link">
+        Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/ansible/policies.html" class="md-nav__link">
+        Spacelift Policies with Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vendors/ansible/ansible-galaxy.html" class="md-nav__link">
+        Ansible Galaxy
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          ⚙️ Integrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          ⚙️ Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../audit-trail.html" class="md-nav__link">
+        Audit trail
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+          ChatOps
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_2">
+          <span class="md-nav__icon md-icon"></span>
+          ChatOps
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chatops/slack.html" class="md-nav__link">
+        Slack
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chatops/msteams.html" class="md-nav__link">
+        Microsoft Teams
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../cloud-providers.html">Cloud Integrations</a>
+          
+            <label for="__nav_7_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_3">
+          <span class="md-nav__icon md-icon"></span>
+          Cloud Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-providers/aws.html" class="md-nav__link">
+        Amazon Web Services (AWS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_3" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../cloud-providers/oidc.html">OpenID Connect (OIDC)</a>
+          
+            <label for="__nav_7_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_3_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          OpenID Connect (OIDC)
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-providers/oidc/aws-oidc.html" class="md-nav__link">
+        Amazon Web Services (AWS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-providers/oidc/gcp-oidc.html" class="md-nav__link">
+        Google Cloud Platform (GCP)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-providers/oidc/azure-oidc.html" class="md-nav__link">
+        Microsoft Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-providers/oidc/vault-oidc.html" class="md-nav__link">
+        HashiCorp Vault
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_4" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../observability.html">Observability</a>
+          
+            <label for="__nav_7_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_4">
+          <span class="md-nav__icon md-icon"></span>
+          Observability
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/datadog.html" class="md-nav__link">
+        Datadog integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../observability/prometheus.html" class="md-nav__link">
+        Prometheus integration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_5" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../source-control.html">Source Control</a>
+          
+            <label for="__nav_7_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_5">
+          <span class="md-nav__icon md-icon"></span>
+          Source Control
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/github.html" class="md-nav__link">
+        GitHub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/gitlab.html" class="md-nav__link">
+        GitLab
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/azure-devops.html" class="md-nav__link">
+        Azure DevOps
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/bitbucket-cloud.html" class="md-nav__link">
+        Bitbucket Cloud
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/bitbucket-datacenter-server.html" class="md-nav__link">
+        Bitbucket Datacenter/Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source-control/raw-git.html" class="md-nav__link">
+        Raw Git
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker.html" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_7" >
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_7" id="__nav_7_7_label" tabindex="0">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_7">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api.html" class="md-nav__link">
+        GraphQL API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-development-with-mcp.html" class="md-nav__link">
+        Spacelift API integration via spacectl MCP server
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../webhooks.html" class="md-nav__link">
+        Webhooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../teleport.html" class="md-nav__link">
+        Teleport
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          External Integrations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_10">
+          <span class="md-nav__icon md-icon"></span>
+          External Integrations
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-integrations/backstage.html" class="md-nav__link">
+        Backstage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../external-integrations/servicenow.html" class="md-nav__link">
+        ServiceNow
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          📖 Product
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          📖 Product
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/notifications.html" class="md-nav__link">
+        Notifications
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../product/security.html">Security</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8_2">
+          <span class="md-nav__icon md-icon"></span>
+          Security
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/migrating-to-spacelift.html" class="md-nav__link">
+        Migrating to Spacelift
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/bulk-actions.html" class="md-nav__link">
+        Bulk actions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_5" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../product/support.html">Support</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8_5">
+          <span class="md-nav__icon md-icon"></span>
+          Support
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/disaster-continuity.html" class="md-nav__link">
+        Disaster Continuity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/onboarding-best-practices.html" class="md-nav__link">
+        Onboarding Best Practices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_8" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_8_8" id="__nav_8_8_label" tabindex="0">
+          Archive
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8_8">
+          <span class="md-nav__icon md-icon"></span>
+          Archive
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../product/archive/support.html" class="md-nav__link">
+        Support
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          ⚖️ Legal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          ⚖️ Legal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/terms.html" class="md-nav__link">
+        Terms and Conditions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/refund-policy.html" class="md-nav__link">
+        Refund Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/privacy.html" class="md-nav__link">
+        Privacy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/cookie-policy.html" class="md-nav__link">
+        Cookie Policy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/dpa.html" class="md-nav__link">
+        Data Processing Agreement
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_6" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_9_6" id="__nav_9_6_label" tabindex="0">
+          Archive
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9_6">
+          <span class="md-nav__icon md-icon"></span>
+          Archive
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/archive/terms.html" class="md-nav__link">
+        Terms and Conditions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-requisites" class="md-nav__link">
+    Pre-requisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-aws-iam-identity-application" class="md-nav__link">
+    Configure the AWS IAM Identity application
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-spacelift-saml-integration" class="md-nav__link">
+    Configure Spacelift SAML integration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-aws-iam-identity-application-continued" class="md-nav__link">
+    Configure the AWS IAM Identity application (Continued)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-the-attribute-mappings" class="md-nav__link">
+    Set the attribute mappings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assign-users-and-groups-to-the-application" class="md-nav__link">
+    Assign users and groups to the application
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activate-the-spacelift-saml-integration" class="md-nav__link">
+    Activate the Spacelift SAML integration
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  <div>
+    <div class="mobile-nav-wrapper" >
+      <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
+        <svg width="127" height="29" viewBox="0 0 127 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_1558_12595)">
+  <path d="M4.14743 20.2839C2.37689 20.0464 2.23263 19.7222 2.23263 19.3541C2.23263 19.0409 2.42089 18.5155 3.68104 18.5155C5.12227 18.5155 5.4322 19.1021 5.53956 19.5432L5.55886 19.6229H7.42966L7.41889 19.5092C7.36579 18.9461 6.94637 17.1099 3.77146 17.1099C1.24549 17.1099 0.348912 18.3995 0.348912 19.504C0.348912 20.8483 1.3723 21.5818 3.66807 21.8823C5.63045 22.1198 5.79261 22.5281 5.79261 22.9613C5.79261 23.5972 5.21412 23.92 4.07263 23.92C2.87747 23.92 2.15074 23.5073 1.91186 22.693L1.8899 22.6179H0L0.0192943 22.7382C0.285581 24.4015 1.72484 25.3553 3.96797 25.3553C6.32461 25.3553 7.67638 24.4335 7.67638 22.8265C7.67638 21.7578 7.24877 20.71 4.14743 20.2839Z" fill="white"/>
+  <path d="M13.9331 17.1099C12.45 17.1099 11.6169 17.7189 11.155 18.3264C11.1504 17.9594 11.1372 17.5881 11.1116 17.4088L11.0988 17.3195H9.24176L9.24435 17.4261C9.2592 18.0535 9.2592 18.6965 9.2592 19.3244V28.4533H11.1576V24.3204C11.469 24.6735 11.8583 24.9506 12.2951 25.1301C12.732 25.3096 13.2047 25.3866 13.6764 25.3552C15.9282 25.3552 17.6266 23.5282 17.6266 21.1055C17.6266 18.8277 16.0386 17.1099 13.9331 17.1099ZM15.6827 21.1801C15.6827 22.3749 15.0823 23.7701 13.3903 23.7701C11.964 23.7701 11.1124 22.8354 11.1124 21.27C11.1124 19.6333 11.9538 18.695 13.4206 18.695C14.9836 18.695 15.6827 19.9432 15.6827 21.1801V21.1801Z" fill="white"/>
+  <path d="M26.3254 23.0963V19.8785C26.3254 18.0419 25.1082 17.1104 22.7076 17.1104C19.6657 17.1104 19.1752 18.8828 19.1051 19.6447L19.0948 19.7582H20.9825L21.0005 19.6759C21.1192 19.1289 21.3594 18.5459 22.723 18.5459C24.2603 18.5459 24.4573 19.2822 24.4573 19.9236V20.1936H22.768C20.0089 20.1936 18.6674 21.0455 18.6674 22.7974C18.6674 24.0707 19.6181 25.3558 21.7426 25.3558C23.0544 25.3558 23.9816 25.0083 24.5048 24.322C24.512 24.5714 24.5374 24.82 24.581 25.0657L24.5999 25.1462H26.3956L26.3858 25.0332C26.3704 24.8513 26.3254 23.903 26.3254 23.0963ZM20.5356 22.7072C20.5356 21.8779 21.2122 21.5241 22.7982 21.5241C23.6952 21.5241 24.204 21.5241 24.4572 21.5337V21.7043C24.4572 23.145 23.6706 23.8752 22.1195 23.8752C21.113 23.8753 20.5356 23.4497 20.5356 22.7073V22.7072Z" fill="white"/>
+  <path d="M34.1918 22.5736C34.0301 22.9752 33.7422 23.3144 33.3709 23.5408C32.9996 23.7671 32.5647 23.8686 32.1307 23.8302C30.7467 23.8302 29.8528 22.8079 29.8528 21.2254C29.8528 19.652 30.7467 18.6355 32.1307 18.6355C32.5675 18.5974 33.0045 18.7056 33.3721 18.9429C33.7397 19.1802 34.0165 19.5329 34.1585 19.9447L34.1841 20.0124H36.0523L36.0334 19.8926C35.8733 18.859 34.874 17.1102 32.1455 17.1102C31.5892 17.0887 31.0343 17.1808 30.5154 17.3809C29.9964 17.581 29.5244 17.8848 29.1286 18.2735C28.7328 18.6621 28.4217 19.1274 28.2145 19.6403C28.0073 20.1532 27.9085 20.7029 27.9242 21.2553C27.9242 23.7461 29.5756 25.3555 32.1308 25.3555C34.1509 25.3555 35.6208 24.3415 36.0616 22.6433L36.0953 22.5133H34.2197L34.1918 22.5736Z" fill="white"/>
+  <path d="M41.2361 17.1099C38.795 17.1099 37.09 18.8145 37.09 21.255C37.09 23.296 38.3813 25.3552 41.2662 25.3552C43.9407 25.3552 44.8943 23.8018 45.2252 22.8761L45.2749 22.7373H43.3754L43.3457 22.7909C42.9376 23.5199 42.3153 23.8451 41.3266 23.8451C40.7363 23.8688 40.1604 23.6603 39.7242 23.2648C39.2879 22.8694 39.0266 22.3189 38.9971 21.7333H45.3368V21.2101C45.3368 19.3188 44.2627 17.1099 41.2361 17.1099ZM41.2213 18.5754C42.9008 18.5754 43.3028 19.6722 43.3836 20.4026H39.0329C39.2016 19.2394 39.9933 18.5754 41.2213 18.5754V18.5754Z" fill="white"/>
+  <path d="M48.7889 13.7126H46.89V25.1457H48.7889V13.7126Z" fill="white"/>
+  <path d="M51.8953 13.7429C51.7046 13.7429 51.5182 13.799 51.3597 13.9042C51.2011 14.0093 51.0775 14.1588 51.0046 14.3336C50.9316 14.5085 50.9125 14.7009 50.9497 14.8865C50.9869 15.0721 51.0787 15.2427 51.2135 15.3765C51.3483 15.5103 51.5201 15.6015 51.7071 15.6384C51.8942 15.6753 52.088 15.6564 52.2642 15.5839C52.4403 15.5115 52.5909 15.3888 52.6968 15.2315C52.8028 15.0741 52.8593 14.8891 52.8593 14.6998C52.859 14.4461 52.7573 14.203 52.5766 14.0236C52.3959 13.8442 52.1509 13.7433 51.8953 13.7429V13.7429Z" fill="white"/>
+  <path d="M52.8593 17.3196H50.9604V25.1456H52.8593V17.3196Z" fill="white"/>
+  <path d="M64.3173 18.8148V17.3196H62.3722V14.9248H60.474V17.3196H57.4872V16.5556C57.4872 15.4766 57.7552 15.1479 58.6343 15.1479C58.839 15.1467 59.0432 15.1659 59.2441 15.205L59.3724 15.2344V13.7067L59.2947 13.6862C58.9791 13.6164 58.656 13.5851 58.3326 13.593C56.5381 13.593 55.5894 14.5966 55.5894 16.4957V17.3196H54.1865V18.8148H55.5894V25.1456H57.4873V18.8148H60.474V22.8868C60.474 24.5445 61.129 25.2206 62.7349 25.2206C63.1738 25.238 63.6127 25.1857 64.035 25.0658L64.1066 25.042V23.6414L63.9798 23.6682C63.7479 23.7088 63.5128 23.728 63.2774 23.7257C62.5833 23.7257 62.3722 23.4738 62.3722 22.6472V18.815L64.3173 18.8148Z" fill="white"/>
+  <path d="M85.0313 13.3309C84.7135 15.7217 83.7448 17.1479 82.3735 17.244C81.9088 17.248 81.4495 17.1448 81.0319 16.9424C80.6143 16.7401 80.2498 16.4442 79.9671 16.078C80.9802 15.3705 81.834 14.4616 82.4744 13.4091C83.1148 12.3566 83.5278 11.1834 83.6871 9.96411C78.2026 11.5851 72.53 12.4954 66.8103 12.6724C67.4741 14.0378 68.4801 15.2111 69.732 16.0798C67.5305 18.588 66.3489 21.82 66.4172 25.1459H68.7289C68.6742 22.5575 69.5236 20.03 71.1329 17.9925C70.7869 20.3637 70.5695 22.7516 70.4817 25.1459H74.5859C74.5859 25.1459 73.8332 22.0568 75.0587 22.0541C76.2841 22.0568 75.5313 25.1459 75.5313 25.1459H79.6357C79.5544 22.884 79.3552 20.6277 79.0389 18.3862C79.4956 18.7514 80.0086 19.0413 80.5581 19.2449C81.1894 19.479 81.8637 19.5773 82.5362 19.5332C83.1422 19.4881 83.7323 19.3196 84.2697 19.0382C84.8072 18.7567 85.2805 18.3685 85.6601 17.8975C86.5236 16.8739 87.083 15.4385 87.3234 13.6311L85.0313 13.3309Z" fill="white"/>
+  <path d="M75.4568 12.6078C83.6095 11.2913 89.9565 8.62502 89.6332 6.65259C89.3099 4.68017 82.4388 4.14848 74.2861 5.46504C66.1334 6.7816 59.7864 9.44784 60.1097 11.4203C60.433 13.3927 67.3041 13.9244 75.4568 12.6078Z" fill="url(#paint0_linear_1558_12595)"/>
+  <path d="M82.8799 5.00777C81.9499 3.09289 80.3567 1.57417 78.3915 0.729234C76.4263 -0.1157 74.2204 -0.230408 72.177 0.406083C70.1337 1.04257 68.3893 2.38775 67.2629 4.1957C66.1364 6.00365 65.7031 8.15361 66.0421 10.2526C66.4721 12.8929 84.0988 10.1931 83.6483 7.4274C83.5107 6.58838 83.2519 5.77345 82.8799 5.00777V5.00777Z" fill="white"/>
+  <path d="M91.605 24.8349V13.1858H95.6015C97.5158 13.1858 98.9935 13.687 100.035 14.6894C101.076 15.6808 101.596 17.1184 101.596 19.0021C101.596 20.8858 101.076 22.3288 100.035 23.3312C98.9935 24.3337 97.5158 24.8349 95.6015 24.8349H91.605ZM92.9819 23.6782H95.5008C98.5905 23.6782 100.135 22.1195 100.135 19.0021C100.135 15.8957 98.5905 14.3424 95.5008 14.3424H92.9819V23.6782Z" fill="white"/>
+  <path d="M107.275 24.9836C106.48 24.9836 105.792 24.8129 105.21 24.4714C104.628 24.1299 104.174 23.6507 103.85 23.0338C103.536 22.4059 103.379 21.6679 103.379 20.8197C103.379 19.9715 103.536 19.2389 103.85 18.622C104.174 17.9941 104.628 17.5095 105.21 17.168C105.792 16.8265 106.48 16.6557 107.275 16.6557C108.059 16.6557 108.742 16.8265 109.324 17.168C109.917 17.5095 110.371 17.9941 110.684 18.622C111.009 19.2389 111.171 19.9715 111.171 20.8197C111.171 21.6679 111.009 22.4059 110.684 23.0338C110.371 23.6507 109.917 24.1299 109.324 24.4714C108.742 24.8129 108.059 24.9836 107.275 24.9836ZM107.275 23.9096C108.036 23.9096 108.647 23.6452 109.106 23.1164C109.564 22.5767 109.794 21.8111 109.794 20.8197C109.794 19.8172 109.564 19.0517 109.106 18.5229C108.647 17.9941 108.036 17.7298 107.275 17.7298C106.503 17.7298 105.887 17.9941 105.428 18.5229C104.98 19.0517 104.756 19.8172 104.756 20.8197C104.756 21.8111 104.98 22.5767 105.428 23.1164C105.887 23.6452 106.503 23.9096 107.275 23.9096Z" fill="white"/>
+  <path d="M116.673 24.9836C115.856 24.9836 115.151 24.8129 114.557 24.4714C113.964 24.1189 113.505 23.6287 113.18 23.0008C112.867 22.3619 112.71 21.6183 112.71 20.7701C112.71 19.4923 113.063 18.4899 113.768 17.7628C114.473 17.0248 115.442 16.6557 116.673 16.6557C117.177 16.6557 117.675 16.7439 118.168 16.9201C118.66 17.0964 119.069 17.3442 119.393 17.6637L118.923 18.6386C118.599 18.3301 118.24 18.1043 117.849 17.9611C117.468 17.8179 117.104 17.7463 116.757 17.7463C115.906 17.7463 115.251 18.0107 114.792 18.5394C114.333 19.0572 114.104 19.8062 114.104 20.7866C114.104 21.745 114.333 22.5051 114.792 23.0669C115.251 23.6177 115.906 23.8931 116.757 23.8931C117.104 23.8931 117.468 23.8214 117.849 23.6782C118.24 23.535 118.599 23.3037 118.923 22.9843L119.393 23.9591C119.069 24.2786 118.655 24.532 118.151 24.7192C117.658 24.8955 117.166 24.9836 116.673 24.9836Z" fill="white"/>
+  <path d="M123.741 24.9836C123.103 24.9836 122.498 24.8955 121.927 24.7192C121.356 24.543 120.886 24.2951 120.517 23.9757L120.953 23.0338C121.356 23.3533 121.798 23.5901 122.28 23.7443C122.772 23.8875 123.271 23.9591 123.774 23.9591C124.412 23.9591 124.894 23.8435 125.218 23.6122C125.543 23.3808 125.705 23.0669 125.705 22.6703C125.705 22.3619 125.599 22.1195 125.386 21.9433C125.174 21.756 124.838 21.6128 124.379 21.5137L122.851 21.1832C121.463 20.8858 120.769 20.1808 120.769 19.0682C120.769 18.3411 121.06 17.7573 121.642 17.3167C122.235 16.8761 123.007 16.6557 123.959 16.6557C124.519 16.6557 125.051 16.7439 125.554 16.9201C126.069 17.0853 126.495 17.3332 126.831 17.6637L126.377 18.6055C126.052 18.3081 125.672 18.0823 125.235 17.9281C124.81 17.7628 124.384 17.6802 123.959 17.6802C123.332 17.6802 122.856 17.8014 122.532 18.0437C122.207 18.2861 122.045 18.6055 122.045 19.0021C122.045 19.619 122.459 20.0155 123.287 20.1918L124.815 20.5057C125.532 20.6599 126.075 20.9078 126.444 21.2493C126.814 21.5798 126.998 22.0314 126.998 22.6042C126.998 23.3423 126.702 23.9261 126.108 24.3557C125.515 24.7743 124.726 24.9836 123.741 24.9836Z" fill="white"/>
+  </g>
+  <defs>
+  <linearGradient id="paint0_linear_1558_12595" x1="60.0978" y1="9.0365" x2="89.645" y2="9.0365" gradientUnits="userSpaceOnUse">
+  <stop offset="0.0817" stop-color="#82FFE8"/>
+  <stop offset="0.9512" stop-color="#7C47FC"/>
+  </linearGradient>
+  <clipPath id="clip0_1558_12595">
+  <rect width="127" height="29" fill="white"/>
+  </clipPath>
+  </defs>
+  </svg>
+      </a>
+      <label for="__drawer" class="close-button">
+        <svg viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.25372 4.75372C4.59201 4.41543 5.14048 4.41543 5.47877 4.75372L12 11.2749L18.5212 4.75372C18.8595 4.41543 19.408 4.41543 19.7463 4.75372C20.0846 5.09201 20.0846 5.64048 19.7463 5.97877L13.2251 12.5L19.7463 19.0212C20.0846 19.3595 20.0846 19.908 19.7463 20.2463C19.408 20.5846 18.8595 20.5846 18.5212 20.2463L12 13.7251L5.47877 20.2463C5.14048 20.5846 4.59201 20.5846 4.25372 20.2463C3.91543 19.908 3.91543 19.3595 4.25372 19.0212L10.7749 12.5L4.25372 5.97877C3.91543 5.64048 3.91543 5.09201 4.25372 4.75372Z" fill="currentColor"/>
+  </svg>
+      </label>
+    </div>
+
+    
+                  
+
+
+<h1 id="aws-iam-identity-center-saml-setup-guide">AWS IAM Identity Center SAML Setup Guide<a class="headerlink" href="#aws-iam-identity-center-saml-setup-guide" title="Anchor link to this section">»</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Note that SSO Integration with SAML 2.0 is an Enterprise plan feature.</p>
+</div>
+<p>If you'd like to set up the ability to sign in to your Spacelift account using a SAML 2.0 integration with AWS IAM Identity Center (formerly known as AWS SSO), you've come to the right place. This example will walk you through the steps to get this set up, and you'll have Single Sign-On running in no time!</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before setting up SSO, it's recommended to create backup credentials for your Spacelift account for use in case of SSO misconfiguration, or for other break-glass procedures. You can find more about this in the <a href="backup-credentials.html">Backup Credentials</a> section.</p>
+</div>
+<h2 id="pre-requisites">Pre-requisites<a class="headerlink" href="#pre-requisites" title="Anchor link to this section">»</a></h2>
+<ul>
+<li>Spacelift account, with access to admin permissions.</li>
+<li>AWS account which is a member of an AWS Organization, with permission to create AWS IAM Identity applications.</li>
+</ul>
+<h2 id="configure-the-aws-iam-identity-application">Configure the AWS IAM Identity application<a class="headerlink" href="#configure-the-aws-iam-identity-application" title="Anchor link to this section">»</a></h2>
+<p>Log into the AWS account, go to the IAM Identity Center home page and finally, click on the "Applications" link.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2018.47.42.png" /></p>
+<p>On that screen, click on the "Add a new application" button.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2018.52.43.png" /></p>
+<p>Finally, click on the "Add a custom SAML 2.0 application" button.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2018.54.26.png" /></p>
+<p>Set the "Display name" field to "Spacelift". Then, copy the URL for the "IAM Identity Center SAML metadata file" and head to the settings in your Spacelift account.</p>
+<h2 id="configure-spacelift-saml-integration">Configure Spacelift SAML integration<a class="headerlink" href="#configure-spacelift-saml-integration" title="Anchor link to this section">»</a></h2>
+<p>From the navigation side bar menu, select "Settings."</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2017.56.01.png" /></p>
+<p>Next, you'll want to click the Set Up button underneath the "SAML Settings" section.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2018.22.14.png" /></p>
+<p>In the SAML settings:</p>
+<ul>
+<li>Set the value for "NameID Format" to "Persistent".</li>
+<li>Enable the "Dynamic configuration".</li>
+<li>Paste the URL you just copied in AWS in the "IdP metadata URL" field.</li>
+</ul>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2019.14.45.png" /></p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p><strong>Do not click on the "Save" button yet</strong>, otherwise Spacelift will try to activate SAML integration right away and we are not completely done with the setup yet.</p>
+<p>If you clicked on the button anyway, you will be presented with an AWS login page and you will likely be unable to log in at this time. Don't worry. Just open another tab in your browser and go to your Spacelift account. As an administrator, you will be able to log in via the Identity Provider your used to create the account. From there, you will be able to activate the SAML integration once you have completed all the remaining steps documented below.</p>
+</div>
+<h2 id="configure-the-aws-iam-identity-application-continued">Configure the AWS IAM Identity application (Continued)<a class="headerlink" href="#configure-the-aws-iam-identity-application-continued" title="Anchor link to this section">»</a></h2>
+<p>Go back to the AWS console. In the "Application metadata" section, click on the "If you don't have a metadata file, you can manually type your metadata values." link.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2018.58.23.png" /></p>
+<p>Copy/paste the values for "Single Sign-On URL" and "Entity ID (audience)" from Spacelift to "Application ACS URL" and "Application SAML audience", respectively.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2019.03.19.png" /></p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2019.04.13.png" /></p>
+<p>Finally, click on the "Save changes" button.</p>
+<h2 id="set-the-attribute-mappings">Set the attribute mappings<a class="headerlink" href="#set-the-attribute-mappings" title="Anchor link to this section">»</a></h2>
+<p>Go to the "Attribute mappings" tab, set the values as described below and click on the "Save changes" button.</p>
+<table>
+<thead>
+<tr>
+<th>User attribute in the application</th>
+<th>Maps to this string value or user attribute in IAM Identity Center</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subject</td>
+<td>${user:subject}</td>
+<td>persistent</td>
+</tr>
+<tr>
+<td>FirstName</td>
+<td>${user:givenName}</td>
+<td>basic</td>
+</tr>
+<tr>
+<td>LastName</td>
+<td>${user:familyName}</td>
+<td>basic</td>
+</tr>
+<tr>
+<td>Teams</td>
+<td>${user:groups}</td>
+<td>basic</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that while available, <code>${user:groups}</code> <a href="https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html#supportedssoattributes" rel="nofollow">is not officially supported by AWS IAM Identity Center</a> and it will return the group ID (GUID) and not the group name. There is currently no way to get the group name.
+<!-- KLUDGE: https://repost.aws/questions/QULRCugKTtSqyi1SnZtW-pjQ/sso-passing-group-via-assertion --></p>
+</div>
+<h2 id="assign-users-and-groups-to-the-application">Assign users and groups to the application<a class="headerlink" href="#assign-users-and-groups-to-the-application" title="Anchor link to this section">»</a></h2>
+<p>Make sure to assign users and/or groups to the SAML application in the "Assigned users" tab.</p>
+<p><img alt="" src="../../assets/screenshots/CleanShot%202022-08-01%20at%2019.34.23.png" /></p>
+<h2 id="activate-the-spacelift-saml-integration">Activate the Spacelift SAML integration<a class="headerlink" href="#activate-the-spacelift-saml-integration" title="Anchor link to this section">»</a></h2>
+<p>Back to Spacelift for the final step. You can finally click on the "Save" button on the SAML integration page.</p>
+<p>The page will reload and the AWS login page will be displayed. Use the credentials for a user that has access to the SAML application and you should be able to log into Spacelift.</p>
+
+
+
+
+
+                
+  </div>
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 - Spacelift, Inc. All rights reserved.
+    </div>
+  
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/company/spacelift-io/" target="_blank" rel="noopener" title="Spacelift on LinkedIn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://twitter.com/spaceliftio" target="_blank" rel="noopener" title="Spacelift on Twitter" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/spacelift-io" target="_blank" rel="noopener" title="Spacelift on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/channel/UCYKTi_SzykyIe6jqj3t_kXg" target="_blank" rel="noopener" title="Spacelift on YouTube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.facebook.com/spaceliftio-103558488009736/" target="_blank" rel="noopener" title="Spacelift on Facebook" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.sections"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+
+  
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W9B4T9S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/7706335.js"></script>
+  
+
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
