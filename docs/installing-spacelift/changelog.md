@@ -8,8 +8,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
-- Self-Hosted: Added support for overriding OIDC discovery issuer and jwks_uri via config.json.
-
 - Allow machine users to discard runs
 
 - Allow filtering by stack name in resources view
