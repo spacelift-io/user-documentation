@@ -6175,14 +6175,12 @@
 <h2 id="changes-between-v340-and-v330">Changes between v3.4.0 and v3.3.0<a class="headerlink" href="#changes-between-v340-and-v330" title="Anchor link to this section">»</a></h2>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Anchor link to this section">»</a></h3>
 <ul>
-<li>
-<p><a href="../concepts/vcs-agent-pools.md">Support for VCS agent pools for self-hosted distributions</a>: <a href="reference-architecture/guides/deploying-to-ecs.html#vcs-gateway-service">installation instruction</a></p>
-</li>
-<li>
-<p><a href="../concepts/spaces/access-control.html">Role Based Access Control</a> is now available for self-hosted distributions</p>
-</li>
-<li>
-<p><a href="../integrations/cloud-providers/oidc.html#overriding-issuer-and-jwks-endpoints-self-hosted">OIDC configuration options are now configurable</a> (<code>issuer</code> and <code>jwks_uri</code>)</p>
+<li><a href="../concepts/vcs-agent-pools.md">Support for VCS agent pools for self-hosted distributions</a>: <a href="reference-architecture/guides/deploying-to-ecs.html#vcs-gateway-service">installation instruction</a></li>
+<li><a href="../concepts/spaces/access-control.html">Role Based Access Control</a> is now available for self-hosted distributions</li>
+<li><a href="../integrations/cloud-providers/oidc.html#overriding-issuer-and-jwks-endpoints-self-hosted">OIDC configuration options are now configurable</a> (<code>issuer</code> and <code>jwks_uri</code>)</li>
+<li><a href="reference-architecture/guides/observability.html#message-queues">Exposed a new configuration value</a> for the message queue:<ul>
+<li><code>MESSAGE_PROCESSING_TIMEOUT_SECONDS</code> environment variable controls how long messages can be processed before timing out (default: 900 seconds). Reducing this value (e.g., to 300 seconds) causes long-running messages to return to the queue faster, allowing other messages to be processed.</li>
+</ul>
 </li>
 </ul>
 <h2 id="changes-between-v330-and-v320">Changes between v3.3.0 and v3.2.0<a class="headerlink" href="#changes-between-v330-and-v320" title="Anchor link to this section">»</a></h2>
