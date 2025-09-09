@@ -6,26 +6,26 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Collaborative Infrastructure For Modern Software Teams">
+        <meta name="description" content="This article explains how you can set up and use on-premise VCS Agent Pools.">
       
       
         <meta name="author" content="Spacelift">
       
       
-        <link rel="canonical" href="https://docs.spacelift.io/self-hosted/latest/concepts/spacectl.html">
+        <link rel="canonical" href="https://docs.spacelift.io/self-hosted/latest/concepts/vcs-agent-pools.html">
       
       
-        <link rel="prev" href="worker-pools/kubernetes-workers.html">
+        <link rel="prev" href="user-management/user.html">
       
       
-        <link rel="next" href="spaces.html">
+        <link rel="next" href="../vendors/terraform.html">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.18">
     
     
       
-        <title>spacectl, the Spacelift CLI - Spacelift Documentation</title>
+        <title>VCS Agent Pools - Spacelift Documentation</title>
       
     
     
@@ -174,7 +174,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spacectl-the-spacelift-cli" class="md-skip">
+        <a href="#vcs-agent-pools" class="md-skip">
           Skip to content
         </a>
       
@@ -244,7 +244,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              spacectl, the Spacelift CLI
+              VCS Agent Pools
             
           </span>
         </div>
@@ -2348,215 +2348,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          spacectl, the Spacelift CLI
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="spacectl.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="spacectl.html" class="md-nav__link">
         spacectl, the Spacelift CLI
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#officially-supported-packages" class="md-nav__link">
-    Officially supported packages
-  </a>
-  
-    <nav class="md-nav" aria-label="Officially supported packages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
-    Homebrew
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
-    Windows
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-image" class="md-nav__link">
-    Docker image
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#asdf" class="md-nav__link">
-    asdf
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#github-release" class="md-nav__link">
-    GitHub Release
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage-on-github-actions" class="md-nav__link">
-    Usage on GitHub Actions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#community-supported-packages" class="md-nav__link">
-    Community supported packages
-  </a>
-  
-    <nav class="md-nav" aria-label="Community supported packages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arch-linux" class="md-nav__link">
-    Arch linux
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#alpine-linux" class="md-nav__link">
-    Alpine linux
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    Quick Start
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#getting-help" class="md-nav__link">
-    Getting Help
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
-    Authentication
-  </a>
-  
-    <nav class="md-nav" aria-label="Authentication">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#authenticating-using-environment-variables" class="md-nav__link">
-    Authenticating using environment variables
-  </a>
-  
-    <nav class="md-nav" aria-label="Authenticating using environment variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spacelift-api-tokens" class="md-nav__link">
-    Spacelift API tokens
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#github-tokens" class="md-nav__link">
-    GitHub tokens
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spacelift-api-keys" class="md-nav__link">
-    Spacelift API keys
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authenticating-using-account-profiles" class="md-nav__link">
-    Authenticating using account profiles
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2806,11 +2602,127 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="vcs-agent-pools.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          VCS Agent Pools
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="vcs-agent-pools.html" class="md-nav__link md-nav__link--active">
         VCS Agent Pools
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-vcs-agent-pool" class="md-nav__link">
+    Create the VCS Agent Pool
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-vcs-agent" class="md-nav__link">
+    Running the VCS Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the VCS Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download-the-vcs-agent-binaries" class="md-nav__link">
+    Download the VCS Agent binaries
+  </a>
+  
+    <nav class="md-nav" aria-label="Download the VCS Agent binaries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checksum-verification" class="md-nav__link">
+    Checksum verification
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-via-docker" class="md-nav__link">
+    Run via Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-vcs-agent-inside-a-kubernetes-cluster" class="md-nav__link">
+    Run the VCS Agent inside a Kubernetes Cluster
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-and-run-the-vcs-agent" class="md-nav__link">
+    Configure and run the VCS Agent
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-pool-settings" class="md-nav__link">
+    Worker pool settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passing-metadata-tags" class="md-nav__link">
+    Passing Metadata Tags
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debug-information" class="md-nav__link">
+    Debug Information
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -5003,59 +4915,31 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
+  <a href="#create-the-vcs-agent-pool" class="md-nav__link">
+    Create the VCS Agent Pool
   </a>
   
-    <nav class="md-nav" aria-label="Installation">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-vcs-agent" class="md-nav__link">
+    Running the VCS Agent
+  </a>
+  
+    <nav class="md-nav" aria-label="Running the VCS Agent">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#officially-supported-packages" class="md-nav__link">
-    Officially supported packages
+  <a href="#download-the-vcs-agent-binaries" class="md-nav__link">
+    Download the VCS Agent binaries
   </a>
   
-    <nav class="md-nav" aria-label="Officially supported packages">
+    <nav class="md-nav" aria-label="Download the VCS Agent binaries">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#homebrew" class="md-nav__link">
-    Homebrew
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#windows" class="md-nav__link">
-    Windows
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#docker-image" class="md-nav__link">
-    Docker image
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#asdf" class="md-nav__link">
-    asdf
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#github-release" class="md-nav__link">
-    GitHub Release
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage-on-github-actions" class="md-nav__link">
-    Usage on GitHub Actions
+  <a href="#checksum-verification" class="md-nav__link">
+    Checksum verification
   </a>
   
 </li>
@@ -5066,29 +4950,16 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#community-supported-packages" class="md-nav__link">
-    Community supported packages
-  </a>
-  
-    <nav class="md-nav" aria-label="Community supported packages">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#arch-linux" class="md-nav__link">
-    Arch linux
+  <a href="#run-via-docker" class="md-nav__link">
+    Run via Docker
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#alpine-linux" class="md-nav__link">
-    Alpine linux
+  <a href="#run-the-vcs-agent-inside-a-kubernetes-cluster" class="md-nav__link">
+    Run the VCS Agent inside a Kubernetes Cluster
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -5098,77 +4969,30 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    Quick Start
+  <a href="#configure-and-run-the-vcs-agent" class="md-nav__link">
+    Configure and run the VCS Agent
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#getting-help" class="md-nav__link">
-    Getting Help
+  <a href="#worker-pool-settings" class="md-nav__link">
+    Worker pool settings
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    Example
+  <a href="#passing-metadata-tags" class="md-nav__link">
+    Passing Metadata Tags
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#authentication" class="md-nav__link">
-    Authentication
+  <a href="#debug-information" class="md-nav__link">
+    Debug Information
   </a>
-  
-    <nav class="md-nav" aria-label="Authentication">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#authenticating-using-environment-variables" class="md-nav__link">
-    Authenticating using environment variables
-  </a>
-  
-    <nav class="md-nav" aria-label="Authenticating using environment variables">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spacelift-api-tokens" class="md-nav__link">
-    Spacelift API tokens
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#github-tokens" class="md-nav__link">
-    GitHub tokens
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spacelift-api-keys" class="md-nav__link">
-    Spacelift API keys
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#authenticating-using-account-profiles" class="md-nav__link">
-    Authenticating using account profiles
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -5228,41 +5052,41 @@
                   
 
 
-<h1 id="spacectl-the-spacelift-cli"><code>spacectl</code>, the Spacelift CLI<a class="headerlink" href="#spacectl-the-spacelift-cli" title="Anchor link to this section">»</a></h1>
-<p><code>spacectl</code> is a utility wrapping Spacelift's <a href="../integrations/api.html">GraphQL API</a> for easy programmatic access in command-line contexts - either in manual interactive mode (in your local shell), or in a predefined CI pipeline (GitHub actions, CircleCI, Jenkins etc).</p>
-<p>Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programmatically, you can use the <a href="https://github.com/spacelift-io/terraform-provider-spacelift" rel="nofollow">Spacelift Terraform Provider</a>.</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Anchor link to this section">»</a></h2>
-<h3 id="officially-supported-packages">Officially supported packages<a class="headerlink" href="#officially-supported-packages" title="Anchor link to this section">»</a></h3>
-<p>Officially supported packages are maintained by <a href="https://spacelift.io/" rel="nofollow">Spacelift</a> and are the preferred ways to install <code>spacectl</code></p>
-<h4 id="homebrew">Homebrew<a class="headerlink" href="#homebrew" title="Anchor link to this section">»</a></h4>
-<p>You can install <code>spacectl</code> using Homebrew on MacOS or Linux:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>spacelift-io/spacelift/spacectl
-</code></pre></div></td></tr></table></div>
-<h4 id="windows">Windows<a class="headerlink" href="#windows" title="Anchor link to this section">»</a></h4>
-<p>You can install <code>spacectl</code> using winget:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>spacectl
-</code></pre></div></td></tr></table></div>
-<p>or</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>winget<span class="w"> </span>install<span class="w"> </span>--id<span class="w"> </span>spacelift-io.spacectl
-</code></pre></div></td></tr></table></div>
-<h4 id="docker-image">Docker image<a class="headerlink" href="#docker-image" title="Anchor link to this section">»</a></h4>
-<p><code>spacectl</code> is distributed as a Docker image, which can be used as follows:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>ghcr.io/spacelift-io/spacectl<span class="w"> </span>stack<span class="w"> </span>deploy<span class="w"> </span>--id<span class="w"> </span>my-infra-stack
-</code></pre></div></td></tr></table></div>
-<blockquote>
-<p>Don't forget to add the <a href="#authenticating-using-environment-variables">required environment variables</a> in order to authenticate.</p>
-</blockquote>
-<h4 id="asdf">asdf<a class="headerlink" href="#asdf" title="Anchor link to this section">»</a></h4>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>asdf<span class="w"> </span>plugin<span class="w"> </span>add<span class="w"> </span>spacectl
-asdf<span class="w"> </span>install<span class="w"> </span>spacectl<span class="w"> </span>latest
-asdf<span class="w"> </span>global<span class="w"> </span>spacectl<span class="w"> </span>latest
-</code></pre></div></td></tr></table></div>
-<h4 id="github-release">GitHub Release<a class="headerlink" href="#github-release" title="Anchor link to this section">»</a></h4>
-<p>Alternatively, <code>spacectl</code> is distributed through GitHub Releases as a zip file containing a self-contained statically linked executable built from the source in this repository. Binaries can be download directly from the <a href="https://github.com/spacelift-io/spacectl/releases" rel="nofollow">Releases page</a>.</p>
-<h4 id="usage-on-github-actions">Usage on GitHub Actions<a class="headerlink" href="#usage-on-github-actions" title="Anchor link to this section">»</a></h4>
-<p>We have <a href="https://github.com/spacelift-io/setup-spacectl" rel="nofollow">setup-spacectl</a> GitHub Action that can be used to install <code>spacectl</code>:</p>
+<h1 id="vcs-agent-pools">VCS Agent Pools<a class="headerlink" href="#vcs-agent-pools" title="Anchor link to this section">»</a></h1>
+<p>By default, Spacelift communicates with your VCS provider directly. This is usually sufficient, but some users may have special requirements regarding infrastructure, security or compliance, and need to host their VCS system in a way that's only accessible internally, where Spacelift can't reach it. This is where VCS Agent Pools come into play.</p>
+<p>A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.</p>
+<p>On the Agent there are very conservative checks on what requests are let through and which ones are denied, with an explicit allowlist of paths that are necessary for Spacelift to work. All requests will be logged to standard output with a description about what they were used for.</p>
+<h2 id="create-the-vcs-agent-pool">Create the VCS Agent Pool<a class="headerlink" href="#create-the-vcs-agent-pool" title="Anchor link to this section">»</a></h2>
+<p>Navigate to VCS Agent Pools by clicking on Source code on the left menu, then <strong>VCS Agent pools</strong> on the top. Click <strong>Create VCS agent pool</strong>.</p>
+<p><img alt="" src="../assets/screenshots/Screen%20Shot%202022-06-21%20at%2011.31.39%20AM.png" /></p>
+<p>Give your VCS Agent Pool a name and description, and you're done! A configuration token will be downloaded.</p>
+<p><img alt="Creation of VCS Agent Pool" src="../assets/screenshots/Screen%20Shot%202022-06-21%20at%2011.29.22%20AM.png" /></p>
+<h2 id="running-the-vcs-agent">Running the VCS Agent<a class="headerlink" href="#running-the-vcs-agent" title="Anchor link to this section">»</a></h2>
+<h3 id="download-the-vcs-agent-binaries">Download the VCS Agent binaries<a class="headerlink" href="#download-the-vcs-agent-binaries" title="Anchor link to this section">»</a></h3>
+<p>The latest version of the VCS Agent binaries for Linux are available at Spacelift's CDN:</p>
+<table>
+<thead>
+<tr>
+<th>Binary name</th>
+<th>SHA256 checksum</th>
+<th>GPG signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-x86_64">spacelift-vcs-agent-x86_64</a></td>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-x86_64_SHA256SUMS">spacelift-vcs-agent-x86_64_SHA256SUMS</a></td>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-x86_64_SHA256SUMS.sig">spacelift-vcs-agent-x86_64_SHA256SUMS.sig</a></td>
+</tr>
+<tr>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-aarch64">spacelift-vcs-agent-aarch64</a></td>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-aarch64_SHA256SUMS">spacelift-vcs-agent-aarch64_SHA256SUMS</a></td>
+<td><a href="https://downloads.spacelift.io/spacelift-vcs-agent-aarch64_SHA256SUMS.sig">spacelift-vcs-agent-aarch64_SHA256SUMS.sig</a></td>
+</tr>
+</tbody>
+</table>
+<p>Binaries for other operating systems are available on the <a href="https://github.com/spacelift-io/vcs-agent/releases" rel="nofollow">GitHub Releases</a> page.</p>
+<h4 id="checksum-verification">Checksum verification<a class="headerlink" href="#checksum-verification" title="Anchor link to this section">»</a></h4>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -5272,233 +5096,148 @@ asdf<span class="w"> </span>global<span class="w"> </span>spacectl<span class="w
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">steps</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install spacectl</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spacelift-io/setup-spacectl@main</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>curl<span class="w"> </span>https://keys.openpgp.org/vks/v1/by-fingerprint/175FD97AD2358EFE02832978E302FB5AA29D88F7<span class="w"> </span><span class="p">|</span><span class="w"> </span>gpg<span class="w"> </span>--import
 
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deploy infrastructure</span>
-<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">SPACELIFT_API_KEY_ENDPOINT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://mycorp.app.spacelift.io</span>
-<span class="w">      </span><span class="nt">SPACELIFT_API_KEY_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SPACELIFT_API_KEY_ID }}</span>
-<span class="w">      </span><span class="nt">SPACELIFT_API_KEY_SECRET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SPACELIFT_API_KEY_SECRET }}</span>
-<span class="w">    </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spacectl stack deploy --id my-infra-stack</span>
+gpg<span class="w"> </span>--verify<span class="w"> </span>spacelift-vcs-agent-x86_64_SHA256SUMS.sig
+<span class="nv">CHECKSUM</span><span class="o">=</span><span class="k">$(</span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>spacelift-vcs-agent-x86_64_SHA256SUMS<span class="k">)</span>
+<span class="nv">ACTUAL_CHECKSUM</span><span class="o">=</span><span class="k">$(</span>sha256sum<span class="w"> </span>spacelift-vcs-agent-x86_64<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="k">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$CHECKSUM</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ACTUAL_CHECKSUM</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Invalid checksum!&quot;</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Checksum verification succeeded.&quot;</span>
+<span class="k">fi</span>
 </code></pre></div></td></tr></table></div>
-<h3 id="community-supported-packages">Community supported packages<a class="headerlink" href="#community-supported-packages" title="Anchor link to this section">»</a></h3>
-<p><strong>Disclaimer:</strong> These packages are community-maintained, please verify the package integrity yourself before using them to install or update <code>spacectl</code>.</p>
-<h4 id="arch-linux">Arch linux<a class="headerlink" href="#arch-linux" title="Anchor link to this section">»</a></h4>
-<p>Install <a href="https://aur.archlinux.org/packages/spacectl-bin" rel="nofollow"><code>spacectl-bin</code></a>: from the Arch User Repository (<a href="https://aur.archlinux.org/" rel="nofollow">AUR</a>):</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>yay<span class="w"> </span>-S<span class="w"> </span>spacectl-bin
-</code></pre></div></td></tr></table></div>
-<p>Please make sure to verify the <a href="https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin" rel="nofollow"><code>PKGBUILD</code></a> before installing/updating.</p>
-<h4 id="alpine-linux">Alpine linux<a class="headerlink" href="#alpine-linux" title="Anchor link to this section">»</a></h4>
-<p>Install <a href="https://pkgs.alpinelinux.org/packages?name=spacectl&amp;branch=edge&amp;repo=&amp;arch=&amp;maintainer=" rel="nofollow"><code>spacectl</code></a> from the Alpine Repository (<a href="https://pkgs.alpinelinux.org/packages" rel="nofollow">alpine packages</a>):</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>apk<span class="w"> </span>add<span class="w"> </span>spacectl<span class="w"> </span>--repository<span class="o">=</span>https://dl-cdn.alpinelinux.org/alpine/edge/testing
-</code></pre></div></td></tr></table></div>
-<p>Please make sure to verify the <a href="https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD" rel="nofollow"><code>APKBUILD</code></a> before installing/updating.</p>
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Anchor link to this section">»</a></h2>
-<p>Authenticate using <code>spacectl profile login</code>:</p>
+<h3 id="run-via-docker">Run via Docker<a class="headerlink" href="#run-via-docker" title="Anchor link to this section">»</a></h3>
+<p>The VCS Agent is also available as a multi-arch (amd64 and arm64) Docker image:</p>
+<ul>
+<li><code>public.ecr.aws/spacelift/vcs-agent:latest</code></li>
+<li><code>public.ecr.aws/spacelift/vcs-agent:&lt;version&gt;</code></li>
+</ul>
+<p>The available versions are listed on the <a href="https://github.com/spacelift-io/vcs-agent/releases" rel="nofollow">GitHub Releases</a> page.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code>&gt;<span class="w"> </span>spacectl<span class="w"> </span>profile<span class="w"> </span>login<span class="w"> </span>my-account
-Enter<span class="w"> </span>Spacelift<span class="w"> </span>endpoint<span class="w"> </span><span class="o">(</span>eg.<span class="w"> </span>https://unicorn.app.spacelift.io/<span class="o">)</span>:<span class="w"> </span>http://my-account.app.spacelift.tf
-Select<span class="w"> </span>authentication<span class="w"> </span>flow:
-<span class="w">  </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>API<span class="w"> </span>key,
-<span class="w">  </span><span class="m">2</span><span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>GitHub<span class="w"> </span>access<span class="w"> </span>token,
-<span class="w">  </span><span class="m">3</span><span class="o">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>login<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>web<span class="w"> </span>browser
-Option:<span class="w"> </span><span class="m">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SPACELIFT_VCS_AGENT_POOL_TOKEN=&lt;VCS TOKEN&gt;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT=http://169.254.0.10:7990&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">&quot;SPACELIFT_VCS_AGENT_VENDOR=bitbucket_datacenter&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>public.ecr.aws/spacelift/vcs-agent
 </code></pre></div></td></tr></table></div>
-<p>Use spacectl 🚀:</p>
+<h3 id="run-the-vcs-agent-inside-a-kubernetes-cluster">Run the VCS Agent inside a Kubernetes Cluster<a class="headerlink" href="#run-the-vcs-agent-inside-a-kubernetes-cluster" title="Anchor link to this section">»</a></h3>
+<p>We have a <a href="https://github.com/spacelift-io/spacelift-helm-charts" rel="nofollow">VCS Agent Helm Chart</a> that you can use to install the VCS Agent on top of your Kubernetes Cluster. After creating a VCS Agent Pool in Spacelift and generating a token, you can add our Helm chart repo and update your local cache using:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>spacelift<span class="w"> </span>https://downloads.spacelift.io/helm
+helm<span class="w"> </span>repo<span class="w"> </span>update
+</code></pre></div></td></tr></table></div>
+<p>Assuming your token, VCS endpoint and vendor are stored in the <code>SPACELIFT_VCS_AGENT_POOL_TOKEN</code>, <code>SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT</code> and <code>SPACELIFT_VCS_AGENT_VENDOR</code> environment
+variables, you can install the chart using the following command:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>vcs-agent<span class="w"> </span>spacelift/vcs-agent<span class="w"> </span>--install<span class="w"> </span>--set<span class="w"> </span><span class="s2">&quot;credentials.token=</span><span class="nv">$SPACELIFT_VCS_AGENT_POOL_TOKEN</span><span class="s2">,credentials.endpoint=</span><span class="nv">$SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT</span><span class="s2">,credentials.vendor=</span><span class="nv">$SPACELIFT_VCS_AGENT_VENDOR</span><span class="s2">&quot;</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="configure-and-run-the-vcs-agent">Configure and run the VCS Agent<a class="headerlink" href="#configure-and-run-the-vcs-agent" title="Anchor link to this section">»</a></h2>
+<p>A number of configuration variables is available to customize how your VCS Agent behaves. The ones marked as required are … well … required.</p>
+<table>
+<thead>
+<tr>
+<th>CLI Flag</th>
+<th>Environment Variable</th>
+<th>Status</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--target-base-endpoint</code></td>
+<td><code>SPACELIFT_VCS_AGENT_TARGET_BASE_ENDPOINT</code></td>
+<td>Required</td>
+<td></td>
+<td>The internal endpoint of your VCS system, including the protocol, as well as port, if applicable. (e.g., <code>http://169.254.0.10:7990</code>)</td>
+</tr>
+<tr>
+<td><code>--token</code></td>
+<td><code>SPACELIFT_VCS_AGENT_POOL_TOKEN</code></td>
+<td>Required</td>
+<td></td>
+<td>The token you’ve received from Spacelift during VCS Agent Pool creation</td>
+</tr>
+<tr>
+<td><code>--vendor</code></td>
+<td><code>SPACELIFT_VCS_AGENT_VENDOR</code></td>
+<td>Required</td>
+<td></td>
+<td>The vendor of your VCS system. Currently available options are <code>azure_devops</code>, <code>gitlab</code>, <code>bitbucket_datacenter</code> and <code>github_enterprise</code></td>
+</tr>
+<tr>
+<td><code>--allowed-projects</code></td>
+<td><code>SPACELIFT_VCS_AGENT_ALLOWED_PROJECTS</code></td>
+<td>Optional</td>
+<td><code>.*</code></td>
+<td>Regexp matching allowed projects for API calls. Projects are in the form: 'group/repository'.</td>
+</tr>
+<tr>
+<td><code>--bugsnag-api-key</code></td>
+<td><code>SPACELIFT_VCS_AGENT_BUGSNAG_API_KEY</code></td>
+<td>Optional</td>
+<td></td>
+<td>Override the Bugsnag API key used for error reporting.</td>
+</tr>
+<tr>
+<td><code>--parallelism</code></td>
+<td><code>SPACELIFT_VCS_AGENT_PARALLELISM</code></td>
+<td>Optional</td>
+<td><code>4</code></td>
+<td>Number of streams to create. Each stream can handle one request simultaneously.</td>
+</tr>
+<tr>
+<td><code>--debug-print-all</code></td>
+<td><code>SPACELIFT_VCS_AGENT_DEBUG_PRINT_ALL</code></td>
+<td>Optional</td>
+<td><code>false</code></td>
+<td>Makes vcs-agent print out all the requests and responses.</td>
+</tr>
+<tr>
+<td></td>
+<td><code>HTTPS_PROXY</code></td>
+<td>Optional</td>
+<td></td>
+<td>Hostname or IP address of the proxy server, including the protocol, as well as port, if applicable. (e.g., <code>http://10.10.1.1:8888</code>)</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NO_PROXY</code></td>
+<td>Optional</td>
+<td></td>
+<td>Comma-separated list of host names that shouldn't go through any proxy is set in.</td>
+</tr>
+</tbody>
+</table>
+<p>Congrats! Your VCS Agent should now connect to the Spacelift backend and start handling connections.</p>
+<p><img alt="Running the VCS Agent" src="../assets/screenshots/image%20%2851%29.png" /></p>
+<p>Within the VCS Agent Pools page, you will be able to see the number of active connections used by your pool.</p>
+<p><img alt="VCS Agent Pool Connections" src="../assets/screenshots/image%20%2847%29.png" /></p>
+<p>Now whenever you need to specify an endpoint inside of Spacelift which should use your VCS Agent Pool, you should write it this way: <code>private://my-vcs-agent-pool-name/possible/path</code></p>
+<p><img alt="" src="../assets/screenshots/Screen%20Shot%202022-06-21%20at%2011.34.18%20AM.png" /></p>
+<p>When trying to use this integration, i.e. by opening the Stack creation form, you'll get a detailed log of the requests:</p>
+<p><img alt="Access Log example" src="../assets/screenshots/image%20%2850%29.png" /></p>
+<h2 id="worker-pool-settings">Worker pool settings<a class="headerlink" href="#worker-pool-settings" title="Anchor link to this section">»</a></h2>
+<p>Since your source code is downloaded directly by Spacelift workers, you need to configure them to access your VCS instance. Instructions for doing this are available on the <a href="worker-pools.html#vcs-agents">worker pools</a> page.</p>
+<h2 id="passing-metadata-tags">Passing Metadata Tags<a class="headerlink" href="#passing-metadata-tags" title="Anchor link to this section">»</a></h2>
+<p>When the VCS Agent from a VCS Agent Pool is connecting to the gateway, you can send along some tags that will allow you to uniquely identify the process / machine for the purpose of debugging. Any environment variables using <code>SPACELIFT_METADATA_</code> prefix will be passed on. As an example, if you're running Spacelift VCS Agents in EC2, you can do the following just before you execute the VCS Agent binary:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SPACELIFT_METADATA_instance_id</span><span class="o">=</span><span class="k">$(</span>ec2-metadata<span class="w"> </span>--instance-id<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f2<span class="k">)</span>
+</code></pre></div></td></tr></table></div>
+<p>Doing so will set your EC2 instance ID as <em>instance_id</em> tag in your VCS Agent connections.</p>
+<h2 id="debug-information">Debug Information<a class="headerlink" href="#debug-information" title="Anchor link to this section">»</a></h2>
+<p>Sometimes, it is helpful to display additional information to troubleshoot an issue. When that is needed, set the following environment variables:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>&gt;<span class="w"> </span>spacectl<span class="w"> </span>stack<span class="w"> </span>list
-Name<span class="w">                          </span><span class="p">|</span><span class="w"> </span>Commit<span class="w">   </span><span class="p">|</span><span class="w"> </span>Author<span class="w">        </span><span class="p">|</span><span class="w"> </span>State<span class="w">     </span><span class="p">|</span><span class="w"> </span>Worker<span class="w"> </span>Pool<span class="w"> </span><span class="p">|</span><span class="w"> </span>Locked<span class="w"> </span>By
-stack-1<span class="w">                       </span><span class="p">|</span><span class="w"> </span>1aa0ef62<span class="w"> </span><span class="p">|</span><span class="w"> </span>Adam<span class="w"> </span>Connelly<span class="w"> </span><span class="p">|</span><span class="w"> </span>NONE<span class="w">      </span><span class="p">|</span><span class="w">             </span><span class="p">|</span>
-stack-2<span class="w">                       </span><span class="p">|</span><span class="w"> </span>1aa0ef62<span class="w"> </span><span class="p">|</span><span class="w"> </span>Adam<span class="w"> </span>Connelly<span class="w"> </span><span class="p">|</span><span class="w"> </span>DISCARDED<span class="w"> </span><span class="p">|</span><span class="w">             </span><span class="p">|</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">GODEBUG</span><span class="o">=</span><span class="nv">http2debug</span><span class="o">=</span><span class="m">2</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GRPC_GO_LOG_SEVERITY_LEVEL</span><span class="o">=</span>info
+<span class="nb">export</span><span class="w"> </span><span class="nv">GRPC_GO_LOG_VERBOSITY_LEVEL</span><span class="o">=</span><span class="m">99</span>
 </code></pre></div></td></tr></table></div>
-<h2 id="getting-help">Getting Help<a class="headerlink" href="#getting-help" title="Anchor link to this section">»</a></h2>
-<p>To list all the commands available, use <code>spacectl help</code>:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code>&gt;<span class="w"> </span>spacectl<span class="w"> </span><span class="nb">help</span>
-NAME:
-<span class="w">   </span>spacectl<span class="w"> </span>-<span class="w"> </span>Programmatic<span class="w"> </span>access<span class="w"> </span>to<span class="w"> </span>Spacelift<span class="w"> </span>GraphQL<span class="w"> </span>API.
-
-USAGE:
-<span class="w">   </span>spacectl<span class="w"> </span><span class="o">[</span>global<span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">[</span><span class="nb">command</span><span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>arguments...<span class="o">]</span>
-
-VERSION:
-<span class="w">   </span><span class="m">0</span>.26.0
-
-COMMANDS:
-<span class="w">   </span>module<span class="w">                   </span>Manage<span class="w"> </span>a<span class="w"> </span>Spacelift<span class="w"> </span>module
-<span class="w">   </span>profile<span class="w">                  </span>Manage<span class="w"> </span>Spacelift<span class="w"> </span>profiles
-<span class="w">   </span>provider<span class="w">                 </span>Manage<span class="w"> </span>a<span class="w"> </span>Terraform<span class="w"> </span>provider
-<span class="w">   </span>run-external-dependency<span class="w">  </span>Manage<span class="w"> </span>Spacelift<span class="w"> </span>Run<span class="w"> </span>external<span class="w"> </span>dependencies
-<span class="w">   </span>stack<span class="w">                    </span>Manage<span class="w"> </span>a<span class="w"> </span>Spacelift<span class="w"> </span>stack
-<span class="w">   </span>whoami<span class="w">                   </span>Print<span class="w"> </span>out<span class="w"> </span>logged-in<span class="w"> </span>users<span class="w"> </span>information
-<span class="w">   </span>version<span class="w">                  </span>Print<span class="w"> </span>out<span class="w"> </span>CLI<span class="w"> </span>version
-<span class="w">   </span>workerpool<span class="w">               </span>Manages<span class="w"> </span>workerpools<span class="w"> </span>and<span class="w"> </span>their<span class="w"> </span>workers
-<span class="w">   </span>help,<span class="w"> </span>h<span class="w">                  </span>Shows<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>commands<span class="w"> </span>or<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>one<span class="w"> </span><span class="nb">command</span>
-
-GLOBAL<span class="w"> </span>OPTIONS:
-<span class="w">   </span>--help,<span class="w"> </span>-h<span class="w">     </span>show<span class="w"> </span><span class="nb">help</span>
-<span class="w">   </span>--version,<span class="w"> </span>-v<span class="w">  </span>print<span class="w"> </span>the<span class="w"> </span>version
-</code></pre></div></td></tr></table></div>
-<p>To get help about a particular command or subcommand, use the <code>-h</code> flag:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code>&gt;<span class="w"> </span>spacectl<span class="w"> </span>profile<span class="w"> </span>-h
-NAME:
-<span class="w">   </span>spacectl<span class="w"> </span>profile<span class="w"> </span>-<span class="w"> </span>Manage<span class="w"> </span>Spacelift<span class="w"> </span>profiles
-
-USAGE:
-<span class="w">   </span>spacectl<span class="w"> </span>profile<span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">[</span><span class="nb">command</span><span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>arguments...<span class="o">]</span>
-
-COMMANDS:
-<span class="w">     </span>current<span class="w">       </span>Outputs<span class="w"> </span>your<span class="w"> </span>currently<span class="w"> </span>selected<span class="w"> </span>profile
-<span class="w">     </span>export-token<span class="w">  </span>Prints<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>token<span class="w"> </span>to<span class="w"> </span>stdout.<span class="w"> </span>In<span class="w"> </span>order<span class="w"> </span>not<span class="w"> </span>to<span class="w"> </span>leak,<span class="w"> </span>we<span class="w"> </span>suggest<span class="w"> </span>piping<span class="w"> </span>it<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>OS<span class="w"> </span>pastebin
-<span class="w">     </span>list<span class="w">          </span>List<span class="w"> </span>all<span class="w"> </span>your<span class="w"> </span>Spacelift<span class="w"> </span>account<span class="w"> </span>profiles
-<span class="w">     </span>login<span class="w">         </span>Create<span class="w"> </span>a<span class="w"> </span>profile<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>Spacelift<span class="w"> </span>account
-<span class="w">     </span><span class="nb">logout</span><span class="w">        </span>Remove<span class="w"> </span>Spacelift<span class="w"> </span>credentials<span class="w"> </span><span class="k">for</span><span class="w"> </span>an<span class="w"> </span>existing<span class="w"> </span>profile
-<span class="w">     </span><span class="k">select</span><span class="w">        </span>Select<span class="w"> </span>one<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>Spacelift<span class="w"> </span>account<span class="w"> </span>profiles
-<span class="w">     </span>help,<span class="w"> </span>h<span class="w">       </span>Shows<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>commands<span class="w"> </span>or<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>one<span class="w"> </span><span class="nb">command</span>
-
-OPTIONS:
-<span class="w">   </span>--help,<span class="w"> </span>-h<span class="w">  </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="nb">false</span><span class="o">)</span>
-</code></pre></div></td></tr></table></div>
-<h2 id="example">Example<a class="headerlink" href="#example" title="Anchor link to this section">»</a></h2>
-<p>The following screencast shows an example of using spacectl to run a one-off task in Spacelift:</p>
-<p><a href="https://asciinema.org/a/pYm8lqM5XTUoG1UsDo7OL6t8B"><img alt="asciicast" src="https://asciinema.org/a/pYm8lqM5XTUoG1UsDo7OL6t8B.svg" /></a></p>
-<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Anchor link to this section">»</a></h2>
-<p><code>spacectl</code> is designed to work in two different contexts - a non-interactive scripting mode (eg. external CI/CD pipeline) and a local interactive mode, where you type commands into your shell. Because of this, it supports two types of credentials - environment variables and user profiles.</p>
-<p>We refer to each method of providing credentials as "credential providers" (like AWS), and details of each method are documented in the following sections.</p>
-<h3 id="authenticating-using-environment-variables">Authenticating using environment variables<a class="headerlink" href="#authenticating-using-environment-variables" title="Anchor link to this section">»</a></h3>
-<p>The CLI supports the following authentication methods via the environment:</p>
-<ul>
-<li><a href="#spacelift-api-tokens">Spacelift API tokens</a>.</li>
-<li><a href="#github-tokens">GitHub tokens</a>.</li>
-<li><a href="#spacelift-api-keys">Spacelift API keys</a>.</li>
-</ul>
-<p><code>spacectl</code> looks for authentication configurations in the order specified above, and will stop as soon as it finds a valid configuration. For example, if a Spacelift API token is specified, GitHub tokens and Spacelift API keys will be ignored, even if their environment variables are specified.</p>
-<h4 id="spacelift-api-tokens">Spacelift API tokens<a class="headerlink" href="#spacelift-api-tokens" title="Anchor link to this section">»</a></h4>
-<p>Spacelift API tokens can be specified using the <code>SPACELIFT_API_TOKEN</code> environment variable. When this variable is found, the CLI ignores all the other authentication environment variables because the token contains all the information needed to authenticate.</p>
-<p>NOTE: API tokens are generally short-lived and will need to be re-created often.</p>
-<h4 id="github-tokens">GitHub tokens<a class="headerlink" href="#github-tokens" title="Anchor link to this section">»</a></h4>
-<p>GitHub tokens are only available to accounts that use GitHub as their identity provider, but are very convenient for use in GitHub actions. To use a GitHub token, set the following environment variables:</p>
-<ul>
-<li><code>SPACELIFT_API_KEY_ENDPOINT</code> - the URL to your Spacelift account, for example <code>https://mycorp.app.spacelift.io</code>.</li>
-<li><code>SPACELIFT_API_GITHUB_TOKEN</code> - a GitHub personal access token.</li>
-</ul>
-<h4 id="spacelift-api-keys">Spacelift API keys<a class="headerlink" href="#spacelift-api-keys" title="Anchor link to this section">»</a></h4>
-<p>To use a Spacelift API key, set the following environment variables:</p>
-<ul>
-<li><code>SPACELIFT_API_KEY_ENDPOINT</code> - the URL to your Spacelift account, for example <code>https://mycorp.app.spacelift.io</code>.</li>
-<li><code>SPACELIFT_API_KEY_ID</code> - the ID of your Spacelift API key. Available via the Spacelift application.</li>
-<li><code>SPACELIFT_API_KEY_SECRET</code> - the secret for your API key. Only available when the secret is created.</li>
-</ul>
-<p>More information about API authentication can be found at <a href="../integrations/api.html">our GraphQL API documentation</a>.</p>
-<h3 id="authenticating-using-account-profiles">Authenticating using account profiles<a class="headerlink" href="#authenticating-using-account-profiles" title="Anchor link to this section">»</a></h3>
-<p>In order to make working with multiple Spacelift accounts easy in interactive scenarios, Spacelift supports account management through the <code>profile</code> family of commands:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code>❯<span class="w"> </span>spacectl<span class="w"> </span>profile
-NAME:
-<span class="w">   </span>spacectl<span class="w"> </span>profile<span class="w"> </span>-<span class="w"> </span>Manage<span class="w"> </span>Spacelift<span class="w"> </span>profiles
-
-USAGE:
-<span class="w">   </span>spacectl<span class="w"> </span>profile<span class="w"> </span><span class="nb">command</span><span class="w"> </span><span class="o">[</span><span class="nb">command</span><span class="w"> </span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>arguments...<span class="o">]</span>
-
-COMMANDS:
-<span class="w">     </span>current<span class="w">       </span>Outputs<span class="w"> </span>your<span class="w"> </span>currently<span class="w"> </span>selected<span class="w"> </span>profile
-<span class="w">     </span>export-token<span class="w">  </span>Prints<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>token<span class="w"> </span>to<span class="w"> </span>stdout.<span class="w"> </span>In<span class="w"> </span>order<span class="w"> </span>not<span class="w"> </span>to<span class="w"> </span>leak,<span class="w"> </span>we<span class="w"> </span>suggest<span class="w"> </span>piping<span class="w"> </span>it<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>OS<span class="w"> </span>pastebin
-<span class="w">     </span>list<span class="w">          </span>List<span class="w"> </span>all<span class="w"> </span>your<span class="w"> </span>Spacelift<span class="w"> </span>account<span class="w"> </span>profiles
-<span class="w">     </span>login<span class="w">         </span>Create<span class="w"> </span>a<span class="w"> </span>profile<span class="w"> </span><span class="k">for</span><span class="w"> </span>a<span class="w"> </span>Spacelift<span class="w"> </span>account
-<span class="w">     </span><span class="nb">logout</span><span class="w">        </span>Remove<span class="w"> </span>Spacelift<span class="w"> </span>credentials<span class="w"> </span><span class="k">for</span><span class="w"> </span>an<span class="w"> </span>existing<span class="w"> </span>profile
-<span class="w">     </span><span class="k">select</span><span class="w">        </span>Select<span class="w"> </span>one<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>Spacelift<span class="w"> </span>account<span class="w"> </span>profiles
-<span class="w">     </span>help,<span class="w"> </span>h<span class="w">       </span>Shows<span class="w"> </span>a<span class="w"> </span>list<span class="w"> </span>of<span class="w"> </span>commands<span class="w"> </span>or<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>one<span class="w"> </span><span class="nb">command</span>
-
-OPTIONS:
-<span class="w">   </span>--help,<span class="w"> </span>-h<span class="w">  </span>show<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="o">(</span>default:<span class="w"> </span><span class="nb">false</span><span class="o">)</span>
-</code></pre></div></td></tr></table></div>
-<p>Each of the subcommands requires an account <strong>alias</strong>, which is a short, user-friendly name for each set of credentials (account profiles). Profiles don't need to be unique - you can have multiple sets of credentials for a single account too.</p>
-<p>Account profiles support three authentication methods:</p>
-<ul>
-<li>
-<p>GitHub access tokens</p>
-</li>
-<li>
-<p>API keys</p>
-</li>
-<li>
-<p>Login with a browser (API token).</p>
-</li>
-</ul>
-<p>In order to authenticate to your first profile, type in the following (make sure to replace <code>${MY_ALIAS}</code> with the actual profile alias):</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>❯<span class="w"> </span>spacectl<span class="w"> </span>profile<span class="w"> </span>login<span class="w"> </span><span class="si">${</span><span class="nv">MY_ALIAS</span><span class="si">}</span>
-Enter<span class="w"> </span>Spacelift<span class="w"> </span>endpoint<span class="w"> </span><span class="o">(</span>eg.<span class="w"> </span>https://unicorn.app.spacelift.io/<span class="o">)</span>:
-</code></pre></div></td></tr></table></div>
-<p>In the next step, you will be asked to choose which authentication method you are going to use. Note that if your account is using <a href="../integrations/single-sign-on.html">SAML-based SSO authentication</a>, then API keys and login with a browser are your only options. After you're done entering credentials, the CLI will validate them against the server, and assuming that they're valid, will persist them in a credentials file in <code>.spacelift/${MY_ALIAS}</code>. It will also create a symlink in <code>${HOME}/.spacelift/current</code> pointing to the current profile.</p>
-<p>By default the login process is interactive, however, if that does not fit your workflow, the steps can be predefined using flags, for example:</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>❯<span class="w"> </span>spacectl<span class="w"> </span>profile<span class="w"> </span>login<span class="w"> </span>--method<span class="w"> </span>browser<span class="w"> </span>--endpoint<span class="w"> </span>https://unicorn.app.spacelift.io<span class="w"> </span>local-test
-</code></pre></div></td></tr></table></div>
-<p>You can switch between account profiles by using <code>spacectl profile select ${MY_ALIAS}</code>. What this does behind the scenes is point <code>${HOME}/.spacelift/current</code> to the new location. You can also delete stored credentials for a given profile by using the <code>spacectl profile logout ${MY_ALIAS}</code> command.</p>
+<p>You may want to tweak the values to increase or decrease verbosity.</p>
 
 
 

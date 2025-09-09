@@ -2544,27 +2544,13 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../../concepts/vcs-agent-pools.md" class="md-nav__link">
-        None
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
       
       
         
@@ -2593,14 +2579,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../../concepts/spaces.html">Spaces</a>
           
-            <label for="__nav_5_10">
+            <label for="__nav_5_9">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_5_10">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_9">
           <span class="md-nav__icon md-icon"></span>
           Spaces
         </label>
@@ -2724,7 +2710,7 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_11" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
       
       
         
@@ -2743,14 +2729,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../../concepts/user-management.html">User Management</a>
           
-            <label for="__nav_5_11">
+            <label for="__nav_5_10">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_11_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_5_11">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5_10">
           <span class="md-nav__icon md-icon"></span>
           User Management
         </label>
@@ -2788,6 +2774,20 @@
           
         </ul>
       </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/vcs-agent-pools.html" class="md-nav__link">
+        VCS Agent Pools
+      </a>
     </li>
   
 
@@ -5951,7 +5951,7 @@ One for the main application and one for the MQTT endpoint for the workers.</p>
 </div>
 </div>
 <h3 id="vcs-gateway-service">VCS Gateway Service<a class="headerlink" href="#vcs-gateway-service" title="Anchor link to this section">»</a></h3>
-<p>Ideally, your VCS provider <a href="../reference/networking.html">should be accessible</a> from both the Spacelift backend and its workers. If direct access is not possible, you can use <a href="../../../concepts/vcs-agent-pools.md">VCS Agent Pools</a> to proxy the connections from the Spacelift backend to your VCS provider.</p>
+<p>Ideally, your VCS provider <a href="../reference/networking.html">should be accessible</a> from both the Spacelift backend and its workers. If direct access is not possible, you can use <a href="../../../concepts/vcs-agent-pools.html">VCS Agent Pools</a> to proxy the connections from the Spacelift backend to your VCS provider.</p>
 <p>The VCS Agent Pool architecture introduces a separate ECS service, deployed alongside the Spacelift backend, and exposed via a dedicated Application Load Balancer. This load balancer listens on port 443 and requires a valid TLS certificate to be attached to it.</p>
 <p>To support this setup, extend your module configuration with the following:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -5997,7 +5997,7 @@ One for the main application and one for the MQTT endpoint for the workers.</p>
 <span class="w">  </span><span class="na">records</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.spacelift-services.vcs_gateway_lb_dns_name</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></table></div>
-<p>With the backend now configured, proceed to the <a href="../../../concepts/vcs-agent-pools.md">VCS Agent Pools guide</a> to complete the setup.</p>
+<p>With the backend now configured, proceed to the <a href="../../../concepts/vcs-agent-pools.html">VCS Agent Pools guide</a> to complete the setup.</p>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Anchor link to this section">»</a></h2>
 <p>Now that your Spacelift installation is up and running, take a look at the <a href="first-setup.html">initial installation</a> section for the next steps to take.</p>
 <h3 id="create-a-worker-pool">Create a worker pool<a class="headerlink" href="#create-a-worker-pool" title="Anchor link to this section">»</a></h3>
