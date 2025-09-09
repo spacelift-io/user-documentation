@@ -43,7 +43,6 @@ The following environment variables can be used to configure object storage:
 | `OBJECT_STORAGE_BUCKET_STATES`                   | Yes            | Bucket used to store stack state files.                                                                                                 |
 | `OBJECT_STORAGE_BUCKET_UPLOADS`                  | Yes            | Bucket used to temporarily store files uploaded from the frontend.                                                                      |
 | `OBJECT_STORAGE_BUCKET_UPLOADS_URL`              | Yes            | The URL of the uploads bucket. This is used to generate a Content Security Policy (CSP) to allow the frontend to upload to this bucket. |
-| `OBJECT_STORAGE_BUCKET_USAGE_ANALYTICS`          | No             | Bucket where usage data is stored. Only required if usage analytics is enabled.                                                         |
 | `OBJECT_STORAGE_BUCKET_USER_UPLOADED_WORKSPACES` | Yes            | Bucket where workspaces uploaded as part of local preview functionality are stored temporarily.                                         |
 | `OBJECT_STORAGE_BUCKET_WORKSPACE`                | Yes            | Bucket where run workspaces are stored.                                                                                                 |
 
