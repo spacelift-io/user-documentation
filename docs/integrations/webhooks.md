@@ -122,6 +122,8 @@ Internal errors will always have the same fields set and some of them will be st
 
 In order to validate the incoming payload, you will need to have the secret handy - the one you've generated yourself when creating or updating the webhook.
 
+The following section provides different instructions for validating the payload depending on whether your Spacelift account is in our FedRAMP environment or not:
+
 === "Standard"
 
     Every webhook payload comes with two signature headers generated from the combination of the secret and payload. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
