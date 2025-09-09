@@ -25,6 +25,35 @@ The simplest option is to allow the service you are integrating with to access y
 
 Another option is to manually upload the JWKs (that you can get from the `/.well-known/jwks` endpoint on your Spacelift server) to the service you are integrating with if they support doing so.
 
+### Overriding issuer and JWKS endpoints (Self-Hosted)
+
+For Self-Hosted installations, you can override the `issuer` and `jwks_uri` values in the OpenID Connect Discovery Document by adding the following environment variables to your deployment:
+
+```bash
+FEDERATION_CUSTOM_ISSUER=https://id.example.com
+FEDERATION_CUSTOM_JWKS_URI=https://id.example.com/.well-known/jwks.json
+```
+
+Alternatively, if you use CloudFormation, you can use the following configuration values:
+
+```json
+{
+  "federation_config": {
+    "issuer": "https://id.example.com",
+    "jwks_uri": "https://id.example.com/.well-known/jwks.json"
+  }
+}
+```
+
+The behavior follows this precedence:
+
+- **If only the issuer is provided** → `jwks_uri` is automatically derived from it
+- **If both are provided** → both override values are used
+- **If neither is provided** → fallback to current behavior (account URL)
+
+!!! warning
+    The `issuer` value must exactly match the `iss` claim in the tokens for proper validation.
+
 {% endif %}
 
 ## About the Spacelift OIDC token
