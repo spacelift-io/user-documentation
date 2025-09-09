@@ -208,14 +208,14 @@ deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
 
 ## Custom inputs
 
-Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing Terraform configuration and the other exposing the result of a third-party security tool.
+Sometimes you might want to pass some additional data to your policy input. For example, you may want to pass the `configuration` data from the OpenTofu/Terraform plan, the result of a third-party API or tool call. You can do that by generating a JSON file with the data you need at the root of your project. The file name must follow the pattern `$key.custom.spacelift.json` and must represent a valid JSON _object_. The object will be merged with the rest of the input data, as `input.third_party_metadata.custom.$key`. Be aware that the file name is case-sensitive. Below are two examples, one exposing OpenTofu/Terraform configuration and the other exposing the result of a third-party security tool.
 
 !!! Tip
     To learn more about integrating security tools with Spacelift using custom inputs, please refer to our [blog post](https://spacelift.io/blog/integrating-security-tools-with-spacelift){: rel="nofollow"}.
 
-### Example: exposing Terraform configuration to the plan policy
+### Example: exposing OpenTofu/Terraform configuration to the plan policy
 
-Let's say you want to expose the Terraform configuration to the plan policy to ensure that only the "blessed" modules are used to provision resources. You would then add the following command to the list of [`after_plan` hooks](../stack/stack-settings.md#customizing-workflow):
+Let's say you want to expose the OpenTofu/Terraform configuration to the plan policy to ensure that only the "blessed" modules are used to provision resources. You would then add the following command to the list of [`after_plan` hooks](../stack/stack-settings.md#customizing-workflow):
 
 ```bash
 terraform show -json spacelift.plan | jq -c '.configuration' > configuration.custom.spacelift.json
@@ -225,7 +225,7 @@ The data will be available in the policy input as `input.third_party_metadata.cu
 
 ### Example: passing custom tool output to the plan policy
 
-For this example, let's use the awesome open-source Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec){: rel="nofollow"}. What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
+For this example, let's use the awesome open-source OpenTofu/Terraform security scanner called [_tfsec_](https://github.com/aquasecurity/tfsec){: rel="nofollow"}. What you want to accomplish is to generate `tfsec` warnings as JSON and have them reported and processed using the plan policy. In this case, you can run `tfsec` as a [`before_init` hook](../stack/stack-settings.md#customizing-workflow) and save the output to a file:
 
 ```bash
 tfsec -s --format=json . > tfsec.custom.spacelift.json

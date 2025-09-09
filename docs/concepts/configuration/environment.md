@@ -12,10 +12,10 @@ If you take a look at the Environment screen of a stack you will notice it's pre
 
 ## Environment variables
 
-The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in Terraform to [use environment variables as Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"} _input variables_.
+The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and OpenTofu/Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in OpenTofu/Terraform to [use environment variables as OpenTofu/Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"} _input variables_.
 
 !!! info
-    Spacelift does not provide a dedicated mechanism of defining [Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
+    Spacelift does not provide a dedicated mechanism of defining [OpenTofu/Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
 
 Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
 
@@ -53,7 +53,7 @@ If you delete this variable, it will again be replaced by the computed one. If y
 
 #### Spacelift environment
 
-The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to Terraform configuration, and their names always clearly suggest the content:
+The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to OpenTofu/Terraform configuration, and their names always clearly suggest the content:
 
 | Environment Variable               | Type   | Description                                                           | Possible Values / Format                                                                                                                                                         |
 |------------------------------------|--------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

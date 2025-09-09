@@ -175,11 +175,12 @@ This will generate a trust relationship that looks something like this:
 {% if is_saas() %}
 !!! info
 
-  Make sure to replace:
+    Make sure to replace:
+
     - `spacelifter` with your actual Spacelift account name.
     - `<principal>` based on your environment:
-      - for [spacelift.io](https://spacelift.io), use `324880187172`.
-      - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
+        - for [spacelift.io](https://spacelift.io), use `324880187172`.
+        - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
 {% endif %}
 
 ## Are my credentials safe?

@@ -59,7 +59,7 @@ In cases where there is no stack slug defined in the config, only the first two 
 
 ## Purpose of runtime configuration
 
-The whole concept of runtime configuration may initially sound unnecessary, but it ultimately allows flexibility that would otherwise be hard to achieve. In general, its purpose is to **preview effects of changes not related to the source code** (eg. Terraform or Pulumi version upgrades, variable changes etc.), before they become an established part of your infra.
+The whole concept of runtime configuration may initially sound unnecessary, but it ultimately allows flexibility that would otherwise be hard to achieve. In general, its purpose is to **preview effects of changes not related to the source code** (eg. OpenTofu/Terraform or Pulumi version upgrades, variable changes etc.), before they become an established part of your infra.
 
 While stack environment applies both to tracked and non-tracked branches, a runtime configuration change can be pushed to a feature branch, which triggers [proposed runs](../../run/README.md#where-do-runs-come-from) allowing you to preview the changes before they have a chance to affect your state.
 
@@ -120,7 +120,7 @@ This setting is only valid on Terraform stacks and specifies the Terraform versi
 !!! info
     Defaults to the **latest known supported OpenTofu version**.
 
-This setting specifies the OpenTofu version to be used during the run and is only applicable to Terraform stacks. It is considered when `terraform_workflow_tool` is set to `OPEN_TOFU`. To specify a version, ensure it aligns with those officially supported and tested by Spacelift.
+This setting specifies the OpenTofu version to be used during the run and is only applicable to OpenTofu/Terraform stacks. It is considered when `terraform_workflow_tool` is set to `OPEN_TOFU`. To specify a version, ensure it aligns with those officially supported and tested by Spacelift.
 
 Example: `opentofu_version: "1.6.2"`
 

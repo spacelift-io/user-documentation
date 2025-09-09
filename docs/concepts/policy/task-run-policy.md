@@ -123,7 +123,7 @@ As usual, this example is [available to play around with](https://play.openpolic
 
 A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
 
-### Migration example: only allow terraform taint and untaint
+### Migration example: only allow OpenTofu/Terraform taint and untaint
 
 ```opa
 package spacelift
