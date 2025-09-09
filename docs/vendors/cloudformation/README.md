@@ -33,10 +33,12 @@ Spacelift uses a user-provided S3 bucket to upload templates to as part of apply
 
 ## Drift Detection limitations
 
-Spacelift does not support true drift detection for CloudFormation stacks. Currently, Spacelift relies on AWS ChangeSets to preview potential updates. ChangeSets only indicate what would change if the current template were reapplied, but they do not detect whether resources have been modified outside of CloudFormation.
+While Spacelift now supports drift detection for CloudFormation stacks using AWS's native `DetectStackDrift` API, there are important limitations to be aware of:
 
-This means that if infrastructure changes are made manually (for example, directly in the AWS Console or via the CLI), those changes may not be flagged as drift in Spacelift.
+### Reconciliation Limitations
 
-In contrast, AWS provides a separate DetectStackDrift API which can detect out-of-band modifications, but this is not currently used by Spacelift.
+CloudFormation stacks are excluded from Spacelift's reconciliation workflows because CloudFormation only provides drift detection capabilities without built-in reconciliation support. This means:
 
-Important: Customers should not rely on Spacelift’s CloudFormation integration for full drift detection. If you need guaranteed drift detection, you must run AWS’s native drift detection (DetectStackDrift) outside of Spacelift.
+- Drift detection can identify changes made outside of CloudFormation management
+- Automatic reconciliation of detected drift is not supported
+- You must manually address detected drift through your regular deployment processes
