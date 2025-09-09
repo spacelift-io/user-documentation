@@ -42,7 +42,8 @@ Now that your Bitbucket Data Center access token has been created, return to the
 4. **Access token**: Enter the access token that Spacelift will use to access your Bitbucket.
 5. **Labels**: Organize integrations by assigning labels to them.
 6. **Description**: A markdown-formatted free-form text field to describe the integration.
-7. Click **Set up** to save your integration settings.
+7. **Use Git checkout**: Toggle that defines if integration should use git checkout to download source code, otherwise source code will be downloaded as archive through API. This is required for [sparse checkout](../../concepts/stack/stack-settings.md#git-sparse-checkout-paths) to work.
+8. Click **Set up** to save your integration settings.
 
 ![Completed integration](<../../assets/screenshots/BitbucketDatacenter_save_form.png>)
 

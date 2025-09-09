@@ -53,7 +53,8 @@ Now that your personal access token has been created, return to the integration 
 3. **Personal access token**: Paste the [personal access token](#create-a-personal-access-token) that Spacelift will use to access your Azure DevOps organization.
 4. **Labels**: Organize integrations by assigning labels to them.
 5. **Description**: A markdown-formatted free-form text field to describe the integration.
-6. Click **Set up** to save your integration details.
+6. **Use Git checkout**: Toggle that defines if integration should use git checkout to download source code, otherwise source code will be downloaded as archive through API. This is required for [sparse checkout](../../concepts/stack/stack-settings.md#git-sparse-checkout-paths) to work.
+7. Click **Set up** to save your integration details.
 
 ### Set up webhooks
 

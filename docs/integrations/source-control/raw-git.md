@@ -41,7 +41,8 @@ Fill in required _stack details_ or _module details_.
 4. **Branch**: Select the branch of the repository to manage with this stack.
 5. [**Project root**](../../concepts/stack/stack-settings.md#project-root) (optional): If the entrypoint of the stack is different than the root of the repo, enter its path here.
 6. [**Project globs**](../../concepts/stack/stack-settings.md#project-globs) (optional): Enter additional files and directories that should be managed by the stack.
-7. Click **Continue**.
+7. **Use Git checkout**: Toggle that defines if integration should use git checkout to download source code, otherwise source code will be downloaded as archive through API. This is required for [sparse checkout](../../concepts/stack/stack-settings.md#git-sparse-checkout-paths) to work.
+8. Click **Continue**.
 
 The rest of the process is exactly the same as [creating a GitHub-backed stack](../../getting-started/create-stack/README.md#2-connect-to-source-code) or module.
 
