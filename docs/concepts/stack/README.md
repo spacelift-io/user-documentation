@@ -1,8 +1,8 @@
 # Stack
 
-If you're managing your infrastructure in Spacelift, you're managing them with stacks. A stack is a combination of source code, the current state of the managed infrastructure (e.g. Terraform state file) and the configuration ([environment](../configuration/environment.md) variables and mounted files). A stack is also an isolated, independent entity.
+If you're managing your infrastructure in Spacelift, you're managing them with stacks. A stack is a combination of source code, the current state of the managed infrastructure (e.g. OpenTofu/Terraform state file) and the configuration ([environment](../configuration/environment.md) variables and mounted files). A stack is also an isolated, independent entity.
 
-Unless you're only using Spacelift to host and test private [Terraform modules](../../vendors/terraform/module-registry.md), your account should contain one or more stacks.
+Unless you're only using Spacelift to host and test private [OpenTofu/Terraform modules](../../vendors/terraform/module-registry.md), your account should contain one or more stacks.
 
 ![Stacks list in UI](<../../assets/screenshots/stack/list/page-view.png>)
 

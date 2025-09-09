@@ -14,7 +14,7 @@ Many GCP resources require the [`project`](https://www.terraform.io/docs/provide
 
 In order to enable Spacelift runs to access GCP resources, you need to set up Spacelift as a valid identity provider for your account within GCP.
 
-### Step 1: Set Spacelift as a valid identity provider
+### Set Spacelift as a valid identity provider
 
 1. Navigate to the [GCP console](https://console.cloud.google.com/){: rel="nofollow"} and select the _IAM & Admin_ service.
 2. Click **Workload Identity Federation** in the left-hand menu.
@@ -22,7 +22,7 @@ In order to enable Spacelift runs to access GCP resources, you need to set up Sp
     ![GCP Workload Identity Federation Get Started](<../../../assets/screenshots/oidc/gcp-workload-identity-federation-get-started.png>)
        - If you have already created a Workload Identity Pool before, click **Create Pool**.
        ![GCP Workload Identity Federation](<../../../assets/screenshots/oidc/gcp-workload-identity-federation.png>)
-4. Enter a name for your new identity poool and optionally set a description.
+4. Enter a name for your new identity pool and optionally set a description.
 5. Fill in the identity provider details:
     ![Add workload identity provider to GCP](<../../../assets/screenshots/oidc/gcp-add-provider.png>)
       1. **Select a provider**: Select **OpenID Connect (OIDC)**.
@@ -41,7 +41,7 @@ In order to enable Spacelift runs to access GCP resources, you need to set up Sp
 !!! warning
     If your Stack ID is too long, it may exceed the threshold set by Google for the `google.subject` mapping. In that case, you can use a different [custom claim](./README.md#custom-claims) to create the mapping.
 
-### Step 2: Grant access to service account
+### Grant access to service account
 
 Once the workload identity pool has been created, you need to grant it access impersonate the [service account](https://cloud.google.com/iam/docs/service-accounts){: rel="nofollow"} we will be using.
 
@@ -54,7 +54,7 @@ Once the workload identity pool has been created, you need to grant it access im
 In this example, any token claiming to originate from our Spacelift account's `prod` space can impersonate the service account:
 ![GCP granting access to service account](<../../../assets/screenshots/oidc/gcp-grant-access.png>)
 
-### Step 3: Download the configuration file
+### Download the configuration file
 
 After you give the workload identity pool access to impersonate the service account, you will be able to _Configure your application_.
 
@@ -89,7 +89,7 @@ Once the JWKS is uploaded, OIDC between Spacelift and GCP should work as expecte
 
 {% endif %}
 
-### Step 4: Connect with specific IaC providers
+### Connect with specific IaC providers
 
 #### OpenTofu, Terraform, and Pulumi
 
@@ -155,4 +155,4 @@ https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/spacelift@my
 
 Next, check the conditions about who is allowed to impersonate your service account in your workflow identity pool. For example, in the following screenshot, only stacks in the `development-01JS1ZCWC4VYKR20SBRDAAFX6D` space are allowed to impersonate your service account:
 
-![connected service accounts](../../../assets/screenshots/oidc/gcp-connected-service-accounts.png)
+![connected service accounts](<../../../assets/screenshots/oidc/gcp-connected-service-accounts.png>)

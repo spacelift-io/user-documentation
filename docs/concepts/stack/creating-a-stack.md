@@ -94,9 +94,9 @@ We support Terraform 0.12.0 and above, and all OpenTofu versions. Spacelift also
 
 #### Terragrunt
 
-1. **Terragrunt version**: Select a specific Terraform **version** or enter a **version range**.
+1. **Terragrunt version**: Select a specific OpenTofu/Terraform **version** or enter a **version range**.
 2. **Tool**: Select the tool used to make infrastructure changes:
-      - **OpenTofu/Terraform (FOSS)**: Select a specific Terraform version or enter a version range.
+      - **OpenTofu/Terraform (FOSS)**: Select a specific OpenTofu/Terraform version or enter a version range.
       - **Manually provisioned**: Outside of Spacelift, ensure the tool is available to the worker via a custom image or hook and set the `TERRAGRUNT_TFPATH` environment variable to tell Terragrunt where to find it.
 3. **Smart Sanitization** (recommended): Choose whether Spacelift attempts to sanitize sensitive resources created by OpenTofu/Terraform.
 4. **Use All Run**: Enable to use Terragrunt's run-all feature.

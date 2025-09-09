@@ -6,137 +6,150 @@ description: Describes how to authenticate and use the Spacelift GraphQL API.
 
 ## GraphQL
 
-> GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
+GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL:
+
+- Provides a complete and understandable description of the data in your API.
+- Gives clients the power to ask for exactly what they need and nothing more.
+- Makes it easier to evolve APIs over time.
+- Enables powerful developer tools.
 
 Spacelift provides a [GraphQL API](https://graphql.org/){: rel="nofollow"} for you to control your Spacelift account programmatically and/or through an API Client if you choose to do so. A smaller subset of this API is also used by the Spacelift [Terraform provider](../vendors/terraform/terraform-provider.md), as well as the Spacelift CLI ([spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}). The API can be accessed at the `/graphql` endpoint of your account using `POST` HTTPS method.
 
 !!! tip "Quick start with AI coding assistants"
-    The fastest way to build applications against our API is using a coding assistant with our MCP server. You don't need to learn the GraphQL API - the assistant discovers it automatically. See [API development with MCP](api-development-with-mcp.md) for setup instructions.
+    The fastest way to build applications against our API is using a coding assistant with our MCP server. You don't need to learn the GraphQL API because the assistant discovers it automatically. See [API development with MCP](api-development-with-mcp.md) for setup instructions.
 
-??? note "An example of request and response"
+### Example request and response
 
-    ```
-    $ curl --request POST \
-      --url https://<account-name>.app.spacelift.io/graphql \
-      --header 'Authorization: Bearer <token>' \
-      --header 'Content-Type: application/json' \
-      --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
-    ```
+```curl
+$ curl --request POST \
+  --url https://<account-name>.app.spacelift.io/graphql \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
+```
 
-    The request body looks like this when formatted a bit nicer:
+The request body looks like this when formatted a bit nicer:
 
-    ```graphql
-    {
-      stacks
+```graphql
+{
+  stacks
+  {
+    id
+    name,
+    administrative,
+    createdAt,
+    description
+  }
+}
+```
+
+And the response looks like this:
+
+```json
+{
+  "data": {
+    "stacks": [
       {
-        id
-        name,
-        administrative,
-        createdAt,
-        description
+        "id": "my-stack-1",
+        "name": "My Stack 1",
+        "administrative": false,
+        "createdAt": 1672916942,
+        "description": "The is my first stack"
+      },
+      {
+        "id": "my-stack-2",
+        "name": "My Stack 2",
+        "administrative": false,
+        "createdAt": 1674218834,
+        "description": "The is my second stack"
       }
-    }
-    ```
+    ]
+  }
+}
+```
 
-    And the response looks like this:
+### What tool should I use to authenticate?
 
-    ```json
-    {
-      "data": {
-        "stacks": [
-          {
-            "id": "my-stack-1",
-            "name": "My Stack 1",
-            "administrative": false,
-            "createdAt": 1672916942,
-            "description": "The is my first stack"
-          },
-          {
-            "id": "my-stack-2",
-            "name": "My Stack 2",
-            "administrative": false,
-            "createdAt": 1674218834,
-            "description": "The is my second stack"
-          }
-        ]
-      }
-    }
-    ```
+Our recommendation is to use the [Spacelift API Key](api.md#spacelift-api-key) to authenticate with the GraphQL API.
 
-## Recommendation
+Our tool of choice is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}, a free, open-source tool that allows you to easily create and manage API requests. You can also use [Postman](https://www.postman.com/downloads/){: rel="nofollow"}, but the walkthrough in this guide will be based on Insomnia.
 
-Our recommendation is to use the [Spacelift API Key](api.md#spacelift-api-key-token) to authenticate with the GraphQL API.
+## View the GraphQL schema
 
-Our choice of tool is [Insomnia](https://insomnia.rest/download){: rel="nofollow"}. Insomnia is a free, open-source tool that allows you to easily create and manage API requests. You can also use [Postman](https://www.postman.com/downloads/){: rel="nofollow"}, but the walkthrough in this guide will be based on Insomnia.
+Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}. You can also view the documentation using a static documentation website generator like [GraphDoc](https://graphdoc.io/preview/?endpoint=https://demo.app.spacelift.io/graphql){: rel="nofollow"}.
 
-## Usage Demo
+Make sure to provide a valid JWT bearer token as described in [Authenticating with the GraphQL API](api.md#authenticating-with-the-graphql-api).
 
-The below guide walks through an example of generating your Spacelift token with spacectl and using it to communicate with Spacelift.
+!!! note
 
-**Prerequisites:**
+    The latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion.
 
-- [Insomnia](https://insomnia.rest/download){: rel="nofollow"} downloaded and installed
-- Spacelift account with admin access (for ability to create API Keys)
+### Insomnia
+
+1. Enter the GraphQL Endpoint for _your_ Spacelift account.
+2. Click **Schema**, then **Show Documentation**.
+  ![Example viewing GraphQL documentation using Insomnia.](<../assets/screenshots/Spacelift_–_GraphQL.png>)
+
+### GraphiQL
+
+1. Enter the GraphQL Endpoint for _your_ Spacelift Account, then click **Docs**.
+    ![Click docs](<../assets/screenshots/1-graphiql.png>)
+2. Use the Documentation Explorer within GraphiQL.
+    ![Explore docs](<../assets/screenshots/2-graphiql-view-docs.png>)
+
+## Example usage
+
+In this example, we'll generate your Spacelift token with spacectl and use it to communicate with Spacelift.
+
+!!! tip "Prerequisites:"
+
+      - [Insomnia](https://insomnia.rest/download){: rel="nofollow"} downloaded and installed.
+      - Spacelift account with admin access (for ability to create API Keys).
 
 <!-- markdownlint-disable-next-line MD033 -->
 <div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/1cefc584b1bc41d7bc75d767afaf3916" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## Authenticating with the GraphQL API
 
-If your Spacelift account is called `example` you would be able to access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`
+If your Spacelift account were called `example`, you could access your GraphQL by sending **POST** requests to: `https://example.app.spacelift.io/graphql`.
 
-All requests need to be authenticated using a [JWT](https://jwt.io/){: rel="nofollow"} bearer token, which we will discuss in more detail below.
+All requests need to be authenticated using a [JWT](https://jwt.io/){: rel="nofollow"} bearer token. There are currently three ways of obtaining this token:
 
-There are currently three ways of obtaining this token:
+1. [Spacelift API Key](api.md#spacelift-api-key): For long-term use (**recommended**).
+2. [SpaceCTL CLI](api.md#spacectl-cli): For temporary use.
+3. [Personal GitHub Token](api.md#personal-github-token)
 
-1. [Spacelift API Key > Token](api.md#spacelift-api-key-token) - for long-term usage (**recommended**)
-2. [SpaceCTL CLI > Token](api.md#spacectl-cli-token) - for temporary usage
-3. [Personal GitHub Token > Token](api.md#personal-github-token-token)
+### Spacelift API key
 
-### Spacelift API Key > Token
+You can generate the JWT token with a Spacelift API key, ideal for long-term use. Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel.
 
-Spacelift supports creating and managing machine users with programmatic access to the Spacelift GraphQL API. These "machine users" are called API Keys and can be created by Spacelift admins through the _Settings_ panel. There are two types of API keys - more traditional, secret-based ones and ones based on OIDC identity federation. We are going to cover these separately.
+There are two types of API keys: more traditional, secret-based keys, and keys based on OIDC identity federation.
 
-!!! note
-    API keys are **virtual** **users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
+!!! tip "API key billing"
+    API keys are **virtual users** and are billed like regular users, too. Thus, **each API key used** (exchanged for a token) during any given billing cycle counts against the total number of users.
 
 #### Secret-based API keys
 
-These keys function by exchanging an API key ID and secret for a JWT token - identical to how IAM user keys function. They're more flexible, but less secure because they involve static credentials. Here is how to create a secret-based API key in the UI:
+Secret-based keys exchange an API key ID and secret for a JWT token, identical to how IAM user keys work. They're more flexible, but less secure because they involve static credentials. Here is how to create a secret-based API key in the Spacelift UI:
 
-First, click on the lower right hand corner menu and select the "Organization settings" menu item.
+1. In the lower right hand corner menu, click your account name and select **Organization settings**.
+    ![Click organization settings](<../assets/screenshots/organization-settings.png>)
+2. In the _Access_ section, click **API keys**, then **Create API key**.
+    ![Create API key](<../assets/screenshots/create-api-key-button.png>)
+3. Fill in the details for your API key:
+    ![Fill in API key details](<../assets/screenshots/create-api-key-drawer.png>)
+      - **Name**: An arbitrary key name. We recommend you choose something memorable, ideally reflecting the purpose of the key.
+      - **Type**: Select **Secret**.
+      - **Space**: Select the [spaces](../concepts/spaces/README.md) the key should have access to, along with access level (reader vs writer). If you are using [login policies](../concepts/policy/login-policy.md), you will need to define the API key in the policy for non-admin keys.
+      - **Groups**: Enter the group(s) the key should belong to. Groups give the API key a virtual group membership for scenarios where you'd prefer to control access to resources on group/team level rather than individual level.
+4. Click **Create**. The API key will be generated in a file and automatically downloaded to your device.
 
-<p align="center">
-  <img src="../assets/screenshots/organization-settings.png"/>
-</p>
+    ![Download the file](<../assets/screenshots/api-key-creation-04.png>)
 
-From the "Access" menu on the left hand side of the screen, select the "API keys" item, and click the "Create API key" button as shown below:
-
-<p align="center">
-  <img src="../assets/screenshots/create-api-key-button.png"/>
-</p>
-
-The API key creation form will allow you to specify:
-
-- an arbitrary key name - choose something memorable, ideally reflecting the purpose of the key;
-- type of the key - in this case it's going to be "Secret";
-- the list of [spaces](../concepts/spaces/README.md) the key should have access to, along with access level. If you are using [login policies](../concepts/policy/login-policy.md), then you will need to define the API key in the policy for non admin keys.
-- list of groups the key should belong to - used to give the API key a virtual group membership for scenarios where you'd prefer to control access to resources on group/team rather than individual level.
+      - The file contains the API token in two forms: one to be used with our API, and the other as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift.
 
 !!! note
-    Note that giving "admin" permissions on the "root" space makes the key administrative.
-
-Without further ado, let's create a non-administrative API key with "read" access to the "root/legacy" space, and a virtual membership in two teams: _Developers_ and _DevOps:_
-
-<p align="center">
-  <img src="../assets/screenshots/create-api-key-drawer.png"/>
-</p>
-
-Once you click the _Add Key_ button, the API Key will be generated and a file will be automatically downloaded. The file contains the API token in two forms - one to be used with our API, and the other one as a `.terraformrc` snippet to access your [private modules](../vendors/terraform/module-registry.md) outside of Spacelift:
-
-<p align="center">
-  <img src="../assets/screenshots/api-key-creation-04.png"/>
-</p>
+    Giving "admin" permissions on the "root" space makes the key **administrative**.
 
 The config file looks something like this:
 
@@ -165,9 +178,9 @@ credentials "spacelift.io" {
 ```
 
 !!! warning
-    Make sure you persist this data somewhere on your end - we don't store the token and it cannot be retrieved or recreated afterwards.
+    Make sure you save this data somewhere on your end. Spacelift doesn't store the token, and it cannot be retrieved or recreated afterwards.
 
-For programmatic access, the key ID and secret pair needs to be exchanged for an API token using a GraphQL mutation:
+For programmatic access, exchange the key ID and secret pair for an API token using a GraphQL mutation:
 
 ```graphql
 mutation GetSpaceliftToken($id: ID!, $secret: String!) {
@@ -183,24 +196,30 @@ Once you obtain the token, you can use it to authenticate your requests to the S
 
 {% if is_saas() %}
 !!! Info
-    This feature is only available to Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
+    This feature is only available on our Enterprise plan. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-OIDC-based API keys are a more secure alternative to secret-based API keys. They're based on the OpenID Connect protocol and are more secure because they don't involve static credentials. They're also more flexible because they can be used to authenticate with Spacelift using any OIDC identity provider. The creation of OIDC-based API keys is similar to the creation of secret-based API keys but once you choose "OIDC" as the key type, there are a few more settings. Tread carefully, as the settings are more complex and require a good understanding of OIDC and the identity provider you're using:
+OIDC-based API keys are a more secure alternative to secret-based API keys. They're based on the OpenID Connect protocol and are more secure because they don't involve static credentials. They're also more flexible because they can be used to authenticate with Spacelift using any OIDC identity provider.
 
-<p align="center">
-  <img src="../assets/screenshots/create-oidc-api-key.png"/>
-</p>
+1. In the lower right hand corner menu, click your account name and select **Organization settings**.
+    ![Click organization settings](<../assets/screenshots/organization-settings.png>)
+2. In the _Access_ section, click **API keys**, then **Create API key**.
+    ![Create API key](<../assets/screenshots/create-api-key-button.png>)
+3. Fill in the details for your API key:
+    ![Fill in API key details](<../assets/screenshots/create-oidc-api-key.png>)
+      - **Name**: An arbitrary key name. We recommend you choose something memorable, ideally reflecting the purpose of the key.
+      - **Type**: Select **OIDC**.
+      - **Issuer**: The URL your OIDC provider reports as the token issuer in the `iss` claim of your JWT token. For GitHub Actions, this is `https://token.actions.githubusercontent.com`.
+      - **Client ID (audience)**: The client ID of the OIDC application you created in the identity provider, in the `aud` claim of your JWT token. Some identity providers allow this to be customized.
+      - **Subject Expression**: A regular expression that needs to match the `sub` claim of your JWT token. Use this to restrict API key access to a specific source.
+      - **Space**: Select the [spaces](../concepts/spaces/README.md) the key should have access to, along with access level (reader vs writer). If you are using [login policies](../concepts/policy/login-policy.md), you will need to define the API key in the policy for non-admin keys.
+      - **Groups**: Enter the group(s) the key should belong to. Groups give the API key a virtual group membership for scenarios where you'd prefer to control access to resources on group/team level rather than individual level.
+4. Click **Create**. The API key will be generated in a file and automatically downloaded to your device.
 
-The **Issuer** field is the URL that your OIDC identity provider is reporting as the token issuer in the `iss` claim of the JWT token. For GitHub Actions, this is `https://token.actions.githubusercontent.com`.
+!!! warning
+    Make sure you save the data in your API key file somewhere on your end. Spacelift doesn't store the token, and it cannot be retrieved or recreated afterwards.
 
-The **Client ID (audience)** field is the client ID of the OIDC application you've created in the identity provider. That's what the identity provider puts in the `aud` claim of the JWT token. Some identity providers allow you to customize it and some don't.
-
-Last but not least, the **Subject Expression** field is a regular expression that needs to match the `sub` claim of the JWT token. This is how you can restrict access to the API key to a specific source.
-
-In our example, we're giving access to the key to [GitHub Actions](https://docs.github.com/en/actions){: rel="nofollow"} (based on their token "issuer"), from action running on the `infra` repository in the `myorg` organization (see the regular expression). In GitHub Actions the audience can be customized, so as long as there is a mutual match, this will work.
-
-Here is a sample workflow that uses the key we've just created and [spacectl](../concepts/spacectl.md) in GitHub Actions, without the need for any static credentials:
+Here is a sample workflow using the key we just created and [spacectl](../concepts/spacectl.md) in GitHub Actions, without the need for any static credentials:
 
 {% raw %}
 
@@ -240,39 +259,45 @@ jobs:
 
 {% endraw %}
 
-This type of key is exchanged for a Spacelift token using the same `apiKeyUser` that you use for the secret-based key, but instead of the static key secret you will use the temporary OIDC token as input to the mutation.
+For programmatic access, exchange the key ID and secret pair for an API token using a GraphQL mutation:
+
+```graphql
+mutation GetSpaceliftToken($id: ID!, $secret: String!) {
+  apiKeyUser(id: $id, secret: $OIDC_TOKEN) {
+    jwt
+  }
+}
+```
+
+Once you obtain the token, you can use it to authenticate your requests to the Spacelift API.
 
 !!! note
     OIDC-based API keys do not provide special access to OpenTofu/Terraform modules. They are only used to authenticate with the Spacelift API.
 
-### SpaceCTL CLI > Token
+### SpaceCTL CLI
 
-One approach to generating this token is using the Spacelift [spacectl](https://github.com/spacelift-io/spacectl) CLI. We consider this the easiest method, as the heavy lifting to obtain the token is done for you.
-
-**Steps:**
+You can generate the JWT token using the Spacelift [spacectl](https://github.com/spacelift-io/spacectl) CLI. We consider this the easiest method, as the heavy lifting to obtain the token is done for you.
 
 1. Follow the instructions on the `spacectl` [GitHub repository](https://github.com/spacelift-io/spacectl){: rel="nofollow"} to install the CLI on your machine.
-2. Authenticate to your Spacelift account using `spacectl profile login`
+2. Authenticate to your Spacelift account using `spacectl profile login`.
 3. Once authenticated, run `spacectl profile export-token` to receive the bearer token needed for future GraphQL queries/mutations.
 
-### Personal GitHub Token > Token
+### Personal GitHub token
 
 !!! info
-    This option is only available to those using GitHub as their identity provider. If you have enabled any other [Single Sign-On methods](single-sign-on/README.md) on your account, this method will not work. If this applies to you, you will need to use the [Spacelift API Key > Token](api.md#spacelift-api-key-token) method instead.
+    This option is only available to accounts using GitHub as their identity provider. If you have enabled any other [Single Sign-On methods](single-sign-on/README.md) on your account, this method will not work and you will need to use the [Spacelift API Key](api.md#spacelift-api-key) method instead.
 
-**Steps:**
+1. Using a GitHub Account that has access to your Spacelift account, [create a GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token){: rel="nofollow"}.
+2. Copy the value of the token to a secure location.
+3. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}), make a GraphQL POST request to your account's GraphQL endpoint (example below).
 
-1. Using a GitHub Account that has access to your Spacelift account, [create a GitHub Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token){: rel="nofollow"}. Copy the value of this token to a secure location, as you'll need it in the next step.
-2. Using your favorite API Client (e.g. [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}). Make a GraphQL POST request to your account's GraphQL endpoint (example below).
+#### Request details
 
-**Request Details:**
+**POST** to `https://example.app.spacelift.io/graphql`. Replace "example" with your Spacelift account name.
 
-**POST** to `https://example.app.spacelift.io/graphql`
+##### Query
 
-!!! info
-    Replace "example" with the name of your Spacelift account.
-
-**Query:**
+Pass in **token** as a query variable for this example. When making a GraphQL query with your favorite API Client, you should see a section called GraphQL variables where you can pass in an input.
 
 ```graphql
 mutation GetSpaceliftToken($token: String!) {
@@ -282,10 +307,7 @@ mutation GetSpaceliftToken($token: String!) {
 }
 ```
 
-!!! info
-    You'll need to pass in **token** as a query variable for the above example query to work. When making a GraphQL query with your favorite API Client, you should see a section called GraphQL variables where you can pass in an input.
-
-**GraphQL Variables Input:**
+##### GraphQL variables input
 
 ```graphql
 {
@@ -293,11 +315,13 @@ mutation GetSpaceliftToken($token: String!) {
 }
 ```
 
-Assuming all went well, the result of the above query will return your JWT bearer token, which you will now be able to use to authenticate other queries. Once acquired, ensure you use this bearer token in your requests. If you want to access the API reliably in an automated way, we suggest using the [Spacelift API Key > Token](api.md#spacelift-api-key-token) approach as Spacelift tokens expire after 1 hour.
+This query should return your JWT bearer token, which you can use to authenticate other queries by using it as the bearer token in your requests. If you want to automatically access the API reliably, we suggest the [Spacelift API Key](api.md#spacelift-api-key) approach, as Spacelift tokens expire after 1 hour.
 
 ## Insomnia setup
 
 You can create request libraries in Insomnia to make it easier to work with the Spacelift API. You can also automate the JWT token generation process using the [Environment Variables](https://docs.insomnia.rest/insomnia/environment-variables){: rel="nofollow"} feature.
+
+### Copy the schema
 
 Copy the following JSON to your clipboard:
 
@@ -452,65 +476,23 @@ Copy the following JSON to your clipboard:
 
 {% endraw %}
 
-In the home screen of Insomnia, click on `Import From` then click on `Clipboard`.
+### Paste the schema into Insomnia
 
-<p align="center">
-  <!-- markdownlint-disable-next-line MD044 -->
-  <img src="../assets/screenshots/graphql-insomnia-01-import.png"/>
-</p>
+1. On Insomnia's home screen, click **Import From**, then **Clipboard**.
+    ![Import from clipboard](<../assets/screenshots/graphql-insomnia-01-import.png>)
+2. Click on the _Spacelift_ collection when it appears.
+3. In the top left corner, click **Spacelift**, then **Manage Environments**.
+    ![Manage environments](<../assets/screenshots/graphql-insomnia-02-manage-envs.png>)
+4. Fill in the first three variables:
+    ![Fill in variables](<../assets/screenshots/graphql-insomnia-fill-vars.png>)
+      - `BASE_URL`: The URL of your Spacelift account. For example, `https://my-account.app.spacelift.io`.
+      - `API_KEY_ID`: The ID of the [API key you created](#authenticating-with-the-graphql-api), a 26-character [ULID](https://github.com/ulid/spec){: rel="nofollow"}.
+      - `API_KEY_SECRET`: Found in the file that was downloaded when you created the API key.
+      - `API_TOKEN`: Leave this field as it is.
 
-The `Spacelift` collection will appear. Click on it.
+That's it! Now you can send an `Authentication - Get JWT` request, which populates the `API_TOKEN` environment variable. Then you can send the `Get Stacks` request to see the list of stacks in your account.
 
-On the top left corner, click the `🔵 Spacelift` icon, then choose `Manage Environments`.
-
-<p align="center">
-  <!-- markdownlint-disable-next-line MD044 -->
-  <img src="../assets/screenshots/graphql-insomnia-02-manage-envs.png"/>
-</p>
-
-Here, make sure you fill the first three variables properly:
-
-- `BASE_URL` should be the URL of your Spacelift account. For example, `https://my-account.app.spacelift.io`
-- `API_KEY_ID` is the ID of the API key you created in [the previous step](api.md#spacelift-api-key-token). It should be a 26-character [ULID](https://github.com/ulid/spec){: rel="nofollow"}.
-- `API_KEY_SECRET` can be found in the file that was downloaded when you created the API key.
-
-Don't worry about the 4th.
-
-<p align="center">
-  <!-- markdownlint-disable-next-line MD044 -->
-  <img src="../assets/screenshots/graphql-insomnia-fill-vars.png"/>
-</p>
-
-That's it! Now just send an `Authentication - Get JWT` request which populates `API_TOKEN` environment variable, then send the other `Get Stacks` request to see the list of stacks in your account.
-
-If you want to create another request, just right click on `Get Stacks` and duplicate it. Then, change the query to whatever you want.
+If you want to create another request, just right-click on `Get Stacks` and duplicate it. Then, change the query to whatever you want.
 
 !!! hint
     Don't forget that the JWT expires after 10 hours. Run the authentication request again to get a new one.
-
-## Viewing the GraphQL Schema
-
-Our GraphQL schema is self-documenting. The best way to view the latest documentation is using a dedicated GraphQL client like [Insomnia](https://insomnia.rest/){: rel="nofollow"} or [GraphiQL](https://github.com/skevy/graphiql-app){: rel="nofollow"}.
-
-You may also view the documentation using a static documentation website generator like [GraphDoc](https://graphdoc.io/preview/?endpoint=https://demo.app.spacelift.io/graphql){: rel="nofollow"}.
-
-Make sure to provide a valid JWT bearer token as described in [Authenticating with the GraphQL API](api.md#authenticating-with-the-graphql-api)
-
-_Note: As of the writing of these examples, the latest version of Postman does not currently support viewing GraphQL Schemas from a URL, but does support autocompletion._
-
-!!! warning
-    Please replace the URL in the below examples with the one pointing to **your** Spacelift account.
-
-### Insomnia
-
-![Example viewing GraphQL documentation using Insomnia.](../assets/screenshots/Spacelift_–_GraphQL.png)
-
-### GraphiQL
-
-Input your GraphQL Endpoint for your Spacelift Account.
-
-![Click Docs.](../assets/screenshots/1-graphiql.png)
-
-Use the Documentation Explorer within GraphiQL
-
-![](../assets/screenshots/2-graphiql-view-docs.png)

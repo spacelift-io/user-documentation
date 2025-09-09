@@ -8,7 +8,7 @@ Three of them are children of [Stacks](../stack/README.md):
 - [proposed run](proposed.md), which serves as a preview of introduced changes;
 - [tracked run](tracked.md), which is a form of deployment;
 
-There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a Terraform module.
+There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a OpenTofu/Terraform module.
 
 ## Execution model
 

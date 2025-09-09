@@ -11,43 +11,47 @@ description: Receiving Spacelift notifications using webhooks
 
 Spacelift can be configured to send webhook notifications for various events to an HTTP endpoint of your choice.
 
-## Setting up webhooks
+## Set up webhooks
 
-Webhooks can be set up by Spacelift administrators. They can be easily created or modified in the `Webhooks` section.
+Webhooks can be created or modified by Spacelift administrators in the _Webhooks_ section of the _Integrations_ page.
 
-### Navigate to the webhooks section
-
-You can find the Webhooks section under **Integrations > Webhooks**
-
-![](<../assets/screenshots/named-hooks-nav.png>)
+![Webhooks section of integrations page](<../assets/screenshots/integrations/webhooks-section.png>)
 
 ### Fill required fields
 
-![](<../assets/screenshots/named-hooks1.png>)
+![Create a new webhook](<../assets/screenshots/named-hooks1.png>)
 
-!!! info
-    The `Secret` parameter is optional and is used to validate the received payload.
-    You can learn more about it in the [validating payload](webhooks.md#validating-payload) section.
+1. On the _Webhooks_ section of the _Integrations_ page, click **View**.
+2. Click **Create webhook**.
+3. Fill in the webhook details:
+      1. **Name**: Enter a name for the webhook integration.
+      2. **Endpoint URL**: Enter the endpoint URL the webhook will send information to.
+      3. **Space**: Select the space that can access the webhook.
+      4. **Secret** (optional): Enter the secret, if needed, to [validate the received payload](#validate-payload).
+      5. **Enable webhook**: Enable or disable the webhook.
+      6. **Retry on failure**: Enable to automatically retry webhook delivery (up to 3 times) when receiving 5xx HTTP responses.
+      7. **Labels** (optional): Enter a label or labels to help sort your webhooks if needed.
+      8. **Headers**: Enable, then enter the **Key** and **Value** pair to add to the webhook.
+4. Click **Create**.
 
 ### Reference webhooks in policy rules
 
-Webhook messages are delivered using the [notification policy](../concepts/policy/notification-policy.md).
-When defining rules, the policy expects you to reference the webhook by its `ID` which you
-can copy from the webhook list view:
+Webhook messages are delivered using the [notification policy](../concepts/policy/notification-policy.md). When defining rules, the policy expects you to reference the webhook by its `ID` which you can copy from the webhook list view:
 
-![](<../assets/screenshots/named-hooks2.png>)
+![Copy webhook ID](<../assets/screenshots/named-hooks2.png>)
 
-### Exploring deliveries
+### Webhook deliveries
 
 Webhook deliveries and their response statuses are stored and can be explored by selecting a specific webhook
 and viewing its details. You'll be presented with a list of deliveries, their status codes and when they happened.
+
 You can also click on each delivery to view more details about it:
 
-![](<../assets/screenshots/named-hooks3.png>)
+![Webhook deliveries list](<../assets/screenshots/named-hooks3.png>)
 
 ## Default webhook payloads
 
-The following section documents the default webhook payloads sent for each event type. However, if required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
+These are the default webhook payloads sent for each event type. If required, webhook payloads can be customized via a [notification policy](../concepts/policy/notification-policy.md).
 
 ### Run events
 
@@ -91,12 +95,12 @@ Here's an example of the default webhook payload for a notification about a fini
 
 The payload consists of a few fields:
 
-- `account` is the name (subdomain) of the account generating the webhook - useful in case you're pointing webhooks from various accounts at the same endpoint;
-- `state` is a string representation of the run state at the time of the notification being triggered;
-- `stateVersion` is the ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed;
-- `timestamp` is the unix timestamp of the state transition;
-- `run` contains information about the run, its associated commit and delta (if any);
-- `stack` contains some basic information about the parent [Stack](../concepts/stack/README.md) of the `run`;
+- `account`: The name (subdomain) of the account generating the webhook. This is useful for pointing webhooks from various accounts at the same endpoint.
+- `state`: A string representation of the [run state](../concepts/run/README.md#common-run-states) at the time of the notification being triggered.
+- `stateVersion`: The ordinal number of the state, which can be used to ensure that notifications that may be sent or received out-of-order are correctly processed.
+- `timestamp`: The unix timestamp of the state transition.
+- `run`: Contains information about the run, its associated commit and delta (if any).
+- `stack`: Contains some basic information about the parent [Stack](../concepts/stack/README.md) of the `run`.
 
 ### Internal error events
 
@@ -112,15 +116,15 @@ The payload consists of a few fields:
 
 Internal errors will always have the same fields set and some of them will be static for an event:
 
-- `title` is the title (summary) of the error.
-- `body` is the is the full explanation of what went wrong.
-- `error` is a description of the error that happened.
-- `severity` can be one of three different constants: `INFO`, `WARNING`, `ERROR`.
-- `account` is the account for which the error happened.
+- `title`: The title (summary) of the error.
+- `body`: The full explanation of what went wrong.
+- `error`: A description of the error that occurred.
+- `severity`: One of three different constants: `INFO`, `WARNING`, `ERROR`.
+- `account`: The account for which the error happened.
 
-## Validating payload
+## Validate payload
 
-In order to validate the incoming payload, you will need to have the secret handy - the one you've generated yourself when creating or updating the webhook.
+To validate the incoming payload, you will need the secret you generated when creating or updating the webhook.
 
 The following section provides different instructions for validating the payload depending on whether your Spacelift account is in our FedRAMP environment or not:
 
@@ -134,42 +138,52 @@ The following section provides different instructions for validating the payload
     
     We're using the exact same mechanism as GitHub to generate signatures, please refer to [GitHub docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
 
-## Attaching webhooks to stacks
+Spacelift is using the exact same mechanism as GitHub to generate signatures, so you can refer to [GitHub's docs](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks#validating-payloads-from-github){: rel="nofollow"} for details.
+
+## Attach webhooks to stacks
 
 !!! warning
-    We recommend that you use [notification policies](../concepts/policy/notification-policy.md) to
-    route stack events to your webhooks. Stack webhook integrations are provided for backwards compatibility.
+    We recommend that you use [notification policies](../concepts/policy/notification-policy.md) to route stack events to your webhooks. Stack webhook integrations are provided for backwards compatibility.
 
-Webhooks can be set up by Spacelift administrators on per-stack basis. In order to do that, navigate to the _Integrations_ section of the stack settings view. From the list of available integrations, select the _Add webhook_ option:
+Webhooks can be set up by Spacelift administrators on per-stack basis.
 
-![](../assets/screenshots/Mouse_Highlight_Overlay_and_Edit_stack_·_Spacelift_demo.png)
+1. On the _Stacks_ page, click the three dots beside the stack you would like to attach a webhook to.
+2. Click **Settings**, then **Integrations**.
+3. Click **Webhooks**.
+4. Either select an existing webhook or click **Create webhook**.
+
+![Webhooks section in stack settings page](<../assets/screenshots/stack/stack-settings-webhooks.png>)
 
 !!! info
-    You can set up as many webhooks for a Stack as you need, though each one _must_ have a unique endpoint.
+    You can set up as many webhooks as you need for a Stack, though each one _must_ have a unique endpoint.
 
-You will be presented with a simple setup form that requires you to provide and endpoint to which the payload is sent, and an _optional_ secret that you can use to [validate](webhooks.md#validating-payload) that the incoming requests are indeed coming from Spacelift:
+### Fill in webhook details
 
-![](<../assets/screenshots/Mouse_Highlight_Overlay_and_Edit_stack_·_Spacelift_demo (1).png>)
+![Create a webhook on stacks settings page](<../assets/screenshots/stack/stack-create-webhook.png>)
 
-Please note that it's up to you to come up with a reasonably non-obvious secret.
+1. **Endpoint**: Enter the endpoint URL the webhook will send information to.
+2. **Secret** (optional): Enter the secret, if needed, to [validate the received payload](#validate-payload). It is up to you to decide on a non-obvious secret.
+3. **Enable webhook**: Enable or disable the webhook.
+4. **Retry on failure**: Enable to automatically retry webhook delivery (up to 3 times) when receiving 5xx HTTP responses.
 
 Once saved, the webhook will appear on the list of integrations:
 
-![](../assets/screenshots/Mouse_Highlight_Overlay.png)
+![Saved webhooks in list](<../assets/screenshots/stack/stack-webhooks-list.png>)
 
 !!! info
-    Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with read access to the stack. If you suspect foul play, consider regenerating your secret.
+    Unlike some other secrets in Spacelift, the webhook secret can be viewed by anyone with _read_ access to the stack. If you suspect foul play, consider regenerating your secret.
 
-By default webhooks are enabled which means that they are triggered every time there's a run state change event on the Stack they are attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
+### Disable existing webhook
 
-To do that, just click on the Edit button on the desired webhook integration section:
+Webhooks are enabled by default, so they are triggered every time there's a run state change event on the stack they are attached to. If you want to temporarily disable some of the endpoints, you can do that without having to delete the whole integration.
 
-![](<../assets/screenshots/Mouse_Highlight_Overlay (1).png>)
+1. Navigate to the _Integrations_ page and click **View** in the _Webhooks_ card.
+      - You can also navigate to the _Stacks_ page, click the three dots beside the stack name, then click **Settings** > **Integrations** > **Webhooks**.
+2. Click **Edit webhook**.
+3. Click the toggle beside **Enable webhook**. When disabled, the toggle will be gray.
 
-...and click on the Enabled toggle to see it going _gray_:
+![Disabled webhook](<../assets/screenshots/stack/disable-webhook.png>)
 
-![](<../assets/screenshots/Mouse_Highlight_Overlay (2).png>)
+Enable the webhook again by repeating steps 1-3 and clicking the toggle to turn it _blue_:
 
-Reversing this action is equally simple - just follow the same steps making sure that the toggle goes _green_:
-
-![](<../assets/screenshots/Mouse_Highlight_Overlay (3).png>)
+![Enabled webhook](<../assets/screenshots/stack/enable-webhook.png>)
