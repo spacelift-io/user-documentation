@@ -101,7 +101,6 @@ nav:
           - concepts/worker-pools/docker-based-workers.md
           - concepts/worker-pools/kubernetes-workers.md
       - concepts/spacectl.md
-      - concepts/vcs-agent-pools.md
       - Spaces:
           - concepts/spaces/README.md
           - concepts/spaces/access-control.md
@@ -115,6 +114,7 @@ nav:
           - concepts/user-management/README.md
           - concepts/user-management/admin.md
           - concepts/user-management/user.md
+      - concepts/vcs-agent-pools.md
   - 🛰️ Platforms:
       - Terraform:
           - vendors/terraform/README.md
