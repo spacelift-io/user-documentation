@@ -657,7 +657,7 @@ spec:
 - **Deletion safety**: Pods already being deleted are excluded from counts
 
 !!! note "Migration from keepSuccessfulPods"
-    The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.8.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
+    The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.46.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
 
 ### Configure a docker daemon as a sidecar container
 
