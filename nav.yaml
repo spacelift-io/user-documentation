@@ -90,6 +90,7 @@ nav:
           - concepts/user-management/admin.md
           - concepts/user-management/user.md
       - concepts/vcs-agent-pools.md
+      - concepts/test.md
   - 🛰️ Platforms:
       - Terraform:
           - vendors/terraform/README.md
