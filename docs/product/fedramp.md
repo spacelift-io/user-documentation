@@ -68,7 +68,7 @@ The identity verification process is secure and follows best practices. Spacelif
 
 ## Infrastructure and Hosting
 
-Our FedRAMP environment is built on a robust, compliant infrastructure designed for government workloads:
+Our FedRAMP environment is built on a robust, compliant infrastructure designed for government workloads.
 
 ### Hosting Details
 
