@@ -92,6 +92,12 @@
     },
     {
       "pattern": "^https://developer.hashicorp.com/*"
+    },
+    {
+      "pattern": "^https://www.vaultproject.io/"
+    },
+    {
+      "pattern": "^https://www.hashicorp.com/"
     }
   ]
 }
