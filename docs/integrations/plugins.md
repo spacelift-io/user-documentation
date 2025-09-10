@@ -1,7 +1,7 @@
 # Plugins
 
 !!! warning
-  Plugins support is currently in open **beta** while we ensure stability of the platform and API's.
+  Plugins support is currently in closed **beta** while we ensure stability of the platform and API's. Reach out to your Spacelift CSM for access.
 
 Plugins are a way to extend the functionality of Spacelift.
 They allow you to integrate with third-party services, automate tasks, and enhance your workflows.
@@ -123,7 +123,7 @@ To install a plugin, navigate to the Plugins -> Templates section in the Spaceli
 When installing a plugin you will be provided a number of options.
 
 - `Installation Name` is the name of the plugin installation. This is used to identify the plugin in the Spacelift UI.
-- `Label Identifier` is the `autoattach` label that will be used to automatically attach the plugin to stacks.
+- `Stack Label` is the `autoattach` label that will be used to automatically attach the plugin to stacks.
 - `Space` is the space where the plugin will be installed. This is used to scope the plugin to a specific space.
 - `labels` are arbitrary labels that can be used to filter in the Spacelift UI.
 
@@ -138,9 +138,9 @@ After a plugin is installed, it will move to the `Account Plugins` tab where you
 ## Using a plugin
 
 Using a plugin is very simple, plugins can **only** attach via the `autoattach` label.
-The value you provided in the `Label Identifier` field will be used as the `autoattach` label.
-If you installed Infracost with the `infracost` label identifier, you can attach it to a stack by adding the `infracost` label to the stack.
-You can also use the `*` wildcard in the label identifier to attach the plugin to all stacks in a space.
+The value you provided in the `Stack Label` field will be used as the `autoattach` label.
+If you installed Infracost with the `infracost` stack label, you can attach it to a stack by adding the `infracost` label to the stack.
+You can also use the `*` wildcard in the stack label to attach the plugin to all stacks in a space.
 
 ## Plugin Outputs
 
