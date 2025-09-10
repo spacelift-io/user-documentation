@@ -1,7 +1,7 @@
 # Plugins
 
 !!! warning
-  Plugins support is currently in closed **beta** while we ensure stability of the platform and API's. Reach out to your Spacelift CSM for access.
+    Plugins support is currently in closed **beta** while we ensure stability of the platform and API's. Reach out to your Spacelift CSM for access.
 
 Plugins are a way to extend the functionality of Spacelift.
 They allow you to integrate with third-party services, automate tasks, and enhance your workflows.
