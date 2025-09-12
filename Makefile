@@ -11,4 +11,4 @@ markdown-lint:
 
 .PHONY: oxipng
 oxipng:
-	docker run --rm -v $(pwd):/app -w /app ghcr.io/shssoichiro/oxipng:v9.1.3 --opt=4 --preserve --strip=safe -r /app
+	docker run --rm -v $(pwd):/app -w /app ghcr.io/shssoichiro/oxipng:v9.1.5 --opt=4 --preserve --strip=safe -r /app

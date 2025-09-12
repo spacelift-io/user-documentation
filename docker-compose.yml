@@ -1,8 +1,20 @@
 services:
-  docs:
+  saas:
     build:
       context: .
     volumes:
       - ./:/docs
     ports:
       - 8000:8000
+
+  selfhosted:
+    build:
+      context: .
+    volumes:
+      - ./:/docs
+    ports:
+      - 8001:8000
+    environment:
+      - NAV_FILE=./nav.self-hosted.yaml
+      - SPACELIFT_DISTRIBUTION=SELF_HOSTED
+      - LOGO=assets/images/logo-selfhosted.svg

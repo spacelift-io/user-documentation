@@ -32,13 +32,13 @@ jobs:
       # branch protection rules.
       - name: Generate token
         id: generate_token
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
-          app_id: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_ID }}
-          private_key: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_KEY }}
+          app-id: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_ID }}
+          private-key: ${{ secrets.SELF_HOSTED_RELEASER_BOT_APP_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ steps.generate_token.outputs.token }}
 
@@ -49,9 +49,9 @@ jobs:
           SPACELIFT_DISTRIBUTION: SELF_HOSTED
 
       - name: Set Python up
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: 3.x
+          python-version-file: .python-version
 
       - name: Install Python Requirements
         run: pip install --requirement requirements.txt
