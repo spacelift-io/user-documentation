@@ -77,7 +77,7 @@ Before proceeding with the next steps, the following tools must be installed on 
 
 - [AWS CLI v2](https://aws.amazon.com/cli/){: rel="nofollow"}.
 - [Docker](https://docs.docker.com/engine/install/){: rel="nofollow"}.
-- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://www.terraform.io/){: rel="nofollow"}.
+- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://developer.hashicorp.com/terraform){: rel="nofollow"}.
 
 !!! info
     In the following sections of the guide, OpenTofu will be used to deploy the infrastructure needed for Spacelift. If you are using Terraform, simply swap `tofu` for `terraform`.
