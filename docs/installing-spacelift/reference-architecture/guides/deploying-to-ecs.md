@@ -39,7 +39,7 @@ The private subnets contain the Spacelift RDS Postgres database, along with the 
 The Spacelift instance needs an object storage backend to store Terraform state files, run logs, and other things.
 Several S3 buckets will be created in this guide. This is a hard requirement for running Spacelift.
 
-More details about object storage requirements for Spacelift can be found [here](../external-dependencies.md#object-storage-backend).
+Spacelift uses the AWS SDK default credential provider chain for S3 authentication, supporting environment variables, shared credential files and IAM roles for ECS. More details about object storage requirements and authentication can be found [here](../reference/object-storage.md).
 
 ### Database
 

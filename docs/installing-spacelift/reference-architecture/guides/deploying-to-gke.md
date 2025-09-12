@@ -92,7 +92,7 @@ module "spacelift" {
 The Spacelift instance needs an object storage backend to store Terraform state files, run logs, and other things.
 Several Google Storage buckets will be created in this guide. This is a hard requirement for running Spacelift.
 
-More details about object storage requirements for Spacelift can be found [here](../external-dependencies.md#object-storage-backend).
+Spacelift uses Application Default Credentials (ADC) for Google Cloud Storage authentication, supporting multiple credential sources including attached service accounts and Workload Identity Federation for GKE environments. More details about object storage requirements and authentication can be found [here](../reference/object-storage.md).
 
 ### Database
 
