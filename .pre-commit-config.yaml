@@ -1,22 +1,26 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: check-added-large-files
+
       - id: check-yaml
         # KLUDGE: Required for the mermaid support extension not to trigger an error in mkdocs.yaml
         args: [--unsafe]
+
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.39.0
+    rev: v0.45.0
     hooks:
       - id: markdownlint
+
   - repo: https://github.com/tcort/markdown-link-check
-    rev: v3.12.2
+    rev: v3.13.7
     hooks:
       - id: markdown-link-check
         args: [--config=markdown-link-check.json, --quiet]
+
   - repo: https://github.com/shssoichiro/oxipng
-    rev: v9.1.3
+    rev: v9.1.5
     hooks:
       - id: oxipng
         args: [--opt=4, --preserve, --strip=safe]

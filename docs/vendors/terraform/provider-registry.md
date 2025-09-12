@@ -181,19 +181,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Unshallow
         run: git fetch --prune --unshallow
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version-file: 'go.mod'
           cache: true
 
       - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5
+        uses: crazy-max/ghaction-import-gpg@v6
         id: import_gpg
         with:
           # The private key must be stored in an environment variable registered
@@ -210,7 +210,7 @@ jobs:
         # We will only run GoReleaser when a tag is pushed. Semantic versioning
         # is required, but build metadata is not supported.
         if: startsWith(github.ref, 'refs/tags/')
-        uses: goreleaser/goreleaser-action@v5
+        uses: goreleaser/goreleaser-action@v6
         with:
           version: latest
           args: release --clean
