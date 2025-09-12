@@ -50,7 +50,7 @@ Before getting started, it's important to understand how the FedRAMP environment
 - **Limited Error Collection**: Private worker error collection by Spacelift for troubleshooting is restricted. You are free to collect errors the way you see fit
 
 !!! hint
-   Since public workers aren't available in the FedRAMP environment, you cannot use them to programmatically set up the first [private worker pool](../concepts/worker-pools/README.md).
+    Since public workers aren't available in the FedRAMP environment, you cannot use them to programmatically set up the first [private worker pool](../concepts/worker-pools/README.md).
 
     You can work around this by running your initial Infrastructure as Code through your favorite CI/CD pipeline (e.g., GitHub Actions) to get your first private worker pool configured.
 
