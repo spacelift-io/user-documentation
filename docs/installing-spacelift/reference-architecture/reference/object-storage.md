@@ -50,6 +50,24 @@ The following environment variables can be used to configure object storage:
 
 None of our buckets need public access - they just need access from the Spacelift backend services. For certain situations where access to buckets is required from outside the backend services, for example when uploading state files from the frontend, or when workers upload run logs, we rely on pre-signed URLs that are only valid for a certain period of time.
 
+## Authentication
+
+=== "AWS S3"
+
+    When using AWS S3, Spacelift uses the default [AWS SDK credential provider chain](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials){: rel="nofollow"}, which automatically finds credentials in the following order: environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), shared credential files and IAM roles for compute resources like EC2, ECS and EKS.
+
+=== "Azure Blob Storage"
+
+    When using Azure Blob Storage, Spacelift uses the [DefaultAzureCredential](https://learn.microsoft.com/en-gb/azure/developer/go/sdk/authentication/credential-chains#defaultazurecredential-overview){: rel="nofollow"} authentication chain. This automatically supports multiple authentication methods including environment variables, Workload Identity (recommended for AKS), and Managed Identity.
+
+=== "Google Cloud Storage"
+
+    When using Google Cloud Storage, Spacelift uses [Application Default Credentials (ADC)](https://cloud.google.com/docs/authentication/provide-credentials-adc){: rel="nofollow"}, which automatically finds credentials from multiple sources including: `GOOGLE_APPLICATION_CREDENTIALS` environment variable, [attached service accounts](https://cloud.google.com/docs/authentication/set-up-adc-attached-service-account){: rel="nofollow"} for compute resources, and [Workload Identity Federation](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity){: rel="nofollow"} for [containerized environments](https://cloud.google.com/docs/authentication/set-up-adc-containerized-environment){: rel="nofollow"} like GKE.
+
+=== "MinIO"
+
+    When using MinIO, Spacelift requires explicit configuration through environment variables: `OBJECT_STORAGE_MINIO_ENDPOINT` for the server endpoint, `OBJECT_STORAGE_MINIO_ACCESS_KEY_ID` for the access key, and `OBJECT_STORAGE_MINIO_SECRET_ACCESS_KEY` for the secret key.
+
 ## Uploads bucket CORS configuration
 
 The uploads bucket is used to allow users to upload certain items like Terraform state files from the frontend. To allow this to work, the bucket needs to be configured with the frontend URL as an allowed origin. The following examples show how to configure this using Terraform assuming you were hosting Spacelift at `spacelift.myorg.com`:
