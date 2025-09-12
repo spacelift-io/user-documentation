@@ -40,19 +40,19 @@ jobs:
       RELEASE_BRANCH_NAME: ${{ inputs.environment_code == 'prod' && 'self-hosted-releases-prod' || 'self-hosted-releases-preprod' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Checkout Self-Hosted Releases
         if: ${{ inputs.deploy_self_hosted }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ env.RELEASE_BRANCH_NAME }}
           path: ${{ env.RELEASE_BRANCH_NAME }}
 
       - name: Set Python up
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: 3.x
+          python-version-file: .python-version
 
       - name: Install Material for MkDocs
         run: pip install --requirement requirements.txt
@@ -78,7 +78,7 @@ jobs:
         run: python ./scripts/transform_urls.py
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-session-name: GitHubActionUserDocDeployment
