@@ -87,7 +87,7 @@ Before proceeding with the next steps, the following tools must be installed on 
 
 - [Docker](https://docs.docker.com/engine/install/){: rel="nofollow"}
 - [Helm](https://helm.sh/docs/helm/helm_install/){: rel="nofollow"}
-- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://www.terraform.io/){: rel="nofollow"}
+- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://developer.hashicorp.com/terraform){: rel="nofollow"}
 
 ## Generate encryption key
 
