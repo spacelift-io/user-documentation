@@ -37,7 +37,7 @@ It will bind to a reserved static IPv4 address that you can add to your DNS zone
 The Spacelift instance needs an object storage backend to store Terraform state files, run logs, and other things.
 Several Azure Storage containers will be created in this guide. This is a hard requirement for running Spacelift.
 
-Spacelift supports flexible authentication methods for Azure Blob Storage, including environment variables and Workload Identity. More details about object storage requirements and authentication can be found in the [here](../reference/object-storage.md).
+Spacelift supports flexible authentication methods for Azure Blob Storage, including environment variables and Workload Identity. More details about object storage requirements and authentication can be found [here](../reference/object-storage.md).
 
 ### Database
 
