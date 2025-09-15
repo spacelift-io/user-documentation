@@ -29,6 +29,7 @@ jobs:
           # KLUDGE: This separator, in combination with the leading and trailing single quotes
           # in the pre-commit command below, handle file names with spaces.
           separator: "' '"
+          files_ignore: CLAUDE.md
 
       - name: Set Python up
         uses: actions/setup-python@v6
