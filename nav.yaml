@@ -195,8 +195,9 @@ nav:
           - integrations/external-integrations/backstage.md
           - integrations/external-integrations/servicenow.md
   - 📖 Product:
-      - product/notifications.md
+      - product/changelog.md
       - product/feature-requests.md
+      - product/notifications.md
       - product/dashboard.md
       - Security:
         - product/security/README.md
