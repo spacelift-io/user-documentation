@@ -72,9 +72,9 @@ Our FedRAMP environment is built on a robust, compliant infrastructure designed 
 
 ### Hosting Details
 
-- **Primary Region**: AWS `us-east-2` (commercial partition)
-- **Disaster Recovery**: Available in AWS `us-west-1`
-- **Compliance Partner**: Knox Systems provides the FedRAMP-compliant AWS environment
+- **Primary Region**: AWS `us-east-2` (commercial partition).
+- **Disaster Recovery**: Available in AWS `us-west-1`.
+- **Compliance Partner**: Knox Systems provides the FedRAMP-compliant AWS environment. Spacelift is listed on [Knox Systems' FedRAMP Marketplace listing](https://marketplace.fedramp.gov/products/F1206111371){: rel="nofollow"}.
 
 ## Getting Help
 
