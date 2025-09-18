@@ -9,7 +9,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 ### Features
 
 - Run details now display both the API key ID and name when triggered by an API key. Previously only the key ID was shown, which made it difficult to identify which key was used. The key ID is shown in shortened format. For example: `api::01K56PK::DevopsSpaceKey`.
-- Add Samples section in policy view, which offers powerful filtering options to help quickly locate relevant samples
+- Added Samples section in policy view, which offers powerful filtering options to help quickly locate relevant samples
 
 ## Changes between v3.4.0 and v3.3.0
 
