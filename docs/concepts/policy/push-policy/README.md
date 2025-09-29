@@ -324,6 +324,9 @@ Each source control provider has slightly different features, and because of thi
 
 As input, Git push policy receives the following document:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){: rel="nofollow"} under the `GIT_PUSH` policy type.
+
 ```json
 {
   "in_progress": [{

@@ -37,6 +37,7 @@ Please refer to the following table for information on what each policy types re
 
 !!! tip
     We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
+    For up to date policy input information you can also refer to [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){:+ rel="nofollow"}.
 
     If you cannot find what you are looking for, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
