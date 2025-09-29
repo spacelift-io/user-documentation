@@ -32,6 +32,9 @@ Yay, that works (and it fails our plan, too), but it's not terribly useful - unl
 This is the schema of the data input that each policy request will receive.
 If the policy is executed for the first time, the `previous_run` field will be missing.
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){: rel="nofollow"} under the `PLAN` policy type.
+
 ```json
 {
   "spacelift": {

@@ -51,6 +51,9 @@ Admins have significant privileges and can create and delete stacks; trigger run
 
 Each policy request will receive this data input:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){: rel="nofollow"} under the `LOGIN` policy type.
+
 ```json title="data_input_schema.json"
 {
   "request": {

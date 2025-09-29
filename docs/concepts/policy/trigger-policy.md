@@ -22,6 +22,9 @@ All runs triggered - directly or indirectly - by trigger policies as a result of
 
 When triggered by a _run_, this is the schema of the data input that each policy request will receive:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){: rel="nofollow"} under the `TRIGGER` policy type.
+
 ```json
 {
   "run": {

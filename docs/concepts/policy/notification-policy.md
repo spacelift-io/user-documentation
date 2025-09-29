@@ -22,6 +22,9 @@ If no rules match, no action is taken.
 
 This is the schema of the data input that each policy request can receive:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.tf/.well-known/policy-contract.json){: rel="nofollow"} under the `NOTIFICATION` policy type.
+
 ```json
 {
   "account": {
