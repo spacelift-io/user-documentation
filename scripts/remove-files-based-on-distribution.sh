@@ -11,4 +11,5 @@ if [[ "$SPACELIFT_DISTRIBUTION" == "SELF_HOSTED" ]]; then
 else
   # Remove any Self-Hosted-only pages
   rm -rf docs/product/administration
+  rm -rf docs/installing-spacelift
 fi
