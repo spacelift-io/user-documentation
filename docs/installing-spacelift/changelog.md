@@ -10,13 +10,13 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - Run details now display both the API key ID and name when triggered by an API key. Previously only the key ID was shown, which made it difficult to identify which key was used. The key ID is shown in shortened format. For example: `api::01K56PK::DevopsSpaceKey`.
 - Added Samples section in policy view, which offers powerful filtering options to help quickly locate relevant samples
+- [Role Based Access Control](../concepts/spaces/access-control.md) is now available for self-hosted distributions
 
 ## Changes between v3.4.0 and v3.3.0
 
 ### Features
 
 - [Support for VCS agent pools for self-hosted distributions](../concepts/vcs-agent-pools.md): [installation instruction](../installing-spacelift/reference-architecture/guides/deploying-to-ecs.md#vcs-gateway-service)
-- [Role Based Access Control](../concepts/spaces/access-control.md) is now available for self-hosted distributions
 - [OIDC configuration options are now configurable](../integrations/cloud-providers/oidc/README.md#overriding-issuer-and-jwks-endpoints-self-hosted) (`issuer` and `jwks_uri`)
 - [Exposed a new configuration value](../installing-spacelift/reference-architecture/guides/observability.md#message-queues) for the message queue:
     - `MESSAGE_PROCESSING_TIMEOUT_SECONDS` environment variable controls how long messages can be processed before timing out (default: 900 seconds). Reducing this value (e.g., to 300 seconds) causes long-running messages to return to the queue faster, allowing other messages to be processed.
