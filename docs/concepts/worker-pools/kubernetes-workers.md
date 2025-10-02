@@ -420,7 +420,7 @@ spec:
 
   # Pod history management configuration
   # These settings control how many completed pods are retained and for how long
-  
+
   # successfulPodsHistoryLimit specifies the number of successful Pods to keep for inspection purposes.
   # When set to a positive number, only the N most recent successful Pods are kept per worker.
   # When set to 0, all successful Pods are removed immediately.
@@ -428,7 +428,7 @@ spec:
   # When unset but successfulPodsHistoryTTL is set, count-based cleanup is disabled (TTL-only).
   # Optional
   successfulPodsHistoryLimit: 0
-  
+
   # failedPodsHistoryLimit specifies the number of failed Pods to keep for debugging purposes.
   # When set to a positive number, only the N most recent failed Pods are kept per worker.
   # When set to 0, all failed Pods are removed immediately.
@@ -436,7 +436,7 @@ spec:
   # When unset but failedPodsHistoryTTL is set, count-based cleanup is disabled (TTL-only).
   # Optional
   failedPodsHistoryLimit: 5
-  
+
   # successfulPodsHistoryTTL specifies the duration to keep successful Pods after they are created.
   # When set, successful Pods that have been created for longer than this duration are removed.
   # The TTL timer starts from Pod creation time for consistency with history limit ordering.
@@ -445,7 +445,7 @@ spec:
   # This works in combination with successfulPodsHistoryLimit - pods are removed if they exceed EITHER limit.
   # Optional
   successfulPodsHistoryTTL: "24h"
-  
+
   # failedPodsHistoryTTL specifies the duration to keep failed Pods after they are created.
   # When set, failed Pods that have been created for longer than this duration are removed.
   # The TTL timer starts from Pod creation time for consistency with history limit ordering.
@@ -486,6 +486,19 @@ spec:
     # IMPORTANT: when using a custom value for this volume bear in mind that data stored in it is sensitive.
     # We recommend that you make sure this volume is ephemeral and is not shared with other pods.
     workspaceVolume: null
+
+    # DefaultAnsibleRunnerImage overrides the default runner image for Ansible runs.
+    # When set, this image will be used instead of the backend-provided runner image
+    # for Ansible stacks.
+    # Default: public.ecr.aws/spacelift/runner-ansible:latest
+    DefaultAnsibleRunnerImage: "my-custom-ansible-image:latest"
+
+
+    # DefaultRunnerImage overrides the default runner image for non-Ansible runs.
+    # When set, this image will be used instead of the backend-provided runner image
+    # for Terraform and other non-Ansible stacks.
+    # Default: public.ecr.aws/spacelift/runner-terraform:latest
+    DefaultRunnerImage: "my-custom-image:latest"
 
     serviceAccountName: "custom-service-account"
     automountServiceAccountToken: true
@@ -602,7 +615,7 @@ The pod history management system supports both count-based and time-based clean
 
 #### Default Behavior
 
-- **Successful pods**: Removed immediately (limit: 0)  
+- **Successful pods**: Removed immediately (limit: 0)
 - **Failed pods**: Keep 5 most recent (limit: 5)
 - **Time limits**: No automatic TTL cleanup (unless explicitly configured)
 
@@ -614,8 +627,8 @@ The pod history management system supports both count-based and time-based clean
 spec:
   # Keep 3 most recent successful pods per individual worker
   successfulPodsHistoryLimit: 3
-  
-  # Keep 10 most recent failed pods per individual worker  
+
+  # Keep 10 most recent failed pods per individual worker
   failedPodsHistoryLimit: 10
 ```
 
@@ -625,7 +638,7 @@ spec:
 spec:
   # Remove successful pods older than 24 hours
   successfulPodsHistoryTTL: "24h"
-  
+
   # Remove failed pods older than 72 hours
   failedPodsHistoryTTL: "72h"
 ```
