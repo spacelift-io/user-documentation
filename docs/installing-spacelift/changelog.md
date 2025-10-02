@@ -4,6 +4,12 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between vFuture and v3.5.0
+
+### Features
+
+- Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
+
 ## Changes between v3.5.0 and v3.4.0
 
 ### Features
