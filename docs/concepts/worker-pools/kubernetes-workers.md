@@ -491,14 +491,14 @@ spec:
     # When set, this image will be used instead of the backend-provided runner image
     # for Ansible stacks.
     # Default: public.ecr.aws/spacelift/runner-ansible:latest
-    DefaultAnsibleRunnerImage: "my-custom-ansible-image:latest"
+    defaultAnsibleRunnerImage: "my-custom-ansible-image:latest"
 
 
     # DefaultRunnerImage overrides the default runner image for non-Ansible runs.
     # When set, this image will be used instead of the backend-provided runner image
     # for Terraform and other non-Ansible stacks.
     # Default: public.ecr.aws/spacelift/runner-terraform:latest
-    DefaultRunnerImage: "my-custom-image:latest"
+    defaultRunnerImage: "my-custom-image:latest"
 
     serviceAccountName: "custom-service-account"
     automountServiceAccountToken: true
