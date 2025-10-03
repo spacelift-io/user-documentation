@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-10-02
+
+### Fixes
+
+- **VCS Integrations**: Fixed an issue where switching between VCS integration types could display cached data from the previously viewed integration
+
 ## 2025-10-01
 
 ### Features
