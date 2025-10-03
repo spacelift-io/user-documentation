@@ -209,7 +209,7 @@ This section explains how to take an existing Self-Hosted installation, and enab
 
 ### Install the latest version of Self-Hosted
 
-In case your Self-Hosted installtion predates `v2.0.0` (eg. v1.x.x), the first step is to install `v2.0.0`. As part of the installation process any encrypted secret data in your database will be migrated from a single-region to a multi-region KMS key to allow for failover. To do this, just follow the standard installation process for any Self-Hosted version, but with the following caveats:
+In case your Self-Hosted installtion predates `v2.0.0` (eg. `v1.x.x`), the first step is to install `v2.0.0`. As part of the installation process any encrypted secret data in your database will be migrated from a single-region to a multi-region KMS key to allow for failover. To do this, just follow the standard installation process for any Self-Hosted version, but with the following caveats:
 
 1. We **strongly advise** that you take a snapshot of your RDS cluster before starting the installation. The KMS migration is designed so that if the conversion of any of your secrets fail the entire process will be rolled back, but we still recommend making sure you have an up to date snapshot before starting the process.
 2. The upgrade to v2.0.0 **involves downtime**. This is to ensure that no secrets are accidentally encrypted with the existing single-region key while the migration is taking place. The downtime should be relatively brief (less than 5 minutes).
