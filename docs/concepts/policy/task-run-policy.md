@@ -28,6 +28,9 @@ And here's the outcome when trying to run a task:
 
 This is the schema of the data input that each policy request will receive:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `TASK` policy type.
+
 ```json
 {
   "request": {
@@ -123,7 +126,7 @@ As usual, this example is [available to play around with](https://play.openpolic
 
 A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
 
-### Migration example: only allow terraform taint and untaint
+### Migration example: only allow OpenTofu/Terraform taint and untaint
 
 ```opa
 package spacelift

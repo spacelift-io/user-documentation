@@ -52,6 +52,9 @@ When a user reviews the run, Spacelift persists their review and passes it to th
 
 This is the schema of the data input that each policy request will receive:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `APPROVAL` policy type.
+
 ```json
 {
   "reviews": { // run reviews

@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -29,10 +29,10 @@ jobs:
           # KLUDGE: This separator, in combination with the leading and trailing single quotes
           # in the pre-commit command below, handle file names with spaces.
           separator: "' '"
+          files_ignore: CLAUDE.md
 
       - name: Set Python up
-        uses: actions/setup-python@v5
-        id: set-python-up
+        uses: actions/setup-python@v6
         with:
           cache: pip
           cache-dependency-path: requirements-qa.txt
@@ -42,7 +42,7 @@ jobs:
         run: pip install -r requirements-qa.txt
 
       - name: Cache pre-commit environments
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit/
           key: pre-commit-${{ env.pythonLocation }}-${{ hashFiles('.pre-commit-config.yaml') }}

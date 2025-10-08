@@ -8,7 +8,7 @@ Three of them are children of [Stacks](../stack/README.md):
 - [proposed run](proposed.md), which serves as a preview of introduced changes;
 - [tracked run](tracked.md), which is a form of deployment;
 
-There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a Terraform module.
+There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a OpenTofu/Terraform module.
 
 ## Execution model
 
@@ -156,7 +156,36 @@ Stopped is a _passive state_ meaning no operations are performed while a run is 
 
 ## Logs Retention
 
-Run logs are kept for 60 days.
+{% if is_saas() %}
+
+Run logs are kept for a configurable retention period. By default, all accounts have a retention period of **60 days**.
+
+## Viewing Current Retention Period
+
+You can view your current run logs retention period in the Spacelift UI by navigating to **Organization Settings** and selecting the **Limits** section.
+
+## Customizable Retention Periods
+
+The logs retention period can be customized to one of the following options:
+
+- **60 days** (default)
+- **90 days**
+- **180 days**
+- **365 days**
+- **730 days**
+
+To modify your retention period, please contact your customer representative who can configure this setting for your account.
+
+## Important Considerations
+
+Changing the retention period will not retroactively apply to existing runs. The new retention period will only take effect for runs created after the change has been made. Previously created runs will continue to follow the retention period that was active when they were created.
+
+{% else %}
+
+Run logs are kept for a configurable retention period. By default, run logs have a retention period of **60 days**.
+[If there's a need to customize the retention period, you can do so by configuring a custom S3 bucket configuration for the run logs.](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted?tab=readme-ov-file#deploy-with-custom-s3-bucket-retention)
+
+{% endif %}
 
 ## Run prioritization
 

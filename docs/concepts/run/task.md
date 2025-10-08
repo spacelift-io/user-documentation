@@ -54,7 +54,7 @@ Performing a task will succeed and the task will transition to the [finished](./
 
 ## Skipping initialization
 
-In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
+In rare cases it may be useful to perform tasks without initialization - like when the initialization would fail without some changes being introduced. An obvious example here are OpenTofu/Terraform **version migrations**. This corner case is served by explicitly skipping the initialization. In the GUI (on by default), you will find the toggle to control this behavior:
 
 ![](<../../assets/screenshots/run/task-init-toggle.png>)
 

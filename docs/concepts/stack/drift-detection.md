@@ -7,7 +7,7 @@
 
 ## Drift happens
 
-In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired state and the actual state of the infrastructure managed by your tool of choice: [Terraform](https://www.terraform.io/){: rel="nofollow"}, [Pulumi](https://www.pulumi.com/){: rel="nofollow"}, [AWS CloudFormation](https://aws.amazon.com/cloudformation/){: rel="nofollow"}, etc. In practice, there are two sources of _drift_: changes introduced by external actors, and dependencies on external data sources.
+In _infrastructure-as-code_, the concept of _drift_ represents the difference between the desired state and the actual state of the infrastructure managed by your tool of choice: [Terraform](https://developer.hashicorp.com/terraform){: rel="nofollow"}, [Pulumi](https://www.pulumi.com/){: rel="nofollow"}, [AWS CloudFormation](https://aws.amazon.com/cloudformation/){: rel="nofollow"}, etc. In practice, there are two sources of _drift_: changes introduced by external actors, and dependencies on external data sources.
 
 1\. Changes directly introduced by external actors, either humans or machines (scripts), can cause drift. If an on-call SRE changes your database parameters otherwise controlled by Terraform, you've introduced _drift_. If an external script updates your Kubernetes cluster in a way that conflicts with its Pulumi definition, it's _drift_ as well.
 

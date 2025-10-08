@@ -40,6 +40,9 @@ Last but not least the third group - folks who build things on top of existing i
 
 This is the schema of the data input that each policy request will receive:
 
+!!! tip "Official Schema Reference"
+    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `ACCESS` policy type.
+
 ```json
 {
   "request": {

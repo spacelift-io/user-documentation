@@ -37,7 +37,7 @@ It will bind to a reserved static IPv4 address that you can add to your DNS zone
 The Spacelift instance needs an object storage backend to store Terraform state files, run logs, and other things.
 Several Azure Storage containers will be created in this guide. This is a hard requirement for running Spacelift.
 
-More details about object storage requirements for Spacelift can be found [here](../external-dependencies.md#object-storage-backend).
+Spacelift supports flexible authentication methods for Azure Blob Storage, including environment variables and Workload Identity. More details about object storage requirements and authentication can be found [here](../reference/object-storage.md).
 
 ### Database
 
@@ -77,7 +77,7 @@ Before proceeding with the next steps, the following tools must be installed on 
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/){: rel="nofollow"}.
 - [Docker](https://docs.docker.com/engine/install/){: rel="nofollow"}.
 - [Helm](https://helm.sh/docs/helm/helm_install/){: rel="nofollow"}.
-- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://www.terraform.io/){: rel="nofollow"}.
+- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://developer.hashicorp.com/terraform){: rel="nofollow"}.
 
 !!! info
     In the following sections of the guide, OpenTofu will be used to deploy the infrastructure needed for Spacelift. If you are using Terraform, simply swap `tofu` for `terraform`.

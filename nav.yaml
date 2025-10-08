@@ -180,6 +180,7 @@ nav:
       - API:
           - integrations/api.md
           - integrations/api-development-with-mcp.md
+      - integrations/plugins.md
       - Single Sign-On:
           - integrations/single-sign-on/README.md
           - integrations/single-sign-on/gitlab-oidc-setup-guide.md
@@ -194,12 +195,14 @@ nav:
           - integrations/external-integrations/backstage.md
           - integrations/external-integrations/servicenow.md
   - 📖 Product:
-      - product/notifications.md
+      - product/changelog.md
       - product/feature-requests.md
+      - product/notifications.md
       - product/dashboard.md
       - Security:
         - product/security/README.md
         - product/security/mfa.md
+      - product/fedramp.md
       - product/migrating-to-spacelift.md
       - product/bulk-actions.md
       - Support:

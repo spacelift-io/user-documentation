@@ -40,7 +40,7 @@ make run
 > 💡 These commands are [set up](.vscode/tasks.json) as [VS Code tasks](https://code.visualstudio.com/docs/editor/tasks), so you can just run them from the VS Code command palette. Or even better: download the [Task Explorer](https://marketplace.visualstudio.com/items?itemName=spmeesseman.vscode-taskexplorer) extension and you can run them from the sidebar.
 
 <!-- markdownlint-disable-next-line MD034 -->
-This command will generate the documentation and serve it at http://localhost:8000/. The documentation automatically reloads when changes to the source files are detected.
+This command will generate the documentation and serve it at http://localhost:8000/ for SaaS and http://localhost:8001/ for Self-Hosted. The documentation automatically reloads when changes to the source files are detected.
 
 ## Validating Changes
 
@@ -60,7 +60,7 @@ You can also manually trigger the tests at any time by running:
 pre-commit
 ```
 
-> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir ghcr.io/shssoichiro/oxipng:v9.1.3 docs/assets/screenshots/<filename.png|jpg> --opt=4 --preserve --strip=safe`.
+> Tip: one of our precommit checks is `oxipng` which optimizes PNG images. If you don't want to use `pre-commit` locally, you can optimize your PNG images with `docker run --rm -it -v $(PWD):/workdir -w /workdir ghcr.io/shssoichiro/oxipng:v9.1.5 docs/assets/screenshots/<filename.png|jpg> --opt=4 --preserve --strip=safe`.
 
 ## Self-Hosted
 

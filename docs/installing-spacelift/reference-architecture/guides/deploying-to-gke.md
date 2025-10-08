@@ -92,7 +92,7 @@ module "spacelift" {
 The Spacelift instance needs an object storage backend to store Terraform state files, run logs, and other things.
 Several Google Storage buckets will be created in this guide. This is a hard requirement for running Spacelift.
 
-More details about object storage requirements for Spacelift can be found [here](../external-dependencies.md#object-storage-backend).
+Spacelift uses Application Default Credentials (ADC) for Google Cloud Storage authentication, supporting multiple credential sources including attached service accounts and Workload Identity Federation for GKE environments. More details about object storage requirements and authentication can be found [here](../reference/object-storage.md).
 
 ### Database
 
@@ -177,7 +177,7 @@ Before proceeding with the next steps, the following tools must be installed on 
 - [Google Cloud CLI](https://cloud.google.com/sdk/docs/install){: rel="nofollow"}.
 - [Docker](https://docs.docker.com/engine/install/){: rel="nofollow"}.
 - [Helm](https://helm.sh/docs/helm/helm_install/){: rel="nofollow"}.
-- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://www.terraform.io/){: rel="nofollow"}.
+- [OpenTofu](https://opentofu.org/){: rel="nofollow"} or [Terraform](https://developer.hashicorp.com/terraform){: rel="nofollow"}.
 
 !!! info
     In the following sections of the guide, OpenTofu will be used to deploy the infrastructure needed for Spacelift. If you are using Terraform, simply swap `tofu` for `terraform`.

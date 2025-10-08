@@ -5,7 +5,7 @@ While Spacelift stacks typically link source code with infrastructure resources,
 This section focuses on three aspects of configuration, each of which warrants its own help article:
 
 - [Direct stack environment](environment.md), that is environment variables and mounted files;
-- [Contexts](context.md), that is environments (often partially defined) shared between [stacks](../stack/README.md) and/or [Terraform modules](../../vendors/terraform/module-registry.md);
+- [Contexts](context.md), that is environments (often partially defined) shared between [stacks](../stack/README.md) and/or [OpenTofu/Terraform modules](../../vendors/terraform/module-registry.md);
 - [Runtime configuration](runtime-configuration/README.md) as defined in the `.spacelift/config.yml` file;
 
 ## A general note on precedence

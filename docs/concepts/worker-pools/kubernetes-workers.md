@@ -418,12 +418,42 @@ spec:
     - docker.io
     - some.private.registry
 
-  # keepSuccessfulPods indicates whether run Pods should automatically be removed as soon
-  # as they complete successfully, or be kept so that they can be inspected later. By default
-  # run Pods are removed as soon as they complete successfully. Failed Pods are not automatically
-  # removed to allow debugging.
+  # Pod history management configuration
+  # These settings control how many completed pods are retained and for how long
+
+  # successfulPodsHistoryLimit specifies the number of successful Pods to keep for inspection purposes.
+  # When set to a positive number, only the N most recent successful Pods are kept per worker.
+  # When set to 0, all successful Pods are removed immediately.
+  # When unset and successfulPodsHistoryTTL is also unset, defaults to 0 (remove all).
+  # When unset but successfulPodsHistoryTTL is set, count-based cleanup is disabled (TTL-only).
   # Optional
-  keepSuccessfulPods: false
+  successfulPodsHistoryLimit: 0
+
+  # failedPodsHistoryLimit specifies the number of failed Pods to keep for debugging purposes.
+  # When set to a positive number, only the N most recent failed Pods are kept per worker.
+  # When set to 0, all failed Pods are removed immediately.
+  # When unset and failedPodsHistoryTTL is also unset, defaults to 5 (keep 5 most recent).
+  # When unset but failedPodsHistoryTTL is set, count-based cleanup is disabled (TTL-only).
+  # Optional
+  failedPodsHistoryLimit: 5
+
+  # successfulPodsHistoryTTL specifies the duration to keep successful Pods after they are created.
+  # When set, successful Pods that have been created for longer than this duration are removed.
+  # The TTL timer starts from Pod creation time for consistency with history limit ordering.
+  # Running pods are never affected by this TTL.
+  # When unset (nil), no time-based cleanup is performed for successful Pods.
+  # This works in combination with successfulPodsHistoryLimit - pods are removed if they exceed EITHER limit.
+  # Optional
+  successfulPodsHistoryTTL: "24h"
+
+  # failedPodsHistoryTTL specifies the duration to keep failed Pods after they are created.
+  # When set, failed Pods that have been created for longer than this duration are removed.
+  # The TTL timer starts from Pod creation time for consistency with history limit ordering.
+  # Running pods are never affected by this TTL.
+  # When unset (nil), no time-based cleanup is performed for failed Pods.
+  # This works in combination with failedPodsHistoryLimit - pods are removed if they exceed EITHER limit.
+  # Optional
+  failedPodsHistoryTTL: "72h"
 
   # pod contains the spec of Pods that will be created to process Spacelift runs. This allows
   # you to set things like custom resource requests and limits, volumes, and service accounts.
@@ -456,6 +486,19 @@ spec:
     # IMPORTANT: when using a custom value for this volume bear in mind that data stored in it is sensitive.
     # We recommend that you make sure this volume is ephemeral and is not shared with other pods.
     workspaceVolume: null
+
+    # DefaultAnsibleRunnerImage overrides the default runner image for Ansible runs.
+    # When set, this image will be used instead of the backend-provided runner image
+    # for Ansible stacks.
+    # Default: public.ecr.aws/spacelift/runner-ansible:latest
+    defaultAnsibleRunnerImage: "my-custom-ansible-image:latest"
+
+
+    # DefaultRunnerImage overrides the default runner image for non-Ansible runs.
+    # When set, this image will be used instead of the backend-provided runner image
+    # for Terraform and other non-Ansible stacks.
+    # Default: public.ecr.aws/spacelift/runner-terraform:latest
+    defaultRunnerImage: "my-custom-image:latest"
 
     serviceAccountName: "custom-service-account"
     automountServiceAccountToken: true
@@ -557,6 +600,77 @@ spec:
       - name: redis
         image: redis
 ```
+
+### Pod History Management
+
+The Kubernetes operator provides flexible pod history management to control how long completed run pods are retained. This allows you to balance between debugging capabilities and resource usage.
+
+#### Overview
+
+The pod history management system supports both count-based and time-based cleanup strategies that work together:
+
+- **Count-based limits**: Control how many completed pods to keep per worker
+- **Time-based cleanup (TTL)**: Automatically remove pods after a specified duration
+- **Combined strategy**: Pods are removed when they exceed **either** the count limit **or** the time limit
+
+#### Default Behavior
+
+- **Successful pods**: Removed immediately (limit: 0)
+- **Failed pods**: Keep 5 most recent (limit: 5)
+- **Time limits**: No automatic TTL cleanup (unless explicitly configured)
+
+#### Configuration Options
+
+##### Count-Based Limits
+
+```yaml
+spec:
+  # Keep 3 most recent successful pods per individual worker
+  successfulPodsHistoryLimit: 3
+
+  # Keep 10 most recent failed pods per individual worker
+  failedPodsHistoryLimit: 10
+```
+
+##### Time-Based Cleanup (TTL)
+
+```yaml
+spec:
+  # Remove successful pods older than 24 hours
+  successfulPodsHistoryTTL: "24h"
+
+  # Remove failed pods older than 72 hours
+  failedPodsHistoryTTL: "72h"
+```
+
+##### Special Modes
+
+**Delete-All Mode**: Set limit to 0 to remove all pods immediately
+
+```yaml
+spec:
+  successfulPodsHistoryLimit: 0  # Remove all successful pods immediately
+  failedPodsHistoryLimit: 0      # Remove all failed pods immediately
+```
+
+**TTL-Only Mode**: Set TTL without limit for time-based cleanup only
+
+```yaml
+spec:
+  # Only time-based cleanup, no count limits
+  successfulPodsHistoryTTL: "48h"
+  # successfulPodsHistoryLimit is intentionally unset
+```
+
+#### Behavior Details
+
+- **Pod selection**: Uses creation time for consistent ordering (oldest removed first)
+- **Running pods**: Never affected by cleanup, only applies to completed pods
+- **WorkerPool scope**: Cleanup is managed centrally at the WorkerPool level across all workers in the pool
+- **Deletion safety**: Pods already being deleted are excluded from counts
+
+!!! note "Migration from keepSuccessfulPods"
+    The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.46.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
 
 ### Configure a docker daemon as a sidecar container
 
@@ -1158,21 +1272,6 @@ Please also include your controller logs from 10 minutes before the run started.
 Please note that if you are using a custom runner image for your stack, it **must** include a Spacelift user with a UID of 1983. If your image does not include this user, it can cause permission issues during runs, for example while trying to write out configuration files while preparing the run.
 
 Please see our [instructions on customizing the runner image](../../integrations/docker.md#customizing-the-runner-image) for more information.
-
-### Inspecting successful run pods
-
-By default, the operator deletes the pods for successful runs as soon as they complete. If you need to inspect a pod after the run has completed successfully for debugging purposes, you can enable `spec.keepSuccessfulPods`:
-
-```yaml
-apiVersion: workers.spacelift.io/v1beta1
-kind: WorkerPool
-metadata:
-  name: test-workerpool
-spec:
-  ...
-
-  keepSuccessfulPods: true
-```
 
 ### Networking issues caused by Pod identity
 

@@ -43,13 +43,30 @@ The following environment variables can be used to configure object storage:
 | `OBJECT_STORAGE_BUCKET_STATES`                   | Yes            | Bucket used to store stack state files.                                                                                                 |
 | `OBJECT_STORAGE_BUCKET_UPLOADS`                  | Yes            | Bucket used to temporarily store files uploaded from the frontend.                                                                      |
 | `OBJECT_STORAGE_BUCKET_UPLOADS_URL`              | Yes            | The URL of the uploads bucket. This is used to generate a Content Security Policy (CSP) to allow the frontend to upload to this bucket. |
-| `OBJECT_STORAGE_BUCKET_USAGE_ANALYTICS`          | Yes            | Bucket where usage data is stored.                                                                                                      |
 | `OBJECT_STORAGE_BUCKET_USER_UPLOADED_WORKSPACES` | Yes            | Bucket where workspaces uploaded as part of local preview functionality are stored temporarily.                                         |
 | `OBJECT_STORAGE_BUCKET_WORKSPACE`                | Yes            | Bucket where run workspaces are stored.                                                                                                 |
 
 ## Access requirements
 
 None of our buckets need public access - they just need access from the Spacelift backend services. For certain situations where access to buckets is required from outside the backend services, for example when uploading state files from the frontend, or when workers upload run logs, we rely on pre-signed URLs that are only valid for a certain period of time.
+
+## Authentication
+
+=== "AWS S3"
+
+    When using AWS S3, Spacelift uses the default [AWS SDK credential provider chain](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials){: rel="nofollow"}, which automatically finds credentials in the following order: environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`), shared credential files and IAM roles for compute resources like EC2, ECS and EKS.
+
+=== "Azure Blob Storage"
+
+    When using Azure Blob Storage, Spacelift uses the [DefaultAzureCredential](https://learn.microsoft.com/en-gb/azure/developer/go/sdk/authentication/credential-chains#defaultazurecredential-overview){: rel="nofollow"} authentication chain. This automatically supports multiple authentication methods including environment variables, Workload Identity (recommended for AKS), and Managed Identity.
+
+=== "Google Cloud Storage"
+
+    When using Google Cloud Storage, Spacelift uses [Application Default Credentials (ADC)](https://cloud.google.com/docs/authentication/provide-credentials-adc){: rel="nofollow"}, which automatically finds credentials from multiple sources including: `GOOGLE_APPLICATION_CREDENTIALS` environment variable, [attached service accounts](https://cloud.google.com/docs/authentication/set-up-adc-attached-service-account){: rel="nofollow"} for compute resources, and [Workload Identity Federation](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity){: rel="nofollow"} for [containerized environments](https://cloud.google.com/docs/authentication/set-up-adc-containerized-environment){: rel="nofollow"} like GKE.
+
+=== "MinIO"
+
+    When using MinIO, Spacelift requires explicit configuration through environment variables: `OBJECT_STORAGE_MINIO_ENDPOINT` for the server endpoint, `OBJECT_STORAGE_MINIO_ACCESS_KEY_ID` for the access key, and `OBJECT_STORAGE_MINIO_SECRET_ACCESS_KEY` for the secret key.
 
 ## Uploads bucket CORS configuration
 
