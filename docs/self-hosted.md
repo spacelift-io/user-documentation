@@ -30,7 +30,7 @@ Spacelift Self-Hosted can be deployed on multiple platforms:
 - **GCP**: Any containerized environment including [GKE](https://cloud.google.com/kubernetes-engine){: rel="nofollow"}
 - **On-premise**: Any Kubernetes cluster or containerized environment in your own infrastructure
 
-For deployment guides specific to each platform, see our [reference architecture guides](./installing-spacelift/reference-architecture/guides/).
+For deployment guides specific to each platform, see our [reference architecture guides](https://docs.spacelift.io/self-hosted/latest/installing-spacelift/reference-architecture/guides).
 
 ## How to Try Self-Hosted
 
