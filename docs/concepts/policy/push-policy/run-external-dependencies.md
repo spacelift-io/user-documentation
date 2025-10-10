@@ -1,21 +1,19 @@
-# External Dependencies
+# External dependencies
 
-## Purpose
+External dependencies in push policies allow a user to define a set of dependencies that, while being external to Spacelift, **must be completed before a Spacelift run can start**.
 
-External dependencies is a feature within push policies that allows a user to define a set of dependencies, which, while being external to Spacelift, must be completed before a Spacelift run can start.
 A common use case of this feature is making Spacelift wait for a CI/CD pipeline to complete before executing a run.
 
 ## How it works
 
-Using this feature consists of two parts:
+To use this feature, you must:
 
-- defining dependencies in push policies
-- marking dependencies as finished or failed using [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}
+- Define dependencies in push policies.
+- Mark dependencies as finished or failed using [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"}.
 
-### Defining dependencies
+### Define dependencies
 
-To define dependencies, you need to add a `external_dependency` rule to your push policy definition.
-This way, any run that gets created via this policy, also has the dependency defined.
+To define dependencies, you need to add a `external_dependency` rule to your push policy definition. This way, any run that gets created via this policy also has the dependency defined.
 
 The following rule adds a dependency to all runs created by a policy.
 
@@ -23,15 +21,14 @@ The following rule adds a dependency to all runs created by a policy.
 external_dependency[sprintf("%s-binary-build", [input.push.hash])] { true }
 ```
 
-You can of course have more complex rules, that decide on the set of external dependencies based on e.g. the current stack's labels.
+You can have more complex rules that decide on the set of external dependencies based on data such as the current stack's labels.
 
 !!! warning
-    Make sure to include unique strings such as commit hashes in the dependencies names, as this is the only way to ensure that the dependency is unique for each source control event.
+    Include unique strings (such as commit hashes) in the dependencies names, as this is the only way to ensure that the dependency is unique for each source control event.
 
-### Marking dependencies as finished or failed
+### Mark dependencies as finished or failed
 
-To mark a dependency as finished, failed or skipped, you need to use the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} command line tool.
-You can do so with following commands:
+To mark a dependency as `finished`, `failed`, or `skipped`, use the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} command line tool with following commands:
 
 ```bash
 spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build" --status finished
@@ -41,19 +38,14 @@ spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build"
 spacectl run-external-dependency mark-completed --id "<commit-sha>-binary-build" --status skipped 
 ```
 
-!!! info
-    Run will be eligible for execution only after all of its dependencies are marked as finished or skipped.
-    At the same time, if any of the dependencies has failed, the run will be marked as failed as well.
+The run will be eligible for execution only **after all of its dependencies are marked** as finished or skipped. If any of the dependencies has failed, the run will be marked as failed as well.
 
 !!! warning
-    In order to mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} needs to be authenticated and have _write_ access to all the spaces that have runs with the given dependency defined.
+    To mark a run dependency as finished or failed, [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} needs to be authenticated and have _write_ access to all the spaces that have runs with the given dependency defined.
 
-## Example with GH Actions
+## Example with GitHub Actions
 
-The following example shows how to use this feature with GitHub Actions.
-
-The first thing we need to do is to define a push policy with dependencies.
-Our policy will look like this:
+The following example shows how to use external dependencies with GitHub Actions. First, define a push policy with dependencies. This example defines two dependencies: one for a binary build and one for a Docker image build.
 
 ```rego
 package spacelift
@@ -67,10 +59,7 @@ external_dependency[sprintf("%s-binary-build", [input.push.hash])] { true }
 external_dependency[sprintf("%s-docker-image-build", [input.push.hash])] { true }
 ```
 
-We are defining two dependencies. One for a binary build and one for a docker image build.
-
-Next, we need to create a GitHub Action pipeline that will mark the dependencies as finished or failed.
-This pipeline will define two jobs, one for each dependency. We will use `sleep` to mock the build process.
+Next, create a GitHub Action pipeline that will mark the dependencies as `finished` or `failed`. This pipeline will define two jobs, one for each dependency. We will use `sleep` to mock the build process.
 
 {% raw %}
 
@@ -149,25 +138,20 @@ jobs:
 {% endraw %}
 
 !!! warning
-    Make sure to replace `<youraccount>` with your Spacelift account name and fill in necessary secrets if you decide to use this example.
+    Replace `<youraccount>` with your Spacelift account name and fill in necessary secrets if you decide to use this example.
 
 ### Testing example
 
-Having the policy and the pipeline defined, we can now test it. Creating a new commit in the repository will trigger the pipeline.
-As we can see a run was created in Spacelift, but it's in queued state. The run will not start until all the dependencies are marked as finished or skipped.
+With the policy and the pipeline defined, we can test it. Creating a new commit in the repository will trigger the pipeline.
 
-![](<../../../assets/screenshots/run-external-dependency-queued.png>)
+1. A run was created in Spacelift, but it's in queued state. The run will not start until all the dependencies are marked as finished or skipped.
+    ![Run in queued state for dependencies](<../../../assets/screenshots/run-external-dependency-queued.png>)
+2. After the `docker-image-build` dependency has been marked as skipped the run is still queued, as the `binary-build` dependency is still not resolved.
+    ![One dependency resolved, one unresolved](<../../../assets/screenshots/run-external-dependency-completed-1.png>)
+3. The run starts only after all the dependencies reach a terminal state.
+    ![All dependencies resolved](<../../../assets/screenshots/run-external-dependency-completed-2.png>)
 
-After the docker-image-build dependency has been marked as skipped the run is still queued, as the binary-build dependency is still not resolved.
-
-![](<../../../assets/screenshots/run-external-dependency-completed-1.png>)
-
-The run starts only after all the dependencies reach a terminal state.
-
-![](<../../../assets/screenshots/run-external-dependency-completed-2.png>)
-
-We can also test what happens if a step in the pipeline fails.
-In order to test this, we can change the `build-binaries` job in the pipeline from
+We can also test what happens if a step in the pipeline fails by changing the `build-binaries` job in the pipeline from:
 
 ```yaml
       - name: Build binaries
@@ -176,7 +160,7 @@ In order to test this, we can change the `build-binaries` job in the pipeline fr
           echo "building binaries done"
 ```
 
-to
+to:
 
 ```yaml
       - name: Build binaries
@@ -186,6 +170,6 @@ to
           exit 1
 ```
 
-Now, when we push a commit to the repo, after a while, we will see that the new run is marked as failed, with a note explaining that one of the dependencies is marked as failed.
+Now, when we push a commit to the repo, the new run will be marked as failed with a note explaining that one of the dependencies is marked as failed.
 
-![](<../../../assets/screenshots/run-external-dependency-failed.png>)
+![External dependency failed](<../../../assets/screenshots/run-external-dependency-failed.png>)

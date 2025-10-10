@@ -74,8 +74,6 @@ getPods: "kubectl get pods{{ if .Namespace }} --namespace={{ .Namespace }}{{ els
 # - .ResourcesToDelete  - list of resources to delete.
 delete: "kubectl delete --ignore-not-found -l spacelift-stack={{ .StackSlug }}{{ if .Namespace }} --namespace={{ .Namespace }}{{ else }} --all-namespaces{{ end}} {{ .ResourcesToDelete }}"
 
-# APPLE
-#
 # Available template parameters:
 # - .StackSlug            - the slug of a current stack.
 # - .Namespace            - the namespace used.

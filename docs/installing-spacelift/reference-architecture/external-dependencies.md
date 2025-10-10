@@ -29,6 +29,10 @@ On the other hand, the components below are mandatory and **must be provided**:
 
 Spacelift only supports **PostgreSQL**.
 
+!!! warning
+
+        Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
+
 While PostgreSQL versions higher than 16 may work with Spacelift, please note that these versions have not been officially tested or supported.
 
 As such, we cannot guarantee compatibility or provide assistance for any issues that may arise. We recommend using these versions at your own discretion and risk.

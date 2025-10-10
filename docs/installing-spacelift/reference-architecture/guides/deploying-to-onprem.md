@@ -6,6 +6,10 @@ description: Deploying Spacelift to an on-premises Kubernetes cluster.
 
 This guide provides a way to quickly get Spacelift up and running on your Kubernetes cluster.
 
+!!! warning
+
+        Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
+
 To deploy Spacelift on-premises, you need to take the following steps:
 
 1. [Push the Spacelift images to your container registry](#push-images-to-container-registry).
@@ -30,8 +34,7 @@ Please check the official [docs](https://min.io/docs/minio/kubernetes/upstream/i
 
 #### Exposing MinIO
 
-MinIO should also be exposed outside the cluster to make presigned URLs accessible to clients, such as users [uploading state files](../../../concepts/stack/creating-a-stack.md#terraform),
-workers downloading workspaces as well as `spacectl`'s [local preview feature](../../../concepts/stack/stack-settings.md#enable-local-preview).
+MinIO should also be exposed outside the cluster to make presigned URLs accessible to clients, such as users [uploading state files](../../../concepts/stack/creating-a-stack.md), workers downloading workspaces as well as `spacectl`'s [local preview feature](../../../concepts/stack/stack-settings.md#enable-local-preview).
 
 You must configure **CORS policies** on the MinIO side to allow your Spacelift installation to perform cross-origin requests.
 Indeed, files uploaded from the browser are directly sent to the MinIO endpoint without going through Spacelift.
@@ -55,6 +58,10 @@ You must provide [the required buckets](#setup-required-buckets-in-minio) as thi
 Spacelift requires a PostgreSQL database to operate.
 
 More details about database requirements for Spacelift can be found [here](../external-dependencies.md#database).
+
+!!! warning
+
+        Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
 
 ### Kubernetes
 
