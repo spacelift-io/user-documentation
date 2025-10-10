@@ -143,7 +143,7 @@ For the policies that generate a set of strings, you want these strings to be bo
 ```opa
 package spacelift
 
-we_do_not_create := { "scary", "resource", "types" }
+we_dont_create := { "scary", "resource", "types" }
 
 # This is an example of a plan policy.
 deny[sprintf("some rule violated (%s)", [resource.address])] {
