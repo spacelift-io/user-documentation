@@ -209,7 +209,7 @@ This section explains how to take an existing Self-Hosted installation, and enab
 
 ### Install the latest version of Self-Hosted
 
-The first step is to install `v2.0.0` of Self-Hosted. As part of the installation process any encrypted secret data in your database will be migrated from a single-region to a multi-region KMS key to allow for failover. To do this, just follow the standard installation process for any Self-Hosted version, but with the following caveats:
+In case your Self-Hosted installtion predates `v2.0.0` (eg. `v1.x.x`), the first step is to install `v2.0.0`. As part of the installation process any encrypted secret data in your database will be migrated from a single-region to a multi-region KMS key to allow for failover. To do this, just follow the standard installation process for any Self-Hosted version, but with the following caveats:
 
 1. We **strongly advise** that you take a snapshot of your RDS cluster before starting the installation. The KMS migration is designed so that if the conversion of any of your secrets fail the entire process will be rolled back, but we still recommend making sure you have an up to date snapshot before starting the process.
 2. The upgrade to v2.0.0 **involves downtime**. This is to ensure that no secrets are accidentally encrypted with the existing single-region key while the migration is taking place. The downtime should be relatively brief (less than 5 minutes).
@@ -359,7 +359,7 @@ To failover to your secondary region, use the following steps:
     1. Note: it may take a few minutes for the services to start fully.
 3. Update your server DNS to point at the load balancer for your secondary region.
 4. Update your IoT broker custom domain DNS to point at the IoT broker endpoint in your secondary region.
-5. Restart your workers to allow them to reconnect to the IoT broker in your secondary region. If using Kubernetes workers, restart the controller pod.
+5. Restart your workers to allow them to reconnect to the IoT broker in your secondary region. If using Kubernetes workers, restart the controller pod. One way to restart the workers is to click the [_Cycle_](../../concepts/worker-pools/README.md#cycle) button in the UI. Another way is to manually shut down the virtual machines in the cloud provider. Since they're in an auto-scaling group, new ones will be started automatically.
 6. Run the following command to stop the services in your primary region: `./start-stop-services.sh -e false -c config.json` (where config.json contains the configuration for your secondary region).
     1. Note that while you could leave the services running in your primary region, they will begin to fail and go into a crash loop because they will no-longer be able to access the Spacelift database after it is failed over to the secondary region.
 
