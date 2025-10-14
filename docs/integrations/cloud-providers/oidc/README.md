@@ -95,8 +95,28 @@ The only exceptions are tracked runs whose stack is not set to [autodeploy](../.
 
 The scope claim, as well as other claims presented by the Spacelift token, are merely advisory. It depends on you whether you want to control access to your external service provider based on the scope of the token or on some other claim like space, caller, or run type. In other words, Spacelift gives you the data and it's up to you to decide how to use it.
 
-## Use the Spacelift OIDC token
+## Custom Claims Mapping for Groups
 
+Some identity providers use non-standard claim names for user group membership. For example:
+
+- **AWS Cognito** uses `cognito:groups` instead of the standard `groups` claim
+- **Google Workspace** does not include group membership in OIDC tokens by default
+
+Spacelift allows you to map custom claims from your identity provider to the standard `groups` claim that Spacelift expects. This enables group-based access control even when your IdP doesn't follow the standard OIDC groups claim convention.
+
+### Configuring Custom Claims Mapping
+
+To configure custom claims mapping:
+
+1. Navigate to **Organization settings** → **Single Sign-On**
+2. In your OIDC configuration, look for the **Custom claims mapping** section
+3. Add a mapping for the `groups` claim:
+   - **Claim name in IdP**: Enter the custom claim name from your identity provider (e.g., `cognito:groups`)
+   - **Claim name in Spacelift**: Enter `groups`
+
+![Screenshot: OIDC configuration page showing custom claims mapping section](custom-claims.png)
+
+## Use the Spacelift OIDC token
 You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:
 
 - [AWS](./aws-oidc.md)
