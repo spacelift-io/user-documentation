@@ -15,7 +15,7 @@ description: Find out about the latest changes to Spacelift.
 ## Features
 
 - You can now create API keys via the TF provider. See the [API keys resource documentation](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/api_key) for more information.
-- Added SSO OIDC claim mapping support.
+- Added SSO OIDC claim mapping support. See the [custom claims mapping documentation](../integrations/cloud-providers/oidc/README.md#configuring-custom-claims-mapping) for more information.
 
 ## 2025-10-01
 
