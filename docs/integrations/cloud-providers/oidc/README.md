@@ -114,9 +114,10 @@ To configure custom claims mapping:
    - **Claim name in IdP**: Enter the custom claim name from your identity provider (e.g., `cognito:groups`)
    - **Claim name in Spacelift**: Enter `groups`
 
-![Screenshot: OIDC configuration page showing custom claims mapping section](custom-claims.png)
+![Screenshot: OIDC configuration page showing custom claims mapping section](../../../assets/screenshots/sso/oidc-custom-claims.png)
 
 ## Use the Spacelift OIDC token
+
 You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:
 
 - [AWS](./aws-oidc.md)
