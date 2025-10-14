@@ -19,7 +19,7 @@ You can configure the following resources in a Blueprint:
     - Name, description, labels, [space](../spaces/README.md).
     - **Behavioral settings**: administrative, auto-apply, auto-destroy, hooks, runner image, etc.
 - [VCS configuration](../../integrations/source-control/README.md).
-    - Both default and space-level VCS integrations. In GitHub, custom integrations can only be created by GitHub Enterprise accounts.
+    - Both default and space-level VCS integrations. In GitHub, custom app installations can only be created by GitHub Enterprise accounts.
 - Vendor configuration for your IaC provider.
 - [Environment variables](../configuration/environment.md#environment-variables), both non-sensitive and sensitive.
 - [Mounted files](../configuration/environment.md#mounted-files).
