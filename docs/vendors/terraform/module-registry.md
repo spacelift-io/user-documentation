@@ -111,7 +111,9 @@ You have the flexibility to either take shortcuts to specific configurations or 
 
 ![](<../../assets/screenshots/terraform/modules/new_module_share.png>)
 
-In this step, you can share module with different Spacelift accounts, you just need to add their names in subdomain form (all lowercase). You can find more about module sharing [here](./module-registry.md#sharing-modules).
+In this step, you can share your module with specific spaces in your account. Select the spaces that should have access to use this module in their stacks.
+
+Shared modules become discoverable and usable by stacks in the selected spaces, while module management remains with the owner. Learn more about [module sharing](#sharing-modules).
 
 #### Define behavior
 
@@ -332,19 +334,105 @@ In order to use modules, you have to source them from the Spacelift module regis
 ![](<../../assets/screenshots/image (1).png>)
 
 !!! info
-    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [Space Inheritance](../../concepts/spaces/access-control.md#inheritance).
+    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [Space Inheritance](../../concepts/spaces/access-control.md#inheritance) or module [Space sharing](#space-sharing).
 
 ### Sharing modules
 
-Unlike Stacks, modules can be shared between Spacelift accounts in a sense that while they're always **managed** by a single account, they can be made accessible to an arbitrary number of other accounts.
+#### Space sharing
 
-In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the "Module settings" > "Sharing" section:
+Modules can be shared with specific spaces within your account, giving you fine-grained control over which teams can discover and use your modules. When you share a module with a space, any stack in that space can reference it in their Terraform configurations.
 
-![](../../assets/screenshots/module_sharing.png)
+In order to share a module with other spaces, select the target spaces in the sharing section under "Module settings" > "Availability":
 
-This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
+![](../../assets/screenshots/terraform/modules/module_sharing.png)
 
-You can also mark the module as **public** which will make it accessible to everyone inside and outside Spacelift. This can be done with the [Spacelift OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/module#optional) via the `public` attribute.
+!!! info "Space inheritance and space sharing"
+    When you share a module with a space, all child spaces with [inheritance enabled](../../concepts/spaces/access-control.md#inheritance) will also be able to access the module.
+
+This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md) via the `space_shares` attribute:
+
+```hcl
+resource "spacelift_space" "frontend_team" {
+  name = "frontend-team"
+}
+
+resource "spacelift_space" "backend_team" {
+  name = "backend-team"
+}
+
+# Platform module owned by root space, shared with application teams
+resource "spacelift_module" "common_networking" {
+  name       = "networking"
+  branch     = "main"
+  repository = "terraform-networking"
+
+  space_shares = [
+    spacelift_space.frontend_team.id,
+    spacelift_space.backend_team.id,
+  ]
+}
+```
+
+The `space_shares` attribute accepts a list of space IDs. Changes to this list will update sharing permissions, allowing you to manage module access as code.
+
+##### Using shared modules
+
+When a module is shared with a space you have access to, you can:
+
+- Discover it in the module list and search results
+- Reference it in your stack configurations
+
+Module management remains with the owner. You cannot see module details, modify settings, create versions, or change sharing configuration for modules shared with you.
+
+##### Finding shared modules
+
+The module list includes both modules you own and modules shared with you.
+
+![](../../assets/screenshots/terraform/modules/module_list.png)
+
+Modules shared with you are greyed out because the only thing you can do with them is consume them from your stacks.
+
+You can use the **availability filter** to filter by specific spaces to see what's shared where.
+
+![](../../assets/screenshots/terraform/modules/module_list_availability_filter.png)
+
+This helps module owners understand their sharing configuration and helps consumers find the modules they can use.
+
+##### When to use space-level sharing
+
+Space-level sharing is the recommended approach for most organizations. Use it when:
+
+- Different teams within your account need access to different module sets
+- You want centralized governance over who can use which modules
+
+For example, your platform team might maintain networking and security modules in a dedicated space, then share them selectively with specific application team spaces.
+
+#### Cross-account sharing
+
+!!! warning "Migrating from cross-account sharing"
+    If you're currently sharing modules between accounts, consider consolidating into a single account with space-based organization. This provides better visibility, simpler access control, and improved governance.
+
+Cross-account sharing is supported for backwards compatibility and specific multi-account scenarios, but space-level sharing is recommended for new implementations.
+
+Consider cross-account sharing only if you manage completely separate Spacelift accounts that need to share modules.
+
+#### Public modules
+
+Public modules are accessible to anyone, including users outside your Spacelift account. This is appropriate for open-source modules you want to share with the broader community.
+
+To make a module public, use the `public` attribute in the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/module):
+
+```hcl
+resource "spacelift_module" "public_example" {
+  name       = "example"
+  branch     = "main"
+  repository = "terraform-aws-example"
+  public     = true
+}
+```
+
+!!! warning
+    Public modules are discoverable and usable by anyone. Only mark modules as public if you intend to share them with the community.
 
 ### Using modules outside of Spacelift
 
