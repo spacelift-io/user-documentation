@@ -11,6 +11,16 @@ description: Find out about the latest changes to Spacelift.
 - **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
 - **Integrations**: Migrated the slack integration management screen to the integrations page. The legacy UI has been removed, and all the legacy URLs now redirect to the new screen in the Integrations page.
 
+- **Module Registry**: Modules can now be shared with specific spaces within your account, providing fine-grained control over which teams can discover and use your modules.
+
+    ![](../assets/screenshots/terraform/modules/module_sharing.png)
+
+    The module list includes an availability filter to help you find modules shared with your spaces.
+
+    Space-level sharing is now the recommended approach for most organizations, with cross-account sharing remaining available for backwards compatibility.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
 ## 2025-10-15
 
 ### Features
