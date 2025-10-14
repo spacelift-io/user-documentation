@@ -32,7 +32,7 @@ If you used GitLab, Google, or Microsoft to create your account, you will need t
 
 ## Create and link a custom application
 
-You will need to create a GitHub application to link it to Spacelift. Custom integrations can only be created in GitHub Enterprise accounts.
+You will need a GitHub Enterprise account to create a custom GitHub application to link it to Spacelift.
 {% endif %}
 
 ### Create the GitHub application
