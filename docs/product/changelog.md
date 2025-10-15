@@ -4,6 +4,18 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-10-15
+
+### Features
+
+- **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
+
+## 2025-10-14
+
+### Features
+
+- **Personal Settings**: You can now find new "Spaces" view under your personal settings. This view lets you see the permissions you have for each space, making it easier to understand your access across Spacelift.
+
 ## 2025-10-10
 
 ### Features
