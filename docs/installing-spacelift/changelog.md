@@ -10,6 +10,10 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
 
+### Fixes
+
+- **Internal**: the number of selectable GraphQL fields have been reduced to prevent executing excessively large queries.
+
 ## Changes between v3.5.0 and v3.4.0
 
 ### Features
