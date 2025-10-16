@@ -10,8 +10,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
 
-- **VCS Integrations**: The \"Use Git checkout\" field is now visible by default in all VCS integration details pages. This field indicates whether the integration uses git checkout to download source code (required for sparse checkout functionality).
-
 ## Changes between v3.5.0 and v3.4.0
 
 ### Features
