@@ -1,7 +1,7 @@
 # Dashboard
 
 !!! info
-    At the moment, the dashboard is only available to users with the `admin` role.
+    Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
 
 The dashboard is the first page you see when logging into the app. It provides an overview of your account and the
 status of your infrastructure.
