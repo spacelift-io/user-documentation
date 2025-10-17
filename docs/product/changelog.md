@@ -4,7 +4,7 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
-## 2025-10-14
+## 2025-10-17
 
 ### Features
 
