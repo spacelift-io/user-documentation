@@ -9,6 +9,7 @@ description: Find out about the latest changes to Spacelift.
 ### Features
 
 - **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
+- **Integrations**: Migrated the slack integration management screen to the integrations page. The legacy UI has been removed, and all the legacy URLs now redirect to the new screen in the Integrations page.
 
 ## 2025-10-15
 
