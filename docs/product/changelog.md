@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-10-14
+
+### Features
+
+- **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
+
 ## 2025-10-15
 
 ### Features
