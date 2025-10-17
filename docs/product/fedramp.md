@@ -35,12 +35,26 @@ The FedRAMP environment is exclusively available to eligible organizations, incl
 - **State and Local Governments**: Increasingly adopting FedRAMP to enhance data and system security.
 - **Businesses Seeking Government Contracts**: Organizations pursuing federal contracts typically required to use FedRAMP authorized services.
 
-### Workload Requirements
+## Resources Separation Strategies
 
-Only FedRAMP-related workloads can be hosted in the FedRAMP environment per program requirements. Organizations with both FedRAMP and commercial workloads must separate these environments:
+FedRAMP and commercial workloads must be isolated from one another. You can achieve this in two ways:
 
-- **FedRAMP workloads**: Use the dedicated FedRAMP environment
-- **Commercial workloads**: Use our regular SaaS environment or [Self-Hosted](../self-hosted.md) option
+### Isolation Delivered by Spacelift
+
+To achieve full logical separation at the tenant level you need to create a second Spacelift account. The benefits of this approach include having a separate admin account, separate Identity Provider (IdP) configuration, separate audit and billing. This provides complete logical isolation between environments and ensures maximum security and compliance.
+
+### Isolation Configured by The Customer
+
+Spacelift supports strong multi-project isolation within a single tenant using [Spaces](../concepts/spaces/README.md), [RBAC](../concepts/authorization/README.md), [private worker pools](../concepts/worker-pools/README.md) and [Identity Provider (IdP) independent MFA](./security/mfa.md). Each Space functions as a self-contained boundary for stacks, policies, integrations, and contexts, allowing teams to operate independently without interference.
+
+- **Spaces with role-based access control (RBAC) and resource isolation**. Each Space isolates stacks, policies, worker pools, contexts, and integrations. You can restrict which users or groups have access to each Space.
+- **Separate Private Worker Pools** that run within your own infrastructure, enabling network and execution-level isolation. The temporary run state is encrypted so only your workers can decrypt it.
+- **Separate customer-managed encryption keys (Bring Your Own Key / BYOK)** per worker pool or per integration for data-level separation, so Spacelift does not hold the decryption key.
+- **Policy-driven governance**. Use Spacelift’s [policy types](../concepts/policy/README.md) (Login, Plan, Push, Approval, etc.) to enforce separation rules or guardrails over actions, role assignments, and allowed operations.
+- **IdP-independent MFA (multi-factor authentication)**. You can enforce MFA policies that are not tied exclusively to a particular identity provider, applying additional security layers for users logging in through any IdP.
+- **Integration with external secret managers**. You can use [pre-initialization hooks](../concepts/run/README.md#initializing) to fetch secrets directly from your own infrastructure, ensuring that sensitive data never leaves your environment and that Spacelift never has access to those secrets.
+
+**Note that with this approach, commercial workloads must meet FedRAMP standards since they are hosted in the FedRAMP environment.**
 
 ## Platform Features and Limitations
 
