@@ -334,7 +334,7 @@ In order to use modules, you have to source them from the Spacelift module regis
 ![](<../../assets/screenshots/image (1).png>)
 
 !!! info
-    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [Space Inheritance](../../concepts/spaces/access-control.md#inheritance) or module [Space sharing](#space-sharing).
+    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [space inheritance](../../concepts/spaces/access-control.md#inheritance) or module [space sharing](#space-sharing).
 
 ### Sharing modules
 
@@ -342,12 +342,11 @@ In order to use modules, you have to source them from the Spacelift module regis
 
 Modules can be shared with specific spaces within your account, giving you fine-grained control over which teams can discover and use your modules. When you share a module with a space, any stack in that space can reference it in their Terraform configurations.
 
-In order to share a module with other spaces, select the target spaces in the sharing section under "Module settings" > "Availability":
+When you share a module with a space, all child spaces with [inheritance enabled](../../concepts/spaces/access-control.md#inheritance) will also be able to access the module.
+
+To share a module with other spaces, select the target spaces in the sharing section under **Module settings > Availability**
 
 ![](../../assets/screenshots/terraform/modules/module_sharing.png)
-
-!!! info "Space inheritance and space sharing"
-    When you share a module with a space, all child spaces with [inheritance enabled](../../concepts/spaces/access-control.md#inheritance) will also be able to access the module.
 
 This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md) via the `space_shares` attribute:
 
@@ -379,8 +378,8 @@ The `space_shares` attribute accepts a list of space IDs. Changes to this list w
 
 When a module is shared with a space you have access to, you can:
 
-- Discover it in the module list and search results
-- Reference it in your stack configurations
+- Discover it in the module list and search results.
+- Reference it in your stack configurations.
 
 Module management remains with the owner. You cannot see module details, modify settings, create versions, or change sharing configuration for modules shared with you.
 
@@ -402,8 +401,8 @@ This helps module owners understand their sharing configuration and helps consum
 
 Space-level sharing is the recommended approach for most organizations. Use it when:
 
-- Different teams within your account need access to different module sets
-- You want centralized governance over who can use which modules
+- Different teams within your account need access to different module sets.
+- You want centralized governance over who can use which modules.
 
 For example, your platform team might maintain networking and security modules in a dedicated space, then share them selectively with specific application team spaces.
 
