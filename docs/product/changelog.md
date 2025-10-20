@@ -26,6 +26,7 @@ description: Find out about the latest changes to Spacelift.
 ### Features
 
 - **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
+- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
 
 ## 2025-10-14
 
@@ -45,7 +46,6 @@ description: Find out about the latest changes to Spacelift.
 
 - You can now create API keys via the TF provider. See the [API keys resource documentation](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/api_key) for more information.
 - Added SSO OIDC claim mapping support. See the [custom claims mapping documentation](../integrations/cloud-providers/oidc/README.md#configuring-custom-claims-mapping) for more information.
-- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
 
 ## 2025-10-01
 
