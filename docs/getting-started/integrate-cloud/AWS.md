@@ -136,7 +136,7 @@ Given the format of the External ID passed by Spacelift, you can further secure 
 
 ## Create the cloud integration in Spacelift
 
-1. On the _Cloud integrations_ tab, click **Set up integration**, then choose **AWS** on the dropdown.
+1. On the _Integrations_ screen, find the _AWS_ card and click **View**, then **Set up integration**.
 
     ![Click AWS to access integration settings](<../../assets/screenshots/integrations/cloud-providers/aws/setup-integration-step-2.png>)
 
