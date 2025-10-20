@@ -29,7 +29,7 @@ You can set up multiple Space-level and one default GitHub integration per accou
 
 ## Signed in with another option
 
-If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom applicationto link it to Spacelift.
+If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom application to link it to Spacelift.
 
 {% else %}
 
@@ -40,7 +40,7 @@ You will need to create a GitHub application to link it to Spacelift.
 
 ### Create the GitHub application
 
-1. On the _Source control_ tab, click **Set up integration**, then choose **GitHub** on the dropdown.
+1. On the _Integrations_ screen, click **View** on the _GitHub_ card, then **Set up GitHub**.
 2. Click [**Set up via wizard**](github.md#set-up-via-wizard) (_recommended_) or [**Set up manually**](github.md#set-up-manually).
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
@@ -139,7 +139,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 === "Via Spacelift UI"
 
-    1. On the _Source code_ page, click **Install the app**:
+    1. On the _Integrations > GitHub_ page, click **Install the app**:
 
         ![](<../../assets/screenshots/github_install_app.png>)
     2. On GitHub, click **Install**.
@@ -379,7 +379,7 @@ We subscribe to many GitHub webhooks:
         ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.28.11.png>)
     3. On the page for the Spacelift application, go to the _Advanced_ section and click **Delete GitHub App**. Confirm by typing the name of the application.
         ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
-    4. You can now remove the integration via **Delete** on the *Source code* page in Spacelift:
+    4. You can now remove the integration via **Delete** on the *Integrations > GitHub* page in Spacelift:
         ![](<../../assets/screenshots/Gitlab_delete.png>)
 
     !!! warning
