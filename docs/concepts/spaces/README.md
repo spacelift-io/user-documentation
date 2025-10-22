@@ -45,7 +45,7 @@ Spaces are a powerful tool for [controlling access to resources](./access-contro
 
 Ensure production Spacelift constructs are separate from development constructs. This can be done by creating a `prod` space and a `dev` space, for example.
 
-Additionally, administrative stacks get the **admin** role in the space they belong to. Administrative stacks in the `legacy` space get admin access to the `root` space for backwards compatibility.
+Additionally, stacks can receive [role attachments](../authorization/assigning-roles-stacks.md) to perform operations with elevated permissions in their space and child spaces.
 
 #### IDP groups for scalability
 

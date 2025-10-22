@@ -140,6 +140,10 @@ This is the data input schema each policy request will receive. If the policy is
     },
     "stack": {
       "administrative": "boolean - is the stack administrative",
+      "roles": [{
+        "id": "string - the role slug, eg. space-admin",
+        "name": "string - the role name"
+      }],
       "autodeploy": "boolean - is the stack currently set to autodeploy",
       "branch": "string - tracked branch of the stack",
       "labels": ["string - list of arbitrary, user-defined selectors"],
@@ -188,13 +192,13 @@ This is the data input schema each policy request will receive. If the policy is
 
 In addition to our [helper functions](./README.md#helper-functions), we provide aliases for commonly used parts of the input data:
 
-| Alias                 | Description |
-|-----------------------|-------------|
+| Alias                 | Description                                                                   |
+| --------------------- | ----------------------------------------------------------------------------- |
 | `affected_resources`  | List of the resources that will be created, deleted, and updated by Terraform |
-| `created_resources`   | List of the resources that will be created by Terraform |
-| `deleted_resources`   | List of the resources that will be deleted by Terraform |
-| `recreated_resources` | List of the resources that will be deleted and then created by Terraform |
-| `updated_resources`   | List of the resources that will be updated by Terraform |
+| `created_resources`   | List of the resources that will be created by Terraform                       |
+| `deleted_resources`   | List of the resources that will be deleted by Terraform                       |
+| `recreated_resources` | List of the resources that will be deleted and then created by Terraform      |
+| `updated_resources`   | List of the resources that will be updated by Terraform                       |
 
 ## String sanitization
 

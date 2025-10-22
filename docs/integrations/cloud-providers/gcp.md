@@ -62,7 +62,7 @@ resource "spacelift_gcp_service_account" "gcp-integration" {
 }
 ```
 
-If the service account linked to your administrative stack has sufficient privileges on the GCP organization, you can programmatically create a dedicated GCP project and set up the integration from the Google side of things:
+If the service account linked to your stack has sufficient privileges on the GCP organization, you can programmatically create a dedicated GCP project and set up the integration from the Google side of things:
 
 ```terraform
 resource "google_project" "k8s-core" {

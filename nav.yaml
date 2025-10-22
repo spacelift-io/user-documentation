@@ -82,6 +82,7 @@ nav:
               - concepts/authorization/assigning-roles-users.md
               - concepts/authorization/assigning-roles-groups.md
               - concepts/authorization/assigning-roles-api-keys.md
+              - concepts/authorization/assigning-roles-stacks.md
       - User Management:
           - concepts/user-management/README.md
           - concepts/user-management/admin.md

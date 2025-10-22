@@ -53,6 +53,10 @@ Each policy request will receive this data input.
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",
+    "roles": [{
+      "id": "string - the role slug, eg. space-admin",
+      "name": "string - the role name"
+    }],
     "autodeploy": "boolean - is the stack currently set to autodeploy",
     "branch": "string - tracked branch of the stack",
     "labels": ["string - list of arbitrary, user-defined selectors"],
@@ -72,7 +76,7 @@ Each policy request will receive this data input.
 In addition to our [helper functions](./README.md#helper-functions), we provide aliases for commonly used parts of the input data:
 
 | Alias     | Source          |
-|-----------|-----------------|
+| --------- | --------------- |
 | `request` | `input.request` |
 | `session` | `input.session` |
 | `stack`   | `input.stack`   |

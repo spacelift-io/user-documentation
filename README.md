@@ -18,6 +18,8 @@ For more complex contributions, we recommend that you open an issue to describe 
 - Start a free trial at https://spacelift.io/free-trial.
 <!-- markdownlint-enable MD001 MD034 -->
 
+## Miscellaneous
+
 ## License
 
 The Spacelift user documentation is licensed under the [MIT license](./LICENSE).
