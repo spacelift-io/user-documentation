@@ -37,7 +37,7 @@ You will need a GitHub Enterprise account to create a custom GitHub application 
 
 ### Create the GitHub application
 
-1. On the _Source control_ tab, click **Set up integration**, then choose **GitHub** on the dropdown.
+1. On the _Integrations_ screen, click **View** on the _GitHub_ card, then **Set up GitHub**.
 2. Click [**Set up via wizard**](GitHub.md#set-up-via-wizard) (_recommended_) or [**Set up manually**](GitHub.md#set-up-manually).
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
@@ -137,7 +137,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 === "Via Spacelift UI"
 
-    1. On the _Source code_ page, click **Install the app**:
+    1. On the _Integrations > Github_ page, click **Install the app**:
 
         ![](<../../assets/screenshots/github_install_app.png>)
     2. On GitHub, click **Install**.
