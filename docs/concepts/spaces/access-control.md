@@ -39,21 +39,21 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 
 ### Permission comparison
 
-| Action\Role                   | Root Space Admin | Space Admin | Space Writer | Space Reader |
-|-------------------------------|------------------|-------------|--------------|--------------|
-| Setup SSO                     | ✅                | ❌           | ❌            | ❌            |
-| Setup VCS                     | ✅                | ❌           | ❌            | ❌            |
-| Manage Sessions               | ✅                | ❌           | ❌            | ❌            |
-| Manage Login Policies & User Management Controls         | ✅                | ❌           | ❌            | ❌            |
-| Manage Audit Trails           | ✅                | ❌           | ❌            | ❌            |
-| Manage Spaces                 | ✅                | ✅*          | ❌            | ❌            |
-| Manage Stack Config Settings  | ✅                | ✅           | ❌            | ❌            |
-| Manage Worker Pools, Contexts | ✅                | ✅           | ❌            | ❌            |
-| Manage Stack Env Vars         | ✅                | ✅           | ✅            | ❌            |
-| Trigger runs                  | ✅                | ✅           | ✅            | ❌            |
-| View Stacks                   | ✅                | ✅           | ✅            | ✅            |
-| View Spaces                   | ✅                | ✅           | ✅            | ✅            |
-| View Worker Pools, Contexts   | ✅                | ✅           | ✅            | ✅            |
+| Action\Role                                      | Root Space Admin | Space Admin | Space Writer | Space Reader |
+| ------------------------------------------------ | ---------------- | ----------- | ------------ | ------------ |
+| Setup SSO                                        | ✅                | ❌           | ❌            | ❌            |
+| Setup VCS                                        | ✅                | ❌           | ❌            | ❌            |
+| Manage Sessions                                  | ✅                | ❌           | ❌            | ❌            |
+| Manage Login Policies & User Management Controls | ✅                | ❌           | ❌            | ❌            |
+| Manage Audit Trails                              | ✅                | ❌           | ❌            | ❌            |
+| Manage Spaces                                    | ✅                | ✅*          | ❌            | ❌            |
+| Manage Stack Config Settings                     | ✅                | ✅           | ❌            | ❌            |
+| Manage Worker Pools, Contexts                    | ✅                | ✅           | ❌            | ❌            |
+| Manage Stack Env Vars                            | ✅                | ✅           | ✅            | ❌            |
+| Trigger runs                                     | ✅                | ✅           | ✅            | ❌            |
+| View Stacks                                      | ✅                | ✅           | ✅            | ✅            |
+| View Spaces                                      | ✅                | ✅           | ✅            | ✅            |
+| View Worker Pools, Contexts                      | ✅                | ✅           | ✅            | ✅            |
 
 *Only when assigned to the specific space
 
@@ -111,7 +111,7 @@ roles["root"]["space-admin-role-id"] {
     To use custom roles in login policies, copy the role ID from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy ID.
 
 !!! warning
-    - Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and administrative stacks, as well as `legacy` space administrative stacks can create or modify them.
+    - Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and stacks with [root Space Admin role](../authorization/assigning-roles-stacks.md), as well as stacks with [legacy Space Admin role](../authorization/assigning-roles-stacks.md) can create or modify them.
     - A logged-in user's access levels only get updated when they log out and in again, so newly added spaces might not be visible to some users. An exception is that the space's creator immediately gets access to it.
 
 ## Inheritance

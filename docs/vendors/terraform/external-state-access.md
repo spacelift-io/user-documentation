@@ -2,14 +2,14 @@
 
 External state access allows you to read the state of the stack from outside authorized [runs](../../concepts/run/README.md) and [tasks](../../concepts/run/task.md). In particular, this enables sharing the outputs between stacks using the Terraform mechanism of [remote state](https://www.terraform.io/docs/providers/terraform/d/remote_state.html){: rel="nofollow"} or even accessing the state offline for analytical or compliance purposes.
 
-If enabled for a particular stack, any user or stack with [Write](../../concepts/spaces/access-control.md) permission to that stack's space will be able to access its state.
+If enabled for a particular stack, any user or stack with [Space writer](../../concepts/authorization/assigning-roles-stacks.md#external-state-access) role to that stack's space will be able to access its state.
 
 This feature is off by default.
 
 ## Enabling external access
 
 !!! info
-    Only administrative stacks or users with write permission to this Stack's space can access the state.
+    Only stacks [with Space writer role](../../concepts/authorization/assigning-roles-stacks.md#external-state-access) or users with write permission to this Stack's space can access the state.
 
 You can enable the external access in a couple of ways.
 

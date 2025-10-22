@@ -84,6 +84,10 @@ When triggered by a _run_, this is the schema of the data input that each policy
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",
+    "roles": [{
+      "id": "string - the role slug, eg. space-admin",
+      "name": "string - the role name"
+    }],
     "autodeploy": "boolean - is the stack currently set to autodeploy",
     "branch": "string - tracked branch of the stack",
     "id": "string - unique stack identifier",

@@ -28,7 +28,7 @@ Note how the final spaces inside the tree are `dev` and `prod`, this is good to 
 Spaces are a powerful tool for controlling access to resources.
 By creating spaces for different teams, you can ensure that only the right people have access to the right resources.
 You should, specifically, ensure production Spacelift constructs are separate from development constructs. This can be done by creating a `prod` space and a `dev` space, for example.
-Additionally, Administrative stacks get the Admin role in the space they belong to. (Administrative stacks in the legacy space get admin access to the root space for backward compatibility reasons.)
+Additionally, stacks with [roles attached](../authorization/assigning-roles-stacks.md) can get certain permissions in the target space. This is useful for managing resources in Spacelift itself via IaC. See the [Terrform provider documentation](../../vendors/terraform/terraform-provider.md) for more details.
 
 ### IDP Groups for Scalability
 
