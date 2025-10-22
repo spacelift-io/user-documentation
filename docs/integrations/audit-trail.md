@@ -77,6 +77,7 @@ Every audit trail payload conforms to the same schema:
 - `actor`: actor performing the action - the `::` format shows both the actor identity (second element), and the source of the identity (first element)
 - `context`: some contextual metadata about the request;
 - `data`: action-specific payload showing arguments passed to the request. Any sensitive arguments (like secrets) are sanitized;
+- `roles`: (optional) array of role slugs attached to the actor when the action was performed. Only present when the actor has role attachments (e.g., stacks with [role bindings](../concepts/authorization/assigning-roles-stacks.md));
 
 Below is a sample:
 
@@ -139,6 +140,7 @@ Below is a sample:
       "StackObjectID": null
     }
   },
+  "roles": ["space-admin", "context-creator"],
   "remoteIP": "0.0.0.0",
   "timestamp": 1674124447947
 }

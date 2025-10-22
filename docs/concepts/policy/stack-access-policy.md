@@ -148,6 +148,9 @@ deny_write { not net.cidr_contains("12.34.56.0/24", ip) }
 
 ### Protect administrative stacks
 
+!!! warning
+    The administrative flag is now deprecated and [will be gone on the 1st of June, 2026](../authorization/assigning-roles-stacks.md#migration-from-administrative-flag). **The flag will always return false from that date onwards**.
+
 [Administrative](../stack/README.md) stacks are powerful. Having **write** access to one is almost as good as being an **admin**, as you can define and attach [contexts](../configuration/context.md) and [policies](./README.md). In this policy, we deny **write** access to administrative stacks entirely. This works since access policies are not evaluated for **admin** users.
 
 ```opa

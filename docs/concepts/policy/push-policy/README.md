@@ -197,13 +197,13 @@ allow_fork {
 
 The `head_owner` field means different things in different VCS providers:
 
-| VCS provider | Meaning of `head_owner` field | Where to find it |
-| ------------ | ----------------------------- | ---------------- |
-| **GitHub/GitHub Enterprise** | The organization or person who owns the forked repo. | In the URL: `https://github.com/<head_owner>/<forked_repository>`. |
-| **GitLab** | The group of the repository. | In the URL: `https://gitlab.com/<head_owner>/<forked_repository>`. |
-| **Azure DevOps** | The ID of the forked repo's project (a UUID). | Open `https://dev.azure.com/<organization>/_apis/projects` in your browser to see all projects and their unique IDs. |
-| **Bitbucket Cloud** | Workspace. | In the URL: `https://www.bitbucket.org/<workspace>/<forked_repository>` |
-| **Bitbucket Datacenter/Server** | The project key of the repo. | The display name of the project and its abbreviation (all caps). |
+| VCS provider                    | Meaning of `head_owner` field                        | Where to find it                                                                                                     |
+| ------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **GitHub/GitHub Enterprise**    | The organization or person who owns the forked repo. | In the URL: `https://github.com/<head_owner>/<forked_repository>`.                                                   |
+| **GitLab**                      | The group of the repository.                         | In the URL: `https://gitlab.com/<head_owner>/<forked_repository>`.                                                   |
+| **Azure DevOps**                | The ID of the forked repo's project (a UUID).        | Open `https://dev.azure.com/<organization>/_apis/projects` in your browser to see all projects and their unique IDs. |
+| **Bitbucket Cloud**             | Workspace.                                           | In the URL: `https://www.bitbucket.org/<workspace>/<forked_repository>`                                              |
+| **Bitbucket Datacenter/Server** | The project key of the repo.                         | The display name of the project and its abbreviation (all caps).                                                     |
 
 ## Approval and mergeability
 
@@ -349,6 +349,10 @@ As input, Git push policy receives the following:
   "stack": {
     "additional_project_globs": ["string - list of arbitrary, user-defined selectors"],
     "administrative": "boolean",
+    "roles": [{
+      "id": "string - the role slug, eg. space-admin",
+      "name": "string - the role name"
+    }],
     "autodeploy": "boolean",
     "branch": "string",
     "id": "string",
