@@ -110,25 +110,125 @@ If you are using OpenShift, additional steps are required to allow the controlle
     kubectl rollout restart deployments -n {namespace_of_controller}
     ```
 
-### Create a Secret
+## Create a WorkerPool
 
-Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
+The recommended approach for deploying worker pools is to use [auto-registration](#auto-registration).
+
+With OIDC secret configuration, you can also avoid storing static Spacelift credentials in the cluster.
+
+You can also [create the WorkerPool manually](#manual-registration) on Spacelift, and save its secrets on the cluster. That's still a perfectly valid approach if you do not want to use auto registration.
+
+### Auto-Registration
+
+With auto-registration, the controller automatically creates and manages worker pools in Spacelift without requiring manual setup steps in the UI.
+When you create a WorkerPool resource without token and privateKey credentials, the controller handles the complete lifecycle: it registers the pool with Spacelift, generates the required credentials, stores them securely in Kubernetes secrets, and manages ongoing operations.
+
+This approach enables true GitOps workflows where worker pools can be provisioned declaratively alongside other infrastructure.
+There's no need to coordinate between the Spacelift UI and your Kubernetes deployment, eliminating potential errors and simplifying automation.
+
+!!! warning
+    When using auto registration, it's impossible to update and reset the workerpool from the Spacelift UI. The reason for that is to make obvious that the pool is managed from the cluster, and avoid conflicts by forcing a single source of truth.
+
+#### Create an API Key
+
+For auto registration to work, you need to create a Spacelift API key to allow the controller to manage worker pools in Spacelift. This key should be granted the `Worker pool controller` role for the space that your worker pool will be created in, and needs to be stored in a secret called `spacelift-api-credentials` in the same namespace as the Kubernetes controller (by default `spacelift-worker-controller-system`).
+
+=== "Regular API key"
+
+    Create a [secret-based API key](../../integrations/api.md#secret-based-api-keys) with the "Worker pool controller" system role and assign it to the space(s) where you want to create worker pools.
+
+    ![built in system role](../../assets/screenshots/worker-pools-kubernetes-role.png)
+
+    After creating the key, store the credentials in a Kubernetes secret in the controller's namespace:
+
+    ```shell
+    kubectl create secret generic spacelift-api-credentials \
+      --from-literal=keyId=<your-api-key-id> \
+      --from-literal=keySecret=<your-api-key-secret> \
+      --from-literal=endpoint=https://<your-account>.app.spacelift.io \
+      --namespace spacelift-worker-controller-system
+    ```
+
+=== "OIDC API key"
+
+    Create an [OIDC-based API key](../../integrations/api.md#oidc-based-api-keys) configured to trust your cluster's OIDC provider, with the "Worker pool controller" system role assigned to the appropriate space(s).
+    For detailed OIDC integration setup, see the [OIDC documentation](../../integrations/cloud-providers/oidc/README.md).
+
+    ![built in system role](../../assets/screenshots/worker-pools-kubernetes-role.png)
+
+    After creating the key, store only the key ID and endpoint:
+
+    ```shell
+    kubectl create secret generic spacelift-api-credentials \
+      --from-literal=keyId=<your-oidc-api-key-id> \
+      --from-literal=endpoint=https://<your-account>.app.spacelift.io \
+      --namespace spacelift-worker-controller-system
+    ```
+
+    The controller will use its service account's OIDC token to authenticate with Spacelift.
+
+    !!! info
+        The cluster OIDC endpoint should be reachable from Spacelift. Make sure your ingress network configuration allows that.
+
+##### EKS OIDC Setup example
+
+To configure OIDC authentication for EKS, you need the cluster's OIDC issuer URL. Get it with:
+
+```shell
+aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text
+```
+
+This returns a URL like `https://oidc.eks.eu-central-1.amazonaws.com/id/123451234512345123451234512345`.
+
+When creating the Spacelift OIDC API key, use:
+
+- **Issuer**: The OIDC issuer URL from above
+- **Client ID (audience)**: `https://kubernetes.default.svc`
+- **Subject Expression**: `^system:serviceaccount:NAMESPACE:SERVICE_ACCOUNT_NAME$` (replace `NAMESPACE` and `SERVICE_ACCOUNT_NAME` with yours)
+
+The controller's service account token contains these claims, allowing it to authenticate with Spacelift without any static credentials.
+
+#### Create WorkerPool
+
+To create an auto-registered worker pool, you just need to deploy a WorkerPool resource without token and privateKey fields:
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: auto-registered-pool
+spec:
+  poolSize: 2
+EOF
+```
+
+You can refer to the [`WorkerPool`](#configuration) CRD for all optional fields. There are fields specific for auto registration that configures how your pool is setup in Spacelift.
+
+### Manual Registration
+
+While auto-registration is recommended, you can still manually create the pool.
+This approach requires creating a worker pool in the Spacelift UI first, getting credentials, and configuring them in Kubernetes.
+
+#### Create a Secret
+
+Create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
 
 First, export the token and private key as base64 encoded strings:
 
-#### Mac
+=== "**MacOS**"
 
-```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
-```
+    ```shell
+    export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+    export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
+    ```
 
-#### Linux
+=== "**Linux**"
 
-```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
-```
+    ```shell
+    export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+    export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
+    ```
 
 Then, create the secret.
 
@@ -145,7 +245,7 @@ stringData:
 EOF
 ```
 
-### Create a WorkerPool
+#### Create a WorkerPool
 
 Finally, create a WorkerPool resource using the following command:
 
@@ -195,6 +295,21 @@ That's it - the workers in your pool should connect to Spacelift, and you should
 Usually, there is nothing special to do for upgrading the controller.
 
 Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
+
+### Upgrading to controller v0.0.27 - or Helm chart v0.52.0
+
+This release introduces auto-registration support and **requires additional RBAC permissions** for the controller to manage secrets.
+The upgrade is backward compatible with existing worker pools.
+
+If you installed the controller using the Helm chart, the RBAC permissions are automatically updated during the upgrade.
+The same applies if you installed using kubectl with raw manifests. The updated permissions are included in the manifests.
+
+No action is required for existing manually registered worker pools, they will continue to work exactly as before.
+
+The new auto-registration feature is opt-in, and only activates when the following conditions are both true:
+
+- You create a WorkerPool resource without specifying the `token` and `privateKey`.
+- You provide a `spacelift-api-credentials` secret in the same namespace as your controller containing your API credentials.
 
 ### Upgrading to controller v0.0.17 - or Helm chart v0.33.0
 
@@ -398,18 +513,44 @@ spec:
   poolSize: 2
 
   # token points at a Kubernetes Secret key containing the worker pool token.
-  # Required
+  # Optional - required for manual registration, omit for auto-registration.
+  # Must be set together with privateKey, or both must be unset.
   token:
     secretKeyRef:
       name: test-workerpool
       key: token
 
   # privateKey points at a Kubernetes Secret key containing the worker pool private key.
-  # Required
+  # Optional - required for manual registration, omit for auto-registration.
+  # Must be set together with token, or both must be unset.
   privateKey:
     secretKeyRef:
       name: test-workerpool
       key: privateKey
+
+  # space allows you to specify which Spacelift space to create the pool in.
+  # Only applies to auto-registered pools.
+  # Optional
+  space: production-01ARZ3NDEKTSV4RRFFQ69G5FAV
+
+  # description sets a description for the worker pool.
+  # Useful for documentation and organization in the Spacelift UI.
+  # Only applies to auto-registered pools.
+  # Optional
+  description: Production worker pool for infrastructure deployments
+
+  # driftDetectionRunLimits configures limits for drift detection runs executed on this worker pool.
+  # Only applies to auto-registered pools.
+  # Optional
+  driftDetectionRunLimits:
+    # disabled indicates whether drift detection runs are disabled for this worker pool.
+    # When true, maxRuns must not be set.
+    # Optional, defaults to false
+    disabled: false
+    # maxRuns specifies the maximum number of drift detection runs allowed.
+    # Cannot be set when disabled is true.
+    # Optional when disabled is false
+    maxRuns: 5
 
   # allowedRunnerImageHosts defines the hostnames of registries that are valid to use stack
   # runner images from. If no specified images from any registries are allowed.

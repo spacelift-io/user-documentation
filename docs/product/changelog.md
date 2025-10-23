@@ -4,6 +4,21 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-11-12
+
+### Features
+
+- **Kubernetes Worker Pools**: The Kubernetes worker pool controller now supports auto-registration with version `v0.0.27`.
+
+  Worker pools can be created and managed entirely through Kubernetes resources without manual setup in the Spacelift UI.
+  The controller automatically registers pools with Spacelift, generates credentials, and handles the complete lifecycle.
+
+  This enables pure GitOps workflows where worker pools are provisioned declaratively alongside other infrastructure.
+
+  Additionally, OIDC-based API keys can be used to eliminate static credentials from the cluster entirely.
+
+  See the [auto-registration documentation](../concepts/worker-pools/kubernetes-workers.md#auto-registration) for more details.
+
 ## 2025-11-10
 
 ### Features
