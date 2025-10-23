@@ -12,6 +12,17 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - **VCS Integrations**: The \"Use Git checkout\" field is now visible by default in all VCS integration details pages. This field indicates whether the integration uses git checkout to download source code (required for sparse checkout functionality).
 
+- **Kubernetes Worker Pools**: The Kubernetes worker pool controller now supports auto-registration with version `v0.0.27`.
+
+    Worker pools can be created and managed entirely through Kubernetes resources without manual setup in the Spacelift UI.
+    The controller automatically registers pools with Spacelift, generates credentials, and handles the complete lifecycle.
+
+    This enables pure GitOps workflows where worker pools are provisioned declaratively alongside other infrastructure.
+
+    Additionally, OIDC-based API keys can be used to eliminate static credentials from the cluster entirely.
+
+    See the [auto-registration documentation](../concepts/worker-pools/kubernetes-workers.md#auto-registration) for more details.
+
 ## Changes between v3.5.0 and v3.4.0
 
 ### Features
