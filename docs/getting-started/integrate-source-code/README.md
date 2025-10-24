@@ -1,11 +1,11 @@
 # Integrate source code with Spacelift
 
-For everything but raw Git, integrate your source code with Spacelift on the _Source code_ tab.
+For everything but raw Git, integrate your source code with Spacelift on the _Integrate Services > Discover all integrations_ tab.
 
-![Set up source code integration](<../../assets/screenshots/getting-started/source-code/set-up-integration.png>)
+![Set up source code integration](<../../assets/screenshots/getting-started/source-code/VCS-integrations.png>)
 
-1. Click **Set up integration**.
-2. Select your VCS from the dropdown.
+1. Click **View** on the tile for the integration you are setting up.
+2. Click **Set up (VCS name)**.
 3. Follow the wizard to configure the integration.
 
 Your source code can be stored on any of the supported version control systems (VCS):
@@ -20,7 +20,7 @@ Your source code can be stored on any of the supported version control systems (
 
 ## Example starter repository
 
-We provide a [Terraform Starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} you can fork to test Spacelift's capabilities right away.
+We provide a [Terraform starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"} you can fork to test Spacelift's capabilities right away.
 
 !!! tip
     If you are using the Terraform starter repository, and you did not sign up for your Spacelift account with GitHub, you may need to add the environment variable `TF_VAR_github_app_namespace` with the value as your organization name or GitHub handle. You can do this under the `Environment` tab in the stack.

@@ -9,33 +9,34 @@ Policy-as-code is the idea of expressing rules using a high-level programming la
 
 Spacelift as a development platform is built around this concept and allows defining policies that involve various decision points in the application. User-defined policies can decide:
 
-- Login: [who gets to log in](login-policy.md) to your Spacelift account and with what level of access;
-- Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
-- Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
-- Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
-- Notification: [routing and filtering notifications](notification-policy.md);
-- Plan: [which changes can be applied](terraform-plan-policy.md);
-- Push: [how Git push events are interpreted](push-policy/README.md);
-- Task: [which one-off commands can be executed](task-run-policy.md);
-- Trigger: [what happens when blocking runs terminate](trigger-policy.md);
+- **Login**: [Who gets to log in](login-policy.md) to your Spacelift account and with what level of access.
+- **Access**: [Who gets to access individual Stacks](stack-access-policy.md) and with what level of access. Access policies have been replaced by [space access control](../spaces/access-control.md).
+- **Approval**: [Who can approve or reject a run](approval-policy.md) and how a run can be approved.
+- **Initialization**: [Which runs and tasks can be started](run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
+- **Notification**: [Routing and filtering notifications](notification-policy.md).
+- **Plan**: [Which changes can be applied](terraform-plan-policy.md).
+- **Push**: [How Git push events are interpreted](push-policy/README.md).
+- **Task**: [Which one-off commands can be executed](task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
+- **Trigger**: [What happens when blocking runs terminate](trigger-policy.md). Trigger policies have been mostly replaced by [stack dependencies](../stack/stack-dependencies.md).
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
 
-| Type                                           | Purpose                                                                                        | Types                 | Returns            | Rules                                                     |
-|------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------|--------------------|-----------------------------------------------------------|
-| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                                        | Positive and negative | `boolean`          | `allow`, `admin`, `deny`, `deny_admin`                    |
-| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                                | Positive and negative | `boolean`          | `read`, `write`, `deny`, `deny_write`                     |
-| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                                  | Positive and negative | `boolean`          | `approve, reject`                                         |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
-| [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
-| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
-| [Push](push-policy/README.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
-| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
+| Type | Purpose | Types | Returns | Rules |
+|------|---------|-------|---------|-------|
+| [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin` |
+| [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
+| [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve, reject` |
+| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
+| [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
+| [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
+| [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
+| [Task](task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
-    For up to date policy input information you can also refer to [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){:+ rel="nofollow"}.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that are ready to use or alter to meet your specific needs.
+
+    For up-to-date policy input information you can also refer to [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){:+ rel="nofollow"}.
 
     If you cannot find what you are looking for, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
@@ -45,13 +46,13 @@ Spacelift uses an open-source project called [**Open Policy Agent**](https://www
 
 You can think of policies as snippets of code that receive some JSON-formatted input (the data needed to make a decision) and are allowed to produce an output in a predefined form.  Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
 
-[Login policies](./login-policy.md) which are global. All other policy types operate on the [stack](../stack/README.md) level and can be attached to multiple stacks, like [contexts](../configuration/context.md), which facilitates code reuse and allows flexibility. Policies only affect stacks they're [attached to](#attaching-policies).
+[Login policies](./login-policy.md) are global. All other policy types operate on the [stack](../stack/README.md) level and can be attached to multiple stacks, like [contexts](../configuration/context.md), which facilitates code reuse and allows flexibility. Policies only affect stacks they're [attached to](#attaching-policies).
 
 Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. Once these policies are evaluated against the same input, their results are **combined**. So if you allow user login from one policy but deny it from another, the result will still be a denial.
 
 ### OPA version
 
-We update the version of OPA that we are using regularly, to find out the version we are currently running, you can use the following query:
+We update the version of OPA that we are using regularly. To find out the version we are currently running, use this query:
 
 ```graphql
 query getOPAVersion{
@@ -65,7 +66,7 @@ For more detailed information about the GraphQL API and its integration, please 
 
 ### Policy language
 
-[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}, the language we're using to execute policies, is a very elegant, Turing incomplete data query language. If you know SQL and [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you should find Rego familiar and only need a few hours to understand its quirks. For each policy, we also provide examples you can tweak to achieve your goals, and many of those examples comes with a link allowing you to execute it in [the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}.
+[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}, the language we're using to execute policies, is a very elegant, Turing incomplete data query language. If you know SQL and [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you should find Rego familiar and only need a few hours to understand its quirks. For each policy, we also provide examples you can tweak to achieve your goals.
 
 ### Rego constraints
 
