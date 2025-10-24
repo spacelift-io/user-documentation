@@ -161,7 +161,7 @@ Once it is ready, you will need to go to '0.0.0.0:8000/latest/' instead of just 
 
 ## Submitting Changes
 
-Once you are happy with your changes, just open a pull request and ask for a review from `@spacelift-io/solutions-engineering`.
+Once you are happy with your changes, just open a pull request and ask for a review from `@KiraLempereur-Spacelift` and `spacelift-io/solutions-engineering`.
 
 By submitting a pull request for this project, you agree to license your contribution under the [MIT license](./LICENSE) to Spacelift.
 

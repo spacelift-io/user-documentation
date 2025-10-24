@@ -1,18 +1,20 @@
 # Initialization policy
 
 !!! warning
-    This feature is deprecated. New users should not use this feature and existing users are encouraged to migrate to the [approval policy](./approval-policy.md), which offers a much more flexible and powerful way to control which runs are allowed to proceed. A migration guide is available [here](#migration-guide).
+    Initialization policies are deprecated. Use [approval policies](./approval-policy.md) instead for a more flexible, powerful way to control which runs are allowed to proceed.
 
-## Purpose
+    Existing users with initialization policies should migrate as soon as possible using our [migration guide](#migration-guide).
 
-Initialization policy can prevent a [Run](../run/README.md) or a [Task](../run/task.md) from being [initialized](../run/README.md#initializing), thus blocking any custom code or commands from being executed. It superficially looks like a [plan policy](terraform-plan-policy.md) in that it affects an existing Run and prints feedback to logs, but it does not get access to the plan. Instead, it can be used to [protect your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](run-initialization-policy.md#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
+Initialization policies can prevent a [run](../run/README.md) or a [task](../run/task.md) from being [initialized](../run/README.md#initializing), blocking any custom code or commands from being executed.
+
+They look like [plan policies](terraform-plan-policy.md) in that they affect existing runs and print feedback to logs, but they don't get access to the plan. Instead, initialization policices can be used to [protect your stack from unwanted changes](#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
 !!! warning
     Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
 
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
-Let's create a simple initialization policy, attach it to the stack, and see what gives:
+Let's create a simple initialization policy, attach it to a stack, and see what it does:
 
 ```opa
 package spacelift
@@ -22,17 +24,17 @@ deny["you shall not pass"] {
 }
 ```
 
-...and boom:
+This policy results in:
 
-![](<../../assets/screenshots/Initial_commit_·_Stack_managed_by_Spacelift (1).png>)
+![Denied by policy message](<../../assets/screenshots/Initial_commit_·_Stack_managed_by_Spacelift (1).png>)
 
 ## Rules
 
-Initialization policies are simple in that they only use a single rule - **deny** - with a string message. A single result for that rule will fail the run before it has a chance to start - as we've just witnessed above.
+Initialization policies only use a **deny** rule with a string message. A single result for that rule will fail the run before it has a chance to start, as shown above.
 
-## Data input
+## Data input schema
 
-This is the schema of the data input that each policy request will receive:
+Each policy request will receive this data input:
 
 ```json
 {
@@ -114,13 +116,16 @@ In addition to our [helper functions](./README.md#helper-functions), we provide 
 
 ## Use cases
 
-There are two main use cases for run initialization policies - [protecting your stack from unwanted changes](run-initialization-policy.md#protect-your-stack-from-unwanted-changes) and [enforcing organizational rules](run-initialization-policy.md#enforce-organizational-rules). Let's look at these one by one.
+There are two main use cases for run initialization policies:
+
+- [Protecting your stack from unwanted changes](#protect-your-stack-from-unwanted-changes).
+- [Enforcing organizational rules](#enforce-organizational-rules).
 
 ### Protect your stack from unwanted changes
 
-While specialized, Spacelift is still a CI/CD platform and thus allows running custom code before Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/README.md#before_init-scripts)scripts. This is a very powerful feature, but as always, with great power comes great responsibility. Since those scripts get full access to your Terraform environment, how hard is it to create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}? Sure, all Spacelift runs are tracked and this prank will sooner or later be tracked down to the individual who ran it, but at that point do you still have a business?
+Although Spacelift is specialized, you can run custom code before the Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts. This is a very powerful feature that must be handled responsibly. Since those scripts get full access to your Terraform environment, someone could, in theory, create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}.
 
-That's where initialization policies can help. Let's explicitly blacklist all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/README.md#before_init-scripts) scripts. OK, let's maybe add a single exception for a formatting check.
+Initialization policies can help you avoid unwanted runs. That's where initialization policies can help. This example policy explicitly blocklists all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts and adds a single exception for a formatting check:
 
 ```opa
 package spacelift
@@ -133,9 +138,7 @@ deny[sprintf("don't use Terraform please (%s)", [command])] {
 }
 ```
 
-Feel free to play with this example in [the Rego playground](https://play.openpolicyagent.org/p/V0sr5abgWI){: rel="nofollow"}.
-
-OK, but what if someone gets clever and creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? Well, you have two choices - you could replace a blacklist with a whitelist, but a clever attacker can be really clever. So the other choice is to make sure that a known good Docker is used to execute the run. Here's an example:
+What if someone, to get around this policy, creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? You have two choices: replace a blocklist with an allowlist, or make sure that a known good Docker is used to execute the run. Here's an example:
 
 ```opa
 package spacelift
@@ -147,16 +150,14 @@ deny[sprintf("unexpected runner image (%s)", [image])] {
 }
 ```
 
-Here's the above example in [the Rego playground](https://play.openpolicyagent.org/p/VxIREPOS0d){: rel="nofollow"}.
-
 !!! danger
-    Obviously, if you're using an image other than what we control, you still have to ensure that the attacker can't push bad code to your Docker repo. Alas, this is beyond our control.
+    If you're using an image other than what Spacelift controls, you'll be responsible for ensuring that the attacker can't push bad code to your Docker repo.
 
 ### Enforce organizational rules
 
-While the previous section was all about making sure that bad stuff does not get executed, this use case presents run initialization policies as a way to ensure best practices - ensuring that the right things get executed the right way and at the right time.
+Run initialization policies can also be used enforce best practices, ensuring that the right things get executed the right way and at the right time.
 
-One of the above examples explicitly whitelisted OpenTofu/Terraform formatting check. Keeping your code formatted in a standard way is generally a good idea, so let's make sure that this command always gets executed first. Note that as per [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"} this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
+One of the above examples explicitly allowlisted an OpenTofu/Terraform formatting check. This example policy ensures that command always gets executed first. Per the [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"}, this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
 
 ```opa
 package spacelift
@@ -171,9 +172,9 @@ formatting_first {
 }
 ```
 
-Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/ghtWZGhbgP){: rel="nofollow"}.
+### Enforce feature branch naming convention
 
-This time we'll skip the mandatory "don't deploy on weekends" check because while it could also be implemented here, there are probably better places to do it. Instead, let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can go fancy and require references to Jira tickets or even look at commit messages:
+Now let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can require references to Jira tickets or even look at commit messages:
 
 ```opa
 package spacelift
@@ -186,13 +187,11 @@ deny[sprintf("invalid feature branch name (%s)", [branch])] {
 }
 ```
 
-Here's this example [in the Rego playground](https://play.openpolicyagent.org/p/qNMygC4i9K){: rel="nofollow"}.
-
 ## Migration guide
 
-A run initialization policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
+A run initialization policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Here are the initialization policy examples expressed as [approval policies](./approval-policy.md).
 
-### Migration example: enforcing OpenTofu/Terraform check
+### Enforcing OpenTofu/Terraform check
 
 ```opa
 package spacelift
@@ -207,7 +206,7 @@ formatting_first {
 }
 ```
 
-### Migration example: disallowing before-init OpenTofu/Terraform commands other than formatting
+### Disallowing before-init OpenTofu/Terraform commands other than formatting
 
 ```opa
 package spacelift
@@ -220,7 +219,7 @@ reject {
 approve { not reject }
 ```
 
-### Migration example: enforcing runner image
+### Enforcing runner image
 
 ```opa
 package spacelift
@@ -232,7 +231,7 @@ reject {
 approve { not reject }
 ```
 
-### Migration example: enforcing feature branch naming convention
+### Enforcing feature branch naming convention
 
 ```opa
 package spacelift

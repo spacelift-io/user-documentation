@@ -11,7 +11,7 @@ You can set up multiple Space-level and one default GitLab integration per accou
 
 ### Initial setup
 
-1. On the _Integrations_ screen, click **View** on the _GitLab_ card, then **Set up GitLab**.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _GitLab_ card, then **Set up GitLab**.
     ![Create a GitLab integration](<../../assets/screenshots/Gitlab_create_form.png>)
 2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
 3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
@@ -56,7 +56,7 @@ For every GitLab project being used in Spacelift stacks or modules, you will nee
 
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details, however, contain sensitive information (such as the webhook secret) and are only visible to those with **admin** access.
 
-1. On the _Integrations > GitLab_ page, click the **three dots** next to the integration name.
+1. On the _Integrate Services > Discover all integrations_ page, click **View** on the _GitLab_ card, then click the **three dots** next to the integration name.
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/Gitlab_details_highlight.png>)
 3. In GitLab, navigate to _Settings_ > _Webhooks_ to create a new webhook.
