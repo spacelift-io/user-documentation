@@ -11,7 +11,7 @@ This type of access control is typically done either by building a separate user
 
 Piggy-backing on the identity provider is probably a safer bet and is used by many DevTools vendors. With this approach, having some access level to a GitHub repo would give you the same access level to all Spacelift stacks and/or modules associated with it. That's somewhat reasonable, but not as flexible as having your own fancy user management system. Imagine having two stacks linked to one repo, representing two environments - staging and production. It's quite possible that you'd appreciate separate access controls for these two.
 
-Access policies offer the best of both worlds - they give you a tool to build your own access management system using data obtained either from our identity provider (GitHub), or from your identity provider if using [Single Sign-On integration](../../integrations/single-sign-on/README.md). In subsequent sections we'll dive deeper into [what data is exposed to your policies](stack-access-policy.md#data-input), how you can [define access policies](stack-access-policy.md#cookbook) with different levels of access, and [what those levels actually mean](stack-access-policy.md#readers-and-writers).
+Access policies offer the best of both worlds - they give you a tool to build your own access management system using data obtained either from our identity provider (GitHub), or from your identity provider if using [Single Sign-On integration](../../integrations/single-sign-on/README.md). In subsequent sections we'll dive deeper into [what data is exposed to your policies](stack-access-policy.md#data-input), how you can [define access policies](stack-access-policy.md#examples) with different levels of access, and [what those levels actually mean](stack-access-policy.md#readers-and-writers).
 
 ## Rules
 
@@ -131,7 +131,10 @@ Here is this example in [Rego playground](https://play.openpolicyagent.org/p/IDq
 
 ### Protect administrative stacks
 
-[Administrative](../stack/README.md#administrative) stacks are powerful - getting **write** access to one is almost as good as being an **admin** - you can define and attach [contexts](../configuration/context.md) and [policies](./README.md). So let's deny **write** access to them entirely. This works since access policies are not evaluated for **admin** users.
+!!! warning
+    The administrative flag is now deprecated and [will be gone on the 1st of June, 2026](../authorization/assigning-roles-stacks.md#migration-from-administrative-flag). T**he flag will always return false from that date onwards**.
+
+[Administrative](../stack/stack-settings.md#administrative) stacks are powerful - getting **write** access to one is almost as good as being an **admin** - you can define and attach [contexts](../configuration/context.md) and [policies](./README.md). So let's deny **write** access to them entirely. This works since access policies are not evaluated for **admin** users.
 
 ```opa
 package spacelift

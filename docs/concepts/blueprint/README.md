@@ -5,7 +5,7 @@
     This feature is only available on the Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-There are multiple ways to create [stacks](../stack/README.md) in Spacelift. We recommend using [our Terraform provider](../../vendors/terraform/terraform-provider.md) to programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
+There are multiple ways to create [stacks](../stack/README.md) in Spacelift. We recommend using [our Terraform provider](../../vendors/terraform/terraform-provider.md) to programmatically create stacks using a stack with appropiate [role attachments](../authorization/assigning-roles-stacks.md).
 
 However, some users might not be comfortable using Terraform code to create stacks. This is where Blueprints come in handy.
 
@@ -17,7 +17,7 @@ You can configure the following resources in a Blueprint:
 
 - All [stack settings](../stack/stack-settings.md) including:
     - Name, description, labels, [space](../spaces/README.md).
-    - **Behavioral settings**: administrative, auto-apply, auto-destroy, hooks, runner image, etc.
+    - **Behavioral settings**: auto-apply, auto-destroy, hooks, runner image, etc.
 - [VCS configuration](../../integrations/source-control/README.md).
     - Both default and space-level VCS integrations. In GitHub, custom app installations can only be created by GitHub Enterprise accounts.
 - Vendor configuration for your IaC provider.
@@ -169,7 +169,7 @@ inputs:
             - Owner/${{ context.user.login }}
             - Blueprint/${{ context.blueprint.name }}
             - Space/${{ context.blueprint.space }}
-        administrative: false
+        administrative: false # Deprecated in favor of role attachments
         allow_promotion: false
         auto_deploy: false
         auto_retry: false

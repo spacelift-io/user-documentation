@@ -4,6 +4,21 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-10-31
+
+### Features
+
+- **Authorization & RBAC**: Stacks can now assume roles for elevated permissions through Stack Role Attachments, replacing the legacy administrative flag. This new approach provides three key advantages:
+    - **Cross-space access**: Attach roles for sibling spaces, not just the stack's own space and subspaces
+    - **Fine-grained permissions**: Use custom roles with specific actions instead of full Space Admin permissions
+    - **Enhanced audit trail**: Role information is included in webhook payloads for better visibility
+
+    The administrative flag is deprecated for stacks and will be automatically disabled on **June 1st, 2026**. Spacelift will backfill affected stacks with Space Admin roles (100% backward compatible), but manual migration is recommended to access advanced features.
+
+    Note: [Modules](../vendors/terraform/module-registry.md) are not affected by this change. The administrative flag for modules remains unchanged.
+
+    See the [Stack Role Attachments documentation](../concepts/authorization/assigning-roles-stacks.md) for migration guides and detailed examples.
+
 ## 2025-10-17
 
 ### Features
