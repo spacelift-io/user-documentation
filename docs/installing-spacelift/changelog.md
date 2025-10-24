@@ -10,6 +10,8 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - **VCS Integrations**: The \"Use Git checkout\" field is now visible by default in all VCS integration details pages. This field indicates whether the integration uses git checkout to download source code (required for sparse checkout functionality).
 - **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
+- **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
+- **Personal Settings**: You can now find new "Spaces" view under your personal settings. This view lets you see the permissions you have for each space, making it easier to understand your access across Spacelift.
 - Added **SSO SAML** attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
 - Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
 
