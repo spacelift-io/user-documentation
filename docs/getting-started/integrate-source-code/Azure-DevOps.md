@@ -11,7 +11,7 @@ You can set up multiple Space-level and one default Azure DevOps integration per
 
 ### Initial setup
 
-1. On the _Source control_ tab, click **Set up integration**, then choose **Azure DevOps** on the dropdown.
+1. On the _Integrations_ screen, click **View** on the _Azure DevOps_ card, then **Set up Azure DevOps**.
     ![Create an Azure DevOps integration](<../../assets/screenshots/azure_devops_fresh_form.png>)
 2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
 3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
@@ -67,7 +67,7 @@ For every Azure DevOps repository being used in Spacelift stacks or modules, you
 
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details, however, contain sensitive information (such as the webhook secret) and are only visible to those with **admin** access.
 
-1. On the _Source code_ page, click the **three dots** next to the integration name.
+1. On the _Integrations > Azure DevOps_ page, click the **three dots** next to the integration name.
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/azure_devops_details.png>)
 

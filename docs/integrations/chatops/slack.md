@@ -27,7 +27,7 @@ This section walks you through the steps to create and configure the Slack app d
 
 ### Create Slack app
 
-To start the process, go to the _Integrations_ section of your _Organization settings_, and choose the _Set up_ option next to the Slack integration:
+To start the process, go to _Integrations > Slack_, and choose the _Set up_ option next to the Slack integration:
 
 ![Set up Slack](../../assets/screenshots/integrations/chatops/slack/create-app-set-up.png)
 
@@ -73,7 +73,7 @@ At this point you can skip the next section and go straight to finding out how t
 
 ## Connecting your Spacelift account to the Slack workspace
 
-As a Spacelift and Slack admin, you can connect your Spacelift account to the Slack workspace via the _Integrations_ section of your _Organization Settings_:
+As a Spacelift and Slack admin, you can connect your Spacelift account to the Slack workspace via the _Integrations > Slack_ page:
 
 ![Connect to Slack](../../assets/screenshots/integrations/chatops/slack/connect-to-slack.png)
 

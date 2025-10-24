@@ -17,9 +17,9 @@ On the Agent there are very conservative checks on what requests are let through
 
 ## Create the VCS Agent Pool
 
-Navigate to VCS Agent Pools by clicking on Source code on the left menu, then **VCS Agent pools** on the top. Click **Create VCS agent pool**.
+Navigate to the _Integrations_ screen, then click **View** on the _VCS Agent Pools_ card. Click **Create VCS agent pool**.
 
-![](../assets/screenshots/Screen Shot 2022-06-21 at 11.31.39 AM.png)
+![](../assets/screenshots/concepts/vcs-agent-pools/create-vcs-agent-pool.png)
 
 Give your VCS Agent Pool a name and description, and you're done! A configuration token will be downloaded.
 
