@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-10-27
+
+### Features
+
+- **Global default runner images** — Added support for global default runner images. These defaults can be set in the Organization Settings → Runtime Security. There are separate defaults for stacks running on private and public worker pools.
+
 ## 2025-10-17
 
 ### Features
