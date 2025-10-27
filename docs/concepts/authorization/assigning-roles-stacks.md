@@ -1,4 +1,4 @@
-# Stack role attachments
+# Stack role bindings
 
 Stacks can receive role bindings to perform operations with elevated permissions, similar to how users, API keys, and IdP groups receive permissions through [Spacelift's RBAC system](rbac-system.md).
 
@@ -32,9 +32,9 @@ This means a stack can create contexts and worker pools, but cannot manage any o
 
 **Administrative flag**: Basic audit trail with stack actor information.
 
-**Role attachments advantage**: Audit trail webhooks include role information in the `ActorRoles` field (array of role slugs).
+**Role attachments advantage**: Audit trail webhooks include role information in the `actor_roles` field (array of role slugs).
 
-This provides better visibility into what permissions the stack was using when performing actions. See the [audit trail documentation](../../integrations/audit-trail.md) for details.
+This provides better visibility into what permissions the stack was using when performing actions. See the [audit trail documentation](../../integrations/audit-trail.md#usage) for details.
 
 ### Modern RBAC consistency
 
@@ -46,8 +46,8 @@ Role attachments align stacks with the broader role-based access model already u
 
 To attach a role to a stack, you need:
 
-- `StackManage` permission (or `SpaceAdmin` permission as fallback) to the stack's space
-- `SpaceAdmin` permission to the binding space (the space where the role will be effective)
+- `StackManage` [permission](./rbac-system.md#actions-the-building-blocks-of-permissions) (or Space admin permission as fallback) to the stack's space
+- Space admin permission to the binding space (the space where the role will be effective)
 
 !!! info "Why both permissions are required"
     Creating a role binding that grants permissions to a space effectively allows the stack to act in that space. To prevent privilege escalation, you must have admin access to both spaces: the space where the stack resides and the space where the role will be effective.
@@ -64,30 +64,44 @@ To attach a role to a stack, you need:
 Use the `spacelift_role_attachment` resource:
 
 ```hcl
-resource "spacelift_stack" "admin" {
-  name        = "Admin stack"
-  repository  = "spacelift-resources"
+resource "spacelift_space" "devops" {
+  name            = "devops"
+  description     = "A space for devops engineers"
+  parent_space_id = "root"
+}
+
+resource "spacelift_stack" "devops_admin" {
+  name        = "Admin stacks for Devs"
+  repository  = "stacks-for-devs"
+  space_id    = spacelift_space.devops.id
   description = "Only has permissions to create another stacks in the dev space"
   branch      = "main"
 }
 
 resource "spacelift_role" "stack_creator" {
   name        = "Stack creator"
-  description = "A role solely for creating stacks"
+  description = "A role solely for managing stacks"
   actions     = ["STACK_MANAGE"]
 }
 
 resource "spacelift_space" "dev" {
   name            = "dev"
+  description     = "A space for development stacks"
   parent_space_id = "root"
 }
 
-resource "spacelift_role_attachment" "stack_creator_to_admin_stack" {
-  stack_id = spacelift_stack.admin.id
-  role_id  = spacelift_role.stack_creator.id
-  space_id = spacelift_space.dev.id
+resource "spacelift_role_attachment" "stack_creator_to_devops_admin_stack" {
+  stack_id = spacelift_stack.devops_admin.id # (1)
+  role_id  = spacelift_role.stack_creator.id # (2)
+  space_id = spacelift_space.dev.id # (3)
 }
 ```
+
+1. The stack receiving the role attachment.
+2. The [role](./rbac-system.md#roles) to attach to the stack.
+3. The target space: this is where the role will be effective.
+
+In the above scenario, the `devops_admin` stack will have the `Stack creator` role effective in the `dev` space, allowing it to create and manage stacks within that space.
 
 For more information, see the [Spacelift Terraform provider documentation](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/role_attachment){: rel="nofollow"}.
 
@@ -95,17 +109,31 @@ For more information, see the [Spacelift Terraform provider documentation](https
 
 Role attachments cascade down to child spaces, similar to how the administrative flag worked:
 
-```text
-parentSpace
-├── childSpace1
-└── childSpace2
-    └── grandchildSpace
+```mermaid
+graph TD
+    role{{Role}}
+    parentSpace[ParentSpace]
+    childSpace1[ChildSpace1]
+    childSpace2[ChildSpace2]
+    grandchildSpace[GrandchildSpace]
+
+    role ~~~ parentSpace
+    role e1@-. Attached to .-> parentSpace
+    e1@{animate: true}
+    parentSpace --> childSpace1
+    parentSpace --> childSpace2
+    childSpace2 --> grandchildSpace
 ```
 
-If a role is attached to `parentSpace`, the same role will be effective in `childSpace1`, `childSpace2`, and `grandchildSpace`.
+If a role is attached to `ParentSpace`, the same role will be effective in `ChildSpace1`, `ChildSpace2`, and `GrandchildSpace` as well.
 
-!!! warning "Root space caution"
+!!! danger "Root space caution"
     Since the `root` space is the parent of all spaces, attaching roles to it affects **all spaces** in your account. Use this with extreme caution and only when necessary.
+
+### Root space restriction
+
+You can only assign a role to the `root` space if the stack itself is located in the `root` space. This restriction prevents unintentional access elevation - a stack in a _child-of-root_ space cannot be granted permissions that cascade to all spaces in your account.
+If you need a stack in a child space to access resources across multiple spaces, attach roles to specific spaces rather than the root space.
 
 ## Administrative flag precedence
 
@@ -126,9 +154,11 @@ package spacelift
 
 reject_with_note["Don't use the Space Admin role!"] {
   role := input.stack.roles[_]
-  role.id == "space-admin" # Role slug. Use the "Copy Slug" button in the UI to get it.
+  role.id == "space-admin" # (1)
 }
 ```
+
+1. Role slug. Use either "Copy Slug" button in the UI or the [`spacelift_role` data source](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/datasources/role){: rel="nofollow"} to retrieve it.
 
 ## Multiple roles
 
@@ -158,13 +188,17 @@ resource "spacelift_role_attachment" "prod_reader" {
 
 ## External state access
 
-External state access allows you to read the state of the stack from outside authorized runs and [tasks](../../concepts/run/task.md). See the documentation [here](../../vendors/terraform/external-state-access.md) for further details.
+External state access allows you to read the state of a stack from outside authorized runs and tasks. See the documentation [here](../../vendors/terraform/external-state-access.md) for further details.
 
 In order for your stack to access another stack's OpenTofu/Terraform state, the stack needs to have **Space writer** role to the target stack's space. This can be achieved by attaching the **Space writer** role to the stack for the target stack's space.
 
 Example:
 
 ```hcl
+resource "spacelift_stack" "consumer" {
+  # Properties are omitted for brevity
+}
+
 data "spacelift_role" "space_writer" {
   slug = "space-writer"
 }
@@ -174,17 +208,24 @@ resource "spacelift_role_attachment" "space_writer" {
   role_id  = data.spacelift_role.space_writer.id
   space_id = spacelift_stack.provider.space_id
 }
+
+resource "spacelift_stack" "provider" {
+  # Properties are omitted for brevity
+  terraform_external_state_access = true
+}
 ```
 
 !!! note
-    The **Space admin** role also includes **Space writer** permissions.
+    The Space admin role also includes Space writer permissions.
 
 ## Migration from administrative flag
 
-!!! warning "Automatic Migration on June 1st, 2026"
-    On June 1st, 2026, Spacelift will automatically disable all administrative flags and attach the Space Admin role to each stack's own space. This automatic migration is **100% backward compatible** and ensures no functionality loss.
+On June 1st, 2026, Spacelift will automatically disable all administrative flags and attach the Space Admin role to each stack's own space. This automatic migration is **100% backward compatible** and ensures no functionality loss.
 
-    However, **manual migration is strongly recommended** to take advantage of advanced features like cross-space access and fine-grained permissions that are not available with automatic migration.
+However, **manual migration is strongly recommended** to avoid breaking the OpenTofu/Terraform state: since the administrative flag will be disabled during this process, the stacks will experience a drift. The administrative flag will be ineffective (even if set to true, it'll return false), so the only solution to reconcile will be to attach the Space Admin role to the stack's own space.
+
+!!! note
+    The Space admin role is a built-in system role so you don't need to create it manually, it already exists in your Spacelift account.
 
 ### What happens on June 1st, 2026
 
@@ -231,19 +272,19 @@ Assuming your stack is in the `dev` [Space](../spaces/README.md), the role attac
 
 ![](../../assets/screenshots/role_stacks_migration.png)
 
-#### 3. Disable the administrative flag
+#### 3. Remove the administrative attribute
 
-Once you've verified the roles have been attached, disable the administrative flag:
+Once you've verified the roles have been attached, remove the administrative attibute:
 
-```hcl
+```diff
 resource "spacelift_stack" "management" {
-  # [... other stack settings ...]
-  administrative = false
+   name           = "Management Stack"
+-  administrative = true
 }
 ```
 
 !!! important
-    The administrative flag takes precedence over role attachments. If `administrative = true`, any attached roles will be ignored. You must set `administrative = false` for role attachments to take effect.
+    The administrative flag takes precedence over role attachments. If `administrative = true`, any attached roles will be ignored. You must either set `administrative = false`, or entirely remove the administrative attribute (recommended) for role attachments to take effect.
 
 #### 4. Verify the role attachment
 
@@ -263,9 +304,11 @@ deny_with_note["Administrative stacks are not allowed"] {
 # Would become:
 deny_with_note["Administrative stacks are not allowed"] {
   role := input.stack.roles[_]
-  role.id == "space-admin" # Role slug. Use the "Copy Slug" button in the UI to get it.
+  role.id == "space-admin" # (1)
 }
 ```
+
+1. Role slug. Use either "Copy Slug" button in the UI or the [`spacelift_role` data source](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/datasources/role){: rel="nofollow"} to retrieve it.
 
 ### Rollback procedure
 

@@ -185,17 +185,28 @@ All RBAC roles are **space-bound**, meaning:
 
 Spaces can be organized hierarchically to reflect your organizational structure:
 
-```text
-Root Space
-├── Infrastructure (Platform team management)
-│   ├── Networking
-│   ├── Security
-│   └── Monitoring
-├── Applications (Application teams)
-│   ├── Frontend
-│   ├── Backend
-│   └── Mobile
-└── Sandbox (Development and testing)
+```mermaid
+graph TD
+    Root["Root Space"]
+    Infrastructure["Infrastructure<br/>(Platform team management)"]
+    Networking[Networking]
+    Security[Security]
+    Monitoring[Monitoring]
+    Applications["Applications<br/>(Application teams)"]
+    Frontend[Frontend]
+    Backend[Backend]
+    Mobile[Mobile]
+    Sandbox["Sandbox<br/>(Development and testing)"]
+
+    Root --> Infrastructure
+    Root --> Applications
+    Root --> Sandbox
+    Infrastructure --> Networking
+    Infrastructure --> Security
+    Infrastructure --> Monitoring
+    Applications --> Frontend
+    Applications --> Backend
+    Applications --> Mobile
 ```
 
 #### Space design patterns
