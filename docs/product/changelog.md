@@ -32,7 +32,7 @@ description: Find out about the latest changes to Spacelift.
 ### Features
 
 - **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
-- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
+- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping) for more information.
 
 ## 2025-10-14
 
