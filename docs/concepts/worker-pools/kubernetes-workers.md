@@ -112,11 +112,11 @@ If you are using OpenShift, additional steps are required to allow the controlle
 
 ## Create a WorkerPool
 
-The recommended approach for deploying worker pools is to use [auto-registration](#auto-registration).
+We recommend deploying worker pools with [auto-registration](#auto-registration).
 
 With OIDC secret configuration, you can also avoid storing static Spacelift credentials in the cluster.
 
-You can also [create the WorkerPool manually](#manual-registration) on Spacelift, and save its secrets on the cluster. That's still a perfectly valid approach if you do not want to use auto registration.
+If you don't want to use auto-registration, create the WorkerPool [manually](#manual-registration) in Spacelift and save its secrets on the cluster.
 
 ### Auto-Registration
 
@@ -190,7 +190,7 @@ The controller's service account token contains these claims, allowing it to aut
 
 #### Create WorkerPool
 
-To create an auto-registered worker pool, you just need to deploy a WorkerPool resource without token and privateKey fields:
+To create an auto-registered worker pool, deploy a WorkerPool resource without the `token` and `privateKey` fields:
 
 ```yaml
 kubectl apply -f - <<EOF
@@ -207,7 +207,7 @@ You can refer to the [`WorkerPool`](#configuration) CRD for all optional fields.
 
 ### Manual Registration
 
-While auto-registration is recommended, you can still manually create the pool.
+While auto-registration is recommended, you can manually create the WorkerPool. Create a worker pool in the Spacelift UI, get credentials for it, and configure them in Kubernetes.
 This approach requires creating a worker pool in the Spacelift UI first, getting credentials, and configuring them in Kubernetes.
 
 #### Create a Secret
