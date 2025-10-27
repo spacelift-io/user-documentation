@@ -8,7 +8,7 @@ description: Find out about the latest changes to Spacelift.
 
 ### Features
 
-- **Global default runner images** — Added support for global default runner images. These defaults can be set in the Organization Settings → Runtime Security. There are separate defaults for stacks running on private and public worker pools.
+- **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
 
 ## 2025-10-17
 
