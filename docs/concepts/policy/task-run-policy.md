@@ -1,18 +1,23 @@
 # Task policy
 
 !!! warning
-    This feature is deprecated. New users should not use this feature and existing users are encouraged to migrate to the [approval policy](approval-policy.md), which offers a much more flexible and powerful way to control which tasks are allowed to proceed. A migration guide is available [here](#migration-guide).
 
-## Purpose
+    Task run policies are deprecated. Use [approval policies](./approval-policy.md) instead for a more flexible, powerful way to control which tasks are allowed to proceed.
 
-Spacelift tasks are a handy feature that allows an arbitrary command to be executed within the context of your fully initialized stack. This feature is designed to make running one-off administrative tasks (eg. [resource tainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}) safer and more convenient. It can also be an attack vector allowing evil people to do bad things, or simply a footgun allowing well-meaning people to err in a spectacular way.
+    Existing users with task run policies should migrate as soon as possible using our [migration guide](#migration-guide).
 
-Enter task policies. The sole purpose of task policies is to prevent certain commands from being executed, to prevent certain groups or individuals from executing any commands, or to prevent certain commands from being executed by certain groups or individuals.
+Spacelift tasks allow an arbitrary command to be executed within the context of your fully initialized stack. This feature is designed to make running one-off administrative tasks (e.g. [resource tainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}) safer and more convenient. However, it can also be an attack vector for bad actors.
+
+Task run policies prevent:
+
+- Certain commands from being executed.
+- Certain groups or individuals from executing any commands.
+- Certain commands from being executed by certain groups or individuals.
 
 !!! info
     Preventing **admins** from running tasks using policies can only play an advisory role and should not be considered a safety measure. A bad actor with admin privileges can detach a policy from the stack and run whatever they want. Choose your admins wisely.
 
-Task policies are simple in that they only use a single rule - **deny** - with a string message. A single match for that rule will prevent a run from being created, with an appropriate API error. Let's see how that works in practice by defining a simple rule and attaching it to a stack:
+Task policies only use a single rule, **deny**, with a string message. A single match for that rule will prevent a run from being created, with an appropriate API error. Let's define a simple rule and attach it to a stack:
 
 ```opa
 package spacelift
@@ -20,13 +25,13 @@ package spacelift
 deny["not in my town, you don't"] { true }
 ```
 
-And here's the outcome when trying to run a task:
+Here's the outcome when trying to run a task:
 
-![](../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png)
+![Task run policy deny outcome](<../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png>)
 
-## Data input
+## Data input schema
 
-This is the schema of the data input that each policy request will receive:
+Each policy request will receive this data input.
 
 !!! tip "Official Schema Reference"
     For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `TASK` policy type.
@@ -74,7 +79,7 @@ In addition to our [helper functions](./README.md#helper-functions), we provide 
 
 ## Examples
 
-Let's have a look at a few examples to see what you can accomplish with task policies. You've seen one example already - disabling tasks entirely. That's perhaps both heavy-handed and naive given that admins can detach the policy if needed. So let's only block non-admins from running tasks:
+This example blocks non-admins from running tasks:
 
 ```opa
 package spacelift
@@ -82,9 +87,7 @@ package spacelift
 deny["only admins can run tasks"] { not input.session.admin }
 ```
 
-Let's look at an example of this simple policy in [the Rego playground](https://play.openpolicyagent.org/p/wKLPjJ4dEF){: rel="nofollow"}.
-
-That's still pretty harsh. We could possibly allow writers to run some commands we consider safe - like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}. Let's try then, and please excuse the regex:
+However, we could allow writers to run some commands we consider safe, like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}:
 
 ```opa
 package spacelift
@@ -97,9 +100,7 @@ deny[sprintf("command not allowed (%s)", [command])] {
 }
 ```
 
-Feel free to play with the above example in [the Rego playground](https://play.openpolicyagent.org/p/MPoP9yQpEp){: rel="nofollow"}.
-
-If you want to keep whitelisting different commands, it may be more elegant to flip the rule logic, create a series of _allowed_ rules, and define one _deny_ rule as `not allowed`. Let's have a look at this approach, and while we're at it let's remind everyone not to run anything during the weekend:
+If you want to keep allowlisting different commands, it may be more elegant to flip the rule logic by creating a series of _allowed_ rules and one _deny_ rule as `not allowed`. This example uses that approach to remind users not to run anything during the weekend:
 
 ```opa
 package spacelift
@@ -120,13 +121,13 @@ allowed { regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
 allowed { regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
 ```
 
-As usual, this example is [available to play around with](https://play.openpolicyagent.org/p/FP7xz7oWGp){: rel="nofollow"}.
-
 ## Migration guide
 
-A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Below you will find equivalents of the examples above expressed as [approval policies](./approval-policy.md).
+A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Spacelift has, more or less, deprecated task policies in favor of approval policies.
 
-### Migration example: only allow OpenTofu/Terraform taint and untaint
+Here are the [task policy examples](#examples) rewritten as approval policies.
+
+### Only allow OpenTofu/Terraform taint and untaint
 
 ```opa
 package spacelift
@@ -139,7 +140,7 @@ reject {
 approve { not reject }
 ```
 
-### Migration example: no tasks on weekends
+### No tasks on weekends
 
 ```opa
 package spacelift

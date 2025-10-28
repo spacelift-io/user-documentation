@@ -31,7 +31,7 @@ This list is consistent with the [defaults requested by the Terraform provider](
 
 To set up the GCP integration in Spacelift, you must already have a [stack](../../concepts/stack/README.md) configured.
 
-1. On the _Stacks_ tab, click the **three dots** beside the stack you would like to integrate with GCP.
+1. On the _Ship Infra > Stacks_ tab, click the **three dots** beside the stack you would like to integrate with GCP.
 2. Click **Settings**, then click **Integrations**.
 3. Click **Attach cloud integration**.
 4. Select **GCP**, then verify the OAuth scopes.

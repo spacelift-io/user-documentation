@@ -12,7 +12,7 @@
 8. [Attach contexts](#8-attach-context).
 9. *[Review the summary and create your stack](#9-summary).
 
-To get started, click **Create stack** on the _Stacks_ page or **Create first stack** from the _LaunchPad_.
+To get started, click **Create stack** on the _Ship Infra > Stacks_ page or **Create first stack** from the _LaunchPad_.
 
 ![](<../../assets/screenshots/CreateStackGS.png>)
 
