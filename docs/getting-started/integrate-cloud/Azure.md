@@ -29,7 +29,7 @@ Before creating the Spacelift Azure integration, you need your Tenant ID.
 
 ### Step 2: Create the cloud integration in Spacelift
 
-1. On the _Integrations_ screen, find the _Azure_ card and click **View**, then **Set up integration**.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _Azure_ card, then **Set up integration**.
 
 2. Fill in the integration details:
     ![Click Azure to access integration settings](<../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-2.png>)

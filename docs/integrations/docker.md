@@ -18,6 +18,15 @@ By default, Spacelift uses the latest version of the[`public.ecr.aws/spacelift/r
 !!! note
     The reason we have separate images for cloud providers is that the `gcloud` and `az` CLIs are enormous and we don't want to bloat the default image with them.
 
+## Account Default runner images
+
+You can set default runner images at the account level.
+This option can be found in the Organization Settings → Runtime Security section.
+These defaults will be used for all stacks in the account that do not have a specific runner image set.
+You can set different defaults for stacks running on public and private worker pools.
+
+![](../assets/screenshots/runtime-security.png)
+
 ## Allowed registries on public worker pools
 
 On public worker pools, only Docker images from the following registries are allowed to be used for runner images:

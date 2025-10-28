@@ -12,10 +12,14 @@ You have two options for inviting people to your Spacelift account:
 
 1. From the LaunchPad, click **Invite teammates**.
       - Alternatively, click your name in the bottom left, then **Organization settings**.
-2. In the "Collaborate with your team" section:
-      1. **Email**: Enter the email address of the user to add.
-      2. **Role**: Select the user's role, _admin_ or _user_.
-      3. Click **Send invite**.
+2. In the _Identity Management > Users_ section, click Invite user.
+3. Fill in the user details:
+      1. **Username** (optional): Enter the username for the new user, if different than email.
+      2. **Email**: Enter the email address of the new user.
+      3. **Slack member ID** (optional): Enter the user's Slack member ID to allow them to [interact with Spacelift via Slack](../../concepts/user-management/admin.md#slack-integration).
+      4. **Role**: Select the [user's role(s)](../../concepts/authorization/rbac-system.md) from _space reader_, _space writer_, _space admin_, or _worker pool controller_.
+      5. **Space**: Select the space the user will have access to. You can assign multiple Roles and Spaces with the **Add** button.
+4. Click **Invite**.
 
 ## Add users via policies
 
