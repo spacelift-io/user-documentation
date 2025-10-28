@@ -98,6 +98,9 @@
     },
     {
       "pattern": "^https://www.hashicorp.com/"
+    },
+    {
+      "pattern": "^https://marketplace.fedramp.gov/products/F1206111371"      
     }
   ]
 }
