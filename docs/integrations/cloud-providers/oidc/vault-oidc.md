@@ -39,7 +39,7 @@ vault auth enable jwt
     EOF
     ```
 
-### Create role to bind policy to identity provier
+### Create role to bind policy to identity provider
 
 1. The following command creates a role called `infra-preprod` that binds the `infra-preprod` policy to the JWT identity provider:
 
