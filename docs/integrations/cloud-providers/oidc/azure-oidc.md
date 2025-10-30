@@ -43,21 +43,21 @@ Take a look at the following screenshot for an example allowing a proposed run t
 
 Workload federation in Azure requires the subject claim of the OIDC token to exactly match the federated credential, and doesn't allow wildcards. Because of this you will need to repeat the same process and add a number of different federated credentials in order to support all the different types of runs for your Stack or module.
 
-For example, for a stack called `azure-oidc-test` in the `legacy` space you need to add credentials for the following subjects:
+For example, for a stack called `azure-oidc-test` in the `legacy` space (with space ID `legacy-01KJMM56VS4W3AL9YZWVCXBX8D`) you need to add credentials for the following subjects:
 
 ```text
-space:legacy:stack:azure-oidc-test:run_type:TRACKED:scope:read
-space:legacy:stack:azure-oidc-test:run_type:TRACKED:scope:write
-space:legacy:stack:azure-oidc-test:run_type:PROPOSED:scope:read
-space:legacy:stack:azure-oidc-test:run_type:TASK:scope:write
-space:legacy:stack:azure-oidc-test:run_type:DESTROY:scope:write
+space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:azure-oidc-test:run_type:TRACKED:scope:read
+space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:azure-oidc-test:run_type:TRACKED:scope:write
+space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:azure-oidc-test:run_type:PROPOSED:scope:read
+space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:azure-oidc-test:run_type:TASK:scope:write
+space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:azure-oidc-test:run_type:DESTROY:scope:write
 ```
 
-And for a module called `my-module` in the `development` space you need to add the following:
+And for a module called `my-module` in the `development` space (with space ID `development-01JS2ABCDEFGHIJK123456789`) you need to add the following:
 
 ```text
-space:development:stack:my-module:run_type:TESTING:scope:read
-space:development:stack:my-module:run_type:TESTING:scope:write
+space:development-01JS2ABCDEFGHIJK123456789:stack:my-module:run_type:TESTING:scope:read
+space:development-01JS2ABCDEFGHIJK123456789:stack:my-module:run_type:TESTING:scope:write
 ```
 
 After adding all the credentials for a stack, it should look something like this:
