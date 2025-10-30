@@ -208,9 +208,12 @@ Root Space
 
 ## Roles
 
-### Predefined roles
+### System roles
 
-Spacelift provides three predefined roles (corresponding to the legacy system roles):
+System roles provide standard, least-privileged permission policies for granting access to specific pieces of Spacelift functionality.
+For example, the `Worker pool controller` role contains the correct permissions to allow the Kubernetes controller to manage worker pools automatically.
+
+System roles are immutable and cannot be modified or deleted, ensuring consistent baseline permissions across all accounts.
 
 #### Space reader
 
@@ -243,6 +246,17 @@ Spacelift provides three predefined roles (corresponding to the legacy system ro
 
 !!! info "Root Space Admin"
     Users with Space Admin role on the **root** space become **Root Space Admins** with account-wide privileges including SSO setup, VCS configuration, and audit trail management.
+
+#### Worker pool controller
+
+**Actions**:
+
+- Space
+    - Read
+- Workerpool
+    - Create
+    - Update
+    - Delete
 
 ### Custom roles
 
