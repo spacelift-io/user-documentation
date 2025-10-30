@@ -7,16 +7,9 @@ specific spaces, providing precise control over who can access what resources.
 
 ## Roles and RBAC
 
-### Predefined roles
+### System roles
 
-Spacelift provides three predefined roles that can be assigned to users on a space-by-space basis:
-
-- **Space Reader** - View-only access to resources within the space, can add comments to runs for collaboration
-- **Space Writer** - Space Reader permissions + ability to trigger runs and modify environment variables
-- **Space Admin** - Space Writer permissions + ability to create and modify stacks and attachable entities
-
-These predefined roles correspond to the legacy system roles (Read/Write/Admin) and provide a simple starting point for
-organizations new to RBAC.
+Spacelift provides [built-in system roles](../authorization/rbac-system.md#system-roles) that can be assigned to users on a space-by-space basis.
 
 ### Custom roles
 
