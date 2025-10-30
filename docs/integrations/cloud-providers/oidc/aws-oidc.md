@@ -59,11 +59,11 @@ If you go to your new role's details page, in the _Trust relationships_ section 
 
 ![Trust relationship](<../../../assets/screenshots/oidc/aws-iam-trust-relationship.png>)
 
-This trust relationship is very relaxed and will allow any stack or module in the `demo` Spacelift account to assume this role. If you want to be more restrictive, you will want to add more conditions. For example, we can restrict the role to be only assumable by stacks in the `production` space by adding the following condition:
+This trust relationship is very relaxed and will allow any stack or module in the `demo` Spacelift account to assume this role. If you want to be more restrictive, you will want to add more conditions. For example, we can restrict the role to be only assumable by stacks in the `production` space (with space ID `production-01HND497T9JKR76MR3KA2CDJHP`) by adding the following condition:
 
 ```json
 "StringLike": {
-  "demo.app.spacelift.io:sub": "space:production:*"
+  "demo.app.spacelift.io:sub": "space:production-01HND497T9JKR76MR3KA2CDJHP:*"
 }
 ```
 
@@ -79,6 +79,11 @@ You can also restrict the role so only a specific stack can assume it, using the
 ```
 
 You can mix and match these to get the exact constraints you need. You can learn more about the intricacies of AWS IAM conditions in the [official docs](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html){: rel="nofollow"}. Remember that AWS does not seem to support custom claims, so you will need to use the standard ones to do the matching (primarily `sub`, as shown above).
+
+The full `sub` is constructed as follows:
+
+* Format: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`
+* For example: `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`
 
 ## Configure the Terraform provider
 
