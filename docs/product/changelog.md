@@ -10,6 +10,21 @@ description: Find out about the latest changes to Spacelift.
 
 - **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
 
+## 2025-10-23
+
+### Features
+
+- **Kubernetes Worker Pools**: The Kubernetes worker pool controller now supports auto-registration with version `v0.0.27`.
+
+    Worker pools can be created and managed entirely through Kubernetes resources without manual setup in the Spacelift UI.
+    The controller automatically registers pools with Spacelift, generates credentials, and handles the complete lifecycle.
+
+    This enables pure GitOps workflows where worker pools are provisioned declaratively alongside other infrastructure.
+
+    Additionally, OIDC-based API keys can be used to eliminate static credentials from the cluster entirely.
+
+    See the [auto-registration documentation](../concepts/worker-pools/kubernetes-workers.md#auto-registration) for more details.
+
 ## 2025-10-17
 
 ### Features
@@ -57,7 +72,7 @@ description: Find out about the latest changes to Spacelift.
 
 ### Features
 
-- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../../concepts/run#logs-retention).
+- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../concepts/run/README.md#logs-retention).
 
 ## 2025-09-30
 
