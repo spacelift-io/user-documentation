@@ -5,7 +5,7 @@
     This feature is only available on the Business plan and above. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-There are multiple ways to create [stacks](../stack/README.md) in Spacelift. We recommend using [our Terraform provider](../../vendors/terraform/terraform-provider.md) to programmatically create stacks using an [administrative](../stack/stack-settings.md#administrative) stack.
+There are multiple ways to create [stacks](../stack/README.md) in Spacelift. We recommend using [our Terraform provider](../../vendors/terraform/terraform-provider.md) to programmatically create stacks using a stack with appropiate [role attachments](../authorization/assigning-roles-stacks.md).
 
 However, some users might not be comfortable using Terraform code to create stacks. This is where Blueprints come in handy.
 
@@ -17,7 +17,7 @@ You can configure the following resources in a Blueprint:
 
 - All [stack settings](../stack/stack-settings.md) including:
     - Name, description, labels, [space](../spaces/README.md).
-    - **Behavioral settings**: administrative, auto-apply, auto-destroy, hooks, runner image, etc.
+    - **Behavioral settings**: auto-apply, auto-destroy, hooks, runner image, role bindings etc.
 - [VCS configuration](../../integrations/source-control/README.md).
     - Both default and space-level VCS integrations. In GitHub, custom app installations can only be created by GitHub Enterprise accounts.
 - Vendor configuration for your IaC provider.
@@ -108,187 +108,188 @@ inputs:
   - id: description
     name: Description of the stack
     type: long_text
-    # long_text means you'll have a bigger text area in the UI
+    # long_text means you'll have a bigger text area available in the UI
 
-    ... # Expand the box below to view the entire blueprint
+    # Expand the box below to view the entire blueprint
 ```
 
 {% endraw %}
 
 ??? tip "Click to view the comprehensive blueprint example"
 
-        {% raw %}
+    {% raw %}
 
-        ```yaml
-        inputs:
-        - id: environment
-            name: Environment to deploy to
-            # type is not mandatory, defaults to short_text
-        - id: app
-            name: App name (used for naming convention)
-            type: short_text
-        - id: description
-            name: Description of the stack
-            type: long_text
-            # long_text means you'll have a bigger text area in the UI
-
-            ... # Expand the box below to view the entire blueprint
-        - id: connstring
-            name: Connection string to the database
-            type: secret
-            # secret means the input will be masked in the UI
-        - id: tf_version
-            name: OpenTofu/Terraform version of the stack
-            type: select
-            options:
-            - "1.3.0"
-            - "1.4.6"
-            - "1.5.0"
-        - id: manage_state
-            name: Should Spacelift manage the state of OpenTofu/Terraform
-            default: true
-            type: boolean
-        - id: destroy_task_epoch
-            name: Epoch timestamp of when to destroy the resources
-            type: number
+    ```yaml
+    inputs:
+      - id: environment
+        name: Environment to deploy to
+        # type is not mandatory, defaults to short_text
+      - id: app
+        name: App name (used for naming convention)
+        type: short_text
+      - id: description
+        name: Description of the stack
+        type: long_text
+        # long_text means you'll have a bigger text area in the UI
+      - id: connstring
+        name: Connection string to the database
+        type: secret
+        # secret means the input will be masked in the UI
+      - id: tf_version
+        name: OpenTofu/Terraform version of the stack
+        type: select
         options:
-        # If true, a tracked run will be triggered right after the stack is created
-        trigger_run: true
-        # If true, the stack will not be created, useful when using inputs and multiple stacks in a single template.
-        do_not_create: false
-        stack:
-        name: ${{ inputs.app }}-{{ inputs.environment }}-stack
-        space: root
-        # The single-quote is needed to avoid YAML parsing errors since the question mark
-        # and the colon are reserved characters in YAML.
-        description: '${{ inputs.environment == "prod" ? "Production stack" : "Non-production stack" }}. Stack created at ${{ string(context.time) }}.'
-        is_disabled: ${{ inputs.environment != 'prod' }}
-        labels:
-            - Environment/${{ inputs.environment }}
-            - Vendor/Terraform
-            - Owner/${{ context.user.login }}
-            - Blueprint/${{ context.blueprint.name }}
-            - Space/${{ context.blueprint.space }}
-        administrative: false
-        allow_promotion: false
-        auto_deploy: false
-        auto_retry: false
-        local_preview_enabled: true
-        secret_masking_enabled: true
-        protect_from_deletion: false
-        runner_image: public.ecr.aws/mycorp/spacelift-runner:latest
-        worker_pool: 01GQ29K8SYXKZVHPZ4HG00BK2E
-        attachments:
-            contexts:
-            - id: my-first-context-vnfq2
-                priority: 1
-            clouds:
-            aws:
-                id: 01GQ29K8SYXKZVHPZ4HG00BK2E
-                read: true
-                write: true
-            azure:
-                id: 01GQ29K8SYXKZVHPZ4HG00BK2E
-                read: true
-                write: true
-                subscription_id: 12345678-1234-1234-1234-123456789012
-            policies:
-            - my-push-policy-1
-            - my-approval-policy-1
-        environment:
-            variables:
-            - name: MY_ENV_VAR
-                value: my-env-var-value
-                description: This is my non-encrypted environment variable
-            - name: TF_VAR_CONNECTION_STRING
-                value: ${{ inputs.connstring }}
-                description: The connection string to the database
-                secret: true
-            mounted_files:
-            - path: a.json
-                content: |
-                {
-                    "a": "b"
-                }
-                description: This is the configuration of x feature
-                secret: true
-        hooks:
-            apply:
-            before: ["sh", "-c", "echo 'before apply'"]
-            after: ["sh", "-c", "echo 'after apply'"]
-            init:
-            before: ["sh", "-c", "echo 'before init'"]
-            after: ["sh", "-c", "echo 'after init'"]
-            plan:
-            before: ["sh", "-c", "echo 'before plan'"]
-            after: ["sh", "-c", "echo 'after plan'"]
-            perform:
-            before: ["sh", "-c", "echo 'before perform'"]
-            after: ["sh", "-c", "echo 'after perform'"]
-            destroy:
-            before: ["sh", "-c", "echo 'before destroy'"]
-            after: ["sh", "-c", "echo 'after destroy'"]
-            run:
-            # There is no before hook for run
-            after: ["sh", "-c", "echo 'after run'"]
-        schedules:
-            drift:
+          - "1.3.0"
+          - "1.4.6"
+          - "1.5.0"
+      - id: manage_state
+        name: Should Spacelift manage the state of OpenTofu/Terraform
+        default: true
+        type: boolean
+      - id: destroy_task_epoch
+        name: Epoch timestamp of when to destroy the resources
+        type: number
+    options:
+      # If true, a tracked run will be triggered right after the stack is created
+      trigger_run: true
+      # If true, the stack will not be created, useful when using inputs and multiple stacks in a single template.
+      do_not_create: false
+    stack:
+      name: ${{ inputs.app }}-{{ inputs.environment }}-stack
+      space: root
+      # The single-quote is needed to avoid YAML parsing errors since the question mark
+      # and the colon are reserved characters in YAML.
+      description: '${{ inputs.environment == "prod" ? "Production stack" : "Non-production stack" }} Stack created at ${{ string(context.time) }}.'
+      is_disabled: ${{ inputs.environment != 'prod' }}
+      labels:
+        - Environment/${{ inputs.environment }}
+        - Vendor/Terraform
+        - Owner/${{ context.user.login }}
+        - Blueprint/${{ context.blueprint.name }}
+        - Space/${{ context.blueprint.space }}
+      administrative: false # Deprecated in favor of attachments.roles. Do not use this field because it'll be ineffective in the future.
+      allow_promotion: false
+      auto_deploy: false
+      auto_retry: false
+      local_preview_enabled: true
+      secret_masking_enabled: true
+      protect_from_deletion: false
+      runner_image: public.ecr.aws/mycorp/spacelift-runner:latest
+      worker_pool: 01GQ29K8SYXKZVHPZ4HG00BK2E
+      attachments:
+        contexts:
+          - id: my-first-context-vnfq2
+            priority: 1
+        roles:
+          - role_id: "01GQ29K8SYXKZVHPZ4HG00BK2E"
+            space_id: "devops-01K71X37VCMF9D6W1SZRG8EGBE"
+        clouds:
+          aws:
+            id: 01GQ29K8SYXKZVHPZ4HG00BK2E
+            read: true
+            write: true
+          azure:
+            id: 01GQ29K8SYXKZVHPZ4HG00BK2E
+            read: true
+            write: true
+            subscription_id: 12345678-1234-1234-1234-123456789012
+        policies:
+          - my-push-policy-1
+          - my-approval-policy-1
+      environment:
+        variables:
+          - name: MY_ENV_VAR
+            value: my-env-var-value
+            description: This is my non-encrypted environment variable
+          - name: TF_VAR_CONNECTION_STRING
+            value: ${{ inputs.connstring }}
+            description: The connection string to the database
+            secret: true
+        mounted_files:
+          - path: a.json
+            content: |
+              {
+                "a": "b"
+              }
+            description: This is the configuration of x feature
+            secret: true
+      hooks:
+        apply:
+          before: ["sh", "-c", "echo 'before apply'"]
+          after: ["sh", "-c", "echo 'after apply'"]
+        init:
+          before: ["sh", "-c", "echo 'before init'"]
+          after: ["sh", "-c", "echo 'after init'"]
+        plan:
+          before: ["sh", "-c", "echo 'before plan'"]
+          after: ["sh", "-c", "echo 'after plan'"]
+        perform:
+          before: ["sh", "-c", "echo 'before perform'"]
+          after: ["sh", "-c", "echo 'after perform'"]
+        destroy:
+          before: ["sh", "-c", "echo 'before destroy'"]
+          after: ["sh", "-c", "echo 'after destroy'"]
+        run:
+          # There is no before hook for run
+          after: ["sh", "-c", "echo 'after run'"]
+      schedules:
+        drift:
+          cron:
+            - "0 0 * * *"
+            - "5 5 * * 0"
+          reconcile: true
+          ignore_state: true # If true, the schedule will run even if the stack is in a failed state
+          timezone: UTC
+        tasks:
+          # You need to provide either a cron or a timestamp_unix
+          - command: "terraform apply -auto-approve"
             cron:
-                - "0 0 * * *"
-                - "5 5 * * 0"
-            reconcile: true
-            ignore_state: true # If true, the schedule will run even if the stack is in a failed state
-            timezone: UTC
-            tasks:
-            # You need to provide either a cron or a timestamp_unix
-            - command: "terraform apply -auto-approve"
-                cron:
-                - "0 0 * * *"
-            - command: "terraform apply -auto-approve"
-                timestamp_unix: ${{ int(timestamp('2024-01-01T10:00:20.021-05:00')) }}
-            delete:
-            delete_resources: ${{ inputs.environment == 'prod' }}
-            timestamp_unix: ${{ inputs.destroy_task_epoch - 86400 }}
-        vcs:
-            id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
-            branch: main
-            project_root: modules/apps/${{ inputs.app }}
-            project_globs:
-            - "terraform/**"
-            - "k8s/**"
-            namespace: "my-namespace" # The VCS organization name or project namespace
-            # Note that this is just the name of the repository, not the full URL
-            repository: my-repository
-            provider: GITHUB_ENTERPRISE # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS, RAW_GIT
-            repository_url: "https://github.com/my-namespace/my-repository" # This is only needed for RAW_GIT provider
-        vendor:
-            terraform:
-            manage_state: ${{ inputs.manage_state }}
-            version: ${{ inputs.tf_version }}
-            workspace: workspace-${{ inputs.environment }}
-            use_smart_sanitization: ${{ inputs.environment != 'prod' }}
-            workflow_tool: OPEN_TOFU # Could be TERRAFORM_FOSS, OPEN_TOFU, or CUSTOM
-            ansible:
-            playbook: playbook.yml
-            cloudformation:
-            entry_template_file: cf/main.yml
-            template_bucket: template_bucket
-            stack_name: ${{ inputs.app }}-${{ inputs.environment }}
-            region: '${{ inputs.environment.contains("prod") ? "us-east-1" : "us-east-2" }}'
-            kubernetes:
-            namespace: ${{ inputs.app }}
-            pulumi:
-            stack_name: ${{ inputs.app }}-${{ inputs.environment }}
-            login_url: https://app.pulumi.com
-            terragrunt:
-            use_smart_sanitization: true
-            terraform_version: "1.5.7"
-            terragrunt_version: "0.55.0"
-            use_run_all: true
-            terragrunt_tool: OPEN_TOFU # Could be OPEN_TOFU, TERRAFORM_FOSS, or MANUALLY_PROVISIONED
-        ```
+              - "0 0 * * *"
+          - command: "terraform apply -auto-approve"
+            timestamp_unix: ${{ int(timestamp('2024-01-01T10:00:20.021-05:00')) }}
+        delete:
+          delete_resources: ${{ inputs.environment == 'prod' }}
+          timestamp_unix: ${{ inputs.destroy_task_epoch - 86400 }}
+      vcs:
+        id: "github-for-my-org" # Optional, only needed if you want to use a Space-level VCS integration. Use the "Copy ID" button to get the ID.
+        branch: main
+        project_root: modules/apps/${{ inputs.app }}
+        project_globs:
+          - "terraform/**"
+          - "k8s/**"
+        namespace: "my-namespace" # The VCS organization name or project namespace
+        # Note that this is just the name of the repository, not the full URL
+        repository: my-repository
+        provider: GITHUB_ENTERPRISE # Possible values: GITHUB, GITLAB, BITBUCKET_DATACENTER, BITBUCKET_CLOUD, GITHUB_ENTERPRISE, AZURE_DEVOPS, RAW_GIT
+        repository_url: "https://github.com/my-namespace/my-repository" # This is only needed for RAW_GIT provider
+      vendor:
+        terraform:
+          manage_state: ${{ inputs.manage_state }}
+          version: ${{ inputs.tf_version }}
+          workspace: workspace-${{ inputs.environment }}
+          use_smart_sanitization: ${{ inputs.environment != 'prod' }}
+          workflow_tool: OPEN_TOFU # Could be TERRAFORM_FOSS, OPEN_TOFU, or CUSTOM
+        ansible:
+          playbook: playbook.yml
+        cloudformation:
+          entry_template_file: cf/main.yml
+          template_bucket: template_bucket
+          stack_name: ${{ inputs.app }}-${{ inputs.environment }}
+          region: '${{ inputs.environment.contains("prod") ? "us-east-1" : "us-east-2" }}'
+        kubernetes:
+          namespace: ${{ inputs.app }}
+        pulumi:
+          stack_name: ${{ inputs.app }}-${{ inputs.environment }}
+          login_url: https://app.pulumi.com
+        terragrunt:
+          use_smart_sanitization: true
+          terraform_version: "1.5.7"
+          terragrunt_version: "0.55.0"
+          use_run_all: true
+          terragrunt_tool: OPEN_TOFU # Could be OPEN_TOFU, TERRAFORM_FOSS, or MANUALLY_PROVISIONED
+    ```
 
-        {% endraw %}
+    {% endraw %}
 
 If we attach an existing resource to the stack (such as Worker Pool, Cloud integration, Policy or Context) we use the unique identifier of the resource. Typically, there is a button for it in the UI, but you can also find it in the URL of the resource.
 
@@ -1460,6 +1461,12 @@ For simplicity, here is the current schema, but it might change in the future:
                     "items": {
                         "type": "string"
                     }
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/role_binding"
+                    }
                 }
             }
         },
@@ -1520,6 +1527,22 @@ For simplicity, here is the current schema, but it might change in the future:
                 "priority": {
                     "type": "integer",
                     "minimum": 0
+                }
+            }
+        },
+        "role_binding": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "role_id",
+                "space_id"
+            ],
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
                 }
             }
         },

@@ -19,7 +19,7 @@ The legacy system used three broad roles:
     Existing legacy system role assignments have been automatically migrated to equivalent custom RBAC roles:
 
     | Legacy Role | RBAC Equivalent |
-    |-------------|-----------------|
+    | ----------- | --------------- |
     | Reader      | Space Reader    |
     | Writer      | Space Writer    |
     | Admin       | Space Admin     |
@@ -104,13 +104,19 @@ Groups of users as defined by your identity provider.
 - Base permissions from functional groups.
 - Additional project-specific permissions from project groups.
 
+#### Stacks
+
+[Stacks](../stack/README.md) that can assume roles to manage resources programmatically inside Spacelift via the [Spacelift Terraform Provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest){: rel="nofollow"}.
+
+For more information, see [Assigning Roles to Stacks](./assigning-roles-stacks.md).
+
 ### Actions: the building blocks of permissions
 
 Actions are the smallest unit of permission granularity in Spacelift's RBAC system. Each action defines a specific
 operation that can be performed:
 
 | Action           | Description                | Legacy Equivalent |
-|------------------|----------------------------|-------------------|
+| ---------------- | -------------------------- | ----------------- |
 | `run:trigger`    | Trigger stack runs         | Writer            |
 | `stack:manage`   | Create and modify stacks   | Admin             |
 | `stack:delete`   | Delete stacks              | Admin             |
@@ -126,7 +132,7 @@ operation that can be performed:
 
 Subjects are the resources that actors interact with, for example:
 
-- **Stacks**: Infrastructure definitions, runs, and associated metadata.
+- **Stacks**: Stacks managing infrastructure, runs, and associated metadata.
 - **Contexts**: Environment variables, mounted files, and configuration collections.
 - **Policies**: Rules governing Spacelift behavior (approval, notification, etc.).
 
@@ -179,17 +185,28 @@ All RBAC roles are **space-bound**, meaning:
 
 Spaces can be organized hierarchically to reflect your organizational structure:
 
-```text
-Root Space
-├── Infrastructure (Platform team management)
-│   ├── Networking
-│   ├── Security
-│   └── Monitoring
-├── Applications (Application teams)
-│   ├── Frontend
-│   ├── Backend
-│   └── Mobile
-└── Sandbox (Development and testing)
+```mermaid
+graph TD
+    Root["Root Space"]
+    Infrastructure["Infrastructure<br/>(Platform team management)"]
+    Networking[Networking]
+    Security[Security]
+    Monitoring[Monitoring]
+    Applications["Applications<br/>(Application teams)"]
+    Frontend[Frontend]
+    Backend[Backend]
+    Mobile[Mobile]
+    Sandbox["Sandbox<br/>(Development and testing)"]
+
+    Root --> Infrastructure
+    Root --> Applications
+    Root --> Sandbox
+    Infrastructure --> Networking
+    Infrastructure --> Security
+    Infrastructure --> Monitoring
+    Applications --> Frontend
+    Applications --> Backend
+    Applications --> Mobile
 ```
 
 #### Space design patterns
@@ -283,3 +300,4 @@ View more detailed instructions for assigning roles to:
 - [Individual users](./assigning-roles-users.md)
 - [API keys](./assigning-roles-api-keys.md)
 - [IdP groups](./assigning-roles-groups.md)
+- [Stacks](./assigning-roles-stacks.md)

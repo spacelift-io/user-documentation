@@ -24,7 +24,7 @@ See [Integrate Spacelift with Amazon Web Services](../../getting-started/integra
 
 ## Programmatic setup
 
-You can also use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from an [administrative stack](../../concepts/stack/stack-settings.md#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
+You can also use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from a [stack with Space admin role attachment](../../concepts/authorization/assigning-roles-stacks.md), including the trust relationship. Note that in order to do that, your stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
 
 Here's an example of what it might look like to create an AWS cloud integration programmatically:
 
