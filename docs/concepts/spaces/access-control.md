@@ -85,23 +85,23 @@ package spacelift
 # Basic login permissions
 allow { input.session.member }
 
-# Assign RBAC roles using role IDs
-roles["development"]["developer-role-id"] {
+# Assign RBAC roles using role slugs
+roles["space-id"]["developer-role-slug"] {
     input.session.teams[_] == "Frontend"
 }
 
-roles["infrastructure"]["platform-engineer-role-id"] {
+roles["space-id"]["platform-engineer-role-slug"] {
     input.session.teams[_] == "DevOps"
 }
 
 # Assign admin role for root space
-roles["root"]["space-admin-role-id"] {
+roles["root"]["space-admin-role-slug"] {
     input.session.teams[_] == "Admin"
 }
 ```
 
-!!! note "Getting Role IDs"
-    To use custom roles in login policies, copy the role ID from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy ID.
+!!! note "Getting Role Slug's"
+    To use custom roles in login policies, copy the role ID from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
 
 !!! warning
     - Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and administrative stacks, as well as `legacy` space administrative stacks can create or modify them.
