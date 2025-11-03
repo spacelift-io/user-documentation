@@ -1,6 +1,6 @@
 # API key role bindings
 
-[API keys](./../../integrations/api.md#spacelift-api-key--token) can receive roles through three methods:
+[API keys](./../../integrations/api.md#spacelift-api-key) can receive roles through three methods:
 
 - **Direct assignment**: Assign roles directly to the API key.
 - **IdP group assignment**: Associate API keys with IdP groups to inherit group-based role assignment.
@@ -268,12 +268,12 @@ Actors can have multiple roles across different spaces:
 
 ## Find role IDs
 
-To use custom roles in login policies, you need their role IDs:
+To use custom roles in login policies, you need their role slugs:
 
 1. Navigate to **Organization Settings** → **Access Control Center** → **Roles**.
 2. Click on the custom role you want to use.
-3. Click **Copy ID** from the role detail page.
-4. Use this ID in your login policy.
+3. Click **Copy slug** from the role detail page.
+4. Use this slug in your login policy.
 
 ## Troubleshooting
 

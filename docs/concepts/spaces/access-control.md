@@ -73,9 +73,9 @@ Login policies can only be created in the `root` space. Therefore, only `root` a
 
 #### RBAC role assignment
 
-!!! note "Getting Role IDs"
+!!! note "Getting role slugs"
 
-    To use custom roles in login policies, copy the role ID from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy ID.
+    To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
 
 Use the `roles` rule to assign RBAC roles in login policies:
 
@@ -85,17 +85,17 @@ package spacelift
 # Basic login permissions
 allow { input.session.member }
 
-# Assign RBAC roles using role IDs
-roles["development"]["developer-role-id"] {
+# Assign RBAC roles using role slugs
+roles["space-id"]["developer-role-slug"] {
     input.session.teams[_] == "Frontend"
 }
 
-roles["infrastructure"]["platform-engineer-role-id"] {
+roles["space-id"]["platform-engineer-role-slug"] {
     input.session.teams[_] == "DevOps"
 }
 
 # Assign admin role for root space
-roles["root"]["space-admin-role-id"] {
+roles["root"]["space-admin-role-slug"] {
     input.session.teams[_] == "Admin"
 }
 ```
