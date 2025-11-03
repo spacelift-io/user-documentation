@@ -20,10 +20,10 @@ You can create a space either by clicking a **Create space** button in the top r
 
 1. Click **Create space** in the top-right or the **blue plus sign** at the bottom of a space card in the diagram.
 2. Fill in the details for the space:
-      - **Name**: aa
-      - **Description** (optional): aa
-      - **Labels** (optional): aa
-      - **Parent space**: aa. If you clicked the blue plus sign, this will be automatically filled in.
+      - **Name**: Enter a unique, descriptive name for your space.
+      - **Description** (optional): Enter a (markdown-supported) description of the space and the resources it manages.
+      - **Labels** (optional): Add labels to help sort and filter your spaces.
+      - **Parent space**: Select the parent space for the new space. If you clicked the blue plus sign, this will be automatically filled in.
       - **Enable inheritance**: Check the box to enable, and uncheck to disable. Inheritance is enabled by default.
 3. Click **Create**.
 
