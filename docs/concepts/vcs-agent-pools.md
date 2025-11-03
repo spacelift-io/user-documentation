@@ -13,6 +13,10 @@ By default, Spacelift communicates with your VCS provider directly. This is usua
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
 
+!!! warning "Raw git"
+
+    Raw git does not work with VCS agents. If you are using raw git repositories, you will need to use publicly accessible URLs or implement a workaround like a proxy or tunnel to replace VCS agent functionality.
+
 On the Agent there are very conservative checks on what requests are let through and which ones are denied, with an explicit allowlist of paths that are necessary for Spacelift to work. All requests will be logged to standard output with a description about what they were used for.
 
 ## Create the VCS Agent Pool

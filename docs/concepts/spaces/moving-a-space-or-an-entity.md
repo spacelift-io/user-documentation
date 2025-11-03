@@ -1,39 +1,45 @@
-# Moving a Space or any Entity
+# Moving a space or any entity
 
-If after creating multiple Spaces you conclude that the tree structure could be better, it is possible to restructure the tree completely.
+If you need to move or rearrange your spaces after they're created, you can restructure your spaces tree by:
 
-Restructuring the tree can be achieved either by creating new spaces and then moving entities (stacks, policies, etc.) to them or by moving (re-parenting) spaces (which includes the entities they contain).
+1. Creating new spaces and then moving entities (stacks, policies, etc.) to them.
+2. Moving spaces to a different parent space (which also moves the entities they contain).
 
-Both approaches are valid, but some conditions must be satisfied for the move operations to succeed.
+By default, only `root` admin users can move spaces. This can be changed in [account settings](./allowing-non-root-admins-to-manage-spaces.md).
 
-## Moving a Stack
+## Moving a space
 
-Stacks can be moved to a different space using the **Stack Details** tab in the Stack's settings.
+Moving a space means, essentially, changing its parent space. You can only change a space's parent if affected stacks (in the entire affected subtree) would still be able to access entities that are attached outside of the subtree, in compliance with the inheritance rules.
 
-![](<../../assets/screenshots/stack/settings/stack-details_spaces-ipunt.png>)
+Choose a new parent in the space's settings:
 
-For the move operation to succeed, the stack has to maintain access to any attachable resources it uses (worker pools, contexts, cloud integrations, etc.).
+1. Click the space card you want to edit.
+2. In the _Parent space_ section, choose the new parent space to use.
+3. Click **Save**.
 
-In other words, the new space the stack will be in must either inherit (directly or indirectly via parental chain) from the spaces that the used attachable resources are in or those resources have to be defined in the new space.
+![Move a space by changing its parent](<../../assets/screenshots/spaces/change_parent_space.png>)
 
-## Moving an Attachable Entity (Worker Pool, Context, etc.)
+Moving a space will affect the whole subtree, and any other spaces attached to the moved space will move as well.
 
-All the attachable entities can be moved to a different space either:
+## Moving a stack
 
-![](<../../assets/screenshots/spaces-move-context.png>)
+Stacks can be moved to a different space. You can only change a stack's space if it retains access to its attachable resources, such as worker pools and cloud integrations. The new space must either inherit (directly or indirectly via parental chain) from the spaces containing the attachable resources used by the stack, or those resources must be defined in the new space to ensure the stack retains access.
 
-Moving entities is possible only if all the stacks that have been using them would still be able to access them after the move in compliance with the inheritance rules.
+1. Navigate to _Ship Infra_ > _Stacks_ and locate the stack you want to move.
+2. Click the **three dots** beside the name of the stack, then click **Settings**.
+3. In _Stack details_, select the new space to use.
+4. Click **Save**.
 
-## Moving a Space
+![Move a stack to a different space](<../../assets/screenshots/stack/settings/stack-details_spaces-ipunt.png>)
 
-Moving a space is essentially changing its parent space.
+## Moving an attachable entity
 
-This can be done by choosing a new parent in the space's settings:
+All attachable entities (worker pools, contexts, etc.) can be moved to a different space. You can only move an entity if the stacks using it will still be able to access it in the new space.
 
-![](<../../assets/screenshots/spaces-reparent.png>)
+In general, you will:
 
-This operation affects the whole subtree, because all the children of the space being moved remain its children, so they change their location in the tree as well.
+1. Click the **three dots** beside the entity in the Spacelift UI to edit it.
+2. Select the new space from the dropdown.
+3. **Save** your changes.
 
-Changing a parent for a space is possible only if after the re-parenting process all the stacks in the whole affected subtree would still be able to access any entities that are attached outside of the subtree, in compliance with the inheritance rules.
-
-By default, only `root` admin users can move spaces. This can be [overwritten in the account settings](./allowing-non-root-admins-to-manage-spaces.md).
+![Move a context to a different space](<../../assets/screenshots/spaces/edit_context.png>)
