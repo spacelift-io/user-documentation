@@ -4,15 +4,13 @@ Spaces provide the organizational structure for Spacelift's [role-based access c
 
 ## Roles and RBAC
 
-### Predefined roles
+### System roles
 
-Spacelift provides three predefined roles that can be assigned to users on a space-by-space basis:
+Spacelift provides several [built-in system roles](../authorization/rbac-system.md#system-roles) roles that can be assigned to users on a space-by-space basis:
 
 - **Space Reader**: View-only access to resources within the space, can add comments to runs for collaboration.
 - **Space Writer**: Space Reader permissions + ability to trigger runs and modify environment variables.
 - **Space Admin**: Space Writer permissions + ability to create and modify stacks and attachable entities.
-
-These predefined roles correspond to the legacy system roles (Read/Write/Admin) and provide a simple starting point for organizations new to RBAC.
 
 ### Custom roles
 
@@ -71,8 +69,6 @@ Login policies can only be created in the `root` space. Therefore, only `root` a
 
 [Login policies](../policy/login-policy.md) enable programmatic role assignment using OPA/Rego:
 
-#### RBAC role assignment
-
 !!! note "Getting role slugs"
 
     To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
@@ -103,14 +99,6 @@ roles["root"]["space-admin-role-slug"] {
 If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
 
 However, the space's creator immediately has access to it.
-
-#### Legacy space rules (deprecated)
-
-The legacy space rules are deprecated in favor of RBAC roles:
-
-- **space_read** → Use RBAC roles with `space:read` action.
-- **space_write** → Use RBAC roles with appropriate write actions.
-- **space_admin** → Use RBAC roles with management actions.
 
 ## Inheritance
 
