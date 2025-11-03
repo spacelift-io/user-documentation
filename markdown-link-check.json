@@ -100,10 +100,13 @@
       "pattern": "^https://www.hashicorp.com/"
     },
     {
-      "pattern": "^https://marketplace.fedramp.gov/products/F1206111371"      
+      "pattern": "^https://marketplace.fedramp.gov/products/F1206111371"
     },
     {
       "pattern": "^https://www.openpolicyagent.org/*"
+    },
+    {
+      "pattern": "^https://spacelift.statuspage.io/"
     }
   ]
 }
