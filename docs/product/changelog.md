@@ -57,7 +57,7 @@ description: Find out about the latest changes to Spacelift.
 
 ### Features
 
-- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../../concepts/run#logs-retention).
+- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../concepts/run/README.md#logs-retention).
 
 ## 2025-09-30
 
