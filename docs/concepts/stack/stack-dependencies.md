@@ -84,10 +84,6 @@ output "dummy" {
 !!! note
     If you are using CloudFormation, adding an output is considered a [no-op](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-no-updates-to-perform){: rel="nofollow"}. If you are making an output-only change, you will need to make a modification to the Resources section of the CloudFormation template that is recognized as a change by CloudFormation, e.g. by adding a dummy resource like `AWS::CloudFormation::WaitConditionHandle`.
 
-#### Reconciling failed runs
-
-When detecting changes in outputs, we also consider the previous run of the dependent stack. If the previous run wasn't successful, we'll trigger it regardless of the output changes. This is to ensure that the dependent stack has a chance to recover from a potential failure.
-
 #### Vendor limitations
 
 [Ansible](../../vendors/ansible/README.md) and [Kubernetes](../../vendors/kubernetes/README.md) do not have the concept of outputs, so you cannot reference the outputs of Ansible and Kubernetes stacks. They _can_ be on the receiving end though:
