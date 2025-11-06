@@ -1,33 +1,27 @@
 # Access control
 
-Spaces provide the organizational structure for Spacelift's [RBAC system](../authorization/README.md). Permission
-management is handled through [Login policies](../policy/login-policy.md) or [User Management](../user-management/)
-depending on your authorization strategy. All roles are assigned to
-specific spaces, providing precise control over who can access what resources.
+Spaces provide the organizational structure for Spacelift's [role-based access control (RBAC) system](../authorization/README.md). Permission management is handled through [login policies](../policy/login-policy.md) or [user management](../user-management/README.md) depending on your authorization strategy. All roles are assigned to specific spaces, providing precise control over who can access what resources.
 
 ## Roles and RBAC
 
-### Predefined roles
+### System roles
 
-Spacelift provides three predefined roles that can be assigned to users on a space-by-space basis:
+Spacelift provides several [built-in system roles](../authorization/rbac-system.md#system-roles) roles that can be assigned to users on a space-by-space basis:
 
-- **Space Reader** - View-only access to resources within the space, can add comments to runs for collaboration
-- **Space Writer** - Space Reader permissions + ability to trigger runs and modify environment variables
-- **Space Admin** - Space Writer permissions + ability to create and modify stacks and attachable entities
-
-These predefined roles correspond to the legacy system roles (Read/Write/Admin) and provide a simple starting point for
-organizations new to RBAC.
+- **Space Reader**: View-only access to resources within the space, can add comments to runs for collaboration.
+- **Space Writer**: Space Reader permissions + ability to trigger runs and modify environment variables.
+- **Space Admin**: Space Writer permissions + ability to create and modify stacks and attachable entities.
 
 ### Custom roles
 
-Beyond predefined roles, you can create [custom roles](../authorization/rbac-system.md#custom-roles) with precisely
-tailored permissions:
+Beyond predefined roles, you can create [custom roles](../authorization/rbac-system.md#custom-roles) with precisely tailored permissions:
 
-- **Granular Actions**: Compose roles from specific actions like `run:trigger`, `stack:manage`, `context:read`
-- **Business-Aligned**: Match roles to your organizational structure and job functions
-- **Principle of Least Privilege**: Grant exactly the permissions needed, nothing more
+- **Granular actions**: Compose roles from specific actions like `run:trigger`, `stack:manage`, `context:read`.
+- **Business-aligned**: Match roles to your organizational structure and job functions.
+- **Principle of Least Privilege**: Grant exactly the permissions needed, nothing more.
 
 !!! example "Custom Role Example"
+
     Instead of giving someone full **Space Admin** access, create a custom "Infrastructure Developer" role with just:
 
     - `space:read`: View space contents
@@ -35,16 +29,16 @@ tailored permissions:
     - `run:trigger`: Deploy changes
     - `run:read`: Monitor deployments
 
-A "Root Space Admin" is a user given administrative permissions to the `root` space, which is the top-level space in Spacelift's hierarchy. This gives them special permissions and allows them to manage the entire account, including modifying the space tree and accessing account-wide settings.
+A "Root Space Admin" is a user given administrative permissions to the `root` space, which is the top-level space in Spacelift's hierarchy. This grants special permissions and allows them to manage the entire account, including modifying the space tree and accessing account-wide settings.
 
-### Permission comparison
+### Role permissions
 
-| Action\Role                   | Root Space Admin | Space Admin | Space Writer | Space Reader |
+| Action / Role                 | Root Space Admin | Space Admin | Space Writer | Space Reader |
 |-------------------------------|------------------|-------------|--------------|--------------|
-| Setup SSO                     | ✅                | ❌           | ❌            | ❌            |
-| Setup VCS                     | ✅                | ❌           | ❌            | ❌            |
+| Set up SSO                    | ✅                | ❌           | ❌            | ❌            |
+| Set up VCS                    | ✅                | ❌           | ❌            | ❌            |
 | Manage Sessions               | ✅                | ❌           | ❌            | ❌            |
-| Manage Login Policies & User Management Controls         | ✅                | ❌           | ❌            | ❌            |
+| Manage Login Policies & User Management Controls  | ✅ | ❌      | ❌            | ❌            |
 | Manage Audit Trails           | ✅                | ❌           | ❌            | ❌            |
 | Manage Spaces                 | ✅                | ✅*          | ❌            | ❌            |
 | Manage Stack Config Settings  | ✅                | ✅           | ❌            | ❌            |
@@ -55,34 +49,29 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 | View Spaces                   | ✅                | ✅           | ✅            | ✅            |
 | View Worker Pools, Contexts   | ✅                | ✅           | ✅            | ✅            |
 
-*Only when assigned to the specific space
+*Can only manage assigned space(s)
 
 ## Authorization methods
 
 ### User management
 
-The [User Management](../user-management/) interface provides a way to assign roles to users, groups, and API
-keys:
+The [user management](../user-management/) interface provides a way to assign roles to users, groups, and API keys:
 
-1. Navigate to **Organization Settings** → **Identity Management**
-2. Select **Users**, **IdP group mapping**, or **API keys**
-3. Assign predefined or custom roles to specific spaces
+1. Click your name in the bottom-left of the screen, then **Organization settings**.
+2. In the _Identity Management_ section, select **Users**, **IdP group mapping**, or **API keys**.
+3. Assign predefined or custom roles to specific spaces.
 
 See [assigning roles to users](../authorization/assigning-roles-users.md) for detailed instructions.
 
 ### Login policies (policy-as-code)
 
+Login policies can only be created in the `root` space. Therefore, only `root` and `legacy` space admins and administrative stacks can create or modify them.
+
 [Login policies](../policy/login-policy.md) enable programmatic role assignment using OPA/Rego:
 
-#### Legacy space rules (deprecated)
+!!! note "Getting role slugs"
 
-The legacy space rules are deprecated in favor of RBAC roles:
-
-- **space_read** → Use RBAC roles with `space:read` action
-- **space_write** → Use RBAC roles with appropriate write actions
-- **space_admin** → Use RBAC roles with management actions
-
-#### RBAC Role Assignment
+    To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
 
 Use the `roles` rule to assign RBAC roles in login policies:
 
@@ -92,59 +81,55 @@ package spacelift
 # Basic login permissions
 allow { input.session.member }
 
-# Assign RBAC roles using role IDs
-roles["development"]["developer-role-id"] {
+# Assign RBAC roles using role slugs
+roles["space-id"]["developer-role-slug"] {
     input.session.teams[_] == "Frontend"
 }
 
-roles["infrastructure"]["platform-engineer-role-id"] {
+roles["space-id"]["platform-engineer-role-slug"] {
     input.session.teams[_] == "DevOps"
 }
 
 # Assign admin role for root space
-roles["root"]["space-admin-role-id"] {
+roles["root"]["space-admin-role-slug"] {
     input.session.teams[_] == "Admin"
 }
 ```
 
-!!! note "Getting Role IDs"
-    To use custom roles in login policies, copy the role ID from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy ID.
+If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
 
-!!! warning
-    - Please note that Login policies are only allowed to be created in the `root` space, therefore only `root` space admins and administrative stacks, as well as `legacy` space administrative stacks can create or modify them.
-    - A logged-in user's access levels only get updated when they log out and in again, so newly added spaces might not be visible to some users. An exception is that the space's creator immediately gets access to it.
+However, the space's creator immediately has access to it.
 
 ## Inheritance
 
-Inheritance is a toggle that defines whether a space inherits resources from its parent space or not. When set to true, any stack in the child space can use resources such as worker pools or contexts from the parent space. If a space inherits from a parent and its parent inherits from the grandparent, then the space inherits from the grandparent as well.
+Inheritance is a toggle that defines whether a space inherits resources from its parent space or not. When set to `true`, any stack in the child space can use resources (such as worker pools or contexts) from the parent space. If a space inherits from a parent and its parent inherits from the grandparent, then the space inherits from the grandparent as well.
 
-Inheritance also modifies how roles propagate between spaces.
+Inheritance also modifies how roles propagate between spaces:
 
-In a scenario when inheritance between spaces is turned off, the roles are propagated only down the space tree. On the other hand, when inheritance is enabled, then a user with any role in the child space also gets **Read** role in their parent.
+- If inheritance between spaces is **disabled**, the roles are propagated only down the space tree.
+- If inheritance is **enabled**, a user with _any_ role in the child space also gets the **Read** role in the parent space.
 
-Below is a diagram that demonstrates how this all works in practice. This is a view for a user that was given the following roles by Login policies:
+### Inheritance diagram
 
-- **Read** in `read access space`
-- **Write** in `write access space`
-- **Admin** in `admin access space`
+The user in this diagram was given these roles via login policies:
 
-Dashed lines indicate a lack of inheritance, while when it's enabled the lines are solid.
+- **Read** in `read access space`.
+- **Write** in `write access space`.
+- **Admin** in `admin access space`.
 
-![](<../../assets/screenshots/spaces_access_propagation.png>)
+Solid lines indicate where inheritance is enabled, while dashed lines indicate where inheritance is disabled.
+
+![Space role inheritance diagram](<../../assets/screenshots/spaces_access_propagation.png>)
 
 Let's analyze the tree starting from the left.
 
-As mentioned, the user was granted **Write** access to the `write access space` space.
-Because inheritance is enabled, they also received **Read** access to the `access propagates up` space and the `root` space. The reason for that is to allow users to see resources that their space can now use.
-
-Next, the user was given **Admin** access to the `admin access space` space. Regardless of the inheritance being off, they also received **Admin** access to the `access propagates down` space.
-This makes sense, as we want to allow admins to still manage their spaces subtree even if they want to disable resource sharing between some spaces.
-
-Finally, the user was given **Read** access to the `read access space` space. Because inheritance is off, they did not receive **Read** access to the `legacy` space.
+- `write access space`: The user was granted **Write** access. Because inheritance is enabled, they also received **Read** access to the `access propagates up` space and the `root` space, which allows the user to see the resources they can use from the parent spaces.
+- `admin access space`: The user was granted **Admin** access. Even though inheritance is disabled, they also received **Admin** access to the `access propagates down` space because we want admins to be able to manage their spaces subtree, even if they want to disable resource sharing between some spaces.
+- `read access space`: The user was given **Read** access. Because inheritance is disabled, they did not receive any access (read or write) to the `legacy` space.
 
 ## Related topics
 
-- **[Authorization & RBAC](../authorization/README.md)**: Complete guide to Spacelift's authorization system
-- **[RBAC System](../authorization/rbac-system.md)**: Understanding roles, actions, and actors
-- **[User Management](../user-management/)**: GUI-based permission management
-- **[Login Policies](../policy/login-policy.md)**: Policy-as-code authorization
+- **[Authorization & RBAC](../authorization/README.md)**: Complete guide to Spacelift's authorization system.
+- **[RBAC System](../authorization/rbac-system.md)**: Understanding roles, actions, and actors.
+- **[User Management](../user-management/)**: GUI-based permission management.
+- **[Login Policies](../policy/login-policy.md)**: Policy-as-code authorization.

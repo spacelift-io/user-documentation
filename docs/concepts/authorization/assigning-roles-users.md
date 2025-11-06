@@ -54,6 +54,39 @@ allow { input.session.member }
 roles[space_name][role_id] { condition }
 ```
 
+#### RBAC role assignment
+
+!!! note "Getting role slugs"
+
+    To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
+
+Use the `roles` rule to assign RBAC roles in login policies:
+
+```opa
+package spacelift
+
+# Basic login permissions
+allow { input.session.member }
+
+# Assign RBAC roles using role slugs
+roles["space-id"]["developer-role-slug"] {
+    input.session.teams[_] == "Frontend"
+}
+
+roles["space-id"]["platform-engineer-role-slug"] {
+    input.session.teams[_] == "DevOps"
+}
+
+# Assign admin role for root space
+roles["root"]["space-admin-role-slug"] {
+    input.session.teams[_] == "Admin"
+}
+```
+
+If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
+
+However, the space's creator immediately has access to it.
+
 #### Individual user assignment
 
 ```opa

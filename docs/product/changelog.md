@@ -8,6 +8,7 @@ description: Find out about the latest changes to Spacelift.
 
 ### Features
 
+- **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
 - **Account Deletion**: Improved account deletion user experience with a dedicated settings tab, confirmation modals, and a safer two-step deletion process. Account deletion has been moved from the header dropdown to a dedicated tab in organization settings, with a 7-day waiting period after marking for deletion and multiple confirmation steps to prevent accidental deletions. Additionally, we now collect feedback about deletion reasons to help improve the product.
 
 ## 2025-10-17
@@ -32,7 +33,7 @@ description: Find out about the latest changes to Spacelift.
 ### Features
 
 - **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
-- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
+- Added SSO SAML attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping) for more information.
 
 ## 2025-10-14
 
@@ -57,7 +58,7 @@ description: Find out about the latest changes to Spacelift.
 
 ### Features
 
-- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../../concepts/run#logs-retention).
+- Run log retention period can now be configured at the organization level. This allows you to set how long run logs are retained before being automatically deleted. More details can be found in the [run log retention documentation](../concepts/run/README.md#logs-retention).
 
 ## 2025-09-30
 

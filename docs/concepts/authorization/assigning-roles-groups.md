@@ -49,6 +49,39 @@ roles[space][role_id] {
 }
 ```
 
+#### RBAC role assignment
+
+!!! note "Getting Role slugs"
+
+    To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
+
+Use the `roles` rule to assign RBAC roles in login policies:
+
+```opa
+package spacelift
+
+# Basic login permissions
+allow { input.session.member }
+
+# Assign RBAC roles using role slugs
+roles["space-id"]["developer-role-slug"] {
+    input.session.teams[_] == "Frontend"
+}
+
+roles["space-id"]["platform-engineer-role-slug"] {
+    input.session.teams[_] == "DevOps"
+}
+
+# Assign admin role for root space
+roles["root"]["space-admin-role-slug"] {
+    input.session.teams[_] == "Admin"
+}
+```
+
+If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
+
+However, the space's creator immediately has access to it.
+
 #### Individual group assignment
 
 ```opa
@@ -57,12 +90,12 @@ package spacelift
 allow { input.session.member }
 
 # DevOps team gets platform engineer role
-roles["infrastructure"]["platform-engineer-role-id"] {
+roles["space-id"]["platform-engineer-role-slug"] {
     input.session.teams[_] == "DevOps"
 }
 
 # Frontend team gets developer role
-roles["frontend"]["developer-role-id"] {
+roles["space-id"]["developer-role-slug"] {
     input.session.teams[_] == "Frontend"
 }
 ```
@@ -79,12 +112,12 @@ developer_teams := {"Frontend", "Backend", "Mobile", "QA"}
 platform_teams := {"DevOps", "SRE", "Platform"}
 
 # Assign developer access
-roles["applications"]["developer-role-id"] {
+roles["space-id"]["developer-role-slug"] {
     developer_teams[input.session.teams[_]]
 }
 
 # Assign platform access
-roles["infrastructure"]["platform-role-id"] {
+roles["space-id"]["platform-role-slug"] {
     platform_teams[input.session.teams[_]]
 }
 ```
@@ -97,19 +130,19 @@ package spacelift
 allow { input.session.member }
 
 # Junior developers: development only
-roles["development"]["junior-dev-role-id"] {
+roles["space-id"]["junior-dev-role-slug"] {
     input.session.teams[_] == "Junior-Developers"
 }
 
 # Senior developers: development + staging
-roles[space]["senior-dev-role-id"] {
+roles[space]["senior-dev-role-slug"] {
     input.session.teams[_] == "Senior-Developers"
     senior_spaces := {"development", "staging"}
     senior_spaces[space]
 }
 
 # Team leads: all environments
-roles[space]["team-lead-role-id"] {
+roles[space]["team-lead-role-slug"] {
     input.session.teams[_] == "Team-Leads"
     all_spaces := {"development", "staging", "production"}
     all_spaces[space]
@@ -124,17 +157,17 @@ package spacelift
 allow { input.session.member }
 
 # Engineering department base access
-roles["development"]["engineer-role-id"] {
+roles["space-id"]["engineer-role-slug"] {
     input.session.teams[_] == "Engineering"
 }
 
 # Operations department infrastructure access
-roles["infrastructure"]["ops-role-id"] {
+roles["space-id"]["ops-role-slug"] {
     input.session.teams[_] == "Operations"
 }
 
 # Security department audit access across all spaces
-roles[space]["security-auditor-role-id"] {
+roles[space]["security-auditor-role-slug"] {
     input.session.teams[_] == "Security"
     # Apply to all spaces
     space := input.spaces[_].id
@@ -177,7 +210,7 @@ package spacelift
 allow { input.session.member }
 
 # Production access requires both team membership and seniority
-roles["production"]["prod-deployer-role-id"] {
+roles["production"]["prod-deployer-role-slug"] {
     deployment_teams := {"DevOps", "SRE", "Platform"}
     deployment_teams[input.session.teams[_]]
 
