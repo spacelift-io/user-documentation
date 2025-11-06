@@ -10,7 +10,7 @@ When a [queued](../run/README.md#queued) run needs approval, it will not be sche
 
 In this example, a queued run is waiting for a human review, and the last approval policy evaluation returned an _Undecided_ decision.
 
-1. Navigate to the _Runs_ tab and select the run that needs review.
+1. Navigate to the _Ship Infra_ > _Runs_ tab and select the run that needs review.
       - You can also access runs for a specific stack by navigating to the _Stacks_ tab, clicking the name of the stack, and clicking the run to review in the _Tracked Run_ section.
 2. Click **Review** in the top right.
     ![Review a queued run](<../../assets/screenshots/Mouse_Highlight_Overlay_and_Resource_in_a_separate_file_·_Bacon (2).png>)
@@ -42,7 +42,7 @@ While the `approve` rule must be defined in order for the run to be able to prog
 Any given policy evaluation can also return `false` on both `approve` and `reject` rules. This only means that the result is yet `undecided`, and more reviews will be necessary. A perfect example would be a policy that requires 2 approvals for a given job; the first review is not supposed to set the `approve` value to `true`.
 
 !!! info
-    Users must have [`write`](./stack-access-policy.md#readers-and-writers) or [`admin`](./login-policy.md#purpose) access to the stack to be able to approve changes.
+    Users must have [`write`](./stack-access-policy.md#writers) or [`admin`](./login-policy.md#rbac-role-assignment) access to the stack to be able to approve changes.
 
 ### How it works
 
@@ -284,7 +284,7 @@ You may want to [auto-attach this policy](./README.md#automatically-with-labels)
 
 ### Use more descriptive approvals
 
-Sometimes it is worth adding notes about approval/rejection to see why without rego code analysis.
+Sometimes it is worth adding notes about approval/rejection to see why without Rego code analysis.
 
 ```opa
 package spacelift

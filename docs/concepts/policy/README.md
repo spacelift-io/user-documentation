@@ -221,7 +221,7 @@ You can create approval, push, plan, trigger, and notification policies in the w
 
 ![Click Create Policy at the top right of the view.](<../../assets/screenshots/create-policy1.png>)
 
-1. Navigate to the _Policies_ tab in Spacelift.
+1. Navigate to the _Enforce Guardrails_ > _Policies_ tab in Spacelift.
 2. Click **Create policy**.
 3. Fill in the required policy details:
       1. **Name**: Enter a unique, descriptive name for the policy.
@@ -288,7 +288,7 @@ In the web UI, attaching policies is done in the stack management view:
 
 ![Select a policy and manually attach it to the stack](<../../assets/screenshots/policies/Policies_AttachtoStack.png>)
 
-1. Navigate to the _Stacks_ tab.
+1. Navigate to the _Ship Infra_ > _Stacks_ tab.
 2. Click the name of the stack to attach a policy to.
 3. Click the **Policies** tab, then click **Attach policy**.
 4. Select policy details:
@@ -337,7 +337,7 @@ To show you how to work with the policy workbench, we are going to use a [task p
 !!! info
     This example comes from our [test Terraform repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes.
 
-1. On the _Policies_ tab, click the name of the policy to edit in the workbench.
+1. On the _Enforce Guardrails_ > _Policies_ tab, click the name of the policy to edit in the workbench.
 2. Click **Show simulation panel** on the right-hand side of the screen.
     ![Show simulation panel button](<../../assets/screenshots/Simulation-panel.png>)
 3. If your policy has been evaluated and sampled, you will see the policy body on the left-hand side of the screen and a dropdown with timestamped evaluations (inputs) on the right-hand side. The evaluations are color-coded based on their outcomes.
@@ -376,7 +376,7 @@ OPA can be difficult to learn, especially if you are just starting out with it. 
 
 The policy library gives you the ability to import templates as regular policies, directly inside your Spacelift account, that can be easily modified to meet your needs.
 
-On the _Policies_ tab in Spacelift, you will see a new section: **Templates**.
+On the _Enforce Guardrails_ > _Policies_ tab in Spacelift, you will see a new section: **Templates**.
 
 ![Templates section](<../../assets/screenshots/policy_library.png>)
 
