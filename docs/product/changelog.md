@@ -9,6 +9,7 @@ description: Find out about the latest changes to Spacelift.
 ### Features
 
 - **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
+- **Account Deletion**: Improved account deletion user experience with a dedicated settings tab, confirmation modals, and a safer two-step deletion process. Account deletion has been moved from the header dropdown to a dedicated tab in organization settings, with a 7-day waiting period after marking for deletion and multiple confirmation steps to prevent accidental deletions. Additionally, we now collect feedback about deletion reasons to help improve the product.
 
 ## 2025-10-17
 
