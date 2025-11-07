@@ -2,16 +2,11 @@
 
 ## Purpose
 
-Login policies provide policy-as-code authorization for Spacelift, allowing users to log in and
-assign [RBAC roles](../authorization/README.md) programmatically. Unlike all other policy types, login policies are
-global and can't be attached to individual stacks. They take effect immediately once they're created and affect all
-future login attempts.
+Login policies provide policy-as-code authorization for Spacelift, allowing users to log in and assign [RBAC roles](../authorization/README.md) programmatically. Unlike all other policy types, login policies are global and can't be attached to individual stacks. They take effect immediately once they're created and affect all future login attempts.
 
-Login policies are one of two authorization strategies available in
-Spacelift. The other is [User Management](../user-management/) for GUI-based permission management.
+Login policies are one of two authorization strategies available in Spacelift. The other is [User Management](../user-management/) for GUI-based permission management.
 
-API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an
-admin key.
+API Keys are treated as virtual users and evaluated with login policy unless they are in the "root" space set with an admin key.
 
 !!! tip
     GitHub or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners always have admin access to their respective Spacelift accounts, regardless of login policies, so login policy errors can't lock everyone out of the account.

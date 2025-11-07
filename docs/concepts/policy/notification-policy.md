@@ -2,9 +2,6 @@
 
 ## Purpose
 
-!!! info
-    Please note, we currently don't support importing rego.v1. For more details, refer to the [policy introduction](../policy/README.md).
-
 Notification policies can filter, route, and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md), meaning that it does not need to be attached to a specific [stack](../stack/README.md). Notification policices always verify the space they're in can be accessed by whatever action is being evaluated. If you are new to spaces, consider exploring our [spaces documentation](../spaces/README.md).
 
 All notifications go through the policy evaluation, so any of them can be redirected to the routes defined in the policy.
