@@ -437,4 +437,22 @@ The Spacelift worker includes graceful interruption handling: it monitors for [s
 
 Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
 
+### Download EC2 module from registry
+
+Our EC2 worker pool module can be downloaded from our registry, instead of directly from GitHub:
+
+```hcl
+module "spacelift-workerpool-on-ec2" {
+  source  = "spacelift.io/spacelift-io/spacelift-workerpool-on-ec2/aws"
+  version = ">= 5.4.0"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
+
 {% endif %}
