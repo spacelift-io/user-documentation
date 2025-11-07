@@ -154,7 +154,7 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 - Scheduler service: cron jobs are now triggered via a [new ECS service called scheduler](./cloudformation/install.md#scheduler). This has no impact on the app functionality, but those who use custom VPCs will need to provide a new config value under `vpc_config` called `scheduler_security_group_id`. **Important**: the database security group must be updated as well since the scheduler service needs to access the database. So for custom VPC installations, the required updates are the following:
     - creating a new security group for the scheduler service
         - with no ingress
-        - an egress record to the database security group
+        - unrestricted egress
     - updating the database security group ingress to allow connections from the scheduler security group
     - please see the [advanced installations](./cloudformation/advanced-installations.md) page for code examples
 - Disable XRay: if you wish to disable telemetry in the backend, you can do so by setting the `tracing_enabled` configuration value to `false` in the install script's config file.

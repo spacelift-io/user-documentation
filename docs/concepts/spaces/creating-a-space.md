@@ -1,38 +1,50 @@
-# Creating a Space
+# Creating a space
 
-Creating and modifying spaces takes place in the **Spaces** tab in the UI.
+You can create and modify spaces on the _Enforce Guardrails_ > _Spaces_ tab in the Spacelift UI.
 
-![](<../../assets/screenshots/spaces-tab.png>)
+## Spaces diagram view
 
-## Spaces View
+The spaces diagram view shows a tree of all the spaces visible to you in your account. The immutable `root` space is at the top, and from there you can build any tree structure you want.
 
-The view shows a tree of all the spaces visible to you in your account. The immutable `root` space is at the top, and from there you can build any tree structure you want.
-
-This view behaves a bit differently for users that are admins of the `root` space.
-
-If you are not an admin of the `root` space, you will only see the spaces that you have access to, additionally, you will see a path from the spaces you have access to, to the `root` space.
-Each space card would indicate what access level to that space you have.
+If you are not an admin of the `root` space, you will only see the spaces that you have access to, additionally, you will see a path from the spaces you have access to, to the `root` space. Each space card indicates what access level you have to that space.
 
 If you are an admin of the `root` space you don't see individual access levels, as you are automatically an admin of all spaces.
 
-![](<../../assets/screenshots/spaces_access_propagation.png>)
+![Spaces diagram view](<../../assets/screenshots/spaces_access_propagation.png>)
 
-## Creating a Single Space
+By default, only `root` admin users can create or delete spaces. This can be changed in [account settings](./allowing-non-root-admins-to-manage-spaces.md).
+
+## Creating a single space
 
 You can create a space either by clicking a **Create space** button in the top right corner of the view, or by clicking the blue addition button at the bottom of a space card.
 
-By default, only `root` admin users can create spaces. This can be [overwritten in the account settings](./allowing-non-root-admins-to-manage-spaces.md).
+1. Click **Create space** in the top-right or the **blue plus sign** at the bottom of a space card in the diagram.
+2. Fill in the details for the space:
+      - **Name**: Enter a unique, descriptive name for your space.
+      - **Description** (optional): Enter a (markdown-supported) description of the space and the resources it manages.
+      - **Labels** (optional): Add labels to help sort and filter your spaces.
+      - **Parent space**: Select the parent space for the new space. If you clicked the blue plus sign, this will be automatically filled in.
+      - **Enable inheritance**: Check the box to enable, and uncheck to disable. Inheritance is enabled by default.
+3. Click **Create**.
 
-![](<../../assets/screenshots/spaces-create-button.png>)
+![Create a new space](<../../assets/screenshots/spaces/create_space.png>)
 
-Clicking either will open a modal where you can enter the name of the space, its parent and optionally a description and labels.
+## Editing a space
 
-You then can click **Create** to create the space.
+Space admins can edit the space(s) they are assigned to, and `root` space admins can modify any space.
 
-![](<../../assets/screenshots/spaces-create-form.png>)
+1. Click the space card you want to edit.
+2. Make your desired changes.
+3. Click **Save**.
 
-## Editing the Space
+![Edit a space](<../../assets/screenshots/spaces/edit_space.png>)
 
-An admin of the `root` space has the ability to modify spaces. This can be done by clicking on a space card, which opens up a form similar to the one used for creating a space. After performing any changes you can click **Save** to save them.
+## Deleting a space
 
-![](<../../assets/screenshots/spaces-edit-form.png>)
+You can delete any space besides `root` and `legacy` if it is empty. Empty spaces do not have any child spaces, stacks, modules, or other attachable entities like worker pools and integrations.
+
+1. Click the space card you want to delete.
+2. Click **Delete space**.
+3. Click **Delete** in the pop-up to confirm.
+
+![Delete a space](<../../assets/screenshots/spaces/delete_space.png>)

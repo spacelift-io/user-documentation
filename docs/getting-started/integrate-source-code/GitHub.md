@@ -37,7 +37,7 @@ You will need a GitHub Enterprise account to create a custom GitHub application 
 
 ### Create the GitHub application
 
-1. On the _Integrations_ screen, click **View** on the _GitHub_ card, then **Set up GitHub**.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _GitHub_ card, then **Set up GitHub**.
 2. Click [**Set up via wizard**](GitHub.md#set-up-via-wizard) (_recommended_) or [**Set up manually**](GitHub.md#set-up-manually).
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)

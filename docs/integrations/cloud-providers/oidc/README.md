@@ -66,7 +66,7 @@ The token contains the following standard claims:
 
 - `iss`: The issuer of the token. This is the URL of your Spacelift account, for example `https://demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `sub`: The subject of the token, which includes some information about the Spacelift run that generated this token.
-    - The subject claim is constructed as follows: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`. For example, `space:legacy:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
+    - The subject claim is constructed as follows: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`. For example, `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
 - `aud`: The audience of the token. This is the hostname of your Spacelift account, for example `demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `exp`: The expiration time of the token, in seconds since the Unix epoch. The token is valid for one hour.
 - `iat`: The time at which the token was issued, in seconds since the Unix epoch.
