@@ -123,6 +123,7 @@ Once the integration name and the type are chosen, a **webhook endpoint** and a 
 
 Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
 
+<!-- markdown-link-check-disable-next-line -->
 1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
 2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
 3. **App ID**: Enter the App ID you copied before generating the private key.
@@ -144,7 +145,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
         ![](<../../assets/screenshots/github_install_app.png>)
     2. On GitHub, click **Install**.
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
-        
+
         ![](<../../assets/screenshots/image (60).png>)
     4. Click **Install** to link your GitHub account to Spacelift.
 
@@ -155,7 +156,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
     2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
         ![](<../../assets/screenshots/image (59).png>)
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
-        
+
         ![](<../../assets/screenshots/image (60).png>)
     4. Click **Install** to link your GitHub account to Spacelift.
 

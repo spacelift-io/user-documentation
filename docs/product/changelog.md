@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-11-07
+
+### Features
+
+- **Rego Version Selector**: Added support for switching between Rego v0 and v1 when editing policies. A version selector is now available in the policy editor, allowing you to easily switch between versions. We recommend using Rego v1 for all new policies. See the [policy documentation](../concepts/policy/README.md#rego-version-support) for more information.
+
 ## 2025-10-27
 
 ### Features

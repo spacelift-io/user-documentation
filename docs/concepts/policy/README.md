@@ -68,6 +68,14 @@ For more detailed information about the GraphQL API and its integration, please 
 
 [Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}, the language we're using to execute policies, is a very elegant, Turing incomplete data query language. If you know SQL and [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you should find Rego familiar and only need a few hours to understand its quirks. For each policy, we also provide examples you can tweak to achieve your goals.
 
+#### Rego version support
+
+Spacelift supports both Rego v0 and v1. You can switch between versions at any time when editing a policy using the version selector in the policy editor.
+
+![Select rego version](<../../assets/screenshots/rego-version-selector.png>)
+
+**We recommend using Rego v1 for all new policies.** Rego v1 introduces improved syntax and stricter semantics that make policies more robust and easier to maintain. For information on migrating existing policies from v0 to v1, see the [OPA migration guide](https://www.openpolicyagent.org/docs/v0-upgrade#changes-to-rego-in-opa-v10){: rel="nofollow"}.
+
 ### Rego constraints
 
 To keep policies functionally pure and relatively snappy, we disabled some Rego built-ins that can query external or runtime data. These are:
@@ -83,7 +91,7 @@ Policies must be self-contained and cannot refer to external resources (e.g. fil
 !!! info
 
     Disabling `time.now_ns` may seem surprising, but depending on the current timestamp it can make your policies impure and thus tricky to test. We encourage you to [test your policies thoroughly](#testing-policies)!
-    
+
     The current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in plan policy payloads, so please use it instead.
 
 ## Policy returns and rules
