@@ -16,7 +16,7 @@ By default, only `root` admin users can create or delete spaces. This can be cha
 
 ## Creating a single space
 
-You can create a space either by clicking a **Create space** button in the top right corner of the view, or by clicking the blue addition button at the bottom of a space card.
+If you are a `root` admin, you can create a new space anywhere in the tree. If you are a space admin, you can only create child spaces for the space you manage.
 
 1. Click **Create space** in the top-right or the **blue plus sign** at the bottom of a space card in the diagram.
 2. Fill in the details for the space:

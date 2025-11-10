@@ -25,7 +25,7 @@ $ curl --request POST \
   --url https://<account-name>.app.spacelift.io/graphql \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --data '{"query":"{ stacks { id name, administrative, createdAt, description }}"}'
+  --data '{"query":"{ stacks { id name, createdAt, description }}"}'
 ```
 
 The request body looks like this when formatted a bit nicer:
@@ -36,7 +36,6 @@ The request body looks like this when formatted a bit nicer:
   {
     id
     name,
-    administrative,
     createdAt,
     description
   }
@@ -52,14 +51,12 @@ And the response looks like this:
       {
         "id": "my-stack-1",
         "name": "My Stack 1",
-        "administrative": false,
         "createdAt": 1672916942,
         "description": "The is my first stack"
       },
       {
         "id": "my-stack-2",
         "name": "My Stack 2",
-        "administrative": false,
         "createdAt": 1674218834,
         "description": "The is my second stack"
       }
@@ -389,7 +386,7 @@ Copy the following JSON to your clipboard:
               "method": "POST",
               "body": {
                   "mimeType": "application/graphql",
-                  "text": "{\"query\":\"{ \\n\\tstacks\\n\\t{\\n\\t\\tid\\n\\t\\tname,\\n\\t\\tadministrative,\\n\\t\\tcreatedAt,\\n\\t\\tdescription\\n\\t}\\n}\"}"
+                  "text": "{\"query\":\"{ \\n\\tstacks\\n\\t{\\n\\t\\tid\\n\\t\\tname,\\n\\t\\tcreatedAt,\\n\\t\\tdescription\\n\\t}\\n}\"}"
               },
               "parameters": [],
               "headers": [

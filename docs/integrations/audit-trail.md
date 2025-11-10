@@ -49,6 +49,7 @@ If you choose to automatically enable the functionality, clicking the _Save_ but
   "account": "example",
   "action": "audit_trail_webhook.set",
   "actor": "github::name",
+  "actor_roles": ["space-admin", "context-creator"],
   "context": {
     "mutation": "auditTrailSetWebhook"
   },
@@ -75,6 +76,7 @@ Every audit trail payload conforms to the same schema:
 - `account`: name (subdomain) of the affected Spacelift account;
 - `action`: name of the performed action;
 - `actor`: actor performing the action - the `::` format shows both the actor identity (second element), and the source of the identity (first element)
+- `actor_roles`: (optional) array of role slugs attached to the actor when the action was performed. Only present when the actor has role attachments (e.g., stacks with [role bindings](../concepts/authorization/assigning-roles-stacks.md));
 - `context`: some contextual metadata about the request;
 - `data`: action-specific payload showing arguments passed to the request. Any sensitive arguments (like secrets) are sanitized;
 
@@ -85,6 +87,7 @@ Below is a sample:
   "account": "example",
   "action": "stack.create",
   "actor": "github::name",
+  "actor_roles": ["space-admin", "context-creator"],
   "context": {
     "mutation": "stackCreate"
   },
@@ -153,6 +156,7 @@ The audit trail can be disabled and deleted at any point, but for both events we
   "account": "example",
   "action": "audit_trail_webhook.delete",
   "actor": "github::user",
+  "actor_roles": ["space-admin"],
   "context": {
     "mutation": "auditTrailDeleteWebhook"
   },

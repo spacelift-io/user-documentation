@@ -33,21 +33,21 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 
 ### Role permissions
 
-| Action / Role                 | Root Space Admin | Space Admin | Space Writer | Space Reader |
-|-------------------------------|------------------|-------------|--------------|--------------|
-| Set up SSO                    | ✅                | ❌           | ❌            | ❌            |
-| Set up VCS                    | ✅                | ❌           | ❌            | ❌            |
-| Manage Sessions               | ✅                | ❌           | ❌            | ❌            |
-| Manage Login Policies & User Management Controls  | ✅ | ❌      | ❌            | ❌            |
-| Manage Audit Trails           | ✅                | ❌           | ❌            | ❌            |
-| Manage Spaces                 | ✅                | ✅*          | ❌            | ❌            |
-| Manage Stack Config Settings  | ✅                | ✅           | ❌            | ❌            |
-| Manage Worker Pools, Contexts | ✅                | ✅           | ❌            | ❌            |
-| Manage Stack Env Vars         | ✅                | ✅           | ✅            | ❌            |
-| Trigger runs                  | ✅                | ✅           | ✅            | ❌            |
-| View Stacks                   | ✅                | ✅           | ✅            | ✅            |
-| View Spaces                   | ✅                | ✅           | ✅            | ✅            |
-| View Worker Pools, Contexts   | ✅                | ✅           | ✅            | ✅            |
+| Action / Role                                    | Root Space Admin | Space Admin | Space Writer | Space Reader |
+| ------------------------------------------------ | ---------------- | ----------- | ------------ | ------------ |
+| Set up SSO                                       | ✅                | ❌           | ❌            | ❌            |
+| Set up VCS                                       | ✅                | ❌           | ❌            | ❌            |
+| Manage Sessions                                  | ✅                | ❌           | ❌            | ❌            |
+| Manage Login Policies & User Management Controls | ✅                | ❌           | ❌            | ❌            |
+| Manage Audit Trails                              | ✅                | ❌           | ❌            | ❌            |
+| Manage Spaces                                    | ✅                | ✅*          | ❌            | ❌            |
+| Manage Stack Config Settings                     | ✅                | ✅           | ❌            | ❌            |
+| Manage Worker Pools, Contexts                    | ✅                | ✅           | ❌            | ❌            |
+| Manage Stack Env Vars                            | ✅                | ✅           | ✅            | ❌            |
+| Trigger runs                                     | ✅                | ✅           | ✅            | ❌            |
+| View Stacks                                      | ✅                | ✅           | ✅            | ✅            |
+| View Spaces                                      | ✅                | ✅           | ✅            | ✅            |
+| View Worker Pools, Contexts                      | ✅                | ✅           | ✅            | ✅            |
 
 *Can only manage assigned space(s)
 
@@ -65,7 +65,7 @@ See [assigning roles to users](../authorization/assigning-roles-users.md) for de
 
 ### Login policies (policy-as-code)
 
-Login policies can only be created in the `root` space. Therefore, only `root` and `legacy` space admins and administrative stacks can create or modify them.
+Login policies can only be created in the `root` space. Therefore, only `root` and `legacy` space admins and stacks with `root` space admin roles can modify login policies.
 
 [Login policies](../policy/login-policy.md) enable programmatic role assignment using OPA/Rego:
 

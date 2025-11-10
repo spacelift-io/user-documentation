@@ -84,6 +84,27 @@ The token also contains the following custom claims:
 - `runId`: The ID of the run that owns the token.
 - `scope`: The scope of the token, either `read` or `write`.
 
+#### Wildcards
+
+You can use wildcards like "*" in your OIDC token, as long as the wildcard matches the exact format of the sub claim: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`.
+
+For example, you could create a policy like this, which would cover most internal spaces, stacks, run types, and scopes:
+
+```json
+"Condition": {
+  "StringLike": {
+    "yourSpaceliftDomain:sub": "space:production-*:stack:*:run_type:*:scope:*"
+  }
+}
+```
+
+- `space:production-*`: Covers any internal Space ID that begins with "production-".
+- `stack:*`: Matches any stack inside that production space.
+- `run_type:*`: Covers all types of runs (e.g., PROPOSED, TRACKED).
+- `scope:*`: Covers both read and write scopes for that run.
+
+Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.
+
 ### About scopes
 
 Whether the token is given `read` or `write` scope depends on the type of the run that generated the token:

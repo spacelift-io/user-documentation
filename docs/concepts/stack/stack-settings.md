@@ -22,10 +22,21 @@ You can configure these settings when you first [create a stack](../../getting-s
 
 ### Administrative
 
-This setting determines whether a stack has administrative privileges within its [space](../spaces/README.md). Administrative stacks receive an API token that grants them elevated access to a subset of the Spacelift API, which is used by the [Terraform provider](../../vendors/terraform/terraform-provider.md). This allows them to create, update, and destroy Spacelift resources.
+!!! warning "Deprecated - Use stack role attachments instead"
+    The administrative flag is deprecated and will be automatically disabled on June 1st, 2026. On that date, Spacelift will automatically attach the Space Admin role to each stack's own space, which is 100% backward compatible but does not provide advanced features.
+
+    We recommend migrating as soon as possible to [stack role attachments](../authorization/assigning-roles-stacks.md) to take advantage of:
+
+    - **Cross-space access**: Access sibling spaces, not just your own space and subspaces
+    - **Fine-grained permissions**: Use custom roles with specific actions instead of full Space Admin permissions
+    - **Enhanced audit trail**: Role information included in webhook payloads
+
+    **To replicate the current behavior**, attach the Space Admin role to the stack using its own space as the binding space. See the [migration guide](../authorization/assigning-roles-stacks.md#migration-from-administrative-flag) for detailed instructions.
+
+This legacy setting determines whether a stack has administrative privileges within its [space](../spaces/README.md). Administrative stacks receive an API token that grants them elevated access to a subset of the Spacelift API, which is used by the [Terraform provider](../../vendors/terraform/terraform-provider.md). This allows them to create, update, and destroy Spacelift resources.
 
 !!! info
-    Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control).
+    Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control) and all of its subspaces.
 
 Administrative stacks can declaratively manage other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
 

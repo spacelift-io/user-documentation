@@ -75,7 +75,7 @@ Once the Terraform code has been generated, push the `tmp/code/main.tf` file to 
 
 After pushing the generated Terraform has been pushed to a git repository, create a manager stack in Spacelift.
 
-Point it to the repository, and possibly folder, where you stored the Terraform code, and make sure to **mark it as administrative**.
+Point it to the repository, and possibly folder, where you stored the Terraform code, and make sure to [attach a Space admin role](../concepts/authorization/assigning-roles-stacks.md) to it.
 
 Finally, trigger a run to create the Spacelift entities.
 
