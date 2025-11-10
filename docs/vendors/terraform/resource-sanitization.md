@@ -195,7 +195,6 @@ If you’re using the [Spacelift Terraform](../../vendors/terraform/terraform-pr
 
 ```terraform
 resource "spacelift_stack" "user_dashboard_internal" {
-    administrative               = true
     autodeploy                   = true
     branch                       = "main"
     description                  = “Creates and manages the user management internal dashboard"

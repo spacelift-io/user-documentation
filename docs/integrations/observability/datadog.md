@@ -272,7 +272,7 @@ This module will only create Spacelift assets:
 
 ## Setting up the integration
 
-To set up the integration, you'll need to have a [Datadog account](https://www.datadoghq.com/){: rel="nofollow"} and a [Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys/#api-keys){: rel="nofollow"}. If you don't have an administrative stack declaratively manage your Spacelift resources, we suggest you create one, and add module instantiation to it according to its usage instructions. We suggest that you pass the Datadog API key as a [stack secret](../../concepts/configuration/environment.md#environment-variables), or - even better - retrieve it from a remote secret store (eg. AWS Parameter Store) using Terraform.
+To set up the integration, you'll need to have a [Datadog account](https://www.datadoghq.com/){: rel="nofollow"} and a [Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys/#api-keys){: rel="nofollow"}. If you don't have a stack [with an appropiate role](../../concepts/authorization/assigning-roles-stacks.md) to declaratively manage your Spacelift resources, we suggest you create one, and add module instantiation to it according to its usage instructions. We suggest that you pass the Datadog API key as a [stack secret](../../concepts/configuration/environment.md#environment-variables), or - even better - retrieve it from a remote secret store (eg. AWS Parameter Store) using Terraform.
 
 If you intend to monitor your entire account (our suggested approach), we suggest that the module is installed in the [root space](../../concepts/spaces/access-control.md) of your Spacelift account. If you only want to monitor a subset of your stacks, you can install the module in their respective space.
 

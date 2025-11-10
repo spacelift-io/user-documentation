@@ -29,12 +29,13 @@ RBAC operates on three fundamental concepts: actions, actors, and subjects.
 - **Users**: Individual team members authenticated through your identity provider.
 - **API Keys**: Programmatic access tokens for automation.
 - **IdP Groups**: Groups of users as defined by your identity provider.
+- **Stacks**: Stacks that can assume roles to make changes inside of Spacelift.
 
 ### Subjects
 
 **Subjects** are the resources being acted upon. Examples include:
 
-- **Stacks**: Infrastructure definitions and their runs.
+- **Stacks**: Stacks managing infrastructure and their runs.
 - **Contexts**: Collections of environment variables and files.
 - **Policies**: Rules that govern various Spacelift behaviors.
 - **Spaces**: Organizational containers for resources.

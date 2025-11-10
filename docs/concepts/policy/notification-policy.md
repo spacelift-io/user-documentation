@@ -146,6 +146,10 @@ This is the schema of the data input that each policy request can receive:
     },
     "stack": {
       "administrative": "boolean",
+      "roles": [{
+        "id": "string - the role slug, eg. space-admin",
+        "name": "string - the role name"
+      }],
       "autodeploy": "boolean",
       "autoretry": "boolean",
       "branch": "string",

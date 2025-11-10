@@ -24,7 +24,7 @@ terraform {
 The following table shows the latest version of the Terraform provider known to work with our Self-Hosted versions:
 
 | Self-Hosted Version | Max Provider Version |
-|---------------------|----------------------|
+| ------------------- | -------------------- |
 | 3.6.0               | 1.35.1               |
 | 3.5.0               | 1.33.0               |
 | 3.4.0               | 1.31.0               |
@@ -160,11 +160,11 @@ terraform {
 
 ### Using inside Spacelift
 
-Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to [stacks](../../concepts/stack/README.md) **marked as** [**administrative**](../../concepts/stack/README.md#administrative). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/README.md) responsible for generating it is in [_Planning_](../../concepts/run/README.md#planning), [_Applying_](../../concepts/run/README.md#applying) or [Performing](../../concepts/run/task.md#performing) (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides full administrative access to Spacelift entities [that can be managed by Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
+Within Spacelift, the provider is configured by an environment variable `SPACELIFT_API_TOKEN` injected into each run and task belonging to stacks that have [roles attached](../../concepts/authorization/assigning-roles-stacks.md). This value is a bearer token that contains all the details necessary for the provider to work, including the full address of the [API endpoint](../../integrations/api.md) to talk to. It's technically valid for 3 hours but only when the [run](../../concepts/run/README.md) responsible for generating it is in _Planning_, _Applying_ or _Performing_ (for [tasks](../../concepts/run/task.md)) state and throughout that time it provides access to Spacelift entities [that can be managed by Terraform](terraform-provider.md#boundaries-of-programmatic-management) within the same Spacelift account.
 
 ### Using outside of Spacelift
 
-If you want to run the Spacelift provider outside of Spacelift, or you need to manage resources across multiple Spacelift accounts from the same Terraform project, the preferred method is to generate and use dedicated [API keys](../../integrations/api.md#api-key-management). Note that unless you're just accessing whitelisted data resources, the Terraform use case will normally require marking the API key as administrative.
+If you want to run the Spacelift provider outside of Spacelift, or you need to manage resources across multiple Spacelift accounts from the same Terraform project, the preferred method is to generate and use dedicated [API keys](../../integrations/api.md) with appropriate role attachments. Note that unless you're just accessing whitelisted data resources, the Terraform use case will normally require the API key to have elevated permissions.
 
 In order to set up the provider to use an API key, you will need the key ID, secret, and the API key endpoint:
 
@@ -232,7 +232,7 @@ provider "spacelift" {
 
 ## Proposed workflow
 
-We suggest to first manually create a single administrative stack, and then use it to programmatically define other stacks as necessary. If you're using an integration like AWS, you should probably give the role associated with this stack **full IAM access** too, allowing it to create separate roles and policies for individual stacks.
+We suggest to first manually create a single [management stack with Space Admin role](../../concepts/authorization/assigning-roles-stacks.md), and then use it to programmatically define other stacks as necessary. If you're using an integration like AWS, you should probably give the role associated with this stack **full IAM access** too, allowing it to create separate roles and policies for individual stacks.
 
 If you want to share data or outputs between stacks, please consider programmatically creating [Stack Dependencies](../../concepts/stack/stack-dependencies.md).
 
@@ -251,8 +251,8 @@ The resulting code will be displayed in a drawer. It includes all stack settings
 
 ## Boundaries of programmatic management
 
-Spacelift administrative tokens are not like user tokens. Specifically, they allow access to a much smaller subset of the [API](../../integrations/api.md#viewing-the-graphql-schema). They allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
+The `SPACELIFT_API_TOKEN` provided to stacks is not like user tokens. Stacks without [role attachments](../../concepts/authorization/assigning-roles-stacks.md) receive a token with limited access that cannot modify any Spacelift resources. Stacks with role attachments receive a more powerful token, but it still allows access to a much smaller subset of the [API](../../integrations/api.md#view-the-graphql-schema) than user tokens. These tokens allow managing the lifecycles of [stacks](../../concepts/stack/README.md), [contexts](../../concepts/configuration/context.md), [integrations](../../integrations/cloud-providers/aws.md), and [configuration](../../concepts/configuration/environment.md), but they won't allow you to create or even access [Terraform state](state-management.md), [runs](../../concepts/run/README.md) or [tasks](../../concepts/run/task.md), or their associated logs.
 
-Administrative tokens have no superpowers either. They can't read write-only configuration elements any more than you can as a user. Unlike human users with user tokens, administrative tokens won't allow you to run `env` in a [task](../../concepts/run/task.md) and read back the logs.
+Stack tokens have no superpowers either. They can't read write-only configuration elements any more than you can as a user. Unlike human users with user tokens, stack tokens won't allow you to run `env` in a [task](../../concepts/run/task.md) and read back the logs.
 
 In general, we believe that things like runs or tasks do not fit the (relatively static) Terraform resource lifecycle model and that hiding those parts of the API from Terraform helps us ensure the integrity of potentially sensitive data - just see the example above.
