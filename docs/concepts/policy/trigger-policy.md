@@ -399,4 +399,6 @@ package spacelift
 trigger[stack.id] { stack := input.stacks[_] }
 ```
 
+Auto-updates will only affect the stacks the trigger policy has access to (via inheritance or directly).
+
 The stack would need to be have been triggered successfully (initialized) once, before the module starts tracking it. You can also combine this policy with a tag-driven module version release push policy. [Here is an example](https://github.com/spacelift-solutions/demo/blob/main/admin/policies.tf){: rel="nofollow"}.
