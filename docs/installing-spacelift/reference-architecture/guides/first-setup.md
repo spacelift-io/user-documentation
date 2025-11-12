@@ -43,6 +43,10 @@ The account name must meet the following requirements:
 - It must only contain upper or lowercase letters, numbers, `-` or `_`.
 - It must be between 2 and 38 characters long.
 
+!!! warning "Changing account name"
+
+    Choose your account name carefully. While it can technically be changed after your initial configuration and deployment, changing account names can affect integrations (especially the AWS trust policy), webhooks, and other services that reference the account name when they're created.
+
 ## Start configuring your account
 
 Congratulations! At this point your Spacelift account has been created, and you should have been redirected to the launchpad screen:
