@@ -1,8 +1,5 @@
 # Plugins
 
-!!! warning
-    Plugins support is currently in closed **beta** while we ensure stability of the platform and API's. Reach out to your Spacelift CSM for access.
-
 Plugins are a way to extend the functionality of Spacelift.
 They allow you to integrate with third-party services, automate tasks, and enhance your workflows.
 Spacelift supports a variety of plugins, which can be used to perform actions such as sending notifications, managing resources, or integrating with external systems.
@@ -10,101 +7,24 @@ You can also develop your own custom plugins using our plugin SDK [spaceforge](h
 
 ## Available Plugins
 
-Navigate to the Plugins -> Templates section in the Spacelift UI to see the available plugins.
+Browse and install plugins from the **Plugins → Templates** section in the Spacelift UI. You can also create custom plugins using the `Create Template` button.
 
 ![templates_home.png](../assets/screenshots/integrations/plugins/templates_home.png)
 
-You're able to search for plugins on this screen and install it into your account.
-You can also create plugins yourself using the `Create Template` button.
+The following plugins are available in the [Spacelift plugin repository](https://github.com/spacelift-io/plugins){: rel="nofollow"}:
 
-### Infracost
+- **[Infracost](https://www.infracost.io/){: rel="nofollow"}** - Estimate infrastructure costs before deployment
+- **[SOPS](https://sops.github.io/){: rel="nofollow"}** - Decrypt secrets using cloud KMS services (AWS KMS, Azure Key Vault, GCP KMS)
+- **[Wiz](https://www.wiz.io/){: rel="nofollow"}** - Cloud security scanning and compliance reporting
+- **[Checkov](https://www.checkov.io/){: rel="nofollow"}** - Static security analysis for IaC files
+- **[Terrascan](https://runterrascan.io/){: rel="nofollow"}** - Detect compliance and security violations
+- **[Trivy](https://trivy.dev/){: rel="nofollow"}** - Comprehensive vulnerability and misconfiguration scanner
+- **[TruffleHog](https://trufflesecurity.com/trufflehog){: rel="nofollow"}** - Secret and credential detection (800+ types)
+- **Environment Manager** - Centralized environment variable management across stacks via YAML
+- **Envsubst** - Environment variable substitution for Kubernetes manifests
+- **OpenTofu Tracing** - OpenTelemetry tracing for OpenTofu operations
 
-The [Infracost](https://www.infracost.io/) plugin helps you estimate the cost impact of your Terraform infrastructure changes before they're deployed.
-
-**Use Cases:**
-
-- Get cost estimates for pull requests and plan changes
-- Set budget alerts and cost thresholds
-- Compare costs across different infrastructure configurations
-- Generate cost reports for stakeholders
-
-**Prerequisites:**
-
-- [Infracost API key](https://www.infracost.io/docs/#2-get-api-key) from your Infracost account
-- Terraform configurations with supported cloud providers (AWS, Azure, GCP)
-
-**Troubleshooting:**
-
-- **API key issues**: Ensure your Infracost API key is valid and has sufficient quota
-- **Unsupported resources**: Check [Infracost's supported resources](https://www.infracost.io/docs/supported_resources/) list
-- **Network connectivity**: Ensure your workers can reach Infracost API endpoints
-
-### SOPS
-
-The [SOPS](https://sops.github.io/) plugin enables secure secret management by encrypting/decrypting files during your Terraform runs.
-
-**Use Cases:**
-
-- Decrypt encrypted Terraform variable files
-- Manage secrets across multiple environments
-- Integrate with cloud KMS services (AWS KMS, Azure Key Vault, GCP KMS)
-- Maintain encrypted secrets in version control
-
-**Prerequisites:**
-
-- SOPS-encrypted files in your repository
-- Appropriate cloud credentials for your chosen encryption backend
-- SOPS configuration file (`.sops.yaml`) in your repository
-
-**Sample .sops.yaml:**
-
-```yaml
-creation_rules:
-  - path_regex: \.dev\.tf$
-    kms: 'arn:aws:kms:us-east-1:123456789012:key/dev-key-id'
-  - path_regex: \.prod\.tf$
-    kms: 'arn:aws:kms:us-east-1:123456789012:key/prod-key-id'
-```
-
-**Troubleshooting:**
-
-- **Permission errors**: Verify IAM roles have KMS decrypt permissions
-- **File format issues**: Ensure encrypted files are in supported formats (YAML, JSON, dotenv)
-- **Key rotation**: Update SOPS configuration when rotating encryption keys
-
-### WIZ
-
-The [WIZ](https://www.wiz.io/) plugin integrates cloud security scanning into your infrastructure deployment pipeline.
-
-**Use Cases:**
-
-- Scan infrastructure configurations for security vulnerabilities
-- Enforce security policies before deployment
-- Generate security compliance reports
-- Identify misconfigurations and policy violations
-
-**Prerequisites:**
-
-- WIZ platform account and API credentials
-- Cloud resources configured for WIZ scanning
-- Security policies defined in WIZ platform
-
-**Plan Policy Integration:**
-
-The plugin can be configured to fail runs based on:
-
-- Critical security findings
-- Policy compliance violations
-- Risk score thresholds
-- Specific vulnerability types
-
-Simply write your plan policy to use the `input.third_party_metadata.custom.wiz` object.
-
-**Troubleshooting:**
-
-- **Authentication failures**: Verify WIZ API credentials are correct and active
-- **Scan timeouts**: Increase timeout values for large infrastructure scans
-- **Policy conflicts**: Review WIZ policy configurations if scans are failing unexpectedly
+For detailed plugin documentation, configuration examples, and source code, visit the [plugin repository](https://github.com/spacelift-io/plugins){: rel="nofollow"}. Contributions are welcome! If you've built a plugin that could benefit the community, consider submitting it to the repository.
 
 ### Changing the plugin template
 
