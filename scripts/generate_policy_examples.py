@@ -248,7 +248,7 @@ def main():
         example = generate_example_from_schema(policy_name, policy_schema, schema)
 
         # Write to file
-        output_file = f'policy_inputs/{policy_name.lower()}_input.json'
+        output_file = f'docs/snippets/{policy_name.lower()}_input.json'
         with open(output_file, 'w') as f:
             json.dump(example, f, indent=2)
 
