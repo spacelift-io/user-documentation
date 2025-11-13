@@ -1,0 +1,13 @@
+{
+  "account": {
+    "name": "string - Account display name"
+  },
+  "webhook_endpoints": [
+    {
+      "id": "string - Webhook endpoint identifier",
+      "labels": [
+        "string - item"
+      ]
+    }
+  ]
+}

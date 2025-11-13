@@ -1,0 +1,184 @@
+{
+  "reviews": {
+    "current": {
+      "approvals": [
+        {
+          "author": "string - Author of the approval/rejection",
+          "request": "object - Request data for the approval event",
+          "session": "object - Session data for the approval event",
+          "state": "string - State of the approval event",
+          "state_version": "integer - State version of the approval event"
+        }
+      ],
+      "rejections": [
+        {
+          "author": "string - Author of the approval/rejection",
+          "request": "object - Request data for the approval event",
+          "session": "object - Session data for the approval event",
+          "state": "string - State of the approval event",
+          "state_version": "integer - State version of the approval event"
+        }
+      ]
+    },
+    "older": {
+      "approvals": [
+        {
+          "author": "string - Author of the approval/rejection",
+          "request": "object - Request data for the approval event",
+          "session": "object - Session data for the approval event",
+          "state": "string - State of the approval event",
+          "state_version": "integer - State version of the approval event"
+        }
+      ],
+      "rejections": [
+        {
+          "author": "string - Author of the approval/rejection",
+          "request": "object - Request data for the approval event",
+          "session": "object - Session data for the approval event",
+          "state": "string - State of the approval event",
+          "state_version": "integer - State version of the approval event"
+        }
+      ]
+    }
+  },
+  "run": {
+    "based_on_local_workspace": "boolean - Whether the run is based on local workspace",
+    "branch": "string - Git branch for the run",
+    "changes": [
+      {
+        "phase": "string - Phase of the change (plan or apply)",
+        "action": "string - Type of change action",
+        "moved": "boolean - Whether the entity was moved",
+        "entity": "object - Entity data"
+      }
+    ],
+    "command": "string - Command executed for the run",
+    "commit": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "created_at": "integer - Unix timestamp in nanoseconds",
+    "creator_session": {
+      "account_name": "string - Account name for machine sessions",
+      "admin": "boolean - Whether the session has admin privileges",
+      "creator_ip": "string - IP address where the session was created",
+      "login": "string - Login identifier",
+      "machine": "boolean - Whether this is a machine session",
+      "member": "boolean - Whether the user is a member of the account",
+      "name": "string - Display name of the user",
+      "stack_id": "string - Stack ID for machine sessions",
+      "teams": [
+        "string - item"
+      ]
+    },
+    "drift_detection": "boolean - Whether this is a drift detection run",
+    "flags": [
+      "string - item"
+    ],
+    "id": "string - Run identifier",
+    "repository_runtime_config_changed": "boolean - Whether the repository runtime config has changed (approval-specific)",
+    "runtime_config": {
+      "git_sparse_checkout_paths": [
+        "string - item"
+      ],
+      "after_apply": [
+        "string - item"
+      ],
+      "after_destroy": [
+        "string - item"
+      ],
+      "after_init": [
+        "string - item"
+      ],
+      "after_perform": [
+        "string - item"
+      ],
+      "after_plan": [
+        "string - item"
+      ],
+      "after_run": [
+        "string - item"
+      ],
+      "before_apply": [
+        "string - item"
+      ],
+      "before_destroy": [
+        "string - item"
+      ],
+      "before_init": [
+        "string - item"
+      ],
+      "before_perform": [
+        "string - item"
+      ],
+      "before_plan": [
+        "string - item"
+      ],
+      "environment": "object - Environment variables",
+      "project_root": "string - Project root directory",
+      "runner_image": "string - Docker image used for the run",
+      "terraform_version": "string - Terraform version"
+    },
+    "state": "string - Current run state",
+    "triggered_by": "string - Who or what triggered the run",
+    "type": "string - Run type (TRACKED, PROPOSED, etc.)",
+    "updated_at": "integer - Unix timestamp in nanoseconds",
+    "user_provided_metadata": [
+      "string - item"
+    ]
+  },
+  "stack": {
+    "additional_project_globs": [
+      "string - item"
+    ],
+    "administrative": "boolean - Whether the stack is administrative",
+    "autodeploy": "boolean - Whether autodeploy is enabled",
+    "branch": "string - Git branch tracked by this stack",
+    "contexts": [
+      "string - item"
+    ],
+    "id": "string - Stack identifier",
+    "labels": [
+      "string - item"
+    ],
+    "locked_by": "string - User who locked the stack, if any",
+    "name": "string - Stack display name",
+    "namespace": "string - Stack namespace",
+    "project_root": "string - Project root directory",
+    "repository": "string - Repository name",
+    "space": {
+      "id": "string - Space identifier",
+      "labels": [
+        "string - item"
+      ],
+      "name": "string - Space display name"
+    },
+    "state": "string - Current stack state",
+    "terraform_version": "string - Terraform version used by the stack",
+    "terraform_workflow_tool": "string - Terraform workflow tool",
+    "tracked_commit": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "worker_pool": {
+      "id": "string - Worker pool identifier (null for public pool)",
+      "labels": [],
+      "name": "string - Worker pool name (null for public pool)",
+      "public": "boolean - Whether this is the public worker pool"
+    }
+  }
+}
