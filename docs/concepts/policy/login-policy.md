@@ -83,30 +83,7 @@ Each policy request will receive this data input:
     For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `LOGIN` policy type.
 
 ```json title="data_input_schema.json"
-{
-  "request": {
-    "remote_ip": "string - IP of the user trying to log in",
-    "timestamp_ns": "number - current Unix timestamp in nanoseconds"
-  },
-  "session": {
-    "creator_ip": "string - IP address of the user who created the session",
-    "login": "string - username of the user trying to log in",
-    "member": "boolean - is the user a member of the account",
-    "name": "string - full name of the user trying to log in - may be empty",
-    "teams": [
-      "string - names of teams the user is a member of"
-    ]
-  },
-  "spaces": [
-    {
-      "id": "string - ID of the space",
-      "name": "string - name of the space",
-      "labels": [
-        "string - label of the space"
-      ]
-    }
-  ]
-}
+--8<-- "docs/snippets/login_input.json"
 ```
 
 !!! tip

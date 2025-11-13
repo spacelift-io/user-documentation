@@ -3,3 +3,4 @@ mkdocs-macros-plugin==1.4.1
 mike @ git+https://github.com/jimporter/mike.git@af47b96
 mkdocs-redirects==1.2.2
 mkdocs-glightbox==0.5.2
+requests==2.32.5
