@@ -1,0 +1,67 @@
+{
+  "request": {
+    "command": "string - Command to be executed",
+    "remote_ip": "string - IP address of the request origin",
+    "timestamp_ns": "integer - Unix timestamp in nanoseconds"
+  },
+  "session": {
+    "account_name": "string - Account name for machine sessions",
+    "admin": "boolean - Whether the session has admin privileges",
+    "creator_ip": "string - IP address where the session was created",
+    "login": "string - Login identifier",
+    "machine": "boolean - Whether this is a machine session",
+    "member": "boolean - Whether the user is a member of the account",
+    "name": "string - Display name of the user",
+    "stack_id": "string - Stack ID for machine sessions",
+    "teams": [
+      "string - item"
+    ]
+  },
+  "stack": {
+    "additional_project_globs": [
+      "string - item"
+    ],
+    "administrative": "boolean - Whether the stack is administrative",
+    "autodeploy": "boolean - Whether autodeploy is enabled",
+    "branch": "string - Git branch tracked by this stack",
+    "contexts": [
+      "string - item"
+    ],
+    "id": "string - Stack identifier",
+    "labels": [
+      "string - item"
+    ],
+    "locked_by": "string - User who locked the stack, if any",
+    "name": "string - Stack display name",
+    "namespace": "string - Stack namespace",
+    "project_root": "string - Project root directory",
+    "repository": "string - Repository name",
+    "space": {
+      "id": "string - Space identifier",
+      "labels": [
+        "string - item"
+      ],
+      "name": "string - Space display name"
+    },
+    "state": "string - Current stack state",
+    "terraform_version": "string - Terraform version used by the stack",
+    "terraform_workflow_tool": "string - Terraform workflow tool",
+    "tracked_commit": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "worker_pool": {
+      "id": "string - Worker pool identifier (null for public pool)",
+      "labels": [],
+      "name": "string - Worker pool name (null for public pool)",
+      "public": "boolean - Whether this is the public worker pool"
+    }
+  }
+}
