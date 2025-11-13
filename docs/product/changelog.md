@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-11-17
+
+### Features
+
+- **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
+
 ## 2025-11-12
 
 ### Features
