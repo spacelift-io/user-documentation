@@ -25,6 +25,7 @@ The following table shows the latest version of the Terraform provider known to 
 
 | Self-Hosted Version | Max Provider Version |
 | ------------------- | -------------------- |
+| 3.7.0               | 1.37.0               |
 | 3.6.0               | 1.35.1               |
 | 3.5.0               | 1.33.0               |
 | 3.4.0               | 1.31.0               |
