@@ -10,6 +10,37 @@ description: Find out about the latest changes to Spacelift.
 
 - **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
 
+## 2025-11-13
+
+### Features
+
+- **Plugins**: Introduced a new plugin system that allows you to extend Spacelift's functionality with custom integrations and automations. Plugins are written using the [spaceforge](https://github.com/spacelift-io/plugins){: rel="nofollow"} Python SDK and can integrate with third-party services, automate workflows, and enhance your infrastructure management capabilities.
+
+Key features include:
+
+- **Marketplace**: Browse and install plugins from the Templates section in the Spacelift UI
+- **Auto-attachment**: Automatically attach plugins to stacks using labels
+- **First-class citizens**: Plugins are managed directly in Spacelift, not through stacks
+- **Configurable parameters**: Define and configure plugin-specific settings during installation
+- **Multiple execution phases**: Run plugins at different stages of your infrastructure lifecycle(before_init, after_plan, after_apply, etc.)
+
+Available plugins include:
+
+- **Infracost**: Estimate infrastructure costs before deployment
+- **SOPS**: Secure secret management with encryption/decryption
+- **Wiz**: Cloud security scanning and compliance reporting
+- **Checkov**: Infrastructure-as-Code security and compliance scanning
+- **Terrascan**: Detect security vulnerabilities and compliance violations
+- **Trivy**: Comprehensive vulnerability and misconfiguration scanner
+- **TruffleHog**: Secret detection and prevention
+- **Environment Manager**: Manage environment variables across stacks
+- **Envsubst**: Environment variable substitution in configuration files
+- **OpenTofu Tracing**: Enhanced tracing and debugging for OpenTofu runs
+
+Plugins automatically create and manage related Spacelift resources (contexts, policies, webhooks) which are locked in the UI and managed through the plugin interface.
+
+See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
+
 ## 2025-11-12
 
 ### Features
