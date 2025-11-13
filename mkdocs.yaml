@@ -41,6 +41,7 @@ markdown_extensions:
   - admonition
   - attr_list
   - pymdownx.details
+  - pymdownx.snippets
   - pymdownx.highlight:
       auto_title: false
       linenums: true
