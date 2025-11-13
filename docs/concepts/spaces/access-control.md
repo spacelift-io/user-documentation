@@ -35,12 +35,17 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 
 | Action / Role                                    | Root Space Admin | Space Admin | Space Writer | Space Reader |
 | ------------------------------------------------ | ---------------- | ----------- | ------------ | ------------ |
-| Set up SSO                                       | ✅                | ❌           | ❌            | ❌            |
-| Set up VCS                                       | ✅                | ❌           | ❌            | ❌            |
-| Manage Sessions                                  | ✅                | ❌           | ❌            | ❌            |
-| Manage Login Policies & User Management Controls | ✅                | ❌           | ❌            | ❌            |
-| Manage Audit Trails                              | ✅                | ❌           | ❌            | ❌            |
-| Manage Spaces                                    | ✅                | ✅*          | ❌            | ❌            |
+| Set up SSO                                        | ✅                | ❌           | ❌            | ❌            |
+| Set up VCS                                        | ✅                | ❌           | ❌            | ❌            |
+| Manage Sessions                                   | ✅                | ❌           | ❌            | ❌            |
+| Manage Login Policies & User Management Controls  | ✅                | ❌           | ❌            | ❌            |
+| Manage Audit Trails                               | ✅                | ❌           | ❌            | ❌            |
+| Invite/Revoke Users                               | ✅                | ❌           | ❌            | ❌            |
+| Create/Modify/Delete Roles                        | ✅                | ❌           | ❌            | ❌            |
+| Create/Modify/Delete API Keys, IdP Group Mappings | ✅                | ❌           | ❌            | ❌            |
+| View Roles, Users, API Keys, IdP Group Mappings  | ✅                | ✅           | ❌            | ❌            |
+| Manage Role Bindings                             | ✅                | ✅*          | ❌            | ❌            |
+| Manage Spaces                                    | ✅                | ✅**         | ❌            | ❌            |
 | Manage Stack Config Settings                     | ✅                | ✅           | ❌            | ❌            |
 | Manage Worker Pools, Contexts                    | ✅                | ✅           | ❌            | ❌            |
 | Manage Stack Env Vars                            | ✅                | ✅           | ✅            | ❌            |
@@ -49,7 +54,9 @@ A "Root Space Admin" is a user given administrative permissions to the `root` sp
 | View Spaces                                      | ✅                | ✅           | ✅            | ✅            |
 | View Worker Pools, Contexts                      | ✅                | ✅           | ✅            | ✅            |
 
-*Can only manage assigned space(s)
+*Can only manage role bindings for assigned space(s)
+
+**Can only manage assigned space(s)
 
 ## Authorization methods
 

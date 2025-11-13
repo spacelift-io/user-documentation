@@ -6,10 +6,14 @@ IdP groups can receive roles through direct group assignment. Assign roles to th
 
 ### Assign roles to IdP groups using the web UI
 
+!!! info "Permission Scope"
+    - **Root Space Admins** can create/modify/delete IdP group mappings and manage role bindings across all spaces
+    - **Non-root Space Admins** can view all IdP group mappings but only manage role bindings for spaces they administer; they cannot create/modify/delete IdP group mappings
+
 1. Verify you meet the prerequisites:
     1. The selected management strategy for your organization must be User Management.
     2. Your identity provider [must be connected to Spacelift](../../integrations/single-sign-on/README.md).
-    3. You must have appropriate permissions to manage user group roles.
+    3. You must have Space Admin permissions on the target space where you want to assign roles (or Root Space Admin permissions for all spaces).
     4. Target spaces must exist where you want to assign roles.
 2. Navigate to IdP group mapping:
     1. Click your name in the bottom left corner of the Spacelift interface.
