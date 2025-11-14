@@ -30,8 +30,8 @@
     {
       "id": "string - Role identifier",
       "name": "string - Role display name",
-      "slug": "string - Role slug used for assignment in policies",
-      "ulid": "string - Universally Unique Lexicographically Sortable Identifier"
+      "slug": "string - Role slug",
+      "ulid": "string - Role ULID (Universally Unique Lexicographically Sortable Identifier)"
     }
   ]
 }
