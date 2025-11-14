@@ -259,10 +259,25 @@ System roles are immutable and cannot be modified or deleted, ensuring consisten
 - Create and modify stacks.
 - Create and modify contexts and policies.
 - Manage space settings (when assigned to specific space).
+- View all roles, users, API keys, and IdP group mappings in the organization (read-only).
+- Manage role bindings (assign/remove roles) for users, API keys, and IdP groups within the spaces they administer.
 - Equivalent to legacy **Admin** role.
 
-!!! info "Root Space Admin"
-    Users with Space Admin role on the **root** space become **Root Space Admins** with account-wide privileges including SSO setup, VCS configuration, and audit trail management.
+!!! info "Root Space Admin vs Non-root Space Admin"
+    **Root Space Admins** (Space Admin role on the **root** space) have account-wide privileges including:
+
+    - All Space Admin permissions across all spaces
+    - SSO setup, VCS configuration, audit trail management
+    - Invite/revoke users and create/modify/delete roles
+    - Create/modify/delete API keys and IdP group mappings
+    - Manage role bindings across all spaces
+
+    **Non-root Space Admins** (Space Admin role on any non-root space) have limited privileges:
+
+    - Space Admin permissions only within the spaces they administer
+    - Can view all roles, users, API keys, and IdP group mappings
+    - Can manage role bindings only for the spaces they administer
+    - Cannot invite/revoke users, create/modify/delete roles, or create/modify/delete API keys and IdP group mappings
 
 #### Worker pool controller
 
