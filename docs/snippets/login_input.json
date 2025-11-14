@@ -29,7 +29,9 @@
   "roles": [
     {
       "id": "string - Role identifier",
-      "name": "string - Role display name"
+      "name": "string - Role display name",
+      "slug": "string - Role slug",
+      "ulid": "string - Role ULID (Universally Unique Lexicographically Sortable Identifier)"
     }
   ]
 }

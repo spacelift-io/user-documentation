@@ -91,7 +91,7 @@ Each policy request will receive this data input:
 
     We recommend enabling [sampling on the policy](./README.md#sampling-policy-inputs) to see the exact values passed by the Identity Provider.
 
-Two fields in the `session` object require further explanation: _member_ and _teams_.
+The following fields in the data input require further explanation: _member_, _teams_, and _roles_.
 
 ### _member_
 
@@ -122,6 +122,20 @@ Two fields in the `session` object require further explanation: _member_ and _te
 
 !!! tip
     The `teams` field is useful for your **allow** and **admin** rules.
+
+### _roles_
+
+The `roles` field provides a list of all available [RBAC roles](../authorization/rbac-system.md) in your Spacelift account. This field is populated during login and contains all defined roles, both built-in and custom.
+
+Each role object includes:
+
+- **id**: The role identifier
+- **name**: The human-readable role name displayed in the UI
+- **slug**: The role slug used for assignment in login policies (via the `roles` rule)
+- **ulid**: A Universally Unique Lexicographically Sortable Identifier for the role
+
+!!! tip
+    The `roles` field is informational and shows all available roles in your account. To assign roles to users, use the `roles` rule as described in the [RBAC role assignment](#rbac-role-assignment) section above. Copy the role slug from this input or from **Organization Settings** → **Access Control Center** → **Roles** to use in your policy.
 
 ## Login policy examples
 
