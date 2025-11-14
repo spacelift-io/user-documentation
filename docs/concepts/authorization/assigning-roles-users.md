@@ -42,25 +42,13 @@ Refer to [Spacelift Terraform provider documentation](https://registry.terraform
       - The selected management strategy for your organization must be Login Policies.
       - You have the appropriate permissions to create or modify login policies.
       - You understand the OPA/Rego policy language.
-2. Use the `roles` rule to assign roles to users:
-
-```opa
-package spacelift
-
-# Basic login permission
-allow { input.session.member }
-
-# Role assignment syntax
-roles[space_name][role_id] { condition }
-```
-
-#### RBAC role assignment
+2. Use the `roles` rule to assign roles to users using this syntax: `roles[space_id][role_id] { condition }`.
 
 !!! note "Getting role slugs"
 
     To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
 
-Use the `roles` rule to assign RBAC roles in login policies:
+#### RBAC role assignment
 
 ```opa
 package spacelift
