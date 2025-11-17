@@ -13,10 +13,14 @@
 
 ### Assign roles to API keys directly using the web UI
 
+!!! info "Permission Scope"
+    - **Root Space Admins** can create/modify/delete API keys and manage role bindings across all spaces
+    - **Non-root Space Admins** can view all API keys but only manage role bindings for spaces they administer; they cannot create/modify/delete API keys
+
 1. Verify you meet the prerequisites:
     1. The selected management strategy for your organization must be User Management.
     2. The key must exist in your Spacelift organization.
-    3. You must have appropriate permissions to manage API key roles.
+    3. You must have Space Admin permissions on the target space where you want to assign roles (or Root Space Admin permissions for all spaces).
     4. Spaces where you want to assign roles must exist.
 2. Navigate to _API Key Management_:
     1. Click your name in the bottom left corner of the Spacelift interface.

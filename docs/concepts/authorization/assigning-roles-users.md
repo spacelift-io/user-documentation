@@ -13,9 +13,13 @@ Users can get permissions from three sources:
 
 ### Assign roles to users directly using the web UI
 
+!!! info "Permission Scope"
+    - **Root Space Admins** can manage role bindings across all spaces and invite/revoke users
+    - **Non-root Space Admins** can only manage role bindings for spaces they administer and cannot invite/revoke users
+
 1. Verify you meet the prerequisites:
       - User must be invited to the Spacelift organization.
-      - You must have appropriate permissions to manage user roles.
+      - You must have Space Admin permissions on the target space where you want to assign roles (or Root Space Admin permissions for all spaces).
       - Target spaces must exist where you want to assign roles.
       - The selected management strategy for your organization must be User Management.
 2. Navigate to _User Management_:
