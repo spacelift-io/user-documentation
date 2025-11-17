@@ -99,3 +99,4 @@ plugins:
       redirect_maps:
         "concepts/policy/git-push-policy.md": "concepts/policy/push-policy/README.md"
         "integrations/single-sign-on/azure-ad-oidc-setup-guide.md": "integrations/single-sign-on/microsoft-entra-id-oidc-setup-guide.md"
+        "legal/DPA.md": "legal/dpa.md"
