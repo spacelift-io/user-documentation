@@ -4,6 +4,22 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## vNext
+
+### Features
+
+- **Plugins**: Introduced a new plugin system that allows you to extend Spacelift's functionality with custom integrations and automations. Plugins are written using the [spaceforge](https://github.com/spacelift-io/plugins){: rel="nofollow"} Python SDK and can integrate with third-party services, automate workflows, and enhance your infrastructure management capabilities.
+
+    Key features include:
+
+    - **Marketplace**: Browse and install plugins from the Templates section in the Spacelift UI
+    - **Auto-attachment**: Automatically attach plugins to stacks using labels
+    - **First-class citizens**: Plugins are managed directly in Spacelift, not through stacks
+    - **Configurable parameters**: Define and configure plugin-specific settings during installation
+    - **Multiple execution phases**: Run plugins at different stages of your infrastructure lifecycle(before_init, after_plan, after_apply, etc.)
+
+    See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
+
 ## Changes between v3.7.0 and v3.6.0
 
 ### Features
