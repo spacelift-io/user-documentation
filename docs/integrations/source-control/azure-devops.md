@@ -125,6 +125,23 @@ The summary will look like this:
 
 ![Aggregated checks summary](<../../assets/screenshots/aggregated-checks-azuredevops-summary.png>)
 
+#### Receiving checks in pull requests
+
+For Spacelift to be able to send checks to pull requests, it has to include an iteration ID as part of the check. This information is only available on pull request events. To make this work, please make sure the push policy triggers proposed runs from pull request events, like in the example below. The default push policy does not guarantee that.
+
+```rego
+propose if {
+    affected_pr
+}
+
+affected_pr if {
+    filepath := input.pull_request.diff[_]
+    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+}
+
+normalize_path(path) := trim(path, "/")
+```
+
 ## Delete the integration
 
 If you no longer need the integration, delete it by clicking the 3 dots next to the integration name on the _Integrations > Azure DevOps_ page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
