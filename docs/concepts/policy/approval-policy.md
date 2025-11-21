@@ -65,6 +65,12 @@ Each approval policy request will receive this data input schema:
     "current": { // reviews for the current state
       "approvals": [{ // positive reviews
         "author": "string - reviewer username",
+        "author_roles": [{ // roles assigned to the reviewer
+          "ulid": "string - unique identifier for the role",
+          "slug": "string - URL-friendly role identifier",
+          "id": "string - role slug (kept for backwards compatibility)",
+          "name": "string - human-readable role name"
+        }],
         "request": { // request data of the review
           "remote_ip": "string - user IP",
           "timestamp_ns": "number - review creation Unix timestamp in nanoseconds"
