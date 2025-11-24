@@ -20,6 +20,10 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
     See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
 
+### Fixes
+
+- **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
+
 ## Changes between v3.7.0 and v3.6.0
 
 ### Features

@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-11-25
+
+### Fixes
+
+- **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
+
 ## 2025-11-17
 
 ### Features
