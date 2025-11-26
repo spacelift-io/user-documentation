@@ -131,33 +131,6 @@ To enable provider caching:
     To avoid this, you can run `tofu init` (if using OpenTofu) as a before apply hook. Which will populate the cache on that node. Generally this should be fine, since once the cache is populated the re-initialization should quick.
 {% endif %}
 
-### VCS Agents
-
-!!! tip
-    VCS Agents are intended for version control systems (VCS) that cannot be accessed over the internet from the Spacelift backend.
-
-    **If your VCS can be accessed over the internet, possibly after allowing the Spacelift backend IP addresses, then you do not need to use VCS Agents.**
-
- When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System.
-
- Additionally, you will need to inform the private workers of the target network address for each of your VCS Agent Pools by setting up the following variables:
-
-- `SPACELIFT_PRIVATEVCS_MAPPING_NAME_<NUMBER>`: Name of the [VCS Agent Pool](../vcs-agent-pools.md).
-- `SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_<NUMBER>`: IP address or hostname, with protocol, for the VCS system.
-
-There can be multiple VCS systems so replace `<NUMBER>` with an integer. Start from `0` and increment it by one for each new VCS system.
-
-Here is an example that configures access to two VCS systems:
-
-```bash
-export SPACELIFT_PRIVATEVCS_MAPPING_NAME_0=bitbucket_pool
-export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0=http://192.168.2.2
-export SPACELIFT_PRIVATEVCS_MAPPING_NAME_1=github_pool
-export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
-```
-
-When using Kubernetes workers, please see the [VCS Agents](./kubernetes-workers.md#using-vcs-agents-with-kubernetes-workers) section in the Kubernetes workers docs for specific information on how to configure this.
-
 ### Network Security
 
 Private workers need to be able to make outbound connections in order to communicate with Spacelift, as well as to access any resources required by your runs. If you have policies in place that require you to limit the outbound traffic allowed from your workers, you can use the following lists as a guide.
