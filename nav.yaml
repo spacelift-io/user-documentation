@@ -88,6 +88,10 @@ nav:
           - concepts/user-management/admin.md
           - concepts/user-management/user.md
       - concepts/vcs-agent-pools.md
+      - Intent:
+          - concepts/intent/README.md
+          - concepts/intent/setting-up-azure-and-gcp-credentials.md
+          - concepts/intent/handy-commands-and-prompts.md
   - 🛰️ Platforms:
       - Terraform:
           - vendors/terraform/README.md
