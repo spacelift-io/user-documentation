@@ -32,7 +32,7 @@ If approved, Intent executes changes via cloud integrations with scoped credenti
 ## Supported clients & endpoint
 
 - **MCP server URL:** `https://<account-name>.app.spacelift.io/intent/mcp`
-- **Tested clients:** Claude Code, Claude Desktop (custom connectors), [claude.ai](http://claude.ai)
+- **Tested clients:** Claude Code, Claude Desktop (custom connectors), [claude.ai](https://claude.ai)
 - **Coming soon:** VS Code, Cursor
 
 ---
