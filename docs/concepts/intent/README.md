@@ -19,7 +19,6 @@ Spacelift Intent connects your AI client to your cloud infrastructure through a 
 2. **Intent MCP Serve**r: Translates requests into provider operations, discovers Terraform providers from OpenTofu registry, learns resource schemas.
 3. **Spacelift Control Plane:** Enforces policies (OPA/Rego), manages state, records audit history, handles cloud authentication, provides resource visibility.
 4. **Cloud Providers (AWS, etc.):** Executes approved operations via cloud integrations with scoped permissions.
-💡
 
 **Key flow:** You send a natural language prompt describing infrastructure changes. Intent interprets the request, discovers relevant Terraform providers from the OpenTofu registry, and learns their schemas to plan operations. Attached policies then evaluate the plan against governance rules—allowing or denying based on resource types, operations, or attributes.
 
