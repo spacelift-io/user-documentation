@@ -170,7 +170,7 @@ Open **Spacelift → Intent Projects → my-project**. You'll see:
 
 You will also see if the project is locked and who locked it.
 
-![Spacelift UI: Intent Projects, locking projects and resources list](../../assets/screenshots/spacelift-intent/2025-10-07_22-19.png)
+![Spacelift UI: Intent Projects, locking projects and resources list](../../assets/screenshots/spacelift-intent/project-view.png)
 _Spacelift UI: Intent Projects, locking projects and resources list_
 
 ---
@@ -205,7 +205,7 @@ allow contains message if {
 }
 ```
 
-![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-20.png)  
+![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/create-policy.png)  
 _Spacelift UI: Creating your first Intent policy_
 
 ![Spacelift UI: Intent policy payload](../../assets/screenshots/spacelift-intent/2025-10-08_01-52.png)  
@@ -213,13 +213,13 @@ _Spacelift UI: Intent policy payload_
 
 Once the policy is created, attach it to your project. Use the `Policies` tab in your Intent Project view.
 
-![Spacelift UI: Attaching policy to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-25.png)  
+![Spacelift UI: Attaching policy to the project](../../assets/screenshots/spacelift-intent/attach-policy.png)  
 _Spacelift UI: Attaching policy to the project_
 
-![Spacelift UI: Finding the right policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-25_1.png)  
+![Spacelift UI: Finding the right policy](../../assets/screenshots/spacelift-intent/attach-policy-2.png)  
 _Spacelift UI: Finding the right policy_
 
-![Spacelift UI: Intent policy attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-26.png)  
+![Spacelift UI: Intent policy attached](../../assets/screenshots/spacelift-intent/policy-attached.png)  
 _Spacelift UI: Intent policy attached_
 
 ---
@@ -231,10 +231,10 @@ Follow [AWS integration setup](../../getting-started/integrate-cloud/AWS.md), th
 - Choose an **AWS region** for tests
 - Grant **Read + Write**
 
-![Spacelift UI: Attaching AWS integration to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-49.png)  
+![Spacelift UI: Attaching AWS integration to the project](../../assets/screenshots/spacelift-intent/attach-aws-integration.png)  
 _Spacelift UI: Attaching AWS integration to the project_
 
-![Spacelift UI: AWS integration attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-50.png)  
+![Spacelift UI: AWS integration attached](../../assets/screenshots/spacelift-intent/aws-integration.png)  
 _Spacelift UI: AWS integration attached_
 
 ---
