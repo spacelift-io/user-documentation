@@ -86,29 +86,23 @@ claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent
 4. Complete the browser-based OAuth flow → “Authorization successful”.
 5. Back in Claude Code, run `/mcp` again to confirm status is **connected**.
 
-![Claude Code: Spacelift Intent server prior to authentication](../../assets/screenshots/spacelift-intent/01-claude-code-intent-disconnected.png)
+![Claude Code: Spacelift Intent server prior to authentication](../../assets/screenshots/spacelift-intent/01-claude-code-intent-disconnected.png)  
+_Claude Code: Spacelift Intent server prior to authentication_
 
-Claude Code: Spacelift Intent server prior to authentication
+![Claude Code: Authenticating Spacelift Intent MCP Server](../../assets/screenshots/spacelift-intent/02-claude-code-intent-auth.png)  
+_Claude Code: Authenticating Spacelift Intent MCP Server_
 
-![Claude Code: Authenticating Spacelift Intent MCP Server](../../assets/screenshots/spacelift-intent/02-claude-code-intent-auth.png)
+![Claude Code: Opening the browser for authentication](../../assets/screenshots/spacelift-intent/03-claude-code-intent-auth-url.png)  
+_Claude Code: Opening the browser for authentication_
 
-Claude Code: Authenticating Spacelift Intent MCP Server
+![Claude Code: Browser authorization request](../../assets/screenshots/spacelift-intent/04-claude-code-intent-approve-step.png)  
+_Claude Code: Browser authorization request_
 
-![Claude Code: Opening the browser for authentication](../../assets/screenshots/spacelift-intent/03-claude-code-intent-auth-url.png)
+![Claude Code: Successful authentication callback](../../assets/screenshots/spacelift-intent/2025-10-07_21-58.png)  
+_Claude Code: Successful authentication callback_
 
-Claude Code: Opening the browser for authentication
-
-![Claude Code: Browser authorization request](../../assets/screenshots/spacelift-intent/04-claude-code-intent-approve-step.png)
-
-Claude Code: Browser authorization request
-
-![Claude Code: Successful authentication callback](../../assets/screenshots/spacelift-intent/2025-10-07_21-58.png)
-
-Claude Code: Successful authentication callback
-
-![Claude Code: Spacelift Intent MCP Server successfully connected](../../assets/screenshots/spacelift-intent/2025-10-07_21-58_1.png)
-
-Claude Code: Spacelift Intent MCP Server successfully connected
+![Claude Code: Spacelift Intent MCP Server successfully connected](../../assets/screenshots/spacelift-intent/2025-10-07_21-58_1.png)  
+_Claude Code: Spacelift Intent MCP Server successfully connected_
 
 ### Step 3. Create & use an Intent project
 
@@ -122,9 +116,8 @@ Create a project called "my-project".
 
 Claude Code will call `project-create` for you.
 
-![Claude Code: Creating a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-04.png)
-
-Claude Code: Creating a project using Spacelift Intent
+![Claude Code: Creating a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-04.png)  
+_Claude Code: Creating a project using Spacelift Intent_
 
 Then **lock** the project for exclusive access:
 
@@ -134,12 +127,10 @@ Use the project "my-project".
 
 This calls `project-use` and locks the project to your user. Locks expire after a short period of inactivity; you can unlock via UI or API.
 
-![Claude Code: Locking a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-05_1.png)
+![Claude Code: Locking a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-05_1.png)  
+_Claude Code: Locking a project using Spacelift Intent_
 
-Claude Code: Locking a project using Spacelift Intent
-
-!!! note
-    💡 Creating a project via MCP currently places it in the root Space. To create it in a different Space, [use the Spacelift UI](https://docs.spacelift.io/concepts/spaces).
+💡 Creating a project via MCP currently places it in the root Space. To create it in a different Space, [use the Spacelift UI](../spaces/README.md).
 
 ---
 
@@ -153,17 +144,14 @@ Create two resources — one very long random string and a cute pet.
 
 Intent discovers the provider schema, proposes the operations, and applies them under policy. You’ll get a short summary in chat once the resources are created.
 
-![Claude Code: Creating two random provider resources - discovering resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-12.png)
+![Claude Code: Creating two random provider resources - discovering resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-12.png)  
+_Claude Code: Creating two random provider resources - discovering resources_
 
-Claude Code: Creating two random provider resources - discovering resources
+![Claude Code: Creating resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-13.png)  
+_Claude Code: Creating resources_
 
-![Claude Code: Creating resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-13.png)
-
-Claude Code: Creating resources
-
-![Claude Code: Resources successfully created](../../assets/screenshots/spacelift-intent/2025-10-07_22-14.png)
-
-Claude Code: Resources successfully created
+![Claude Code: Resources successfully created](../../assets/screenshots/spacelift-intent/2025-10-07_22-14.png)  
+_Claude Code: Resources successfully created_
 
 ---
 
@@ -171,22 +159,20 @@ Claude Code: Resources successfully created
 
 ### 1. Explore the Spacelift Intent UI
 
-!!! warning
-    ❗ Please note that we've made some updates to the navigation — you can now find **Intent Projects** under **"Try New Features" → "Intent Projects."**
+❗ Please note that we've made some updates to the navigation — you can now find **Intent Projects** under **"Try New Features" → "Intent Projects."**
 
 Open **Spacelift → Intent Projects → my-project**. You'll see:
 
 - **Resources:** Current resources in project.
 - **History:** Timeline of operations (create, update, delete, import).
-- **Policies:** Attach Intent [policies to govern operations](https://docs.spacelift.io/concepts/policy.html).
-- **Integrations:** Attach [cloud accounts](https://docs.spacelift.io/integrations/cloud-providers.html) (AWS supported today).
-- **Environments:** [Environment variables](https://docs.spacelift.io/concepts/configuration/environment.html) for the project.
+- **Policies:** Attach Intent [policies to govern operations](../policy/README.md).
+- **Integrations:** Attach [cloud accounts](../../integrations/cloud-providers/README.md) (AWS supported today).
+- **Environments:** [Environment variables](../configuration/environment.md) for the project.
 
 You will also see if the project is locked and who locked it.
 
 ![Spacelift UI: Intent Projects, locking projects and resources list](../../assets/screenshots/spacelift-intent/2025-10-07_22-19.png)
-
-Spacelift UI: Intent Projects, locking projects and resources list
+_Spacelift UI: Intent Projects, locking projects and resources list_
 
 ---
 
@@ -220,44 +206,37 @@ allow contains message if {
 }
 ```
 
-![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-20.png)
+![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-20.png)  
+_Spacelift UI: Creating your first Intent policy_
 
-Spacelift UI: Creating your first Intent policy
-
-![Spacelift UI: Intent policy payload](../../assets/screenshots/spacelift-intent/2025-10-08_01-52.png)
-
-Spacelift UI: Intent policy payload
+![Spacelift UI: Intent policy payload](../../assets/screenshots/spacelift-intent/2025-10-08_01-52.png)  
+_Spacelift UI: Intent policy payload_
 
 Once the policy is created, attach it to your project. Use the `Policies` tab in your Intent Project view.
 
-![Spacelift UI: Attaching policy to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-25.png)
+![Spacelift UI: Attaching policy to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-25.png)  
+_Spacelift UI: Attaching policy to the project_
 
-Spacelift UI: Attaching policy to the project
+![Spacelift UI: Finding the right policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-25_1.png)  
+_Spacelift UI: Finding the right policy_
 
-![Spacelift UI: Finding the right policy](../../assets/screenshots/spacelift-intent/2025-10-07_23-25_1.png)
-
-Spacelift UI: Finding the right policy
-
-![Spacelift UI: Intent policy attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-26.png)
-
-Spacelift UI: Intent policy attached
+![Spacelift UI: Intent policy attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-26.png)  
+_Spacelift UI: Intent policy attached_
 
 ---
 
 ### 3. Attach AWS integration
 
-Follow [AWS integration setup](https://docs.spacelift.io/getting-started/integrate-cloud/AWS), then attach the integration to your Intent project:
+Follow [AWS integration setup](../../getting-started/integrate-cloud/AWS.md), then attach the integration to your Intent project:
 
 - Choose an **AWS region** for tests
 - Grant **Read + Write**
 
-![Spacelift UI: Attaching AWS integration to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-49.png)
+![Spacelift UI: Attaching AWS integration to the project](../../assets/screenshots/spacelift-intent/2025-10-07_23-49.png)  
+_Spacelift UI: Attaching AWS integration to the project_
 
-Spacelift UI: Attaching AWS integration to the project
-
-![Spacelift UI: AWS integration attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-50.png)
-
-Spacelift UI: AWS integration attached
+![Spacelift UI: AWS integration attached](../../assets/screenshots/spacelift-intent/2025-10-07_23-50.png)  
+_Spacelift UI: AWS integration attached_
 
 ---
 
@@ -274,7 +253,7 @@ With the policy above:
 Create an S3 bucket named "dev-attachments-123" with SSE enabled.
 ```
 
-![2025-10-07_23-56.png](../../assets/screenshots/spacelift-intent/2025-10-07_23-56.png)
+![S3 bucket prompts](../../assets/screenshots/spacelift-intent/2025-10-07_23-56.png)
 
 **Update the S3 bucket:**
 
@@ -286,7 +265,7 @@ Add tags to the dev-attachments-123 bucket: Environment=dev, Owner=platform-team
 
 Intent updates the resource configuration and applies the changes. You’ll see the updated values in both your AWS account and the Spacelift UI (Resources view shows current config; History tab records the update operation).
 
-![2025-10-07_23-59.png](../../assets/screenshots/spacelift-intent/2025-10-07_23-59.png)
+![S3 bucket update prompts](../../assets/screenshots/spacelift-intent/2025-10-07_23-59.png)
 
 **Verify in Spacelift UI & AWS:**
 
@@ -295,18 +274,18 @@ Confirm the resource lifecycle in both systems.
 1. **In the Spacelift UI**, **n**avigate to your Intent project.
     - **Resources tab:** Shows the S3 bucket with current configuration including the tags you just added.
 
-    ![2025-10-08_00-01_1.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-01_1.png)
+    ![Resources tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-01_1.png)
 
     - **History tab:** Lists all operations (create, update) with timestamps, operation details, and who/what triggered them.
 
-    ![2025-10-08_00-02.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-02.png)
+    ![History tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-02.png)
 
 2. In the **AWS Console**, go to S3:
     - Find your bucket (e.g., `dev-attachments-123`).
     - Verify it exists with the correct configuration.
     - Check the Tags section to confirm `Environment=dev` and `Owner=platform-team` are present.
 
-    ![2025-10-08_00-01.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-01.png)
+    ![AWS Console](../../assets/screenshots/spacelift-intent/2025-10-08_00-01.png)
 
 As we've seen, Intent creates resources directly in your cloud, while Spacelift provides access control, policy governance, state management, and full auditability.
 
@@ -316,10 +295,9 @@ As we've seen, Intent creates resources directly in your cloud, while Spacelift 
 Create a t3.micro EC2 instance in us-east-1.
 ```
 
-![2025-10-08_00-05.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-05.png)
+![EC2 instance prompt result](../../assets/screenshots/spacelift-intent/2025-10-08_00-05.png)
 
-!!! note
-    💡 Iterate on the policy to allow additional resource types when ready (e.g., allow aws_instance for non-prod).
+💡 Iterate on the policy to allow additional resource types when ready (e.g., allow aws_instance for non-prod).
 
 ---
 
@@ -335,11 +313,11 @@ List SSM parameters in my account and import them into the project.
 
 - Review the discovery result.
 
-![2025-10-08_00-12.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-12.png)
+![Discovery phase](../../assets/screenshots/spacelift-intent/2025-10-08_00-12.png)
 
 - Select items to **import** into Intent state.
 
-![2025-10-08_00-17.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-17.png)
+![Import phase](../../assets/screenshots/spacelift-intent/2025-10-08_00-17.png)
 
 - Manage them via natural language and policy from now on.
 
@@ -349,11 +327,11 @@ Once resources are imported, verify them in the Spacelift UI.
 
 - **Resources tab:** Shows newly imported SSM parameters alongside your existing S3 bucket.
 
-![2025-10-08_00-19.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-19.png)
+![Resources tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-19.png)
 
 - **History tab:** Records the import operation with full details of what was imported and when.
 
-![2025-10-08_00-19_1.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-19_1.png)
+![History tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-19_1.png)
 
 ---
 
@@ -373,19 +351,19 @@ Typical flow:
 2. Client asks for **explicit confirmation** (by default).
 3. Apply proceeds or is **blocked by policy**.
 
-![2025-10-08_00-23.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-23.png)
+![Delete prompt](../../assets/screenshots/spacelift-intent/2025-10-08_00-23.png)
 
 If policy prevents deletion, update the policy to allow the `random` resources. You can do this using Spacelift Intent, but make sure to review the next section: Session Locks, Permissions & Safety.
 
-![2025-10-08_00-29.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-29.png)
+![Policy evaluation](../../assets/screenshots/spacelift-intent/2025-10-08_00-29.png)
 
-![2025-10-08_00-33.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-33.png)
+![Policy](../../assets/screenshots/spacelift-intent/2025-10-08_00-33.png)
 
-![2025-10-08_00-34.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-34.png)
+![Policy evaluation result](../../assets/screenshots/spacelift-intent/2025-10-08_00-34.png)
 
 **Auditability:** Even after deletion, the **History** tab shows attempted and successful deletions, with full receipts.
 
-![2025-10-08_00-35.png](../../assets/screenshots/spacelift-intent/2025-10-08_00-35.png)
+![History tab - deletion](../../assets/screenshots/spacelift-intent/2025-10-08_00-35.png)
 
 ---
 
@@ -441,50 +419,3 @@ If policy prevents deletion, update the policy to allow the `random` resources. 
 - **How do I keep things safe in production?**
 
     For this early access beta, we do not recommend to run things in production.
-
----
-
-## Appendix 1: Handy Commands & Prompts
-
-**Add MCP server (CLI):**
-
-```bash
-claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent/mcp
-```
-
-**Edit `.mcp.json`:** See [Set Up Claude Code](about:blank#set-up-claude-code).
-
-**Auth & status:**
-
-- `/mcp` → select **intent-mcp** → log in → verify **connected**
-
-**Project management (via prompts):**
-
-```text
-Create a project called "my-project".
-Use the project "my-project".
-List my projects and their lock status.
-Unlock the current project.
-```
-
-**Resources (via prompts):**
-
-```text
-Create two resources — one very long random string and a cute pet.
-Create an S3 bucket named "dev-attachments-123" with SSE enabled.
-Create a t3.micro EC2 instance in us-east-1.  # expect policy denial with example policy
-List resources in this project.
-Delete the random resources we created earlier.
-```
-
-**Import (via prompts):**
-
-```text
-List SSM parameters in my account and import them into the project.
-```
-
-_Use concise, explicit prompts; include environment/region and compliance requirements in your wording to help the agent make safer defaults._
-
-## Appendix 2: Setting up Azure and GCP credentials
-
-[Setting up Azure and GCP credentials for Spacelift Intent](https://www.notion.so/Setting-up-Azure-and-GCP-credentials-for-Spacelift-Intent-294251e5616a805196a8e360fcfcd5ea?pvs=21)
