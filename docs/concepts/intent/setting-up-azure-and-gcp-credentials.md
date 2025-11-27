@@ -62,7 +62,7 @@
 
 ## Google credencials
 
-We need to follow [docs](../..//getting-started/integrate-cloud/GCP.md) - with slightly change (file path to `spacelift.oidc` and `gcp.json`):
+We need to follow [docs](../../getting-started/integrate-cloud/GCP.md) - with slightly change (file path to `spacelift.oidc` and `gcp.json`):
 
 ![Spacelift docs on GCP](../../assets/screenshots/spacelift-intent/setting-up-azure-and-gpc/Screenshot_2025-10-22_at_13.55.08.png)
 
