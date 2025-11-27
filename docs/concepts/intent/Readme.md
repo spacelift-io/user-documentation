@@ -1,4 +1,4 @@
-# Spacelift Intent
+# Intent
 
 ## What Is Spacelift Intent?
 
