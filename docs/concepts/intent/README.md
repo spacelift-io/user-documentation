@@ -105,7 +105,7 @@ gemini mcp add --transport http intent-mcp https://<account-name>.app.spacelift.
 
 #### 1.3 Codex
 
-You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
+You can add the MCP server by editing your config file.
 
 **Config file (`~/.codex/config.toml`):**
 
