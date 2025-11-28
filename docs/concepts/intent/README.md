@@ -52,7 +52,9 @@ If approved, Intent executes changes via cloud integrations with scoped credenti
 
 [![Intent demo](https://img.youtube.com/vi/UvF-_gbW9Gk/0.jpg)](https://www.youtube.com/watch?v=UvF-_gbW9Gk)
 
-### Step 1. Add Intent MCP server to Claude Code
+### Step 1. Add Intent MCP server to MCP Client
+
+#### 1.1 Claude Code
 
 You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
 
@@ -77,9 +79,54 @@ claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent
 
 ---
 
+#### 1.2 Gemini
+
+You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
+
+**CLI:**
+
+```bash
+gemini mcp add --transport http intent-mcp https://<account-name>.app.spacelift.io/intent/mcp
+```
+
+**Config file (`.gemini/settings.json` at repo root):**
+
+```json
+{
+  "mcpServers": {
+    "intent-mcp": {
+      "httpUrl": "https://<account-name>.app.spacelift.io/intent/mcp"
+    }
+  }
+}
+```
+
+---
+
+#### 1.3 Codex
+
+You can add the MCP server by editing your config file.
+
+**Config file (`~/.codex/config.toml`):**
+
+```toml
+[features]
+rmcp_client = true
+
+[mcp_servers.intent-mcp]
+url = "https://<account-name>.app.spacelift.io/intent/mcp"
+startup_timeout_sec = 20.0
+experimental_use_rmcp_client = true
+enabled = true
+```
+
+Once configured run `codex mcp login intent-mcp` to authenticate in intent-mcp server.
+
+---
+
 ### Step 2. Authenticate via MCP
 
-1. Open **Claude Code**.
+1. Start your MCP client, e.g. **Claude Code**.
 2. Run the `/mcp` command.
 3. Select **`intent-mcp`** and press **Enter** to log in (status shows _disconnected – Enter to login_).
 4. Complete the browser-based OAuth flow → “Authorization successful”.
