@@ -4,6 +4,18 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-12-10
+
+### Features
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control who can disable/enable modules, trigger module version tests, and mark module versions as bad through the following new permissions:
+    - `MODULE_DISABLE` - Disable a module
+    - `MODULE_ENABLE` - Enable a disabled module
+    - `MODULE_TRIGGER_VERSION` - Trigger module version tests
+    - `MODULE_MARK_AS_BAD` - Mark a module version as bad (yanking)
+
+  These permissions can be assigned to custom roles in your space, providing fine-grained control over module management operations.
+
 ## 2025-11-25
 
 ### Fixes
