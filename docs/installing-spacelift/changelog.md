@@ -4,7 +4,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
-## vNext
+## Changes between v3.8.0 and v3.7.0
 
 ### Features
 
@@ -20,9 +20,26 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
     See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
 
+- **Authorization & RBAC**: Stacks can now assume roles for elevated permissions through stack role attachments, replacing the legacy administrative flag. This new approach provides three key advantages:
+    - **Cross-space access**: Attach roles for sibling spaces, not just the stack's own space and subspaces
+    - **Fine-grained permissions**: Use [custom roles with specific actions](../concepts/authorization/rbac-system.md#custom-roles) instead of full Space Admin permissions
+    - **Enhanced audit trail**: Role information (`actor_roles`) is included in [webhook payloads](../integrations/audit-trail.md#usage) for better visibility
+
+The administrative flag is deprecated for stacks and [will be automatically disabled](../concepts/authorization/assigning-roles-stacks.md#migration-from-administrative-flag) on **June 1st, 2026**. On that date, Spacelift will backfill affected stacks with Space Admin roles (100% backward compatible), but manual migration is recommended to access advanced features and to avoid drifts in the OpenTofu/Terraform state.
+
+!!! note
+[Modules](../vendors/terraform/module-registry.md) are not affected by this change. The administrative flag for modules remains unchanged.
+
+See the [stack role bindings documentation](../concepts/authorization/assigning-roles-stacks.md) for migration guides and detailed examples.
+
+- **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
+- **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
+- **Login Policy**: Enriched the roles input in login policy data with `slug` and `ulid` fields for better role identification and assignment. See the [login policy documentation](../concepts/policy/login-policy.md#roles) for details.
+
 ### Fixes
 
 - **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
+- **Performance**: Postgres queue performance is now improved by adding indexes to the `message_queue_messages` and `message_queue_deduplications` tables.
 
 ## Changes between v3.7.0 and v3.6.0
 
