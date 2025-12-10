@@ -1,0 +1,110 @@
+{
+  "account": {
+    "name": "string - Account display name"
+  },
+  "webhook_endpoints": [
+    {
+      "id": "string - Webhook endpoint identifier",
+      "labels": [
+        "string - label"
+      ]
+    }
+  ],
+  "run_updated": {
+    "note": "string - Optional note for the state transition",
+    "plan_policy_decision": {
+      "deny": [
+        "string - deny reason"
+      ],
+      "warn": [
+        "string - warning"
+      ]
+    },
+    "policy_receipts": [
+      {
+        "type": "string - Policy type",
+        "name": "string - Policy name",
+        "outcome": "object - Policy execution outcome",
+        "flags": [
+          "string - Policy flag"
+        ]
+      }
+    ],
+    "run": {
+      "based_on_local_workspace": "boolean - Whether the run is based on local workspace",
+      "branch": "string - Git branch for the run",
+      "changes": [
+        {
+          "phase": "string - Phase of the change (plan or apply)",
+          "action": "string - Type of change action",
+          "moved": "boolean - Whether the entity was moved",
+          "entity": "object - Entity data"
+        }
+      ],
+      "command": "string - Command executed for the run",
+      "commit": {
+        "author": "string - Commit author",
+        "branch": "string - Git branch name",
+        "created_at": "integer - Unix timestamp in nanoseconds",
+        "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+        "hash": "string - Git commit hash",
+        "message": "string - Commit message",
+        "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+        "tag": "string - Git tag, if any",
+        "url": "string - URL to the commit"
+      },
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "creator_session": {
+        "account_name": "string - Account name for machine sessions",
+        "admin": "boolean - Whether the session has admin privileges",
+        "creator_ip": "string - IP address where the session was created",
+        "login": "string - Login identifier",
+        "machine": "boolean - Whether this is a machine session",
+        "member": "boolean - Whether the user is a member of the account",
+        "name": "string - Display name of the user",
+        "stack_id": "string - Stack ID for machine sessions",
+        "teams": [
+          "string - team name"
+        ]
+      },
+      "drift_detection": "boolean - Whether this is a drift detection run",
+      "flags": [
+        "string - feature flag"
+      ],
+      "id": "string - Run identifier",
+      "runtime_config": {
+        "environment": "object - Environment variables",
+        "project_root": "string - Project root directory",
+        "runner_image": "string - Docker image used for the run",
+        "terraform_version": "string - Terraform version"
+      },
+      "state": "string - Current run state",
+      "states_history": [
+        "object - state history item"
+      ],
+      "triggered_by": "string - Who or what triggered the run",
+      "type": "string - Run type (TRACKED, PROPOSED, etc.)",
+      "updated_at": "integer - Unix timestamp in nanoseconds",
+      "user_provided_metadata": [
+        "string - metadata item"
+      ]
+    },
+    "stack": {
+      "administrative": "boolean - Whether the stack is administrative",
+      "autodeploy": "boolean - Whether autodeploy is enabled",
+      "branch": "string - Git branch tracked by this stack",
+      "id": "string - Stack identifier",
+      "name": "string - Stack display name",
+      "namespace": "string - Stack namespace",
+      "project_root": "string - Project root directory",
+      "repository": "string - Repository name",
+      "state": "string - Current stack state"
+    },
+    "state": "string - New run state",
+    "timing": "object - Run timing information",
+    "urls": {
+      "run": "string - URL to the run"
+    },
+    "username": "string - User who triggered the state change"
+  }
+}

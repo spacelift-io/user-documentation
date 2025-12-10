@@ -1,0 +1,149 @@
+{
+  "in_progress": [
+    {
+      "based_on_local_workspace": "boolean - Whether the run is based on local workspace",
+      "branch": "string - Git branch for the run",
+      "command": "string - Command executed for the run",
+      "commit": {
+        "author": "string - Commit author",
+        "branch": "string - Git branch name",
+        "created_at": "integer - Unix timestamp in nanoseconds",
+        "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+        "hash": "string - Git commit hash",
+        "message": "string - Commit message",
+        "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+        "tag": "string - Git tag, if any",
+        "url": "string - URL to the commit"
+      },
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "drift_detection": "boolean - Whether this is a drift detection run",
+      "id": "string - Run identifier",
+      "state": "string - Current run state",
+      "triggered_by": "string - Who or what triggered the run",
+      "type": "string - Run type (TRACKED, PROPOSED, etc.)",
+      "updated_at": "integer - Unix timestamp in nanoseconds",
+      "user_provided_metadata": [
+        "string - item"
+      ]
+    }
+  ],
+  "pull_request": {
+    "action_initiator": "string - Who initiated this PR action",
+    "action": "string - PR action type",
+    "author": "string - PR author",
+    "base": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "closed": "boolean - Whether the PR is closed",
+    "diff": [
+      "string - item"
+    ],
+    "draft": "boolean - Whether this is a draft PR",
+    "head": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "head_owner": "string - Owner of the head repository",
+    "id": "integer - PR identifier",
+    "labels": [
+      "string - item"
+    ],
+    "title": "string - PR title",
+    "approved": "boolean - Whether the PR is approved",
+    "mergeable": "boolean - Whether the PR is mergeable",
+    "undiverged": "boolean - Whether the PR is undiverged",
+    "comment": "string - PR comment if applicable"
+  },
+  "push": {
+    "affected_files": [
+      "string - item"
+    ],
+    "author": "string - Push author",
+    "branch": "string - Git branch",
+    "created_at": "integer - Unix timestamp in nanoseconds",
+    "hash": "string - Git commit hash",
+    "message": "string - Commit message",
+    "tag": "string - Git tag if any"
+  },
+  "vcs_integration": {
+    "id": "string - VCS integration identifier",
+    "description": "string - VCS integration description",
+    "is_default": "boolean - Whether this is the default integration",
+    "labels": [
+      "string - item"
+    ],
+    "name": "string - VCS integration name",
+    "space": {
+      "id": "string - Space identifier",
+      "labels": [
+        "string - item"
+      ],
+      "name": "string - Space display name"
+    },
+    "provider": "string - VCS provider type",
+    "updated_at": "integer - Unix timestamp in nanoseconds",
+    "created_at": "integer - Unix timestamp in nanoseconds"
+  },
+  "stack": {
+    "additional_project_globs": [
+      "string - item"
+    ],
+    "administrative": "boolean - Whether the stack is administrative",
+    "autodeploy": "boolean - Whether autodeploy is enabled",
+    "branch": "string - Git branch tracked by this stack",
+    "contexts": [
+      "string - item"
+    ],
+    "id": "string - Stack identifier",
+    "labels": [
+      "string - item"
+    ],
+    "locked_by": "string - User who locked the stack, if any",
+    "name": "string - Stack display name",
+    "namespace": "string - Stack namespace",
+    "project_root": "string - Project root directory",
+    "repository": "string - Repository name",
+    "space": {
+      "id": "string - Space identifier",
+      "labels": [
+        "string - item"
+      ],
+      "name": "string - Space display name"
+    },
+    "state": "string - Current stack state",
+    "terraform_version": "string - Terraform version used by the stack",
+    "terraform_workflow_tool": "string - Terraform workflow tool",
+    "tracked_commit": {
+      "author": "string - Commit author",
+      "branch": "string - Git branch name",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "exist_on_tracked_branch": "boolean - Whether the commit exists on the tracked branch",
+      "hash": "string - Git commit hash",
+      "message": "string - Commit message",
+      "pull_request_id": "integer - Pull request ID if the commit is from a PR",
+      "tag": "string - Git tag, if any",
+      "url": "string - URL to the commit"
+    },
+    "worker_pool": {
+      "id": "string - Worker pool identifier (null for public pool)",
+      "labels": [],
+      "name": "string - Worker pool name (null for public pool)",
+      "public": "boolean - Whether this is the public worker pool"
+    }
+  }
+}
