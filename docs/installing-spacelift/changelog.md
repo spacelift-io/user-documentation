@@ -4,8 +4,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
-## vNext
-
 ## Changes between v3.8.0 and v3.7.0
 
 ### Features
