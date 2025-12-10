@@ -20,9 +20,14 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
     See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
 
+- **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
+- **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
+- **Login Policy**: Enriched the roles input in login policy data with `slug` and `ulid` fields for better role identification and assignment. See the [login policy documentation](../concepts/policy/login-policy.md#roles) for details.
+
 ### Fixes
 
 - **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
+- **Performance**: Postgres queue performance is now improbred by adding indexes to the `message_queue_messages` and `message_queue_deduplications` tables.
 
 ## Changes between v3.7.0 and v3.6.0
 
