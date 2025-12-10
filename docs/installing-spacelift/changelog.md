@@ -6,6 +6,8 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ## vNext
 
+## Changes between v3.8.0 and v3.7.0
+
 ### Features
 
 - **Plugins**: Introduced a new plugin system that allows you to extend Spacelift's functionality with custom integrations and automations. Plugins are written using the [spaceforge](https://github.com/spacelift-io/plugins){: rel="nofollow"} Python SDK and can integrate with third-party services, automate workflows, and enhance your infrastructure management capabilities.
