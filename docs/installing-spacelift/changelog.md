@@ -20,7 +20,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
     See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
 
-
 - **Authorization & RBAC**: Stacks can now assume roles for elevated permissions through stack role attachments, replacing the legacy administrative flag. This new approach provides three key advantages:
     - **Cross-space access**: Attach roles for sibling spaces, not just the stack's own space and subspaces
     - **Fine-grained permissions**: Use [custom roles with specific actions](../concepts/authorization/rbac-system.md#custom-roles) instead of full Space Admin permissions
@@ -32,7 +31,6 @@ The administrative flag is deprecated for stacks and [will be automatically disa
 [Modules](../vendors/terraform/module-registry.md) are not affected by this change. The administrative flag for modules remains unchanged.
 
 See the [stack role bindings documentation](../concepts/authorization/assigning-roles-stacks.md) for migration guides and detailed examples.
-
 
 - **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
 - **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
