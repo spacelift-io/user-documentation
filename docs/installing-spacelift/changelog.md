@@ -27,7 +27,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 ### Fixes
 
 - **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
-- **Performance**: Postgres queue performance is now improbred by adding indexes to the `message_queue_messages` and `message_queue_deduplications` tables.
+- **Performance**: Postgres queue performance is now improved by adding indexes to the `message_queue_messages` and `message_queue_deduplications` tables.
 
 ## Changes between v3.7.0 and v3.6.0
 
