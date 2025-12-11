@@ -28,6 +28,8 @@ When a push policy does not track a new push, the head commit of the stack/modul
 
 Spacelift can currently react to two types of events: _push_ and _pull request_ (also called _merge request_ by GitLab). Push events are the default; even if you don't have a push policy set up, we will respond to those events. Pull request events are supported for some VCS providers and are generally received when you open, synchronize (push a new commit), label, or merge the pull request.
 
+In some cases, Spacelift can receive both _push_ and _pull request_ events at the same time. Review the [data input schema](#data-input-schema) and [how rules are evaluated](#how-rules-are-evaluated) to ensure your push policies perform as expected.
+
 There are some valid reasons to use _pull request_ events in addition or instead of push ones. For example, when making decisions based on the paths of affected files, push events are often confusing:
 
 - They contain affected files for all commits in a push, not just the head commit.
@@ -454,6 +456,8 @@ When triggered by a _new module version_, this is the schema of the data input t
   }
 }
 ```
+
+### How rules are evaluated
 
 Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules.
 
