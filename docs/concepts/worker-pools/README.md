@@ -36,9 +36,9 @@ Private workers offer more customization options, but your organization is respo
 | Private workers | Public workers |
 | ----------------| -------------- |
 | Offer more customization but require more responsibility from client | Offer less customization but require less responsibility |
-| Deployed in client infrastructure | Deployed by Spacelift |
-| Assumes client's AWS role | Needs trust relations between Spacelift's AWS account and client's |
-| All actions taken from client's AWS account | All actions taken from Spacelift's AWS account |
+| Deployed in client infrastructure | Deployed in Spacelift's infrastructure |
+| Assumes client's cloud provider IAM role | Needs trust relations between Spacelift's cloud provider and client's |
+| All actions taken from client's infrastructure | All actions taken from Spacelift's infrastructure |
 | Private or public Docker repository | Only public Docker repository |
 
 ## Setting up
