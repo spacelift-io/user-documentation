@@ -140,6 +140,8 @@ Spacelift integrates with identity management systems from major cloud providers
 
 Currently, AWS, Azure and GCP are natively supported.
 
+AWS and Azure integrations can also be auto-attached. To do so, add a label to your module that matches the `autoattach_label` in your integrations.
+
 You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
 
 #### Attach Module Policies
