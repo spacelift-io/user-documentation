@@ -125,65 +125,7 @@ For more information about configuring the OpenTofu/Terraform provider, please s
 
 ## Alternative setup: direct resource access
 
-If you need to avoid using service accounts in GCP, Spacelift supports direct resource access mode in GCP. Since Spacelift only produces the OIDC token and configuration is handled on the GCP portal, you can use OIDC without service account impersonation.
-
-### Set Spacelift as a valid identity provider
-
-1. Navigate to the [GCP console](https://console.cloud.google.com/){: rel="nofollow"} and select the _IAM & Admin_ service.
-2. Click **Workload Identity Federation** in the left-hand menu.
-3. If this is your first time creating a Workload Identity Pool, click **Get Started**, then **Create Pool**.
-    ![GCP Workload Identity Federation Get Started](<../../../assets/screenshots/oidc/gcp-workload-identity-federation-get-started.png>)
-       - If you have already created a Workload Identity Pool before, click **Create Pool**.
-       ![GCP Workload Identity Federation](<../../../assets/screenshots/oidc/gcp-workload-identity-federation.png>)
-4. Enter a name for your new identity pool and optionally set a description.
-5. Fill in the identity provider details:
-    ![Add workload identity provider to GCP](<../../../assets/screenshots/oidc/gcp-add-provider.png>)
-      1. **Select a provider**: Select **OpenID Connect (OIDC)**.
-      2. **Provider name**: Enter the email address linked to your Spacelift account.
-      3. **Issuer (URL)**: The [URL of your Spacelift account](./README.md#standard-claims), including the scheme.
-      4. **Audiences**: Select **Allowed audiences**, then enter the [hostname](./README.md#standard-claims) of your Spacelift account (e.g. `demo.app.spacelift.io`).
-6. Fill in the provider attributes to configure mappings between Spacelift token claims (assertions) and Google attributes:
-    ![GCP provider attribute mapping](<../../../assets/screenshots/oidc/gcp-oidc-attribute-mapping.png>)
-       1. **Google 1**: Enter `attribute.space`.
-       2. **OIDC 1**: Enter `assertion.spaceId`. [Custom claims](./README.md#custom-claims) like this can be mapped to custom attributes, which need to start with the `attribute.` prefix.
-       3. **Google 2**: Enter `google.subject`.
-       4. **OIDC 2**: Enter `assertion.sub`.
-       5. **Google 3**: Enter `attribute.caller`.
-       6. **OIDC 3**: Enter `assertion.callerId`.
-7. **Attribute conditions**: Specify extra [conditions](https://cloud.google.com/iam/docs/workload-identity-federation#conditions){: rel="nofollow"} using Google's [Common Expression Language](https://github.com/google/cel-spec){: rel="nofollow"} to restrict which identities can authenticate using your workload identity pool.
-8. Finish creating the workload identity pool.
-
-!!! warning
-    If your Stack ID is too long, it may exceed the threshold set by Google for the `google.subject` mapping. In that case, you can use a different [custom claim](./README.md#custom-claims) to create the mapping.
-
-### Set up direct resource access
-
-1. In the Workload Identity Pool details, click **Grant access**.
-2. With _Grant access using federated identites_ selected, click **Download config**.
-  ![Grant direct resource access](<../../../assets/screenshots/oidc/gcp-grant-direct-access.png>)
-3. In GCP's _Cloud Storage_ section, navigate to _Buckets_, select the bucket you would like Spacelift to access, then click **Permissions**.
-4. Set up permissions for the bucket (`Storage Legacy Bucket Owner` and `Storage Legacy Object Owner`) based on your Spacelift stack ID (`attribute.caller` as you configured in the Workload Identity Pool).
-    - Your Principal should look something like: `principalSet://iam.googleapis.com/projects/<project ID numbers>/locations/global/workloadIdentityPools/<identity pool name>/attribute.caller/gcp-bucket`.
-
-The downloaded file will include the format type in `credential_source`. Remove it so your `credential_source` section only contains:
-
-```json
- "credential_source": {
-    "file": "/mnt/workspace/spacelift.oidc"
-  }
-```
-
-### Configure access in Spacelift
-
-1. In Spacelift, navigate to _Ship Infra_ > _Stacks_, then click the name of the stack you would like to connect to GCP.
-2. Navigate to the _Environment_ tab.
-3. Under _Mounted files_, click **Add file** and [mount the `gcp.json` config file](../../../concepts/configuration/environment.md#adding-mounted-files) downloaded from GCP.
-4. Under _Environment variables_, click [**Add variable**](../../../concepts/configuration/environment.md#adding-environment-variables).
-      - **Name**: Enter a name for the variable, such as `GOOGLE_APPLICATION_CREDENTIALS`.
-      - **Value**: Enter the path to the mounted file (`/mnt/workspace/gcp.json`).
-      - **Mark as secret**: Enable to mark the value as a secret, which will hide it in the Spacelift UI and via API.
-      - **Description** (optional): Enter a short (markdown-supported) description of the variable.
-5. Your Spacelift stack should now be able to access GCP via OIDC without a service account.
+If you need to avoid using service accounts in GCP, Spacelift supports [direct resource access mode in GCP](../../../getting-started/integrate-cloud/GCP.md#alternative-setup-direct-resource-access). Since Spacelift only produces the OIDC token and configuration is handled on the GCP portal, you can use OIDC without service account impersonation.
 
 ## Troubleshooting
 
