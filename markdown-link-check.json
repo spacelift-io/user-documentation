@@ -107,6 +107,9 @@
     },
     {
       "pattern": "^https://spacelift.statuspage.io/"
+    },
+    {
+      "pattern": "^https://www.elastic.co/*"
     }
   ]
 }
