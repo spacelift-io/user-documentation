@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2025-12-17
+
+### Features
+
+- **Cloud Integrations**: AWS and Azure integrations now support auto-attachment to stacks and modules. This follows the same behavior as other auto-attachable resources like contexts and policies. See the cloud integration documentation for [AWS](../integrations/cloud-providers/aws.md#auto-attach-integrations) and [Azure](../integrations/cloud-providers/azure.md#auto-attach-integrations) for more details.
+
 ## 2025-12-10
 
 ### Features
