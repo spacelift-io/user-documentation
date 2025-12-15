@@ -148,14 +148,13 @@ Moving forward, all teams would work out of the management stack with Space admi
 
 ## Approach 3: Blueprints
 
-Spacelift will always suggest keeping your organization's Spacelift configuration in code at all times.
-This is the most flexible and scalable way to manage your Spacelift configuration.
-This means, when you use the Blueprints approach, we suggest your organization chooses between Approach 1 or Approach 2, and then creates a blueprint for the onboarding process.
-The blueprint would then create commits in git adding terraform code to repositories controlled via Approach 1/2.
+Spacelift will always suggest keeping your organization's Spacelift configuration in code at all times. This is the most flexible and scalable way to manage your Spacelift configuration.
+
+When you use the Blueprints approach, we suggest your organization chooses between Approach 1 or Approach 2, and then creates a blueprint for the onboarding process. The blueprint would then [create commits in git](https://github.com/spacelift-solutions/examples/tree/main/commit_to_repo){: rel="nofollow"} adding terraform code to repositories controlled via Approach 1/2.
 
 The process of this would be as follows (for simplicity, we will choose approach 2):
 
-1. A team in your organization wants to be onboarded to use Spacelift
+1. A team in your organization wants to be onboarded to use Spacelift.
 2. And administrator in your organization would go to the blueprint, fill out details similar to: `team_name`, `team_email`, `team_github_repo`, `space_path` etc.
 3. The blueprint would then create a commit in the root management stack's code, creating a new `.tf` file that would call the "Onboarding Module" with the details filled out in the blueprint.
 4. The management stack would then trigger a run, creating all the necessary resources for the team to be onboarded.

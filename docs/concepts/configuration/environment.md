@@ -41,7 +41,25 @@ You can edit or delete the variable by clicking the three dots next to it. You c
 
 ![Edit or delete environment variable](<../../assets/screenshots/stack/edit-env-variable.png>)
 
-### Environment variable interpolation
+#### User-configurable variables
+
+Spacelift users can configure environment variables to alter their stack behaviors. For example, if you have a large number of resources (statefiles, modules, etc.) in a stack causing operation timeouts, you can configure:
+
+- `SPACELIFT_STATE_ANALYTICS_UPLOAD_TIMEOUT`
+- `SPACELIFT_STATE_OUTPUTS_UPLOAD_TIMEOUT`
+- `SPACELIFT_MODULE_METADATA_UPLOAD_TIMEOUT`
+
+The `value` for these should be a duration string: one or more decimal numbers (which can include fractions) and a unit suffix, for example "`300ms`". Spacelift accepts these time units:
+
+- ns
+- us (or µs)
+- ms
+- s
+- m
+
+You can set the timeout values to a maximum of 10 minutes.
+
+#### Environment variable interpolation
 
 Environment variables can refer to other environment variables using simple interpolation. For example, if you have an environment variable `FOO` with a value of `bar` you can use it to define another environment variable `BAZ` as `${FOO}-baz` which will result in `bar-baz` being set as the value of `BAZ`. This interpolation is dynamically evaluated on the worker, and will work between environment variables defined in different ways, including [contexts](context.md).
 
