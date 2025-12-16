@@ -1,128 +1,132 @@
 # `spacectl`, the Spacelift CLI
 
-`spacectl` is a utility wrapping Spacelift's [GraphQL API](../integrations/api.md) for easy programmatic access in command-line contexts - either in manual interactive mode (in your local shell), or in a predefined CI pipeline (GitHub actions, CircleCI, Jenkins etc).
+`spacectl` is a utility wrapping Spacelift's [GraphQL API](../integrations/api.md) for easy programmatic access in command-line contexts, either in manual interactive mode (in your local shell) or a predefined CI pipeline (GitHub actions, CircleCI, Jenkins, etc.).
 
 Its primary purpose is to help you explore and execute actions inside Spacelift. It provides limited functionality for creating or editing resources. To do that programmatically, you can use the [Spacelift Terraform Provider](https://github.com/spacelift-io/terraform-provider-spacelift){: rel="nofollow"}.
 
 ## Installation
 
-### Officially supported packages
+Official Spacelift-supported packages are maintained by [Spacelift](https://spacelift.io/){: rel="nofollow"} and are the preferred ways to install `spacectl`. We support:
+<!-- markdownlint-disable MD051 -->
+- [Homebrew](#homebrew)
+- [Windows](#windows)
+- [Docker image](#docker-image)
+- [asdf](#asdf)
+- [GitHub Release](#github-release)
+- [GitHub Actions usage](#github-actions-usage)
+<!-- markdownlint-enable MD051 -->
+### Spacelift-supported packages
 
-Officially supported packages are maintained by [Spacelift](https://spacelift.io/){: rel="nofollow"} and are the preferred ways to install `spacectl`
+=== "Homebrew"
+      You can install `spacectl` using Homebrew on MacOS or Linux:
 
-#### Homebrew
+      ```bash
+      brew install spacelift-io/spacelift/spacectl
+      ```
 
-You can install `spacectl` using Homebrew on MacOS or Linux:
+=== "Windows"
+      You can install `spacectl` using winget:
 
-```bash
-brew install spacelift-io/spacelift/spacectl
-```
+      ```shell
+      winget install spacectl
+      ```
 
-#### Windows
+      or
 
-You can install `spacectl` using winget:
+      ```shell
+      winget install --id spacelift-io.spacectl
+      ```
 
-```shell
-winget install spacectl
-```
+=== "Docker image"
+      `spacectl` is distributed as a Docker image, which can be used as follows:
 
-or
+      ```bash
+      docker run -it --rm ghcr.io/spacelift-io/spacectl stack deploy --id my-infra-stack
+      ```
 
-```shell
-winget install --id spacelift-io.spacectl
-```
+      Add the [required environment variables](#authenticating-using-environment-variables) to authenticate.
 
-#### Docker image
+=== "asdf"
+      ```bash
+      asdf plugin add spacectl
+      asdf install spacectl latest
+      asdf global spacectl latest
+      ```
 
-`spacectl` is distributed as a Docker image, which can be used as follows:
+=== "GitHub Release"
+      `spacectl` is distributed through GitHub Releases as a zip file containing a self-contained statically linked executable built from the source in this repository.
 
-```bash
-docker run -it --rm ghcr.io/spacelift-io/spacectl stack deploy --id my-infra-stack
-```
+      Download binaries directly from the [Releases page](https://github.com/spacelift-io/spacectl/releases){: rel="nofollow"}.
 
-> Don't forget to add the [required environment variables](#authenticating-using-environment-variables) in order to authenticate.
+=== "GitHub Actions usage"
+      The [setup-spacectl](https://github.com/spacelift-io/setup-spacectl){: rel="nofollow"} GitHub Action can be used to install `spacectl`:
 
-#### asdf
+      {% raw %}
 
-```bash
-asdf plugin add spacectl
-asdf install spacectl latest
-asdf global spacectl latest
-```
+      ```yaml
+      steps:
+      - name: Install spacectl
+         uses: spacelift-io/setup-spacectl@main
 
-#### GitHub Release
+      - name: Deploy infrastructure
+         env:
+            SPACELIFT_API_KEY_ENDPOINT: https://mycorp.app.spacelift.io
+            SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
+            SPACELIFT_API_KEY_SECRET: ${{ secrets.SPACELIFT_API_KEY_SECRET }}
+         run: spacectl stack deploy --id my-infra-stack
+      ```
 
-Alternatively, `spacectl` is distributed through GitHub Releases as a zip file containing a self-contained statically linked executable built from the source in this repository. Binaries can be download directly from the [Releases page](https://github.com/spacelift-io/spacectl/releases){: rel="nofollow"}.
+      {% endraw %}
 
-#### Usage on GitHub Actions
+### Community-supported packages
 
-We have [setup-spacectl](https://github.com/spacelift-io/setup-spacectl){: rel="nofollow"} GitHub Action that can be used to install `spacectl`:
+Some packages are community-maintained and supported. Always verify package integrity yourself before using them to install or update `spacectl`. Community-supported packages include:
+<!-- markdownlint-disable MD051 -->
+- [Arch linux](#arch-linux)
+- [Alpine linux](#alpine-linux)
+<!-- markdownlint-enable MD051 -->
+=== "Arch linux"
+      Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin){: rel="nofollow"}: from the Arch User Repository ([AUR](https://aur.archlinux.org/){: rel="nofollow"}):
 
-{% raw %}
+      ```bash
+      yay -S spacectl-bin
+      ```
 
-```yaml
-steps:
-  - name: Install spacectl
-    uses: spacelift-io/setup-spacectl@main
+      Verify the [`PKGBUILD`](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin){: rel="nofollow"} before installing or updating.
 
-  - name: Deploy infrastructure
-    env:
-      SPACELIFT_API_KEY_ENDPOINT: https://mycorp.app.spacelift.io
-      SPACELIFT_API_KEY_ID: ${{ secrets.SPACELIFT_API_KEY_ID }}
-      SPACELIFT_API_KEY_SECRET: ${{ secrets.SPACELIFT_API_KEY_SECRET }}
-    run: spacectl stack deploy --id my-infra-stack
-```
+=== "Alpine linux"
+      Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=){: rel="nofollow"} from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages){: rel="nofollow"}):
 
-{% endraw %}
+      ```bash
+      apk add spacectl --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
+      ```
 
-### Community supported packages
-
-**Disclaimer:** These packages are community-maintained, please verify the package integrity yourself before using them to install or update `spacectl`.
-
-#### Arch linux
-
-Install [`spacectl-bin`](https://aur.archlinux.org/packages/spacectl-bin){: rel="nofollow"}: from the Arch User Repository ([AUR](https://aur.archlinux.org/){: rel="nofollow"}):
-
-```bash
-yay -S spacectl-bin
-```
-
-Please make sure to verify the [`PKGBUILD`](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=spacectl-bin){: rel="nofollow"} before installing/updating.
-
-#### Alpine linux
-
-Install [`spacectl`](https://pkgs.alpinelinux.org/packages?name=spacectl&branch=edge&repo=&arch=&maintainer=){: rel="nofollow"} from the Alpine Repository ([alpine packages](https://pkgs.alpinelinux.org/packages){: rel="nofollow"}):
-
-```bash
-apk add spacectl --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing
-```
-
-Please make sure to verify the [`APKBUILD`](https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD){: rel="nofollow"} before installing/updating.
+      Verify the [`APKBUILD`](https://git.alpinelinux.org/aports/tree/testing/spacectl/APKBUILD){: rel="nofollow"} before installing or updating.
 
 ## Quick Start
 
-Authenticate using `spacectl profile login`:
+1. Authenticate using `spacectl profile login` (option 3):
 
-```bash
-> spacectl profile login my-account
-Enter Spacelift endpoint (eg. https://unicorn.app.spacelift.io/): http://my-account.app.spacelift.tf
-Select authentication flow:
-  1) for API key,
-  2) for GitHub access token,
-  3) for login with a web browser
-Option: 3
-```
+      ```bash
+      > spacectl profile login my-account
+      Enter Spacelift endpoint (eg. https://unicorn.app.spacelift.io/): http://my-account.app.spacelift.tf
+      Select authentication flow:
+      1) for API key,
+      2) for GitHub access token,
+      3) for login with a web browser
+      Option: 3
+      ```
 
-Use spacectl 🚀:
+2. Use spacectl:
 
-```bash
-> spacectl stack list
-Name                          | Commit   | Author        | State     | Worker Pool | Locked By
-stack-1                       | 1aa0ef62 | Adam Connelly | NONE      |             |
-stack-2                       | 1aa0ef62 | Adam Connelly | DISCARDED |             |
-```
+      ```bash
+      > spacectl stack list
+      Name                          | Commit   | Author        | State     | Worker Pool | Locked By
+      stack-1                       | 1aa0ef62 | Adam Connelly | NONE      |             |
+      stack-2                       | 1aa0ef62 | Adam Connelly | DISCARDED |             |
+      ```
 
-## Getting Help
+## Getting help
 
 To list all the commands available, use `spacectl help`:
 
@@ -176,17 +180,20 @@ OPTIONS:
    --help, -h  show help (default: false)
 ```
 
-## Example
+## Usage example
 
-The following screencast shows an example of using spacectl to run a one-off task in Spacelift:
+In this example, `spacectl` runs a one-off task in Spacelift:
 
 [![asciicast](https://asciinema.org/a/pYm8lqM5XTUoG1UsDo7OL6t8B.svg)](https://asciinema.org/a/pYm8lqM5XTUoG1UsDo7OL6t8B)
 
 ## Authentication
 
-`spacectl` is designed to work in two different contexts - a non-interactive scripting mode (eg. external CI/CD pipeline) and a local interactive mode, where you type commands into your shell. Because of this, it supports two types of credentials - environment variables and user profiles.
+`spacectl` is designed to work in two different contexts:
 
-We refer to each method of providing credentials as "credential providers" (like AWS), and details of each method are documented in the following sections.
+- A non-interactive scripting mode (eg. external CI/CD pipeline).
+- A local interactive mode, where you type commands into your shell.
+
+Because of this, it supports two types of credentials: environment variables and user profiles.
 
 ### Authenticating using environment variables
 
@@ -200,24 +207,24 @@ The CLI supports the following authentication methods via the environment:
 
 #### Spacelift API tokens
 
-Spacelift API tokens can be specified using the `SPACELIFT_API_TOKEN` environment variable. When this variable is found, the CLI ignores all the other authentication environment variables because the token contains all the information needed to authenticate.
+Spacelift API tokens can be specified using the `SPACELIFT_API_TOKEN` environment variable and contains all information needed to authenticate.
 
-NOTE: API tokens are generally short-lived and will need to be re-created often.
+API tokens are generally short-lived and will need to be re-created often.
 
 #### GitHub tokens
 
-GitHub tokens are only available to accounts that use GitHub as their identity provider, but are very convenient for use in GitHub actions. To use a GitHub token, set the following environment variables:
+GitHub tokens are only available to accounts that use GitHub as their identity provider, but are very convenient for use in GitHub Actions. To use a GitHub token, set the following environment variables:
 
-- `SPACELIFT_API_KEY_ENDPOINT` - the URL to your Spacelift account, for example `https://mycorp.app.spacelift.io`.
-- `SPACELIFT_API_GITHUB_TOKEN` - a GitHub personal access token.
+- `SPACELIFT_API_KEY_ENDPOINT`: The URL to your Spacelift account, for example `https://mycorp.app.spacelift.io`.
+- `SPACELIFT_API_GITHUB_TOKEN`: A GitHub personal access token.
 
 #### Spacelift API keys
 
 To use a Spacelift API key, set the following environment variables:
 
-- `SPACELIFT_API_KEY_ENDPOINT` - the URL to your Spacelift account, for example `https://mycorp.app.spacelift.io`.
-- `SPACELIFT_API_KEY_ID` - the ID of your Spacelift API key. Available via the Spacelift application.
-- `SPACELIFT_API_KEY_SECRET` - the secret for your API key. Only available when the secret is created.
+- `SPACELIFT_API_KEY_ENDPOINT`: The URL to your Spacelift account, for example `https://mycorp.app.spacelift.io`.
+- `SPACELIFT_API_KEY_ID`: The ID of your Spacelift API key. Available via the Spacelift application.
+- `SPACELIFT_API_KEY_SECRET`: The secret for your API key. Only available when the secret is created.
 
 More information about API authentication can be found at [our GraphQL API documentation](../integrations/api.md).
 
@@ -246,26 +253,26 @@ OPTIONS:
    --help, -h  show help (default: false)
 ```
 
-Each of the subcommands requires an account **alias**, which is a short, user-friendly name for each set of credentials (account profiles). Profiles don't need to be unique - you can have multiple sets of credentials for a single account too.
+Each of the subcommands requires an account **alias**, which is a short, user-friendly name for each set of credentials (account profiles). Profiles don't need to be unique; you can have multiple sets of credentials for a single account too.
 
 Account profiles support three authentication methods:
 
-- GitHub access tokens
-
-- API keys
-
+- GitHub access tokens.
+- API keys.
 - Login with a browser (API token).
 
-In order to authenticate to your first profile, type in the following (make sure to replace `${MY_ALIAS}` with the actual profile alias):
+Enter the following to authenticate to your first profile, replacing `${MY_ALIAS}` with the actual profile alias:
 
 ```bash
 ❯ spacectl profile login ${MY_ALIAS}
 Enter Spacelift endpoint (eg. https://unicorn.app.spacelift.io/):
 ```
 
-In the next step, you will be asked to choose which authentication method you are going to use. Note that if your account is using [SAML-based SSO authentication](../integrations/single-sign-on/README.md), then API keys and login with a browser are your only options. After you're done entering credentials, the CLI will validate them against the server, and assuming that they're valid, will persist them in a credentials file in `.spacelift/${MY_ALIAS}`. It will also create a symlink in `${HOME}/.spacelift/current` pointing to the current profile.
+In the next step, you will be asked to choose which authentication method you are going to use. If your account is using [SAML-based SSO authentication](../integrations/single-sign-on/README.md), then API keys and login with a browser are your only options.
 
-By default the login process is interactive, however, if that does not fit your workflow, the steps can be predefined using flags, for example:
+After you enter your credentials, the CLI will validate them against the server and, assuming they're valid, persist them in a credentials file in `.spacelift/${MY_ALIAS}`. It will also create a symlink in `${HOME}/.spacelift/current` pointing to the current profile.
+
+By default the login process is interactive. If that does not fit your workflow, the steps can be predefined using flags, for example:
 
 ```bash
 ❯ spacectl profile login --method browser --endpoint https://unicorn.app.spacelift.io local-test
