@@ -4,6 +4,12 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## vNext
+
+### Features
+
+- **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy#evaluation-timeouts.md) for details.
+
 ## Changes between v3.8.0 and v3.7.0
 
 ### Features

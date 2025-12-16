@@ -551,3 +551,35 @@ track {
 ```
 
 As you can see, the first line in the `track` rule makes sure that we only respond to events that contain the `pull_request`j field.
+
+## Evaluation timeouts
+
+All policies have a maximum evaluation time to ensure that they do not negatively impact Spacelift's performance. Some policies have a longer timeout due to the complexity of their inputs and expected processing time.
+
+The following table outlines the timeout durations for each policy type:
+
+| Type                      | Timeout  |
+|---------------------------|----------|
+| Plan                      | 45s      |
+| Notification              | 10s      |
+| Push                      | 10s      |
+| All other policies        | 5s       |
+
+!!! Info
+    Usually there are multiple policies being evaluated for an event. The combined evaluation time for all policies is 5 minutes
+
+{% if is_self_hosted() %}
+Self-hosted deployments have additional control over policy evaluation timeouts. You can adjust the timeouts with flags or using these environment variables:
+
+- `POLICY_REGO_TIMEOUT_PLAN`
+- `POLICY_REGO_TIMEOUT_LOGIN`
+- `POLICY_REGO_TIMEOUT_PUSH`
+- `POLICY_REGO_TIMEOUT_APPROVAL`
+- `POLICY_REGO_TIMEOUT_TRIGGER`
+- `POLICY_REGO_TIMEOUT_NOTIFICATION`
+- `POLICY_REGO_TIMEOUT_INTENT`
+- `POLICY_REGO_EVALUATION_COMBINED_TIMEOUT`
+
+These variables accept duration strings (e.g., `30s`, `2m`).
+
+{% endif %}
