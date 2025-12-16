@@ -1,10 +1,12 @@
 # Spacelift Intent
 
-## What Is Spacelift Intent?
+!!! info "Beta feature"
+
+    Spacelift Intent is currently in early access beta. We recommend you only use this feature on testing and pre-production environments.
 
 **Spacelift Intent** lets you provision and manage infrastructure by describing what you need in natural language. Instead of writing Terraform/OpenTofu code, your MCP client (e.g. Claude Code) calls Spacelift Intent, which directly interacts with provider schemas under Spacelift’s guardrails (policies, audit trail, state, permissions).
 
-### **Key concepts**
+## **Key concepts**
 
 - **Natural language**: Describe your infrastructure needs in natural language; Intent translates it directly into the infrastructure you want.
 - **Policies**: Spacelift enforces governance (OPA/Rego policies) before execution to deny unsafe operations and allow compliant ones.
