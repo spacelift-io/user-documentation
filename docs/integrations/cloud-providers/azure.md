@@ -17,6 +17,22 @@ This page explains how to configure the following authentication methods in Spac
 
 See [Integrate Spacelift with Microsoft Azure](../../getting-started/integrate-cloud/Azure.md) to configure the integration through the Spacelift UI, provide admin consent, and set up proper permissions in Azure.
 
+## Auto-attach integrations
+
+Azure integrations can now be auto-attached to stacks and modules. To do so, include a label in your integration following this format `autoattach:<your_label>`. Then select the `Enable auto-attach` toggle and click `Set up`.
+
+!!!info
+    Azure integrations require a Default Subscription ID to be auto-attached. This is the subscription that will be used when auto-attaching the integration.
+
+![](<../../assets/screenshots/integrations/cloud-providers/azure/autoattach-azure-form.png>)
+
+You will immediately see the stacks and modules that already have your label in the Auto-attached section. To auto-attach your new integration to another stack or module, simply add `<your_label>` to it and we will attach the integration for you. This follows the same behavior as other _auto-attachable_ resources.
+
+![](<../../assets/screenshots/integrations/cloud-providers/azure/autoattach-azure-list.png>)
+
+!!! info
+    You have to enable auto-attach on each integration individually to prevent clashes with previous labels in your account.
+
 ## Static credentials
 
 To use static credentials, you need to create an Azure service principal, grant it access to your Azure subscription, and then configure the Azure Provider to use the service principal via environment variables.
