@@ -420,6 +420,10 @@ helm upgrade \
 
 Now that your Spacelift installation is up and running, take a look at the [initial installation](./first-setup.md) section for the next steps to take.
 
+### Configure telemetry
+
+You can configure telemetry collection to monitor your installation's performance and troubleshoot issues. See our [telemetry configuration guides](./telemetry/README.md) for step-by-step instructions on setting up Datadog, OpenTelemetry with Jaeger, or OpenTelemetry with Grafana Stack.
+
 ### Create a worker pool
 
 We recommend that you deploy workers in a dedicated namespace.

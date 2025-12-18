@@ -16,6 +16,11 @@ nav:
               - installing-spacelift/reference-architecture/guides/deploying-to-onprem.md
               - installing-spacelift/reference-architecture/guides/first-setup.md
               - installing-spacelift/reference-architecture/guides/observability.md
+              - Telemetry:
+                  - installing-spacelift/reference-architecture/guides/telemetry/README.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-datadog.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-grafana-stack.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-jaeger.md
               - installing-spacelift/reference-architecture/guides/air-gapped.md
               - installing-spacelift/reference-architecture/guides/disaster-recovery.md
           - Reference:
