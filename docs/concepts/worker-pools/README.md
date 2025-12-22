@@ -21,6 +21,26 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
     Containerized workers can share the same virtual server because the management is handled by the orchestrator.
 
+## Shared responsibility model
+
+Spacelift shares the responsibility for overall worker maintenance with you. How you use public and private workers depends on the level of configuration your organization needs and the level of responsibility you can take on. There are some worker permissions you can only manage with [private workers](#private-worker-pool).
+
+In your infrastructure, responsibility is broken down into chunks:
+
+![Shared responsibility model](<../../assets/screenshots/worker-pools-shared-responsibility-models.png>)
+
+### Public vs private worker comparison
+
+Private workers offer more customization options, but your organization is responsible for maintaining them by configuring compute resources, network access rules, and worker updates. With public workers, maintenance falls on Spacelift's side.
+
+| Private workers | Public workers |
+| ----------------| -------------- |
+| Offer more customization but require more responsibility from client | Offer less customization but require less responsibility |
+| Deployed in client infrastructure | Deployed in Spacelift's infrastructure |
+| Assumes client's cloud provider IAM role | Needs trust relations between Spacelift's cloud provider and client's |
+| All actions taken from client's infrastructure | All actions taken from Spacelift's infrastructure |
+| Private or public Docker repository | Only public Docker repository |
+
 ## Setting up
 
 ### Generate Worker Private Key
