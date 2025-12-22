@@ -392,8 +392,8 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Beta Terragrunt support](../vendors/terragrunt/README.md)
 - [Enhanced VCS integrations](https://feedback.spacelift.io/changelog/enhanced-vcs-integrations)
 - [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
-- [New run history view](https://feedback.spacelift.io/changelog/en/introducing-the-new-run-history-view)
-- [Redesigned stack creation view](https://feedback.spacelift.io/changelog/en/stack-creation-v2)
+- [New run history view](https://feedback.spacelift.io/changelog/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://feedback.spacelift.io/changelog/stack-creation-v2)
 
 ### Fixes
 
@@ -438,7 +438,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Auto Attaching Contexts](../concepts/configuration/context.md#auto-attachments)
 - [Context Hooks](../concepts/configuration/context.md#editing-hooks)
 - Additional [project globs](../concepts/stack/stack-settings.md#project-globs)
-- [Pull request default behaviour change](https://feedback.spacelift.io/changelog/en/upcoming-pull-request-default-behaviour-change)
+- [Pull request default behaviour change](https://feedback.spacelift.io/changelog/upcoming-pull-request-default-behaviour-change)
     - Spacelift will start handling pull request events and creating proposed runs if no push policy is set as the default behaviour
 
 ### Fixes
