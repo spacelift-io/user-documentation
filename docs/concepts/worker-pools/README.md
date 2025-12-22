@@ -23,7 +23,7 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
 ## Shared responsibility model
 
-Spacelift shares the responsibility for overall worker maintenance with you. How you use public and private workers depends on the level of configuration your organization needs and the level of responsibility you can take on. To manage worker permissions, you must use [private workers](#private-worker-pool).
+Spacelift shares the responsibility for overall worker maintenance with you. How you use public and private workers depends on the level of configuration your organization needs and the level of responsibility you can take on. There are some worker permissions you can only manage with [private workers](#private-worker-pool).
 
 In your infrastructure, responsibility is broken down into chunks:
 
