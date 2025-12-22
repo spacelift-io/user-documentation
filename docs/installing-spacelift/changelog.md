@@ -74,7 +74,7 @@ See the [stack role bindings documentation](../concepts/authorization/assigning-
 - **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
 - **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
 - **Personal Settings**: You can now find new "Spaces" view under your personal settings. This view lets you see the permissions you have for each space, making it easier to understand your access across Spacelift.
-- Added **SSO SAML** attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping-for-teams) for more information.
+- Added **SSO SAML** attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping) for more information.
 - Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
 
 ## Changes between v3.5.0 and v3.4.0
@@ -368,7 +368,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Added OpenTofu support for Terragrunt](../vendors/terragrunt/terragrunt-tool.md)
     - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../concepts/worker-pools/kubernetes-workers.md) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
 - [Added `Trigger always` flag to Stack Dependencies](../concepts/stack/stack-dependencies.md)
-- Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sampling-policy-inputs)
+- Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sample-policy-inputs)
 - Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
 - Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
 - Support for moved and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
@@ -390,10 +390,10 @@ Although we have safeguards in place to ensure the migration is successful, we r
 ### Features
 
 - [Beta Terragrunt support](../vendors/terragrunt/README.md)
-- [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
-- [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#opentofu)
-- [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
-- [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
+- [Enhanced VCS integrations](https://feedback.spacelift.io/changelog/enhanced-vcs-integrations)
+- [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
+- [New run history view](https://feedback.spacelift.io/changelog/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://feedback.spacelift.io/changelog/stack-creation-v2)
 
 ### Fixes
 
@@ -406,7 +406,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [User Management](../concepts/user-management/README.md)
 - [Terraform Provider Registry](../vendors/terraform/provider-registry.md)
 - The settings page is now split into Organization and Personal settings
-- [OpenTofu v1.6.1 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [OpenTofu v1.6.1 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
 - [PR stack locking](../concepts/policy/push-policy/README.md#stack-locking)
 - [Support for deploying workers via the Kubernetes operator](../concepts/worker-pools/kubernetes-workers.md)
 
@@ -421,7 +421,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [OpenTofu v1.6.0 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [OpenTofu v1.6.0 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
 - [PRs as notification targets](../concepts/policy/notification-policy.md#pull-request-notifications)
 - [Run prioritization through Push Policy](../concepts/policy/push-policy/README.md#prioritization) (`prioritize` keyword)
 - Add state size (in bytes) to `ManagedStateVersion` type in GraphQL
@@ -438,7 +438,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Auto Attaching Contexts](../concepts/configuration/context.md#auto-attachments)
 - [Context Hooks](../concepts/configuration/context.md#editing-hooks)
 - Additional [project globs](../concepts/stack/stack-settings.md#project-globs)
-- [Pull request default behaviour change](https://spacelift.io/changelog/en/upcoming-pull-request-default-behaviour-change)
+- [Pull request default behaviour change](https://feedback.spacelift.io/changelog/upcoming-pull-request-default-behaviour-change)
     - Spacelift will start handling pull request events and creating proposed runs if no push policy is set as the default behaviour
 
 ### Fixes
