@@ -38,6 +38,7 @@ nav:
           - installing-spacelift/cloudformation/install.md
           - installing-spacelift/cloudformation/advanced-installations.md
           - installing-spacelift/cloudformation/disaster-recovery.md
+          - installing-spacelift/cloudformation/postgresql-version-upgrade.md
           - installing-spacelift/cloudformation/slack-integration-setup.md
           - installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.md
   - 🚀 Getting Started:

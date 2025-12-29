@@ -222,6 +222,7 @@ The possible configuration options are:
 
 - `database.delete_protection_enabled` - **only for Spacelift-managed databases**. Whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database. Leave it empty for self-managed databases.
 - `database.instance_class` - **only for Spacelift-managed databases**. The instance class of the database (defaults to `db.t4g.large`). Leave it empty for self-managed databases.
+- `database.postgres_engine_version` - **only for Spacelift-managed databases**. The PostgreSQL engine version to use (defaults to `13.21`). See the [PostgreSQL version upgrade guide](./postgresql-version-upgrade.md) for information on upgrading to a newer version.
 - `database.connection_string_ssm_arn` - **only for self-managed databases**. The ARN of the SSM parameter that stores the connection string to the database. Leave it empty for Spacelift-managed databases.
 - `database.connection_string_ssm_kms_arn` - **only for self-managed databases**. The ARN of the KMS key used to encrypt the SSM parameter. Leave it empty for Spacelift-managed databases.
 
@@ -242,7 +243,7 @@ For example:
 When choosing an encryption key for the secret, we recommend using the Spacelift Master KMS key. The key is being created by `spacelift-infra-kms` CloudFormation stack. The ECS tasks will read this secret so the execution role of the ECS task needs to have permissions to decrypt the secret - by default the execution roles have permission to decrypt secrets encrypted with the Spacelift Master KMS key.
 
 !!! note
-    Make sure the Postgres version is the same as the one in the Cloudformation template. In general, there shouldn't be issues with newer versions but it's the safest to use the same major version at least.
+    Make sure the Postgres version is the same as the one in the Cloudformation template. In general, there shouldn't be issues with newer versions but it's the safest to use the same major version at least. To upgrade your PostgreSQL version, see the [PostgreSQL version upgrade guide](./postgresql-version-upgrade.md).
 
 ###### Going from Spacelift-managed to self-managed database
 
