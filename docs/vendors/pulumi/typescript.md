@@ -1,18 +1,18 @@
 ---
 description: >-
-  From this article you can learn how to setup a Pulumi JavaScript Stack in
+  From this article you can learn how to setup a Pulumi TypeScript Stack in
   Spacelift
 ---
 
-# Javascript
+# TypeScript
 
 In order to follow along with this article, you'll need an AWS account.
 
-Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-js-webserver](https://github.com/pulumi/examples/tree/master/aws-js-webserver){: rel="nofollow"}.
+Start with forking the [Pulumi examples repo](https://github.com/pulumi/examples){: rel="nofollow"}, we'll be setting up an example directory from there, namely [aws-ts-webserver](https://github.com/pulumi/examples/tree/master/aws-ts-webserver){: rel="nofollow"}.
 
 Now let's open Spacelift and create a new Stack, choose the examples repo you just forked. In the second step you'll have to change multiple default values:
 
-- Set the project root to `aws-js-webserver`, as we want to run Pulumi in this subdirectory only.
+- Set the project root to `aws-ts-webserver`, as we want to run Pulumi in this subdirectory only.
 - Add one before init script: `npm install`, which will install all necessary dependencies, before initializing Pulumi itself. The outputs will be persisted in the workspace and be there for the [Planning](../../concepts/run/README.md#planning) and [Applying](../../concepts/run/README.md#applying) phases.
 - Set the runner image to `public.ecr.aws/spacelift/runner-pulumi-javascript:latest`
 - Pinning to a specific Pulumi version is possible too, using a tag like `v2.15.4` - you can see the available versions [here](https://gallery.ecr.aws/spacelift/runner-pulumi-javascript){: rel="nofollow"}.
@@ -22,7 +22,7 @@ Now let's open Spacelift and create a new Stack, choose the examples repo you ju
 In the third step, choose Pulumi as your Infrastructure as Code vendor. You'll have to choose:
 
 - A state backend, aka login URL. This can be a cloud storage bucket, like `s3://pulumi-state-bucket`, but it can also be a Pulumi Service endpoint.
-- A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-javascript-pulumi-spacelift-stack`.
+- A stack name, which is how the state for this stack will be namespaced in the state backend. Best to write something close to your stack name, like `my-typescript-pulumi-spacelift-stack`.
 
 ![Configure backend.](<../../assets/screenshots/image (36).png>)
 

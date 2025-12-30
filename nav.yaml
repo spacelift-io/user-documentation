@@ -127,7 +127,7 @@ nav:
           # Hence the override.
           - C#: vendors/pulumi/c-sharp.md
           - vendors/pulumi/golang.md
-          - vendors/pulumi/javascript.md
+          - vendors/pulumi/typescript.md
           - vendors/pulumi/python.md
       - AWS CloudFormation:
           - vendors/cloudformation/README.md

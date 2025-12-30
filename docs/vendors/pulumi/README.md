@@ -13,10 +13,10 @@ If you prefer hands-on learning, check out our quickstart guides for each Pulumi
 
 - [C#](./c-sharp.md)
 - [Go](./golang.md)
-- [Javascript](./javascript.md)
+- [TypeScript](./typescript.md)
 - [Python](./python.md)
 
-If you’re new to Pulumi, we recommend starting with Javascript—it’s the most user-friendly experience we’ve had with Pulumi. You can easily switch to other languages that compile to Javascript, like TypeScript or ClojureScript, later on.
+If you're new to Pulumi, we recommend starting with TypeScript—it provides a great developer experience with type safety and is widely supported across Pulumi's ecosystem.
 
 The core concepts of Spacelift remain the same when using Pulumi. Below, we’ll cover some lower-level details that may be helpful.
 
