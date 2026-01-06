@@ -57,6 +57,7 @@ nav:
       - getting-started/create-stack/README.md
     - Step 4. Invite teammates:
       - getting-started/invite-teammates/README.md
+  - ❔ Support knowledge base: faq/support_kb.md
   - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:
       - Stack:
