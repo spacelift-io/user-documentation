@@ -8,6 +8,16 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
+- **Configurable PostgreSQL version (CloudFormation)**: You can now configure the PostgreSQL engine version for CloudFormation installations using the `postgres_engine_version` parameter in your `config.json` file.
+
+    **📖 See the [PostgreSQL version upgrade guide](./cloudformation/postgresql-version-upgrade.md)** for complete instructions including downtime expectations, upgrade process, and cleanup procedures.
+
+    !!! info "Terraform installations"
+        If you're using Terraform-based installations, follow the [HashiCorp RDS upgrade tutorial](https://developer.hashicorp.com/terraform/tutorials/aws/rds-upgrade#upgrade-rds-instance){: rel="nofollow"} to upgrade your PostgreSQL version.
+
+    !!! warning "Reminder: CloudFormation support phase-out"
+        CloudFormation installations will eventually be phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. We will provide advance notice before discontinuing support. We recommend planning your migration to the Reference Architecture to ensure continued access to new features. See the [migration guide](./cloudformation/cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
+
 - **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy#evaluation-timeouts.md) for details.
 
 ### Documentation
