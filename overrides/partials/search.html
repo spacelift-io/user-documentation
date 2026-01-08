@@ -1,0 +1,466 @@
+{#
+  Hybrid search implementation for Spacelift Documentation
+  - Native MkDocs/Lunr.js search for keyword queries (no ?)
+  - AutoRAG AI search for questions (ending with ?)
+  - Automatic fallback to native search when AutoRAG returns no results
+#}
+
+<!-- Search modal -->
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input
+        type="text"
+        class="md-search__input"
+        name="query"
+        aria-label="Search"
+        placeholder="Search or ask a question for AI search (end with ?)"
+        autocapitalize="off"
+        autocorrect="off"
+        autocomplete="off"
+        spellcheck="false"
+        data-md-component="search-query"
+        required
+      >
+      <label class="md-search__icon md-icon" for="__search">
+        {% include ".icons/material/magnify.svg" %}
+        {% include ".icons/material/arrow-left.svg" %}
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          {% include ".icons/material/close.svg" %}
+        </button>
+      </nav>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__ai-answer" data-md-component="search-ai-answer" style="display: none;"></div>
+          <div class="md-search-result__meta">
+            <span class="md-search-result__ai-hint">Type to search, or add <kbd>?</kbd> for AI search.</span>
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hybrid search JavaScript -->
+<script>
+  (function() {
+    'use strict';
+
+    const SEARCH_API_URL = 'https://laughing-ermine-yhtl.endpoints.useflows.eu/14df920422caccee023d48b64b4ad021';
+    const AI_ANSWER_API_URL = 'https://laughing-ermine-yhtl.endpoints.useflows.eu/07dcebed108606dc0fc689e96efbb997';
+    const AUTORAG_TIMEOUT_MS = 30000;
+    const ASK_FOR_INPUT = '<span class="md-search-result__ai-hint">Type to search, or add <kbd>?</kbd> for AI search.</span>';
+    let searchTimeout;
+    let hybridSearchInitialized = false;
+    let currentSearchId = 0;
+    let aiAnswerAbortController = null;
+    let fallbackTimeoutId = null;
+
+    function fetchAIAnswer(query, searchId) {
+      const aiAnswerContainer = document.querySelector('[data-md-component="search-ai-answer"]');
+      const resultMeta = document.querySelector('.md-search-result__meta');
+      if (!aiAnswerContainer) return;
+
+      aiAnswerContainer.style.display = 'none';
+      aiAnswerContainer.innerHTML = '';
+
+      // Cancel any previous AI answer request
+      if (aiAnswerAbortController) {
+        aiAnswerAbortController.abort();
+      }
+      aiAnswerAbortController = new AbortController();
+
+      log('Fetching AI answer for:', query);
+
+      fetch(`${AI_ANSWER_API_URL}?q=${encodeURIComponent(query)}`, {
+        signal: aiAnswerAbortController.signal
+      })
+        .then(response => {
+          if (!response.ok) throw new Error(`API returned ${response.status}`);
+          return response.text();
+        })
+        .then(answer => {
+          // Ignore stale responses
+          if (searchId !== currentSearchId) {
+            log('Ignoring stale AI answer response');
+            return;
+          }
+
+          log('AI answer received', { answer });
+          if (resultMeta) {
+            resultMeta.classList.remove('md-search-result__meta--ai-loading');
+          }
+          if (answer && answer.trim()) {
+            // Sanitize HTML to prevent XSS attacks
+            const sanitizedAnswer = sanitizeHtml(answer.trim());
+            aiAnswerContainer.innerHTML = `
+              <div class="md-search-result__ai-answer-content">${sanitizedAnswer}</div>
+              <div class="md-search-result__ai-disclaimer">AI-generated response may be inaccurate. Always verify with the documentation.</div>
+            `;
+            aiAnswerContainer.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          if (error.name === 'AbortError') {
+            log('AI answer fetch aborted');
+            return;
+          }
+          log('AI answer fetch failed:', error);
+          if (resultMeta && searchId === currentSearchId) {
+            resultMeta.classList.remove('md-search-result__meta--ai-loading');
+          }
+        });
+    }
+
+    async function performAutoRAGSearch(query) {
+      const searchId = ++currentSearchId;
+
+      // Clear any pending fallback timeout from previous search
+      if (fallbackTimeoutId) {
+        clearTimeout(fallbackTimeoutId);
+        fallbackTimeoutId = null;
+      }
+
+      const resultContainer = document.querySelector('[data-md-component="search-result"]');
+      const resultMeta = resultContainer.querySelector('.md-search-result__meta');
+
+      hideAIAnswerContainer();
+
+      resultMeta.textContent = 'Searching with AI...';
+      resultMeta.classList.add('md-search-result__meta--loading');
+
+      log('Performing AutoRAG search', { query, timeout: AUTORAG_TIMEOUT_MS, searchId });
+
+      fetchAIAnswer(query, searchId);
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), AUTORAG_TIMEOUT_MS);
+
+        const response = await fetch(
+          `${SEARCH_API_URL}?q=${encodeURIComponent(query)}`,
+          { signal: controller.signal }
+        );
+
+        clearTimeout(timeoutId);
+
+        // Check if this search is still current
+        if (searchId !== currentSearchId) {
+          log('Ignoring stale AutoRAG response', { searchId, currentSearchId });
+          return;
+        }
+
+        resultMeta.classList.remove('md-search-result__meta--loading');
+
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+        const results = data.docs || [];
+
+        log('AutoRAG search results', { count: results.length, results: results });
+
+        if (results.length === 0) {
+          resultMeta.textContent = 'No AI results, trying keyword search...';
+          log('AutoRAG returned no results, falling back to native search');
+          fallbackTimeoutId = setTimeout(() => {
+            if (searchId !== currentSearchId) return;
+          }, 500);
+          return;
+        }
+
+        displayResults(results, query);
+      } catch (error) {
+        // Check if this search is still current
+        if (searchId !== currentSearchId) {
+          log('Ignoring stale AutoRAG error', { searchId, currentSearchId });
+          return;
+        }
+
+        resultMeta.classList.remove('md-search-result__meta--loading');
+
+        if (error.name === 'AbortError') {
+          log('AutoRAG search timed out, falling back to native search');
+          resultMeta.textContent = 'AI search timed out, using keyword search...';
+        } else {
+          log('AutoRAG search error, falling back to native search', error);
+          resultMeta.textContent = 'AI search unavailable, using keyword search...';
+        }
+
+        fallbackTimeoutId = setTimeout(() => {
+          if (searchId !== currentSearchId) return;
+        }, 500);
+      }
+    }
+
+    function initHybridSearch() {
+      // Guard against re-initialization to prevent duplicate event listeners
+      if (hybridSearchInitialized) {
+        log('Hybrid search already initialized, skipping');
+        return;
+      }
+
+      const searchInput = document.querySelector('[data-md-component="search-query"]');
+      const resultContainer = document.querySelector('[data-md-component="search-result"]');
+
+      if (!searchInput || !resultContainer) {
+        log('Search elements not found, skipping initialization');
+        return;
+      }
+
+      const resultMeta = resultContainer.querySelector('.md-search-result__meta');
+      const resultList = resultContainer.querySelector('.md-search-result__list');
+
+      function handleSearchInput(e) {
+        const query = e.target.value.trim();
+
+        // Sync value attribute for CSS selector [value$="?"] to work
+        searchInput.setAttribute('value', e.target.value);
+
+        clearTimeout(searchTimeout);
+
+        // Clear fallback timeout and cancel pending AI answer requests on new input
+        if (fallbackTimeoutId) {
+          clearTimeout(fallbackTimeoutId);
+          fallbackTimeoutId = null;
+        }
+        if (aiAnswerAbortController) {
+          aiAnswerAbortController.abort();
+          aiAnswerAbortController = null;
+        }
+
+        if (query.length === 0) {
+          currentSearchId++;
+          resultMeta.innerHTML = ASK_FOR_INPUT;
+          resultList.innerHTML = '';
+          hideAIAnswerContainer();
+          return;
+        }
+
+        const isQuestion = query.endsWith('?');
+
+        if (!isQuestion) {
+          resultMeta.innerHTML = ASK_FOR_INPUT;
+          resultMeta.classList.remove('md-search-result__meta--loading');
+          hideAIAnswerContainer();
+        }
+
+        if (isQuestion && query.length < 4) {
+          resultMeta.textContent = 'Question too short';
+          resultList.innerHTML = '';
+          return;
+        }
+
+        if (isQuestion) {
+          resultMeta.textContent = 'Searching with AI...';
+          resultMeta.classList.add('md-search-result__meta--loading');
+        }
+
+        searchTimeout = setTimeout(() => {
+          if (isQuestion) {
+            performAutoRAGSearch(query);
+          }
+        }, 300);
+      }
+
+      searchInput.addEventListener('input', handleSearchInput);
+
+      hybridSearchInitialized = true;
+      log('Hybrid search initialized');
+    }
+
+    function displayResults(results, query) {
+      const resultContainer = document.querySelector('[data-md-component="search-result"]');
+      const metaElement = resultContainer.querySelector('.md-search-result__meta');
+      const listElement = resultContainer.querySelector('.md-search-result__list');
+
+      if (results.length === 0) {
+        metaElement.textContent = 'No results found';
+        listElement.innerHTML = '';
+        return;
+      }
+
+      metaElement.classList.add('md-search-result__meta--ai-loading');
+      metaElement.innerHTML = `${results.length} result${results.length !== 1 ? 's' : ''} (AI) · <span class="md-search-result__ai-answer-loading">Generating answer...</span>`;
+
+      listElement.innerHTML = results.map(result => {
+        const title = result.title || 'Untitled';
+        const text = result.text || '';
+        let location = result.location || '#';
+
+        // Validate URL to prevent javascript: and other dangerous protocols
+        if (location !== '#') {
+          if (!isValidUrl(location)) {
+            // If URL is not valid (e.g., javascript:), default to safe anchor
+            log('Blocked potentially dangerous URL:', location);
+            location = '#';
+          } else if (!location.startsWith('/') && !location.startsWith('http') && !location.startsWith('#')) {
+            location = '/' + location;
+          }
+        }
+
+        const displayTitle = highlightText(title, query);
+
+        const displayText = text
+          ? highlightText(truncateText(text, 200), query.replace(/\?+$/, ''))
+          : '';
+
+        // Escape score to prevent attribute injection
+        const safeScore = escapeAttribute(result.score || 1);
+
+        return `
+          <li class="md-search-result__item">
+            <a href="${escapeAttribute(location)}" class="md-search-result__link" tabindex="-1">
+              <article class="md-search-result__article md-typeset" data-md-score="${safeScore}">
+                <h1>${displayTitle}</h1>
+                ${displayText ? `<p>${displayText}</p>` : ''}
+              </article>
+            </a>
+          </li>
+        `;
+      }).join('');
+    }
+
+    /**
+     * The rest of these are just helper functions and security related functions
+     */
+
+    function hideAIAnswerContainer() {
+      const aiAnswerContainer = document.querySelector('[data-md-component="search-ai-answer"]');
+      if (aiAnswerContainer) {
+        aiAnswerContainer.style.display = 'none';
+        aiAnswerContainer.innerHTML = '';
+      }
+    }
+
+    function highlightText(text, query) {
+      if (!query || !text) return escapeHtml(text);
+
+      const cleanQuery = query.replace(/\?+$/, '').trim();
+      if (!cleanQuery) return escapeHtml(text);
+
+      const terms = cleanQuery.split(/\s+/).filter(t => t.length > 1);
+      if (terms.length === 0) return escapeHtml(text);
+
+      let escaped = escapeHtml(text);
+
+      terms.forEach(term => {
+        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+        escaped = escaped.replace(regex, '<mark>$1</mark>');
+      });
+
+      return escaped;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    /**
+     * Sanitizes HTML to prevent XSS attacks from untrusted API responses.
+     * Removes: script tags, event handlers (onclick, onerror, etc.),
+     * dangerous elements (iframe, object, form, etc.), and unsafe URLs.
+     */
+    function sanitizeHtml(html) {
+      if (!html) return '';
+      const div = document.createElement('div');
+      div.innerHTML = html;
+
+      const scripts = div.querySelectorAll('script');
+      scripts.forEach(script => script.remove());
+
+      const allElements = div.querySelectorAll('*');
+      allElements.forEach(el => {
+        const attrs = Array.from(el.attributes);
+        attrs.forEach(attr => {
+          const name = attr.name.toLowerCase();
+          if (name.startsWith('on') || name === 'srcdoc' || name === 'data') {
+            el.removeAttribute(attr.name);
+          }
+          if ((name === 'href' || name === 'src') && !isValidUrl(attr.value)) {
+            el.removeAttribute(attr.name);
+          }
+        });
+      });
+
+      const dangerousTags = ['iframe', 'object', 'embed', 'form', 'input', 'button', 'textarea', 'select', 'style', 'link', 'meta', 'base'];
+      dangerousTags.forEach(tag => {
+        const elements = div.querySelectorAll(tag);
+        elements.forEach(el => el.remove());
+      });
+
+      return div.innerHTML;
+    }
+
+    /**
+     * Validates URLs to block dangerous protocols (javascript:, data:, vbscript:)
+     * that could execute arbitrary code when used in href/src attributes.
+     */
+    function isValidUrl(url) {
+      if (!url) return false;
+      const trimmed = url.trim().toLowerCase();
+      if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:') || trimmed.startsWith('vbscript:')) {
+        return false;
+      }
+      return true;
+    }
+
+    /**
+     * Escapes special characters for safe use in HTML attributes.
+     * Prevents attribute injection attacks from untrusted data.
+     */
+    function escapeAttribute(value) {
+      if (value === null || value === undefined) return '';
+      return String(value).replace(/[&"'<>]/g, char => {
+        switch (char) {
+          case '&': return '&amp;';
+          case '"': return '&quot;';
+          case "'": return '&#39;';
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          default: return char;
+        }
+      });
+    }
+
+    function escapeRegex(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function truncateText(text, maxLength) {
+      const stripped = text.replace(/<[^>]*>/g, '');
+      if (stripped.length <= maxLength) return stripped;
+      return stripped.substring(0, maxLength).trim() + '...';
+    }
+
+    function log(message, data = null) {
+      if (data) {
+        console.log(`[Spacelift Search] ${message}`, data);
+      } else {
+        console.log(`[Spacelift Search] ${message}`);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHybridSearch);
+    } else {
+      initHybridSearch();
+    }
+
+    if (typeof location$ !== 'undefined') {
+      location$.subscribe(function() {
+        setTimeout(initHybridSearch, 100);
+      });
+    }
+  })();
+</script>
