@@ -80,7 +80,7 @@ These commands can serve two main purposes: modifying the workspace (such as set
 
 #### How to run multiple commands
 
-Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
+Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and wraps each hook in curly brackets (`{}`) to avoid ambiguous behavior. Using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
 
 Additionally, using a semicolon (`;`) in hooks will cause subsequent commands to run even if the phase fails. Use `&&` or wrap your hook in parentheses to ensure "after" commands only execute if the phase succeeds.
 
