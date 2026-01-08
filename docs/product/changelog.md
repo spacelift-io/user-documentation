@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-08
+
+- (chore): Sample automated changelog task: Idea is to automate the changelog
 ## 2025-12-17
 
 ### Features
