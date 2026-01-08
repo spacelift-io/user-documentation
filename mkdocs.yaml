@@ -87,7 +87,7 @@ hooks:
   - hooks/fetch_banner.py
   - hooks/move_index.py
 plugins:
-  - search
+  - search  # Re-enabled: hybrid search with AutoRAG fallback
   - macros
   - glightbox:
       manual: true
