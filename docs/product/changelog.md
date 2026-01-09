@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-09
+
+- (chore): Deliver automated changelog: Definition of done: get automated changelog going. this is a sample ticket to te
 ## 2025-12-17
 
 ### Features
