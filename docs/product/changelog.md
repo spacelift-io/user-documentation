@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-09
+
+- (chore): Create icon/color mock assigned for guide groups
 ## 2025-12-17
 
 ### Features
