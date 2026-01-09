@@ -376,6 +376,18 @@ resource "spacelift_module" "common_networking" {
 
 The `space_shares` attribute accepts a list of space IDs. Changes to this list will update sharing permissions, allowing you to manage module access as code.
 
+##### Permissions
+
+To be able to share a module with a space, you need the following permissions:
+
+- Admin access on the space where the module belongs.
+- Write access OR the `SPACE_SHARE_MODULE` action to the target space.
+
+You may also want to assign read access to the target space, otherwise the space will not appear in the space selector in Spacelift UI.
+You can create a custom role called `module share` like below that you can reuse:
+
+![](../../assets/screenshots/terraform/modules/module_share_role.png)
+
 ##### Using shared modules
 
 When a module is shared with a space you have access to, you can:
