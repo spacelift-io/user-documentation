@@ -20,6 +20,14 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy#evaluation-timeouts.md) for details.
 
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
+    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
+    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
+
+    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
 ### Documentation
 
 - **Telemetry configuration guides**: Added comprehensive guides for configuring telemetry collection in Kubernetes installations. These guides provide step-by-step instructions for setting up observability with [Datadog](./reference-architecture/guides/telemetry/k8s-datadog.md), [OpenTelemetry with Grafana Stack](./reference-architecture/guides/telemetry/k8s-otel-grafana-stack.md), and [OpenTelemetry with Jaeger](./reference-architecture/guides/telemetry/k8s-otel-jaeger.md). Each guide includes installation steps, configuration examples, troubleshooting tips, and cleanup procedures.
