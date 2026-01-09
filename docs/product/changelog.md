@@ -6,6 +6,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-01-09
 
+- (chore): Define set of initial scenarios
 - **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
     shared with other spaces. This allow to share a module with a space without granting full write to the target space.
     - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
