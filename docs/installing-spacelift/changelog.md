@@ -19,6 +19,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
         CloudFormation installations will eventually be phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. We will provide advance notice before discontinuing support. We recommend planning your migration to the Reference Architecture to ensure continued access to new features. See the [migration guide](./cloudformation/cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
 
 - **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy#evaluation-timeouts.md) for details.
+- **Enhanced APM error reporting**: [Observability products](./reference-architecture/reference/telemetry.md) (Datadog, OpenTelemetry, etc.) were previously sometimes receiving the same generic "internal error" messages shown to end users. They now receive unwrapped errors with full stack traces and detailed technical context, making production issues significantly easier to debug while maintaining end-user security.
 
 - **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
     shared with other spaces. This allow to share a module with a space without granting full write to the target space.
