@@ -4,7 +4,7 @@ description: Learn how to safely upgrade your PostgreSQL database version in Clo
 
 # PostgreSQL Version Upgrades
 
-Starting with Self-Hosted v3.9.0, you can configure the PostgreSQL engine version for CloudFormation-based installations using the `postgres_engine_version` parameter in your configuration file. This guide explains how to safely upgrade your database version and what to expect during the process.
+Starting with Self-Hosted v4.0.0, you can configure the PostgreSQL engine version for CloudFormation-based installations using the `postgres_engine_version` parameter in your configuration file. This guide explains how to safely upgrade your database version and what to expect during the process.
 
 !!! info "CloudFormation installations only"
     This guide is for CloudFormation-based Self-Hosted installations. If you're using Terraform-based installations, follow the [HashiCorp RDS upgrade tutorial](https://developer.hashicorp.com/terraform/tutorials/aws/rds-upgrade#upgrade-rds-instance){: rel="nofollow"} instead.
