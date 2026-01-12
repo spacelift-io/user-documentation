@@ -4,9 +4,66 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
-## vNext
+## Changes between v4.0.0 and v3.8.0
+
+!!! info "Safe upgrade from any v3.x.x version"
+    This release contains no breaking changes. You can safely upgrade from any v3.x.x version without requiring configuration changes or migration steps.
+
+### 🌟 Feature of the Month: Auto-attach Cloud Integrations
+
+Managing cloud integrations across multiple stacks and modules just got easier. AWS and Azure integrations can now be automatically attached using labels, eliminating the need to manually configure each stack.
+
+**How it works:**
+
+1. Create your cloud integration and add a label in the format `autoattach:<your_label>`
+2. Enable the auto-attach toggle during setup
+3. Add the same label to any stack or module
+4. The integration automatically attaches - no manual configuration needed
+
+Any stack or module with a matching label will automatically have the integration attached, and newly labeled resources will pick it up instantly. This follows the same pattern as other auto-attachable resources in Spacelift, making integration management consistent across your infrastructure.
+
+**Learn more:**
+
+- [AWS auto-attach integrations](../integrations/cloud-providers/aws.md#auto-attach-integrations)
+- [Azure auto-attach integrations](../integrations/cloud-providers/azure.md#auto-attach-integrations)
 
 ### Features
+
+- **Refreshed sidebar design**: The navigation sidebar now features a modern glassmorphism design with a lighter, semi-transparent appearance for improved visual aesthetics.
+
+- **Command palette**: Navigate Spacelift faster with the new command palette. Access it with ⌘K (Mac) or Ctrl+K (Windows/Linux), or click "Search Spacelift" in the sidebar. Quickly create resources (stacks, modules, contexts) and jump to any section of the platform without clicking through menus.
+
+- **Account default runner images**: Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
+
+    !!! note
+        This feature was mistakenly listed in the v3.8.0 changelog but is actually included in this release.
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
+    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
+    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
+
+    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
+- **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy/README.md#evaluation-timeouts) for details.
+
+- **Enhanced APM error reporting**: [Observability products](./reference-architecture/reference/telemetry.md) (Datadog, OpenTelemetry, etc.) were previously sometimes receiving the same generic "internal error" messages shown to end users. They now receive unwrapped errors with full stack traces and detailed technical context, making production issues significantly easier to debug while maintaining end-user security.
+
+- **Terraform module updates**: The [AWS ECS](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted){: rel="nofollow"} and [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"} Terraform modules have been updated to v2.0.0 and v3.0.0 respectively, with important improvements and breaking changes:
+
+    **ECS module (v2.0.0)**:
+
+    - Database credentials consolidated into `sensitive_env_vars` for better secret management
+    - License token now uses write-only parameters to keep secrets out of state (requires OpenTofu/Terraform 1.11+)
+    - Native support for distributed tracing through [Datadog APM and OpenTelemetry](./reference-architecture/reference/telemetry.md) sidecars
+
+    **EKS module (v3.0.0)**:
+
+    - EKS cluster version and RDS engine version are now required parameters, giving you explicit control over infrastructure versions
+    - EKS module dependency upgraded from v20 to v21
+
+    See the full release notes for migration details: [ECS v2.0.0](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted/releases/tag/v2.0.0){: rel="nofollow"} and [EKS v3.0.0](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.0.0){: rel="nofollow"}.
 
 - **Configurable PostgreSQL version (CloudFormation)**: You can now configure the PostgreSQL engine version for CloudFormation installations using the `postgres_engine_version` parameter in your `config.json` file.
 
@@ -18,16 +75,11 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
     !!! warning "Reminder: CloudFormation support phase-out"
         CloudFormation installations will eventually be phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. We will provide advance notice before discontinuing support. We recommend planning your migration to the Reference Architecture to ensure continued access to new features. See the [migration guide](./cloudformation/cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
 
-- **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy#evaluation-timeouts.md) for details.
-- **Enhanced APM error reporting**: [Observability products](./reference-architecture/reference/telemetry.md) (Datadog, OpenTelemetry, etc.) were previously sometimes receiving the same generic "internal error" messages shown to end users. They now receive unwrapped errors with full stack traces and detailed technical context, making production issues significantly easier to debug while maintaining end-user security.
+### Fixes
 
-- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
-    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
-    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
-
-    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
-
-    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+- **Telemetry**: Improved trace quality by adding proper parent contexts to background operations, reducing orphaned spans in distributed tracing systems.
+- **Telemetry**: Updated telemetry metadata to follow OpenTelemetry semantic conventions, improving compatibility with observability platforms and making traces easier to analyze.
+- **Telemetry**: Errors are now unwrapped before being sent to observability platforms, providing more detailed context for debugging while maintaining generic error messages for end users.
 
 ### Documentation
 
@@ -62,7 +114,6 @@ The administrative flag is deprecated for stacks and [will be automatically disa
 See the [stack role bindings documentation](../concepts/authorization/assigning-roles-stacks.md) for migration guides and detailed examples.
 
 - **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
-- **Account default runner images** — Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
 - **Login Policy**: Enriched the roles input in login policy data with `slug` and `ulid` fields for better role identification and assignment. See the [login policy documentation](../concepts/policy/login-policy.md#roles) for details.
 
 ### Fixes
