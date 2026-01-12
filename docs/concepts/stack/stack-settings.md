@@ -241,7 +241,7 @@ List of the most useful labels:
 - **feature:enable_log_timestamps** -- Enables timestamps on run logs.
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
-- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
+- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments (The default change summary)
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
 - **feature:enable_git_checkout** -- Enables support for downloading source code using standard Git checkout rather than downloading a tarball via API
 - **feature:ignore_runtime_config** -- Ignores .spacelift/config
