@@ -1,0 +1,18 @@
+{
+  "account": {
+    "name": "string - Account display name"
+  },
+  "webhook_endpoints": [
+    {
+      "id": "string - Webhook endpoint identifier",
+      "labels": [
+        "string - label"
+      ]
+    }
+  ],
+  "internal_error": {
+    "error": "string - Error details",
+    "message": "string - Error message",
+    "severity": "string - Error severity level"
+  }
+}
