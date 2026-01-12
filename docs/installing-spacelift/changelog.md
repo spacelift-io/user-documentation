@@ -65,6 +65,8 @@ Any stack or module with a matching label will automatically have the integratio
 
     See the full release notes for migration details: [ECS v2.0.0](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted/releases/tag/v2.0.0){: rel="nofollow"} and [EKS v3.0.0](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.0.0){: rel="nofollow"}.
 
+- **OpenTofu 1.11.2 support**: Stacks can now use OpenTofu 1.11.2.
+
 - **Configurable PostgreSQL version (CloudFormation)**: You can now configure the PostgreSQL engine version for CloudFormation installations using the `postgres_engine_version` parameter in your `config.json` file.
 
     **📖 See the [PostgreSQL version upgrade guide](./cloudformation/postgresql-version-upgrade.md)** for complete instructions including downtime expectations, upgrade process, and cleanup procedures.
