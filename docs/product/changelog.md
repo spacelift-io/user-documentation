@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-13
+
+- (chore): Highlight of content in active step description
 ## 2026-01-09
 
 - **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
