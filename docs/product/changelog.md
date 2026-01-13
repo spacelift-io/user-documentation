@@ -6,7 +6,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-01-13
 
-- fix(stacks): exclude modules from state preview query
+- fix(dashboard): exclude modules from Stacks state dashboard element
 
 ## 2026-01-09
 
