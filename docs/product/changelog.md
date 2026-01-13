@@ -6,6 +6,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-01-13
 
+- chore(self-hosted): prepare release
 - fix(dashboard): exclude modules from Stacks state dashboard element
 - feat(oidc-federation): add use:sig field to .well-known/jwks endpoint
 
