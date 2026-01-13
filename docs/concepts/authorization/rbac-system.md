@@ -258,6 +258,7 @@ System roles are immutable and cannot be modified or deleted, ensuring consisten
 - All Space Writer permissions.
 - Create and modify stacks.
 - Create and modify contexts and policies.
+- Create and modify Intent projects.
 - Manage space settings (when assigned to specific space).
 - View all roles, users, API keys, and IdP group mappings in the organization (read-only).
 - Manage role bindings (assign/remove roles) for users, API keys, and IdP groups within the spaces they administer.

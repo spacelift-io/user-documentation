@@ -415,11 +415,20 @@ If policy prevents deletion, update the policy to allow the `random` resources. 
 
 ---
 
-### 7. Session locks, permissions, & safety
+### 7. Session locks & safety
 
 - **Project lock:** Only one active session can operate on a project at a time (prevents conflicting changes). Locks auto-expire after inactivity.
 - **Client controls:** You can configure your MCP client to always ask before invoking tools.
-- **Role separation** (coming soon; unavailable in early access): For safety, split who writes policies from who operates resources. Combining both lets an agent relax guardrails to push through blocked changes. Use Spaces/RBAC to enforce when this feature becomes available.
+
+---
+
+### 8. Access control
+
+Intent projects use Spacelift's [Role-Based Access Control (RBAC)](../authorization/rbac-system.md) system to manage permissions. This allows you to control who can create, modify, and delete Intent projects, as well as who can operate on resources within them.
+
+#### Managing Intent projects
+
+By default, [Space Admins](../authorization/rbac-system.md#space-admin) have full access to manage Intent projects within their spaces. However, you can create more granular permissions using [custom roles](../authorization/rbac-system.md#custom-roles) with specific Intent project actions. Intent specific actions can be found under the `Intent` category in the role creation page.
 
 ---
 
