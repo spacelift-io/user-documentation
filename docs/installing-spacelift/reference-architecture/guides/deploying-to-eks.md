@@ -200,19 +200,33 @@ provider "aws" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"
+  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"
 
-  spacelift_version  = var.spacelift_version
-  aws_region         = var.aws_region
-  license_token      = var.license_token
-  k8s_namespace      = var.k8s_namespace
-  server_domain      = var.server_domain
-  mqtt_broker_domain = var.mqtt_broker_domain
-  admin_username     = var.admin_username
-  admin_password     = var.admin_password
-  server_acm_arn     = var.server_acm_arn
+  spacelift_version   = var.spacelift_version
+  aws_region          = var.aws_region
+  license_token       = var.license_token
+  k8s_namespace       = var.k8s_namespace
+  server_domain       = var.server_domain
+  mqtt_broker_domain  = var.mqtt_broker_domain
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  server_acm_arn      = var.server_acm_arn
+  rds_engine_version  = "17.7"
+  eks_upgrade_policy  = {
+    support_type = "STANDARD"
+  }
 }
+```
 
+!!! info "EKS Upgrade Policy"
+    The `eks_upgrade_policy` determines how your EKS cluster handles Kubernetes version upgrades when standard support ends.
+
+    - **STANDARD**: Automatically upgrades to the next Kubernetes version when the 14-month standard support period ends. This option provides more frequent security patches and bug fixes at a lower cost.
+    - **EXTENDED**: Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.
+
+    Once a cluster enters extended support, you cannot switch back to standard support. For more details, see the [AWS EKS cluster upgrade best practices](https://docs.aws.amazon.com/eks/latest/best-practices/cluster-upgrades.html){: rel="nofollow"}.
+
+```hcl
 output "shell" {
   sensitive = true
   value     = module.spacelift.shell
@@ -427,7 +441,7 @@ Before running `tofu destroy` on the infrastructure, you may want to set the fol
 
 ```hcl
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"
+  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"
 
   # Other settings..
 

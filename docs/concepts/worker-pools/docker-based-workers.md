@@ -42,7 +42,7 @@ The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/
 
 ```hcl
 module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.2.0"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.4.2"
 
   secure_env_vars = {
     SPACELIFT_TOKEN            = var.worker_pool_config

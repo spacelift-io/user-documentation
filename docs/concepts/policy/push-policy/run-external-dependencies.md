@@ -79,7 +79,7 @@ jobs:
         uses: spacelift-io/setup-spacectl@main
 
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Build binaries
         run: |
@@ -111,7 +111,7 @@ jobs:
         uses: spacelift-io/setup-spacectl@main
 
       - name: Check out repository code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Build docker images
         run: |
