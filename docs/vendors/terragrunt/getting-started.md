@@ -5,7 +5,7 @@ description: Creating your first Terragrunt Stack with Spacelift, step by step.
 # Getting Started
 
 !!! warning
-    Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
+    Terragrunt support is currently in **beta** and has some important [limitations](./limitations.md) to take into consideration.
 
 This documentation will be using an example repository Spacelift provides [here](https://github.com/spacelift-io-examples/terragrunt-examples){: rel="nofollow"}. This repository contains two different examples, but in this guide we will use the single-stack example.
 
@@ -27,9 +27,18 @@ On the **Connect to source code** screen, Select **Raw Git** as your Provider, a
 
 Pressing continue on this page will take you through to the vendor configuration page.
 
+!!! info
+    Spacelift is working to enable native state management for Terragrunt, which will be available for private beta in mid-January. Contact your customer representative or Spacelift support for more information.
+
 This page has quite a few options but the ones that we will be using for this example are as follows:
 
 ![Stack Creation - Choose vendor](../../assets/screenshots/terragrunt/getting-started/backend.png)
+
+### Native state management option (beta)
+
+If you are part of the Terragrunt native state management beta, you will see a _Manage state_ slider. Enable it to allow Spacelift to manage the Terragrunt state.
+
+![Terragrunt native state management option](<../../assets/screenshots/terragrunt-native-state-management.png>)
 
 Press **Create & continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing else needs to be configured, so you can click on **Skip to summary** and then click on **Confirm** to finish creating your stack.
 
