@@ -7446,8 +7446,8 @@ You'll need to deploy all the infrastructure <a href="../external-dependencies.h
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
-<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Extract this from your archive: self-hosted-v3.0.0.tar.gz</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_spacelift_version</span><span class="o">=</span><span class="s2">"v3.0.0"</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Extract this from your archive: self-hosted-v4.0.0.tar.gz</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_spacelift_version</span><span class="o">=</span><span class="s2">"v4.0.0"</span>
 
 <span class="c1"># The AWS region you want to deploy Spacelift to.</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">TF_VAR_aws_region</span><span class="o">=</span><span class="s2">"eu-west-1"</span>
@@ -7635,9 +7635,10 @@ You'll need to deploy all the infrastructure <a href="../external-dependencies.h
 <p>The <code>eks_upgrade_policy</code> determines how your EKS cluster handles Kubernetes version upgrades when standard support ends.</p>
 <ul>
 <li><strong>STANDARD</strong>: Automatically upgrades to the next Kubernetes version when the 14-month standard support period ends. This option provides more frequent security patches and bug fixes at a lower cost.</li>
-<li><strong>EXTENDED</strong>: Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.</li>
+<li><strong>EXTENDED</strong> (AWS default): Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.</li>
 </ul>
-<p>Once a cluster enters extended support, you cannot switch back to standard support. For more details, see the <a href="https://docs.aws.amazon.com/eks/latest/best-practices/cluster-upgrades.html" rel="nofollow">AWS EKS cluster upgrade best practices</a>.</p>
+<p>By explicitly setting <code>support_type = "STANDARD"</code> in the example above, you're opting out of AWS's default extended support behavior.</p>
+<p><strong>Important</strong>: You can only change the upgrade policy while your cluster is running a Kubernetes version in standard support. Once a cluster version enters extended support, you cannot change the policy until you upgrade to a standard-supported version. For more details, see <a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html" rel="nofollow">AWS EKS extended support documentation</a>.</p>
 </div>
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
