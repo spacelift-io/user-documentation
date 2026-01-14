@@ -255,6 +255,7 @@ variable "spacelift_version" {
 variable "license_token" {
   type        = string
   description = "The license token for selfhosted, issued by Spacelift."
+  sensitive   = true
 }
 
 variable "server_certificate_arn" {
@@ -289,10 +290,11 @@ provider "aws" {
 
 # Deploy the basic infrastructure needed for Spacelift to function.
 module "spacelift-infra" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v2.0.0"
 
   region = var.aws_region
 
+  rds_engine_version         = "17.7"
   rds_instance_configuration = {
     "primary" : {
       instance_identifier : "primary"
@@ -312,7 +314,7 @@ module "spacelift-infra" {
 module "spacelift-services" {
   count = var.deploy_services ? 1 : 0
 
-  source = "github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v1.3.0"
+  source = "github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v2.0.0"
 
   region        = var.aws_region
   unique_suffix = module.spacelift-infra.unique_suffix
@@ -341,8 +343,6 @@ module "spacelift-services" {
   launcher_image                       = module.spacelift-infra.ecr_launcher_repository_url
   launcher_image_tag                   = var.spacelift_version
   license_token                        = var.license_token
-  database_url                         = module.spacelift-infra.database_url
-  database_read_only_url               = module.spacelift-infra.database_read_only_url
   deliveries_bucket_name               = module.spacelift-infra.deliveries_bucket_name
   large_queue_messages_bucket_name     = module.spacelift-infra.large_queue_messages_bucket_name
   metadata_bucket_name                 = module.spacelift-infra.metadata_bucket_name
@@ -359,6 +359,18 @@ module "spacelift-services" {
   kms_key_arn                          = module.spacelift-infra.kms_key_arn
   drain_security_group_id              = module.spacelift-infra.drain_security_group_id
   scheduler_security_group_id          = module.spacelift-infra.scheduler_security_group_id
+
+  secrets_manager_secret_arns = [module.spacelift-infra.database_secret_arn]
+  sensitive_env_vars          = [
+    {
+      name = "DATABASE_URL"
+      valueFrom = "${module.spacelift-infra.database_secret_arn}:DATABASE_URL::"
+    },
+    {
+      name = "DATABASE_READ_ONLY_URL"
+      valueFrom = "${module.spacelift-infra.database_secret_arn}:DATABASE_READ_ONLY_URL::"
+    }
+  ]
 
   server_log_configuration = {
     logDriver : "awslogs",
@@ -660,7 +672,7 @@ Before running `tofu destroy` on the infrastructure, you may want to set the fol
 
 ```hcl
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v2.0.0"
 
   # Other settings...
 
