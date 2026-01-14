@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-14
+
+- chore(auth): research scalable permission discovery system across frontend and backend
 ## 2026-01-13
 
 - fix(dashboard): exclude modules from Stacks state dashboard element
