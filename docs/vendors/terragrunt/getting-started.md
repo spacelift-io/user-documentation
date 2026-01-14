@@ -34,10 +34,11 @@ This page has quite a few options but the ones that we will be using for this ex
 
 ![Stack Creation - Choose vendor](../../assets/screenshots/terragrunt/getting-started/backend.png)
 
-??? tip "Native state management option"
-    If you are part of the Terragrunt native state management beta, you will see a _Manage state_ slider. Enable it to allow Spacelift to manage the Terragrunt state.
+### Native state management option (beta)
 
-    ![Terragrunt native state management option](<../../assets/screenshots/terragrunt-native-state-management.png>)
+If you are part of the Terragrunt native state management beta, you will see a _Manage state_ slider. Enable it to allow Spacelift to manage the Terragrunt state.
+
+![Terragrunt native state management option](<../../assets/screenshots/terragrunt-native-state-management.png>)
 
 Press **Create & continue** to finish the backend configuration and move through to defining stack behavior. For this example nothing else needs to be configured, so you can click on **Skip to summary** and then click on **Confirm** to finish creating your stack.
 
