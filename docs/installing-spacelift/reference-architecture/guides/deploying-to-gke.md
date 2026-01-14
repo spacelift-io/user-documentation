@@ -197,8 +197,8 @@ For example, you may want to disable the database if you already have a Cloud SQ
 Before you start, set a few environment variables that will be used by the Spacelift modules:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version="v4.0.0"
 
 # Configure a default temporary admin account that could be used to setup the instance.
 export TF_VAR_admin_username="admin"

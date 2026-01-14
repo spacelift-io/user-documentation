@@ -197,8 +197,8 @@ export TF_VAR_admin_username=<admin-username>
 # Set this to the password for that account.
 export TF_VAR_admin_password=<admin-password>
 
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version=v3.0.0
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version=v4.0.0
 
 # Set this to the token given to you by your Spacelift representative.
 export TF_VAR_license_token=<license-token>
