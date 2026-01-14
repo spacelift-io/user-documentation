@@ -19,7 +19,34 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-W9B4T9S');</script>
 
+    {# GTM Search #}
+    <script>
+      function debounce(func, wait) {
+	      var timeout;
+	      return function() {
+		      var context = this, args = arguments;
+		      clearTimeout(timeout);
+		      timeout = setTimeout(function() {
+			      timeout = null;
+			      func.apply(context, args);
+		      }, wait);
+	      };
+      }
 
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("[data-md-component=search-query]").addEventListener("input", debounce(function(event) {
+          var value = event.target.value;
+          if (!value) {
+            return;
+          }
+          window.dataLayer.push({
+            event: "search",
+            searchTerm: value,
+          });
+        }, 1000))
+      });
+      
+    </script>
 
     {# Leadfeeder #}
     <script> (function(ss,ex){ window.ldfdr=window.ldfdr||function(){(ldfdr._q=ldfdr._q||[]).push([].slice.call(arguments));}; (function(d,s){ fs=d.getElementsByTagName(s)[0]; function ce(src){ var cs=d.createElement(s); cs.src=src; cs.async=1; fs.parentNode.insertBefore(cs,fs); }; ce('https://sc.lfeeder.com/lftracker_v1_'+ss+(ex?'_'+ex:'')+'.js'); })(document,'script'); })('3P1w24dxn2k4mY5n'); </script>

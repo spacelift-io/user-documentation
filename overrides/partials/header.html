@@ -71,11 +71,12 @@
         </div>
       </div>
     {% endif %}
-    {# Custom search - always show search button #}
-    <label class="md-header__button md-icon" for="__search">
-      {% include ".icons/material/magnify.svg" %}
-    </label>
-    {% include "partials/search.html" %}
+    {% if "material/search" in config["plugins"] %}
+      <label class="md-header__button md-icon" for="__search">
+        {% include ".icons/material/magnify.svg" %}
+      </label>
+      {% include "partials/search.html" %}
+    {% endif %}
     <div class="header__links">
       <a href="https://spacelift.io" class="header__link" target="_blank" rel='noreferrer'>
         spacelift.io
