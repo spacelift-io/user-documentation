@@ -16,11 +16,11 @@ This simple policy will show both types of rules in action:
 ```opa
 package spacelift
 
-deny["you shall not pass"] {
+deny contains "you shall not pass" if {
   true # true means "match everything"
 }
 
-warn["hey, you look suspicious"] {
+warn contains "hey, you look suspicious" if {
   true
 }
 
@@ -209,11 +209,12 @@ If you need to compare a string property to a constant, use the `sanitized(strin
 ```opa
 package spacelift
 
-deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
-  resource := input.terraform.resource_changes[_]
+deny contains "must not target the forbidden endpoint: forbidden.endpoint/webhook" if {
+  some resource in input.terraform.resource_changes
 
   actions := {"create", "delete", "update"}
-  actions[resource.change.actions[_]]
+  some action in resource.change.actions
+  actions[action]
 
   resource.change.after.endpoint == sanitized("forbidden.endpoint/webhook")
 }
@@ -283,11 +284,12 @@ package spacelift
 # The message here is dynamic and captures resource address to provide
 # appropriate context to anyone affected by this policy. For the sake of your
 # sanity and that of your colleagues, always add a message when denying a change.
-deny[sprintf(message, [resource.address])] {
+deny contains sprintf(message, [resource.address]) if {
   message := "static AWS credentials are evil (%s)"
 
-  resource := input.terraform.resource_changes[_]
-  resource.change.actions[_] == "create"
+  some resource in input.terraform.resource_changes
+  some action in resource.change.actions
+  action == "create"
 
   # This is what decides whether the rule captures a resource.
   # There may be an arbitrary number of conditions, and they all must
@@ -302,11 +304,11 @@ This slightly more sophisticated policy states that when some resources are recr
 package spacelift
 
 # This is what Rego calls a set. You can add further elements to it as necessary.
-always_create_first := { "aws_batch_compute_environment" }
+always_create_first := {"aws_batch_compute_environment"}
 
-deny[sprintf(message, [resource.address])] {
-  message  := "always create before deleting (%s)"
-  resource := input.terraform.resource_changes[_]
+deny contains sprintf(message, [resource.address]) if {
+  message := "always create before deleting (%s)"
+  some resource in input.terraform.resource_changes
 
   # Make sure the type is on the list.
   always_create_first[resource.type]
@@ -314,7 +316,6 @@ deny[sprintf(message, [resource.address])] {
   some i_create, i_delete
   resource.change.actions[i_create] == "create"
   resource.change.actions[i_delete] == "delete"
-
 
   i_delete < i_create
 }
@@ -325,9 +326,9 @@ While in most cases you'll want your rules to only look at resources affected by
 ```opa
 package spacelift
 
-deny[sprintf(message, [resource.address])] {
-  message  := "we've moved to GCP, find an equivalent there (%s)"
-  resource := input.terraform.resource_changes[_]
+deny contains sprintf(message, [resource.address]) if {
+  message := "we've moved to GCP, find an equivalent there (%s)"
+  some resource in input.terraform.resource_changes
 
   resource.provider_name == "aws"
 
@@ -357,12 +358,13 @@ package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[reason] { proposed; reason := iam_user_created[_] }
-warn[reason] { not proposed; reason := iam_user_created[_] }
+deny contains reason if { proposed; some reason in iam_user_created }
+warn contains reason if { not proposed; some reason in iam_user_created }
 
-iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
-  resource := input.terraform.resource_changes[_]
-  resource.change.actions[_] == "create"
+iam_user_created contains sprintf("do not create IAM users: (%s)", [resource.address]) if {
+  some resource in input.terraform.resource_changes
+  some action in resource.change.actions
+  action == "create"
 
   resource.type == "aws_iam_user"
 }
@@ -396,12 +398,12 @@ Adding resources may cost a lot of money, but it's usually safe from an operatio
 ```opa
 package spacelift
 
-warn[sprintf(message, [action, resource.address])] {
+warn contains sprintf(message, [action, resource.address]) if {
   message := "action '%s' requires human review (%s)"
-  review  := {"update", "delete"}
+  review := {"update", "delete"}
 
-  resource := input.terraform.resource_changes[_]
-  action   := resource.change.actions[_]
+  some resource in input.terraform.resource_changes
+  some action in resource.change.actions
 
   review[action]
 }
@@ -414,10 +416,10 @@ Sometimes changes introduced by trusted individuals can be deployed automaticall
 ```opa
 package spacelift
 
-warn[sprintf(message, [author])] {
-  message     := "%s is not on the allowlist - human review required"
-  author      := input.spacelift.commit.author
-  allowlisted := { "alice", "bob", "charlie" }
+warn contains sprintf(message, [author]) if {
+  message := "%s is not on the allowlist - human review required"
+  author := input.spacelift.commit.author
+  allowlisted := {"alice", "bob", "charlie"}
 
   not allowlisted[author]
 }
@@ -432,14 +434,14 @@ package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[msg] { proposed; msg := too_many_changes[_] }
-warn[msg] { not proposed; msg := too_many_changes[_] }
+deny contains msg if { proposed; some msg in too_many_changes }
+warn contains msg if { not proposed; some msg in too_many_changes }
 
-too_many_changes[msg] {
+too_many_changes contains msg if {
   threshold := 50
 
   res := input.terraform.resource_changes
-  ret := count([r | r := res[_]; r.change.actions != ["no-op"]])
+  ret := count([r | some r in res; r.change.actions != ["no-op"]])
   msg := sprintf("more than %d changes (%d)", [threshold, ret])
 
   ret > threshold
@@ -457,35 +459,36 @@ package spacelift
 
 proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[msg] { proposed; msg := blast_radius_too_high[_] }
-warn[msg] { not proposed; msg := blast_radius_too_high[_] }
+deny contains msg if { proposed; some msg in blast_radius_too_high }
+warn contains msg if { not proposed; some msg in blast_radius_too_high }
 
-blast_radius_too_high[sprintf("change blast radius too high (%d/100)", [blast_radius])] {
+blast_radius_too_high contains sprintf("change blast radius too high (%d/100)", [blast_radius]) if {
   blast_radius := sum([blast |
-                        resource := input.terraform.resource_changes[_];
+                        some resource in input.terraform.resource_changes
                         blast := blast_radius_for_resource(resource)])
 
   blast_radius > 100
 }
 
-blast_radius_for_resource(resource) = ret {
-  blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
+blast_radius_for_resource(resource) := ret if {
+  blasts_radii_by_action := {"delete": 10, "update": 5, "create": 1, "no-op": 0}
 
-    ret := sum([value | action := resource.change.actions[_]
+  ret := sum([value |
+                    some action in resource.change.actions
                     action_impact := blasts_radii_by_action[action]
                     type_impact := blast_radius_for_type(resource.type)
                     value := action_impact * type_impact])
 }
 
 # Let's give some types of resources special blast multipliers.
-blasts_radii_by_type := { "aws_ecs_cluster": 20, "aws_ecs_user": 10, "aws_ecs_role": 5 }
+blasts_radii_by_type := {"aws_ecs_cluster": 20, "aws_ecs_user": 10, "aws_ecs_role": 5}
 
 # By default, blast radius has a value of 1.
-blast_radius_for_type(type) = 1 {
+blast_radius_for_type(type) := 1 if {
     not blasts_radii_by_type[type]
 }
 
-blast_radius_for_type(type) = ret {
+blast_radius_for_type(type) := ret if {
     blasts_radii_by_type[type] = ret
 }
 ```

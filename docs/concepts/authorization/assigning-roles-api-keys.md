@@ -52,14 +52,10 @@ Refer to [Spacelift Terraform provider documentation](https://registry.terraform
 package spacelift
 
 # Allow API key login
-allow {
-    input.session.login == "api-key-name"
-}
+allow if input.session.login == "api-key-name"
 
 # Assign role to API key
-roles[space][role_id] {
-    input.session.login == "api-key-name"
-}
+roles[space] contains role_id if input.session.login == "api-key-name"
 ```
 
 #### By key name
@@ -67,14 +63,14 @@ roles[space][role_id] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Assign role to specific API key
-roles["production"]["deployer-role-id"] {
+roles["production"] contains "deployer-role-id" if {
     input.session.login == "ci-cd-production"
 }
 
-roles["infrastructure"]["provisioner-role-id"] {
+roles["infrastructure"] contains "provisioner-role-id" if {
     input.session.login == "terraform-automation"
 }
 ```
@@ -84,14 +80,14 @@ roles["infrastructure"]["provisioner-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Assign roles based on key naming patterns
-roles["production"]["deployer-role-id"] {
+roles["production"] contains "deployer-role-id" if {
     startswith(input.session.login, "ci-cd-")
 }
 
-roles["monitoring"]["reader-role-id"] {
+roles["monitoring"] contains "reader-role-id" if {
     endswith(input.session.login, "-monitoring")
 }
 ```
@@ -101,10 +97,10 @@ roles["monitoring"]["reader-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Development environment keys
-roles["development"]["full-deployer-role-id"] {
+roles["development"] contains "full-deployer-role-id" if {
     environment_keys := {
         "ci-cd-dev",
         "terraform-dev",
@@ -114,7 +110,7 @@ roles["development"]["full-deployer-role-id"] {
 }
 
 # Production environment keys (more restrictive)
-roles["production"]["limited-deployer-role-id"] {
+roles["production"] contains "limited-deployer-role-id" if {
     production_keys := {
         "ci-cd-prod",
         "terraform-prod"
@@ -128,10 +124,10 @@ roles["production"]["limited-deployer-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Keys that work across multiple environments
-roles[space]["cross-env-role-id"] {
+roles[space] contains "cross-env-role-id" if {
     cross_env_keys := {"backup-service", "monitoring-agent"}
     cross_env_keys[input.session.login]
 
@@ -146,20 +142,20 @@ roles[space]["cross-env-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # GitHub Actions deployment key
-roles["applications"]["github-deployer-role-id"] {
+roles["applications"] contains "github-deployer-role-id" if {
     input.session.login == "github-actions-deploy"
 }
 
 # GitLab CI deployment key
-roles["applications"]["gitlab-deployer-role-id"] {
+roles["applications"] contains "gitlab-deployer-role-id" if {
     input.session.login == "gitlab-ci-deploy"
 }
 
 # Jenkins deployment key
-roles["applications"]["jenkins-deployer-role-id"] {
+roles["applications"] contains "jenkins-deployer-role-id" if {
     input.session.login == "jenkins-deploy"
 }
 ```
@@ -169,20 +165,20 @@ roles["applications"]["jenkins-deployer-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Terraform Cloud integration
-roles["infrastructure"]["terraform-cloud-role-id"] {
+roles["infrastructure"] contains "terraform-cloud-role-id" if {
     input.session.login == "terraform-cloud-integration"
 }
 
 # Ansible automation
-roles["configuration"]["ansible-role-id"] {
+roles["configuration"] contains "ansible-role-id" if {
     input.session.login == "ansible-automation"
 }
 
 # Kubernetes operator
-roles["kubernetes"]["k8s-operator-role-id"] {
+roles["kubernetes"] contains "k8s-operator-role-id" if {
     input.session.login == "k8s-spacelift-operator"
 }
 ```
@@ -192,16 +188,16 @@ roles["kubernetes"]["k8s-operator-role-id"] {
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 
 # Time-based API key restrictions
-roles["production"]["time-limited-role-id"] {
+roles["production"] contains "time-limited-role-id" if {
     input.session.login == "scheduled-deployment"
     is_deployment_window
 }
 
 # Helper rule for deployment windows
-is_deployment_window {
+is_deployment_window if {
     now := input.request.timestamp_ns
     clock := time.clock([now, "UTC"])
 
@@ -224,7 +220,7 @@ package spacelift
 allow { input.session.member }
 
 # API keys restricted to specific networks
-roles["production"]["secure-deployer-role-id"] {
+roles["production"] contains "secure-deployer-role-id" if {
     secure_keys := {"production-deploy", "critical-automation"}
     secure_keys[input.session.login]
 
@@ -232,12 +228,12 @@ roles["production"]["secure-deployer-role-id"] {
     is_secure_network
 }
 
-is_secure_network {
+is_secure_network if {
     secure_cidrs := {
         "10.0.0.0/8",        # Corporate network
         "192.168.100.0/24"   # Secure CI/CD subnet
     }
-    secure_cidrs[cidr]
+    some cidr in secure_cidrs
     net.cidr_contains(cidr, input.request.remote_ip)
 }
 ```

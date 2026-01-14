@@ -61,14 +61,14 @@ You have two options for inviting people to your Spacelift account:
     ```rego
     package spacelift
 
-    admins  := { "alice@example.com" }
-    allowed := { "bob@example.com" }
-    login   := input.session.login
+    admins := {"alice@example.com"}
+    allowed := {"bob@example.com"}
+    login := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
-    deny  { not admin; not allow }
+    admin if admins[login]
+    allow if allowed[login]
+    # allow if endswith(input.session.login, "@example.com") Alternatively, grant access to every user with an @example.com email address
+    deny if { not admin; not allow }
     ```
 
 Now your colleagues can access your Spacelift account as well.

@@ -231,9 +231,7 @@ Policies are your guardrails. Create a policy in **Policies** and attach it to y
 ```rego
 package spacelift
 
-import rego.v1
-
-sample = true
+sample := true
 
 # Deny any resource that isn't an S3 bucket
 deny contains message if {

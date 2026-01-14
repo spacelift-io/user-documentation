@@ -42,9 +42,9 @@ First, let's only trigger proposed runs if a PR exists, and allow any push to th
 ```opa
 package spacelift
 
-track   { input.push.branch == input.stack.branch }
-propose { not is_null(input.pull_request) }
-ignore  { not track; not propose }
+track if input.push.branch == input.stack.branch
+propose if not is_null(input.pull_request)
+ignore if { not track; not propose }
 ```
 
 If you want to enforce that tracked runs are _always_ created from PR merges (and not from direct pushes to the tracked branch), you can tweak the above policy accordingly to ignore all non-PR events:
@@ -52,10 +52,10 @@ If you want to enforce that tracked runs are _always_ created from PR merges (an
 ```opa
 package spacelift
 
-track   { is_pr; input.push.branch == input.stack.branch }
-propose { is_pr }
-ignore  { not is_pr }
-is_pr   { not is_null(input.pull_request) }
+track if { is_pr; input.push.branch == input.stack.branch }
+propose if is_pr
+ignore if not is_pr
+is_pr if not is_null(input.pull_request)
 ```
 
 Here's another example where you respond to a particular PR label ("deploy") to automatically deploy changes:
@@ -63,10 +63,13 @@ Here's another example where you respond to a particular PR label ("deploy") to 
 ```opa
 package spacelift
 
-track   { is_pr; labeled }
-propose { true }
-is_pr   { not is_null(input.pull_request) }
-labeled { input.pull_request.labels[_] == "deploy" }
+track if { is_pr; labeled }
+propose if true
+is_pr if not is_null(input.pull_request)
+labeled if {
+  some label in input.pull_request.labels
+  label == "deploy"
+}
 ```
 
 !!! info
@@ -87,14 +90,16 @@ When events are deduplicated and you're sampling policy evaluations, you may not
 You can use push policies to pre-empt any in-progress runs with the new run. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued), [ready](../../run/README.md#ready), or [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
 ```opa
-cancel[run.id] { run := input.in_progress[_] }
+cancel contains run.id if {
+  some run in input.in_progress
+}
 ```
 
 Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, this rule will only cancel proposed runs that are currently queued (waiting for the worker):
 
 ```opa
-cancel[run.id] {
-  run := input.in_progress[_]
+cancel contains run.id if {
+  some run in input.in_progress
   run.type == "PROPOSED"
   run.state == "QUEUED"
 }
@@ -103,8 +108,8 @@ cancel[run.id] {
 You can also compare branches and cancel proposed runs in queued state pointing to a specific branch:
 
 ```opa
-cancel[run.id] {
-  run := input.in_progress[_]
+cancel contains run.id if {
+  some run in input.in_progress
   run.type == "PROPOSED"
   run.state == "QUEUED"
   run.branch == input.pull_request.head.branch
@@ -135,8 +140,8 @@ By default, ignored runs on a stack will return a `skipped` status check event, 
 The following push policy does not trigger any run within Spacelift. Using this policy, we can ensure that the status check within our VCS (in this case, GitHub) fails and returns the message "I love bacon."
 
 ```opa
-fail { true }
-message["I love bacon"] { true }
+fail if true
+message contains "I love bacon" if true
 ```
 
 With this policy, users would see this behavior within their GitHub status check:
@@ -157,27 +162,23 @@ For this policy, you will need to provide a mock, non-existent version for propo
 ```opa
 package spacelift
 
-module_version := version {
+module_version := version if {
     version := trim_prefix(input.push.tag, "v")
     not propose
 }
 
-module_version := "<X.X.X>" {
-    propose
-}
+module_version := "<X.X.X>" if propose
 
-propose {
-  not is_null(input.pull_request)
-  }
+propose if not is_null(input.pull_request)
 ```
 
 To add a track rule to your push policy, this will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking:
 
 ```opa
-track {
+track if {
   module_version != ""
   input.push.branch == input.module.branch
- }
+}
 ```
 
 ## Allow forks
@@ -190,8 +191,9 @@ By default, Spacelift doesn't trigger runs when a forked repository opens a pull
 If you want to allow forks to trigger runs, you can explicitly do it with `allow_fork` rule. For example, if you trust certain people or organizations, this rule allows a forked repository to run **only** if the owner of the forked repo is `johnwayne` or `microsoft`:
 
 ```opa
-propose { true }
-allow_fork {
+propose if true
+
+allow_fork if {
   validOwners := {"johnwayne", "microsoft"}
   validOwners[input.pull_request.head_owner]
 }
@@ -221,13 +223,13 @@ This push policy will automatically deploy a PR's changes once it has been appro
 package spacelift
 
 # Trigger a tracked run if a change is pushed to the stack branch
-track {
+track if {
   affected
   input.push.branch == input.stack.branch
 }
 
 # Trigger a tracked run if a PR is approved, mergeable, undiverged and has a deploy label
-track {
+track if {
   is_pr
   is_clean
   is_approved
@@ -235,25 +237,20 @@ track {
 }
 
 # Trigger a proposed run if a PR is opened
-propose {
-  is_pr
-}
+propose if is_pr
 
-is_pr {
-  not is_null(input.pull_request)
-}
+is_pr if not is_null(input.pull_request)
 
-is_clean {
+is_clean if {
   input.pull_request.mergeable
   input.pull_request.undiverged
 }
 
-is_approved {
-  input.pull_request.approved
-}
+is_approved if input.pull_request.approved
 
-is_marked_for_deploy {
-  input.pull_request.labels[_] == "deploy"
+is_marked_for_deploy if {
+  some label in input.pull_request.labels
+  label == "deploy"
 }
 ```
 
@@ -488,20 +485,20 @@ Imagine a situation where you only want to look at changes to Terraform definiti
 ```opa
 package spacelift
 
-track   { input.push.branch == input.stack.branch }
-propose { input.push.branch != "" }
-ignore  { not affected }
+track if input.push.branch == input.stack.branch
+propose if input.push.branch != ""
+ignore if not affected
 
-affected {
-  some i, j, k
-
+affected if {
   tracked_directories := {"modules/", "production/"}
   tracked_extensions := {".tf", ".tf.json"}
 
-  path := input.push.affected_files[i]
+  some path in input.push.affected_files
+  some dir in tracked_directories
+  some ext in tracked_extensions
 
-  startswith(path, tracked_directories[j])
-  endswith(path, tracked_extensions[k])
+  startswith(path, dir)
+  endswith(path, ext)
 }
 ```
 
@@ -520,7 +517,7 @@ package spacelift
 
 # other rules (including ignore), see above
 
-notify { ignore }
+notify if ignore
 ```
 
 !!! info
@@ -535,8 +532,8 @@ Here's an example:
 ```opa
 package spacelift
 
-track   { re_match(`^\d+\.\d+\.\d+$`, input.push.tag) }
-propose { input.push.branch != input.stack.branch }
+track if re_match(`^\d+\.\d+\.\d+$`, input.push.tag)
+propose if input.push.branch != input.stack.branch
 ```
 
 ### Set head commit without triggering a run
@@ -550,9 +547,9 @@ However, sometimes you want to trigger tracked runs in a specific order or under
 Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run. You would use this when the run is always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](../trigger-policy.md):
 
 ```opa
-track     { input.push.branch == input.stack.branch }
-propose   { not track }
-notrigger { true }
+track if input.push.branch == input.stack.branch
+propose if not track
+notrigger if true
 ```
 
 ### Default Git push policy
@@ -562,44 +559,44 @@ If no Git push policies are attached to a stack or a module, the default behavio
 ```opa
 package spacelift
 
-track {
+track if {
   affected
   input.push.branch == input.stack.branch
 }
 
-propose { affected }
-propose { affected_pr }
+propose if affected
+propose if affected_pr
 
-ignore  {
+ignore if {
     not affected
     not affected_pr
 }
-ignore  { input.push.tag != "" }
+ignore if input.push.tag != ""
 
-affected {
-    filepath := input.push.affected_files[_]
+affected if {
+    some filepath in input.push.affected_files
     startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
 }
 
-affected {
-    filepath := input.push.affected_files[_]
-    glob_pattern := input.stack.additional_project_globs[_]
+affected if {
+    some filepath in input.push.affected_files
+    some glob_pattern in input.stack.additional_project_globs
     glob.match(glob_pattern, ["/"], normalize_path(filepath))
 }
 
-affected_pr {
-    filepath := input.pull_request.diff[_]
+affected_pr if {
+    some filepath in input.pull_request.diff
     startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
 }
 
-affected_pr {
-    filepath := input.pull_request.diff[_]
-    glob_pattern := input.stack.additional_project_globs[_]
+affected_pr if {
+    some filepath in input.pull_request.diff
+    some glob_pattern in input.stack.additional_project_globs
     glob.match(glob_pattern, ["/"], normalize_path(filepath))
 }
 
 # Helper function to normalize paths by removing leading slashes
-normalize_path(path) = trim(path, "/")
+normalize_path(path) := trim(path, "/")
 ```
 
 ### Waiting for CI/CD artifacts
@@ -619,7 +616,10 @@ package spacelift
 
 # other rules (including ignore), see above
 
-prioritize { input.stack.labels[_] == "prioritize" }
+prioritize if {
+  some label in input.stack.labels
+  label == "prioritize"
+}
 ```
 
 This example will prioritize runs on any stack that has the `prioritize` label set. **Run prioritization only works for private worker pools**. An attempt to prioritize a run on a public worker pool using this policy will not work.
@@ -643,16 +643,16 @@ Stack locking can be particularly useful in workflows heavily reliant on pull re
 !!! info
     Runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the `lock` rule is undefined or results in an empty string, runs will not be rejected.
 
-This example policy snippet locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged. Add `import future.keywords` to your policy to use this exact snippet.
+This example policy snippet locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged.
 
 ``` opa
 lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
 
-lock := lock_id {
+lock := lock_id if {
     input.pull_request.action in ["opened", "synchronize"]
 }
 
-unlock := lock_id {
+unlock := lock_id if {
     input.pull_request.action in ["closed", "merged"]
 }
 ```
@@ -687,7 +687,7 @@ affected_pr if {
 You can also lock and unlock through [comments](../../run/pull-request-comments.md):
 
 ``` opa
-unlock := lock_id {
+unlock := lock_id if {
     input.pull_request.action == "commented"
     input.pull_request.comment == concat(" ", ["/spacelift", "unlock", input.stack.id])
 }

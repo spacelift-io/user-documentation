@@ -40,20 +40,23 @@ Use the `roles` rule to assign RBAC roles in login policies:
 package spacelift
 
 # Basic login permissions
-allow { input.session.member }
+allow if input.session.member
 
 # Assign RBAC roles using role slugs
-roles["space-id"]["developer-role-slug"] {
-    input.session.teams[_] == "Frontend"
+roles["space-id"] contains "developer-role-slug" if {
+    some team in input.session.teams
+    team == "Frontend"
 }
 
-roles["space-id"]["platform-engineer-role-slug"] {
-    input.session.teams[_] == "DevOps"
+roles["space-id"] contains "platform-engineer-role-slug" if {
+    some team in input.session.teams
+    team == "DevOps"
 }
 
 # Assign admin role for root space
-roles["root"]["space-admin-role-slug"] {
-    input.session.teams[_] == "Admin"
+roles["root"] contains "space-admin-role-slug" if {
+    some team in input.session.teams
+    team == "Admin"
 }
 ```
 
@@ -161,9 +164,17 @@ teams := input.session.teams
 
 # Make sure to use the GitHub team names, not IDs (e.g., "Example Team" not "example-team")
 # and omit the GitHub organization name
-admin { teams[_] == "DevOps" }
-allow { teams[_] == "Engineering" }
-deny  { not input.session.member }
+admin if {
+  some team in teams
+  team == "DevOps"
+}
+
+allow if {
+  some team in teams
+  team == "Engineering"
+}
+
+deny if not input.session.member
 ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
@@ -184,13 +195,13 @@ Sometimes people who are not members of your organization, such as consultants, 
     ```opa
     package spacelift
 
-    admins  := { "alice" }
-    allowed := { "bob", "charlie", "danny" }
-    login   := input.session.login
+    admins := {"alice"}
+    allowed := {"bob", "charlie", "danny"}
+    login := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    deny  { not admins[login]; not allowed[login] }
+    admin if admins[login]
+    allow if allowed[login]
+    deny if { not admins[login]; not allowed[login] }
     ```
 
     Here's an [example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw){: rel="nofollow"}.
@@ -201,12 +212,12 @@ Sometimes people who are not members of your organization, such as consultants, 
     ```rego
     package spacelift
 
-    admins  := { "alice@example.com" }
-    login   := input.session.login
+    admins := {"alice@example.com"}
+    login := input.session.login
 
-    admin { admins[login] }
-    allow { endswith(input.session.login, "@example.com") }
-    deny  { not admins[login]; not allow }
+    admin if admins[login]
+    allow if endswith(input.session.login, "@example.com")
+    deny if { not admins[login]; not allow }
     ```
 
 !!! warning
@@ -221,16 +232,16 @@ This example only defines deny rules, so you'll likely want to add some allow an
 ```opa
 package spacelift
 
-now     := input.request.timestamp_ns
-clock   := time.clock([now, "America/Los_Angeles"])
-weekend := { "Saturday", "Sunday" }
+now := input.request.timestamp_ns
+clock := time.clock([now, "America/Los_Angeles"])
+weekend := {"Saturday", "Sunday"}
 weekday := time.weekday(now)
-ip      := input.request.remote_ip
+ip := input.request.remote_ip
 
-deny { weekend[weekday] }
-deny { clock[0] < 9 }
-deny { clock[0] > 17 }
-deny { not net.cidr_contains("12.34.56.0/24", ip) }
+deny if weekend[weekday]
+deny if clock[0] < 9
+deny if clock[0] > 17
+deny if not net.cidr_contains("12.34.56.0/24", ip)
 ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/4J3Nz6pYgC){: rel="nofollow"}.
@@ -250,15 +261,23 @@ In addition to boolean rules regulating access to your Spacelift account, the lo
 ```opa title="Defining Superwriter"
 package spacelift
 
-team["Superwriter"] {
+team contains "Superwriter" if {
   office_vpn
   devops
   not contractor
 }
 
-contractor { input.session.teams[_] == "Contractors" }
-devops     { input.session.teams[_] == "DevOps" }
-office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
+contractor if {
+  some team in input.session.teams
+  team == "Contractors"
+}
+
+devops if {
+  some team in input.session.teams
+  team == "DevOps"
+}
+
+office_vpn if net.cidr_contains("12.34.56.0/24", input.request.remote_ip)
 ```
 
 Here, the **team** rule overwrites the original list of teams, so if it evaluates to a non-empty collection, it will **replace** the original list of teams in the session. In the above example, the `Superwriter` role will become the only team for the evaluated user session.
@@ -270,17 +289,27 @@ package spacelift
 
 # This rule will copy each of the existing teams to the
 # new modified list.
-team[name] { name := input.session.teams[_] }
+team contains name if {
+  some name in input.session.teams
+}
 
-team["Superwriter"] {
+team contains "Superwriter" if {
   office_vpn
   devops
   not contractor
 }
 
-contractor { input.session.teams[_] == "Contractors" }
-devops     { input.session.teams[_] == "DevOps" }
-office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
+contractor if {
+  some t in input.session.teams
+  t == "Contractors"
+}
+
+devops if {
+  some t in input.session.teams
+  t == "DevOps"
+}
+
+office_vpn if net.cidr_contains("12.34.56.0/24", input.request.remote_ip)
 ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/dM8P83sk4l){: rel="nofollow"}.
@@ -295,5 +324,5 @@ If no login policies are defined on the account, Spacelift behaves as if it had 
 ```opa
 package spacelift
 
-allow { input.session.member }
+allow if input.session.member
 ```

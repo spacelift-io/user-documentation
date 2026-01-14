@@ -22,7 +22,7 @@ Task policies only use a single rule, **deny**, with a string message. A single 
 ```opa
 package spacelift
 
-deny["not in my town, you don't"] { true }
+deny contains "not in my town, you don't" if true
 ```
 
 Here's the outcome when trying to run a task:
@@ -88,7 +88,7 @@ This example blocks non-admins from running tasks:
 ```opa
 package spacelift
 
-deny["only admins can run tasks"] { not input.session.admin }
+deny contains "only admins can run tasks" if not input.session.admin
 ```
 
 However, we could allow writers to run some commands we consider safe, like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}:
@@ -96,7 +96,7 @@ However, we could allow writers to run some commands we consider safe, like reso
 ```opa
 package spacelift
 
-deny[sprintf("command not allowed (%s)", [command])] {
+deny contains sprintf("command not allowed (%s)", [command]) if {
   command := input.request.command
 
   not input.session.admin
@@ -111,18 +111,18 @@ package spacelift
 
 command := input.request.command
 
-deny[sprintf("command not allowed (%s)", [command])] { not allowed }
+deny contains sprintf("command not allowed (%s)", [command]) if not allowed
 
-deny["no tasks on weekends"] {
-  today   := time.weekday(input.request.timestamp_ns)
-  weekend := { "Saturday", "Sunday" }
+deny contains "no tasks on weekends" if {
+  today := time.weekday(input.request.timestamp_ns)
+  weekend := {"Saturday", "Sunday"}
 
   weekend[today]
 }
 
-allowed { input.session.admin }
-allowed { regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
-allowed { regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
+allowed if input.session.admin
+allowed if regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+allowed if regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command)
 ```
 
 ## Migration guide
@@ -136,12 +136,12 @@ Here are the [task policy examples](#examples) rewritten as approval policies.
 ```opa
 package spacelift
 
-reject {
+reject if {
   command := input.run.command
   not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
 }
 
-approve { not reject }
+approve if not reject
 ```
 
 ### No tasks on weekends
@@ -149,12 +149,12 @@ approve { not reject }
 ```opa
 package spacelift
 
-reject {
-  today   := time.weekday(input.run.created_at)
-  weekend := { "Saturday", "Sunday" }
+reject if {
+  today := time.weekday(input.run.created_at)
+  weekend := {"Saturday", "Sunday"}
 
   weekend[today]
 }
 
-approve { not reject }
+approve if not reject
 ```

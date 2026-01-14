@@ -8,13 +8,19 @@ Policies can now reset flags they have previously set using the `reset_flag` rul
 package spacelift
 
 # Set a flag when creating S3 buckets
-flag["s3-review"] {
-    input.terraform.resource_changes[_].type == "aws_s3_bucket"
+flag contains "s3-review" if {
+    some resource in input.terraform.resource_changes
+    resource.type == "aws_s3_bucket"
 }
 
 # Reset the flag when no S3 buckets are being created
-reset_flag["s3-review"] {
-    not input.terraform.resource_changes[_].type == "aws_s3_bucket"
+reset_flag contains "s3-review" if {
+    not has_s3_bucket
+}
+
+has_s3_bucket if {
+    some resource in input.terraform.resource_changes
+    resource.type == "aws_s3_bucket"
 }
 ```
 

@@ -152,8 +152,8 @@ Policies can react to stack role attachments through the `stack.roles` field in 
 ```rego
 package spacelift
 
-reject_with_note["Don't use the Space Admin role!"] {
-  role := input.stack.roles[_]
+reject_with_note contains "Don't use the Space Admin role!" if {
+  some role in input.stack.roles
   role.id == "space-admin" # (1)
 }
 ```
@@ -296,14 +296,14 @@ If any of your policies reference the `stack.administrative` field, update them 
 
 ```rego
 # Old policy:
-deny["Administrative stacks are not allowed"] {
+deny contains "Administrative stacks are not allowed" if {
   stack := input.spacelift.stack
   stack.administrative == true
 }
 
 # Would become:
-deny["Administrative stacks are not allowed"] {
-  role := input.spacelift.stack.roles[_]
+deny contains "Administrative stacks are not allowed" if {
+  some role in input.spacelift.stack.roles
   role.id == "space-admin" # (1)
 }
 ```

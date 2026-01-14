@@ -54,10 +54,11 @@ Use IDP groups to manage permissions efficiently, especially in larger teams. In
 Using the example spaces layout above, you can set up this rule to allow your users to write to the R&D Team space if they are assigned the R&D team in your IDP:
 
 ```rego
-space_write[space.id] {
-     space := input.spaces[_]
+space_write contains space.id if {
+     some space in input.spaces
      space.name == "R&D Team"
-     input.session.teams[_] == "R&D"
+     some team in input.session.teams
+     team == "R&D"
 }
 ```
 

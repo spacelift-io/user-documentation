@@ -19,9 +19,7 @@ Let's create a simple initialization policy, attach it to a stack, and see what 
 ```opa
 package spacelift
 
-deny["you shall not pass"] {
-  true
-}
+deny contains "you shall not pass" if true
 ```
 
 This policy results in:
@@ -134,8 +132,8 @@ Initialization policies can help you avoid unwanted runs. That's where initializ
 ```opa
 package spacelift
 
-deny[sprintf("don't use Terraform please (%s)", [command])] {
-  command := input.run.runtime_config.before_init[_]
+deny contains sprintf("don't use Terraform please (%s)", [command]) if {
+  some command in input.run.runtime_config.before_init
 
   contains(command, "terraform")
   command != "terraform fmt -check"
@@ -147,7 +145,7 @@ What if someone, to get around this policy, creates a [Docker image](../../integ
 ```opa
 package spacelift
 
-deny[sprintf("unexpected runner image (%s)", [image])] {
+deny contains sprintf("unexpected runner image (%s)", [image]) if {
   image := input.run.runtime_config.runner_image
 
   image != "spacelift/runner:latest"
@@ -166,11 +164,9 @@ One of the above examples explicitly allowlisted an OpenTofu/Terraform formattin
 ```opa
 package spacelift
 
-deny["please always run formatting check first"] {
-  not formatting_first
-}
+deny contains "please always run formatting check first" if not formatting_first
 
-formatting_first {
+formatting_first if {
   input.run.runtime_config.before_init[i] == "terraform fmt -check"
   i == 0
 }
@@ -183,7 +179,7 @@ Now let's enforce a feature branch naming convention. We'll keep this example si
 ```opa
 package spacelift
 
-deny[sprintf("invalid feature branch name (%s)", [branch])] {
+deny contains sprintf("invalid feature branch name (%s)", [branch]) if {
   branch := input.commit.branch
 
   input.run.type == "PROPOSED"
@@ -200,11 +196,11 @@ A run initialization policy can be expressed as an [approval policy](./approval-
 ```opa
 package spacelift
 
-reject { not formatting_first}
+reject if not formatting_first
 
-approve { not reject }
+approve if not reject
 
-formatting_first {
+formatting_first if {
   input.run.runtime_config.before_init[i] == "terraform fmt -check"
   i == 0
 }
@@ -215,12 +211,13 @@ formatting_first {
 ```opa
 package spacelift
 
-reject {
-  command := input.run.runtime_config.before_init[_]
-  contains(command, "terraform"); command != "terraform fmt -check"
+reject if {
+  some command in input.run.runtime_config.before_init
+  contains(command, "terraform")
+  command != "terraform fmt -check"
 }
 
-approve { not reject }
+approve if not reject
 ```
 
 ### Enforcing runner image
@@ -228,11 +225,9 @@ approve { not reject }
 ```opa
 package spacelift
 
-reject {
-  input.run.runtime_config.runner_image != "spacelift/runner:latest"
-}
+reject if input.run.runtime_config.runner_image != "spacelift/runner:latest"
 
-approve { not reject }
+approve if not reject
 ```
 
 ### Enforcing feature branch naming convention
@@ -240,11 +235,11 @@ approve { not reject }
 ```opa
 package spacelift
 
-reject {
+reject if {
   branch := input.run.commit.branch
   input.run.type == "PROPOSED"
   not re_match("^(fix|feature)\/.*", branch)
 }
 
-approve { not reject }
+approve if not reject
 ```

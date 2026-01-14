@@ -123,7 +123,10 @@ In this policy, every member of the engineering team gets **read** access:
 ```opa
 package spacelift
 
-read { input.session.teams[_] == "Engineering" }
+read if {
+  some team in input.session.teams
+  team == "Engineering"
+}
 ```
 
 ### Write only in-office during business hours
@@ -133,17 +136,21 @@ In this policy, **write** access is only provided to users that are in the offic
 ```opa
 package spacelift
 
-now     := input.request.timestamp_ns
-clock   := time.clock([now, "America/Los_Angeles"])
-weekend := { "Saturday", "Sunday" }
+now := input.request.timestamp_ns
+clock := time.clock([now, "America/Los_Angeles"])
+weekend := {"Saturday", "Sunday"}
 weekday := time.weekday(now)
-ip      := input.request.remote_ip
+ip := input.request.remote_ip
 
-write      { input.session.teams[_] == "Product team" }
-deny_write { weekend[weekday] }
-deny_write { clock[0] < 9 }
-deny_write { clock[0] > 17 }
-deny_write { not net.cidr_contains("12.34.56.0/24", ip) }
+write if {
+  some team in input.session.teams
+  team == "Product team"
+}
+
+deny_write if weekend[weekday]
+deny_write if clock[0] < 9
+deny_write if clock[0] > 17
+deny_write if not net.cidr_contains("12.34.56.0/24", ip)
 ```
 
 ### Protect administrative stacks
@@ -156,5 +163,5 @@ deny_write { not net.cidr_contains("12.34.56.0/24", ip) }
 ```opa
 package spacelift
 
-deny_write { input.stack.administrative }
+deny_write if input.stack.administrative
 ```

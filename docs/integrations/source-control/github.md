@@ -226,7 +226,7 @@ If you want to prevent users from deploying directly from GitHub, you can add a 
 ```opa
 package spacelift
 
-deny["Do not deploy from GitHub"] {
+deny contains "Do not deploy from GitHub" if {
   input.spacelift.run.type == "TRACKED"
   startswith(input.spacelift.run.triggered_by, "github/")
 }

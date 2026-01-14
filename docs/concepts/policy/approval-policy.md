@@ -183,9 +183,9 @@ In this example, each Unconfirmed run (including proposed runs triggered by Git 
 ```opa
 package spacelift
 
-approve { input.run.state != "UNCONFIRMED" }
+approve if input.run.state != "UNCONFIRMED"
 
-approve {
+approve if {
   count(input.reviews.current.approvals) > 1
   count(input.reviews.current.rejections) == 0
 }
@@ -198,9 +198,9 @@ This is a variation of the above policy that will automatically fail any run tha
 ```opa
 package spacelift
 
-approve { input.run.state != "UNCONFIRMED" }
-approve { count(input.reviews.current.approvals) > 1 }
-reject  { count(input.reviews.current.rejections) > 1 }
+approve if input.run.state != "UNCONFIRMED"
+approve if count(input.reviews.current.approvals) > 1
+reject if count(input.reviews.current.rejections) > 1
 ```
 
 ### Require approval for a task command not on the allowlist
@@ -211,13 +211,16 @@ package spacelift
 allowlist := ["ps", "ls", "rm -rf /"]
 
 # Approve when not a task.
-approve { input.run.type != "TASK" }
+approve if input.run.type != "TASK"
 
 # Approve when allowlisted.
-approve { input.run.command == allowlist[_] }
+approve if {
+  some cmd in allowlist
+  input.run.command == cmd
+}
 
 # Approve with two or more approvals.
-approve { count(input.reviews.current.approvals) > 1 }
+approve if count(input.reviews.current.approvals) > 1
 ```
 
 Options for input.run.type include `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DESTROY`.
@@ -231,19 +234,23 @@ package spacelift
 
 # First, define all conditions that require explicit
 # user approval.
-requires_approval { input.run.state == "UNCONFIRMED" }
-requires_approval { input.run.type == "TASK" }
+requires_approval if input.run.state == "UNCONFIRMED"
+requires_approval if input.run.type == "TASK"
 
 # Then, automatically approve all other jobs.
-approve { not requires_approval }
+approve if not requires_approval
 
 # Autoapprove some task commands. We don't check for run type
 # because only tasks will the have "command" field set.
 task_allowlist := ["ps", "ls", "rm -rf /"]
-approve { input.run.command == task_allowlist[_] }
+
+approve if {
+  some cmd in task_allowlist
+  input.run.command == cmd
+}
 
 # Two approvals and no rejections to approve.
-approve {
+approve if {
   count(input.reviews.current.approvals) > 1
   count(input.reviews.current.rejections) == 0
 }
@@ -258,22 +265,36 @@ package spacelift
 
 # First, define all conditions that require explicit
 # user approval.
-requires_approval { input.run.state == "UNCONFIRMED" }
-requires_approval { input.run.type == "TASK" }
-approve           { not requires_approval }
+requires_approval if input.run.state == "UNCONFIRMED"
+requires_approval if input.run.type == "TASK"
+approve if not requires_approval
 
 approvals := input.reviews.current.approvals
 
 # Define what it means to be approved by a Director, DevOps and Security.
-director_approval { approvals[_].session.teams[_] == "Director" }
-devops_approval   { approvals[_].session.teams[_] == "DevOps" }
-security_approval { approvals[_].session.teams[_] == "Security" }
+director_approval if {
+  some approval in approvals
+  some team in approval.session.teams
+  team == "Director"
+}
+
+devops_approval if {
+  some approval in approvals
+  some team in approval.session.teams
+  team == "DevOps"
+}
+
+security_approval if {
+  some approval in approvals
+  some team in approval.session.teams
+  team == "Security"
+}
 
 # Approve when a single Director approves:
-approve { director_approval }
+approve if director_approval
 
 # Approve when both DevOps and Security approve:
-approve { devops_approval; security_approval }
+approve if { devops_approval; security_approval }
 ```
 
 ### Require private worker pool
@@ -284,10 +305,10 @@ You might want to ensure that your runs are always scheduled on a [private worke
 package spacelift
 
 # Approve any runs on private workers
-approve { not input.stack.worker_pool.public }
+approve if not input.stack.worker_pool.public
 
 # Reject any runs on public workers
-reject { input.stack.worker_pool.public }
+reject if input.stack.worker_pool.public
 ```
 
 You may want to [auto-attach this policy](./README.md#automatically-with-labels) to some, if not all, of your stacks.
@@ -302,15 +323,17 @@ package spacelift
 allowlist := ["ps", "ls"]
 denylist := ["rm -rf /"]
 
-approve_with_note[note] {
+approve_with_note contains note if {
   input.run.type == "TASK"
-  input.run.command == allowlist[_]
+  some cmd in allowlist
+  input.run.command == cmd
   note := sprintf("always approve tasks with command %s", [input.run.command])
 }
 
-reject_with_note[note] {
+reject_with_note contains note if {
   input.run.type == "TASK"
-  input.run.command == denylist[_]
+  some cmd in denylist
+  input.run.command == cmd
   note := sprintf("always reject tasks with command %s", [input.run.command])
 }
 ```

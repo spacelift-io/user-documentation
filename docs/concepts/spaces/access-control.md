@@ -86,20 +86,23 @@ Use the `roles` rule to assign RBAC roles in login policies:
 package spacelift
 
 # Basic login permissions
-allow { input.session.member }
+allow if input.session.member
 
 # Assign RBAC roles using role slugs
-roles["space-id"]["developer-role-slug"] {
-    input.session.teams[_] == "Frontend"
+roles["space-id"] contains "developer-role-slug" if {
+    some team in input.session.teams
+    team == "Frontend"
 }
 
-roles["space-id"]["platform-engineer-role-slug"] {
-    input.session.teams[_] == "DevOps"
+roles["space-id"] contains "platform-engineer-role-slug" if {
+    some team in input.session.teams
+    team == "DevOps"
 }
 
 # Assign admin role for root space
-roles["root"]["space-admin-role-slug"] {
-    input.session.teams[_] == "Admin"
+roles["root"] contains "space-admin-role-slug" if {
+    some team in input.session.teams
+    team == "Admin"
 }
 ```
 

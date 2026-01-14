@@ -131,7 +131,7 @@ Here's a practical difference between the two types:
 
     # This is a simple deny rule.
     # When it matches, no feedback is provided.
-    deny {
+    deny if {
       true
     }
     ```
@@ -142,7 +142,7 @@ Here's a practical difference between the two types:
 
     # This is a deny rule with string value.
     # When it matches, that value is reported to the user.
-    deny["the user will see this"] {
+    deny contains "the user will see this" if {
       true
     }
     ```
@@ -152,12 +152,11 @@ For the policies that generate a set of strings, you want these strings to be bo
 ```opa
 package spacelift
 
-we_dont_create := { "scary", "resource", "types" }
+we_dont_create := {"scary", "resource", "types"}
 
 # This is an example of a plan policy.
-deny[sprintf("some rule violated (%s)", [resource.address])] {
-  some resource
-  created_resources[resource]
+deny contains sprintf("some rule violated (%s)", [resource.address]) if {
+  some resource in created_resources
 
   we_dont_create[resource.type]
 }
@@ -172,11 +171,11 @@ For example, this rule which will return a JSON object to be used when creating 
 ```opa
 package spacelift
 
-inbox[{
+inbox contains {
   "title": "Tracked run finished!",
   "body": sprintf("Run ID: %s", [run.id]),
   "severity": "INFO",
-}] {
+} if {
   run := input.run_updated.run
   run.type == "TRACKED"
   run.state == "FINISHED"
@@ -249,7 +248,7 @@ We prepend variable definitions to each policy. These variables can be different
 package spacelift
 
 # This is what Spacelift will query for when evaluating policies.
-result = {
+result := {
   "approve": approve,
   "reject": reject,
   "flag": flag,
@@ -257,16 +256,16 @@ result = {
 }
 
 # Default to ensure that "approve" is defined.
-default approve = false
+default approve := false
 
 # Default to ensure that "reject" is defined.
-default reject = false
+default reject := false
 
 # Default to ensure that "sample" is defined.
-default sample = false
+default sample := false
 
 # Placeholder to ensure that "flag" will be a set.
-flag["never"] {
+flag contains "never" if {
   false
 }
 ```
@@ -316,19 +315,19 @@ Enter **policy workbench**. Policy workbench captures policy evaluation events s
 Each of Spacelift's policies supports an additional boolean rule called `sample`. Returning `true` from this rule means that the input to the policy evaluation is captured, along with the policy body at the time and the exact result of the policy evaluation. You can, for example, capture every evaluation with a simple:
 
 ```opa
-sample { true }
+sample if true
 ```
 
 If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
 
 ```opa
-sample { count(deny) == 0 }
+sample if count(deny) == 0
 ```
 
 You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example, we will use the timestamp turned into milliseconds from nanoseconds to get a better spread. We'll also sample every 10th evaluation:
 
 ```opa
-sample {
+sample if {
   millis := round(input.spacelift.request.timestamp_ns / 1e6)
   millis % 100 <= 10
 }
@@ -419,7 +418,7 @@ Let's define a simple [login policy](login-policy.md) that denies access to [non
 ```opa title="deny-non-members.rego"
 package spacelift
 
-deny { not input.session.member }
+deny if not input.session.member
 ```
 
 You'll see that we simply mock out the `input` received by the policy:
@@ -427,12 +426,12 @@ You'll see that we simply mock out the `input` received by the policy:
 ```opa title="deny-non-members_test.rego"
 package spacelift
 
-test_non_member {
-    deny with input as { "session": { "member": false } }
+test_non_member if {
+    deny with input as {"session": {"member": false}}
 }
 
-test_member_not_denied {
-    not deny with input as { "session": { "member": true } }
+test_member_not_denied if {
+    not deny with input as {"session": {"member": true}}
 }
 ```
 
@@ -448,7 +447,7 @@ Testing policies that provide feedback to the users is only slightly more comple
 ```opa title="deny-sandbox.rego"
 package spacelift
 
-deny[sprintf("don't push to %s", [branch])] {
+deny contains sprintf("don't push to %s", [branch]) if {
   branch := input.commit.branch
   branch == "sandbox"
 }
@@ -459,16 +458,16 @@ In the test, we will check that the set return by the **deny** rule either has t
 ```opa title="deny-sandbox_test.rego"
 package spacelift
 
-test_sandbox_denied {
-  expected := { "don't push to sandbox" }
+test_sandbox_denied if {
+  expected := {"don't push to sandbox"}
 
-  deny == expected with input as { "commit": { "branch": "sandbox" } }
+  deny == expected with input as {"commit": {"branch": "sandbox"}}
 }
 
-test_master_not_denied {
+test_master_not_denied if {
   expected := set()
 
-  deny == expected with input as { "commit": { "branch": "master" } }
+  deny == expected with input as {"commit": {"branch": "master"}}
 }
 ```
 
@@ -495,14 +494,16 @@ Approvals are handled by an [approval policy](./approval-policy.md) but it doesn
 ```rego title="flag_for_review.rego"
 package spacelift
 
-network_review_flag = "review:network"
+network_review_flag := "review:network"
 
-flag[network_review_flag] {
-  startswith(input.push.affected_files[_], "network/")
+flag contains network_review_flag if {
+  some file in input.push.affected_files
+  startswith(file, "network/")
 }
 
-flag[network_review_flag] {
-  startswith(input.pull_request.diff[_], "network/*")
+flag contains network_review_flag if {
+  some diff in input.pull_request.diff
+  startswith(diff, "network/*")
 }
 ```
 
@@ -511,13 +512,17 @@ Now, we can introduce a network approval policy using this flag.
 ```rego title="network-review.rego"
 package spacelift
 
-network_review_required {
-  input.run.flags[_] == "review:network"
+network_review_required if {
+  some flag in input.run.flags
+  flag == "review:network"
 }
 
-approve { not network_review_required }
-approve {
-  input.reviews.current.approvals[_].session.teams[_] == "DBA"
+approve if not network_review_required
+
+approve if {
+  some approval in input.reviews.current.approvals
+  some team in approval.session.teams
+  team == "DBA"
 }
 ```
 
@@ -544,9 +549,10 @@ However, we do reserve the right to add new fields to policy inputs and introduc
 For example, in a push policy, you might write a rule as follows:
 
 ```rego title="backwards-compatibility.rego"
-track {
+track if {
   not is_null(input.pull_request)
-  input.pull_request.labels[_] == "deploy"
+  some label in input.pull_request.labels
+  label == "deploy"
 }
 ```
 
