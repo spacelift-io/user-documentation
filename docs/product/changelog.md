@@ -4,6 +4,21 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2026-01-13
+
+- fix(dashboard): exclude modules from Stacks state dashboard element
+- feat(oidc-federation): add use:sig field to .well-known/jwks endpoint
+
+## 2026-01-09
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
+    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
+    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
+
+    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
 ## 2025-12-17
 
 ### Features
