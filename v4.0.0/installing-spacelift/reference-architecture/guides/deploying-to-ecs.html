@@ -7797,7 +7797,19 @@ For example, you may want to disable the database if you already have a Postgres
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"aws_region"</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"aws_region"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"The AWS region you want to install Spacelift into."</span>
 <span class="w">  </span><span class="na">default</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s2">"eu-north-1"</span>
@@ -7831,6 +7843,7 @@ For example, you may want to disable the database if you already have a Postgres
 <span class="kr">variable</span><span class="w"> </span><span class="nv">"license_token"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">  </span><span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"The license token for selfhosted, issued by Spacelift."</span>
+<span class="w">  </span><span class="na">sensitive</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="p">}</span>
 
 <span class="kr">variable</span><span class="w"> </span><span class="nv">"server_certificate_arn"</span><span class="w"> </span><span class="p">{</span>
@@ -7865,10 +7878,11 @@ For example, you may want to disable the database if you already have a Postgres
 
 <span class="c1"># Deploy the basic infrastructure needed for Spacelift to function.</span>
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift-infra"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v2.0.0"</span>
 
 <span class="w">  </span><span class="na">region</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.aws_region</span>
 
+<span class="w">  </span><span class="na">rds_engine_version</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="s2">"17.7"</span>
 <span class="w">  </span><span class="nb">rds_instance_configuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="s2">"primary"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="err">instance_identifier</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"primary"</span>
@@ -7888,7 +7902,7 @@ For example, you may want to disable the database if you already have a Postgres
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift-services"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.deploy_services</span><span class="w"> </span><span class="p">?</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="m">0</span>
 
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v1.3.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted?ref=v2.0.0"</span>
 
 <span class="w">  </span><span class="na">region</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">var.aws_region</span>
 <span class="w">  </span><span class="na">unique_suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.unique_suffix</span>
@@ -7917,8 +7931,6 @@ For example, you may want to disable the database if you already have a Postgres
 <span class="w">  </span><span class="na">launcher_image</span><span class="w">                       </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.ecr_launcher_repository_url</span>
 <span class="w">  </span><span class="na">launcher_image_tag</span><span class="w">                   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spacelift_version</span>
 <span class="w">  </span><span class="na">license_token</span><span class="w">                        </span><span class="o">=</span><span class="w"> </span><span class="nv">var.license_token</span>
-<span class="w">  </span><span class="na">database_url</span><span class="w">                         </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.database_url</span>
-<span class="w">  </span><span class="na">database_read_only_url</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.database_read_only_url</span>
 <span class="w">  </span><span class="na">deliveries_bucket_name</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.deliveries_bucket_name</span>
 <span class="w">  </span><span class="na">large_queue_messages_bucket_name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.large_queue_messages_bucket_name</span>
 <span class="w">  </span><span class="na">metadata_bucket_name</span><span class="w">                 </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.metadata_bucket_name</span>
@@ -7935,6 +7947,18 @@ For example, you may want to disable the database if you already have a Postgres
 <span class="w">  </span><span class="na">kms_key_arn</span><span class="w">                          </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.kms_key_arn</span>
 <span class="w">  </span><span class="na">drain_security_group_id</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.drain_security_group_id</span>
 <span class="w">  </span><span class="na">scheduler_security_group_id</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift-infra.scheduler_security_group_id</span>
+
+<span class="w">  </span><span class="na">secrets_manager_secret_arns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nv">module.spacelift-infra.database_secret_arn</span><span class="p">]</span>
+<span class="w">  </span><span class="na">sensitive_env_vars</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"DATABASE_URL"</span>
+<span class="w">      </span><span class="na">valueFrom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"${module.spacelift-infra.database_secret_arn}:DATABASE_URL::"</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"DATABASE_READ_ONLY_URL"</span>
+<span class="w">      </span><span class="na">valueFrom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"${module.spacelift-infra.database_secret_arn}:DATABASE_READ_ONLY_URL::"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 
 <span class="w">  </span><span class="nb">server_log_configuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="err">logDriver</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"awslogs"</span><span class="p">,</span>
@@ -8343,7 +8367,7 @@ One for the main application and one for the MQTT endpoint for the workers.</p>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v1.5.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-spacelift-selfhosted?ref=v2.0.0"</span>
 
 <span class="c1">  # Other settings...</span>
 

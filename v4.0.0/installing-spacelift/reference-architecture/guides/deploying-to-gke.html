@@ -7502,7 +7502,8 @@ They will bind reserved static v4 and v6 IP addresses that you can add to your D
 <span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
-<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"google_compute_network"</span><span class="w"> </span><span class="nv">"default"</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"google_compute_network"</span><span class="w"> </span><span class="nv">"default"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="s2">"test"</span>
 <span class="w">  </span><span class="na">auto_create_subnetworks</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">enable_ula_internal_ipv6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
@@ -7528,12 +7529,13 @@ They will bind reserved static v4 and v6 IP addresses that you can add to your D
 <span class="p">}</span>
 
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"</span>
 
-<span class="w">  </span><span class="na">region</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">var.region</span>
-<span class="w">  </span><span class="na">project</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">var.project</span>
-<span class="w">  </span><span class="na">website_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.app_domain</span>
-<span class="w">  </span><span class="na">database_tier</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"db-f1-micro"</span>
+<span class="w">  </span><span class="na">region</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.region</span>
+<span class="w">  </span><span class="na">project</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">var.project</span>
+<span class="w">  </span><span class="na">website_domain</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.app_domain</span>
+<span class="w">  </span><span class="na">database_tier</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"db-f1-micro"</span>
+<span class="w">  </span><span class="na">database_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"POSTGRES_17"</span>
 
 <span class="w">  </span><span class="na">enable_network</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">network</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">google_compute_network.default</span>
@@ -7595,7 +7597,8 @@ This is used to grant your nodes permission to pull images from the artifact reg
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"google_compute_network"</span><span class="w"> </span><span class="nv">"default"</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">resource</span><span class="w"> </span><span class="nc">"google_compute_network"</span><span class="w"> </span><span class="nv">"default"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">name</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="s2">"test"</span>
 <span class="w">  </span><span class="na">auto_create_subnetworks</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">enable_ula_internal_ipv6</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
@@ -7606,12 +7609,13 @@ This is used to grant your nodes permission to pull images from the artifact reg
 <span class="p">}</span>
 
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"</span>
 
-<span class="w">  </span><span class="na">region</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">var.region</span>
-<span class="w">  </span><span class="na">project</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="nv">var.project</span>
-<span class="w">  </span><span class="na">website_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.app_domain</span>
-<span class="w">  </span><span class="na">database_tier</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"db-f1-micro"</span>
+<span class="w">  </span><span class="na">region</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="nv">var.region</span>
+<span class="w">  </span><span class="na">project</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">var.project</span>
+<span class="w">  </span><span class="na">website_domain</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.app_domain</span>
+<span class="w">  </span><span class="na">database_tier</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="s2">"db-f1-micro"</span>
+<span class="w">  </span><span class="na">database_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"POSTGRES_17"</span>
 
 <span class="w">  </span><span class="na">enable_gke</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
 <span class="w">  </span><span class="na">enable_network</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="no">false</span>
@@ -7767,7 +7771,8 @@ For example, you may want to disable the database if you already have a Cloud SQ
 <span class="normal">69</span>
 <span class="normal">70</span>
 <span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"spacelift_version"</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"spacelift_version"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
@@ -7811,12 +7816,13 @@ For example, you may want to disable the database if you already have a Cloud SQ
 <span class="p">}</span>
 
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"</span>
 
 <span class="w">  </span><span class="na">region</span><span class="w">                     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.region</span>
 <span class="w">  </span><span class="na">project</span><span class="w">                    </span><span class="o">=</span><span class="w"> </span><span class="nv">var.project</span>
 <span class="w">  </span><span class="na">website_domain</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="nv">var.website_domain</span>
 <span class="w">  </span><span class="na">database_tier</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="s2">"db-f1-micro"</span>
+<span class="w">  </span><span class="na">database_version</span><span class="w">           </span><span class="o">=</span><span class="w"> </span><span class="s2">"POSTGRES_17"</span>
 <span class="w">  </span><span class="na">enable_external_workers</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="no">false</span><span class="c1"> # Switch to true to enable running workers outside of the VPC.</span>
 <span class="w">  </span><span class="na">spacelift_version</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spacelift_version</span>
 <span class="w">  </span><span class="na">license_token</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="nv">var.license_token</span>

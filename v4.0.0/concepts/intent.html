@@ -7072,11 +7072,35 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#7-session-locks-permissions-safety" class="md-nav__link">
+  <a href="#7-session-locks-safety" class="md-nav__link">
     <span class="md-ellipsis">
-      7. Session locks, permissions, &amp; safety
+      7. Session locks &amp; safety
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Access control
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Access control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#managing-intent-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing Intent projects
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -7499,12 +7523,16 @@
 <p><strong>Auditability:</strong> Even after deletion, the <strong>History</strong> tab shows attempted and successful deletions, with full receipts.</p>
 <p><img alt="History tab - deletion" src="../assets/screenshots/spacelift-intent/2025-10-08_00-35.png"></p>
 <hr>
-<h3 id="7-session-locks-permissions-safety">7. Session locks, permissions, &amp; safety<a class="headerlink" href="#7-session-locks-permissions-safety" title="Anchor link to this section">»</a></h3>
+<h3 id="7-session-locks-safety">7. Session locks &amp; safety<a class="headerlink" href="#7-session-locks-safety" title="Anchor link to this section">»</a></h3>
 <ul>
 <li><strong>Project lock:</strong> Only one active session can operate on a project at a time (prevents conflicting changes). Locks auto-expire after inactivity.</li>
 <li><strong>Client controls:</strong> You can configure your MCP client to always ask before invoking tools.</li>
-<li><strong>Role separation</strong> (coming soon; unavailable in early access): For safety, split who writes policies from who operates resources. Combining both lets an agent relax guardrails to push through blocked changes. Use Spaces/RBAC to enforce when this feature becomes available.</li>
 </ul>
+<hr>
+<h3 id="8-access-control">8. Access control<a class="headerlink" href="#8-access-control" title="Anchor link to this section">»</a></h3>
+<p>Intent projects use Spacelift's <a href="authorization/rbac-system.html">Role-Based Access Control (RBAC)</a> system to manage permissions. This allows you to control who can create, modify, and delete Intent projects, as well as who can operate on resources within them.</p>
+<h4 id="managing-intent-projects">Managing Intent projects<a class="headerlink" href="#managing-intent-projects" title="Anchor link to this section">»</a></h4>
+<p>By default, <a href="authorization/rbac-system.html#space-admin">Space Admins</a> have full access to manage Intent projects within their spaces. However, you can create more granular permissions using <a href="authorization/rbac-system.html#custom-roles">custom roles</a> with specific Intent project actions. Intent specific actions can be found under the <code>Intent</code> category in the role creation page.</p>
 <hr>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Anchor link to this section">»</a></h2>
 <ul>

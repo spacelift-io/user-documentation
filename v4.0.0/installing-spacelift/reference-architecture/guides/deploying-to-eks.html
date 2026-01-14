@@ -7606,21 +7606,7 @@ You'll need to deploy all the infrastructure <a href="../external-dependencies.h
 <span class="normal">73</span>
 <span class="normal">74</span>
 <span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"spacelift_version"</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">variable</span><span class="w"> </span><span class="nv">"spacelift_version"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span>
 <span class="p">}</span>
 
@@ -7680,20 +7666,49 @@ You'll need to deploy all the infrastructure <a href="../external-dependencies.h
 <span class="p">}</span>
 
 <span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"</span>
 
-<span class="w">  </span><span class="na">spacelift_version</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spacelift_version</span>
-<span class="w">  </span><span class="na">aws_region</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="nv">var.aws_region</span>
-<span class="w">  </span><span class="na">license_token</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.license_token</span>
-<span class="w">  </span><span class="na">k8s_namespace</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.k8s_namespace</span>
-<span class="w">  </span><span class="na">server_domain</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.server_domain</span>
-<span class="w">  </span><span class="na">mqtt_broker_domain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">var.mqtt_broker_domain</span>
-<span class="w">  </span><span class="na">admin_username</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.admin_username</span>
-<span class="w">  </span><span class="na">admin_password</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.admin_password</span>
-<span class="w">  </span><span class="na">server_acm_arn</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">var.server_acm_arn</span>
+<span class="w">  </span><span class="na">spacelift_version</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="nv">var.spacelift_version</span>
+<span class="w">  </span><span class="na">aws_region</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="nv">var.aws_region</span>
+<span class="w">  </span><span class="na">license_token</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.license_token</span>
+<span class="w">  </span><span class="na">k8s_namespace</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.k8s_namespace</span>
+<span class="w">  </span><span class="na">server_domain</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="nv">var.server_domain</span>
+<span class="w">  </span><span class="na">mqtt_broker_domain</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="nv">var.mqtt_broker_domain</span>
+<span class="w">  </span><span class="na">admin_username</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.admin_username</span>
+<span class="w">  </span><span class="na">admin_password</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.admin_password</span>
+<span class="w">  </span><span class="na">server_acm_arn</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="nv">var.server_acm_arn</span>
+<span class="w">  </span><span class="na">rds_engine_version</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s2">"17.7"</span>
+<span class="w">  </span><span class="nb">eks_upgrade_policy</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="na">support_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"STANDARD"</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
-
-<span class="kr">output</span><span class="w"> </span><span class="nv">"shell"</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div></td></tr></tbody></table></div>
+<div class="admonition info">
+<p class="admonition-title">EKS Upgrade Policy</p>
+<p>The <code>eks_upgrade_policy</code> determines how your EKS cluster handles Kubernetes version upgrades when standard support ends.</p>
+<ul>
+<li><strong>STANDARD</strong>: Automatically upgrades to the next Kubernetes version when the 14-month standard support period ends. This option provides more frequent security patches and bug fixes at a lower cost.</li>
+<li><strong>EXTENDED</strong>: Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.</li>
+</ul>
+<p>Once a cluster enters extended support, you cannot switch back to standard support. For more details, see the <a href="https://docs.aws.amazon.com/eks/latest/best-practices/cluster-upgrades.html" rel="nofollow">AWS EKS cluster upgrade best practices</a>.</p>
+</div>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">output</span><span class="w"> </span><span class="nv">"shell"</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="na">sensitive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="no">true</span>
 <span class="w">  </span><span class="na">value</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="nv">module.spacelift.shell</span>
 <span class="p">}</span>
@@ -7905,7 +7920,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>namespace<span clas
 <span class="normal">7</span>
 <span class="normal">8</span>
 <span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kr">module</span><span class="w"> </span><span class="nv">"spacelift"</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"</span>
+<span class="w">  </span><span class="na">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"</span>
 
 <span class="c1">  # Other settings..</span>
 
