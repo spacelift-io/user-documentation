@@ -106,8 +106,8 @@ Some parts of the module can be customized to avoid deploying parts of the infra
 Before you start, set a few environment variables that will be used by the Spacelift modules:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version="v4.0.0"
 
 # The AWS region you want to deploy Spacelift to.
 export TF_VAR_aws_region="eu-west-1"
@@ -222,9 +222,11 @@ module "spacelift" {
     The `eks_upgrade_policy` determines how your EKS cluster handles Kubernetes version upgrades when standard support ends.
 
     - **STANDARD**: Automatically upgrades to the next Kubernetes version when the 14-month standard support period ends. This option provides more frequent security patches and bug fixes at a lower cost.
-    - **EXTENDED**: Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.
+    - **EXTENDED** (AWS default): Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.
 
-    Once a cluster enters extended support, you cannot switch back to standard support. For more details, see the [AWS EKS cluster upgrade best practices](https://docs.aws.amazon.com/eks/latest/best-practices/cluster-upgrades.html){: rel="nofollow"}.
+    By explicitly setting `support_type = "STANDARD"` in the example above, you're opting out of AWS's default extended support behavior.
+
+    **Important**: You can only change the upgrade policy while your cluster is running a Kubernetes version in standard support. Once a cluster version enters extended support, you cannot change the policy until you upgrade to a standard-supported version. For more details, see [AWS EKS extended support documentation](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html){: rel="nofollow"}.
 
 ```hcl
 output "shell" {
