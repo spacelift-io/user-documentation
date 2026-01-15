@@ -12,7 +12,7 @@ Whether a Terraform stack is using Terragrunt or not is controlled by the presen
 If present, all workloads will use `terragrunt` instead of `terraform` as the main command. Since the Terragrunt API is a superset of Terraform's, this is completely transparent to the end user.
 
 !!! info
-    Spacelift is working to enable [native state management](../terragrunt/limitations.md#state-management) for Terragrunt. The `terragrunt` label will be deprecated.
+    Spacelift is working to enable [native state management](../terragrunt/getting-started.md#native-state-management-option-beta) for Terragrunt. The `terragrunt` label will be deprecated.
 
 Terragrunt is installed on our [standard runner image](../../integrations/docker.md#standard-runner-image). If you're not using our runner image, you can [install Terragrunt separately](https://terragrunt.gruntwork.io/docs/getting-started/install/#install-terragrunt){: rel="nofollow"}.
 
