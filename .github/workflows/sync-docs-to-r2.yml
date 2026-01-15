@@ -14,7 +14,7 @@ jobs:
       AWS_DEFAULT_REGION: auto
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Sync markdown files to R2
         run: |
@@ -31,7 +31,7 @@ jobs:
       AWS_DEFAULT_REGION: auto
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Sync markdown files to R2
         run: |

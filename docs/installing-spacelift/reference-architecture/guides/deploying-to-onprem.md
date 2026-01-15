@@ -105,8 +105,8 @@ Spacelift requires an RSA key to encrypt sensitive information stored in the Pos
 Before you start, set a few environment variables that will be used in this guide:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export SPACELIFT_VERSION="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export SPACELIFT_VERSION="v4.0.0"
 
 export SERVER_DOMAIN="your domain of self-hosted Spacelift"
 
