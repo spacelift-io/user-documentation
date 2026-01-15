@@ -41,35 +41,65 @@ You have two options for inviting people to your Spacelift account:
 === "GitHub"
     This example uses GitHub usernames to grant access to Spacelift.
 
-    ```opa
-    package spacelift
+    === "Rego v1"
+        ```opa
+        package spacelift
 
-    admins  := { "alice" }
-    allowed := { "bob", "charlie", "danny" }
-    login   := input.session.login
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    deny  { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```opa
+        package spacelift
+
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        deny  { not admin; not allow }
+        ```
+
     !!! tip
         GitHub organization admins are automatically Spacelift admins. There is no need to grant them permissions in the Login policy.
 
 === "GitLab, Google, Microsoft"
     This example uses email addresses to grant access to Spacelift.
 
-    ```rego
-    package spacelift
+    === "Rego v1"
+        ```rego
+        package spacelift
 
-    admins := {"alice@example.com"}
-    allowed := {"bob@example.com"}
-    login := input.session.login
+        admins := {"alice@example.com"}
+        allowed := {"bob@example.com"}
+        login := input.session.login
 
-    admin if admins[login]
-    allow if allowed[login]
-    # allow if endswith(input.session.login, "@example.com") Alternatively, grant access to every user with an @example.com email address
-    deny if { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        # allow if endswith(input.session.login, "@example.com") Alternatively, grant access to every user with an @example.com email address
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```rego
+        package spacelift
+
+        admins  := { "alice@example.com" }
+        allowed := { "bob@example.com" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
+        deny  { not admin; not allow }
+        ```
 
 Now your colleagues can access your Spacelift account as well.
 

@@ -228,29 +228,57 @@ _Spacelift UI: Intent Projects, locking projects and resources list_
 
 Policies are your guardrails. Create a policy in **Policies** and attach it to your project. A simple example:
 
-```rego
-package spacelift
+=== "Rego v1"
+    ```rego
+    package spacelift
 
-sample := true
+    sample := true
 
-# Deny any resource that isn't an S3 bucket
-deny contains message if {
-  input.resource.resource_type != "aws_s3_bucket"
-  message := sprintf(
-    "Only aws_s3_bucket resources are allowed. Resource type %q is not permitted",
-    [input.resource.resource_type],
-  )
-}
+    # Deny any resource that isn't an S3 bucket
+    deny contains message if {
+      input.resource.resource_type != "aws_s3_bucket"
+      message := sprintf(
+        "Only aws_s3_bucket resources are allowed. Resource type %q is not permitted",
+        [input.resource.resource_type],
+      )
+    }
 
-# Allow all operations on S3 buckets
-allow contains message if {
-  input.resource.resource_type == "aws_s3_bucket"
-  message := sprintf(
-    "Operation %q on aws_s3_bucket is allowed",
-    [input.resource.operation],
-  )
-}
-```
+    # Allow all operations on S3 buckets
+    allow contains message if {
+      input.resource.resource_type == "aws_s3_bucket"
+      message := sprintf(
+        "Operation %q on aws_s3_bucket is allowed",
+        [input.resource.operation],
+      )
+    }
+    ```
+
+=== "Rego v0"
+    ```rego
+    package spacelift
+
+    import rego.v1
+
+    sample = true
+
+    # Deny any resource that isn't an S3 bucket
+    deny contains message if {
+      input.resource.resource_type != "aws_s3_bucket"
+      message := sprintf(
+        "Only aws_s3_bucket resources are allowed. Resource type %q is not permitted",
+        [input.resource.resource_type],
+      )
+    }
+
+    # Allow all operations on S3 buckets
+    allow contains message if {
+      input.resource.resource_type == "aws_s3_bucket"
+      message := sprintf(
+        "Operation %q on aws_s3_bucket is allowed",
+        [input.resource.operation],
+      )
+    }
+    ```
 
 ![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/create-policy.png)  
 _Spacelift UI: Creating your first Intent policy_

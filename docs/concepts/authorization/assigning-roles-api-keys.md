@@ -48,195 +48,391 @@ Refer to [Spacelift Terraform provider documentation](https://registry.terraform
     3. Understanding of OPA/Rego policy language.
 2. Use the `roles` rule to assign roles to users:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# Allow API key login
-allow if input.session.login == "api-key-name"
+    # Allow API key login
+    allow if input.session.login == "api-key-name"
 
-# Assign role to API key
-roles[space] contains role_id if input.session.login == "api-key-name"
-```
+    # Assign role to API key
+    roles[space] contains role_id if input.session.login == "api-key-name"
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Allow API key login
+    allow {
+        input.session.login == "api-key-name"
+    }
+
+    # Assign role to API key
+    roles[space][role_id] {
+        input.session.login == "api-key-name"
+    }
+    ```
 
 #### By key name
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Assign role to specific API key
-roles["production"] contains "deployer-role-id" if {
-    input.session.login == "ci-cd-production"
-}
+    # Assign role to specific API key
+    roles["production"] contains "deployer-role-id" if {
+        input.session.login == "ci-cd-production"
+    }
 
-roles["infrastructure"] contains "provisioner-role-id" if {
-    input.session.login == "terraform-automation"
-}
-```
+    roles["infrastructure"] contains "provisioner-role-id" if {
+        input.session.login == "terraform-automation"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Assign role to specific API key
+    roles["production"]["deployer-role-id"] {
+        input.session.login == "ci-cd-production"
+    }
+
+    roles["infrastructure"]["provisioner-role-id"] {
+        input.session.login == "terraform-automation"
+    }
+    ```
 
 #### By key pattern
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Assign roles based on key naming patterns
-roles["production"] contains "deployer-role-id" if {
-    startswith(input.session.login, "ci-cd-")
-}
+    # Assign roles based on key naming patterns
+    roles["production"] contains "deployer-role-id" if {
+        startswith(input.session.login, "ci-cd-")
+    }
 
-roles["monitoring"] contains "reader-role-id" if {
-    endswith(input.session.login, "-monitoring")
-}
-```
+    roles["monitoring"] contains "reader-role-id" if {
+        endswith(input.session.login, "-monitoring")
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Assign roles based on key naming patterns
+    roles["production"]["deployer-role-id"] {
+        startswith(input.session.login, "ci-cd-")
+    }
+
+    roles["monitoring"]["reader-role-id"] {
+        endswith(input.session.login, "-monitoring")
+    }
+    ```
 
 #### Separate keys per environment
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Development environment keys
-roles["development"] contains "full-deployer-role-id" if {
-    environment_keys := {
-        "ci-cd-dev",
-        "terraform-dev",
-        "automation-dev"
+    # Development environment keys
+    roles["development"] contains "full-deployer-role-id" if {
+        environment_keys := {
+            "ci-cd-dev",
+            "terraform-dev",
+            "automation-dev"
+        }
+        environment_keys[input.session.login]
     }
-    environment_keys[input.session.login]
-}
 
-# Production environment keys (more restrictive)
-roles["production"] contains "limited-deployer-role-id" if {
-    production_keys := {
-        "ci-cd-prod",
-        "terraform-prod"
+    # Production environment keys (more restrictive)
+    roles["production"] contains "limited-deployer-role-id" if {
+        production_keys := {
+            "ci-cd-prod",
+            "terraform-prod"
+        }
+        production_keys[input.session.login]
     }
-    production_keys[input.session.login]
-}
-```
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Development environment keys
+    roles["development"]["full-deployer-role-id"] {
+        environment_keys := {
+            "ci-cd-dev",
+            "terraform-dev",
+            "automation-dev"
+        }
+        environment_keys[input.session.login]
+    }
+
+    # Production environment keys (more restrictive)
+    roles["production"]["limited-deployer-role-id"] {
+        production_keys := {
+            "ci-cd-prod",
+            "terraform-prod"
+        }
+        production_keys[input.session.login]
+    }
+    ```
 
 #### Multi-environment keys
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Keys that work across multiple environments
-roles[space] contains "cross-env-role-id" if {
-    cross_env_keys := {"backup-service", "monitoring-agent"}
-    cross_env_keys[input.session.login]
+    # Keys that work across multiple environments
+    roles[space] contains "cross-env-role-id" if {
+        cross_env_keys := {"backup-service", "monitoring-agent"}
+        cross_env_keys[input.session.login]
 
-    # Define allowed spaces
-    allowed_spaces := {"development", "staging", "production"}
-    allowed_spaces[space]
-}
-```
+        # Define allowed spaces
+        allowed_spaces := {"development", "staging", "production"}
+        allowed_spaces[space]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Keys that work across multiple environments
+    roles[space]["cross-env-role-id"] {
+        cross_env_keys := {"backup-service", "monitoring-agent"}
+        cross_env_keys[input.session.login]
+
+        # Define allowed spaces
+        allowed_spaces := {"development", "staging", "production"}
+        allowed_spaces[space]
+    }
+    ```
 
 #### CI/CD pipeline keys
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# GitHub Actions deployment key
-roles["applications"] contains "github-deployer-role-id" if {
-    input.session.login == "github-actions-deploy"
-}
+    # GitHub Actions deployment key
+    roles["applications"] contains "github-deployer-role-id" if {
+        input.session.login == "github-actions-deploy"
+    }
 
-# GitLab CI deployment key
-roles["applications"] contains "gitlab-deployer-role-id" if {
-    input.session.login == "gitlab-ci-deploy"
-}
+    # GitLab CI deployment key
+    roles["applications"] contains "gitlab-deployer-role-id" if {
+        input.session.login == "gitlab-ci-deploy"
+    }
 
-# Jenkins deployment key
-roles["applications"] contains "jenkins-deployer-role-id" if {
-    input.session.login == "jenkins-deploy"
-}
-```
+    # Jenkins deployment key
+    roles["applications"] contains "jenkins-deployer-role-id" if {
+        input.session.login == "jenkins-deploy"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # GitHub Actions deployment key
+    roles["applications"]["github-deployer-role-id"] {
+        input.session.login == "github-actions-deploy"
+    }
+
+    # GitLab CI deployment key
+    roles["applications"]["gitlab-deployer-role-id"] {
+        input.session.login == "gitlab-ci-deploy"
+    }
+
+    # Jenkins deployment key
+    roles["applications"]["jenkins-deployer-role-id"] {
+        input.session.login == "jenkins-deploy"
+    }
+    ```
 
 #### Infrastructure tools
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Terraform Cloud integration
-roles["infrastructure"] contains "terraform-cloud-role-id" if {
-    input.session.login == "terraform-cloud-integration"
-}
+    # Terraform Cloud integration
+    roles["infrastructure"] contains "terraform-cloud-role-id" if {
+        input.session.login == "terraform-cloud-integration"
+    }
 
-# Ansible automation
-roles["configuration"] contains "ansible-role-id" if {
-    input.session.login == "ansible-automation"
-}
+    # Ansible automation
+    roles["configuration"] contains "ansible-role-id" if {
+        input.session.login == "ansible-automation"
+    }
 
-# Kubernetes operator
-roles["kubernetes"] contains "k8s-operator-role-id" if {
-    input.session.login == "k8s-spacelift-operator"
-}
-```
+    # Kubernetes operator
+    roles["kubernetes"] contains "k8s-operator-role-id" if {
+        input.session.login == "k8s-spacelift-operator"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Terraform Cloud integration
+    roles["infrastructure"]["terraform-cloud-role-id"] {
+        input.session.login == "terraform-cloud-integration"
+    }
+
+    # Ansible automation
+    roles["configuration"]["ansible-role-id"] {
+        input.session.login == "ansible-automation"
+    }
+
+    # Kubernetes operator
+    roles["kubernetes"]["k8s-operator-role-id"] {
+        input.session.login == "k8s-spacelift-operator"
+    }
+    ```
 
 #### Conditional API key access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow if input.session.member
+    allow if input.session.member
 
-# Time-based API key restrictions
-roles["production"] contains "time-limited-role-id" if {
-    input.session.login == "scheduled-deployment"
-    is_deployment_window
-}
+    # Time-based API key restrictions
+    roles["production"] contains "time-limited-role-id" if {
+        input.session.login == "scheduled-deployment"
+        is_deployment_window
+    }
 
-# Helper rule for deployment windows
-is_deployment_window if {
-    now := input.request.timestamp_ns
-    clock := time.clock([now, "UTC"])
+    # Helper rule for deployment windows
+    is_deployment_window if {
+        now := input.request.timestamp_ns
+        clock := time.clock([now, "UTC"])
 
-    # Allow deployments only during maintenance window
-    # Tuesday and Thursday, 2-4 AM UTC
-    weekday := time.weekday(now)
-    maintenance_days := {"Tuesday", "Thursday"}
-    maintenance_days[weekday]
+        # Allow deployments only during maintenance window
+        # Tuesday and Thursday, 2-4 AM UTC
+        weekday := time.weekday(now)
+        maintenance_days := {"Tuesday", "Thursday"}
+        maintenance_days[weekday]
 
-    clock[0] >= 2
-    clock[0] <= 4
-}
-```
+        clock[0] >= 2
+        clock[0] <= 4
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Time-based API key restrictions
+    roles["production"]["time-limited-role-id"] {
+        input.session.login == "scheduled-deployment"
+        is_deployment_window
+    }
+
+    # Helper rule for deployment windows
+    is_deployment_window {
+        now := input.request.timestamp_ns
+        clock := time.clock([now, "UTC"])
+
+        # Allow deployments only during maintenance window
+        # Tuesday and Thursday, 2-4 AM UTC
+        weekday := time.weekday(now)
+        maintenance_days := {"Tuesday", "Thursday"}
+        maintenance_days[weekday]
+
+        clock[0] >= 2
+        clock[0] <= 4
+    }
+    ```
 
 #### IP-restricted API keys
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# API keys restricted to specific networks
-roles["production"] contains "secure-deployer-role-id" if {
-    secure_keys := {"production-deploy", "critical-automation"}
-    secure_keys[input.session.login]
+    # API keys restricted to specific networks
+    roles["production"] contains "secure-deployer-role-id" if {
+        secure_keys := {"production-deploy", "critical-automation"}
+        secure_keys[input.session.login]
 
-    # Only allow from secure networks
-    is_secure_network
-}
-
-is_secure_network if {
-    secure_cidrs := {
-        "10.0.0.0/8",        # Corporate network
-        "192.168.100.0/24"   # Secure CI/CD subnet
+        # Only allow from secure networks
+        is_secure_network
     }
-    some cidr in secure_cidrs
-    net.cidr_contains(cidr, input.request.remote_ip)
-}
-```
+
+    is_secure_network if {
+        secure_cidrs := {
+            "10.0.0.0/8",        # Corporate network
+            "192.168.100.0/24"   # Secure CI/CD subnet
+        }
+        some cidr in secure_cidrs
+        net.cidr_contains(cidr, input.request.remote_ip)
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # API keys restricted to specific networks
+    roles["production"]["secure-deployer-role-id"] {
+        secure_keys := {"production-deploy", "critical-automation"}
+        secure_keys[input.session.login]
+
+        # Only allow from secure networks
+        is_secure_network
+    }
+
+    is_secure_network {
+        secure_cidrs := {
+            "10.0.0.0/8",        # Corporate network
+            "192.168.100.0/24"   # Secure CI/CD subnet
+        }
+        secure_cidrs[cidr]
+        net.cidr_contains(cidr, input.request.remote_ip)
+    }
+    ```
 
 ### Assign roles to API keys using IdP groups
 

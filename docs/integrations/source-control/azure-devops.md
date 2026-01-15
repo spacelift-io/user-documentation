@@ -129,16 +129,31 @@ The summary will look like this:
 
 For Spacelift to be able to send checks to pull requests, it has to include an iteration ID as part of the check. This information is only available on pull request events. To make this work, please make sure the push policy triggers proposed runs from pull request events, like in the example below. The default push policy does not guarantee that.
 
-```rego
-propose if affected_pr
+=== "Rego v1"
+    ```rego
+    propose if affected_pr
 
-affected_pr if {
-    some filepath in input.pull_request.diff
-    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
-}
+    affected_pr if {
+        some filepath in input.pull_request.diff
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
 
-normalize_path(path) := trim(path, "/")
-```
+    normalize_path(path) := trim(path, "/")
+    ```
+
+=== "Rego v0"
+    ```rego
+    propose {
+        affected_pr
+    }
+
+    affected_pr {
+        filepath := input.pull_request.diff[_]
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
+
+    normalize_path(path) := trim(path, "/")
+    ```
 
 ## Delete the integration
 

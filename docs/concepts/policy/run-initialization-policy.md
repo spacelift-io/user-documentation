@@ -16,11 +16,21 @@ They look like [plan policies](terraform-plan-policy.md) in that they affect exi
 
 Let's create a simple initialization policy, attach it to a stack, and see what it does:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny contains "you shall not pass" if true
-```
+    deny contains "you shall not pass" if true
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["you shall not pass"] {
+      true
+    }
+    ```
 
 This policy results in:
 
@@ -129,28 +139,53 @@ Although Spacelift is specialized, you can run custom code before the Terraform 
 
 Initialization policies can help you avoid unwanted runs. That's where initialization policies can help. This example policy explicitly blocklists all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts and adds a single exception for a formatting check:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny contains sprintf("don't use Terraform please (%s)", [command]) if {
-  some command in input.run.runtime_config.before_init
+    deny contains sprintf("don't use Terraform please (%s)", [command]) if {
+      some command in input.run.runtime_config.before_init
 
-  contains(command, "terraform")
-  command != "terraform fmt -check"
-}
-```
+      contains(command, "terraform")
+      command != "terraform fmt -check"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny[sprintf("don't use Terraform please (%s)", [command])] {
+      command := input.run.runtime_config.before_init[_]
+
+      contains(command, "terraform")
+      command != "terraform fmt -check"
+    }
+    ```
 
 What if someone, to get around this policy, creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? You have two choices: replace a blocklist with an allowlist, or make sure that a known good Docker is used to execute the run. Here's an example:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny contains sprintf("unexpected runner image (%s)", [image]) if {
-  image := input.run.runtime_config.runner_image
+    deny contains sprintf("unexpected runner image (%s)", [image]) if {
+      image := input.run.runtime_config.runner_image
 
-  image != "spacelift/runner:latest"
-}
-```
+      image != "spacelift/runner:latest"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny[sprintf("unexpected runner image (%s)", [image])] {
+      image := input.run.runtime_config.runner_image
+
+      image != "spacelift/runner:latest"
+    }
+    ```
 
 !!! danger
     If you're using an image other than what Spacelift controls, you'll be responsible for ensuring that the attacker can't push bad code to your Docker repo.
@@ -161,31 +196,59 @@ Run initialization policies can also be used enforce best practices, ensuring th
 
 One of the above examples explicitly allowlisted an OpenTofu/Terraform formatting check. This example policy ensures that command always gets executed first. Per the [Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"}, this check is most elegantly defined as a _negation_ of another rule matching the required state of affairs:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny contains "please always run formatting check first" if not formatting_first
+    deny contains "please always run formatting check first" if not formatting_first
 
-formatting_first if {
-  input.run.runtime_config.before_init[i] == "terraform fmt -check"
-  i == 0
-}
-```
+    formatting_first if {
+      input.run.runtime_config.before_init[i] == "terraform fmt -check"
+      i == 0
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["please always run formatting check first"] {
+      not formatting_first
+    }
+
+    formatting_first {
+      input.run.runtime_config.before_init[i] == "terraform fmt -check"
+      i == 0
+    }
+    ```
 
 ### Enforce feature branch naming convention
 
 Now let's enforce a feature branch naming convention. We'll keep this example simple, requiring that feature branches start with either `feature/` or `fix/`, but you can require references to Jira tickets or even look at commit messages:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny contains sprintf("invalid feature branch name (%s)", [branch]) if {
-  branch := input.commit.branch
+    deny contains sprintf("invalid feature branch name (%s)", [branch]) if {
+      branch := input.commit.branch
 
-  input.run.type == "PROPOSED"
-  not re_match("^(fix|feature)\/.*", branch)
-}
-```
+      input.run.type == "PROPOSED"
+      not re_match("^(fix|feature)\/.*", branch)
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny[sprintf("invalid feature branch name (%s)", [branch])] {
+      branch := input.commit.branch
+
+      input.run.type == "PROPOSED"
+      not re_match("^(fix|feature)\/.*", branch)
+    }
+    ```
 
 ## Migration guide
 
@@ -193,53 +256,107 @@ A run initialization policy can be expressed as an [approval policy](./approval-
 
 ### Enforcing OpenTofu/Terraform check
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject if not formatting_first
+    reject if not formatting_first
 
-approve if not reject
+    approve if not reject
 
-formatting_first if {
-  input.run.runtime_config.before_init[i] == "terraform fmt -check"
-  i == 0
-}
-```
+    formatting_first if {
+      input.run.runtime_config.before_init[i] == "terraform fmt -check"
+      i == 0
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject { not formatting_first}
+
+    approve { not reject }
+
+    formatting_first {
+      input.run.runtime_config.before_init[i] == "terraform fmt -check"
+      i == 0
+    }
+    ```
 
 ### Disallowing before-init OpenTofu/Terraform commands other than formatting
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject if {
-  some command in input.run.runtime_config.before_init
-  contains(command, "terraform")
-  command != "terraform fmt -check"
-}
+    reject if {
+      some command in input.run.runtime_config.before_init
+      contains(command, "terraform")
+      command != "terraform fmt -check"
+    }
 
-approve if not reject
-```
+    approve if not reject
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject {
+      command := input.run.runtime_config.before_init[_]
+      contains(command, "terraform"); command != "terraform fmt -check"
+    }
+
+    approve { not reject }
+    ```
 
 ### Enforcing runner image
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject if input.run.runtime_config.runner_image != "spacelift/runner:latest"
+    reject if input.run.runtime_config.runner_image != "spacelift/runner:latest"
 
-approve if not reject
-```
+    approve if not reject
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject {
+      input.run.runtime_config.runner_image != "spacelift/runner:latest"
+    }
+
+    approve { not reject }
+    ```
 
 ### Enforcing feature branch naming convention
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject if {
-  branch := input.run.commit.branch
-  input.run.type == "PROPOSED"
-  not re_match("^(fix|feature)\/.*", branch)
-}
+    reject if {
+      branch := input.run.commit.branch
+      input.run.type == "PROPOSED"
+      not re_match("^(fix|feature)\/.*", branch)
+    }
 
-approve if not reject
-```
+    approve if not reject
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject {
+      branch := input.run.commit.branch
+      input.run.type == "PROPOSED"
+      not re_match("^(fix|feature)\/.*", branch)
+    }
+
+    approve { not reject }
+    ```

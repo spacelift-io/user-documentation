@@ -120,38 +120,64 @@ Access policies must be attached to a stack or a module to take effect.
 
 In this policy, every member of the engineering team gets **read** access:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-read if {
-  some team in input.session.teams
-  team == "Engineering"
-}
-```
+    read if {
+      some team in input.session.teams
+      team == "Engineering"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    read { input.session.teams[_] == "Engineering" }
+    ```
 
 ### Write only in-office during business hours
 
 In this policy, **write** access is only provided to users that are in the office (using the office's IP address range) during business hours (9 to 5, weekdays). Write access is restricted in other cases. This policy is best combined with one that gives **read** access.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-now := input.request.timestamp_ns
-clock := time.clock([now, "America/Los_Angeles"])
-weekend := {"Saturday", "Sunday"}
-weekday := time.weekday(now)
-ip := input.request.remote_ip
+    now := input.request.timestamp_ns
+    clock := time.clock([now, "America/Los_Angeles"])
+    weekend := {"Saturday", "Sunday"}
+    weekday := time.weekday(now)
+    ip := input.request.remote_ip
 
-write if {
-  some team in input.session.teams
-  team == "Product team"
-}
+    write if {
+      some team in input.session.teams
+      team == "Product team"
+    }
 
-deny_write if weekend[weekday]
-deny_write if clock[0] < 9
-deny_write if clock[0] > 17
-deny_write if not net.cidr_contains("12.34.56.0/24", ip)
-```
+    deny_write if weekend[weekday]
+    deny_write if clock[0] < 9
+    deny_write if clock[0] > 17
+    deny_write if not net.cidr_contains("12.34.56.0/24", ip)
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    now     := input.request.timestamp_ns
+    clock   := time.clock([now, "America/Los_Angeles"])
+    weekend := { "Saturday", "Sunday" }
+    weekday := time.weekday(now)
+    ip      := input.request.remote_ip
+
+    write      { input.session.teams[_] == "Product team" }
+    deny_write { weekend[weekday] }
+    deny_write { clock[0] < 9 }
+    deny_write { clock[0] > 17 }
+    deny_write { not net.cidr_contains("12.34.56.0/24", ip) }
+    ```
 
 ### Protect administrative stacks
 
@@ -160,8 +186,16 @@ deny_write if not net.cidr_contains("12.34.56.0/24", ip)
 
 [Administrative](../stack/README.md) stacks are powerful. Having **write** access to one is almost as good as being an **admin**, as you can define and attach [contexts](../configuration/context.md) and [policies](./README.md). In this policy, we deny **write** access to administrative stacks entirely. This works since access policies are not evaluated for **admin** users.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny_write if input.stack.administrative
-```
+    deny_write if input.stack.administrative
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny_write { input.stack.administrative }
+    ```
