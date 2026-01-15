@@ -54,26 +54,52 @@ Refer to [Spacelift Terraform provider documentation](https://registry.terraform
 
 #### RBAC role assignment
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# Basic login permissions
-allow { input.session.member }
+    # Basic login permissions
+    allow if input.session.member
 
-# Assign RBAC roles using role slugs
-roles["space-id"]["developer-role-slug"] {
-    input.session.teams[_] == "Frontend"
-}
+    # Assign RBAC roles using role slugs
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        team == "Frontend"
+    }
 
-roles["space-id"]["platform-engineer-role-slug"] {
-    input.session.teams[_] == "DevOps"
-}
+    roles["space-id"] contains "platform-engineer-role-slug" if {
+        some team in input.session.teams
+        team == "DevOps"
+    }
 
-# Assign admin role for root space
-roles["root"]["space-admin-role-slug"] {
-    input.session.teams[_] == "Admin"
-}
-```
+    # Assign admin role for root space
+    roles["root"] contains "space-admin-role-slug" if {
+        some team in input.session.teams
+        team == "Admin"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Basic login permissions
+    allow { input.session.member }
+
+    # Assign RBAC roles using role slugs
+    roles["space-id"]["developer-role-slug"] {
+        input.session.teams[_] == "Frontend"
+    }
+
+    roles["space-id"]["platform-engineer-role-slug"] {
+        input.session.teams[_] == "DevOps"
+    }
+
+    # Assign admin role for root space
+    roles["root"]["space-admin-role-slug"] {
+        input.session.teams[_] == "Admin"
+    }
+    ```
 
 If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
 
@@ -81,124 +107,250 @@ However, the space's creator immediately has access to it.
 
 #### Individual user assignment
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Assign platform engineer role to specific user
-roles["infrastructure"]["platform-engineer-role-id"] {
-    input.session.login == "alice@company.com"
-}
+    # Assign platform engineer role to specific user
+    roles["infrastructure"] contains "platform-engineer-role-id" if {
+        input.session.login == "alice@company.com"
+    }
 
-# Assign multiple roles to same user
-roles["development"]["developer-role-id"] {
-    input.session.login == "alice@company.com"
-}
+    # Assign multiple roles to same user
+    roles["development"] contains "developer-role-id" if {
+        input.session.login == "alice@company.com"
+    }
 
-roles["staging"]["developer-role-id"] {
-    input.session.login == "alice@company.com"
-}
-```
+    roles["staging"] contains "developer-role-id" if {
+        input.session.login == "alice@company.com"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Assign platform engineer role to specific user
+    roles["infrastructure"]["platform-engineer-role-id"] {
+        input.session.login == "alice@company.com"
+    }
+
+    # Assign multiple roles to same user
+    roles["development"]["developer-role-id"] {
+        input.session.login == "alice@company.com"
+    }
+
+    roles["staging"]["developer-role-id"] {
+        input.session.login == "alice@company.com"
+    }
+    ```
 
 #### Multiple users with same role
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Define user set
-senior_engineers := {
-    "alice@company.com",
-    "bob@company.com",
-    "charlie@company.com"
-}
+    # Define user set
+    senior_engineers := {
+        "alice@company.com",
+        "bob@company.com",
+        "charlie@company.com"
+    }
 
-# Assign role to all users in set
-roles["production"]["senior-developer-role-id"] {
-    senior_engineers[input.session.login]
-}
-```
+    # Assign role to all users in set
+    roles["production"] contains "senior-developer-role-id" if {
+        senior_engineers[input.session.login]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Define user set
+    senior_engineers := {
+        "alice@company.com",
+        "bob@company.com",
+        "charlie@company.com"
+    }
+
+    # Assign role to all users in set
+    roles["production"]["senior-developer-role-id"] {
+        senior_engineers[input.session.login]
+    }
+    ```
 
 #### Environment-based access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Junior developers: development only
-roles["development"]["developer-role-id"] {
-    input.session.teams[_] == "Junior-Developers"
-}
+    # Junior developers: development only
+    roles["development"] contains "developer-role-id" if {
+        some team in input.session.teams
+        team == "Junior-Developers"
+    }
 
-# Senior developers: development + staging
-roles[space]["developer-role-id"] {
-    input.session.teams[_] == "Senior-Developers"
-    environment_spaces := {"development", "staging"}
-    environment_spaces[space]
-}
+    # Senior developers: development + staging
+    roles[space] contains "developer-role-id" if {
+        some team in input.session.teams
+        team == "Senior-Developers"
+        environment_spaces := {"development", "staging"}
+        environment_spaces[space]
+    }
 
-# Lead developers: all environments
-roles[space]["lead-developer-role-id"] {
-    input.session.teams[_] == "Lead-Developers"
-    all_spaces := {"development", "staging", "production"}
-    all_spaces[space]
-}
-```
+    # Lead developers: all environments
+    roles[space] contains "lead-developer-role-id" if {
+        some team in input.session.teams
+        team == "Lead-Developers"
+        all_spaces := {"development", "staging", "production"}
+        all_spaces[space]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Junior developers: development only
+    roles["development"]["developer-role-id"] {
+        input.session.teams[_] == "Junior-Developers"
+    }
+
+    # Senior developers: development + staging
+    roles[space]["developer-role-id"] {
+        input.session.teams[_] == "Senior-Developers"
+        environment_spaces := {"development", "staging"}
+        environment_spaces[space]
+    }
+
+    # Lead developers: all environments
+    roles[space]["lead-developer-role-id"] {
+        input.session.teams[_] == "Lead-Developers"
+        all_spaces := {"development", "staging", "production"}
+        all_spaces[space]
+    }
+    ```
 
 #### Time-based access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Production access only during business hours
-roles["production"]["prod-deployer-role-id"] {
-    input.session.teams[_] == "SRE"
-    is_business_hours
-}
+    # Production access only during business hours
+    roles["production"] contains "prod-deployer-role-id" if {
+        some team in input.session.teams
+        team == "SRE"
+        is_business_hours
+    }
 
-# Helper rule for business hours
-is_business_hours {
-    now := input.request.timestamp_ns
-    clock := time.clock([now, "America/Los_Angeles"])
-    weekday := time.weekday(now)
+    # Helper rule for business hours
+    is_business_hours if {
+        now := input.request.timestamp_ns
+        clock := time.clock([now, "America/Los_Angeles"])
+        weekday := time.weekday(now)
 
-    # Monday through Friday, 9 AM to 5 PM
-    not weekend[weekday]
-    clock[0] >= 9
-    clock[0] <= 17
-}
+        # Monday through Friday, 9 AM to 5 PM
+        not weekend[weekday]
+        clock[0] >= 9
+        clock[0] <= 17
+    }
 
-weekend := {"Saturday", "Sunday"}
-```
+    weekend := {"Saturday", "Sunday"}
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Production access only during business hours
+    roles["production"]["prod-deployer-role-id"] {
+        input.session.teams[_] == "SRE"
+        is_business_hours
+    }
+
+    # Helper rule for business hours
+    is_business_hours {
+        now := input.request.timestamp_ns
+        clock := time.clock([now, "America/Los_Angeles"])
+        weekday := time.weekday(now)
+
+        # Monday through Friday, 9 AM to 5 PM
+        not weekend[weekday]
+        clock[0] >= 9
+        clock[0] <= 17
+    }
+
+    weekend := {"Saturday", "Sunday"}
+    ```
 
 #### IP-based access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Sensitive operations only from office network
-roles["production"]["admin-role-id"] {
-    input.session.teams[_] == "DevOps"
-    is_office_network
-}
-
-# Helper rule for office network
-is_office_network {
-    office_networks := {
-        "192.168.1.0/24",
-        "10.0.0.0/8"
+    # Sensitive operations only from office network
+    roles["production"] contains "admin-role-id" if {
+        some team in input.session.teams
+        team == "DevOps"
+        is_office_network
     }
-    office_networks[network]
-    net.cidr_contains(network, input.request.remote_ip)
-}
-```
+
+    # Helper rule for office network
+    is_office_network if {
+        office_networks := {
+            "192.168.1.0/24",
+            "10.0.0.0/8"
+        }
+        some network in office_networks
+        net.cidr_contains(network, input.request.remote_ip)
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Sensitive operations only from office network
+    roles["production"]["admin-role-id"] {
+        input.session.teams[_] == "DevOps"
+        is_office_network
+    }
+
+    # Helper rule for office network
+    is_office_network {
+        office_networks := {
+            "192.168.1.0/24",
+            "10.0.0.0/8"
+        }
+        office_networks[network]
+        net.cidr_contains(network, input.request.remote_ip)
+    }
+    ```
 
 ### Assigning roles to users via IdP groups
 

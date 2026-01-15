@@ -180,45 +180,88 @@ In this example, each Unconfirmed run (including proposed runs triggered by Git 
 !!! info
     We suggest requiring more than one review because one approval should come from the run/commit author to indicate that they're aware of what they're doing, especially if their VCS handle is different than their IdP handle. This is something [we practice internally at Spacelift](https://spacelift.io/blog/flexible-backoffice-tool-using-slack){: rel="nofollow"}.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-approve { input.run.state != "UNCONFIRMED" }
+    approve if input.run.state != "UNCONFIRMED"
 
-approve {
-  count(input.reviews.current.approvals) > 1
-  count(input.reviews.current.rejections) == 0
-}
-```
+    approve if {
+      count(input.reviews.current.approvals) > 1
+      count(input.reviews.current.rejections) == 0
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    approve { input.run.state != "UNCONFIRMED" }
+
+    approve {
+      count(input.reviews.current.approvals) > 1
+      count(input.reviews.current.rejections) == 0
+    }
+    ```
 
 ### Two to approve, two to reject
 
 This is a variation of the above policy that will automatically fail any run that receives more than one rejection.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-approve { input.run.state != "UNCONFIRMED" }
-approve { count(input.reviews.current.approvals) > 1 }
-reject  { count(input.reviews.current.rejections) > 1 }
-```
+    approve if input.run.state != "UNCONFIRMED"
+    approve if count(input.reviews.current.approvals) > 1
+    reject if count(input.reviews.current.rejections) > 1
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    approve { input.run.state != "UNCONFIRMED" }
+    approve { count(input.reviews.current.approvals) > 1 }
+    reject  { count(input.reviews.current.rejections) > 1 }
+    ```
 
 ### Require approval for a task command not on the allowlist
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allowlist := ["ps", "ls", "rm -rf /"]
+    allowlist := ["ps", "ls", "rm -rf /"]
 
-# Approve when not a task.
-approve { input.run.type != "TASK" }
+    # Approve when not a task.
+    approve if input.run.type != "TASK"
 
-# Approve when allowlisted.
-approve { input.run.command == allowlist[_] }
+    # Approve when allowlisted.
+    approve if {
+      some cmd in allowlist
+      input.run.command == cmd
+    }
 
-# Approve with two or more approvals.
-approve { count(input.reviews.current.approvals) > 1 }
-```
+    # Approve with two or more approvals.
+    approve if count(input.reviews.current.approvals) > 1
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allowlist := ["ps", "ls", "rm -rf /"]
+
+    # Approve when not a task.
+    approve { input.run.type != "TASK" }
+
+    # Approve when allowlisted.
+    approve { input.run.command == allowlist[_] }
+
+    # Approve with two or more approvals.
+    approve { count(input.reviews.current.approvals) > 1 }
+    ```
 
 Options for input.run.type include `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DESTROY`.
 
@@ -226,69 +269,149 @@ Options for input.run.type include `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DE
 
 Usually, you will apply different rules to different types of jobs. Since approval policies are attached to stacks, you'll want to be smart about how you combine different rules. Here's how you can combine two of the above approval flows as an example:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# First, define all conditions that require explicit
-# user approval.
-requires_approval { input.run.state == "UNCONFIRMED" }
-requires_approval { input.run.type == "TASK" }
+    # First, define all conditions that require explicit
+    # user approval.
+    requires_approval if input.run.state == "UNCONFIRMED"
+    requires_approval if input.run.type == "TASK"
 
-# Then, automatically approve all other jobs.
-approve { not requires_approval }
+    # Then, automatically approve all other jobs.
+    approve if not requires_approval
 
-# Autoapprove some task commands. We don't check for run type
-# because only tasks will the have "command" field set.
-task_allowlist := ["ps", "ls", "rm -rf /"]
-approve { input.run.command == task_allowlist[_] }
+    # Autoapprove some task commands. We don't check for run type
+    # because only tasks will the have "command" field set.
+    task_allowlist := ["ps", "ls", "rm -rf /"]
 
-# Two approvals and no rejections to approve.
-approve {
-  count(input.reviews.current.approvals) > 1
-  count(input.reviews.current.rejections) == 0
-}
-```
+    approve if {
+      some cmd in task_allowlist
+      input.run.command == cmd
+    }
+
+    # Two approvals and no rejections to approve.
+    approve if {
+      count(input.reviews.current.approvals) > 1
+      count(input.reviews.current.rejections) == 0
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # First, define all conditions that require explicit
+    # user approval.
+    requires_approval { input.run.state == "UNCONFIRMED" }
+    requires_approval { input.run.type == "TASK" }
+
+    # Then, automatically approve all other jobs.
+    approve { not requires_approval }
+
+    # Autoapprove some task commands. We don't check for run type
+    # because only tasks will the have "command" field set.
+    task_allowlist := ["ps", "ls", "rm -rf /"]
+    approve { input.run.command == task_allowlist[_] }
+
+    # Two approvals and no rejections to approve.
+    approve {
+      count(input.reviews.current.approvals) > 1
+      count(input.reviews.current.rejections) == 0
+    }
+    ```
 
 ### Role-based approval
 
 Sometimes you want to give specific roles (but not others) the power to approve certain workloads. The policy below approves an unconfirmed run or a task when either a Director approves it, or **both** DevOps and Security roles approve it:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# First, define all conditions that require explicit
-# user approval.
-requires_approval { input.run.state == "UNCONFIRMED" }
-requires_approval { input.run.type == "TASK" }
-approve           { not requires_approval }
+    # First, define all conditions that require explicit
+    # user approval.
+    requires_approval if input.run.state == "UNCONFIRMED"
+    requires_approval if input.run.type == "TASK"
+    approve if not requires_approval
 
-approvals := input.reviews.current.approvals
+    approvals := input.reviews.current.approvals
 
-# Define what it means to be approved by a Director, DevOps and Security.
-director_approval { approvals[_].session.teams[_] == "Director" }
-devops_approval   { approvals[_].session.teams[_] == "DevOps" }
-security_approval { approvals[_].session.teams[_] == "Security" }
+    # Define what it means to be approved by a Director, DevOps and Security.
+    director_approval if {
+      some approval in approvals
+      some team in approval.session.teams
+      team == "Director"
+    }
 
-# Approve when a single Director approves:
-approve { director_approval }
+    devops_approval if {
+      some approval in approvals
+      some team in approval.session.teams
+      team == "DevOps"
+    }
 
-# Approve when both DevOps and Security approve:
-approve { devops_approval; security_approval }
-```
+    security_approval if {
+      some approval in approvals
+      some team in approval.session.teams
+      team == "Security"
+    }
+
+    # Approve when a single Director approves:
+    approve if director_approval
+
+    # Approve when both DevOps and Security approve:
+    approve if { devops_approval; security_approval }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # First, define all conditions that require explicit
+    # user approval.
+    requires_approval { input.run.state == "UNCONFIRMED" }
+    requires_approval { input.run.type == "TASK" }
+    approve           { not requires_approval }
+
+    approvals := input.reviews.current.approvals
+
+    # Define what it means to be approved by a Director, DevOps and Security.
+    director_approval { approvals[_].session.teams[_] == "Director" }
+    devops_approval   { approvals[_].session.teams[_] == "DevOps" }
+    security_approval { approvals[_].session.teams[_] == "Security" }
+
+    # Approve when a single Director approves:
+    approve { director_approval }
+
+    # Approve when both DevOps and Security approve:
+    approve { devops_approval; security_approval }
+    ```
 
 ### Require private worker pool
 
 You might want to ensure that your runs are always scheduled on a [private worker pool](../worker-pools/README.md#private-worker-pool). You could use an approval policy similar to this ones:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# Approve any runs on private workers
-approve { not input.stack.worker_pool.public }
+    # Approve any runs on private workers
+    approve if not input.stack.worker_pool.public
 
-# Reject any runs on public workers
-reject { input.stack.worker_pool.public }
-```
+    # Reject any runs on public workers
+    reject if input.stack.worker_pool.public
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Approve any runs on private workers
+    approve { not input.stack.worker_pool.public }
+
+    # Reject any runs on public workers
+    reject { input.stack.worker_pool.public }
+    ```
 
 You may want to [auto-attach this policy](./README.md#automatically-with-labels) to some, if not all, of your stacks.
 
@@ -296,21 +419,44 @@ You may want to [auto-attach this policy](./README.md#automatically-with-labels)
 
 Sometimes it is worth adding notes about approval/rejection to see why without Rego code analysis.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allowlist := ["ps", "ls"]
-denylist := ["rm -rf /"]
+    allowlist := ["ps", "ls"]
+    denylist := ["rm -rf /"]
 
-approve_with_note[note] {
-  input.run.type == "TASK"
-  input.run.command == allowlist[_]
-  note := sprintf("always approve tasks with command %s", [input.run.command])
-}
+    approve_with_note contains note if {
+      input.run.type == "TASK"
+      some cmd in allowlist
+      input.run.command == cmd
+      note := sprintf("always approve tasks with command %s", [input.run.command])
+    }
 
-reject_with_note[note] {
-  input.run.type == "TASK"
-  input.run.command == denylist[_]
-  note := sprintf("always reject tasks with command %s", [input.run.command])
-}
-```
+    reject_with_note contains note if {
+      input.run.type == "TASK"
+      some cmd in denylist
+      input.run.command == cmd
+      note := sprintf("always reject tasks with command %s", [input.run.command])
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allowlist := ["ps", "ls"]
+    denylist := ["rm -rf /"]
+
+    approve_with_note[note] {
+      input.run.type == "TASK"
+      input.run.command == allowlist[_]
+      note := sprintf("always approve tasks with command %s", [input.run.command])
+    }
+
+    reject_with_note[note] {
+      input.run.type == "TASK"
+      input.run.command == denylist[_]
+      note := sprintf("always reject tasks with command %s", [input.run.command])
+    }
+    ```
