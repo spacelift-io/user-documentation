@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-19
+
+- fix(billing): resolve payment platform loading error in US environment
 ## 2026-01-13
 
 - fix(dashboard): exclude modules from Stacks state dashboard element
