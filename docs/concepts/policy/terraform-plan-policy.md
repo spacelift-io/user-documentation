@@ -13,18 +13,31 @@ There are two types of rules here that Spacelift will care about: **deny** and *
 
 This simple policy will show both types of rules in action:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["you shall not pass"] {
-  true # true means "match everything"
-}
+    deny contains "you shall not pass" if {
+      true # true means "match everything"
+    }
 
-warn["hey, you look suspicious"] {
-  true
-}
+    warn contains "hey, you look suspicious" if {
+      true
+    }
+    ```
 
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["you shall not pass"] {
+      true # true means "match everything"
+    }
+
+    warn["hey, you look suspicious"] {
+      true
+    }
+    ```
 
 If you create this policy, attach it to a stack, and [trigger a run](../run/tracked.md#triggering-manually), you will see something like this:
 
@@ -206,18 +219,34 @@ Sensitive properties in `"before"` and `"after"` objects will be sanitized to pr
 
 If you need to compare a string property to a constant, use the `sanitized(string)` helper function.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
-  resource := input.terraform.resource_changes[_]
+    deny contains "must not target the forbidden endpoint: forbidden.endpoint/webhook" if {
+      some resource in input.terraform.resource_changes
 
-  actions := {"create", "delete", "update"}
-  actions[resource.change.actions[_]]
+      actions := {"create", "delete", "update"}
+      some action in resource.change.actions
+      actions[action]
 
-  resource.change.after.endpoint == sanitized("forbidden.endpoint/webhook")
-}
-```
+      resource.change.after.endpoint == sanitized("forbidden.endpoint/webhook")
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["must not target the forbidden endpoint: forbidden.endpoint/webhook"] {
+      resource := input.terraform.resource_changes[_]
+
+      actions := {"create", "delete", "update"}
+      actions[resource.change.actions[_]]
+
+      resource.change.after.endpoint == sanitized("forbidden.endpoint/webhook")
+    }
+    ```
 
 ## Custom inputs
 
@@ -277,64 +306,125 @@ Spacelift can turn these organizational hard rules into policies that can't be b
 
 In this example, we introduce a simple rule: never create static AWS credentials.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# The message here is dynamic and captures resource address to provide
-# appropriate context to anyone affected by this policy. For the sake of your
-# sanity and that of your colleagues, always add a message when denying a change.
-deny[sprintf(message, [resource.address])] {
-  message := "static AWS credentials are evil (%s)"
+    # The message here is dynamic and captures resource address to provide
+    # appropriate context to anyone affected by this policy. For the sake of your
+    # sanity and that of your colleagues, always add a message when denying a change.
+    deny contains sprintf(message, [resource.address]) if {
+      message := "static AWS credentials are evil (%s)"
 
-  resource := input.terraform.resource_changes[_]
-  resource.change.actions[_] == "create"
+      some resource in input.terraform.resource_changes
+      some action in resource.change.actions
+      action == "create"
 
-  # This is what decides whether the rule captures a resource.
-  # There may be an arbitrary number of conditions, and they all must
-  # succeed for the rule to take effect.
-  resource.type == "aws_iam_access_key"
-}
-```
+      # This is what decides whether the rule captures a resource.
+      # There may be an arbitrary number of conditions, and they all must
+      # succeed for the rule to take effect.
+      resource.type == "aws_iam_access_key"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # The message here is dynamic and captures resource address to provide
+    # appropriate context to anyone affected by this policy. For the sake of your
+    # sanity and that of your colleagues, always add a message when denying a change.
+    deny[sprintf(message, [resource.address])] {
+      message := "static AWS credentials are evil (%s)"
+
+      resource := input.terraform.resource_changes[_]
+      resource.change.actions[_] == "create"
+
+      # This is what decides whether the rule captures a resource.
+      # There may be an arbitrary number of conditions, and they all must
+      # succeed for the rule to take effect.
+      resource.type == "aws_iam_access_key"
+    }
+    ```
 
 This slightly more sophisticated policy states that when some resources are recreated, they should be [created before they're destroyed](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#create_before_destroy){: rel="nofollow"} or an outage will follow. We found this to be an issue with [`aws_batch_compute_environment`](https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html){: rel="nofollow"}, among other resources.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# This is what Rego calls a set. You can add further elements to it as necessary.
-always_create_first := { "aws_batch_compute_environment" }
+    # This is what Rego calls a set. You can add further elements to it as necessary.
+    always_create_first := {"aws_batch_compute_environment"}
 
-deny[sprintf(message, [resource.address])] {
-  message  := "always create before deleting (%s)"
-  resource := input.terraform.resource_changes[_]
+    deny contains sprintf(message, [resource.address]) if {
+      message := "always create before deleting (%s)"
+      some resource in input.terraform.resource_changes
 
-  # Make sure the type is on the list.
-  always_create_first[resource.type]
+      # Make sure the type is on the list.
+      always_create_first[resource.type]
 
-  some i_create, i_delete
-  resource.change.actions[i_create] == "create"
-  resource.change.actions[i_delete] == "delete"
+      some i_create, i_delete
+      resource.change.actions[i_create] == "create"
+      resource.change.actions[i_delete] == "delete"
+
+      i_delete < i_create
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # This is what Rego calls a set. You can add further elements to it as necessary.
+    always_create_first := { "aws_batch_compute_environment" }
+
+    deny[sprintf(message, [resource.address])] {
+      message  := "always create before deleting (%s)"
+      resource := input.terraform.resource_changes[_]
+
+      # Make sure the type is on the list.
+      always_create_first[resource.type]
+
+      some i_create, i_delete
+      resource.change.actions[i_create] == "create"
+      resource.change.actions[i_delete] == "delete"
 
 
-  i_delete < i_create
-}
-```
+      i_delete < i_create
+    }
+    ```
 
 While in most cases you'll want your rules to only look at resources affected by the change, you're not limited to doing so. You can look at all resources and force teams to remove certain resources. Here's an example where until AWS resources are all removed in one go, no further changes can take place:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny[sprintf(message, [resource.address])] {
-  message  := "we've moved to GCP, find an equivalent there (%s)"
-  resource := input.terraform.resource_changes[_]
+    deny contains sprintf(message, [resource.address]) if {
+      message := "we've moved to GCP, find an equivalent there (%s)"
+      some resource in input.terraform.resource_changes
 
-  resource.provider_name == "aws"
+      resource.provider_name == "aws"
 
-  # If you're just deleting, all good.
-  resource.change.actions != ["delete"]
-}
-```
+      # If you're just deleting, all good.
+      resource.change.actions != ["delete"]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny[sprintf(message, [resource.address])] {
+      message  := "we've moved to GCP, find an equivalent there (%s)"
+      resource := input.terraform.resource_changes[_]
+
+      resource.provider_name == "aws"
+
+      # If you're just deleting, all good.
+      resource.change.actions != ["delete"]
+    }
+    ```
 
 ### Automated code review
 
@@ -352,21 +442,40 @@ As a general rule when using plan policies for code review, **deny** when run ty
 
 We suggest that you _at most_ **deny** when the run is _PROPOSED_, which will send a failure status to the GitHub commit, then give the reviewer a chance to approve the change anyways. If you want a human to take another look before those changes go live, either set [stack autodeploy](../stack/README.md) to _false_ or explicitly **warn** about potential violations. Here's an example of how to reuse the same rule to **deny** or **warn** depending on the run type:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-proposed := input.spacelift.run.type == "PROPOSED"
+    proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[reason] { proposed; reason := iam_user_created[_] }
-warn[reason] { not proposed; reason := iam_user_created[_] }
+    deny contains reason if { proposed; some reason in iam_user_created }
+    warn contains reason if { not proposed; some reason in iam_user_created }
 
-iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
-  resource := input.terraform.resource_changes[_]
-  resource.change.actions[_] == "create"
+    iam_user_created contains sprintf("do not create IAM users: (%s)", [resource.address]) if {
+      some resource in input.terraform.resource_changes
+      some action in resource.change.actions
+      action == "create"
 
-  resource.type == "aws_iam_user"
-}
-```
+      resource.type == "aws_iam_user"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    proposed := input.spacelift.run.type == "PROPOSED"
+
+    deny[reason] { proposed; reason := iam_user_created[_] }
+    warn[reason] { not proposed; reason := iam_user_created[_] }
+
+    iam_user_created[sprintf("do not create IAM users: (%s)", [resource.address])] {
+      resource := input.terraform.resource_changes[_]
+      resource.change.actions[_] == "create"
+
+      resource.type == "aws_iam_user"
+    }
+    ```
 
 Predictably, this fails when committed to a non-tracked (feature) branch:
 
@@ -393,58 +502,109 @@ The run stopped to await a human decision. At this point, we still have a choice
 
 Adding resources may cost a lot of money, but it's usually safe from an operational perspective. Let's use a `warn` rule to allow changes with only added resources to get automatically applied, and require all others to get a human review:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-warn[sprintf(message, [action, resource.address])] {
-  message := "action '%s' requires human review (%s)"
-  review  := {"update", "delete"}
+    warn contains sprintf(message, [action, resource.address]) if {
+      message := "action '%s' requires human review (%s)"
+      review := {"update", "delete"}
 
-  resource := input.terraform.resource_changes[_]
-  action   := resource.change.actions[_]
+      some resource in input.terraform.resource_changes
+      some action in resource.change.actions
 
-  review[action]
-}
-```
+      review[action]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    warn[sprintf(message, [action, resource.address])] {
+      message := "action '%s' requires human review (%s)"
+      review  := {"update", "delete"}
+
+      resource := input.terraform.resource_changes[_]
+      action   := resource.change.actions[_]
+
+      review[action]
+    }
+    ```
 
 ### Automatically deploy changes from selected individuals
 
 Sometimes changes introduced by trusted individuals can be deployed automatically, especially if they already went through code review. This example allows commits from allowlisted individuals to be deployed automatically (and assumes the stack is set to [autodeploy](../stack/README.md)):
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-warn[sprintf(message, [author])] {
-  message     := "%s is not on the allowlist - human review required"
-  author      := input.spacelift.commit.author
-  allowlisted := { "alice", "bob", "charlie" }
+    warn contains sprintf(message, [author]) if {
+      message := "%s is not on the allowlist - human review required"
+      author := input.spacelift.commit.author
+      allowlisted := {"alice", "bob", "charlie"}
 
-  not allowlisted[author]
-}
-```
+      not allowlisted[author]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    warn[sprintf(message, [author])] {
+      message     := "%s is not on the allowlist - human review required"
+      author      := input.spacelift.commit.author
+      allowlisted := { "alice", "bob", "charlie" }
+
+      not allowlisted[author]
+    }
+    ```
 
 ### Require commits to be reasonably sized
 
 Massive changes make reviewers miserable. In this example, we automatically fail all changes that affect more than 50 resources but allow them to be deployed with mandatory human review:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-proposed := input.spacelift.run.type == "PROPOSED"
+    proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[msg] { proposed; msg := too_many_changes[_] }
-warn[msg] { not proposed; msg := too_many_changes[_] }
+    deny contains msg if { proposed; some msg in too_many_changes }
+    warn contains msg if { not proposed; some msg in too_many_changes }
 
-too_many_changes[msg] {
-  threshold := 50
+    too_many_changes contains msg if {
+      threshold := 50
 
-  res := input.terraform.resource_changes
-  ret := count([r | r := res[_]; r.change.actions != ["no-op"]])
-  msg := sprintf("more than %d changes (%d)", [threshold, ret])
+      res := input.terraform.resource_changes
+      ret := count([r | some r in res; r.change.actions != ["no-op"]])
+      msg := sprintf("more than %d changes (%d)", [threshold, ret])
 
-  ret > threshold
-}
-```
+      ret > threshold
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    proposed := input.spacelift.run.type == "PROPOSED"
+
+    deny[msg] { proposed; msg := too_many_changes[_] }
+    warn[msg] { not proposed; msg := too_many_changes[_] }
+
+    too_many_changes[msg] {
+      threshold := 50
+
+      res := input.terraform.resource_changes
+      ret := count([r | r := res[_]; r.change.actions != ["no-op"]])
+      msg := sprintf("more than %d changes (%d)", [threshold, ret])
+
+      ret > threshold
+    }
+    ```
 
 ### Back-of-the-envelope blast radius
 
@@ -452,43 +612,84 @@ This is a fancy contrived example building on top of the previous one. However, 
 
 It assigns special multipliers to some types of resources changed and treats different types of changes differently: deletes and updates are more "expensive" because they affect live resources, while new resources are generally safer and thus "cheaper". Per our [automated code review](terraform-plan-policy.md#automated-code-review) pattern, we will fail Pull Requests with changes violating this policy, but require human action through **warnings** when these changes hit the tracked branch.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-proposed := input.spacelift.run.type == "PROPOSED"
+    proposed := input.spacelift.run.type == "PROPOSED"
 
-deny[msg] { proposed; msg := blast_radius_too_high[_] }
-warn[msg] { not proposed; msg := blast_radius_too_high[_] }
+    deny contains msg if { proposed; some msg in blast_radius_too_high }
+    warn contains msg if { not proposed; some msg in blast_radius_too_high }
 
-blast_radius_too_high[sprintf("change blast radius too high (%d/100)", [blast_radius])] {
-  blast_radius := sum([blast |
-                        resource := input.terraform.resource_changes[_];
-                        blast := blast_radius_for_resource(resource)])
+    blast_radius_too_high contains sprintf("change blast radius too high (%d/100)", [blast_radius]) if {
+      blast_radius := sum([blast |
+                            some resource in input.terraform.resource_changes
+                            blast := blast_radius_for_resource(resource)])
 
-  blast_radius > 100
-}
+      blast_radius > 100
+    }
 
-blast_radius_for_resource(resource) = ret {
-  blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
+    blast_radius_for_resource(resource) := ret if {
+      blasts_radii_by_action := {"delete": 10, "update": 5, "create": 1, "no-op": 0}
 
-    ret := sum([value | action := resource.change.actions[_]
-                    action_impact := blasts_radii_by_action[action]
-                    type_impact := blast_radius_for_type(resource.type)
-                    value := action_impact * type_impact])
-}
+      ret := sum([value |
+                        some action in resource.change.actions
+                        action_impact := blasts_radii_by_action[action]
+                        type_impact := blast_radius_for_type(resource.type)
+                        value := action_impact * type_impact])
+    }
 
-# Let's give some types of resources special blast multipliers.
-blasts_radii_by_type := { "aws_ecs_cluster": 20, "aws_ecs_user": 10, "aws_ecs_role": 5 }
+    # Let's give some types of resources special blast multipliers.
+    blasts_radii_by_type := {"aws_ecs_cluster": 20, "aws_ecs_user": 10, "aws_ecs_role": 5}
 
-# By default, blast radius has a value of 1.
-blast_radius_for_type(type) = 1 {
-    not blasts_radii_by_type[type]
-}
+    # By default, blast radius has a value of 1.
+    blast_radius_for_type(type) := 1 if {
+        not blasts_radii_by_type[type]
+    }
 
-blast_radius_for_type(type) = ret {
-    blasts_radii_by_type[type] = ret
-}
-```
+    blast_radius_for_type(type) := ret if {
+        blasts_radii_by_type[type] = ret
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    proposed := input.spacelift.run.type == "PROPOSED"
+
+    deny[msg] { proposed; msg := blast_radius_too_high[_] }
+    warn[msg] { not proposed; msg := blast_radius_too_high[_] }
+
+    blast_radius_too_high[sprintf("change blast radius too high (%d/100)", [blast_radius])] {
+      blast_radius := sum([blast |
+                            resource := input.terraform.resource_changes[_];
+                            blast := blast_radius_for_resource(resource)])
+
+      blast_radius > 100
+    }
+
+    blast_radius_for_resource(resource) = ret {
+      blasts_radii_by_action := { "delete": 10, "update": 5, "create": 1, "no-op": 0 }
+
+        ret := sum([value | action := resource.change.actions[_]
+                        action_impact := blasts_radii_by_action[action]
+                        type_impact := blast_radius_for_type(resource.type)
+                        value := action_impact * type_impact])
+    }
+
+    # Let's give some types of resources special blast multipliers.
+    blasts_radii_by_type := { "aws_ecs_cluster": 20, "aws_ecs_user": 10, "aws_ecs_role": 5 }
+
+    # By default, blast radius has a value of 1.
+    blast_radius_for_type(type) = 1 {
+        not blasts_radii_by_type[type]
+    }
+
+    blast_radius_for_type(type) = ret {
+        blasts_radii_by_type[type] = ret
+    }
+    ```
 
 ### Cost management
 

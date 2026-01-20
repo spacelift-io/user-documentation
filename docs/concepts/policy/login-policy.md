@@ -36,26 +36,52 @@ A login policy can define the following types of boolean rules:
 
 Use the `roles` rule to assign RBAC roles in login policies:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# Basic login permissions
-allow { input.session.member }
+    # Basic login permissions
+    allow if input.session.member
 
-# Assign RBAC roles using role slugs
-roles["space-id"]["developer-role-slug"] {
-    input.session.teams[_] == "Frontend"
-}
+    # Assign RBAC roles using role slugs
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        team == "Frontend"
+    }
 
-roles["space-id"]["platform-engineer-role-slug"] {
-    input.session.teams[_] == "DevOps"
-}
+    roles["space-id"] contains "platform-engineer-role-slug" if {
+        some team in input.session.teams
+        team == "DevOps"
+    }
 
-# Assign admin role for root space
-roles["root"]["space-admin-role-slug"] {
-    input.session.teams[_] == "Admin"
-}
-```
+    # Assign admin role for root space
+    roles["root"] contains "space-admin-role-slug" if {
+        some team in input.session.teams
+        team == "Admin"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Basic login permissions
+    allow { input.session.member }
+
+    # Assign RBAC roles using role slugs
+    roles["space-id"]["developer-role-slug"] {
+        input.session.teams[_] == "Frontend"
+    }
+
+    roles["space-id"]["platform-engineer-role-slug"] {
+        input.session.teams[_] == "DevOps"
+    }
+
+    # Assign admin role for root space
+    roles["root"]["space-admin-role-slug"] {
+        input.session.teams[_] == "Admin"
+    }
+    ```
 
 If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
 
@@ -154,17 +180,39 @@ In high-security environments where the principle of least privilege is applied,
 
 Let's create a login policy that will give every member of the DevOps team admin access and everyone in Engineering regular access. We'll give them more granular access to individual stacks later using [stack access policies](stack-access-policy.md). We'll also explicitly **deny** access to all non-members, just to be on the safe side.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-teams := input.session.teams
+    teams := input.session.teams
 
-# Make sure to use the GitHub team names, not IDs (e.g., "Example Team" not "example-team")
-# and omit the GitHub organization name
-admin { teams[_] == "DevOps" }
-allow { teams[_] == "Engineering" }
-deny  { not input.session.member }
-```
+    # Make sure to use the GitHub team names, not IDs (e.g., "Example Team" not "example-team")
+    # and omit the GitHub organization name
+    admin if {
+      some team in teams
+      team == "DevOps"
+    }
+
+    allow if {
+      some team in teams
+      team == "Engineering"
+    }
+
+    deny if not input.session.member
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    teams := input.session.teams
+
+    # Make sure to use the GitHub team names, not IDs (e.g., "Example Team" not "example-team")
+    # and omit the GitHub organization name
+    admin { teams[_] == "DevOps" }
+    allow { teams[_] == "Engineering" }
+    deny  { not input.session.member }
+    ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/LpzDekpDOU){: rel="nofollow"}.
 
@@ -181,33 +229,60 @@ Sometimes people who are not members of your organization, such as consultants, 
 
     This example uses GitHub usernames to grant access to Spacelift.
 
-    ```opa
-    package spacelift
+    === "Rego v1"
+        ```opa
+        package spacelift
 
-    admins  := { "alice" }
-    allowed := { "bob", "charlie", "danny" }
-    login   := input.session.login
+        admins := {"alice"}
+        allowed := {"bob", "charlie", "danny"}
+        login := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    deny  { not admins[login]; not allowed[login] }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        deny if { not admins[login]; not allowed[login] }
+        ```
+
+    === "Rego v0"
+        ```opa
+        package spacelift
+
+        admins  := {"alice"}
+        allowed := {"bob", "charlie", "danny"}
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        deny  { not admins[login]; not allowed[login] }
+        ```
 
     Here's an [example to play with](https://play.openpolicyagent.org/p/ZsOJayumFw){: rel="nofollow"}.
 
 === "Google"
     This example uses email addresses managed by Google to grant access to Spacelift.
 
-    ```rego
-    package spacelift
+    === "Rego v1"
+        ```rego
+        package spacelift
 
-    admins  := { "alice@example.com" }
-    login   := input.session.login
+        admins := {"alice@example.com"}
+        login := input.session.login
 
-    admin { admins[login] }
-    allow { endswith(input.session.login, "@example.com") }
-    deny  { not admins[login]; not allow }
-    ```
+        admin if admins[login]
+        allow if endswith(input.session.login, "@example.com")
+        deny if { not admins[login]; not allow }
+        ```
+
+    === "Rego v0"
+        ```rego
+        package spacelift
+
+        admins := {"alice@example.com"}
+        login  := input.session.login
+
+        admin { admins[login] }
+        allow { endswith(input.session.login, "@example.com") }
+        deny  { not admins[login]; not allow }
+        ```
 
 !!! warning
     Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your GitHub organization, they automatically lose access to Spacelift. But when allowlisting individuals and not restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
@@ -218,20 +293,37 @@ Stable and secure infrastructure is crucial to business continuity. All changes 
 
 This example only defines deny rules, so you'll likely want to add some allow and admin rules, either in this policy or in a separate one.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-now     := input.request.timestamp_ns
-clock   := time.clock([now, "America/Los_Angeles"])
-weekend := { "Saturday", "Sunday" }
-weekday := time.weekday(now)
-ip      := input.request.remote_ip
+    now := input.request.timestamp_ns
+    clock := time.clock([now, "America/Los_Angeles"])
+    weekend := {"Saturday", "Sunday"}
+    weekday := time.weekday(now)
+    ip := input.request.remote_ip
 
-deny { weekend[weekday] }
-deny { clock[0] < 9 }
-deny { clock[0] > 17 }
-deny { not net.cidr_contains("12.34.56.0/24", ip) }
-```
+    deny if weekend[weekday]
+    deny if clock[0] < 9
+    deny if clock[0] > 17
+    deny if not net.cidr_contains("12.34.56.0/24", ip)
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    now     := input.request.timestamp_ns
+    clock   := time.clock([now, "America/Los_Angeles"])
+    weekend := {"Saturday", "Sunday"}
+    weekday := time.weekday(now)
+    ip      := input.request.remote_ip
+
+    deny { weekend[weekday] }
+    deny { clock[0] < 9 }
+    deny { clock[0] > 17 }
+    deny { not net.cidr_contains("12.34.56.0/24", ip) }
+    ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/4J3Nz6pYgC){: rel="nofollow"}.
 
@@ -247,41 +339,95 @@ In addition to boolean rules regulating access to your Spacelift account, the lo
 - a member of the DevOps team, as defined by your IdP
 - not a member of the Contractors team, as defined by your IdP
 
-```opa title="Defining Superwriter"
-package spacelift
+=== "Rego v1"
+    ```opa title="Defining Superwriter"
+    package spacelift
 
-team["Superwriter"] {
-  office_vpn
-  devops
-  not contractor
-}
+    team contains "Superwriter" if {
+      office_vpn
+      devops
+      not contractor
+    }
 
-contractor { input.session.teams[_] == "Contractors" }
-devops     { input.session.teams[_] == "DevOps" }
-office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
-```
+    contractor if {
+      some team in input.session.teams
+      team == "Contractors"
+    }
+
+    devops if {
+      some team in input.session.teams
+      team == "DevOps"
+    }
+
+    office_vpn if net.cidr_contains("12.34.56.0/24", input.request.remote_ip)
+    ```
+
+=== "Rego v0"
+    ```opa title="Defining Superwriter"
+    package spacelift
+
+    team["Superwriter"] {
+      office_vpn
+      devops
+      not contractor
+    }
+
+    contractor { input.session.teams[_] == "Contractors" }
+    devops     { input.session.teams[_] == "DevOps" }
+    office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
+    ```
 
 Here, the **team** rule overwrites the original list of teams, so if it evaluates to a non-empty collection, it will **replace** the original list of teams in the session. In the above example, the `Superwriter` role will become the only team for the evaluated user session.
 
 If you want to retain the original list of teams, you can modify the above example:
 
-```opa title="Defining Superwriter While Retaining Teams List"
-package spacelift
+=== "Rego v1"
+    ```opa title="Defining Superwriter While Retaining Teams List"
+    package spacelift
 
-# This rule will copy each of the existing teams to the
-# new modified list.
-team[name] { name := input.session.teams[_] }
+    # This rule will copy each of the existing teams to the
+    # new modified list.
+    team contains name if {
+      some name in input.session.teams
+    }
 
-team["Superwriter"] {
-  office_vpn
-  devops
-  not contractor
-}
+    team contains "Superwriter" if {
+      office_vpn
+      devops
+      not contractor
+    }
 
-contractor { input.session.teams[_] == "Contractors" }
-devops     { input.session.teams[_] == "DevOps" }
-office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
-```
+    contractor if {
+      some t in input.session.teams
+      t == "Contractors"
+    }
+
+    devops if {
+      some t in input.session.teams
+      t == "DevOps"
+    }
+
+    office_vpn if net.cidr_contains("12.34.56.0/24", input.request.remote_ip)
+    ```
+
+=== "Rego v0"
+    ```opa title="Defining Superwriter While Retaining Teams List"
+    package spacelift
+
+    # This rule will copy each of the existing teams to the
+    # new modified list.
+    team[name] { name := input.session.teams[_] }
+
+    team["Superwriter"] {
+      office_vpn
+      devops
+      not contractor
+    }
+
+    contractor { input.session.teams[_] == "Contractors" }
+    devops     { input.session.teams[_] == "DevOps" }
+    office_vpn { net.cidr_contains("12.34.56.0/24", input.request.remote_ip)  }
+    ```
 
 Here's an [example to play with](https://play.openpolicyagent.org/p/dM8P83sk4l){: rel="nofollow"}.
 
@@ -292,8 +438,16 @@ Here's an [example to play with](https://play.openpolicyagent.org/p/dM8P83sk4l){
 
 If no login policies are defined on the account, Spacelift behaves as if it had this policy and **allows** all users:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
-```
+    allow if input.session.member
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+    ```

@@ -223,14 +223,25 @@ The _Deploy_ functionality has been introduced in response to customers used to 
 
 If you want to prevent users from deploying directly from GitHub, you can add a simple [plan policy](../../concepts/policy/terraform-plan-policy.md) to that effect, based on the fact that the run trigger always indicates GitHub as the source (the exact format is `github/$username`).
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["Do not deploy from GitHub"] {
-  input.spacelift.run.type == "TRACKED"
-  startswith(input.spacelift.run.triggered_by, "github/")
-}
-```
+    deny contains "Do not deploy from GitHub" if {
+      input.spacelift.run.type == "TRACKED"
+      startswith(input.spacelift.run.triggered_by, "github/")
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["Do not deploy from GitHub"] {
+      input.spacelift.run.type == "TRACKED"
+      startswith(input.spacelift.run.triggered_by, "github/")
+    }
+    ```
 
 The effect is this:
 
