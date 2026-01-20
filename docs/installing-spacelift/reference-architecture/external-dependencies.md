@@ -30,8 +30,7 @@ On the other hand, the components below are mandatory and **must be provided**:
 Spacelift only supports **PostgreSQL**.
 
 !!! warning
-
-        Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
+    Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
 
 While PostgreSQL versions higher than 17 may work with Spacelift, please note that these versions have not been officially tested or supported.
 
@@ -51,6 +50,38 @@ If you already have an existing PostgreSQL instance running, you can reuse it. S
 | PostgreSQL 16.x |               ✅                |
 | PostgreSQL 17.x |               ✅                |
 | PostgreSQL ≥ 18 | ⚠️ **not officially supported** |
+
+### Upgrading PostgreSQL
+
+PostgreSQL uses a `major.minor` versioning scheme. **Minor upgrades** (e.g., 16.1 → 16.4) contain bug fixes and security patches without changing the internal storage format, making them low-risk and quick to apply. **Major upgrades** (e.g., 16 → 17) introduce new features and improvements but require data migration due to internal storage format changes, which is why they take longer and require more planning.
+
+We recommend staying current with minor versions for security and stability. For major upgrades, plan ahead and review the considerations below before proceeding.
+
+Minor upgrades across all cloud providers come with no downtime or at most a few seconds of interruption. Major upgrades typically require 15-30 minutes of downtime. All Spacelift services are designed to self-heal once the database is back online, so you don't need scale down, up, redeploy or restart any Spacelift components during the upgrade.
+
+During a major upgrade:
+
+- The Spacelift UI will be unavailable and return internal errors.
+- **Spacelift won't receive webhooks from your VCS provider** - any pushes or pull request events during this window will be missed. Schedule major upgrades outside of working hours when traffic is low.
+- Cloud providers typically create a database snapshot before starting the upgrade, but verify this in your provider's documentation.
+- Scale down [worker](../../concepts/worker-pools/README.md) replica counts to 0 before initiating the upgrade. In-flight runs will complete first, then workers will shut down gracefully. Wait until all workers are down before starting the database upgrade to prevent runs from failing to report results back to the Spacelift API.
+
+=== "AWS"
+    Minor upgrades can use Zero-Downtime Patching on Aurora PostgreSQL, resulting in zero downtime or at most a few failed queries. Major upgrades require 12-30 minutes of downtime depending on instance size and data volume.
+
+    For near-zero downtime, [Blue/Green Deployments](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html){: rel="nofollow"} allow you to upgrade a staging copy first, then switch over in under a minute - though this approach requires more setup and coordination.
+
+    For step-by-step instructions using our Terraform modules, see the [RDS Upgrade Guide](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted/blob/main/docs/rds-upgrade-guide.md){: rel="nofollow"}. For general Aurora/RDS upgrades, see the [AWS documentation](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.PostgreSQL.html){: rel="nofollow"}.
+
+=== "GCP"
+    Minor upgrades are applied automatically during maintenance windows or can be triggered manually with minimal downtime. Major upgrades require downtime, typically completing in 15-30 minutes depending on database size. Running a precheck operation before upgrading is recommended.
+
+    See [Upgrade PostgreSQL in-place](https://cloud.google.com/sql/docs/postgres/upgrade-major-db-version-inplace){: rel="nofollow"} in the Cloud SQL documentation.
+
+=== "Azure"
+    Minor upgrades are handled automatically by Azure. Major upgrades are performed in-place and typically complete in around 20 minutes, though duration depends on database size. Read replicas must be deleted before upgrading.
+
+    See [Major version upgrade](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/concepts-major-version-upgrade){: rel="nofollow"} in the Azure Database for PostgreSQL documentation.
 
 ## Object storage backend
 

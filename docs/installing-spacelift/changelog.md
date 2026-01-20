@@ -25,6 +25,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Documentation
 
+- **PostgreSQL upgrade guides**: Added a comprehensive [Upgrading PostgreSQL](./reference-architecture/external-dependencies.md#upgrading-postgresql) section covering everything you need to know before upgrading your database: expected downtime for minor and major upgrades, what happens to your Spacelift installation during the upgrade, and cloud provider-specific instructions for AWS, GCP, and Azure. For AWS users, we also published a dedicated [RDS Upgrade Guide](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted/blob/main/docs/rds-upgrade-guide.md){: rel="nofollow"} with step-by-step instructions for our Terraform modules.
 - **GKE deployment guide**: Updated [database configuration steps](./reference-architecture/guides/deploying-to-gke.md#configure-database) to include schema permissions required for PostgreSQL 15+, which no longer grants CREATE privileges on the public schema by default.
 - **AKS and GKE deployment guides**: Bumped the cert-manager Helm chart version to v1.19.2. We recommend upgrading your cert-manager deployment to stay current with security patches and bug fixes.
 
