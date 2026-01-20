@@ -385,6 +385,40 @@ ${TF_VAR_server_domain}                    300 IN  CNAME     <lb-name>.<region>.
 ${TF_VAR_mqtt_broker_domain}               300 IN  CNAME     <lb-name>.elb.<region>.amazonaws.com
 ```
 
+### VCS Gateway Service
+
+Ideally, your VCS provider [should be accessible](../reference/networking.md) from both the Spacelift backend and its workers. If direct access is not possible, you can use [VCS Agent Pools](../../../concepts/vcs-agent-pools.md) to proxy the connections from the Spacelift backend to your VCS provider.
+
+The VCS Agent Pool architecture introduces a VCS Gateway service, deployed alongside the Spacelift backend, and exposed via a dedicated Application Load Balancer. External VCS Agents connect to this load balancer over gRPC (port 443 with TLS termination), while internal Spacelift services (server, drain) communicate with the gateway via HTTP using pod IP addresses within the cluster.
+
+To enable this setup, add the following variables to your module configuration:
+
+```hcl
+module "spacelift" {
+  # VCS Gateway configuration
+  vcs_gateway_domain  = "vcs-gateway.mycorp.io"  # The DNS record for the VCS Gateway service, without protocol.
+  vcs_gateway_acm_arn = "<VCS Gateway certificate ARN>"  # Must be a valid, issued certificate (separate from the server certificate).
+
+  # Other settings are omitted for brevity
+}
+```
+
+After applying the Terraform changes, regenerate your `spacelift-values.yaml` from the `helm_values` output and redeploy the Helm chart to enable the VCS Gateway service.
+
+Set up the DNS record for the VCS Gateway service. You can find the load balancer address from the ingress:
+
+```shell
+kubectl get ingresses --namespace "$K8S_NAMESPACE" spacelift-vcs-gateway
+```
+
+Create a CNAME record pointing your VCS Gateway domain to this load balancer address:
+
+```zone
+${TF_VAR_vcs_gateway_domain}               300 IN  CNAME     <vcs-gateway-lb-name>.<region>.elb.amazonaws.com
+```
+
+With the backend now configured, proceed to the [VCS Agent Pools guide](../../../concepts/vcs-agent-pools.md) to complete the setup.
+
 ## Next steps
 
 Now that your Spacelift installation is up and running, take a look at the [initial installation](./first-setup.md) section for the next steps to take.

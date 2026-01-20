@@ -4,6 +4,27 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## Changes between v4.1.0 and v4.0.0
+
+### Features
+
+- **VCS Gateway support for EKS, GKE, and AKS**: The [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"} Terraform modules now include optional configuration for the VCS Gateway service.
+
+    By default, Spacelift communicates with your VCS provider directly, but some organizations need to host their VCS systems internally where Spacelift can't reach them. The VCS Gateway is the backend component that enables [VCS Agent Pools](../concepts/vcs-agent-pools.md) to bridge this gap - VCS Agents running in your infrastructure connect to the gateway and proxy requests to your private GitLab, GitHub Enterprise, Bitbucket Data Center, or Azure DevOps instances.
+
+    The VCS Gateway is exposed via a dedicated load balancer and requires a separate DNS record to be configured.
+
+    **Updated deployment guides:**
+
+    - [EKS](./reference-architecture/guides/deploying-to-eks.md#vcs-gateway-service)
+    - [GKE](./reference-architecture/guides/deploying-to-gke.md#vcs-gateway-service)
+    - [AKS](./reference-architecture/guides/deploying-to-aks.md#vcs-gateway-service)
+
+### Documentation
+
+- **GKE deployment guide**: Updated [database configuration steps](./reference-architecture/guides/deploying-to-gke.md#configure-database) to include schema permissions required for PostgreSQL 15+, which no longer grants CREATE privileges on the public schema by default.
+- **AKS and GKE deployment guides**: Bumped the cert-manager Helm chart version to v1.19.2. We recommend upgrading your cert-manager deployment to stay current with security patches and bug fixes.
+
 ## Changes between v4.0.0 and v3.8.0
 
 !!! info "Safe upgrade from any v3.x.x version"
