@@ -1,7 +1,7 @@
 # Access policy
 
 !!! warning
-    Access policies are deprecated. Use [space access control](../spaces/access-control.md) instead.
+    Access policies are deprecated and will be entirely disabled on May 30, 2026. Use [space access control](../spaces/access-control.md) instead.
 
 By default, non-admin Spacelift users have no access to any [stacks](../stack/README.md) or [modules](../../vendors/terraform/module-registry.md) and must be granted explicit permissions. There are two levels of non-admin access, [reader](#readers) and [writer](#writers). For now all we need to care about is that access policies are what we use to give appropriate level of access to individual stacks to non-admin users in your account.
 

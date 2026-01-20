@@ -72,12 +72,13 @@ resource "google_compute_subnetwork" "default" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"
 
-  region         = var.region
-  project        = var.project
-  website_domain = var.app_domain
-  database_tier  = "db-f1-micro"
+  region           = var.region
+  project          = var.project
+  website_domain   = var.app_domain
+  database_tier    = "db-f1-micro"
+  database_version = "POSTGRES_17"
 
   enable_network = false
   network        = google_compute_network.default
@@ -144,12 +145,13 @@ resource "google_service_account" "gke-nodes" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"
 
-  region         = var.region
-  project        = var.project
-  website_domain = var.app_domain
-  database_tier  = "db-f1-micro"
+  region           = var.region
+  project          = var.project
+  website_domain   = var.app_domain
+  database_tier    = "db-f1-micro"
+  database_version = "POSTGRES_17"
 
   enable_gke           = false
   enable_network       = false
@@ -195,8 +197,8 @@ For example, you may want to disable the database if you already have a Cloud SQ
 Before you start, set a few environment variables that will be used by the Spacelift modules:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version="v4.0.0"
 
 # Configure a default temporary admin account that could be used to setup the instance.
 export TF_VAR_admin_username="admin"
@@ -269,12 +271,13 @@ provider "google" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v1.0.0"
+  source = "github.com/spacelift-io/terraform-google-spacelift-selfhosted?ref=v2.0.0"
 
   region                     = var.region
   project                    = var.project
   website_domain             = var.website_domain
   database_tier              = "db-f1-micro"
+  database_version           = "POSTGRES_17"
   enable_external_workers    = false # Switch to true to enable running workers outside of the VPC.
   spacelift_version          = var.spacelift_version
   license_token              = var.license_token
