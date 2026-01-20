@@ -8,6 +8,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
+- **PostgreSQL 17 support**: PostgreSQL 17.x is now officially supported. See the [external dependencies](./reference-architecture/external-dependencies.md#database) documentation for the full list of supported versions.
 - **VCS Gateway support for EKS, GKE, and AKS**: The [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"} Terraform modules now include optional configuration for the VCS Gateway service.
 
     By default, Spacelift communicates with your VCS provider directly, but some organizations need to host their VCS systems internally where Spacelift can't reach them. The VCS Gateway is the backend component that enables [VCS Agent Pools](../concepts/vcs-agent-pools.md) to bridge this gap - VCS Agents running in your infrastructure connect to the gateway and proxy requests to your private GitLab, GitHub Enterprise, Bitbucket Data Center, or Azure DevOps instances.

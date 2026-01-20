@@ -33,7 +33,7 @@ Spacelift only supports **PostgreSQL**.
 
         Creating a database in Kubernetes, while possible, is not recommended. If you choose to do so, set up a volume for continuity of operations in the event of a power outage.
 
-While PostgreSQL versions higher than 16 may work with Spacelift, please note that these versions have not been officially tested or supported.
+While PostgreSQL versions higher than 17 may work with Spacelift, please note that these versions have not been officially tested or supported.
 
 As such, we cannot guarantee compatibility or provide assistance for any issues that may arise. We recommend using these versions at your own discretion and risk.
 
@@ -49,7 +49,8 @@ If you already have an existing PostgreSQL instance running, you can reuse it. S
 | PostgreSQL 14.x |               ✅                |
 | PostgreSQL 15.x |               ✅                |
 | PostgreSQL 16.x |               ✅                |
-| PostgreSQL ≥ 17 | ⚠️ **not officially supported** |
+| PostgreSQL 17.x |               ✅                |
+| PostgreSQL ≥ 18 | ⚠️ **not officially supported** |
 
 ## Object storage backend
 
