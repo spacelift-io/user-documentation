@@ -64,7 +64,7 @@ During a major upgrade:
 - The Spacelift UI will be unavailable and return internal errors.
 - **Spacelift won't receive webhooks from your VCS provider** - any pushes or pull request events during this window will be missed. Schedule major upgrades outside of working hours when traffic is low.
 - Cloud providers typically create a database snapshot before starting the upgrade, but verify this in your provider's documentation.
-- Scale down [worker](../../concepts/worker-pools/README.md) replica counts to 0 before initiating the upgrade. In-flight runs will complete first, then workers will shut down gracefully. Wait until all workers are down before starting the database upgrade to prevent runs from failing to report results back to the Spacelift API.
+- Scale [worker](../../concepts/worker-pools/README.md) replica counts to 0 before initiating the upgrade. This is a graceful operation: in-flight runs will complete first, then workers will shut down. Wait until all workers are down before starting the database upgrade to prevent runs from failing to report run results back to the unavailable Spacelift API.
 
 === "AWS"
     Minor upgrades can use Zero-Downtime Patching on Aurora PostgreSQL, resulting in zero downtime or at most a few failed queries. Major upgrades require 12-30 minutes of downtime depending on instance size and data volume.

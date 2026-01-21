@@ -8,8 +8,8 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
-- **PostgreSQL 17 support**: PostgreSQL 17.x is now officially supported. See the [external dependencies](./reference-architecture/external-dependencies.md#database) documentation for the full list of supported versions.
-- **VCS Gateway support for EKS, GKE, and AKS**: The [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"} Terraform modules now include optional configuration for the VCS Gateway service.
+- **Rego v1 support**: Self-hosted installations now support [Rego v1](../concepts/policy/README.md#rego-version-support) for policies. We recommend using Rego v1 for all new policies and migrating existing policies to v1 as soon as possible. Rego v1 introduces improved syntax and stricter semantics that make policies more robust and easier to maintain. For migration guidance, see the [OPA migration guide](https://www.openpolicyagent.org/docs/v0-upgrade#changes-to-rego-in-opa-v10){: rel="nofollow"}.
+- **VCS Gateway support for EKS, GKE, and AKS**: The [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"} Terraform modules now include optional configuration for the VCS Gateway service. Requires [Helm chart v0.56.0](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.56.0){: rel="nofollow"} or later.
 
     By default, Spacelift communicates with your VCS provider directly, but some organizations need to host their VCS systems internally where Spacelift can't reach them. The VCS Gateway is the backend component that enables [VCS Agent Pools](../concepts/vcs-agent-pools.md) to bridge this gap - VCS Agents running in your infrastructure connect to the gateway and proxy requests to your private GitLab, GitHub Enterprise, Bitbucket Data Center, or Azure DevOps instances.
 
@@ -20,8 +20,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
     - [EKS](./reference-architecture/guides/deploying-to-eks.md#vcs-gateway-service)
     - [GKE](./reference-architecture/guides/deploying-to-gke.md#vcs-gateway-service)
     - [AKS](./reference-architecture/guides/deploying-to-aks.md#vcs-gateway-service)
-
-- **Rego Version Selector**: Added support for switching between Rego v0 and v1 when editing policies. A version selector is now available in the policy editor, allowing you to easily switch between versions. We recommend using Rego v1 for all new policies. See the [policy documentation](../concepts/policy/README.md#rego-version-support) for more information.
 
 ### Documentation
 
