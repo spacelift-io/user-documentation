@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2026-01-21
+
+### Features
+
+- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission.
+
 ## 2026-01-13
 
 - fix(dashboard): exclude modules from Stacks state dashboard element
