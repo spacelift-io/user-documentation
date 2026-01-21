@@ -20,6 +20,8 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
     - [GKE](./reference-architecture/guides/deploying-to-gke.md#vcs-gateway-service)
     - [AKS](./reference-architecture/guides/deploying-to-aks.md#vcs-gateway-service)
 
+- **Rego Version Selector**: Added support for switching between Rego v0 and v1 when editing policies. A version selector is now available in the policy editor, allowing you to easily switch between versions. We recommend using Rego v1 for all new policies. See the [policy documentation](../concepts/policy/README.md#rego-version-support) for more information.
+
 ### Documentation
 
 - **GKE deployment guide**: Updated [database configuration steps](./reference-architecture/guides/deploying-to-gke.md#configure-database) to include schema permissions required for PostgreSQL 15+, which no longer grants CREATE privileges on the public schema by default.
