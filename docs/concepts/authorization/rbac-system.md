@@ -112,21 +112,166 @@ For more information, see [Assigning Roles to Stacks](./assigning-roles-stacks.m
 
 ### Actions: the building blocks of permissions
 
-Actions are the smallest unit of permission granularity in Spacelift's RBAC system. Each action defines a specific
-operation that can be performed:
+Actions are the smallest unit of permission granularity in Spacelift's RBAC system. Each action defines a specific operation that can be performed. Actions are organized by subject type (the resource they operate on).
 
-| Action           | Description                | Legacy Equivalent |
-| ---------------- | -------------------------- | ----------------- |
-| `run:trigger`    | Trigger stack runs         | Writer            |
-| `stack:manage`   | Create and modify stacks   | Admin             |
-| `stack:delete`   | Delete stacks              | Admin             |
-| `context:read`   | View contexts              | Reader            |
-| `context:manage` | Create and modify contexts | Admin             |
-| `space:read`     | View space contents        | Reader            |
-| `space:manage`   | Manage space settings      | Admin             |
+!!! info "Legacy role fallbacks"
+    When a user doesn't have an explicit action permission through a custom role, the system falls back to checking their legacy space access level (Reader/Writer/Admin). The "Legacy Fallback" column indicates which legacy role is required when custom action permissions are not granted.
 
-!!! note "Expanding action catalog"
-    The RBAC system supports a limited, but expanding set of actions. Spacelift continuously adds new actions based on user feedback and use cases.
+#### Space actions
+
+| Action              | Description                                                | Legacy Fallback |
+| ------------------- | ---------------------------------------------------------- | --------------- |
+| `space:admin`       | Full administrative access to a space                      | Admin           |
+| `space:read`        | Grants visibility into stacks, runs, and other resources within an assigned space. Required to view any subjects within a space | Reader |
+| `space:write`       | Write access to space resources                            | Writer          |
+| `space:share-module`| Allow modules to be shared with an assigned space from other spaces | Writer |
+
+#### Run actions
+
+| Action                                    | Description                                                   | Legacy Fallback |
+| ----------------------------------------- | ------------------------------------------------------------- | --------------- |
+| `run:cancel`                              | Cancel runs in a given space                                  | Reader          |
+| `run:cancel-blocking`                     | Cancel blocking runs in a given space                         | Writer          |
+| `run:comment`                             | Comment on runs in a given space                              | Reader          |
+| `run:confirm`                             | Confirm a plan and apply changes                              | Writer          |
+| `run:discard`                             | Discard planned changes                                       | Writer          |
+| `run:prioritize-set`                      | Prioritize a run in a given space                             | Writer          |
+| `run:promote`                             | Trigger a tracked run for the same Git commit as a proposed run | Writer        |
+| `run:propose-local-workspace`             | Trigger a proposed run based on local workspace               | Writer          |
+| `run:propose-with-overrides`              | Trigger a proposed run with environment variable overrides    | Writer          |
+| `run:retry`                               | Retry runs in a given space                                   | Reader          |
+| `run:retry-blocking`                      | Retry blocking runs in a given space                          | Writer          |
+| `run:review`                              | Review planned changes and submit review (approval/rejection) | Writer          |
+| `run:stop`                                | Stop runs in a given space                                    | Reader          |
+| `run:stop-blocking`                       | Stop blocking runs in a given space                           | Writer          |
+| `run:targeted-replan`                     | Replan a targeted run in a given space                        | Writer          |
+| `run:trigger`                             | Trigger stack runs in a given space                           | Writer          |
+| `run:trigger-with-custom-runtime-config`  | Trigger stack runs with custom runtime config                 | Admin           |
+
+#### Task actions
+
+| Action         | Description                         | Legacy Fallback |
+| -------------- | ----------------------------------- | --------------- |
+| `task:create`  | Trigger tasks for stacks in a given space | Writer    |
+
+#### Stack actions
+
+| Action                        | Description                                                | Legacy Fallback |
+| ----------------------------- | ---------------------------------------------------------- | --------------- |
+| `stack:add-config`            | Add or update stack environment variables and mounted files| Writer          |
+| `stack:create`                | Create stacks in a given space                             | Admin           |
+| `stack:delete`                | Delete stacks in a given space                             | Admin           |
+| `stack:delete-config`         | Delete stack environment variables and mounted files       | Writer          |
+| `stack:disable`               | Disable a stack                                            | Admin           |
+| `stack:enable`                | Enable a disabled stack                                    | Admin           |
+| `stack:lock`                  | Lock a stack for exclusive use                             | Writer          |
+| `stack:manage`                | Manage stacks in a given space                             | Admin           |
+| `stack:managed-state-import`  | Import managed state for a stack                           | Admin           |
+| `stack:managed-state-rollback`| Rollback managed state for a stack                         | Admin           |
+| `stack:reslug`                | Re-slug stacks in a given space                            | Admin           |
+| `stack:set-current-commit`    | Set stack current commit in a given space                  | Writer          |
+| `stack:set-star`              | Star or unstar a stack                                     | Reader          |
+| `stack:state-download`        | Download the state file for a stack                        | Writer          |
+| `stack:state-read`            | Read the state file for a stack                            | Writer          |
+| `stack:sync-commit`           | Sync the tracked branch head commit with stack head commit | Writer          |
+| `stack:unlock`                | Unlock a previously locked stack (same user only)         | Writer          |
+| `stack:unlock-force`          | Unlock any locked stack, including those locked by others  | Admin           |
+| `stack:update`                | Update stacks (details, source, behavior, vendor)          | Admin           |
+| `stack:upload-local-workspace`| Generate upload URLs for local previews                    | Writer          |
+| `stack:workspace-lock`        | Lock the workspace for a stack                             | Admin           |
+| `stack:workspace-unlock`      | Unlock the workspace for a stack                           | Admin           |
+
+#### Context actions
+
+| Action            | Description                        | Legacy Fallback |
+| ----------------- | ---------------------------------- | --------------- |
+| `context:create`  | Create contexts in a given space   | Admin           |
+| `context:delete`  | Delete contexts in a given space   | Admin           |
+| `context:update`  | Update contexts in a given space   | Admin           |
+
+#### Worker Pool actions
+
+| Action                   | Description                           | Legacy Fallback |
+| ------------------------ | ------------------------------------- | --------------- |
+| `worker:drain-set`       | Drain or undrain workers in a given space | Admin       |
+| `worker-pool:create`     | Create worker pools in a given space  | Admin           |
+| `worker-pool:cycle`      | Cycle worker pools in a given space   | Admin           |
+| `worker-pool:delete`     | Delete worker pools in a given space  | Admin           |
+| `worker-pool:reset`      | Reset worker pools in a given space   | Admin           |
+| `worker-pool:update`     | Update worker pools in a given space  | Admin           |
+
+#### Module actions
+
+| Action                    | Description                    | Legacy Fallback |
+| ------------------------- | ------------------------------ | --------------- |
+| `module:create`           | Create a module                | Admin           |
+| `module:disable`          | Disable a module               | Admin           |
+| `module:enable`           | Enable a module                | Admin           |
+| `module:mark-as-bad`      | Mark a module as bad           | Writer          |
+| `module:publish`          | Publish a module               | Admin           |
+| `module:trigger-version`  | Trigger a module version       | Writer          |
+
+#### Terraform Provider actions
+
+| Action                                        | Description                                      | Legacy Fallback |
+| --------------------------------------------- | ------------------------------------------------ | --------------- |
+| `terraform-provider:create`                   | Create Terraform provider in a given space       | Admin           |
+| `terraform-provider:delete`                   | Delete Terraform provider in a given space       | Admin           |
+| `terraform-provider:set-visibility`           | Set visibility for Terraform providers           | Admin           |
+| `terraform-provider:update`                   | Update Terraform provider in a given space       | Admin           |
+| `terraform-provider-version:create`           | Create Terraform provider version                | Writer          |
+| `terraform-provider-version:delete`           | Delete Terraform provider version                | Writer          |
+| `terraform-provider-version:publish`          | Publish Terraform provider version               | Writer          |
+| `terraform-provider-version:register-platform`| Register platform for Terraform provider versions| Writer          |
+| `terraform-provider-version:revoke`           | Revoke Terraform provider version                | Writer          |
+| `terraform-provider-version:update`           | Update Terraform provider version                | Writer          |
+
+#### Intent actions
+
+Intent actions are used for managing [Intent-based infrastructure](../intent/README.md).
+
+| Action                                          | Description                                    | Legacy Fallback |
+| ----------------------------------------------- | ---------------------------------------------- | --------------- |
+| `intent-dependencies:add`                       | Add dependencies to intent project             | Admin           |
+| `intent-dependencies:remove`                    | Remove dependencies from intent project        | Admin           |
+| `intent-policy:create`                          | Create new intent policies                     | Admin           |
+| `intent-policy:delete`                          | Delete intent policies                         | Admin           |
+| `intent-policy:update`                          | Update existing intent policies                | Admin           |
+| `intent-project:cloud-integration-attach`       | Attach AWS integration to intent project       | Admin           |
+| `intent-project:cloud-integration-detach`       | Detach AWS integration from intent project     | Admin           |
+| `intent-project:config-add`                     | Add configuration to intent project            | Admin           |
+| `intent-project:config-delete`                  | Delete configuration from intent project       | Admin           |
+| `intent-project:config-update`                  | Update configuration in intent project         | Admin           |
+| `intent-project:create`                         | Create a new intent project                    | Admin           |
+| `intent-project:delete`                         | Delete an intent project                       | Admin           |
+| `intent-project:disable`                        | Disable an intent project                      | Admin           |
+| `intent-project:enable`                         | Enable an intent project                       | Admin           |
+| `intent-project:lock`                           | Lock an intent project                         | Admin           |
+| `intent-project:policy-attach`                  | Attach a policy to intent project              | Admin           |
+| `intent-project:policy-detach`                  | Detach a policy from intent project            | Admin           |
+| `intent-project:unlock`                         | Unlock an intent project                       | Admin           |
+| `intent-project:update`                         | Update an intent project                       | Admin           |
+| `intent-resource:create`                        | Create new cloud resources                     | Admin           |
+| `intent-resource:delete`                        | Delete cloud resources                         | Admin           |
+| `intent-resource:import`                        | Import existing cloud resources into state     | Admin           |
+| `intent-resource:refresh`                       | Refresh cloud resource state                   | Admin           |
+| `intent-resource:resume`                        | Resume intent resource operations              | Admin           |
+| `intent-resource:update`                        | Update existing cloud resources                | Admin           |
+| `intent-resource-operation:review`              | Review an intent resource operation            | Admin           |
+| `intent-state:eject`                            | Eject resources from state                     | Admin           |
+| `intent-state:read`                             | Read intent state details                      | Admin           |
+
+#### Spacelift VCS actions
+
+| Action                           | Description                           | Legacy Fallback |
+| -------------------------------- | ------------------------------------- | --------------- |
+| `spacelift-vcs:commit-files`     | Commit files to Spacelift VCS integration | Writer      |
+| `spacelift-vcs:create`           | Create Spacelift VCS integration      | Admin           |
+| `spacelift-vcs:delete`           | Delete Spacelift VCS integration      | Admin           |
+| `spacelift-vcs:update`           | Update Spacelift VCS integration      | Writer          |
+
+!!! note "Action catalog expansion"
+    Spacelift continuously adds new actions based on user feedback and use cases. If you need an action that isn't currently available, please contact Spacelift support.
 
 ### Subjects: what actions are performed on
 
