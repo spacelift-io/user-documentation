@@ -228,7 +228,7 @@ Actions are the smallest unit of permission granularity in Spacelift's RBAC syst
 
 #### Intent actions
 
-Intent actions are used for managing [Intent-based infrastructure](../../product/intent/README.md).
+Intent actions are used for managing [Intent-based infrastructure](../intent/README.md).
 
 | Action                                          | Description                                    | Legacy Fallback |
 | ----------------------------------------------- | ---------------------------------------------- | --------------- |
