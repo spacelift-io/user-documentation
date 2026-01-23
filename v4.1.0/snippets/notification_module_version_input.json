@@ -1,0 +1,43 @@
+{
+  "account": {
+    "name": "string - Account display name"
+  },
+  "webhook_endpoints": [
+    {
+      "id": "string - Webhook endpoint identifier",
+      "labels": [
+        "string - label"
+      ]
+    }
+  ],
+  "module_version": {
+    "module": {
+      "administrative": "boolean - Whether the module is administrative",
+      "branch": "string - Git branch tracked by this module",
+      "id": "string - Module identifier",
+      "name": "string - Module name",
+      "namespace": "string - Module namespace",
+      "project_root": "string - Project root directory",
+      "repository": "string - Repository name",
+      "terraform_provider": "string - Terraform provider for the module"
+    },
+    "version": {
+      "id": "string - Version identifier",
+      "number": "string - Version number",
+      "created_at": "integer - Unix timestamp in nanoseconds",
+      "state": "string - Version state",
+      "latest": "boolean - Whether this is the latest version",
+      "commit": {
+        "author": "string - Commit author",
+        "branch": "string - Git branch name",
+        "created_at": "integer - Unix timestamp in nanoseconds",
+        "hash": "string - Git commit hash",
+        "message": "string - Commit message",
+        "url": "string - URL to the commit"
+      },
+      "test_runs": [
+        "object - test run data"
+      ]
+    }
+  }
+}
