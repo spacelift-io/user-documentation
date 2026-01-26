@@ -1,16 +1,16 @@
-# Handy Commands & Prompts
+# Handy commands & prompts
 
-**Add MCP server (CLI):**
+## Add MCP server (CLI)
 
 ```bash
 claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent/mcp
 ```
 
-**Auth & status:**
+## Auth & status
 
 - `/mcp` → select **intent-mcp** → log in → verify **connected**
 
-**Project management (via prompts):**
+## Project management (via prompts)
 
 ```text
 Create a project called "my-project".
@@ -19,7 +19,7 @@ List my projects and their lock status.
 Unlock the current project.
 ```
 
-**Resources (via prompts):**
+## Resources (via prompts)
 
 ```text
 Create two resources — one very long random string and a cute pet.
@@ -29,7 +29,7 @@ List resources in this project.
 Delete the random resources we created earlier.
 ```
 
-**Import (via prompts):**
+## Import (via prompts)
 
 ```text
 List SSM parameters in my account and import them into the project.
