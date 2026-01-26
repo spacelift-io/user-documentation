@@ -18,7 +18,7 @@ To define dependencies, you need to add a `external_dependency` rule to your pus
 The following rule adds a dependency to all runs created by a policy.
 
 ```rego
-external_dependency[sprintf("%s-binary-build", [input.push.hash])] { true }
+external_dependency contains sprintf("%s-binary-build", [input.push.hash]) if true
 ```
 
 You can have more complex rules that decide on the set of external dependencies based on data such as the current stack's labels.
@@ -50,13 +50,13 @@ The following example shows how to use external dependencies with GitHub Actions
 ```rego
 package spacelift
 
-track {
+track if {
     input.push != null
     input.push.branch == input.stack.branch
 }
 
-external_dependency[sprintf("%s-binary-build", [input.push.hash])] { true }
-external_dependency[sprintf("%s-docker-image-build", [input.push.hash])] { true }
+external_dependency contains sprintf("%s-binary-build", [input.push.hash]) if true
+external_dependency contains sprintf("%s-docker-image-build", [input.push.hash]) if true
 ```
 
 Next, create a GitHub Action pipeline that will mark the dependencies as `finished` or `failed`. This pipeline will define two jobs, one for each dependency. We will use `sleep` to mock the build process.

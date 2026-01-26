@@ -82,26 +82,52 @@ Login policies can only be created in the `root` space. Therefore, only `root` a
 
 Use the `roles` rule to assign RBAC roles in login policies:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# Basic login permissions
-allow { input.session.member }
+    # Basic login permissions
+    allow if input.session.member
 
-# Assign RBAC roles using role slugs
-roles["space-id"]["developer-role-slug"] {
-    input.session.teams[_] == "Frontend"
-}
+    # Assign RBAC roles using role slugs
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        team == "Frontend"
+    }
 
-roles["space-id"]["platform-engineer-role-slug"] {
-    input.session.teams[_] == "DevOps"
-}
+    roles["space-id"] contains "platform-engineer-role-slug" if {
+        some team in input.session.teams
+        team == "DevOps"
+    }
 
-# Assign admin role for root space
-roles["root"]["space-admin-role-slug"] {
-    input.session.teams[_] == "Admin"
-}
-```
+    # Assign admin role for root space
+    roles["root"] contains "space-admin-role-slug" if {
+        some team in input.session.teams
+        team == "Admin"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Basic login permissions
+    allow { input.session.member }
+
+    # Assign RBAC roles using role slugs
+    roles["space-id"]["developer-role-slug"] {
+        input.session.teams[_] == "Frontend"
+    }
+
+    roles["space-id"]["platform-engineer-role-slug"] {
+        input.session.teams[_] == "DevOps"
+    }
+
+    # Assign admin role for root space
+    roles["root"]["space-admin-role-slug"] {
+        input.session.teams[_] == "Admin"
+    }
+    ```
 
 If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
 

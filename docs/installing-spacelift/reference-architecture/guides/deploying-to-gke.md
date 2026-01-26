@@ -366,6 +366,15 @@ As of now, there are two ways to do that. Either in the UI or locally using the 
     GRANT ALL PRIVILEGES ON DATABASE "$DATABASE_NAME" TO "$DATABASE_USER";
     ```
 
+    The next step requires you to switch databases. In Cloud SQL Studio, change the database dropdown from `postgres` to `$DATABASE_NAME` (by default `spacelift`), then execute:
+
+    ```sql
+    GRANT ALL ON SCHEMA public TO "$DATABASE_USER";
+    ```
+
+    !!! info
+        The `GRANT ALL ON SCHEMA public` statement is required for PostgreSQL 15 and later, as the [default privileges on the public schema were changed](https://www.postgresql.org/about/news/postgresql-15-released-2526/){: rel="nofollow"}.
+
 === "Locally with cloud-sql-proxy"
 
     You can find more info about how to install cloud-sql-proxy in the [official documentation](https://cloud.google.com/sql/docs/postgres/connect-instance-auth-proxy){: rel="nofollow"}.
@@ -377,6 +386,11 @@ As of now, there are two ways to do that. Either in the UI or locally using the 
     # Grant sql user permissions to the database
     PGPASSWORD=${DB_ROOT_PASSWORD} \
         psql -h 127.0.0.1 -U postgres -c "ALTER USER \"${DATABASE_USER}\" CREATEROLE; GRANT ALL PRIVILEGES ON DATABASE \"${DATABASE_NAME}\" TO \"${DATABASE_USER}\";"
+
+    # Grant schema permissions (required for PostgreSQL 15+)
+    # Note: This must be run against the spacelift database, not postgres
+    PGPASSWORD=${DB_ROOT_PASSWORD} \
+        psql -h 127.0.0.1 -U postgres -d "${DATABASE_NAME}" -c "GRANT ALL ON SCHEMA public TO \"${DATABASE_USER}\";"
 
     # Stop the cloud sql proxy
     kill %1
@@ -432,7 +446,7 @@ helm upgrade \
     cert-manager jetstack/cert-manager \
     --namespace cert-manager \
     --create-namespace \
-    --version v1.16.2 \
+    --version v1.19.2 \
     --set crds.enabled=true \
     --set global.leaderElection.namespace=cert-manager \
     --set resources.requests.cpu=100m \
@@ -440,7 +454,9 @@ helm upgrade \
     --set webhook.resources.requests.cpu=100m \
     --set webhook.resources.requests.memory=256Mi \
     --set cainjector.resources.requests.cpu=100m \
-    --set cainjector.resources.requests.memory=256Mi
+    --set cainjector.resources.requests.memory=256Mi \
+    --set startupapicheck.resources.requests.cpu=100m \
+    --set startupapicheck.resources.requests.memory=256Mi
 ```
 
 !!! info
@@ -553,6 +569,49 @@ helm upgrade \
 
 !!! tip
     You can follow the deployment progress with: `kubectl logs -n ${K8S_NAMESPACE} deployments/spacelift-server`
+
+### VCS Gateway Service
+
+Ideally, your VCS provider [should be accessible](../reference/networking.md) from both the Spacelift backend and its workers. If direct access is not possible, you can use [VCS Agent Pools](../../../concepts/vcs-agent-pools.md) to proxy the connections from the Spacelift backend to your VCS provider.
+
+The VCS Agent Pool architecture introduces a VCS Gateway service, deployed alongside the Spacelift backend, and exposed via a Global External Application Load Balancer. External VCS Agents connect to this load balancer over gRPC (port 443 with TLS termination), while internal Spacelift services (server, drain) communicate with the gateway via HTTP using pod IP addresses within the cluster.
+
+To enable this setup, add the following variable to your module configuration:
+
+```hcl
+module "spacelift" {
+  # VCS Gateway configuration
+  vcs_gateway_domain = "vcs-gateway.mycorp.io"  # The DNS record for the VCS Gateway service, without protocol.
+
+  # Other settings are omitted for brevity
+}
+```
+
+After applying the Terraform changes, regenerate your `spacelift-values.yaml` from the `helm_values` output and redeploy the Helm chart to enable the VCS Gateway service. You also need to:
+
+1. Configure a DNS A record pointing your VCS Gateway domain to the load balancer IP address:
+
+    ```shell
+    tofu output vcs_gateway_address
+    # Alternatively, after deploying the Helm chart (may take ~5 minutes for the IP to appear):
+    # kubectl get gateways -n $K8S_NAMESPACE
+    ```
+
+    ```zone
+    ${TF_VAR_vcs_gateway_domain}     300 IN  A     <vcs_gateway_address>
+    ```
+
+2. Apply the gRPC health check policy. The default HTTP-based health check will fail for gRPC services, so you must apply the `HealthCheckPolicy` manifest:
+
+    ```shell
+    tofu output -raw vcs_gateway_healthcheck_manifest > vcs-gateway-healthcheckpolicy.yaml
+    kubectl apply -f vcs-gateway-healthcheckpolicy.yaml
+    ```
+
+    !!! warning
+        Without the `HealthCheckPolicy`, the backend will be marked as unhealthy and the load balancer will return 502 errors.
+
+With the backend now configured, proceed to the [VCS Agent Pools guide](../../../concepts/vcs-agent-pools.md) to complete the setup.
 
 ## Next steps
 
