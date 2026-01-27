@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-27
+
+- feat(docs): add copy for llms button to spacelift documentation
 ## 2026-01-21
 
 ### Features
