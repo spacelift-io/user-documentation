@@ -24,7 +24,7 @@ def on_page_content(html, page, config, files):
         llm_content_parts.append(f"# {page.title}\n")
 
     # Add page URL
-    site_url = config.get('site_url', '')
+    site_url = config.get('site_url', '').rstrip('/')
     page_url = f"{site_url}/{page.file.dest_uri}"
     llm_content_parts.append(f"**Source:** {page_url}\n")
 
