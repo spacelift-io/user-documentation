@@ -103,6 +103,7 @@ nav:
               - concepts/policy/deprecated/run-initialization-policy.md
               - concepts/policy/deprecated/task-run-policy.md
               - concepts/policy/deprecated/migrate-to-approval-policy.md
+              - concepts/policy/deprecated/migrate-to-spaces.md
       - Resources:
           - concepts/resources/README.md
           - concepts/resources/configuration-management.md
