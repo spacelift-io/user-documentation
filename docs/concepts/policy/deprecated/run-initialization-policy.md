@@ -1,16 +1,16 @@
 # Initialization policy
 
 !!! warning
-    Initialization policies are deprecated. Use [approval policies](./approval-policy.md) instead for a more flexible, powerful way to control which runs are allowed to proceed.
+    Initialization policies are deprecated. Use [approval policies](../approval-policy.md) instead for a more flexible, powerful way to control which runs are allowed to proceed.
 
     Existing users with initialization policies should migrate as soon as possible using our [migration guide](#migration-guide).
 
-Initialization policies can prevent a [run](../run/README.md) or a [task](../run/task.md) from being [initialized](../run/README.md#initializing), blocking any custom code or commands from being executed.
+Initialization policies can prevent a [run](../../run/README.md) or a [task](../../run/task.md) from being [initialized](../../run/README.md#initializing), blocking any custom code or commands from being executed.
 
-They look like [plan policies](terraform-plan-policy.md) in that they affect existing runs and print feedback to logs, but they don't get access to the plan. Instead, initialization policices can be used to [protect your stack from unwanted changes](#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
+They look like [plan policies](../terraform-plan-policy.md) in that they affect existing runs and print feedback to logs, but they don't get access to the plan. Instead, initialization policices can be used to [protect your stack from unwanted changes](#protect-your-stack-from-unwanted-changes) or [enforce organizational rules](#enforce-organizational-rules) concerning how and when runs are supposed to be triggered.
 
 !!! warning
-    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../worker-pools#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
+    Server-side initialization policies are being deprecated. We will be replacing them with [worker-side policies](../../worker-pools/README.md#configuration-options) that can be set by using the launcher run initialization policy flag (`SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY`).
 
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
@@ -34,7 +34,7 @@ Let's create a simple initialization policy, attach it to a stack, and see what 
 
 This policy results in:
 
-![Denied by policy message](<../../assets/screenshots/Initial_commit_·_Stack_managed_by_Spacelift (1).png>)
+![Denied by policy message](../../../assets/screenshots/Initial_commit_·_Stack_managed_by_Spacelift (1).png)
 
 ## Rules
 
@@ -135,9 +135,9 @@ There are two main use cases for run initialization policies:
 
 ### Protect your stack from unwanted changes
 
-Although Spacelift is specialized, you can run custom code before the Terraform initialization phase using [`before_init`](../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts. This is a very powerful feature that must be handled responsibly. Since those scripts get full access to your Terraform environment, someone could, in theory, create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}.
+Although Spacelift is specialized, you can run custom code before the Terraform initialization phase using [`before_init`](../../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts. This is a very powerful feature that must be handled responsibly. Since those scripts get full access to your Terraform environment, someone could, in theory, create a commit on a feature branch that would run [`terraform destroy -auto-approve`](https://www.terraform.io/docs/commands/destroy.html){: rel="nofollow"}.
 
-Initialization policies can help you avoid unwanted runs. That's where initialization policies can help. This example policy explicitly blocklists all Terraform commands if they're running as [`before_init`](../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts and adds a single exception for a formatting check:
+Initialization policies can help you avoid unwanted runs. That's where initialization policies can help. This example policy explicitly blocklists all Terraform commands if they're running as [`before_init`](../../configuration/runtime-configuration/README.md#before_-and-after_-hooks) scripts and adds a single exception for a formatting check:
 
 === "Rego v1"
     ```opa
@@ -163,7 +163,7 @@ Initialization policies can help you avoid unwanted runs. That's where initializ
     }
     ```
 
-What if someone, to get around this policy, creates a [Docker image](../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? You have two choices: replace a blocklist with an allowlist, or make sure that a known good Docker is used to execute the run. Here's an example:
+What if someone, to get around this policy, creates a [Docker image](../../../integrations/docker.md) that symlinks something very innocent-looking to `terraform`? You have two choices: replace a blocklist with an allowlist, or make sure that a known good Docker is used to execute the run. Here's an example:
 
 === "Rego v1"
     ```opa
@@ -252,7 +252,7 @@ Now let's enforce a feature branch naming convention. We'll keep this example si
 
 ## Migration guide
 
-A run initialization policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Here are the initialization policy examples expressed as [approval policies](./approval-policy.md).
+A run initialization policy can be expressed as an [approval policy](../approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Here are the initialization policy examples expressed as [approval policies](../approval-policy.md).
 
 ### Enforcing OpenTofu/Terraform check
 
