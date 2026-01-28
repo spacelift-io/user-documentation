@@ -1,189 +1,159 @@
 # Run
 
-Every job that can touch your Spacelift-managed infrastructure is called a Run. There are four main types of runs, and each of them warrants a separate section.
+Every job that can touch your Spacelift-managed infrastructure is called a run. There are four main types of runs, and three of them are children of [stacks](../stack/README.md):
 
-Three of them are children of [Stacks](../stack/README.md):
-
-- [task](task.md), which is a freeform command you can execute on your infrastructure;
-- [proposed run](proposed.md), which serves as a preview of introduced changes;
-- [tracked run](tracked.md), which is a form of deployment;
-
-There's also a fourth type of run - [module test case](test-case.md). Very similar to a tracked run, it's executed on a OpenTofu/Terraform module.
+- [Task](./task.md): A freeform command you can execute on your infrastructure.
+- [Proposed run](./proposed.md): Serves as a preview of introduced changes.
+- [Tracked run](./tracked.md): A form of deployment.
+- [Module test case](./test-case.md): Executed on an OpenTofu/Terraform module, rather than in Spacelift. Similar to a tracked run.
 
 ## Execution model
 
-In Spacelift, each run is executed on a worker node, inside a Docker container. We maintain a number of these worker nodes (collectively known as the _public worker pool_) that are available to all customers, but also allow individual customers to run our agent on their end, for their exclusive use. You can read more about worker pools [here](../worker-pools).
+Runs are executed on a worker node inside a Docker container. Spacelift maintains a number of these worker nodes (called the [public worker pool](../worker-pools/README.md#public-worker-pool)) that are available to all customers, but individual customers are allowed to run our agent on their end, for their exclusive use.
 
-Regardless of whether you end up using a private or a public worker pool, each Spacelift run involves a handover between _spacelift.io_ (which we like to call _the mothership_) and the worker node. After the handover, the worker node is fully responsible for running the job and communicating the results of the job back to _the mothership_.
+Each Spacelift run involves a handover between _spacelift.io_ and the worker node (the public or private worker pool). After the handover, the worker node is fully responsible for running the job and communicating the results of the job back to _spacelift.io_.
 
 !!! info
-    It's important to know that it's always the worker node executing the run and accessing your infrastructure, never the mothership.
+    Your worker node (public or private) executes the run and accesses your infrastrucutre, not _spacelift.io_.
 
 ## Common run states
 
-Regardless of the type of the job performed, some phases and terminal states are common. We discuss them here, so that we can refer to them when describing various types of runs in more detail.
+Regardless of the type of the job performed, some phases and terminal states are common.
 
 ### Queued
 
-Queued means that the run is not [Ready](#ready) for processing, as it's either blocked, waiting for dependencies to finish, or requires additional action from a user.
+Queued is a **passive state**, meaning no operations are performed. Queued runs are not [ready](#ready) for processing, either blocked, waiting for dependencies to finish, or requiring additional action from a user.
 
-Spacelift serializes all state-changing operations to the Stack. Both tracked runs and tasks have the capacity to change the state, they're never allowed to run in parallel. Instead, each of them gets an exclusive lock on the stack, blocking others from starting.
+Spacelift serializes all state-changing operations to the stack. Both tracked runs and tasks can change the state, so each of them gets an exclusive lock on the stack, blocking other runs from starting.
 
-If your run or task is **currently blocked** by something else holding the lock on the stack, you'll see the link to the blocker in run state list:
+If your run or task is currently blocked by another run holding a lock on the stack, you'll see a link to the blocker in the run state list:
 
-![](../../assets/screenshots/run/blocked-run.png)
+![Blocker in Spacelift run state list](<../../assets/screenshots/run/blocked-run.png>)
 
-There can also be other reasons why the run is in this state and is not being promoted to state [Ready](#ready):
+If your queued run isn't blocked by another run and isn't being promoted to the ready state, it could need:
 
-- It needs to be approved
-- It's waiting for dependant stacks to finish
-- It's waiting for external dependencies to finish
+- Approval
+- Dependent stacks to finish
+- External dependencies to finish
 
-Queued is a _passive state_ meaning no operations are performed while a run is in this state. The user can also discard the run while it's still queued, transitioning it to the terminal [Discarded](#discarded) state.
+The user can discard a run while it's still queued, transitioning it to the terminal [discarded](#discarded) state.
 
 ### Ready
 
-Ready state means that the run is eligible for processing and is waiting for a worker to become available. A run will stay in this state until
-it's picked up by a worker.
+Ready is a **passive state**, meaning no operations are performed. Ready runs are eligible for processing and are waiting for a worker to become available. A run will stay in this state until it's picked up by a worker.
 
-When using the public worker pool, you will have to wait until a worker becomes available. For private workers,
-please refer to the [worker pools documentation](../worker-pools) for troubleshooting advice.
-
-Ready is a _passive state_ meaning no operations are performed while a run is in this state. When a worker is available, the state will automatically transition to [Preparing](#preparing). The user is also able to discard the run even if it's ready for processing, transitioning it to the terminal [Discarded](#discarded) state.
+When a worker is available, the state will automatically transition to [preparing](#preparing). The user can discard a run even if it's _ready_, transitioning it to the terminal [discarded](#discarded) state.
 
 ### Discarded
 
-Discarded state means that the user has manually stopped a [Queued](#queued) run or task even before it had the chance to be picked up by the worker.
+Discarded is a **passive state**, meaning no operations are performed. Discarded runs occur when the user manually stops a [queued](#queued) run or task before it can be picked up by the worker.
 
-Discarded is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can follow it.
+This is also a **terminal state** meaning that no further state can follow it. Runs that are discarded can't be moved to a different state.
 
 ### Preparing
 
-The _preparing_ state is the first one where real work is done. At this point both the run is eligible for processing and there's a worker node ready to process it. The preparing state is all about the handover and dialog between _spacelift.io_ and the worker.
+Runs in the preparing state are eligible for processing (not being blocked or awaiting approvals) **and** worker nodes are ready to process them. The preparing state is when the handover and dialog between _spacelift.io_ and the worker happens, for example:
 
-Here's an example of one such handover:
+![Run handover](<../../assets/screenshots/run/handover.png>)
 
-![](../../assets/screenshots/run/handover.png)
+Ground Control refers to the bit directly controlled by Spacelift, when we ensure the worker node gets everything required to perform the job, and that the node can take over the execution.
 
-Note that Ground Control refers to the bit directly controlled by us, in a nod to late [David Bowie](https://www.youtube.com/watch?v=tRMZ_5WYmCg){: rel="nofollow"}. The main purpose of this phase is for Ground Control to make sure that the worker node gets everything that's required to perform the job, and that it can take over the execution.
-
-Once the worker is able to pull the Docker image and use it to start the container, this phase is over and the [initialization](#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](#failed).
+Once the worker is able to pull the Docker image and use it to start the container, the preparing phase is over and the [initialization](#initializing) phase begins. If the process fails for whatever reason, the run is marked as [failed](#failed).
 
 ### Initializing
 
-The last phase where actual work is done and which is common to all types of run is the _initialization_. This phase is handled exclusively by the worker and involves running [pre-initialization hooks](../stack/stack-settings.md#customizing-workflow) and vendor-specific initialization process. For Terraform stacks it would mean running `terraform init`, in the right directory and with the right parameters.
+The _initialization_ phase is handled exclusively by the worker and involves running [pre-initialization hooks](../stack/stack-settings.md#customizing-workflow) and vendor-specific initialization processes. For Terraform stacks, it would mean running `terraform init` in the right directory and with the right parameters.
 
-Important thing to note with regards to pre-initialization hooks and the rest of the initialization process is that all these run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
+Pre-initialization hooks and the rest of the initialization process all run in the same shell session, so environment variables exported by pre-initialization hooks are accessible to the vendor-specific initialization process. This is often the desired outcome when working with external secret managers like HashiCorp Vault.
 
-If this phase fails for whatever reason, the run is marked as [failed](#failed). Otherwise, the next step is determined by the type of the run being executed.
+If this phase fails, the run is marked as [failed](#failed). Otherwise, the next step is determined by the type of the run being executed.
 
 ### Failed
 
-If a run transitions into the _failed_ state means that something, at some point went wrong and this state can follow any state. In most cases this will be something related to your project like:
+Failed is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
 
-- errors in the source code;
-- [pre-initialization checks](../stack/stack-settings.md#before-init-scripts) failing;
-- [plan policies](../policy/terraform-plan-policy.md) rejecting your change;
-- deployment-time errors;
+If a run transitions into the _failed_ state, something went wrong. In most cases the issue will be something related to your project like:
 
-In rare cases errors in Spacelift application code or third party dependencies can also make the job fail. These cases are clearly marked by a notice corresponding to the failure mode, reported through our exception tracker and immediately investigated.
+- Errors in the source code.
+- [Pre-initialization checks](../stack/stack-settings.md#customizing-workflow) failing.
+- [Plan policies](../policy/terraform-plan-policy.md) rejecting your change.
+- Deployment-time errors.
 
-_Failed_ is a passive state meaning no operations are performed while the run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
+In rare cases, errors in the Spacelift application code or third party dependencies can also make the job fail. These cases are clearly marked by a notice corresponding to the failure mode, reported through our exception tracker and immediately investigated.
+
+### Stopped
+
+Stopped is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
+
+Some types of runs can be interrupted. You can send a stop signal from the GUI and/or API to the run, which is then passed to the worker handling the job. The worker decides whether to handle or ignore the stop signal.
+
+The stopped state indicates that a run has been stopped while [initializing](#initializing) or [planning](./proposed.md#planning), either manually by the user or by Spacelift (for proposed changes). Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch to limit the number of unnecessary API calls to your resource providers.
+
+Here's an example of a run manually stopped while [initializing](#initializing):
+
+![Stopped run example](<../../assets/screenshots/run/stopped-run.png>)
 
 ### Finished
 
-Finished state means that the run was successful, though the success criteria will depend on the type of run. Please read the documentation for the relevant run type for more details.
+Finished is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
 
-Finished is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
+Finished runs were executed successfully, though the success criteria will depend on the type of run.
 
-### Full List of Potential Run States
+### Full list of potential run states
 
-NONE - The stack is created but no initial runs have been triggered. This is not offically a run state but is listed in the UI for informational purposes.
+| State | Description | Terminal? | Passive? |
+| ----- | ----------- | --------- | -------- |
+| `NONE` | Stack is created but no initial runs have been triggered. Not offically a run state but is listed in the UI for informational purposes. | ❌ | ❌ |
+| `QUEUED` | Queued, waiting for an available worker or for the stack lock to be released by another run. | ❌ | ✅ |
+| `CANCELED` | Canceled by the user. | ✅ | ✅ |
+| `INITIALIZING` | Run's workspace is currently initializing on the worker. | ❌ | ✅ |
+| `PLANNING` | Worker is planning the run. | ❌ | ✅ |
+| `FAILED` | Run failed. | ✅ | ✅ |
+| `FINISHED` | Finished successfully. | ✅ | ✅ |
+| `UNCONFIRMED` | Planned successfully, but run reports changes. Waiting for the user to review. | ❌ | ❌ |
+| `DISCARDED` | Run's plan rejected by the user. | ✅ | ✅ |
+| `CONFIRMED` | Run's plan confirmed by the user. Waiting for the worker to start processing. | ❌ | ❌ |
+| `APPLYING` | Applying the run's changes. | ❌ | ❌ |
+| `PERFORMING` | Performing the task requested by the user. | ❌ | ❌ |
+| `STOPPED` | Stopped by the user. | ✅ | ✅ |
+| `DESTROYING` | Worker performing a destroy operation on the managed resources. | ❌ | ❌ |
+| `PREPARING` | Workspace being prepared for the run. | ❌ | ✅ |
+| `PREPARING_APPLY` | Workspace being prepared for the change deployment. | ❌ | ✅ |
+| `SKIPPED` | Run was skipped. | ✅ | ✅ |
+| `REPLAN_REQUESTED` | Pending a replan and should get picked up by the scheduler. | ❌ | ❌ |
+| `PENDING` | Deprecated state. | ❌ | ✅ |
+| `READY` | Ready to start. | ❌ | ✅ |
+| `PENDING_REVIEW` | Proposed run is waiting for post-planning approval policy sign-off. | ❌ | ❌ |
 
-QUEUED - The run is queued and is either waiting for an available worker or for the stack lock to be released by another run.
-
-CANCELED - The run has been canceled by the user.
-
-INITIALIZING - The run's workspace is currently initializing on the worker.
-
-PLANNING - The worker is planning the run.
-
-FAILED - The run has failed.
-
-FINISHED - The run or task has finished successfully.
-
-UNCONFIRMED - The run has planned successfully, it reports changes and is waiting for the user to review those.
-
-DISCARDED - The run's plan has been rejected by the user.
-
-CONFIRMED - The run's plan has been confirmed by the user. The run is now waiting for the worker to pick it up and start processing.
-
-APPLYING - A worker is currently applying the run's changes.
-
-PERFORMING - The worker is currently performing the task requested by the user.
-
-STOPPED - The run has been stopped by the user.
-
-DESTROYING - The worker is currently performing a destroy operation on the managed resources.
-
-PREPARING - The workspace is currently being prepared for the run.
-
-PREPARING_APPLY - The workspace is currently being prepared for the change deployment.
-
-SKIPPED - The run was skipped.
-
-REPLAN_REQUESTED - The run is pending a replan and should get picked up by the scheduler.
-
-PENDING - Deprecated state.
-
-PREPARING_REPLAN - The run is being prepared to be replanned.
-
-READY - The run is ready to be started.
-
-PENDING_REVIEW - The proposed run is waiting for post-planning approval policy sign-off.
-
-## Stopping runs
-
-Some types of runs in some phases may safely be interrupted. We allow sending a stop signal from the GUI and API to the run, which is then passed to the worker handling the job. It's then up to the worker to handle or ignore that signal.
-
-Stopped state indicates that a run has been stopped while [Initializing](#initializing) or [Planning](./proposed.md#planning), either manually by the user or - for proposed changes - also by Spacelift. Proposed changes will automatically be stopped when a newer version of the code is pushed to their branch. This is mainly designed to limit the number of unnecessary API calls to your resource providers, though it saves us a few bucks on EC2, too.
-
-Here's an example of a run manually stopped while [Initializing](#initializing):
-
-![](../../assets/screenshots/run/stopped-run.png)
-
-Stopped is a _passive state_ meaning no operations are performed while a run is in this state. It's also a _terminal state_ meaning that no further state can supersede it.
-
-## Logs Retention
+## Log retention
 
 {% if is_saas() %}
 
 Run logs are kept for a configurable retention period. By default, all accounts have a retention period of **60 days**.
 
-## Viewing Current Retention Period
+### View current retention period
 
-You can view your current run logs retention period in the Spacelift UI by navigating to **Organization Settings** and selecting the **Limits** section.
+You can view your current run logs retention period in the Spacelift UI. Hover over your name in the bottom left, click **Organization Settings**, then click **Limits**.
 
-## Customizable Retention Periods
+### Customizable retention periods
 
-The logs retention period can be customized to one of the following options:
+The log retention period can be one of the following:
 
-- **60 days** (default)
-- **90 days**
-- **180 days**
-- **365 days**
-- **730 days**
+- 60 days (default)
+- 90 days
+- 180 days
+- 365 days
+- 730 days
 
-To modify your retention period, please contact your customer representative who can configure this setting for your account.
+To modify the retention period settings for your account, contact your customer representative.
 
-## Important Considerations
+### Important considerations
 
-Changing the retention period will not retroactively apply to existing runs. The new retention period will only take effect for runs created after the change has been made. Previously created runs will continue to follow the retention period that was active when they were created.
+Changing the retention period will not retroactively apply to existing runs. The new retention period will only take effect for runs created **after** the change has been made. Previously created runs will continue to follow the retention period that was active when they were created.
 
 {% else %}
 
-Run logs are kept for a configurable retention period. By default, run logs have a retention period of **60 days**.
-[If there's a need to customize the retention period, you can do so by configuring a custom S3 bucket configuration for the run logs.](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted?tab=readme-ov-file#deploy-with-custom-s3-bucket-retention)
+Run logs are kept for a configurable retention period. By default, run logs have a retention period of **60 days**. If you need to customize the log retention period, configure a [custom S3 bucket configuration for the run logs](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted?tab=readme-ov-file#deploy-with-custom-s3-bucket-retention).
 
 {% endif %}
 
@@ -191,39 +161,52 @@ Run logs are kept for a configurable retention period. By default, run logs have
 
 Runs have different priorities based on their type.
 
-The highest priority is assigned to blocking runs (tracked runs, destroy runs, and tasks), followed by proposed runs, and then drift detection runs.
-Runs of the same type are processed in the order they were created, oldest first.
+The highest priority is assigned to blocking runs (tracked runs, destroy runs, and tasks), followed by proposed runs, and then drift detection runs. Runs of the same type are processed in the order they were created, oldest first.
 
-You can manually change the priority of a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. We will process prioritized runs before runs from other stacks. However, a stack's standard order of run types (tasks, tracked, and proposed runs) execution will still be respected.
+You can automatically prioritize runs using a [push policy](../policy/push-policy/README.md#prioritization). We only recommend automatic prioritization in special circumstances. For most users, the default prioritization (tracked runs, then proposed runs, then drift detection runs) provides an optimal user experience.
+
+You can manually prioritize a run while it's in a [non-terminal state](#common-run-states) if a private worker pool is processing the run. Spacelift will process prioritized runs before runs from other stacks. However, a stack's standard execution order of run types (tasks, tracked, and proposed runs) will be respected.
 
 The priority of a run can be changed from the run's view and in the worker pool queue view.
 
 ### Run view
 
-![](../../assets/screenshots/run/prioritize-from-run-view.png)
+1. In the Spacelift UI, navigate to **Ship Infra** > **Stacks**.
+2. Click on the name of the stack whose run you will prioritize.
+3. In the _Tracked runs_ tab, click the name of the run to prioritize.
+4. If you are using a private worker pool **and** the run is in a non-terminal state, click **Prioritize**.
+
+![Prioritize run in run view](<../../assets/screenshots/run/prioritize-from-run-view.png>)
 
 ### Worker pool queue view
 
-![](../../assets/screenshots/run/prioritize-from-worker-pool-view.png)
+1. In the Spacelift UI, navigate to **Manage Organization** > **Worker Pools**.
+2. Click the name of the worker pool assigned to the run.
+3. Click **Queue**.
+4. Next to the run you will prioritize, click the **three dots**, then click **Prioritize**.
 
-Runs can be prioritized manually or automatically, using a [push policy](../policy/push-policy/README.md#prioritization). Note that we only recommend automatic prioritization in special circumstances. For most users, the default prioritization (tracked runs, then proposed runs, then drift detection runs) provides an optimal user experience.
+![Prioritize run in worker pool queue](<../../assets/screenshots/run/prioritize-from-worker-pool-view.png>)
 
-## Limit Runs
+## Limit runs
 
-You can also limit the number of runs being created for a VCS event by navigating to Organization settings and clicking on Limits.
+You can limit the number of runs being created for a VCS event.
 
-![](../../assets/screenshots/run/limit-runs.png)
+1. Hover over your name in the bottom left, click **Organization Settings**, then click **Limits**.
+2. **Turn on** the _Limit of runs created for a VCS event_ toggle.
+3. Use the slider or enter a number in the box to set the maximum number of runs triggered by a VCS event for your account.
 
-You can set a maximum number of 500 runs to be triggered by a VCS event for your account.
+![Limit number of runs](<../../assets/screenshots/run/limit-runs.png>)
 
-If the number of runs that are going to be triggered exceeds the limit you have set in Spacelift, you will be able to see this as the reason for failure in your VCS provider.
+You can set a maximum number of up to 500 runs.
 
-## Zero Trust Model
+If the number of runs that are going to be triggered exceeds the limit set in Spacelift, you will be able to see this as the reason for failure in your VCS provider.
 
-For your most sensitive Stacks you can use additional verification of Runs based on arbitrary metadata you can provide to Runs when creating or confirming them.
+## Run verification
 
-This metadata can be passed through the API or by using the spacectl CLI to create or confirm runs. Every time such an interaction happens, you can add a new piece of metadata, which will form a list of metadata blobs inside of the Run. This will then be available in policies, including the private-worker side initialization policy.
+For your most sensitive stacks, you can add additional verification of runs based on [arbitrary metadata](./user-provided-metadata.md) you provide to runs when creating or confirming them. This works for any kind of run, including tasks.
 
-This way you can i.e. sign the runs when you confirm them and later verify this signature inside of the private worker, through the initialization policy. There you can use the exec function, which lets you run an arbitrary binary inside of the docker image. This binary would verify that the content of the run and signature match and that the signature is a proper signature of somebody from your company.
+1. Metadata is passed to the created or confirmed run through the [API](../../integrations/api.md) or the [spacectl CLI](../spacectl.md).
+2. Every time this interaction happens, add a new piece of metadata, which will form a list of metadata blobs inside the run.
+3. The metadata blobs are available in policies, including the private-worker side initialization policy.
 
-This works for any kind of Run, including tasks.
+Using additional verification allows you to sign the runs when you confirm them and later verify this signature inside of the private worker, through the initialization policy. There you can use the `exec` function, which runs an arbitrary binary inside of the Docker image. This binary verifies that the content of the run and signature match and that the signature is a proper signature of somebody from your company.

@@ -6,29 +6,31 @@
 
 **Spacelift Intent** lets you provision and manage infrastructure by describing what you need in natural language. Instead of writing Terraform/OpenTofu code, your MCP client (e.g. Claude Code) calls Spacelift Intent, which directly interacts with provider schemas under Spacelift’s guardrails (policies, audit trail, state, permissions).
 
-## **Key concepts**
+## Key concepts
 
-- **Natural language**: Describe your infrastructure needs in natural language; Intent translates it directly into the infrastructure you want.
-- **Policies**: Spacelift enforces governance (OPA/Rego policies) before execution to deny unsafe operations and allow compliant ones.
-- **State & audit built-in**: Centralize state management and view the complete operation history without manual backend configuration.
-- **Separate policy writing & resource changes:** With [Spaces](../spaces/README.md) and our [access control features](../authorization/rbac-system.md), you can assign precise roles and permissions so authors and operators stay clearly separated.
+- **Natural language:** Describe your infrastructure needs in natural language; Intent translates it directly into the infrastructure you want.
+- **Policies:** Spacelift enforces governance (OPA/Rego policies) before execution to deny unsafe operations and allow compliant ones.
+- **State & audit built-in:** Centralize state management and view the complete operation history without manual backend configuration.
+- **Separate policy writing & resource changes:** With [spaces](../spaces/README.md) and our [access control features](../authorization/rbac-system.md), you can assign precise roles and permissions so authors and operators stay clearly separated.
 
-### **Architecture (high level)**
+## High-level architecture
 
 Spacelift Intent connects your AI client to your cloud infrastructure through a secure, policy-governed pipeline:
 
 1. **MCP Client (Claude Code, ChatGPT, VS Code, etc.):** You describe infrastructure in natural language.
-2. **Intent MCP Serve**r: Translates requests into provider operations, discovers Terraform providers from OpenTofu registry, learns resource schemas.
+2. **Intent MCP Server:** Translates requests into provider operations, discovers Terraform providers from OpenTofu registry, learns resource schemas.
 3. **Spacelift Control Plane:** Enforces policies (OPA/Rego), manages state, records audit history, handles cloud authentication, provides resource visibility.
 4. **Cloud Providers (AWS, etc.):** Executes approved operations via cloud integrations with scoped permissions.
 
-**Key flow:** You send a natural language prompt describing infrastructure changes. Intent interprets the request, discovers relevant Terraform providers from the OpenTofu registry, and learns their schemas to plan operations. Attached policies then evaluate the plan against governance rules—allowing or denying based on resource types, operations, or attributes.
+### Key flow
 
-If approved, Intent executes changes via cloud integrations with scoped credentials. State updates automatically and full operation history is recorded for audit and rollback.
+1. You send a natural language prompt describing infrastructure changes.
+2. Intent interprets the request, discovers relevant Terraform providers from the OpenTofu registry, and learns their schemas to plan operations.
+3. Attached policies then evaluate the plan against governance rules, allowing or denying based on resource types, operations, or attributes.
+4. If approved, Intent executes changes via cloud integrations with scoped credentials.
+5. State updates automatically and full operation history is recorded for audit and rollback.
 
-![High-level architecture of Spacelift Intent](../../assets/screenshots/spacelift-intent/intent.png)
-
----
+![High-level architecture of Spacelift Intent](<../../assets/screenshots/spacelift-intent/intent.png>)
 
 ## Supported clients & endpoint
 
@@ -36,17 +38,13 @@ If approved, Intent executes changes via cloud integrations with scoped credenti
 - **Tested clients:** Claude Code, Claude Desktop (custom connectors), Gemini, Codex
 - **Coming soon:** VS Code, Cursor
 
----
+### Prerequisites
 
-## Prerequisites
-
-- **Claude Code**
+- **Claude Code** or similar client.
 - **Spacelift account** with access to Intent
     - for Early Access, we require `root` space admin access
 - _(Optional for AWS tests)_ An **AWS account**
 - [**AWS integration** configured in Spacelift](../../getting-started/integrate-cloud/AWS.md) if you plan to create AWS resources
-
----
 
 ## Set up Spacelift Intent
 
@@ -56,107 +54,88 @@ If approved, Intent executes changes via cloud integrations with scoped credenti
 
 ### Step 1. Add Intent MCP server to MCP Client
 
-#### 1.1 Claude Code
+=== "Claude Code"
 
-You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
+    You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
 
-**CLI:**
+    **CLI:**
 
-```bash
-claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent/mcp
-```
+    ```bash
+    claude mcp add intent-mcp -t http https://<account-name>.app.spacelift.io/intent/mcp
+    ```
 
-**Config file (`.mcp.json` at repo root):**
+    **Config file (`.mcp.json` at repo root):**
 
-```json
-{
-  "mcpServers": {
-    "intent-mcp": {
-      "type": "http",
-      "url": "https://<account-name>.app.spacelift.io/intent/mcp"
+    ```json
+    {
+      "mcpServers": {
+        "intent-mcp": {
+          "type": "http",
+          "url": "https://<account-name>.app.spacelift.io/intent/mcp"
+        }
+      }
     }
-  }
-}
-```
+    ```
 
----
+=== "Gemini"
 
-#### 1.2 Gemini
+    You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
 
-You can add the MCP server via command-line interface (CLI) _or_ by editing your config file.
+    **CLI:**
 
-**CLI:**
+    ```bash
+    gemini mcp add --transport http intent-mcp https://<account-name>.app.spacelift.io/intent/mcp
+    ```
 
-```bash
-gemini mcp add --transport http intent-mcp https://<account-name>.app.spacelift.io/intent/mcp
-```
+    **Config file (`.gemini/settings.json` at repo root):**
 
-**Config file (`.gemini/settings.json` at repo root):**
-
-```json
-{
-  "mcpServers": {
-    "intent-mcp": {
-      "httpUrl": "https://<account-name>.app.spacelift.io/intent/mcp"
+    ```json
+    {
+      "mcpServers": {
+        "intent-mcp": {
+          "httpUrl": "https://<account-name>.app.spacelift.io/intent/mcp"
+        }
+      }
     }
-  }
-}
-```
+    ```
 
----
+=== "Codex"
 
-#### 1.3 Codex
+    You can add the MCP server by editing your config file.
 
-You can add the MCP server by editing your config file.
+    **Config file (`~/.codex/config.toml`):**
 
-**Config file (`~/.codex/config.toml`):**
+    ```toml
+    [features]
+    rmcp_client = true
 
-```toml
-[features]
-rmcp_client = true
+    [mcp_servers.intent-mcp]
+    url = "https://<account-name>.app.spacelift.io/intent/mcp"
+    startup_timeout_sec = 20.0
+    experimental_use_rmcp_client = true
+    enabled = true
+    ```
 
-[mcp_servers.intent-mcp]
-url = "https://<account-name>.app.spacelift.io/intent/mcp"
-startup_timeout_sec = 20.0
-experimental_use_rmcp_client = true
-enabled = true
-```
-
-Once configured run `codex mcp login intent-mcp` to authenticate in intent-mcp server.
-
----
+    Once configured run `codex mcp login intent-mcp` to authenticate in intent-mcp server.
 
 ### Step 2. Authenticate via MCP
 
 1. Start your MCP client, e.g. **Claude Code**.
 2. Run the `/mcp` command.
-3. Select **`intent-mcp`** and press **Enter** to log in (status shows _disconnected – Enter to login_).
+    ![Claude Code: Spacelift Intent server prior to authentication](<../../assets/screenshots/spacelift-intent/01-claude-code-intent-disconnected.png>)
+3. Select **`intent-mcp`** and press **Enter** to log in (status shows `disconnected - Enter to login`).
+    ![Claude Code: Authenticating Spacelift Intent MCP Server](<../../assets/screenshots/spacelift-intent/02-claude-code-intent-auth.png>)
 4. Complete the browser-based OAuth flow → “Authorization successful”.
+    ![Claude Code: Opening the browser for authentication](<../../assets/screenshots/spacelift-intent/03-claude-code-intent-auth-url.png>)
+    ![Claude Code: Browser authorization request](<../../assets/screenshots/spacelift-intent/04-claude-code-intent-approve-step.png>)
 5. Back in Claude Code, run `/mcp` again to confirm status is **connected**.
-
-![Claude Code: Spacelift Intent server prior to authentication](../../assets/screenshots/spacelift-intent/01-claude-code-intent-disconnected.png)  
-_Claude Code: Spacelift Intent server prior to authentication_
-
-![Claude Code: Authenticating Spacelift Intent MCP Server](../../assets/screenshots/spacelift-intent/02-claude-code-intent-auth.png)  
-_Claude Code: Authenticating Spacelift Intent MCP Server_
-
-![Claude Code: Opening the browser for authentication](../../assets/screenshots/spacelift-intent/03-claude-code-intent-auth-url.png)  
-_Claude Code: Opening the browser for authentication_
-
-![Claude Code: Browser authorization request](../../assets/screenshots/spacelift-intent/04-claude-code-intent-approve-step.png)  
-_Claude Code: Browser authorization request_
-
-![Claude Code: Successful authentication callback](../../assets/screenshots/spacelift-intent/2025-10-07_21-58.png)  
-_Claude Code: Successful authentication callback_
-
-![Claude Code: Spacelift Intent MCP Server successfully connected](../../assets/screenshots/spacelift-intent/2025-10-07_21-58_1.png)  
-_Claude Code: Spacelift Intent MCP Server successfully connected_
+    ![Claude Code: Spacelift Intent MCP Server successfully connected](<../../assets/screenshots/spacelift-intent/2025-10-07_21-58_1.png>)
 
 ### Step 3. Create & use an Intent project
 
 Projects scope your work and policy. You can create and lock a project entirely through natural language.
 
-**Create a project** (via chat prompt):
+#### Create a project via chat prompt
 
 ```text
 Create a project called "my-project".
@@ -164,8 +143,11 @@ Create a project called "my-project".
 
 Claude Code will call `project-create` for you.
 
-![Claude Code: Creating a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-04.png)  
-_Claude Code: Creating a project using Spacelift Intent_
+![Claude Code: Creating a project](<../../assets/screenshots/spacelift-intent/2025-10-07_22-04.png>)  
+
+Creating a project via MCP currently places it in the [root space](../spaces/README.md). To create it in a different space, [use the Spacelift UI](../spaces/README.md).
+
+#### Use (lock) the project
 
 Then **lock** the project for exclusive access:
 
@@ -173,14 +155,11 @@ Then **lock** the project for exclusive access:
 Use the project "my-project".
 ```
 
-This calls `project-use` and locks the project to your user. Locks expire after a short period of inactivity; you can unlock via UI or API.
+This calls `project-use` and locks the project to your user.
 
-![Claude Code: Locking a project using Spacelift Intent](../../assets/screenshots/spacelift-intent/2025-10-07_22-05_1.png)  
-_Claude Code: Locking a project using Spacelift Intent_
+![Claude Code: Locking a project](<../../assets/screenshots/spacelift-intent/2025-10-07_22-05_1.png>)  
 
-💡 Creating a project via MCP currently places it in the root Space. To create it in a different Space, [use the Spacelift UI](../spaces/README.md).
-
----
+Locks expire after a short period of inactivity. You can also unlock via UI or API.
 
 ### Step 4. Create resources (random provider)
 
@@ -190,26 +169,22 @@ Try something safe first using the **random** provider:
 Create two resources — one very long random string and a cute pet.
 ```
 
-Intent discovers the provider schema, proposes the operations, and applies them under policy. You’ll get a short summary in chat once the resources are created.
+Intent will:
 
-![Claude Code: Creating two random provider resources - discovering resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-12.png)  
-_Claude Code: Creating two random provider resources - discovering resources_
+1. Discover the provider schema.
+    ![Claude Code: Creating two random provider resources - discovering resources](<../../assets/screenshots/spacelift-intent/2025-10-07_22-12.png>)  
+2. Propose the operations.
+    ![Claude Code: Creating resources](<../../assets/screenshots/spacelift-intent/2025-10-07_22-13.png>)
+3. Apply them under policy.
+    ![Claude Code: Resources successfully created](<../../assets/screenshots/spacelift-intent/2025-10-07_22-14.png>)
 
-![Claude Code: Creating resources](../../assets/screenshots/spacelift-intent/2025-10-07_22-13.png)  
-_Claude Code: Creating resources_
-
-![Claude Code: Resources successfully created](../../assets/screenshots/spacelift-intent/2025-10-07_22-14.png)  
-_Claude Code: Resources successfully created_
-
----
+You’ll get a short summary in chat once the resources are created.
 
 ## Use Spacelift Intent
 
 ### 1. Explore the Spacelift Intent UI
 
-❗ Please note that we've made some updates to the navigation — you can now find **Intent Projects** under **"Try New Features" → "Intent Projects."**
-
-Open **Spacelift → Intent Projects → my-project**. You'll see:
+In the Spacelift UI, navigate to _Try New Features_ > _Intent Projects_. When you click on a project (e.g. `my-project`), you'll see:
 
 - **Resources:** Current resources in project.
 - **History:** Timeline of operations (create, update, delete, import).
@@ -219,14 +194,19 @@ Open **Spacelift → Intent Projects → my-project**. You'll see:
 
 You will also see if the project is locked and who locked it.
 
-![Spacelift UI: Intent Projects, locking projects and resources list](../../assets/screenshots/spacelift-intent/project-view.png)
-_Spacelift UI: Intent Projects, locking projects and resources list_
-
----
+![Spacelift UI: Locking projects and resources list](<../../assets/screenshots/spacelift-intent/project-view.png>)
 
 ### 2. Create & attach Intent policy
 
-Policies are your guardrails. Create a policy in **Policies** and attach it to your project. A simple example:
+Policies are your guardrails.
+
+#### Create policy
+
+[Create a policy](../policy/README.md#creating-policies), selecting **Intent policy** as the policy type, and attach it to your project.
+
+![Spacelift UI: Creating your first Intent policy](<../../assets/screenshots/spacelift-intent/create-policy.png>)
+
+For example, this policy denies any resource that isn't an S3 bucket:
 
 === "Rego v1"
     ```rego
@@ -280,39 +260,35 @@ Policies are your guardrails. Create a policy in **Policies** and attach it to y
     }
     ```
 
-![Spacelift UI: Creating your first Intent policy](../../assets/screenshots/spacelift-intent/create-policy.png)  
-_Spacelift UI: Creating your first Intent policy_
+![Spacelift UI: Intent policy payload](<../../assets/screenshots/spacelift-intent/2025-10-08_01-52.png>)  
 
-![Spacelift UI: Intent policy payload](../../assets/screenshots/spacelift-intent/2025-10-08_01-52.png)  
-_Spacelift UI: Intent policy payload_
+#### Attach policy
 
-Once the policy is created, attach it to your project. Use the `Policies` tab in your Intent Project view.
+Once the Intent policy is created, attach it to your project.
 
-![Spacelift UI: Attaching policy to the project](../../assets/screenshots/spacelift-intent/attach-policy.png)  
-_Spacelift UI: Attaching policy to the project_
+1. In the Spacelift UI, navigate to _Try New Features_ > _Intent Projects_ and click on your project (e.g. `my-project`).
+2. Click the **Policies** tab, then click **Attach policy**.
+    ![Attaching policy to the project](<../../assets/screenshots/spacelift-intent/attach-policy.png>)
+3. Select the Intent policy you just created, then click **Attach**.
+    ![Finding the right policy](<../../assets/screenshots/spacelift-intent/attach-policy-2.png>)  
 
-![Spacelift UI: Finding the right policy](../../assets/screenshots/spacelift-intent/attach-policy-2.png)  
-_Spacelift UI: Finding the right policy_
+You can view attached policies in your project view on the **Policies** tab.
 
-![Spacelift UI: Intent policy attached](../../assets/screenshots/spacelift-intent/policy-attached.png)  
-_Spacelift UI: Intent policy attached_
-
----
+![Intent policy attached](<../../assets/screenshots/spacelift-intent/policy-attached.png>)  
 
 ### 3. Attach AWS integration
 
-Follow [AWS integration setup](../../getting-started/integrate-cloud/AWS.md), then attach the integration to your Intent project:
+Set up your [AWS integration](../../getting-started/integrate-cloud/AWS.md), then attach it to your Intent project.
 
-- Choose an **AWS region** for tests
-- Grant **Read + Write**
+1. Click the **Integrations** tab in your Intent project view.
+2. Click **Attach AWS integration**.
+3. Select an _AWS region_ to use.
+4. Enable both _Read_ and _Write_ permissions using the sliders, then click **Attach**.
+    ![Attaching AWS integration to the project](<../../assets/screenshots/spacelift-intent/attach-aws-integration.png>)  
 
-![Spacelift UI: Attaching AWS integration to the project](../../assets/screenshots/spacelift-intent/attach-aws-integration.png)  
-_Spacelift UI: Attaching AWS integration to the project_
+You can view the attached integration details in your project view on the **Integrations** tab.
 
-![Spacelift UI: AWS integration attached](../../assets/screenshots/spacelift-intent/aws-integration.png)  
-_Spacelift UI: AWS integration attached_
-
----
+![AWS integration attached](<../../assets/screenshots/spacelift-intent/aws-integration.png>)  
 
 ### 4. Provision AWS resources (S3, EC2)
 
@@ -321,15 +297,15 @@ With the policy above:
 - Creating an **S3 bucket** should **succeed**.
 - Creating an **EC2 instance** should **fail** with a policy denial.
 
-**Create an S3 bucket** (via chat):
+#### Create an S3 bucket (via chat)
 
 ```text
 Create an S3 bucket named "dev-attachments-123" with SSE enabled.
 ```
 
-![S3 bucket prompts](../../assets/screenshots/spacelift-intent/2025-10-07_23-56.png)
+![S3 bucket prompts](<../../assets/screenshots/spacelift-intent/2025-10-07_23-56.png>)
 
-**Update the S3 bucket:**
+#### Update the S3 bucket
 
 You can continue the conversation to modify existing resources:
 
@@ -337,83 +313,69 @@ You can continue the conversation to modify existing resources:
 Add tags to the dev-attachments-123 bucket: Environment=dev, Owner=platform-team.
 ```
 
-Intent updates the resource configuration and applies the changes. You’ll see the updated values in both your AWS account and the Spacelift UI (Resources view shows current config; History tab records the update operation).
+Intent updates the resource configuration and applies the changes. You’ll see the updated values in both your AWS account and the Spacelift UI. In Spacelift, the _Resources_ tab shows the current configuration, and the _History_ tab records the update operation.
 
-![S3 bucket update prompts](../../assets/screenshots/spacelift-intent/2025-10-07_23-59.png)
+![S3 bucket update prompts](<../../assets/screenshots/spacelift-intent/2025-10-07_23-59.png>)
 
-**Verify in Spacelift UI & AWS:**
+#### Verify in Spacelift UI & AWS
 
 Confirm the resource lifecycle in both systems.
 
-1. **In the Spacelift UI**, **n**avigate to your Intent project.
+1. In the Spacelift UI, navigate to your Intent project.
     - **Resources tab:** Shows the S3 bucket with current configuration including the tags you just added.
-
-    ![Resources tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-01_1.png)
+      ![Resources tab](<../../assets/screenshots/spacelift-intent/2025-10-08_00-01_1.png>)
 
     - **History tab:** Lists all operations (create, update) with timestamps, operation details, and who/what triggered them.
+      ![History tab](<../../assets/screenshots/spacelift-intent/2025-10-08_00-02.png>)
 
-    ![History tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-02.png)
-
-2. In the **AWS Console**, go to S3:
+2. In the AWS Console, go to S3:
     - Find your bucket (e.g., `dev-attachments-123`).
     - Verify it exists with the correct configuration.
     - Check the Tags section to confirm `Environment=dev` and `Owner=platform-team` are present.
-
-    ![AWS Console](../../assets/screenshots/spacelift-intent/2025-10-08_00-01.png)
+      ![AWS Console](../../assets/screenshots/spacelift-intent/2025-10-08_00-01.png)
 
 As we've seen, Intent creates resources directly in your cloud, while Spacelift provides access control, policy governance, state management, and full auditability.
 
-**Try an EC2 instance** (to see policy denial):
+#### Test policy denial
+
+Create an EC2 instance to see how Spacelift Intent's policy denial works.
 
 ```text
 Create a t3.micro EC2 instance in us-east-1.
 ```
 
-![EC2 instance prompt result](../../assets/screenshots/spacelift-intent/2025-10-08_00-05.png)
+![EC2 instance prompt result](<../../assets/screenshots/spacelift-intent/2025-10-08_00-05.png>)
 
-💡 Iterate on the policy to allow additional resource types when ready (e.g., allow aws_instance for non-prod).
-
----
+Iterate on the policy to allow additional resource types when you're ready (e.g., allow aws_instance for non-prod).
 
 ### 5. Import existing resources
 
-You can **discover** and **import** pre-existing resources into Intent state, then manage them going forward.
+You can **discover** and **import** pre-existing resources into the Intent state, then manage them.
 
-**Example (SSM Parameters):**
+#### Example (SSM Parameters)
 
 ```text
 List SSM parameters in my account and import them into the project.
 ```
 
-- Review the discovery result.
+1. Review the discovery result.
+![Discovery phase](<../../assets/screenshots/spacelift-intent/2025-10-08_00-12.png>)
+2. Select items to **import** into Intent state.
+![Import phase](<../../assets/screenshots/spacelift-intent/2025-10-08_00-17.png>)
+3. Manage them via natural language and policy from now on.
 
-![Discovery phase](../../assets/screenshots/spacelift-intent/2025-10-08_00-12.png)
-
-- Select items to **import** into Intent state.
-
-![Import phase](../../assets/screenshots/spacelift-intent/2025-10-08_00-17.png)
-
-- Manage them via natural language and policy from now on.
-
-**Check Spacelift UI after import:**
+#### Check Spacelift UI after import
 
 Once resources are imported, verify them in the Spacelift UI.
 
 - **Resources tab:** Shows newly imported SSM parameters alongside your existing S3 bucket.
-
-![Resources tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-19.png)
-
+![Resources tab](<../../assets/screenshots/spacelift-intent/2025-10-08_00-19.png>)
 - **History tab:** Records the import operation with full details of what was imported and when.
-
-![History tab](../../assets/screenshots/spacelift-intent/2025-10-08_00-19_1.png)
-
----
+![History tab](<../../assets/screenshots/spacelift-intent/2025-10-08_00-19_1.png>)
 
 ### 6. Delete resources safely
 
 When deleting, Intent evaluates **dependencies**, requests **confirmation**, and enforces **policy**.
-
-**Example:**
 
 ```text
 Delete the random resources we created earlier.
@@ -425,28 +387,27 @@ Typical flow:
 2. Client asks for **explicit confirmation** (by default).
 3. Apply proceeds or is **blocked by policy**.
 
-![Delete prompt](../../assets/screenshots/spacelift-intent/2025-10-08_00-23.png)
+![Delete prompt](<../../assets/screenshots/spacelift-intent/2025-10-08_00-23.png>)
 
-If policy prevents deletion, update the policy to allow the `random` resources. You can do this using Spacelift Intent, but make sure to review the next section: Session Locks, Permissions & Safety.
+If policy prevents deletion, update the policy to allow the `random` resources. You can do this with Spacelift Intent, but review [Session Locks & Safety](#7-session-locks--safety) first.
 
-![Policy evaluation](../../assets/screenshots/spacelift-intent/2025-10-08_00-29.png)
+#### Updating a policy via MCP
 
-![Policy](../../assets/screenshots/spacelift-intent/2025-10-08_00-33.png)
+1. Update the policy via Intent to allow `random` resources, which should enable deletion in this example.
+![Policy evaluation](<../../assets/screenshots/spacelift-intent/2025-10-08_00-29.png>)
+2. Verify policy updates in the Spacelift UI.
+![Policy](<../../assets/screenshots/spacelift-intent/2025-10-08_00-33.png>)
+3. Attempt the delete prompt again and verify the updated policy works as intended.
+![Policy evaluation result](<../../assets/screenshots/spacelift-intent/2025-10-08_00-34.png>)
 
-![Policy evaluation result](../../assets/screenshots/spacelift-intent/2025-10-08_00-34.png)
+For auditability, the **History** tab shows attempted and successful deletions, with full receipts.
 
-**Auditability:** Even after deletion, the **History** tab shows attempted and successful deletions, with full receipts.
-
-![History tab - deletion](../../assets/screenshots/spacelift-intent/2025-10-08_00-35.png)
-
----
+![History tab - deletion](<../../assets/screenshots/spacelift-intent/2025-10-08_00-35.png>)
 
 ### 7. Session locks & safety
 
-- **Project lock:** Only one active session can operate on a project at a time (prevents conflicting changes). Locks auto-expire after inactivity.
+- **Project lock:** Only one active session can operate on a project at a time (prevents conflicting changes). Locks auto-expire after a period of inactivity.
 - **Client controls:** You can configure your MCP client to always ask before invoking tools.
-
----
 
 ### 8. Access control
 
@@ -456,34 +417,30 @@ Intent projects use Spacelift's [Role-Based Access Control (RBAC)](../authorizat
 
 By default, [Space Admins](../authorization/rbac-system.md#space-admin) have full access to manage Intent projects within their spaces. However, you can create more granular permissions using [custom roles](../authorization/rbac-system.md#custom-roles) with specific Intent project actions. Intent specific actions can be found under the `Intent` category in the role creation page.
 
----
-
 ## Troubleshooting
 
-- **I don't see `intent-mcp` in `/mcp`.**
+### I don't see `intent-mcp` in `/mcp`
 
-    - Re-run the add command; confirm the URL and account name.
-    - Verify `.mcp.json` path and JSON validity.
+- Re-run the add command; confirm the URL and account name.
+- Verify `.mcp.json` path and JSON validity.
 
-- **OAuth window didn't open.**
+### OAuth window didn't open.
 
-    - Check pop-up blockers. Try re-auth via `/mcp` → select server again.
+Check pop-up blockers. Try re-auth via `/mcp` → select server again.
 
-- **`project-use` fails / lock busy.**
+### `project-use` fails / lock busy
 
-    - Another session may hold the lock. Wait for timeout, or unlock via UI/API.
+Another session may hold the lock. Wait for timeout, or unlock via UI/API.
 
-- **Policy denies everything.**
+### Policy denies everything
 
-    - Start with allow-list for one resource type and expand.
-    - Use a separate test project/Space while iterating.
-    - Enable policy sampling by adding `sample = true` to your policy to capture evaluation events and debug in the Policy Workbench (UI → Policies → select policy → Show simulation panel).
+- Start with allow-list for one resource type and expand.
+- Use a separate test project/space while iterating.
+- Enable policy sampling by adding `sample = true` to your policy to capture evaluation events and debug in the Policy Workbench (UI → Policies → select policy → Show simulation panel).
 
-- **AWS creation fails.**
+### AWS creation fails
 
-    - Verify integration is attached **to the project**, region matches prompts, and access is **Read+Write**.
-
----
+Verify integration is attached **to the project**, region matches prompts, and access is **Read+Write**.
 
 ## FAQ
 
