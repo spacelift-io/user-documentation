@@ -60,6 +60,9 @@ markdown_extensions:
       permalink_title: Anchor link to this section
 extra_css:
   - assets/css/custom.css
+  - assets/css/copy-to-llm.css
+extra_javascript:
+  - assets/js/copy-to-llm.js
 extra:
   generator: false
   environment: !ENV [DOC_ENV, "dev"]
@@ -86,6 +89,7 @@ extra:
 hooks:
   - hooks/fetch_banner.py
   - hooks/move_index.py
+  - hooks/copy_to_llm.py
 plugins:
   - search
   - macros
