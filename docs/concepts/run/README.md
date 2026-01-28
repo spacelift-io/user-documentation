@@ -70,7 +70,7 @@ If this phase fails, the run is marked as [failed](#failed). Otherwise, the next
 
 ### Failed
 
-Failed is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can supersede it.
+Failed is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
 
 If a run transitions into the _failed_ state, something went wrong. In most cases the issue will be something related to your project like:
 
@@ -83,7 +83,7 @@ In rare cases, errors in the Spacelift application code or third party dependenc
 
 ### Stopped
 
-Stopped is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can supersede it.
+Stopped is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
 
 Some types of runs can be interrupted. You can send a stop signal from the GUI and/or API to the run, which is then passed to the worker handling the job. The worker decides whether to handle or ignore the stop signal.
 
@@ -95,58 +95,35 @@ Here's an example of a run manually stopped while [initializing](#initializing):
 
 ### Finished
 
-Finished is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can supersede it.
+Finished is a **passive state**, meaning no operations are performed. It's also a **terminal state**, so no further state can follow it.
 
 Finished runs were executed successfully, though the success criteria will depend on the type of run.
 
 ### Full list of potential run states
 
-- **NONE**: The stack is created but no initial runs have been triggered. This is not offically a run state but is listed in the UI for informational purposes.
-- **QUEUED**: The run is queued and is either waiting for an available worker or for the stack lock to be released by another run.
-- **CANCELED**: The run has been canceled by the user.
-- **INITIALIZING**: The run's workspace is currently initializing on the worker.
-- **PLANNING**: The worker is planning the run.
-- **FAILED**: The run has failed.
-- **FINISHED**: The run or task has finished successfully.
-- **UNCONFIRMED**: The run has planned successfully, it reports changes and is waiting for the user to review those.
-- **DISCARDED**: The run's plan has been rejected by the user.
-- **CONFIRMED**: The run's plan has been confirmed by the user. The run is now waiting for the worker to pick it up and start processing.
-- **APPLYING**: A worker is currently applying the run's changes.
-- **PERFORMING**: The worker is currently performing the task requested by the user.
-- **STOPPED**: The run has been stopped by the user.
-- **DESTROYING**: The worker is currently performing a destroy operation on the managed resources.
-- **PREPARING**: The workspace is currently being prepared for the run.
-- **PREPARING_APPLY**: The workspace is currently being prepared for the change deployment.
-- **SKIPPED**: The run was skipped.
-- **REPLAN_REQUESTED**: The run is pending a replan and should get picked up by the scheduler.
-- **PENDING**: Deprecated state.
-- **PREPARING_REPLAN**: The run is being prepared to be replanned.
-- **READY**: The run is ready to be started.
-- **PENDING_REVIEW**: The proposed run is waiting for post-planning approval policy sign-off.
-
 | State | Description | Terminal? | Passive? |
 | ----- | ----------- | --------- | -------- |
 | `NONE` | Stack is created but no initial runs have been triggered. Not offically a run state but is listed in the UI for informational purposes. | ❌ | ❌ |
-| `QUEUED` | Queued, waiting for an available worker or for the stack lock to be released by another run. | xx | xx |
-| `CANCELED` | Canceled by the user. | xx | xx |
-| `INITIALIZING` | Run's workspace is currently initializing on the worker. | xx | xx |
-| `PLANNING` | Worker is planning the run. | xx | xx |
-| `FAILED` | Run failed. | xx | xx |
-| `FINISHED` | Finished successfully. | xx | xx |
-| `UNCONFIRMED` | Planned successfully, but run reports changes. Waiting for the user to review. | xx | xx |
-| `DISCARDED` | Run's plan rejected by the user. | xx | xx |
-| `CONFIRMED` | Run's plan confirmed by the user. Waiting for the worker to start processing. | xx | xx |
-| `APPLYING` | Applying the run's changes. | xx | xx |
-| `PERFORMING` | Performing the task requested by the user. | xx | xx |
+| `QUEUED` | Queued, waiting for an available worker or for the stack lock to be released by another run. | ❌ | ✅ |
+| `CANCELED` | Canceled by the user. | ✅ | ✅ |
+| `INITIALIZING` | Run's workspace is currently initializing on the worker. | ❌ | ✅ |
+| `PLANNING` | Worker is planning the run. | ❌ | ✅ |
+| `FAILED` | Run failed. | ✅ | ✅ |
+| `FINISHED` | Finished successfully. | ✅ | ✅ |
+| `UNCONFIRMED` | Planned successfully, but run reports changes. Waiting for the user to review. | ❌ | ❌ |
+| `DISCARDED` | Run's plan rejected by the user. | ✅ | ✅ |
+| `CONFIRMED` | Run's plan confirmed by the user. Waiting for the worker to start processing. | ❌ | ❌ |
+| `APPLYING` | Applying the run's changes. | ❌ | ❌ |
+| `PERFORMING` | Performing the task requested by the user. | ❌ | ❌ |
 | `STOPPED` | Stopped by the user. | ✅ | ✅ |
-| `DESTROYING` | Worker performing a destroy operation on the managed resources. | xx | xx |
-| `PREPARING` | Workspace being prepared for the run. | xx | xx |
-| `PREPARING_APPLY` | Workspace being prepared for the change deployment. | xx | xx |
-| `SKIPPED` | Run was skipped. | xx | xx |
-| `REPLAN_REQUESTED` | Pending a replan and should get picked up by the scheduler. | xx | xx |
-| `PENDING` | Deprecated state. | xx | xx |
-| `READY` | Ready to start. | xx | xx |
-| `PENDING_REVIEW` | Proposed run is waiting for post-planning approval policy sign-off. | xx | xx |
+| `DESTROYING` | Worker performing a destroy operation on the managed resources. | ❌ | ❌ |
+| `PREPARING` | Workspace being prepared for the run. | ❌ | ✅ |
+| `PREPARING_APPLY` | Workspace being prepared for the change deployment. | ❌ | ✅ |
+| `SKIPPED` | Run was skipped. | ✅ | ✅ |
+| `REPLAN_REQUESTED` | Pending a replan and should get picked up by the scheduler. | ❌ | ❌ |
+| `PENDING` | Deprecated state. | ❌ | ✅ |
+| `READY` | Ready to start. | ❌ | ✅ |
+| `PENDING_REVIEW` | Proposed run is waiting for post-planning approval policy sign-off. | ❌ | ❌ |
 
 ## Log retention
 
