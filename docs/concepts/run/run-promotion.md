@@ -6,7 +6,7 @@
 
 # Run promotion
 
-[proposed](proposed.md) runs only display changes to be made, while [tracked](tracked.md) runs apply (deploy) the proposed changes.
+[Proposed](proposed.md) runs only display changes to be made, while [tracked](tracked.md) runs apply (deploy) the proposed changes.
 
 Promoting a proposed run is triggering a tracked run for the same Git commit.
 
