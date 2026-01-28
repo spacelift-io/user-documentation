@@ -34,7 +34,7 @@ Let's create a simple initialization policy, attach it to a stack, and see what 
 
 This policy results in:
 
-![Denied by policy message](../../../assets/screenshots/Initial_commit_·_Stack_managed_by_Spacelift (1).png)
+![Denied by policy message](../../../assets/screenshots/policy-denied-initialization.png)
 
 ## Rules
 
