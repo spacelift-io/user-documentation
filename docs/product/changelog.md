@@ -7,6 +7,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-01-28
 
+- feat(docs): add copy markdown button for LLM consumption
 - feat(docs): add copy markdown button for llm consumption
 
 ## 2026-01-27
