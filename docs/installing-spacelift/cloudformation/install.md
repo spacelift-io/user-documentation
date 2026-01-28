@@ -2,7 +2,15 @@
 description: Find out how to install Spacelift Self-Hosted
 ---
 
-# Installation Guide
+# Installation Guide (deprecated)
+
+!!! danger "Not recommended for new installations"
+    CloudFormation-based installations are being phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. **For new installations, use one of these instead:**
+
+    - [Deploying to ECS](../reference-architecture/guides/deploying-to-ecs.md) - Deploy Spacelift on Amazon ECS
+    - [Deploying to EKS](../reference-architecture/guides/deploying-to-eks.md) - Deploy Spacelift on Amazon EKS
+
+    Existing CloudFormation installations will continue to be supported, and we will provide advance notice before discontinuing support. If you're currently using CloudFormation, see the [migration guide](./cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
 
 This guide contains instructions on installing a self-hosted copy of Spacelift in an AWS account you control.
 
@@ -311,17 +319,17 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 
 You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
 
-| Bucket name                       |                                                        Description                                                        |
-| --------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| `run_logs`                        |                                         This is where we store the logs of a run.                                         |
-| `deliveries_bucket`               |                                       Contains webhook and audit trail deliveries.                                        |
-| `large_queue_messages_bucket`     |                  SQS has a limitation of message size (256 KiB), we use an S3 bucket to work around it.                   |
-| `metadata_bucket`                 |                                         Contains metadata for run initialization.                                         |
+| Bucket name                       |                                                       Description                                                       |
+| --------------------------------- | :---------------------------------------------------------------------------------------------------------------------: |
+| `run_logs`                        |                                        This is where we store the logs of a run.                                        |
+| `deliveries_bucket`               |                                      Contains webhook and audit trail deliveries.                                       |
+| `large_queue_messages_bucket`     |                 SQS has a limitation of message size (256 KiB), we use an S3 bucket to work around it.                  |
+| `metadata_bucket`                 |                                        Contains metadata for run initialization.                                        |
 | `policy_inputs_bucket`            | We store policy inputs here - this is used for [Policy Sampling](../../concepts/policy/README.md#sample-policy-inputs). |
-| `uploads_bucket`                  |   Used for uploading [stack states during stack creation](../../faq/README.md#how-do-i-import-the-state-for-my-stack).    |
-| `user_uploaded_workspaces_bucket` |    Used for storing code for the [local preview](../../concepts/stack/stack-settings.md#enable-local-preview) feature.    |
-| `workspaces_bucket`               |                      The workspaces are stored here for paused runs (eg.: waiting for confirmation).                      |
-| `access_logs_bucket`              |                                            Access logs for the load balancer.                                             |
+| `uploads_bucket`                  |  Used for uploading [stack states during stack creation](../../faq/README.md#how-do-i-import-the-state-for-my-stack).   |
+| `user_uploaded_workspaces_bucket` |   Used for storing code for the [local preview](../../concepts/stack/stack-settings.md#enable-local-preview) feature.   |
+| `workspaces_bucket`               |                     The workspaces are stored here for paused runs (eg.: waiting for confirmation).                     |
+| `access_logs_bucket`              |                                           Access logs for the load balancer.                                            |
 
 ```json
     "s3_config": {

@@ -34,7 +34,7 @@ nav:
               - installing-spacelift/reference-architecture/reference/slack.md
               - installing-spacelift/reference-architecture/reference/telemetry.md
               - installing-spacelift/reference-architecture/reference/usage-reporting.md
-      - CloudFormation:
+      - CloudFormation (deprecated):
           - installing-spacelift/cloudformation/install.md
           - installing-spacelift/cloudformation/advanced-installations.md
           - installing-spacelift/cloudformation/disaster-recovery.md
