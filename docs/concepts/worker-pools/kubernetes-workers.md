@@ -8,7 +8,7 @@ description: >-
 We provide a Kubernetes operator for managing Spacelift worker pools. The operator also works on OpenShift. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
 
 !!! info
-    Previously we provided a [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool){: rel="nofollow"} for deploying worker pools to Kubernetes using Docker-in-Docker. This approach is no-longer recommended, and you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
+    The Docker-in-Docker approach is no-longer recommended, you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
 
 A `WorkerPool` defines the number of `Workers` registered with Spacelift via the `poolSize` parameter. The Spacelift operator will automatically create and register a number of `Worker` resources in Kubernetes depending on your `poolSize`.
 
@@ -1190,7 +1190,7 @@ Kubernetes workers are billed based on the number of provisioned workers that yo
 
 ## Migrating from Docker-in-Docker
 
-If you currently use our [Docker-in-Docker Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool) to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
+If you currently use Docker-in-Docker to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
 
 The rest of this section provides useful information to be aware of when switching over from the Docker-in-Docker approach to the operator.
 
@@ -1205,7 +1205,7 @@ There are a number of improvements with the Kubernetes operator over the previou
 
 ### Deploying workers
 
-One major difference between the Docker-in-Docker Helm chart and the new operator is that the new chart only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
+One major difference between Docker-in-Docker and the new operator is that the new approach only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
 
 ### Testing both alongside each other
 
