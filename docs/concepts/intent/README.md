@@ -35,8 +35,7 @@ Spacelift Intent connects your AI client to your cloud infrastructure through a 
 ## Supported clients & endpoint
 
 - **MCP server URL:** `https://<account-name>.app.spacelift.io/intent/mcp`
-- **Tested clients:** Claude Code, Claude Desktop (custom connectors), Gemini, Codex
-- **Coming soon:** VS Code, Cursor
+- **Tested clients:** Claude Code, Claude Desktop (custom connectors), Gemini, Codex, VS Code, Cursor
 
 ### Prerequisites
 
@@ -117,6 +116,43 @@ Spacelift Intent connects your AI client to your cloud infrastructure through a 
     ```
 
     Once configured run `codex mcp login intent-mcp` to authenticate in intent-mcp server.
+
+=== "VS Code"
+
+    You can add the MCP server by editing the workspace config file.
+
+    **Config file (`.vscode/mcp.json` at repo root):**
+
+    ```json
+    {
+      "servers": {
+        "intent-mcp": {
+          "type": "http",
+          "url": "https://<account-name>.app.spacelift.io/intent/mcp"
+        }
+      }
+    }
+    ```
+
+    Alternatively, open VS Code Command Palette and run `MCP: Add Server` to add the server to your user profile for global access.
+
+=== "Cursor"
+
+    You can add the MCP server by editing the config file.
+
+    **Config file (`~/.cursor/mcp.json` for global, or `.cursor/mcp.json` at project root):**
+
+    ```json
+    {
+      "mcpServers": {
+        "intent-mcp": {
+          "url": "https://<account-name>.app.spacelift.io/intent/mcp"
+        }
+      }
+    }
+    ```
+
+    Alternatively, go to Cursor Settings > MCP to add the server.
 
 ### Step 2. Authenticate via MCP
 
