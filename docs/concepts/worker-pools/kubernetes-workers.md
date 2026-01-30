@@ -1178,7 +1178,7 @@ During the controller's startup, you should see the `FIPS 140 mode {"enabled": t
 
 ## Supply custom certificates to worker pools
 
-You can add custom certificate authority (CA) certificates to worker pool containers using the Kubernetes worker pool controller.
+You can add custom certificate authority (CA) certificates to your worker pools. We support adding them to the controller container and to the container that runs OpenTofu/Terraform.
 
 ### Add certificates to controller container
 
@@ -1207,7 +1207,7 @@ controllerManager:
 2. Create an **extended CA bundle**.
       - Download the existing CA cert bundle from the container and append your custom certificate:
 
-        ``` golang
+        ``` bash
         docker run -it public.ecr.aws/spacelift/runner-terraform:latest cat /etc/ssl/certs/ca-certificates.crt > new-bundle.crt && cat custom-ca.pem >> new-bundle.crt
         ```
 
@@ -1215,14 +1215,14 @@ controllerManager:
 
 3. Create a **Kubernetes secret**.
 
-    ``` golang
+    ``` bash
     kubectl create secret generic extended-ca-bundle --from-file=bundle=new-bundle.crt
     ```
 
 4. **Update** your WorkerPool.
       - Delete your existing WorkerPool object (required due to immutable fields):
 
-        ``` golang
+        ``` bash
           kubectl delete workerpool workerpool -n spacelift-worker-pool-system
         ```
 
