@@ -419,7 +419,20 @@ module "spacelift" {
 }
 ```
 
-After applying the Terraform changes, regenerate your `spacelift-values.yaml` from the `helm_values` output and redeploy the Helm chart to enable the VCS Gateway service.
+After applying the Terraform changes, re-apply the ingress class (which now includes the VCS Gateway listener certificate), regenerate your `spacelift-values.yaml` from the `helm_values` output, and redeploy the Helm chart to enable the VCS Gateway service:
+
+```shell
+tofu output -raw kubernetes_ingress_class | kubectl apply -f -
+tofu output -raw helm_values > spacelift-values.yaml
+
+helm upgrade \
+  --repo https://downloads.spacelift.io/helm \
+  spacelift \
+  spacelift-self-hosted \
+  --install --wait --timeout 20m \
+  --namespace "$K8S_NAMESPACE" \
+  --values "spacelift-values.yaml"
+```
 
 Set up the DNS record for the VCS Gateway service. You can find the load balancer address from the ingress:
 
