@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-01-30
+
+- fix(onboarding): remove free trial selection for FedRAMP deployment
 ## 2026-01-28
 
 ### Features
