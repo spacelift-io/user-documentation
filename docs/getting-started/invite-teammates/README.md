@@ -1,9 +1,10 @@
 # Invite teammates to your Spacelift instance
 
-You have two options for inviting people to your Spacelift account:
+You have a few options for inviting people to your Spacelift account:
 
 - Add [single users](#add-single-users).
 - Add [users via policies](#add-users-via-policies).
+- Add groups with [IdP group mapping](../../concepts/authorization/assigning-roles-groups.md#idp-group-role-bindings).
 
 !!! warning
     Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your organization, they automatically lose access to Spacelift. But when allowlisting individuals and _not_ restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
@@ -103,6 +104,6 @@ You have two options for inviting people to your Spacelift account:
 
 Now your colleagues can access your Spacelift account as well.
 
-✅ Step 4 of the LaunchPad is complete! Now you can explore and configure Spacelift as needed. Consider triggering your [first stack run](../../README.md#trigger-your-first-run), or creating a [policy](../../concepts/policy/README.md#creating-policies) or a [context](../../concepts/configuration/context.md#creating).
+✅ Step 4 of the LaunchPad is complete! Now you can explore and configure Spacelift as needed. Consider triggering your [first stack run](../../README.md#trigger-your-first-run), or creating a [policy](../../concepts/policy/README.md#creating-policies) or a [context](../../concepts/configuration/context.md#creating-a-context).
 
 ![LaunchPad Step 4 complete](<../../assets/screenshots/getting-started/invite-teammates/LaunchPad-step-4-complete.png>)
