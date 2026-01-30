@@ -258,30 +258,30 @@ List all stacks with `administrative = true` in your account. You can do this th
 
 Attach the Space Admin role to the stack using the stack's own space as the binding space:
 
-**Using the Terraform provider:**
+=== "Using the Terraform provider"
 
-```hcl
-data "spacelift_role" "admin_role" {
-  slug = "space-admin"
-}
-      
-resource "spacelift_role_attachment" "stack_admin" {
-  stack_id = spacelift_stack.management.id
-  space_id = spacelift_stack.management.space_id
-  role_id  = data.spacelift_role.admin_role.id
-}
-```
+    ```hcl
+    data "spacelift_role" "admin_role" {
+      slug = "space-admin"
+    }
+          
+    resource "spacelift_role_attachment" "stack_admin" {
+      stack_id = spacelift_stack.management.id
+      space_id = spacelift_stack.management.space_id
+      role_id  = data.spacelift_role.admin_role.id
+    }
+    ```
 
-**Using the Web UI:**
+=== "Using the Web UI"
 
-1. Navigate to the stack's **Settings** page, then choose **Roles**
-2. Click **Manage Roles** on the top right
-3. In the drawer, select the **Space admin** role and the stack's own Space as the target
-4. Click **Add**
+    1. Navigate to the stack's **Settings** page, then choose **Roles**.
+    2. Click **Manage Roles** on the top right.
+    3. In the drawer, select the **Space admin** role and the stack's own space as the target.
+    4. Click **Add**.
 
-Assuming your stack is in the `dev` [Space](../spaces/README.md), the role attachment will grant **Space admin** permissions in the `dev` space:
+    Assuming your stack is in the `dev` [space](../spaces/README.md), the role attachment will grant **Space admin** permissions in the `dev` space:
 
-![](../../assets/screenshots/role_stacks_migration.png)
+    ![](../../assets/screenshots/role_stacks_migration.png)
 
 #### 3. Remove the administrative attribute
 
@@ -294,7 +294,7 @@ resource "spacelift_stack" "management" {
 }
 ```
 
-!!! important
+!!! warning
     The administrative flag takes precedence over role attachments. If `administrative = true`, any attached roles will be ignored. You must either set `administrative = false`, or entirely remove the administrative attribute (recommended) for role attachments to take effect.
 
 #### 4. Verify the role attachment
@@ -315,7 +315,7 @@ If any of your policies reference the `stack.administrative` field, update them 
 
     # Would become:
     deny contains "Administrative stacks are not allowed" if {
-      some role in input.spacelift.stack.roles
+      some role in input.stack.roles
       role.id == "space-admin" # (1)
     }
     ```
@@ -330,7 +330,7 @@ If any of your policies reference the `stack.administrative` field, update them 
 
     # Would become:
     deny["Administrative stacks are not allowed"] {
-      role := input.spacelift.stack.roles[_]
+      role := input.stack.roles[_]
       role.id == "space-admin" # (1)
     }
     ```
