@@ -8,6 +8,8 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
+- **Plan policy input**: Removed the feature flag which controls when the `push` object is added in to the push policy input for pull requests. Push object is now only included if the event's `HeadCommit` branch is not the same as the stack branch.
+
 - **Drift Detection Permissions**: Added granular RBAC permissions for drift detection management. Users can now be granted specific permissions to create, update, or delete drift detection schedules on stacks (`DRIFT_DETECTION_INTEGRATION_CREATE`, `DRIFT_DETECTION_INTEGRATION_UPDATE`, `DRIFT_DETECTION_INTEGRATION_DELETE`), enabling more fine-grained access control for drift detection operations.
 
 ## Changes between v4.1.0 and v4.0.0
