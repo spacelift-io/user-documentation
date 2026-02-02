@@ -950,7 +950,7 @@ spec:
 
 ### Using VCS Agents with Kubernetes Workers
 
-Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](./README.md#vcs-agents) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
+Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](../vcs-agent-pools.md#run-the-vcs-agent-inside-a-kubernetes-cluster) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -1175,6 +1175,88 @@ During the controller's startup, you should see the `FIPS 140 mode {"enabled": t
 
 !!! note
     This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
+
+## Supply custom certificates to worker pools
+
+You can add custom certificate authority (CA) certificates to your worker pools. We support adding them to the controller container and to the container that runs OpenTofu/Terraform.
+
+### Add certificates to controller container
+
+1. Ensure your custom certificate is pem-encoded **and** the file name ends in `.pem`.
+2. Within the controller container, mount the certificate to `/ops/spacelift/certs`.
+
+This example is for the controller Helm chart. If you're using a manifest, you will need to edit it directly.
+
+``` yaml
+controllerManager:
+  manager:
+    extraVolumeMounts:
+      - name: ca-secret-volume
+        mountPath: /opt/spacelift/certs
+        readOnly: true
+  extraVolumes:
+    - name: ca-secret-volume
+      secret:
+        secretName: my-amazing-secret-with-something-dot-pem-inside-it
+```
+
+### Add certificates to the OpenTofu/Terraform process
+
+1. Prepare your **custom CA certificate**.
+      - Place your CA certificate in a directory on your computer (e.g., `custom-ca.pem`).
+2. Create an **extended CA bundle**.
+      - Download the existing CA cert bundle from the container and append your custom certificate:
+
+        ``` bash
+        docker run -it public.ecr.aws/spacelift/runner-terraform:latest cat /etc/ssl/certs/ca-certificates.crt > new-bundle.crt && cat custom-ca.pem >> new-bundle.crt
+        ```
+
+      - Ensure `new-bundle.crt` has a newline at the end.
+
+3. Create a **Kubernetes secret**.
+
+    ``` bash
+    kubectl create secret generic extended-ca-bundle --from-file=bundle=new-bundle.crt
+    ```
+
+4. **Update** your WorkerPool.
+      - Delete your existing WorkerPool object (required due to immutable fields):
+
+        ``` bash
+          kubectl delete workerpool workerpool -n spacelift-worker-pool-system
+        ```
+
+      - Create a new WorkerPool with the updated configuration, adjusting your `poolSize` and credential secret names as needed:
+
+        ``` yaml
+          apiVersion: workers.spacelift.io/v1beta1
+          kind: WorkerPool
+          metadata:
+            name: workerpool
+            namespace: spacelift-worker-pool-system
+          spec:
+            pod:
+              volumes:
+                - name: new-ca-bundle
+                  secret:
+                    secretName: extended-ca-bundle
+                    items:
+                      - key: bundle
+                        path: ca-certificates.crt
+              workerContainer:
+                volumeMounts:
+                  - name: new-ca-bundle
+                    mountPath: /etc/ssl/certs
+            poolSize: 5
+            privateKey:
+              secretKeyRef:
+                key: privateKey
+                name: spacelift-worker-pool-credentials
+            token:
+              secretKeyRef:
+                key: token
+                name: spacelift-worker-pool-credentials
+        ```
 
 ## Scaling a pool
 
