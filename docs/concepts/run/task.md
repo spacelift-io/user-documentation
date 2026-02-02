@@ -37,7 +37,7 @@ Spacelift's integration with infrastructure providers like [AWS](../../integrati
 The secrets are masked in the output.
 
 !!! warning
-    The security of your infrastructure and stacks depends on you. Use [task policies](../policy/task-run-policy.md) to prevent certain (or even all) tasks from being executed.
+    The security of your infrastructure and stacks depends on you. Use [task policies](../policy/deprecated/task-run-policy.md) to prevent certain (or even all) tasks from being executed.
 
 ### Audit with task records
 

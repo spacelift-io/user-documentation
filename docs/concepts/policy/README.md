@@ -12,11 +12,11 @@ Spacelift as a development platform is built around this concept and allows defi
 - **Login**: [Who gets to log in](login-policy.md) to your Spacelift account and with what level of access.
 - **Access**: [Who gets to access individual Stacks](stack-access-policy.md) and with what level of access. Access policies have been replaced by [space access control](../spaces/access-control.md).
 - **Approval**: [Who can approve or reject a run](approval-policy.md) and how a run can be approved.
-- **Initialization**: [Which runs and tasks can be started](run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
+- **Initialization**: [Which runs and tasks can be started](deprecated/run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
 - **Notification**: [Routing and filtering notifications](notification-policy.md).
 - **Plan**: [Which changes can be applied](terraform-plan-policy.md).
 - **Push**: [How Git push events are interpreted](push-policy/README.md).
-- **Task**: [Which one-off commands can be executed](task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
+- **Task**: [Which one-off commands can be executed](deprecated/task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
 - **Trigger**: [What happens when blocking runs terminate](trigger-policy.md). Trigger policies have been mostly replaced by [stack dependencies](../stack/stack-dependencies.md).
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
@@ -26,11 +26,11 @@ Please refer to the following table for information on what each policy types re
 | [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin` |
 | [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
 | [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve, reject` |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
 | [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
 | [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
 | [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
 | [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
@@ -103,11 +103,11 @@ Please refer to the following table for information on what each policy types re
 | [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin`|
 | [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
 | [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve`, `reject` |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>` | `deny` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>` | `deny` |
 | [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
 | [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
 | [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
 | [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
@@ -121,7 +121,7 @@ Please refer to the following table for information on what each policy types re
 
 ### Set of strings
 
-The second group of policies ([initialization](run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions. Only their lack counts as an implicit success.
+The second group of policies ([initialization](deprecated/run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](deprecated/task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions. Only their lack counts as an implicit success.
 
 Here's a practical difference between the two types:
 
@@ -410,7 +410,7 @@ Each of Spacelift's policies supports an additional boolean rule called `sample`
     sample { true }
     ```
 
-If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
+If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](deprecated/task-run-policy.md) policy):
 
 === "Rego v1"
     ```opa
@@ -446,7 +446,7 @@ Capturing all evaluations sounds tempting, but it will also be extremely messy. 
 
 ### Policy workbench in practice
 
-To show you how to work with the policy workbench, we are going to use a [task policy](task-run-policy.md) that allowlists just two tasks: an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty.
+To show you how to work with the policy workbench, we are going to use a [task policy](deprecated/task-run-policy.md) that allowlists just two tasks: an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty.
 
 !!! info
     This example comes from our [test Terraform repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes.
@@ -571,7 +571,7 @@ We can then test it in the console using `opa test` command (note the glob, whic
 PASS: 2/2
 ```
 
-Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](run-initialization-policy.md) that **denies commits** to a particular branch:
+Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](deprecated/run-initialization-policy.md) that **denies commits** to a particular branch:
 
 === "Rego v1"
     ```opa title="deny-sandbox.rego"
