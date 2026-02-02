@@ -7,7 +7,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-02-02
 
-- feat(ui): add warning when attaching stack roles to admin stacks
+- UI feature: Added warning when attaching stack roles to admin stacks.
 ## 2026-01-28
 
 ### Features
