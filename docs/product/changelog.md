@@ -6,7 +6,7 @@ description: Find out about the latest changes to Spacelift.
 
 ## 2026-01-30
 
-- fix(api): resolve URL handling for OIDC keys with double slashes in audience
+- API fix: Resolved URL handling for OIDC keys with double slashes in audience.
 
 ## 2026-01-28
 
