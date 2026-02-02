@@ -100,9 +100,9 @@ nav:
           - concepts/policy/trigger-policy.md
           - Deprecated Policies:
               - concepts/policy/deprecated/README.md
-              - Initialization Policy: concepts/policy/deprecated/run-initialization-policy.md
-              - Task Policy: concepts/policy/deprecated/task-run-policy.md
-              - Migration Guide: concepts/policy/deprecated/migrate-to-approval-policy.md
+              - concepts/policy/deprecated/run-initialization-policy.md
+              - concepts/policy/deprecated/task-run-policy.md
+              - concepts/policy/deprecated/migrate-to-approval-policy.md
       - Resources:
           - concepts/resources/README.md
           - concepts/resources/configuration-management.md
