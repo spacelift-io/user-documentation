@@ -91,7 +91,7 @@ A number of configuration variables are available to customize how your launcher
 - `SPACELIFT_DEBUG`- if set to true, this will output the exact commands spacelift runs to the worker logs.
 
 !!! warning
-    [Server-side initialization policies](../../concepts/policy/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
+    [Server-side initialization policies](../../concepts/policy/deprecated/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
 
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 

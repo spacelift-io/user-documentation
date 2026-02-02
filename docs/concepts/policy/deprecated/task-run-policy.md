@@ -2,7 +2,7 @@
 
 !!! warning
 
-    Task run policies are deprecated. Use [approval policies](./approval-policy.md) instead for a more flexible, powerful way to control which tasks are allowed to proceed.
+    Task run policies are deprecated. Use [approval policies](../approval-policy.md) instead for a more flexible, powerful way to control which tasks are allowed to proceed.
 
     Existing users with task run policies should migrate as soon as possible using our [migration guide](#migration-guide).
 
@@ -35,7 +35,7 @@ Task policies only use a single rule, **deny**, with a string message. A single 
 
 Here's the outcome when trying to run a task:
 
-![Task run policy deny outcome](<../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png>)
+![Task run policy deny outcome](../../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png)
 
 ## Data input schema
 
@@ -177,7 +177,7 @@ If you want to keep allowlisting different commands, it may be more elegant to f
 
 ## Migration guide
 
-A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Spacelift has, more or less, deprecated task policies in favor of approval policies.
+A task policy can be expressed as an [approval policy](../approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Spacelift has, more or less, deprecated task policies in favor of approval policies.
 
 Here are the [task policy examples](#examples) rewritten as approval policies.
 

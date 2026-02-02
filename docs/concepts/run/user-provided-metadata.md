@@ -17,7 +17,7 @@ Occasionally you might want to add additional information to your runs which isn
     SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY=/path/to/your/policy.rego
     ```
 
-3. This policy will make our launcher sample each [initialization policy](../policy/run-initialization-policy.md) evaluation and print it as a log on `stderr`.
+3. This policy will make our launcher sample each [initialization policy](../policy/deprecated/run-initialization-policy.md) evaluation and print it as a log on `stderr`.
 4. We’ll also need a [stack](../stack/README.md) to which [this worker is attached](../worker-pools) to trigger a run and provide an arbitrary metadata string:
 
     ```console
