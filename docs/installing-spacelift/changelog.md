@@ -10,7 +10,12 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - **Plan policy input**: Removed the feature flag which controls when the `push` object is added in to the push policy input for pull requests. Push object is now only included if the event's `HeadCommit` branch is not the same as the stack branch.
 
+## Changes between v4.2.0 and v4.1.0
+
+### Features
+
 - **Drift Detection Permissions**: Added granular RBAC permissions for drift detection management. Users can now be granted specific permissions to create, update, or delete drift detection schedules on stacks (`DRIFT_DETECTION_INTEGRATION_CREATE`, `DRIFT_DETECTION_INTEGRATION_UPDATE`, `DRIFT_DETECTION_INTEGRATION_DELETE`), enabling more fine-grained access control for drift detection operations.
+- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission.
 
 ## Changes between v4.1.0 and v4.0.0
 
