@@ -15,7 +15,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 ### Features
 
 - **Drift Detection Permissions**: Added granular RBAC permissions for drift detection management. Users can now be granted specific permissions to create, update, or delete drift detection schedules on stacks (`DRIFT_DETECTION_INTEGRATION_CREATE`, `DRIFT_DETECTION_INTEGRATION_UPDATE`, `DRIFT_DETECTION_INTEGRATION_DELETE`), enabling more fine-grained access control for drift detection operations.
-- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission.
+- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission. This requires [v2.1.0 of the ECS Terraform module for Spacelift on AWS](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted/releases/tag/v2.1.0) or [v3.3.0 of the EKS Terraform module for Spacelift on AWS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.3.0) depending on your way of installation.
 
 ## Changes between v4.1.0 and v4.0.0
 
