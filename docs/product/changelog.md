@@ -4,10 +4,14 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
-
 ## 2026-02-02
 
 - UI feature: Added warning when attaching stack roles to admin stacks.
+
+## 2026-01-30
+
+- API fix: Resolved URL handling for OIDC keys with double slashes in audience.
+
 ## 2026-01-28
 
 ### Features
