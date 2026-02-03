@@ -39,7 +39,7 @@ The migration process typically follows these steps:
 
 ## Common migration patterns
 
-### Pattern 1: Team-based access
+### Team-based access
 
 The most common access policy pattern maps directly to Spaces.
 
@@ -140,7 +140,7 @@ resource "spacelift_stack" "example" {
 
 ---
 
-### Pattern 2: Environment separation
+### Environment separation
 
 Separating access by environment (dev/staging/prod) is a core Spaces use case.
 
@@ -315,7 +315,7 @@ resource "spacelift_stack" "app_prod" {
 
 ---
 
-### Pattern 3: Repository-based access
+### Repository-based access
 
 Teams often organize infrastructure by repository, with each team owning specific repos.
 
@@ -425,7 +425,7 @@ Login policy:
 
 Some access policy patterns don't map directly to Spaces and require alternative approaches.
 
-### Pattern 4: Time-based access control
+### Time-based access control
 
 Access policies could enforce time-of-day restrictions per request. Spaces evaluate access at login time only.
 
@@ -552,7 +552,7 @@ Access policies could enforce time-of-day restrictions per request. Spaces evalu
 
 ---
 
-### Pattern 5: IP-based access control
+### IP-based access control
 
 Similar to time-based restrictions, IP checks in access policies were per-request. Login policies check IP at login time only.
 
@@ -633,7 +633,7 @@ Similar to time-based restrictions, IP checks in access policies were per-reques
 
 ---
 
-### Pattern 6: Fine-grained access within the same repository
+### Fine-grained access within the same repository
 
 Access policies could provide different access levels to stacks from the same repository. With Spaces, stacks in the same space have the same access control.
 
@@ -760,7 +760,7 @@ Login policy:
 
 ---
 
-### Pattern 7: Complex conditional logic
+### Complex conditional logic
 
 Access policies could deny access based on runtime stack properties. This is not possible with Spaces.
 
@@ -1154,29 +1154,29 @@ resource "spacelift_role" "module_consumer" {
 
 Use this checklist to track your migration progress:
 
-- [ ] **Audit phase**
-    - [ ] List all access policies
-    - [ ] Document access patterns for each policy
-    - [ ] Identify policies that need adaptation
-- [ ] **Design phase**
-    - [ ] Design space structure
-    - [ ] Map stacks to spaces
-    - [ ] Plan login policy or user management approach
-- [ ] **Implementation phase**
-    - [ ] Create spaces in Terraform/UI
-    - [ ] Move stacks to appropriate spaces
-    - [ ] Configure login policies or IdP mappings
-    - [ ] Create custom roles if needed
-- [ ] **Testing phase**
-    - [ ] Test with multiple user accounts
-    - [ ] Verify read/write permissions
-    - [ ] Test edge cases (time, IP, etc.)
-    - [ ] Review audit logs
-- [ ] **Cleanup phase**
-    - [ ] Detach access policies
-    - [ ] Delete access policies
-    - [ ] Update team documentation
-    - [ ] Communicate changes to users
+- **Audit phase**
+    - List all access policies
+    - Document access patterns for each policy
+    - Identify policies that need adaptation
+- **Design phase**
+    - Design space structure
+    - Map stacks to spaces
+    - Plan login policy or user management approach
+- **Implementation phase**
+    - Create spaces in Terraform/UI
+    - Move stacks to appropriate spaces
+    - Configure login policies or IdP mappings
+    - Create custom roles if needed
+- **Testing phase**
+    - Test with multiple user accounts
+    - Verify read/write permissions
+    - Test edge cases (time, IP, etc.)
+    - Review audit logs
+- **Cleanup phase**
+    - Detach access policies
+    - Delete access policies
+    - Update team documentation
+    - Communicate changes to users
 
 ---
 
