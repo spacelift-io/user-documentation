@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-03
+
+- chore(self-hosted): prepare self-hosted release
 ## 2026-02-02
 
 - UI feature: Added warning when attaching stack roles to admin stacks.
