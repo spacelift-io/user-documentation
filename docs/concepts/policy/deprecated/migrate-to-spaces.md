@@ -954,7 +954,7 @@ resource "spacelift_stack" "example" {
 
 Choose your access control method:
 
-**Option A: Login policies (recommended for complex logic)**
+#### Option A: Login policies (recommended for complex logic)
 
 Create or update login policies in the `root` space:
 
@@ -1005,7 +1005,7 @@ Create or update login policies in the `root` space:
     }
     ```
 
-**Option B: User management UI (recommended for simple setups)**
+#### Option B: User management UI (recommended for simple setups)
 
 1. Go to **Organization Settings** → **Identity Management** → **IdP group mapping**
 2. Map each IdP group to roles in specific spaces
@@ -1155,28 +1155,28 @@ resource "spacelift_role" "module_consumer" {
 Use this checklist to track your migration progress:
 
 - [ ] **Audit phase**
-  - [ ] List all access policies
-  - [ ] Document access patterns for each policy
-  - [ ] Identify policies that need adaptation
+    - [ ] List all access policies
+    - [ ] Document access patterns for each policy
+    - [ ] Identify policies that need adaptation
 - [ ] **Design phase**
-  - [ ] Design space structure
-  - [ ] Map stacks to spaces
-  - [ ] Plan login policy or user management approach
+    - [ ] Design space structure
+    - [ ] Map stacks to spaces
+    - [ ] Plan login policy or user management approach
 - [ ] **Implementation phase**
-  - [ ] Create spaces in Terraform/UI
-  - [ ] Move stacks to appropriate spaces
-  - [ ] Configure login policies or IdP mappings
-  - [ ] Create custom roles if needed
+    - [ ] Create spaces in Terraform/UI
+    - [ ] Move stacks to appropriate spaces
+    - [ ] Configure login policies or IdP mappings
+    - [ ] Create custom roles if needed
 - [ ] **Testing phase**
-  - [ ] Test with multiple user accounts
-  - [ ] Verify read/write permissions
-  - [ ] Test edge cases (time, IP, etc.)
-  - [ ] Review audit logs
+    - [ ] Test with multiple user accounts
+    - [ ] Verify read/write permissions
+    - [ ] Test edge cases (time, IP, etc.)
+    - [ ] Review audit logs
 - [ ] **Cleanup phase**
-  - [ ] Detach access policies
-  - [ ] Delete access policies
-  - [ ] Update team documentation
-  - [ ] Communicate changes to users
+    - [ ] Detach access policies
+    - [ ] Delete access policies
+    - [ ] Update team documentation
+    - [ ] Communicate changes to users
 
 ---
 
