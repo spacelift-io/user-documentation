@@ -7,7 +7,7 @@ Spacelift is made for collaboration. In order to collaborate, you need collabora
 
 ## User
 
-Users are individuals invited through their email and authenticated using your account's Identity Provider. Users can have personal permissions assigned.
+Users are individuals invited through their email and authenticated using your account's Identity Provider. Users can have personal permissions assigned. If a user gains Spacelift access through both invites/login policy and IdP group mapping, the permissions ultimately applied to them are a **combination** of the user permission set and group permission set.
 
 ## Roles in User Management
 
