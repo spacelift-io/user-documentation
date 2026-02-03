@@ -75,6 +75,11 @@ The most common access policy pattern maps directly to Spaces.
 
 #### After: Spaces + login policy
 
+
+!!! tip "Using IdP group mappings"
+For simpler setups, you can use the [user management UI](../../user-management/README.md) to map IdP groups directly to space roles without writing login policies.
+
+
 **Step 1**: Create appropriate spaces
 
 ```hcl
@@ -134,9 +139,6 @@ resource "spacelift_stack" "example" {
         input.session.teams[_] == "DevOps"
     }
     ```
-
-!!! tip "Using IdP group mappings"
-    For simpler setups, you can use the [user management UI](../../user-management/README.md) to map IdP groups directly to space roles without writing login policies.
 
 ---
 
@@ -546,9 +548,8 @@ Access policies could enforce time-of-day restrictions per request. Spaces evalu
 
 **Mitigation strategies:**
 
-1. **Reduce session timeout**: Configure shorter session timeouts to force re-authentication more frequently
-2. **Use approval policies**: Add approval requirements that can evaluate time per-run
-3. **Team expectations**: Communicate that time restrictions apply at login, not continuously
+1. **Use approval policies**: Add approval requirements that can evaluate time per-run
+2. **Team expectations**: Communicate that time restrictions apply at login, not continuously
 
 ---
 
