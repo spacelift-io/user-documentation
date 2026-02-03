@@ -75,10 +75,8 @@ The most common access policy pattern maps directly to Spaces.
 
 #### After: Spaces + login policy
 
-
 !!! tip "Using IdP group mappings"
 For simpler setups, you can use the [user management UI](../../user-management/README.md) to map IdP groups directly to space roles without writing login policies.
-
 
 **Step 1**: Create appropriate spaces
 
