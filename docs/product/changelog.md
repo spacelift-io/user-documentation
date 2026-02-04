@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-04
+
+- fix(database): sanitize null bytes in RunEntityChange JSONB fields
 ## 2026-02-02
 
 - UI feature: Added warning when attaching stack roles to admin stacks.
