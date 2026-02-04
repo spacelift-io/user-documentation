@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-04
+
+- feat(provider): add ephemeral attributes support for environment_variable resources
 ## 2026-02-02
 
 - UI feature: Added warning when attaching stack roles to admin stacks.
