@@ -980,6 +980,957 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 !!! tip
     Remember that there are multiple ways to interact with Spacelift. You can use the [GraphQL API](../../integrations/api.md), the [CLI](https://github.com/spacelift-io/spacectl){: rel="nofollow"}, the [Terraform Provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs){: rel="nofollow"}, or the web UI.
 
+For simplicity, here is the current schema, but it might change in the future:
+
+<details> <!-- markdownlint-disable-line MD033 -->
+<summary>Click to expand</summary> <!-- markdownlint-disable-line MD033 -->
+
+```json
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Blueprint",
+    "type": "object",
+    "properties": {
+        "inputs": {
+            "$ref": "#/definitions/inputs"
+        },
+        "maps": {
+            "$ref": "#/definitions/maps"
+        },
+        "stacks": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/stack"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "required": ["stacks"],
+    "definitions": {
+        "maps": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "boolean"
+                        }
+                    ]
+                }
+            }
+        },
+        "inputs": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/input"
+            }
+        },
+        "input": {
+            "type": "object",
+            "oneOf": [
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "validations": {
+                            "$ref": "#/definitions/string_validations"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "short_text",
+                                "long_text",
+                                "secret"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "validations": {
+                            "$ref": "#/definitions/number_validations"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "number",
+                                "float"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name",
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "boolean"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "additionalProperties": false,
+                    "required": [
+                        "id",
+                        "name",
+                        "type",
+                        "options"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "default": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "select"
+                            ]
+                        },
+                        "options": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "stack": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "vcs",
+                "vendor",
+                "key"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "description": {
+                    "type": "string"
+                },
+                "labels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "administrative": {
+                    "type": "boolean"
+                },
+                "autodeploy": {
+                    "type": "boolean"
+                },
+                "autoretry": {
+                    "type": "boolean"
+                },
+                "runner_image": {
+                    "type": "string"
+                },
+                "secret_masking_enabled": {
+                    "type": "boolean"
+                },
+                "worker_pool": {
+                    "type": "string"
+                },
+                "attachments": {
+                    "$ref": "#/definitions/attachment"
+                },
+                "environment": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "mounted_files": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/mounted_file"
+                            }
+                        },
+                        "variables": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/variable"
+                            }
+                        },
+                        "stack_dependency_references": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dependency_reference"
+                            }
+                        }
+                    }
+                },
+                "hooks": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "apply": {
+                            "$ref": "#/definitions/before_after_hook"
+                        },
+                        "init": {
+                            "$ref": "#/definitions/before_after_hook"
+                        },
+                        "plan": {
+                            "$ref": "#/definitions/before_after_hook"
+                        },
+                        "perform": {
+                            "$ref": "#/definitions/before_after_hook"
+                        },
+                        "destroy": {
+                            "$ref": "#/definitions/before_after_hook"
+                        },
+                        "run": {
+                            "$ref": "#/definitions/after_hook"
+                        }
+                    }
+                },
+                "schedules": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "drift": {
+                            "$ref": "#/definitions/drift_detection_schedule"
+                        },
+                        "tasks": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/task_schedule"
+                            }
+                        }
+                    }
+                },
+                "vcs": {
+                    "type": "object",
+                    "oneOf": [
+                        {
+                            "additionalProperties": false,
+                            "required": [
+                                "reference",
+                                "provider",
+                                "repository"
+                            ],
+                            "properties": {
+                                "reference": {
+                                    "$ref": "#/definitions/git_reference"
+                                },
+                                "project_root": {
+                                    "type": "string"
+                                },
+                                "project_globs": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "provider": {
+                                    "type": "string",
+                                    "enum": [
+                                        "GITHUB",
+                                        "GITLAB",
+                                        "BITBUCKET_DATACENTER",
+                                        "BITBUCKET_CLOUD",
+                                        "GITHUB_ENTERPRISE",
+                                        "SHOWCASE",
+                                        "AZURE_DEVOPS"
+                                    ]
+                                },
+                                "id": {
+                                    "type": "string",
+                                    "description": "The id of the VCS provider."
+                                },
+                                "namespace": {
+                                    "type": "string"
+                                },
+                                "repository": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The name of the repository."
+                                }
+                            }
+                        },
+                        {
+                            "additionalProperties": false,
+                            "required": [
+                                "reference",
+                                "provider",
+                                "repository_url"
+                            ],
+                            "properties": {
+                                "reference": {
+                                    "$ref": "#/definitions/git_reference"
+                                },
+                                "project_root": {
+                                    "type": "string"
+                                },
+                                "project_globs": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "provider": {
+                                    "type": "string",
+                                    "enum": [
+                                        "RAW_GIT"
+                                    ]
+                                },
+                                "repository": {
+                                    "type": "string",
+                                    "description": "The name of the repository. If not provided, it'll be extracted from the repository_url."
+                                },
+                                "namespace": {
+                                    "type": "string",
+                                    "description": "The namespace of the repository. If not provided, it'll be extracted from the repository_url."
+                                },
+                                "repository_url": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "description": "The URL of the repository. This is only used for the 'RAW_GIT' provider."
+                                }
+                            }
+                        }
+                    ]
+                },
+                "vendor": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "ansible": {
+                            "$ref": "#/definitions/ansible_vendor"
+                        },
+                        "cloudformation": {
+                            "$ref": "#/definitions/cloudformation_vendor"
+                        },
+                        "kubernetes": {
+                            "$ref": "#/definitions/kubernetes_vendor"
+                        },
+                        "pulumi": {
+                            "$ref": "#/definitions/pulumi_vendor"
+                        },
+                        "terraform": {
+                            "$ref": "#/definitions/terraform_vendor"
+                        },
+                        "terragrunt": {
+                            "$ref": "#/definitions/terragrunt_vendor"
+                        }
+                    }
+                },
+                "depends_on": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "key": {
+                    "type": "string"
+                }
+            }
+        },
+        "attachment": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "contexts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/context"
+                    }
+                },
+                "clouds": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "aws": {
+                            "$ref": "#/definitions/aws_attachment"
+                        },
+                        "azure": {
+                            "$ref": "#/definitions/azure_attachment"
+                        }
+                    }
+                },
+                "policies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/role_binding"
+                    }
+                }
+            }
+        },
+        "aws_attachment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "id",
+                "read",
+                "write"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "read": {
+                    "type": "boolean"
+                },
+                "write": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "azure_attachment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "id",
+                "read",
+                "write",
+                "subscription_id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "read": {
+                    "type": "boolean"
+                },
+                "write": {
+                    "type": "boolean"
+                },
+                "subscription_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "context": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "role_binding": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "role_id",
+                "space_id"
+            ],
+            "properties": {
+                "role_id": {
+                    "type": "string"
+                },
+                "space_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "mounted_file": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "path",
+                "content"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "dependency_reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "from_stack",
+                "output"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "from_stack": {
+                    "type": "string"
+                },
+                "output": {
+                    "type": "string"
+                },
+                "trigger_always": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "variable": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "name",
+                "value"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "secret": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "after_hook": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "after": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minLength": 1
+                }
+            }
+        },
+        "before_after_hook": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "before": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minLength": 1
+                },
+                "after": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minLength": 1
+                }
+            }
+        },
+        "drift_detection_schedule": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "cron",
+                "reconcile"
+            ],
+            "properties": {
+                "cron": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cron_schedule",
+                        "maxLength": 1
+                    }
+                },
+                "reconcile": {
+                    "type": "boolean"
+                },
+                "ignore_state": {
+                    "type": "boolean"
+                },
+                "timezone": {
+                    "type": "string"
+                }
+            }
+        },
+        "task_schedule": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "command"
+            ],
+            "oneOf": [
+                {
+                    "required": [
+                        "command",
+                        "cron"
+                    ]
+                },
+                {
+                    "required": [
+                        "command",
+                        "timestamp_unix"
+                    ]
+                }
+            ],
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "cron": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cron_schedule",
+                        "minLength": 1
+                    }
+                },
+                "timestamp_unix": {
+                    "type": "number",
+                    "minimum": 1600000000
+                },
+                "timezone": {
+                    "type": "string"
+                }
+            }
+        },
+        "cron_schedule": {
+            "type": "string",
+            "pattern": "^(\\*|\\d+|\\d+-\\d+|\\d+\\/\\d+|\\*\\/\\d+|\\d+(,\\d+)+)(\\s+(\\*|\\d+|\\d+-\\d+|\\d+\\/\\d+|\\*\\/\\d+|\\d+(,\\d+)+)){4}$"
+        },
+        "ansible_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "playbook"
+            ],
+            "properties": {
+                "playbook": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "cloudformation_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "entry_template_file",
+                "template_bucket",
+                "stack_name",
+                "region"
+            ],
+            "properties": {
+                "entry_template_file": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "template_bucket": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "stack_name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "region": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "kubernetes_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "namespace"
+            ],
+            "properties": {
+                "namespace": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "pulumi_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "stack_name",
+                "login_url"
+            ],
+            "properties": {
+                "stack_name": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "login_url": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "terraform_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "manage_state"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string"
+                },
+                "workspace": {
+                    "type": "string"
+                },
+                "use_smart_sanitization": {
+                    "type": "boolean"
+                },
+                "manage_state": {
+                    "type": "boolean"
+                },
+                "workflow_tool": {
+                    "type": "string",
+                    "enum": [
+                        "TERRAFORM_FOSS",
+                        "CUSTOM",
+                        "OPEN_TOFU"
+                    ]
+                }
+            }
+        },
+        "terragrunt_vendor": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "terraform_version": {
+                    "type": "string"
+                },
+                "terragrunt_version": {
+                    "type": "string"
+                },
+                "use_run_all": {
+                    "type": "boolean"
+                },
+                "use_smart_sanitization": {
+                    "type": "boolean"
+                },
+                "terragrunt_tool": {
+                    "type": "string",
+                    "enum": [
+                        "TERRAFORM_FOSS",
+                        "OPEN_TOFU",
+                        "MANUALLY_PROVISIONED"
+                    ]
+                }
+            }
+        },
+        "string_validations": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "min_length": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "max_length": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "length_equal": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "pattern": {
+                    "type": "string"
+                }
+            }
+        },
+        "number_validations": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "greater_than": {
+                    "type": "number"
+                },
+                "greater_than_or_equal": {
+                    "type": "number"
+                },
+                "less_than": {
+                    "type": "number"
+                },
+                "less_than_or_equal": {
+                    "type": "number"
+                },
+                "not_equal": {
+                    "type": "number"
+                },
+                "step": {
+                    "type": "integer"
+                }
+            }
+        },
+        "git_reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "value",
+                "type"
+            ],
+            "properties": {
+                "value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The git reference value (branch name, tag name, or commit SHA)."
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "branch",
+                        "tag",
+                        "sha"
+                    ],
+                    "description": "The type of git reference: 'branch', 'tag', or 'sha'."
+                }
+            }
+        }
+    }
+}
+```
+
+</details>
+
 ### BlueprintV2Schema Key Differences
 
 Templates use the **blueprintV2Schema** format, which has important differences from the original [Blueprint schema](../blueprint/README.md#schema):
