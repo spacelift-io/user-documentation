@@ -59,10 +59,10 @@ Your deployment will go through various states:
 | **None** | Initial state | Wait for processing |
 | **In Progress** | Being created | Monitor progress |
 | **Finished** | Completed successfully | View outputs, use infrastructure |
-| **Failure** | Creation failed | Review errors, contact platform team |
-| **Unconfirmed** | Awaiting confirmation | Needs to be confirm by platform team |
+| **Failure** | Creation failed | Review errors, contact template creator |
+| **Unconfirmed** | Awaiting confirmation | Needs to be confirm by template creator |
 | **Destroying** | Resources being destroyed | Wait for completion |
-| **Destroying Failed** | Destruction failed | Contact platform team |
+| **Destroying Failed** | Destruction failed | Contact template creator |
 
 ### Understanding Deployment States
 
@@ -82,14 +82,14 @@ Your deployment will go through various states:
 
 - Something went wrong during provisioning
 - Review error messages
-- Contact your platform team for assistance
+- Contact template creator for assistance
 - You may be able to retry or delete
 
 **Unconfirmed:**
 
 - Deployment requires manual confirmation
-- Contact platform team
-- Wait for platform team confirmation
+- Contact template creator
+- Wait for template creator confirmation
 
 ### Updating a Deployment
 
@@ -125,7 +125,7 @@ When you no longer need the infrastructure:
 If you encounter issues or need assistance:
 
 1. **Check deployment errors**: Review error messages for clues
-2. **Contact platform team**: They created the templates and can help
+2. **Contact template creator**: They created the templates and can help
 3. **Review documentation**: Check deployment instructions in the template
 4. **Provide details**: Share deployment name, template version, and error messages
 
@@ -142,11 +142,11 @@ Your ability to work with template deployments depends on your permissions:
 | Delete deployment | `DeleteBlueprintDeployment` or deployment owner |
 
 !!! note
-    Permissions are managed by your platform team through [spaces](../spaces/README.md). Contact them if you need additional access.
+    Permissions are managed by template creator through [spaces](../spaces/README.md). Contact them if you need additional access.
 
 ## Related Resources
 
 - [Template Overview](README.md) - General information about templates
-- [Templates Workbench](workbench.md) - Platform team interface for managing templates
+- [Templates Workbench](workbench.md) - Template creator interface for managing templates
 - [Template Configuration](configuration.md) - Understanding template structure (for advanced users)
 - [Stacks](../stack/README.md) - Understanding the stacks created by deployments
