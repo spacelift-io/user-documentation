@@ -36,7 +36,7 @@ While both features enable infrastructure provisioning, they have fundamentally 
 - Stacks created from templates are **immutable** - cannot be edited manually, even by admins
 - The only way to modify infrastructure is by:
     1. Updating the template deployment to use a different version
-    2. Creating a new template version with changes
+    2. Creating a new template version with changes and update deployment to use it
     3. Modifying deployment inputs
 - Deployments maintain a permanent link to the template version
 - Templates ensure consistency across all deployments
@@ -46,7 +46,7 @@ While both features enable infrastructure provisioning, they have fundamentally 
 **Templates are deterministic by design:**
 
 - Each published template version is pinned to a specific VCS commit
-- Same template version + same inputs = identical infrastructure every time
+- Same template version + same inputs = identical infrastructure every time (if you don't use any random inputs or random resources in terraform)
 - Guarantees reproducibility across deployments
 - Eliminates configuration drift between environments
 - Ensures predictable outcomes
@@ -57,42 +57,6 @@ While both features enable infrastructure provisioning, they have fundamentally 
 - Stacks can diverge from the original blueprint configuration
 - Allows for manual adjustments and customizations
 - More suitable for one-time stack creation scenarios
-
-### Comparison Table
-
-| Feature | Templates | Blueprints |
-|---------|-----------|------------|
-| **Primary Users** | Application developers, end users | Platform engineers, automation |
-| **Interface** | Web UI with forms | Terraform Provider, GraphQL API |
-| **Stack Lifecycle** | Fully managed through deployments | Created then independent |
-| **Stack Mutability** | Immutable (no manual edits) | Fully editable after creation |
-| **Determinism** | Deterministic (version pinned to commit) | Flexible (uses branch HEAD) |
-| **Update Method** | Update deployment version or inputs | Direct stack modification |
-| **Reproducibility** | Same inputs always produce identical infra | Stacks can diverge over time |
-| **Use Case** | Managed, repeatable deployments | One-time automated stack creation |
-| **Versioning** | Built-in, commit-pinned versions | Manual version tracking |
-| **Ongoing Control** | Template maintains control | No control after creation |
-| **Target Audience** | Users needing consistency and guardrails | Users comfortable with IaC and autonomy |
-
-### When to Use Each
-
-**Use Templates when:**
-
-- You need consistent, repeatable deployments across multiple environments
-- Infrastructure should be immutable and controlled centrally
-- Users shouldn't modify deployed infrastructure manually
-- You want to guarantee the same inputs produce the same infrastructure
-- You need to update multiple deployments to a new version
-- Compliance requires audit trails and change control
-
-**Use Blueprints when:**
-
-- You need to create stacks programmatically at scale
-- Stacks should be editable after creation
-- You want flexibility for teams to customize their infrastructure
-- One-time stack creation is the primary goal
-- Integration with Terraform workflows is required
-- You prefer stacks to evolve independently
 
 ## Two Interfaces for Different Users
 
