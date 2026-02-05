@@ -104,7 +104,7 @@ Once your template version is ready:
 4. The version becomes read-only and available for deployments
 
 !!! tip
-    Test your template thoroughly in draft state before publishing, as published versions cannot be edited.
+    Check your template YAML configuration thoroughly in draft state before publishing, as published versions cannot be edited.
 
 **What Happens When Publishing:**
 
@@ -143,13 +143,12 @@ The Templates Workbench provides visibility into all deployments created from yo
 
 | State | Description | Actions Available |
 |-------|-------------|-------------------|
-| **None** | Initial state | View, Update, Delete |
 | **InProgress** | Being created | View only |
 | **Finished** | Completed successfully | View, Update, Delete |
 | **Failure** | Creation failed | View, Update, Delete |
 | **Unconfirmed** | Awaiting confirmation | View only |
 | **Destroying** | Resources being destroyed | View only |
-| **DestroyingFailed** | Destruction failed | View, Update, Delete |
+| **DestroyingFailed** | Destruction failed | View, Delete |
 | **Discarded** | Deployment discarded | View, Update, Delete |
 
 ### Updating a Deployment version
@@ -167,6 +166,9 @@ Platform teams can update deployments to use different template versions:
 - Stacks are updated (not recreated)
 - New version's configuration is applied
 - New tracked run is triggered
+
+!!! warning
+    You are only able to update to version if it has exactly the same stack keys and have no new required inputs
 
 ### Updating a Deployment
 
@@ -201,7 +203,7 @@ View all stacks created by the deployment
 ![Deployment Stacks](<../../assets/screenshots/templates/deployment-stacks.png>)
 
 !!! warning
-    Stacks created by template deployments are immutable and can't be edited like regular stacks, even by admins. The only way to modify them is by updating the deployment version or creating a new template version.
+    Stacks created by template deployments are immutable and can't be edited like regular stacks, even by admins. The only way to modify them is by updating the deployment version or creating a new template version. There is one exception to this rule: a stack becomes mutable when its deployment is deleted, in case something fails and requires manual changes.
 
 ### Outputs Tab
 
