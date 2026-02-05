@@ -266,6 +266,9 @@ stacks:
 
 | Property | Type | Description |
 |----------|------|-------------|
+| `context.deployment.created_at` | Timestamp | Creation date of deployment |
+| `context.deployment.name` | String | Name of deployment |
+| `context.deployment.slug` | String | Slug of deployment |
 | `context.time` | Timestamp | UTC time of deployment |
 | `context.random_string` | String | Random 6-character string |
 | `context.random_number` | Number | Random number (0-1000000) |
@@ -989,7 +992,7 @@ Templates use the **blueprintV2Schema** format, which has important differences 
 | **Stack Key** | Not required | Each stack must have unique `key` field |
 | **VCS Reference** | Direct fields: `branch`, `tag`, `sha` | Structured: `reference.value` and `reference.type` |
 | **Space Field** | Required `space` field in stack | NOT allowed (assigned at deployment) |
-| **Stack Limit** | Max 5 stacks | No limit |
+| **Stack Limit** | Max 5 stacks | Max 10 stacks |
 
 #### VCS Configuration Comparison
 
