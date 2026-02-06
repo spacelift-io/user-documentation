@@ -4,7 +4,7 @@ This document provides comprehensive reference for writing template YAML configu
 
 ## Template Body Structure
 
-The template body uses YAML format with the **blueprintV2Schema**. Here's a minimal example:
+The template body uses YAML format with the **templateSchema**. Here's a minimal example:
 
 {% raw %}
 
@@ -39,9 +39,9 @@ stacks:
 {% endraw %}
 
 !!! important
-    Templates use the **blueprintV2Schema** which requires the `stacks` array format (not a single `stack` object). Each stack must have a unique `key` field, and VCS configuration uses the `reference` structure with `value` and `type` fields.
+    Templates use the **templateSchema** which requires the `stacks` array format (not a single `stack` object). Each stack must have a unique `key` field, and VCS configuration uses the `reference` structure with `value` and `type` fields.
 
-    **Note:** The `space` field is NOT allowed in v2 schema stack definitions. Space assignment is handled at the template deployment level, not in the blueprint YAML.
+    **Note:** The `space` field is NOT allowed in Template schema stack definitions. Space assignment is handled at the template deployment level, not in the blueprint YAML.
 
 !!! warning "Templating Restrictions"
     {% raw %}The following fields **cannot** use template expressions (`${{ }}`):{% endraw %}
@@ -279,7 +279,7 @@ stacks:
 
 ## Stack Configuration
 
-Templates can configure all stack settings using the blueprintV2Schema:
+Templates can configure all stack settings using the templateSchema:
 
 {% raw %}
 
@@ -297,7 +297,7 @@ stacks:
     autodeploy: true
     autoretry: false
 
-    # VCS configuration (v2 schema format)
+    # VCS configuration (template schema format)
     vcs:
       reference:
         value: main
@@ -356,11 +356,11 @@ stacks:
 {% endraw %}
 
 !!! note
-    Templates use the **blueprintV2Schema** format. Key differences from the original Blueprint schema:
+    Templates use the **templateSchema** format. Key differences from the  Blueprint schema:
     - Must use `stacks` array (not a single `stack` object)
     - Each stack requires a unique `key` field
     - VCS configuration uses `reference.value` and `reference.type` instead of direct `branch`, `tag`, or `sha` fields
-    - See the [v2 Schema Reference](#blueprintv2schema-key-differences) section for complete details
+    - See the [Template Schema Reference](#templateschema-key-differences) section for complete details
 
 For complete stack configuration options, refer to the [Stack Configuration](../stack/README.md) documentation.
 
@@ -973,7 +973,7 @@ The up-to-date schema of a Blueprint is available through a [GraphQL query](../.
 
 ```graphql
 {
-  blueprintV2Schema
+  templateSchema
 }
 ```
 
@@ -1931,13 +1931,13 @@ For simplicity, here is the current schema, but it might change in the future:
 
 </details>
 
-### BlueprintV2Schema Key Differences
+### TemplateSchema Key Differences
 
-Templates use the **blueprintV2Schema** format, which has important differences from the original [Blueprint schema](../blueprint/README.md#schema):
+Templates use the **templateSchema** format, which has important differences from the original [Blueprint schema](../blueprint/README.md#schema):
 
 #### Required Changes
 
-| Aspect | Original Blueprint Schema | V2 Schema (Templates) |
+| Aspect | Original Blueprint Schema | Template Schema |
 |--------|---------------------------|----------------------|
 | **Stack Definition** | Single `stack` object OR `stacks` array | Only `stacks` array (required) |
 | **Stack Key** | Not required | Each stack must have unique `key` field |
@@ -1956,7 +1956,7 @@ vcs:
   provider: GITHUB
 ```
 
-**V2 Schema (Templates):**
+**Template Schema:**
 
 ```yaml
 vcs:
@@ -1980,7 +1980,7 @@ The `reference.type` field accepts three values:
 
 #### Available Stack Properties
 
-The blueprintV2Schema supports the following stack-level properties:
+The templateSchema supports the following stack-level properties:
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -2003,7 +2003,7 @@ The blueprintV2Schema supports the following stack-level properties:
 | `secret_masking_enabled` | boolean | Enable secret masking in logs |
 
 !!! note
-    Property names in v2 schema are **case-sensitive** and use **lowercase without underscores** for boolean flags (e.g., `autodeploy`, not `auto_deploy`). Some properties from the original Blueprint schema are not available in v2.
+    Property names in Template schema are **case-sensitive** and use **lowercase without underscores** for boolean flags (e.g., `autodeploy`, not `auto_deploy`). Some properties from the original Blueprint schema are not available in Template schema.
 
 ## Related Resources
 
