@@ -8,7 +8,7 @@ description: >-
 We provide a Kubernetes operator for managing Spacelift worker pools. The operator also works on OpenShift. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
 
 !!! info
-    Previously we provided a [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool){: rel="nofollow"} for deploying worker pools to Kubernetes using Docker-in-Docker. This approach is no-longer recommended, and you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
+    The Docker-in-Docker approach is no-longer recommended, you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
 
 A `WorkerPool` defines the number of `Workers` registered with Spacelift via the `poolSize` parameter. The Spacelift operator will automatically create and register a number of `Worker` resources in Kubernetes depending on your `poolSize`.
 
@@ -110,25 +110,125 @@ If you are using OpenShift, additional steps are required to allow the controlle
     kubectl rollout restart deployments -n {namespace_of_controller}
     ```
 
-### Create a Secret
+## Create a WorkerPool
 
-Next, create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
+We recommend deploying worker pools with [auto-registration](#auto-registration).
+
+With OIDC secret configuration, you can also avoid storing static Spacelift credentials in the cluster.
+
+If you don't want to use auto-registration, create the WorkerPool [manually](#manual-registration) in Spacelift and save its secrets on the cluster.
+
+### Auto-Registration
+
+With auto-registration, the controller automatically creates and manages worker pools in Spacelift without requiring manual setup steps in the UI.
+When you create a WorkerPool resource without token and privateKey credentials, the controller handles the complete lifecycle: it registers the pool with Spacelift, generates the required credentials, stores them securely in Kubernetes secrets, and manages ongoing operations.
+
+This approach enables true GitOps workflows where worker pools can be provisioned declaratively alongside other infrastructure.
+There's no need to coordinate between the Spacelift UI and your Kubernetes deployment, eliminating potential errors and simplifying automation.
+
+!!! warning
+    When using auto registration, it's impossible to update and reset the workerpool from the Spacelift UI. The reason for that is to make obvious that the pool is managed from the cluster, and avoid conflicts by forcing a single source of truth.
+
+#### Create an API Key
+
+For auto registration to work, you need to create a Spacelift API key to allow the controller to manage worker pools in Spacelift. This key should be granted the `Worker pool controller` role for the space that your worker pool will be created in, and needs to be stored in a secret called `spacelift-api-credentials` in the same namespace as the Kubernetes controller (by default `spacelift-worker-controller-system`).
+
+=== "Regular API key"
+
+    Create a [secret-based API key](../../integrations/api.md#secret-based-api-keys) with the "Worker pool controller" system role and assign it to the space(s) where you want to create worker pools.
+
+    ![built in system role](../../assets/screenshots/worker-pools-kubernetes-role.png)
+
+    After creating the key, store the credentials in a Kubernetes secret in the controller's namespace:
+
+    ```shell
+    kubectl create secret generic spacelift-api-credentials \
+      --from-literal=keyId=<your-api-key-id> \
+      --from-literal=keySecret=<your-api-key-secret> \
+      --from-literal=endpoint=https://<your-account>.app.spacelift.io \
+      --namespace spacelift-worker-controller-system
+    ```
+
+=== "OIDC API key"
+
+    Create an [OIDC-based API key](../../integrations/api.md#oidc-based-api-keys) configured to trust your cluster's OIDC provider, with the "Worker pool controller" system role assigned to the appropriate space(s).
+    For detailed OIDC integration setup, see the [OIDC documentation](../../integrations/cloud-providers/oidc/README.md).
+
+    ![built in system role](../../assets/screenshots/worker-pools-kubernetes-role.png)
+
+    After creating the key, store only the key ID and endpoint:
+
+    ```shell
+    kubectl create secret generic spacelift-api-credentials \
+      --from-literal=keyId=<your-oidc-api-key-id> \
+      --from-literal=endpoint=https://<your-account>.app.spacelift.io \
+      --namespace spacelift-worker-controller-system
+    ```
+
+    The controller will use its service account's OIDC token to authenticate with Spacelift.
+
+    !!! info
+        The cluster OIDC endpoint should be reachable from Spacelift. Make sure your ingress network configuration allows that.
+
+##### EKS OIDC Setup example
+
+To configure OIDC authentication for EKS, you need the cluster's OIDC issuer URL. Get it with:
+
+```shell
+aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text
+```
+
+This returns a URL like `https://oidc.eks.eu-central-1.amazonaws.com/id/123451234512345123451234512345`.
+
+When creating the Spacelift OIDC API key, use:
+
+- **Issuer**: The OIDC issuer URL from above
+- **Client ID (audience)**: `https://kubernetes.default.svc`
+- **Subject Expression**: `^system:serviceaccount:NAMESPACE:SERVICE_ACCOUNT_NAME$` (replace `NAMESPACE` and `SERVICE_ACCOUNT_NAME` with yours)
+
+The controller's service account token contains these claims, allowing it to authenticate with Spacelift without any static credentials.
+
+#### Create WorkerPool
+
+To create an auto-registered worker pool, deploy a WorkerPool resource without the `token` and `privateKey` fields:
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: workers.spacelift.io/v1beta1
+kind: WorkerPool
+metadata:
+  name: auto-registered-pool
+spec:
+  poolSize: 2
+EOF
+```
+
+You can refer to the [`WorkerPool`](#configuration) CRD for all optional fields. There are fields specific for auto registration that configures how your pool is setup in Spacelift.
+
+### Manual Registration
+
+While auto-registration is recommended, you can manually create the WorkerPool. Create a worker pool in the Spacelift UI, get credentials for it, and configure them in Kubernetes.
+This approach requires creating a worker pool in the Spacelift UI first, getting credentials, and configuring them in Kubernetes.
+
+#### Create a Secret
+
+Create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
 
 First, export the token and private key as base64 encoded strings:
 
-#### Mac
+=== "**MacOS**"
 
-```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
-```
+    ```shell
+    export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+    export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
+    ```
 
-#### Linux
+=== "**Linux**"
 
-```shell
-export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
-export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
-```
+    ```shell
+    export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
+    export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -w 0)
+    ```
 
 Then, create the secret.
 
@@ -145,7 +245,7 @@ stringData:
 EOF
 ```
 
-### Create a WorkerPool
+#### Create a WorkerPool
 
 Finally, create a WorkerPool resource using the following command:
 
@@ -195,6 +295,21 @@ That's it - the workers in your pool should connect to Spacelift, and you should
 Usually, there is nothing special to do for upgrading the controller.
 
 Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
+
+### Upgrading to controller v0.0.27 - or Helm chart v0.52.0
+
+This release introduces auto-registration support and **requires additional RBAC permissions** for the controller to manage secrets.
+The upgrade is backward compatible with existing worker pools.
+
+If you installed the controller using the Helm chart, the RBAC permissions are automatically updated during the upgrade.
+The same applies if you installed using kubectl with raw manifests. The updated permissions are included in the manifests.
+
+No action is required for existing manually registered worker pools, they will continue to work exactly as before.
+
+The new auto-registration feature is opt-in, and only activates when the following conditions are both true:
+
+- You create a WorkerPool resource without specifying the `token` and `privateKey`.
+- You provide a `spacelift-api-credentials` secret in the same namespace as your controller containing your API credentials.
 
 ### Upgrading to controller v0.0.17 - or Helm chart v0.33.0
 
@@ -398,18 +513,44 @@ spec:
   poolSize: 2
 
   # token points at a Kubernetes Secret key containing the worker pool token.
-  # Required
+  # Optional - required for manual registration, omit for auto-registration.
+  # Must be set together with privateKey, or both must be unset.
   token:
     secretKeyRef:
       name: test-workerpool
       key: token
 
   # privateKey points at a Kubernetes Secret key containing the worker pool private key.
-  # Required
+  # Optional - required for manual registration, omit for auto-registration.
+  # Must be set together with token, or both must be unset.
   privateKey:
     secretKeyRef:
       name: test-workerpool
       key: privateKey
+
+  # space allows you to specify which Spacelift space to create the pool in.
+  # Only applies to auto-registered pools.
+  # Optional
+  space: production-01ARZ3NDEKTSV4RRFFQ69G5FAV
+
+  # description sets a description for the worker pool.
+  # Useful for documentation and organization in the Spacelift UI.
+  # Only applies to auto-registered pools.
+  # Optional
+  description: Production worker pool for infrastructure deployments
+
+  # driftDetectionRunLimits configures limits for drift detection runs executed on this worker pool.
+  # Only applies to auto-registered pools.
+  # Optional
+  driftDetectionRunLimits:
+    # disabled indicates whether drift detection runs are disabled for this worker pool.
+    # When true, maxRuns must not be set.
+    # Optional, defaults to false
+    disabled: false
+    # maxRuns specifies the maximum number of drift detection runs allowed.
+    # Cannot be set when disabled is true.
+    # Optional when disabled is false
+    maxRuns: 5
 
   # allowedRunnerImageHosts defines the hostnames of registries that are valid to use stack
   # runner images from. If no specified images from any registries are allowed.
@@ -809,7 +950,7 @@ spec:
 
 ### Using VCS Agents with Kubernetes Workers
 
-Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](./README.md#vcs-agents) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
+Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](../vcs-agent-pools.md#run-the-vcs-agent-inside-a-kubernetes-cluster) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -1035,6 +1176,88 @@ During the controller's startup, you should see the `FIPS 140 mode {"enabled": t
 !!! note
     This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
 
+## Supply custom certificates to worker pools
+
+You can add custom certificate authority (CA) certificates to your worker pools. We support adding them to the controller container and to the container that runs OpenTofu/Terraform.
+
+### Add certificates to controller container
+
+1. Ensure your custom certificate is pem-encoded **and** the file name ends in `.pem`.
+2. Within the controller container, mount the certificate to `/ops/spacelift/certs`.
+
+This example is for the controller Helm chart. If you're using a manifest, you will need to edit it directly.
+
+``` yaml
+controllerManager:
+  manager:
+    extraVolumeMounts:
+      - name: ca-secret-volume
+        mountPath: /opt/spacelift/certs
+        readOnly: true
+  extraVolumes:
+    - name: ca-secret-volume
+      secret:
+        secretName: my-amazing-secret-with-something-dot-pem-inside-it
+```
+
+### Add certificates to the OpenTofu/Terraform process
+
+1. Prepare your **custom CA certificate**.
+      - Place your CA certificate in a directory on your computer (e.g., `custom-ca.pem`).
+2. Create an **extended CA bundle**.
+      - Download the existing CA cert bundle from the container and append your custom certificate:
+
+        ``` bash
+        docker run -it public.ecr.aws/spacelift/runner-terraform:latest cat /etc/ssl/certs/ca-certificates.crt > new-bundle.crt && cat custom-ca.pem >> new-bundle.crt
+        ```
+
+      - Ensure `new-bundle.crt` has a newline at the end.
+
+3. Create a **Kubernetes secret**.
+
+    ``` bash
+    kubectl create secret generic extended-ca-bundle --from-file=bundle=new-bundle.crt
+    ```
+
+4. **Update** your WorkerPool.
+      - Delete your existing WorkerPool object (required due to immutable fields):
+
+        ``` bash
+          kubectl delete workerpool workerpool -n spacelift-worker-pool-system
+        ```
+
+      - Create a new WorkerPool with the updated configuration, adjusting your `poolSize` and credential secret names as needed:
+
+        ``` yaml
+          apiVersion: workers.spacelift.io/v1beta1
+          kind: WorkerPool
+          metadata:
+            name: workerpool
+            namespace: spacelift-worker-pool-system
+          spec:
+            pod:
+              volumes:
+                - name: new-ca-bundle
+                  secret:
+                    secretName: extended-ca-bundle
+                    items:
+                      - key: bundle
+                        path: ca-certificates.crt
+              workerContainer:
+                volumeMounts:
+                  - name: new-ca-bundle
+                    mountPath: /etc/ssl/certs
+            poolSize: 5
+            privateKey:
+              secretKeyRef:
+                key: privateKey
+                name: spacelift-worker-pool-credentials
+            token:
+              secretKeyRef:
+                key: token
+                name: spacelift-worker-pool-credentials
+        ```
+
 ## Scaling a pool
 
 To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
@@ -1049,7 +1272,7 @@ Kubernetes workers are billed based on the number of provisioned workers that yo
 
 ## Migrating from Docker-in-Docker
 
-If you currently use our [Docker-in-Docker Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool) to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
+If you currently use Docker-in-Docker to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
 
 The rest of this section provides useful information to be aware of when switching over from the Docker-in-Docker approach to the operator.
 
@@ -1064,7 +1287,7 @@ There are a number of improvements with the Kubernetes operator over the previou
 
 ### Deploying workers
 
-One major difference between the Docker-in-Docker Helm chart and the new operator is that the new chart only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
+One major difference between Docker-in-Docker and the new operator is that the new approach only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
 
 ### Testing both alongside each other
 

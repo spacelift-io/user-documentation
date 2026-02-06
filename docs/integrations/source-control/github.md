@@ -29,18 +29,18 @@ You can set up multiple Space-level and one default GitHub integration per accou
 
 ## Signed in with another option
 
-If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom applicationto link it to Spacelift.
+If you used GitLab, Google, or Microsoft to create your account, you will need to create a GitHub custom application to link it to Spacelift.
 
 {% else %}
 
 ## Create and link a custom application
 
-You will need to create a GitHub application to link it to Spacelift.
+You will need a GitHub Enterprise account to create a custom GitHub application to link it to Spacelift.
 {% endif %}
 
 ### Create the GitHub application
 
-1. On the _Source control_ tab, click **Set up integration**, then choose **GitHub** on the dropdown.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _GitHub_ card, then **Set up GitHub**.
 2. Click [**Set up via wizard**](github.md#set-up-via-wizard) (_recommended_) or [**Set up manually**](github.md#set-up-manually).
 
 ![](<../../assets/screenshots/CleanShot 2022-09-16 at 09.38.30.png>)
@@ -123,6 +123,7 @@ Once the integration name and the type are chosen, a **webhook endpoint** and a 
 
 Now that your GitHub App has been created, return to the integration configuration screen in Spacelift.
 
+<!-- markdown-link-check-disable-next-line -->
 1. **API host URL**: Enter the URL to your GitHub server, which should be [https://api.github.com](https://api.github.com){: rel="nofollow"}.
 2. **User facing host URL**: Enter the URL that will be shown to the user and displayed in the Spacelift UI. This will be the same as the API host URL unless you are using [VCS Agents](../../concepts/vcs-agent-pools.md), in which case it should be `private://<vcs-agent-pool-name>`.
 3. **App ID**: Enter the App ID you copied before generating the private key.
@@ -139,12 +140,12 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
 
 === "Via Spacelift UI"
 
-    1. On the _Source code_ page, click **Install the app**:
+    1. On the _Integrations > GitHub_ page, click **Install the app**:
 
         ![](<../../assets/screenshots/github_install_app.png>)
     2. On GitHub, click **Install**.
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
-        
+
         ![](<../../assets/screenshots/image (60).png>)
     4. Click **Install** to link your GitHub account to Spacelift.
 
@@ -155,7 +156,7 @@ Once your GitHub app has been created and configured in Spacelift, you can insta
     2. In the _Install App_ section, click **Install** next to the account you want Spacelift to access:
         ![](<../../assets/screenshots/image (59).png>)
     3. Choose whether you want to allow Spacelift access to all repositories or only specific ones in the account:
-        
+
         ![](<../../assets/screenshots/image (60).png>)
     4. Click **Install** to link your GitHub account to Spacelift.
 
@@ -222,14 +223,25 @@ The _Deploy_ functionality has been introduced in response to customers used to 
 
 If you want to prevent users from deploying directly from GitHub, you can add a simple [plan policy](../../concepts/policy/terraform-plan-policy.md) to that effect, based on the fact that the run trigger always indicates GitHub as the source (the exact format is `github/$username`).
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["Do not deploy from GitHub"] {
-  input.spacelift.run.type == "TRACKED"
-  startswith(input.spacelift.run.triggered_by, "github/")
-}
-```
+    deny contains "Do not deploy from GitHub" if {
+      input.spacelift.run.type == "TRACKED"
+      startswith(input.spacelift.run.triggered_by, "github/")
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["Do not deploy from GitHub"] {
+      input.spacelift.run.type == "TRACKED"
+      startswith(input.spacelift.run.triggered_by, "github/")
+    }
+    ```
 
 The effect is this:
 
@@ -379,7 +391,7 @@ We subscribe to many GitHub webhooks:
         ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.28.11.png>)
     3. On the page for the Spacelift application, go to the _Advanced_ section and click **Delete GitHub App**. Confirm by typing the name of the application.
         ![](<../../assets/screenshots/CleanShot 2022-09-16 at 10.24.08.png>)
-    4. You can now remove the integration via **Delete** on the *Source code* page in Spacelift:
+    4. You can now remove the integration via **Delete** on the *Integrations > GitHub* page in Spacelift:
         ![](<../../assets/screenshots/Gitlab_delete.png>)
 
     !!! warning

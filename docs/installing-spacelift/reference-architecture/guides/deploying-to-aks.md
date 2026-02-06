@@ -98,8 +98,8 @@ We provide a [Terraform module](https://github.com/spacelift-io/terraform-azure-
 Before you start, set a few environment variables that will be used by the Spacelift modules:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version="v4.0.0"
 
 # Configure a default temporary admin account that could be used to setup the instance.
 export TF_VAR_admin_username="admin"
@@ -306,8 +306,17 @@ helm upgrade \
     cert-manager jetstack/cert-manager \
     --namespace cert-manager \
     --create-namespace \
-    --version v1.16.2 \
-    --set crds.enabled=true
+    --version v1.19.2 \
+    --set crds.enabled=true \
+    --set global.leaderElection.namespace=cert-manager \
+    --set resources.requests.cpu=100m \
+    --set resources.requests.memory=256Mi \
+    --set webhook.resources.requests.cpu=100m \
+    --set webhook.resources.requests.memory=256Mi \
+    --set cainjector.resources.requests.cpu=100m \
+    --set cainjector.resources.requests.memory=256Mi \
+    --set startupapicheck.resources.requests.cpu=100m \
+    --set startupapicheck.resources.requests.memory=256Mi
 ```
 
 !!! info
@@ -416,9 +425,36 @@ helm upgrade \
 !!! tip
     You can follow the deployment progress with: `kubectl logs -n ${K8S_NAMESPACE} deployments/spacelift-server`
 
+### VCS Gateway Service
+
+Ideally, your VCS provider [should be accessible](../reference/networking.md) from both the Spacelift backend and its workers. If direct access is not possible, you can use [VCS Agent Pools](../../../concepts/vcs-agent-pools.md) to proxy the connections from the Spacelift backend to your VCS provider.
+
+The VCS Agent Pool architecture introduces a VCS Gateway service, deployed alongside the Spacelift backend, and exposed via an Ingress. External VCS Agents connect over gRPC (port 443 with TLS termination), while internal Spacelift services (server, drain) communicate with the gateway via HTTP using pod IP addresses within the cluster.
+
+To enable this setup, add the following variable to your module configuration:
+
+```hcl
+module "spacelift" {
+  # VCS Gateway configuration
+  vcs_gateway_domain = "vcs-gateway.mycorp.io"  # The DNS record for the VCS Gateway service, without protocol.
+
+  # Other settings are omitted for brevity
+}
+```
+
+After applying the Terraform changes, regenerate your `spacelift-values.yaml` from the `helm_values` output and redeploy the Helm chart to enable the VCS Gateway service.
+
+Configure a DNS A record pointing your VCS Gateway domain to the same `{PUBLIC_IP_ADDRESS}` used by the Spacelift server. The nginx ingress controller supports [host-based routing](https://kubernetes.github.io/ingress-nginx/user-guide/basic-usage/){: rel="nofollow"}, allowing both the Spacelift server and VCS Gateway to share the same IP address while routing traffic to their respective services based on the `Host` header.
+
+With the backend now configured, proceed to the [VCS Agent Pools guide](../../../concepts/vcs-agent-pools.md) to complete the setup.
+
 ## Next steps
 
 Now that your Spacelift installation is up and running, take a look at the [initial installation](./first-setup.md) section for the next steps to take.
+
+### Configure telemetry
+
+You can configure telemetry collection to monitor your installation's performance and troubleshoot issues. See our [telemetry configuration guides](./telemetry/README.md) for step-by-step instructions on setting up Datadog, OpenTelemetry with Jaeger, or OpenTelemetry with Grafana Stack.
 
 ### Create a worker pool
 

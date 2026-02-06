@@ -1,328 +1,438 @@
 # Push policy
 
-## Purpose
-
 {% if is_saas() %}
 !!! hint
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [Stack](../../stack/README.md) or [Module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
+Git push policies are triggered on a per-stack basis to determine the action that should be taken for each individual [stack](../../stack/README.md) or [module](../../../vendors/terraform/module-registry.md) in response to a Git push or Pull Request notification. There are three possible outcomes:
 
-- **track**: set the new head commit on the [stack](../../stack/README.md) / [module](../../../vendors/terraform/module-registry.md) and create a [tracked](../../run/tracked.md) [Run](../../run/README.md), ie. one that can be [applied](../../run/tracked.md#applying);
-- **propose**: create a [proposed Run](../../run/proposed.md) against a proposed version of infrastructure;
-- **ignore**: do not schedule a new Run;
+- **track**: Set the new head commit on the [stack](../../stack/README.md) or [module](../../../vendors/terraform/module-registry.md) and create a [tracked run](../../run/tracked.md) (one that can be [applied](../../run/tracked.md#applying)).
+- **propose**: Create a [proposed run](../../run/proposed.md) against a proposed version of infrastructure.
+- **ignore**: Do not schedule a new run.
 
-Using this policy it is possible to create a very sophisticated, custom-made setup. We can think of two main - and not mutually exclusive - use cases. The first one would be to ignore changes to certain paths - something you'd find useful both with classic monorepos and repositories containing multiple OpenTofu/Terraform projects under different paths. The second one would be to only attempt to apply a subset of changes - for example, only commits tagged in a certain way.
+You can create sophisticated, custom-made setups using push policies. We can think of two main (not mutually exclusive) use cases:
 
-### Git push policy and tracked branch
+- Ignore changes to certain paths. This is something you'd find useful both with classic monorepos and repositories containing multiple Terraform projects under different paths.
+- Apply only a subset of changes, such as only commits tagged in a certain way.
 
-Each stack and module points at a particular Git branch called a [tracked branch](../../stack/stack-settings.md#vcs-integration-and-repository). By default, any push to the tracked branch that changes a file in the project root triggers a tracked [Run](../../run/README.md) that can be [applied](../../run/tracked.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the Stack input to the policy evaluator and can be used as a point of reference.
+## Git push policy and tracked branch
+
+Each stack and module points at a particular Git branch called a [tracked branch](../../stack/stack-settings.md#vcs-integration-and-repository). By default, any push to the tracked branch that changes a file in the project root triggers a tracked [run](../../run/README.md) that can be [applied](../../run/tracked.md#applying). This logic can be changed entirely by a Git push policy, but the tracked branch is always reported as part of the stack input to the policy evaluator and can be used as a point of reference.
 
 ![The tracked branch head commit is behind the head commit of the stack.](<../../../assets/screenshots/Screenshot 2022-07-05 at 14-48-52 Runs · example stack.png>)
 
-When a push policy does not track a new push, the head commit of the stack/module will not be set to the tracked branch head commit. We can address this by navigating to that stack and pressing the sync button (this syncs the tracked branch head commit with the head commit of the stack/module).
+When a push policy does not track a new push, the head commit of the stack/module will not be set to the tracked branch head commit. Sync the tracked branch head commit with the head commit of the stack/module by navigating to that stack and pressing the sync button.
 
-### Push and Pull Request events
+## Push and Pull Request events
 
-Spacelift can currently react to two types of events - _push_ and _pull request_ (also called _merge request_ by GitLab). Push events are the default - even if you don't have a push policy set up, we will respond to those events. Pull request events are supported for some VCS providers and are generally received when you open, synchronize (push a new commit), label, or merge the pull request.
+Spacelift can currently react to two types of events: _push_ and _pull request_ (also called _merge request_ by GitLab). Push events are the default; even if you don't have a push policy set up, we will respond to those events. Pull request events are supported for some VCS providers and are generally received when you open, synchronize (push a new commit), label, or merge the pull request.
 
-There are some valid reasons to use _pull request_ events in addition or indeed instead of push ones. One is that when making decisions based on the paths of affected files, push events are often confusing:
+In some cases, Spacelift can receive both _push_ and _pull request_ events at the same time. Review the [data input schema](#data-input-schema) and [how rules are evaluated](#how-rules-are-evaluated) to ensure your push policies perform as expected.
 
-- they contain affected files for all commits in a push, not just the head commit;
-- they are not context-aware, making it hard to work with pull requests - if a given push is ignored on an otherwise relevant PR, then the Spacelift status check is not provided;
+There are some valid reasons to use _pull request_ events in addition or instead of push ones. For example, when making decisions based on the paths of affected files, push events are often confusing:
 
-But there are more reasons depending on how you want to structure your workflow. Here are a few samples of PR-driven policies from real-life use cases, each reflecting a slightly different way of doing things.
+- They contain affected files for all commits in a push, not just the head commit.
+- They are not context-aware, making it hard to work with pull requests; if a given push is ignored on an otherwise relevant PR, then the Spacelift status check is not provided.
+
+Here are a few samples of PR-driven policies from real-life use cases, each reflecting a slightly different way of structuring your workflow.
 
 First, let's only trigger proposed runs if a PR exists, and allow any push to the tracked branch to trigger a tracked run:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-track   { input.push.branch == input.stack.branch }
-propose { not is_null(input.pull_request) }
-ignore  { not track; not propose }
-```
+    track if input.push.branch == input.stack.branch
+    propose if not is_null(input.pull_request)
+    ignore if { not track; not propose }
+    ```
 
-If you want to enforce that tracked runs are _always_ created from PR merges (and not from direct pushes to the tracked branch), you can tweak the above policy accordingly to just ignore all non-PR events:
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-```opa
-package spacelift
+    track   { input.push.branch == input.stack.branch }
+    propose { not is_null(input.pull_request) }
+    ignore  { not track; not propose }
+    ```
 
-track   { is_pr; input.push.branch == input.stack.branch }
-propose { is_pr }
-ignore  { not is_pr }
-is_pr   { not is_null(input.pull_request) }
-```
+If you want to enforce that tracked runs are _always_ created from PR merges (and not from direct pushes to the tracked branch), you can tweak the above policy accordingly to ignore all non-PR events:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    track if { is_pr; input.push.branch == input.stack.branch }
+    propose if is_pr
+    ignore if not is_pr
+    is_pr if not is_null(input.pull_request)
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    track   { is_pr; input.push.branch == input.stack.branch }
+    propose { is_pr }
+    ignore  { not is_pr }
+    is_pr   { not is_null(input.pull_request) }
+    ```
 
 Here's another example where you respond to a particular PR label ("deploy") to automatically deploy changes:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-track   { is_pr; labeled }
-propose { true }
-is_pr   { not is_null(input.pull_request) }
-labeled { input.pull_request.labels[_] == "deploy" }
-```
+    track if { is_pr; labeled }
+    propose if true
+    is_pr if not is_null(input.pull_request)
+    labeled if {
+      some label in input.pull_request.labels
+      label == "deploy"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    track   { is_pr; labeled }
+    propose { true }
+    is_pr   { not is_null(input.pull_request) }
+    labeled { input.pull_request.labels[_] == "deploy" }
+    ```
 
 !!! info
-    When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (ie. there are no merge conflicts), we check out the code for something they call the "potential merge commit" - a virtual commit that represents the potential result of merging the Pull Request into its base branch. This should provide better quality, less confusing feedback.
+    When a run is triggered from a **GitHub** Pull Request and the Pull Request is **mergeable** (meaning there are no merge conflicts), we check out the code for something called the "potential merge commit". This virtual commit represents the potential result of merging the Pull Request into its base branch and should provide higher quality, less confusing feedback.
 
-    Let us know if you notice any irregularities.
+### Deduplicating events
 
-#### Deduplicating events
+If you're using pull requests in your flow, Spacelift might receive duplicate events. For example, if you push to a feature branch and then open a pull request, Spacelift first receives a _push_ event, then a separate _pull request (opened)_ event. When you push another commit to that feature branch, we again receive two events: _push_ and _pull request (synchronized)_. When you merge the pull request, we get two more: _push_ and _pull request (closed)_.
 
-If you're using pull requests in your flow, it is possible that we'll receive duplicate events. For example, if you push to a feature branch and then open a pull request, we first receive a _push_ event, then a separate _pull request (opened)_ event. When you push another commit to that feature branch, we again receive two events - _push_ and _pull request (synchronized)._ When you merge the pull request, we get two more - _push_ and _pull request_ _(closed)_.
+Push policies could resolve to the same actionable (not _ignore_) outcome (e.g. _track_ or _propose_). In those cases, instead of creating two separate runs, we debounce the events by deduplicating runs created by them on a per-stack basis.
 
-It is possible that push policies resolve to the same actionable (not _ignore_) outcome (eg. _track_ or _propose_). In those cases instead of creating two separate runs, we debounce the events by deduplicating runs created by them on a per-stack basis.
+The deduplication key consists of the commit SHA and run type. If your policy returns two different actionable outcomes for two different events associated with a given SHA, both runs will be created. In practice, this would be an unusual corner case and a reason to revisit your workflow.
 
-The deduplication key consists of the commit SHA and run type. If your policy returns two different actionable outcomes for two different events associated with a given SHA, both runs will be created. In practice, this would be an unusual corner case and a good occasion to revisit your workflow.
+When events are deduplicated and you're sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that the first one creates a run.
 
-When events are deduplicated and you're sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that it's the first one that creates a run.
+## Canceling in-progress runs
 
-### Canceling in-progress runs
+You can use push policies to pre-empt any in-progress runs with the new run. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued), [ready](../../run/README.md#ready), or [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
 
-The push policy can also be used to have the new run pre-empt any runs that are currently in progress. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued), [ready](../../run/README.md#ready) or are [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
+=== "Rego v1"
+    ```opa
+    cancel contains run.id if {
+      some run in input.in_progress
+    }
+    ```
 
-```opa
-cancel[run.id] { run := input.in_progress[_] }
-```
+=== "Rego v0"
+    ```opa
+    cancel[run.id] { run := input.in_progress[_] }
+    ```
 
-Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, the rule below will only cancel proposed runs that are currently queued (waiting for the worker):
+Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, this rule will only cancel proposed runs that are currently queued (waiting for the worker):
 
-```opa
-cancel[run.id] {
-  run := input.in_progress[_]
-  run.type == "PROPOSED"
-  run.state == "QUEUED"
-}
-```
+=== "Rego v1"
+    ```opa
+    cancel contains run.id if {
+      some run in input.in_progress
+      run.type == "PROPOSED"
+      run.state == "QUEUED"
+    }
+    ```
 
-You can also compare branches and cancel proposed runs in queued state pointing to a specific branch using this example policy:
+=== "Rego v0"
+    ```opa
+    cancel[run.id] {
+      run := input.in_progress[_]
+      run.type == "PROPOSED"
+      run.state == "QUEUED"
+    }
+    ```
 
-```opa
-cancel[run.id] {
-  run := input.in_progress[_]
-  run.type == "PROPOSED"
-  run.state == "QUEUED"
-  run.branch == input.pull_request.head.branch
-}
-```
+You can also compare branches and cancel proposed runs in queued state pointing to a specific branch:
 
-Please note there are some restrictions on cancelation to be aware of:
+=== "Rego v1"
+    ```opa
+    cancel contains run.id if {
+      some run in input.in_progress
+      run.type == "PROPOSED"
+      run.state == "QUEUED"
+      run.branch == input.pull_request.head.branch
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    cancel[run.id] {
+      run := input.in_progress[_]
+      run.type == "PROPOSED"
+      run.state == "QUEUED"
+      run.branch == input.pull_request.head.branch
+    }
+    ```
+
+### Cancelation restrictions
+
+There are some restrictions on cancelation:
 
 - Module test runs cannot be canceled. Only proposed and tracked stack runs can be canceled.
 - Cancelation works based on a new run pre-empting existing runs. What this means is that if your push policy does not result in any runs being triggered, the cancelation will have no effect.
-- A run can only cancel other runs of the _same type_. For example a proposed run can only cancel other proposed runs, and not tracked runs.
-- Cancelation is _best effort_ and not guaranteed. If the run is either picked up by the worker or approved by a human in the meantime then the cancelation itself is canceled.
+- A run can only cancel other runs of the _same type_. For example a proposed run can only cancel other proposed runs, not tracked runs.
+- Cancelation is _best effort_ and not guaranteed. If the run is picked up by the worker or approved by a human in the meantime, the cancelation itself is canceled.
 
-### Corner case: track, don't trigger
+## Configuring Ignore event behavior
 
-The `track` decision sets the new head commit on the affected stack or [module](../../../vendors/terraform/module-registry.md). This head commit is what is going to be used when a tracked run is manually triggered, or a [task](../../run/task.md) is started on the stack. Usually what you want in this case is to have a new tracked Run, so this is what we do by default.
+### Customize VCS check messages for Ignored Run events
 
-Sometimes, however, you may want to trigger those tracked runs in a specific order or under specific circumstances - either manually or using a [trigger policy](../trigger-policy.md). So what you want is an option to set the head commit, but not trigger a run. This is what the boolean `notrigger` rule can do for you. `notrigger` will only work in conjunction with `track` decision and will prevent the tracked run from being created.
+To customize the messages sent back to your VCS when Spacelift runs are ignored, use the `message` function within your Push policy. See the [example policy](#example-policy) for reference.
 
-Please note that `notrigger` does not depend in any way on the `track` rule - they're entirely independent. Only when interpreting the result of the policy, we will only look at `notrigger` if `track` evaluates to _true_. Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run - for example, because it's either always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](../trigger-policy.md):
+### Customize check status for Ignored Run events
 
-```opa
-track     { input.push.branch == input.stack.branch }
-propose   { not track }
-notrigger { true }
-```
+By default, ignored runs on a stack will return a `skipped` status check event, rather than a fail event. If you want ignored run events to have a `failed` status check on your VCS, set the `fail` function value to `true` in your Push policy.
 
-### Take Action from Comment(s) on Pull Request(s)
+### Example policy
 
-For more information on taking action from comments on Pull Requests, please view [the documentation on pull request comments](../../run/pull-request-comments.md).
+The following push policy does not trigger any run within Spacelift. Using this policy, we can ensure that the status check within our VCS (in this case, GitHub) fails and returns the message "I love bacon."
 
-### Customize Spacelift Ignore Event Behavior
+=== "Rego v1"
+    ```opa
+    fail if true
+    message contains "I love bacon" if true
+    ```
 
-#### Customize VCS Check Messages for Ignored Run Events
+=== "Rego v0"
+    ```opa
+    fail { true }
+    message["I love bacon"] { true }
+    ```
 
-If you would like to customize messages sent back to your VCS when Spacelift runs are ignored, you can do so using the `message` function within your Push policy. Please see the example policy below as a reference for this functionality.
+With this policy, users would see this behavior within their GitHub status check:
 
-#### Customize Check Status for Ignored Run Events
-
-By default, ignored runs on a stack will return a "skipped" status check event, rather than a fail event. If you would like ignored run events to have a failed status check on your VCS, you can do so using the `fail` function within your Push policy. If a `fail` result is desired, set this value to true.
-
-#### Example Policy
-
-The following Push policy does not trigger any run within Spacelift. Using this policy, we can ensure that the status check within our VCS (in this case, GitHub) fails and returns the message "I love bacon."
-
-```opa
-fail { true }
-message["I love bacon"] { true }
-```
-
-As a result of the above policy, users would then see this behavior within their GitHub status check:
-
-![](../../../assets/screenshots/Screen Shot 2022-06-13 at 2.07.31 PM.png)
+![GitHub status check behavior](<../../../assets/screenshots/Screen Shot 2022-06-13 at 2.07.31 PM.png>)
 
 !!! info
-    Note that this behavior (customization of the message and failing of the check within the VCS), **is only applicable when runs do not take place within Spacelift.**
+    This behavior (customization of the message and failing of the check within the VCS), is only applicable when runs **do not take place within Spacelift.**
 
-### Tag-driven OpenTofu/Terraform Module Release Flow
+## Tag-driven Terraform module release flow
 
-Some users prefer to manage their OpenTofu/Terraform Module versions using git tags, and would like git tag events to push their module to the Spacelift module registry. Using a fairly simple Push policy, this is supported. To do this, you'll want to make sure of the `module_version` block within a Push policy attached your module, and then set the version using the tag information from the git push event.
+You can use a simple push policy to manage your Terraform module versions using git tags and push your module to the Spacelift module registry using git tag events. Use the `module_version` block within a push policy attached your module, and then set the version using the tag information from the git push event.
 
-For example, the following example Push policy will trigger a tracked run when a tag event is detected. The policy then parses the tag event data and uses that value for the module version, in the below example we remove a git tag prefixed with `v` as the OpenTofu/Terraform Module Registry only supports versions in a numeric `X.X.X` format.
+For example, this push policy will trigger a tracked run when a tag event is detected, then parses the tag event data and uses that value for the module version. We remove a git tag prefixed with `v` as the Terraform module registry only supports versions in a numeric `X.X.X` format.
 
-It's important to note that for this policy, you will need to provide a mock, non-existent version for proposed runs. This precaution has been taken to ensure that pull requests do not encounter check failures due to the existence of versions that are already in use.
+For this policy, you will need to provide a mock, non-existent version for proposed runs. This precaution has been taken to ensure that pull requests do not encounter check failures due to the existence of versions that are already in use.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-module_version := version {
-    version := trim_prefix(input.push.tag, "v")
-    not propose
-}
+    module_version := version if {
+        version := trim_prefix(input.push.tag, "v")
+        not propose
+    }
 
-module_version := "<X.X.X>" {
-    propose
-}
+    module_version := "<X.X.X>" if propose
 
-propose {
-  not is_null(input.pull_request)
-  }
-```
+    propose if not is_null(input.pull_request)
+    ```
 
-If you wish to add a track rule to your push policy, the below will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking.
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-```opa
-track {
-  module_version != ""
-  input.push.branch == input.module.branch
- }
-```
+    module_version := version {
+        version := trim_prefix(input.push.tag, "v")
+        not propose
+    }
 
-### Allow forks
+    module_version := "<X.X.X>" {
+        propose
+    }
 
-By default, we don't trigger runs when a forked repository opens a pull request against your repository. This is because of a security concern: if let's say your infrastructure is open source, someone forks it, implements some unwanted junk in there, then opens a pull request for the original repository, it'd run automatically with the prankster's code included.
+    propose {
+      not is_null(input.pull_request)
+      }
+    ```
+
+To add a track rule to your push policy, this will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking:
+
+=== "Rego v1"
+    ```opa
+    track if {
+      module_version != ""
+      input.push.branch == input.module.branch
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    track {
+      module_version != ""
+      input.push.branch == input.module.branch
+     }
+    ```
+
+## Allow forks
+
+By default, Spacelift doesn't trigger runs when a forked repository opens a pull request against your repository. This is to prevent a security incident. For example, if your infrastructure were open source, someone could fork it, implement unwanted code, then open a pull request for the original repository that would automatically run.
 
 !!! info
-    The cause is very similar to GitHub Actions where they don't expose repository secrets when forked repositories open pull requests.
+    The cause is very similar to GitHub Actions, where they don't expose repository secrets when forked repositories open pull requests.
 
-If you still want to allow it, you can explicitly do it with `allow_fork` rule. For example, if you trust certain people or organizations:
+If you want to allow forks to trigger runs, you can explicitly do it with `allow_fork` rule. For example, if you trust certain people or organizations, this rule allows a forked repository to run **only** if the owner of the forked repo is `johnwayne` or `microsoft`:
 
-```opa
-propose { true }
-allow_fork {
-  validOwners := {"johnwayne", "microsoft"}
-  validOwners[input.pull_request.head_owner]
-}
-```
+=== "Rego v1"
+    ```opa
+    propose if true
 
-In the above case, we'll allow a forked repository to run, **only** if the owner of the forked repository is either `johnwayne` or `microsoft`.
+    allow_fork if {
+      validOwners := {"johnwayne", "microsoft"}
+      validOwners[input.pull_request.head_owner]
+    }
+    ```
 
-`head_owner` field means different things in different VCS providers:
+=== "Rego v0"
+    ```opa
+    propose { true }
+    allow_fork {
+      validOwners := {"johnwayne", "microsoft"}
+      validOwners[input.pull_request.head_owner]
+    }
+    ```
 
-#### GitHub / GitHub Enterprise
+The `head_owner` field means different things in different VCS providers:
 
-In GitHub, `head_owner` is the organization or the person owning the forked repository. It's typically in the URL: `https://github.com/<head_owner>/<forked_repository>`
+| VCS provider                    | Meaning of `head_owner` field                        | Where to find it                                                                                                     |
+| ------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| **GitHub/GitHub Enterprise**    | The organization or person who owns the forked repo. | In the URL: `https://github.com/<head_owner>/<forked_repository>`.                                                   |
+| **GitLab**                      | The group of the repository.                         | In the URL: `https://gitlab.com/<head_owner>/<forked_repository>`.                                                   |
+| **Azure DevOps**                | The ID of the forked repo's project (a UUID).        | Open `https://dev.azure.com/<organization>/_apis/projects` in your browser to see all projects and their unique IDs. |
+| **Bitbucket Cloud**             | Workspace.                                           | In the URL: `https://www.bitbucket.org/<workspace>/<forked_repository>`                                              |
+| **Bitbucket Datacenter/Server** | The project key of the repo.                         | The display name of the project and its abbreviation (all caps).                                                     |
 
-#### GitLab
-
-In GitLab, it is the group of the repository which is typically the URL of the repository: `https://gitlab.com/<head_owner>/<forked_repository>`
-
-#### Azure DevOps
-
-Azure DevOps is a special case because they don't provide us the friendly name of the `head_owner`. In this case, we need to refer to `head_owner` as the ID of the forked repository's project which is a UUID. One way to figure out this UUID is to open `https://dev.azure.com/<organization>/_apis/projects` website which lists all projects with their unique IDs. You don't need any special access to this API, you can just simply open it in your browser.
-
-[Official documentation](https://docs.microsoft.com/en-us/rest/api/azure/devops/core/projects/list){: rel="nofollow"} of the API.
-
-#### Bitbucket Cloud
-
-In Bitbucket Cloud, `head_owner` means [workspace](https://support.atlassian.com/bitbucket-cloud/docs/what-is-a-workspace/){: rel="nofollow"}. It's in the URL of the repository: `https://www.bitbucket.org/<workspace>/<forked_repository>`.
-
-#### Bitbucket Datacenter/Server
-
-In Bitbucket Datacenter/Server, it is the project key of the repository. The project key is not the display name of the project, but the abbreviation in all caps.
-
-![Bitbucket Datacenter/Server project key](<../../../assets/screenshots/image (118).png>)
-
-### Approval and Mergeability
+## Approval and mergeability
 
 The `pull_request` property on the input to a push policy contains the following fields:
 
-- `approved` - indicates whether the PR has been approved.
-- `mergeable` - indicates whether the PR can be merged.
-- `undiverged` - indicates that the PR branch is not behind the target branch.
+- `approved`: Indicates whether the PR has been approved.
+- `mergeable`: Indicates whether the PR can be merged.
+- `undiverged`: Indicates that the PR branch is not behind the target branch.
 
-The following example shows a push policy that will automatically deploy a PR's changes once it has been approved, any required checks have completed, and the PR has a `deploy` label added to it:
+This push policy will automatically deploy a PR's changes once it has been approved, any required checks have completed, and the PR has a `deploy` label added to it:
 
-```rego
-package spacelift
+=== "Rego v1"
+    ```rego
+    package spacelift
 
-# Trigger a tracked run if a change is pushed to the stack branch
-track {
-  affected
-  input.push.branch == input.stack.branch
-}
+    # Trigger a tracked run if a change is pushed to the stack branch
+    track if {
+      affected
+      input.push.branch == input.stack.branch
+    }
 
-# Trigger a tracked run if a PR is approved, mergeable, undiverged and has a deploy label
-track {
-  is_pr
-  is_clean
-  is_approved
-  is_marked_for_deploy
-}
+    # Trigger a tracked run if a PR is approved, mergeable, undiverged and has a deploy label
+    track if {
+      is_pr
+      is_clean
+      is_approved
+      is_marked_for_deploy
+    }
 
-# Trigger a proposed run if a PR is opened
-propose {
-  is_pr
-}
+    # Trigger a proposed run if a PR is opened
+    propose if is_pr
 
-is_pr {
-  not is_null(input.pull_request)
-}
+    is_pr if not is_null(input.pull_request)
 
-is_clean {
-  input.pull_request.mergeable
-  input.pull_request.undiverged
-}
+    is_clean if {
+      input.pull_request.mergeable
+      input.pull_request.undiverged
+    }
 
-is_approved {
-  input.pull_request.approved
-}
+    is_approved if input.pull_request.approved
 
-is_marked_for_deploy {
-  input.pull_request.labels[_] == "deploy"
-}
-```
+    is_marked_for_deploy if {
+      some label in input.pull_request.labels
+      label == "deploy"
+    }
+    ```
 
-Each source control provider has slightly different features, and because of this the exact definition of `approved` and `mergeable` varies slightly between providers. The following sections explain the differences.
+=== "Rego v0"
+    ```rego
+    package spacelift
 
-#### Azure DevOps <!-- markdownlint-disable-line MD024 -->
+    # Trigger a tracked run if a change is pushed to the stack branch
+    track {
+      affected
+      input.push.branch == input.stack.branch
+    }
 
-- `approved` means the PR has at least one approving review (including approved with suggestions).
-- `mergeable` means that the PR branch has no conflicts with the target branch, and any blocking policies are approved.
+    # Trigger a tracked run if a PR is approved, mergeable, undiverged and has a deploy label
+    track {
+      is_pr
+      is_clean
+      is_approved
+      is_marked_for_deploy
+    }
+
+    # Trigger a proposed run if a PR is opened
+    propose {
+      is_pr
+    }
+
+    is_pr {
+      not is_null(input.pull_request)
+    }
+
+    is_clean {
+      input.pull_request.mergeable
+      input.pull_request.undiverged
+    }
+
+    is_approved {
+      input.pull_request.approved
+    }
+
+    is_marked_for_deploy {
+      input.pull_request.labels[_] == "deploy"
+    }
+    ```
+
+Each source control provider has slightly different features, and because of this, the exact definition of `approved` and `mergeable` varies slightly.
+
+### GitHub / GitHub Enterprise <!-- markdownlint-disable-line MD024 -->
+
+- `approved`: The PR has at least one approval, and also meets any minimum approval requirements for the repo.
+- `mergeable`: The PR branch has no conflicts with the target branch, and any branch protection rules have been met.
+
+### GitLab <!-- markdownlint-disable-line MD024 -->
+
+- `approved`: The PR has at least one approval. If approvals are required, it is only `true` when all required approvals have been made.
+- `mergeable`: The PR branch has no conflicts with the target branch, any blocking discussions have been resolved, and any required approvals have been made.
+
+### Azure DevOps <!-- markdownlint-disable-line MD024 -->
+
+- `approved`: The PR has at least one approving review (including approved with suggestions).
+- `mergeable`: The PR branch has no conflicts with the target branch, and any blocking policies are approved.
 
 !!! info
-    Please note that we are unable to calculate divergence across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
+    We are unable to calculate divergence across forks in Azure DevOps, so the `undiverged` property will always be `false` for PRs created from forks.
 
-#### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
+### Bitbucket Cloud <!-- markdownlint-disable-line MD024 -->
 
-- `approved` means that the PR has at least one approving review from someone other than the PR author.
-- `mergeable` means that the PR branch has no conflicts with the target branch.
+- `approved`: The PR has at least one approving review from someone other than the PR author.
+- `mergeable`: The PR branch has no conflicts with the target branch.
 
-#### Bitbucket Datacenter/Server <!-- markdownlint-disable-line MD024 -->
+### Bitbucket Datacenter/Server <!-- markdownlint-disable-line MD024 -->
 
-- `approved` means that the PR has at least one approving review from someone other than the PR author.
-- `mergeable` means that the PR branch has no conflicts with the target branch.
+- `approved`: The PR has at least one approving review from someone other than the PR author.
+- `mergeable`: The PR branch has no conflicts with the target branch.
 
-#### GitHub / GitHub Enterprise <!-- markdownlint-disable-line MD024 -->
+## Data input schema
 
-- `approved` means that the PR has at least one approval, and also meets any minimum approval requirements for the repo.
-- `mergeable` means that the PR branch has no conflicts with the target branch, and any branch protection rules have been met.
-
-#### GitLab <!-- markdownlint-disable-line MD024 -->
-
-- `approved` means that the PR has at least one approval. If approvals are required, it is only `true` when all required approvals have been made.
-- `mergeable` means that the PR branch has no conflicts with the target branch, any blocking discussions have been resolved, and any required approvals have been made.
-
-## Data input
-
-As input, Git push policy receives the following document:
+As input, Git push policy receives the following:
 
 !!! tip "Official Schema Reference"
     For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `GIT_PUSH` policy type.
@@ -384,6 +494,10 @@ As input, Git push policy receives the following document:
   "stack": {
     "additional_project_globs": ["string - list of arbitrary, user-defined selectors"],
     "administrative": "boolean",
+    "roles": [{
+      "id": "string - the role slug, eg. space-admin",
+      "name": "string - the role name"
+    }],
     "autodeploy": "boolean",
     "branch": "string",
     "id": "string",
@@ -423,6 +537,8 @@ As input, Git push policy receives the following document:
   }
 }
 ```
+
+### New module version schema
 
 When triggered by a _new module version_, this is the schema of the data input that each policy request will receive:
 
@@ -484,17 +600,22 @@ When triggered by a _new module version_, this is the schema of the data input t
 }
 ```
 
-Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules. The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules. The positive outcome of at least one `track` rule triggers a _tracked_ run. The positive outcome of at least one `propose` rule triggers a _proposed_ run.
+### How rules are evaluated
 
-!!! warning
-    If no rules are matched, the default is to **ignore** the push. Therefore it is important to always supply an exhaustive set of policies - that is, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
+Based on this input, the policy may define boolean `track`, `propose` and `ignore` rules.
 
-It is also possible to define an auxiliary rule called `ignore_track`, which overrides a positive outcome of the `track` rule but does not affect other rules, most notably the `propose` one. This can be used to turn some of the pushes that would otherwise be applied into test runs.
+- The positive outcome of at least one `ignore` rule causes the push to be ignored, no matter the outcome of other rules.
+- The positive outcome of at least one `track` rule triggers a _tracked_ run.
+- The positive outcome of at least one `propose` rule triggers a _proposed_ run.
+
+If no rules are matched, the default is to **ignore** the push. Always supply an exhaustive set of policies, making sure that they define what to **track** and what to **propose** in addition to defining what they **ignore**.
+
+You can also define an auxiliary rule called `ignore_track`, which overrides a positive outcome of the `track` rule but does not affect other rules, most notably `propose`. This can be used to turn some of the pushes that would otherwise be applied into test runs.
 
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/push){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/push){: rel="nofollow"} ready to use or alter to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
@@ -503,132 +624,257 @@ It is also possible to define an auxiliary rule called `ignore_track`, which ove
 Ignoring changes to certain paths is something you'd find useful both with classic monorepos and repositories containing multiple OpenTofu/Terraform projects under different paths. When evaluating a push, we determine the list of affected files by looking at all the files touched by any of the commits in a given push.
 
 !!! info
-    This list may include false positives - eg. in a situation where you delete a given file in one commit, then bring it back in another commit, and then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
+    This list may include false positives, for example in a situation where you delete a given file in one commit, bring it back in another commit, then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.
 
-Let's imagine a situation where you only want to look at changes to OpenTofu/Terraform definitions - in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html){: rel="nofollow"}  - inside one the `production/` or `modules/` directory, and have track and propose use their default settings:
+Imagine a situation where you only want to look at changes to Terraform definitions (in HCL or [JSON](https://www.terraform.io/docs/configuration/syntax-json.html){: rel="nofollow"}) inside one the `production/` or `modules/` directory, and have `track` and `propose` use their default settings:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-track   { input.push.branch == input.stack.branch }
-propose { input.push.branch != "" }
-ignore  { not affected }
+    track if input.push.branch == input.stack.branch
+    propose if input.push.branch != ""
+    ignore if not affected
 
-affected {
-  some i, j, k
+    affected if {
+      tracked_directories := {"modules/", "production/"}
+      tracked_extensions := {".tf", ".tf.json"}
 
-  tracked_directories := {"modules/", "production/"}
-  tracked_extensions := {".tf", ".tf.json"}
+      some path in input.push.affected_files
+      some dir in tracked_directories
+      some ext in tracked_extensions
 
-  path := input.push.affected_files[i]
+      startswith(path, dir)
+      endswith(path, ext)
+    }
+    ```
 
-  startswith(path, tracked_directories[j])
-  endswith(path, tracked_extensions[k])
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-As an aside, note that in order to keep the example readable we had to define `ignore` in a negative way as per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"}. A minimal example of this policy is available [here](https://play.openpolicyagent.org/p/2jjy1kSGBM){: rel="nofollow"}.
+    track   { input.push.branch == input.stack.branch }
+    propose { input.push.branch != "" }
+    ignore  { not affected }
+
+    affected {
+      some i, j, k
+
+      tracked_directories := {"modules/", "production/"}
+      tracked_extensions := {".tf", ".tf.json"}
+
+      path := input.push.affected_files[i]
+
+      startswith(path, tracked_directories[j])
+      endswith(path, tracked_extensions[k])
+    }
+    ```
+
+To keep the example readable we had to define `ignore` in a negative way, per [the Anna Karenina principle](https://en.wikipedia.org/wiki/Anna_Karenina_principle){: rel="nofollow"}.
 
 ### Status checks and ignored pushes
 
 By default when the push policy instructs Spacelift to ignore a certain change, no commit status check is sent back to the VCS. This behavior is explicitly designed to prevent noise in monorepo scenarios where a large number of stacks are linked to the same Git repo.
 
-However, in certain cases one may still be interested in learning that the push was ignored, or just getting a commit status check for a given stack when it's set as required as part of [GitHub branch protection](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule){: rel="nofollow"} set of rules, or simply your internal organization rules.
+However, you may still be interested in learning that the push was ignored, or getting a commit status check for a given stack when it's set as required by [GitHub's branch protection](https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule){: rel="nofollow"} rules or your internal organization rules.
 
-In that case, you may find the `notify` rule useful. The purpose of this rule is to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:
+In that case, you can use the `notify` rule to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# other rules (including ignore), see above
+    # other rules (including ignore), see above
 
-notify { ignore }
-```
+    notify if ignore
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # other rules (including ignore), see above
+
+    notify { ignore }
+    ```
 
 !!! info
-    The notify rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../../run/proposed.md).
+    The `notify` rule (_false_ by default) only applies to ignored pushes, so you can't set it to `false` to silence commit status checks for [proposed runs](../../run/proposed.md).
 
-## Applying from a tag
+### Applying from a tag
 
-Another possible use case of a Git push policy would be to apply from a newly created tag rather than from a branch. This in turn can be useful in multiple scenarios - for example, a staging/QA environment could be deployed every time a certain tag type is applied to a tested branch, thereby providing inline feedback on a GitHub Pull Request from the actual deployment rather than a plan/test. One could also constrain production to only apply from tags unless a Run is explicitly triggered by the user.
+Another use case for a Git push policy would be to apply from a newly created _tag_ rather than from a branch. This can be useful in multiple scenarios. For example, a staging/QA environment could be deployed every time a certain tag type is applied to a tested branch, thereby providing inline feedback on a GitHub Pull Request from the actual deployment rather than a plan/test. You could also constrain production to only apply from tags unless a run is explicitly triggered by the user.
 
-Here's an example of one such policy:
+Here's an example:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-track   { re_match(`^\d+\.\d+\.\d+$`, input.push.tag) }
-propose { input.push.branch != input.stack.branch }
-```
+    track if re_match(`^\d+\.\d+\.\d+$`, input.push.tag)
+    propose if input.push.branch != input.stack.branch
+    ```
 
-## Default Git push policy
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    track   { re_match(`^\d+\.\d+\.\d+$`, input.push.tag) }
+    propose { input.push.branch != input.stack.branch }
+    ```
+
+### Set head commit without triggering a run
+
+The `track` decision sets the new head commit on the affected stack or [module](../../../vendors/terraform/module-registry.md). This head commit is used when a tracked run is manually triggered or a [task](../../run/task.md) is started on the stack. In this case, you normally want to have a new tracked run, so that's what we do by default.
+
+However, sometimes you want to trigger tracked runs in a specific order or under specific circumstances either manually or using a [trigger policy](../trigger-policy.md). So what you want is an option to set the head commit without triggering a run. The boolean `notrigger` rule will work in conjunction with the `track` decision and prevent the tracked run from being created.
+
+`notrigger` does not depend in any way on the `track` rule; they're entirely independent. Spacelift will only look at `notrigger` if `track` evaluates to _true_ when interpreting the result of the policy.
+
+Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run. You would use this when the run is always triggered [manually](../../run/tracked.md#triggering-manually), through [the API](../../../integrations/api.md), or using a [trigger policy](../trigger-policy.md):
+
+=== "Rego v1"
+    ```opa
+    track if input.push.branch == input.stack.branch
+    propose if not track
+    notrigger if true
+    ```
+
+=== "Rego v0"
+    ```opa
+    track     { input.push.branch == input.stack.branch }
+    propose   { not track }
+    notrigger { true }
+    ```
+
+### Default Git push policy
 
 If no Git push policies are attached to a stack or a module, the default behavior is equivalent to this policy:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-track {
-  affected
-  input.push.branch == input.stack.branch
-}
+    track if {
+      affected
+      input.push.branch == input.stack.branch
+    }
 
-propose { affected }
-propose { affected_pr }
+    propose if affected
+    propose if affected_pr
 
-ignore  {
-    not affected
-    not affected_pr
-}
-ignore  { input.push.tag != "" }
+    ignore if {
+        not affected
+        not affected_pr
+    }
+    ignore if input.push.tag != ""
 
-affected {
-    filepath := input.push.affected_files[_]
-    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
-}
+    affected if {
+        some filepath in input.push.affected_files
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
 
-affected {
-    filepath := input.push.affected_files[_]
-    glob_pattern := input.stack.additional_project_globs[_]
-    glob.match(glob_pattern, ["/"], normalize_path(filepath))
-}
+    affected if {
+        some filepath in input.push.affected_files
+        some glob_pattern in input.stack.additional_project_globs
+        glob.match(glob_pattern, ["/"], normalize_path(filepath))
+    }
 
-affected_pr {
-    filepath := input.pull_request.diff[_]
-    startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
-}
+    affected_pr if {
+        some filepath in input.pull_request.diff
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
 
-affected_pr {
-    filepath := input.pull_request.diff[_]
-    glob_pattern := input.stack.additional_project_globs[_]
-    glob.match(glob_pattern, ["/"], normalize_path(filepath))
-}
+    affected_pr if {
+        some filepath in input.pull_request.diff
+        some glob_pattern in input.stack.additional_project_globs
+        glob.match(glob_pattern, ["/"], normalize_path(filepath))
+    }
 
-# Helper function to normalize paths by removing leading slashes
-normalize_path(path) = trim(path, "/")
-```
+    # Helper function to normalize paths by removing leading slashes
+    normalize_path(path) := trim(path, "/")
+    ```
 
-## Waiting for CI/CD artifacts
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-There are cases where you want pushes to your repo to trigger a run in Spacelift, but only after a CI/CD pipeline (or a part of it) has completed.
-An example would be when you want to trigger an infra deploy after some docker image has been built and pushed to a registry.
-This is achievable via push policies by using the [External Dependencies](run-external-dependencies.md) feature.
+    track {
+      affected
+      input.push.branch == input.stack.branch
+    }
 
-## Prioritization
+    propose { affected }
+    propose { affected_pr }
 
-Although we generally recommend using our default scheduling order (tracked runs and tasks, then proposed runs, then drift detection runs), you can also use push policies to prioritize certain runs over others. For example, you may want to prioritize runs triggered by a certain user or a certain branch. To that effect, you can use the boolean `prioritize` rule to mark a run as prioritized. Here's an example:
+    ignore  {
+        not affected
+        not affected_pr
+    }
+    ignore  { input.push.tag != "" }
 
-```opa
-package spacelift
+    affected {
+        filepath := input.push.affected_files[_]
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
 
-# other rules (including ignore), see above
+    affected {
+        filepath := input.push.affected_files[_]
+        glob_pattern := input.stack.additional_project_globs[_]
+        glob.match(glob_pattern, ["/"], normalize_path(filepath))
+    }
 
-prioritize { input.stack.labels[_] == "prioritize" }
-```
+    affected_pr {
+        filepath := input.pull_request.diff[_]
+        startswith(normalize_path(filepath), normalize_path(input.stack.project_root))
+    }
 
-The above example will prioritize runs on any stack that has the `prioritize` label set. Please note that run prioritization only works for private worker pools. An attempt to prioritize a run on a public worker pool using this policy will be a no-op.
+    affected_pr {
+        filepath := input.pull_request.diff[_]
+        glob_pattern := input.stack.additional_project_globs[_]
+        glob.match(glob_pattern, ["/"], normalize_path(filepath))
+    }
 
-## Stack Locking
+    # Helper function to normalize paths by removing leading slashes
+    normalize_path(path) = trim(path, "/")
+    ```
+
+### Waiting for CI/CD artifacts
+
+There are cases where you want pushes to your repo to trigger a run in Spacelift, but only after a CI/CD pipeline (or a part of it) has completed. An example would be when you want to trigger an infra deploy **after** some Docker image has been built and pushed to a registry.
+
+You can use push policies' [external dependencies](run-external-dependencies.md) feature to achieve this.
+
+### Prioritization
+
+Although we generally recommend using our default scheduling order (tracked runs and tasks, then proposed runs, then drift detection runs), you can use push policies to prioritize certain runs over others. For example, you may want to prioritize runs triggered by a certain user or a certain branch.
+
+Use the boolean `prioritize` rule to mark a run as prioritized:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    # other rules (including ignore), see above
+
+    prioritize if {
+      some label in input.stack.labels
+      label == "prioritize"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # other rules (including ignore), see above
+
+    prioritize { input.stack.labels[_] == "prioritize" }
+    ```
+
+This example will prioritize runs on any stack that has the `prioritize` label set. **Run prioritization only works for private worker pools**. An attempt to prioritize a run on a public worker pool using this policy will not work.
+
+### Stack locking
 
 Stack locking can be particularly useful in workflows heavily reliant on pull requests. The push policy enables you to lock and unlock a stack based on specific criteria using the `lock` and `unlock` rules.
 
@@ -645,59 +891,109 @@ Stack locking can be particularly useful in workflows heavily reliant on pull re
 - No change if the stack is locked by a different owner.
 
 !!! info
-    Note that runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the `lock` rule is undefined or results in an empty string, runs will not be rejected.
+    Runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the `lock` rule is undefined or results in an empty string, runs will not be rejected.
 
-Below is an example policy snippet which locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged. Ensure you have added `import future.keywords` to your policy to use this exact snippet.
+This example policy snippet locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged.
 
-``` opa
-lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
+=== "Rego v1"
+    ``` opa
+    lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
 
-lock := lock_id {
-    input.pull_request.action in ["opened", "synchronize"]
-}
+    lock := lock_id if {
+        input.pull_request.action in ["opened", "synchronize"]
+    }
 
-unlock := lock_id {
-    input.pull_request.action in ["closed", "merged"]
-}
-```
+    unlock := lock_id if {
+        input.pull_request.action in ["closed", "merged"]
+    }
+    ```
 
-You can further customise this selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request. Here is an example of that:
+=== "Rego v0"
+    ``` opa
+    lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
 
-``` opa
-lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
+    lock := lock_id {
+        input.pull_request.action in ["opened", "synchronize"]
+    }
 
-lock := lock_id if {
-    input.pull_request.action in ["opened", "synchronize"]
-    affected_pr
-}
+    unlock := lock_id {
+        input.pull_request.action in ["closed", "merged"]
+    }
+    ```
 
-unlock := lock_id if {
-    input.pull_request.action in ["closed", "merged"]
-    affected_pr
-}
+You can customize selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request:
 
-affected_pr if {
-    some filepath in input.pull_request.diff
-    startswith(filepath, input.stack.project_root)
-}
+=== "Rego v1"
+    ``` opa
+    lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
 
-affected_pr if {
-    some filepath in input.pull_request.diff
-    some glob_pattern in input.stack.additional_project_globs
-    glob.match(glob_pattern, ["/"], filepath)
-}
-```
+    lock := lock_id if {
+        input.pull_request.action in ["opened", "synchronize"]
+        affected_pr
+    }
 
-Futhermore, with the release of this functionality, you can also lock and unlock through [comments](../../run/pull-request-comments.md). Here is an example:
+    unlock := lock_id if {
+        input.pull_request.action in ["closed", "merged"]
+        affected_pr
+    }
 
-``` opa
-unlock := lock_id {
-    input.pull_request.action == "commented"
-    input.pull_request.comment == concat(" ", ["/spacelift", "unlock", input.stack.id])
-}
-```
+    affected_pr if {
+        some filepath in input.pull_request.diff
+        startswith(filepath, input.stack.project_root)
+    }
 
-Using the above addition to your push policy, you can then unlock your stack by commenting something such as:
+    affected_pr if {
+        some filepath in input.pull_request.diff
+        some glob_pattern in input.stack.additional_project_globs
+        glob.match(glob_pattern, ["/"], filepath)
+    }
+    ```
+
+=== "Rego v0"
+    ``` opa
+    lock_id := sprintf("PR_ID_%d", [input.pull_request.id])
+
+    lock := lock_id {
+        input.pull_request.action in ["opened", "synchronize"]
+        affected_pr
+    }
+
+    unlock := lock_id {
+        input.pull_request.action in ["closed", "merged"]
+        affected_pr
+    }
+
+    affected_pr {
+        filepath := input.pull_request.diff[_]
+        startswith(filepath, input.stack.project_root)
+    }
+
+    affected_pr {
+        filepath := input.pull_request.diff[_]
+        glob_pattern := input.stack.additional_project_globs[_]
+        glob.match(glob_pattern, ["/"], filepath)
+    }
+    ```
+
+You can also lock and unlock through [comments](../../run/pull-request-comments.md):
+
+=== "Rego v1"
+    ``` opa
+    unlock := lock_id if {
+        input.pull_request.action == "commented"
+        input.pull_request.comment == concat(" ", ["/spacelift", "unlock", input.stack.id])
+    }
+    ```
+
+=== "Rego v0"
+    ``` opa
+    unlock := lock_id {
+        input.pull_request.action == "commented"
+        input.pull_request.comment == concat(" ", ["/spacelift", "unlock", input.stack.id])
+    }
+    ```
+
+You can then unlock your stack by commenting something such as:
 
 ```text
 /spacelift unlock my-stack-id

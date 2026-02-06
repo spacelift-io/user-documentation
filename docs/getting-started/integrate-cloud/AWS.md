@@ -136,7 +136,7 @@ Given the format of the External ID passed by Spacelift, you can further secure 
 
 ## Create the cloud integration in Spacelift
 
-1. On the _Cloud integrations_ tab, click **Set up integration**, then choose **AWS** on the dropdown.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _AWS_ card, then **Set up integration**.
 
     ![Click AWS to access integration settings](<../../assets/screenshots/integrations/cloud-providers/aws/setup-integration-step-2.png>)
 
@@ -148,6 +148,7 @@ Given the format of the External ID passed by Spacelift, you can further secure 
       5. **Duration** (optional): Select how long the role session will last, from 15 minutes to 1 hour (default).
       6. **Region** (optional): Set the AWS regional endpoint to use (such as us-east-2).
       7. **Labels** (optional): Enter a label or labels to help sort your integrations if needed.
+      8. **Enable auto-attach** (optional): If enabled, the integration will be automatically attached to any stacks or modules that have a matching label. To use this feature, add a label with the format `autoattach:<your_label>` to the integration, then enable this toggle. Any stack or module with the `<your_label>` label will have this integration auto-attached.
 3. Click **Set up**.
 
 !!! warning

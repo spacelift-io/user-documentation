@@ -187,3 +187,9 @@ Webhooks are enabled by default, so they are triggered every time there's a run 
 Enable the webhook again by repeating steps 1-3 and clicking the toggle to turn it _blue_:
 
 ![Enabled webhook](<../assets/screenshots/stack/enable-webhook.png>)
+
+!!! info "Auto-disabled webhooks"
+
+    Webhooks in Spacelift are automatically disabled after **10 or more consecutive failures**. This is a built-in protection mechanism to prevent continuous failed attempts.
+
+    Spacelift sends a notification to your account when a webhook is auto-disabled. To re-enable the webhook, resolve the underlying issue that caused the failures, and then manually re-enable it.

@@ -24,7 +24,7 @@ See [Integrate Spacelift with Amazon Web Services](../../getting-started/integra
 
 ## Programmatic setup
 
-You can also use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from an [administrative stack](../../concepts/stack/stack-settings.md#administrative), including the trust relationship. Note that in order to do that, your administrative stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
+You can also use the [Spacelift Terraform provider](../../vendors/terraform/terraform-provider.md) in order to create an AWS Cloud integration from a [stack with Space admin role attachment](../../concepts/authorization/assigning-roles-stacks.md), including the trust relationship. Note that in order to do that, your stack will require AWS credentials itself, and ones powerful enough to be able to deal with IAM.
 
 Here's an example of what it might look like to create an AWS cloud integration programmatically:
 
@@ -182,6 +182,52 @@ This will generate a trust relationship that looks something like this:
         - for [spacelift.io](https://spacelift.io), use `324880187172`.
         - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
 {% endif %}
+
+## Auto-attach integrations
+
+AWS integrations can now be auto-attached to stacks and modules. To do so, include a label in your integration following this format `autoattach:<your_label>`. Then select the `Enable auto-attach` toggle and click `Set up`.
+
+![](<../../assets/screenshots/integrations/cloud-providers/aws/auto-attach-aws-form.png>)
+
+You will immediately see the stacks and modules that already have your label in the Auto-attached section. To auto-attach your new integration to another stack or module, simply add `<your_label>` to it and we will attach the integration for you. This follows the same behavior as other _auto-attachable_ resources.
+
+![](<../../assets/screenshots/integrations/cloud-providers/aws/auto-attach-aws-list.png>)
+
+!!! info
+    You have to enable auto-attach on each integration individually to prevent clashes with previous labels in your account.
+
+## Session tagging
+
+You can enable session tagging to have Spacelift attach run and stack metadata as tags when assuming your IAM role. These tags show up in CloudTrail logs, providing additional context for auditing.
+
+To use session tagging, enable the **Enable tag session** option when creating or editing your AWS integration. Your IAM role's trust policy will need to include both `sts:AssumeRole` and `sts:TagSession` permissions as separate statements:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "<spacelift-principal>"
+      },
+      "Action": "sts:TagSession"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "<spacelift-principal>"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringLike": {
+          "sts:ExternalId": "your-account@*"
+        }
+      }
+    }
+  ]
+}
+```
 
 ## Are my credentials safe?
 

@@ -6,6 +6,10 @@ description: Telemetry reference documentation.
 
 The Spacelift backend services emit telemetry data that can be collected and visualised using a variety of tools. This document describes how to configure Spacelift to emit those data.
 
+## Configuration guides
+
+For step-by-step instructions on setting up telemetry collection for your Spacelift installation in Kubernetes, see our [telemetry configuration guides](../guides/telemetry/README.md). These guides provide complete examples for setting up Datadog, OpenTelemetry with Jaeger, or OpenTelemetry with Grafana stack (Tempo & Grafana).
+
 ## Supported telemetry backends
 
 The telemetry backend can be set by configuring the `OBSERVABILITY_VENDOR` environment variable. The following backends are supported:

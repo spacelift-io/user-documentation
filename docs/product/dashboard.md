@@ -1,7 +1,7 @@
 # Dashboard
 
 !!! info
-    At the moment, the dashboard is only available to users with the `admin` role.
+    Non-admin users can view most dashboard widgets, with the exception of the Launch Pad and User Activity widgets, which are available only to admins. In all cases, users only see stacks and runs that belong to spaces they have access to. If a user does not have read permissions for a given space, no information from that space is displayed on the dashboard.
 
 The dashboard is the first page you see when logging into the app. It provides an overview of your account and the
 status of your infrastructure.

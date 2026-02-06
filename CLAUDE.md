@@ -45,6 +45,38 @@ This repository contains the official documentation for Spacelift (<https://docs
 
 - When adding links to external websites, always add `{: rel="nofollow"}` to the link. For example: [Spacelift](https://spacelift.io){: rel="nofollow"}
 
+### Admonitions
+
+This documentation uses MkDocs Material admonitions, NOT GitHub-style alerts. GitHub-style `[!IMPORTANT]` syntax is not supported here.
+
+**Supported Admonition Types:**
+
+- `note` - General information
+- `abstract` - Summaries or overviews
+- `info` - Informational content
+- `tip` - Helpful suggestions
+- `success` - Positive outcomes
+- `question` - Questions or queries
+- `warning` - Cautions or alerts
+- `failure` - Failed outcomes
+- `danger` - Critical warnings
+- `bug` - Bug reports
+- `example` - Code samples or demonstrations
+- `quote` - Quoted material
+
+**Syntax:**
+
+```markdown
+!!! note "Optional Custom Title"
+    Content of the admonition goes here.
+    All content must be indented.
+
+??? tip "Collapsible Admonition"
+    Use ??? instead of !!! to make it collapsible.
+```
+
+For more information, see the [MkDocs Material admonitions reference](https://squidfunk.github.io/mkdocs-material/reference/admonitions/){: rel="nofollow"}.
+
 ### Dual Distribution Support
 
 The documentation supports both SaaS and Self-hosted distributions:
@@ -97,9 +129,10 @@ Wrap code containing template-like syntax:
 
 ### When Adding Content
 
-1. Check existing structure and follow established patterns
-2. Add to appropriate navigation files
-3. Include cross-references to related concepts
+1. **Capture tone and style**: When creating a brand new file, read similar existing documentation in the same section to understand and match the established tone, voice, and writing style
+2. Check existing structure and follow established patterns
+3. Add to appropriate navigation files
+4. Include cross-references to related concepts
 
 ### When Editing Existing Content
 

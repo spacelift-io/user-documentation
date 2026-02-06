@@ -29,14 +29,16 @@ Before creating the Spacelift Azure integration, you need your Tenant ID.
 
 ### Step 2: Create the cloud integration in Spacelift
 
-1. On the _Cloud integrations_ tab, click **Set up integration**, then choose **Azure** on the dropdown.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _Azure_ card, then **Set up integration**.
+
 2. Fill in the integration details:
     ![Click Azure to access integration settings](<../../assets/screenshots/integrations/cloud-providers/azure/set-up-integration-step-2.png>)
       1. **Name**: Enter a name for the cloud integration.
       2. **Space**: Select the space that can access the integration.
       3. **Tenant ID**: Paste the Tenant ID copied from the Azure portal.
-      4. **Default subscription ID** (optional): If you want to attach your Azure cloud integration to multiple stacks all using the same Azure subscription, specify a default subscription ID here.
+      4. **Default subscription ID** (optional): If you want to attach your Azure cloud integration to multiple stacks all using the same Azure subscription, specify a default subscription ID here. This field is required if you want to use auto-attach.
       5. **Labels** (optional): Enter a label or labels to help sort your integrations if needed.
+      6. **Enable auto-attach** (optional): If enabled, the integration will be automatically attached to any stacks or modules that have a matching label. To use this feature, add a label with the format `autoattach:<your_label>` to the integration, then enable this toggle. Any stack or module with the `<your_label>` label will have this integration auto-attached.
 3. Click **Set up**.
 
 ### Step 3: Provide admin consent

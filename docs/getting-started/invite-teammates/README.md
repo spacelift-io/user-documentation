@@ -12,10 +12,14 @@ You have two options for inviting people to your Spacelift account:
 
 1. From the LaunchPad, click **Invite teammates**.
       - Alternatively, click your name in the bottom left, then **Organization settings**.
-2. In the "Collaborate with your team" section:
-      1. **Email**: Enter the email address of the user to add.
-      2. **Role**: Select the user's role, _admin_ or _user_.
-      3. Click **Send invite**.
+2. In the _Identity Management > Users_ section, click Invite user.
+3. Fill in the user details:
+      1. **Username** (optional): Enter the username for the new user, if different than email.
+      2. **Email**: Enter the email address of the new user.
+      3. **Slack member ID** (optional): Enter the user's Slack member ID to allow them to [interact with Spacelift via Slack](../../concepts/user-management/admin.md#slack-integration).
+      4. **Role**: Select the [user's role(s)](../../concepts/authorization/rbac-system.md) from _space reader_, _space writer_, _space admin_, or _worker pool controller_.
+      5. **Space**: Select the space the user will have access to. You can assign multiple Roles and Spaces with the **Add** button.
+4. Click **Invite**.
 
 ## Add users via policies
 
@@ -37,35 +41,65 @@ You have two options for inviting people to your Spacelift account:
 === "GitHub"
     This example uses GitHub usernames to grant access to Spacelift.
 
-    ```opa
-    package spacelift
+    === "Rego v1"
+        ```opa
+        package spacelift
 
-    admins  := { "alice" }
-    allowed := { "bob", "charlie", "danny" }
-    login   := input.session.login
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    deny  { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```opa
+        package spacelift
+
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        deny  { not admin; not allow }
+        ```
+
     !!! tip
         GitHub organization admins are automatically Spacelift admins. There is no need to grant them permissions in the Login policy.
 
 === "GitLab, Google, Microsoft"
     This example uses email addresses to grant access to Spacelift.
 
-    ```rego
-    package spacelift
+    === "Rego v1"
+        ```rego
+        package spacelift
 
-    admins  := { "alice@example.com" }
-    allowed := { "bob@example.com" }
-    login   := input.session.login
+        admins := {"alice@example.com"}
+        allowed := {"bob@example.com"}
+        login := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
-    deny  { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        # allow if endswith(input.session.login, "@example.com") Alternatively, grant access to every user with an @example.com email address
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```rego
+        package spacelift
+
+        admins  := { "alice@example.com" }
+        allowed := { "bob@example.com" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
+        deny  { not admin; not allow }
+        ```
 
 Now your colleagues can access your Spacelift account as well.
 

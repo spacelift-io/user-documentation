@@ -66,7 +66,7 @@ The token contains the following standard claims:
 
 - `iss`: The issuer of the token. This is the URL of your Spacelift account, for example `https://demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `sub`: The subject of the token, which includes some information about the Spacelift run that generated this token.
-    - The subject claim is constructed as follows: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`. For example, `space:legacy:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
+    - The subject claim is constructed as follows: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`. For example, `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
 - `aud`: The audience of the token. This is the hostname of your Spacelift account, for example `demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `exp`: The expiration time of the token, in seconds since the Unix epoch. The token is valid for one hour.
 - `iat`: The time at which the token was issued, in seconds since the Unix epoch.
@@ -84,6 +84,27 @@ The token also contains the following custom claims:
 - `runId`: The ID of the run that owns the token.
 - `scope`: The scope of the token, either `read` or `write`.
 
+#### Wildcards
+
+You can use wildcards like "*" in your OIDC token, as long as the wildcard matches the exact format of the sub claim: `space:<space_id>:(stack|module):<stack_id|module_id>:run_type:<run_type>:scope:<read|write>`.
+
+For example, you could create a policy like this, which would cover most internal spaces, stacks, run types, and scopes:
+
+```json
+"Condition": {
+  "StringLike": {
+    "yourSpaceliftDomain:sub": "space:production-*:stack:*:run_type:*:scope:*"
+  }
+}
+```
+
+- `space:production-*`: Covers any internal Space ID that begins with "production-".
+- `stack:*`: Matches any stack inside that production space.
+- `run_type:*`: Covers all types of runs (e.g., PROPOSED, TRACKED).
+- `scope:*`: Covers both read and write scopes for that run.
+
+Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.
+
 ### About scopes
 
 Whether the token is given `read` or `write` scope depends on the type of the run that generated the token:
@@ -94,6 +115,27 @@ Whether the token is given `read` or `write` scope depends on the type of the ru
 The only exceptions are tracked runs whose stack is not set to [autodeploy](../../../concepts/run/tracked.md#approval-flow). In that case, the token will have a `read` scope during the planning phase, and a `write` scope during the apply phase. This is because a tracked run requiring a manual approval should not perform write operations before human confirmation.
 
 The scope claim, as well as other claims presented by the Spacelift token, are merely advisory. It depends on you whether you want to control access to your external service provider based on the scope of the token or on some other claim like space, caller, or run type. In other words, Spacelift gives you the data and it's up to you to decide how to use it.
+
+## Custom Claims Mapping for Groups
+
+Some identity providers use non-standard claim names for user group membership. For example:
+
+- **AWS Cognito** uses `cognito:groups` instead of the standard `groups` claim
+- **Google Workspace** does not include group membership in OIDC tokens by default
+
+Spacelift allows you to map custom claims from your identity provider to the standard `groups` claim that Spacelift expects. This enables group-based access control even when your IdP doesn't follow the standard OIDC groups claim convention.
+
+### Configuring Custom Claims Mapping
+
+To configure custom claims mapping:
+
+1. Navigate to **Organization settings** → **Single Sign-On**
+2. In your OIDC configuration, look for the **Custom claims mapping** section
+3. Add a mapping for the `groups` claim:
+   - **Claim name in IdP**: Enter the custom claim name from your identity provider (e.g., `cognito:groups`)
+   - **Claim name in Spacelift**: Enter `groups`
+
+![Screenshot: OIDC configuration page showing custom claims mapping section](../../../assets/screenshots/sso/oidc-custom-claims.png)
 
 ## Use the Spacelift OIDC token
 

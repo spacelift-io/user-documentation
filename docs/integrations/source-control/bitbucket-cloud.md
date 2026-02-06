@@ -8,7 +8,7 @@ You can set up multiple Space-level and one default Bitbucket Cloud integration 
 
 ### Initial setup
 
-1. On the _Source control_ tab, click **Set up integration**, then choose **Bitbucket Cloud** on the dropdown.
+1. On the _Integrate Services > Discover all integrations_ screen, click **View** on the _Bitbucket Cloud_ card, then **Set up Bitbucket Cloud**.
     ![Create a Bitbucket integration](<../../assets/screenshots/Bitbucket-cloud-form.png>)
 2. **Integration name**: Enter a name for your integration. It cannot be changed later because the Spacelift webhook endpoint is generated based on this name.
 3. **Integration type**: Default (all spaces) or [Space-specific](../../concepts/spaces/README.md). Each Spacelift account can only support one default integration per VCS provider, which is available to all stacks and modules in the same Space as the integration.
@@ -57,7 +57,7 @@ For every Bitbucket Cloud repository being used in Spacelift stacks or modules, 
 
     Space-level integrations will be listed to users with **read** access to the integration Space. Integration details, however, contain sensitive information (such as the webhook secret) and are only visible to those with **admin** access.
 
-1. On the _Source code_ page, click the **three dots** next to the integration name.
+1. On the _Integrate Services > Discover all integrations_ page, click **View** on the _Bitbucket Cloud_ card, then click the **three dots** next to the integration name.
 2. Click **See details** to find the _webhook endpoint_ and _webhook secret_.
     ![Find webhook endpoint and secret](<../../assets/screenshots/Bitbucket-cloud-integration-details.png>)
 
@@ -137,12 +137,12 @@ The summary will look like this:
 
 ## Delete the Integration
 
-If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the _Source code_ tab, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
+If you no longer need the integration, you can delete it by clicking the 3 dots next to the integration name on the _Integrations > Bitbucket Cloud_ page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
 
 ![Delete the Azure DevOps integration](<../../assets/screenshots/azure_devops_deletion_button.png>)
 
 !!! warning
-    You can delete source code integrations **while stacks are still using the**m, which will have consequences.
+    You can delete source code integrations **while stacks are still using them**, which will have consequences.
 
 ### Consequences
 

@@ -13,13 +13,17 @@ By default, Spacelift communicates with your VCS provider directly. This is usua
 
 A single VCS Agent Pool is a way for Spacelift to communicate with a single VCS system on your side. You run VCS Agents inside of your infrastructure and configure them with your internal VCS system endpoint. They will then connect to a gateway on our backend, and we will be able to access your VCS system through them.
 
+!!! warning "Raw git"
+
+    Raw git does not work with VCS agents. If you are using raw git repositories, you will need to use publicly accessible URLs or implement a workaround like a proxy or tunnel to replace VCS agent functionality.
+
 On the Agent there are very conservative checks on what requests are let through and which ones are denied, with an explicit allowlist of paths that are necessary for Spacelift to work. All requests will be logged to standard output with a description about what they were used for.
 
 ## Create the VCS Agent Pool
 
-Navigate to VCS Agent Pools by clicking on Source code on the left menu, then **VCS Agent pools** on the top. Click **Create VCS agent pool**.
+Navigate to the _Integrations_ screen, then click **View** on the _VCS Agent Pools_ card. Click **Create VCS agent pool**.
 
-![](../assets/screenshots/Screen Shot 2022-06-21 at 11.31.39 AM.png)
+![](../assets/screenshots/concepts/vcs-agent-pools/create-vcs-agent-pool.png)
 
 Give your VCS Agent Pool a name and description, and you're done! A configuration token will be downloaded.
 
@@ -119,12 +123,39 @@ When trying to use this integration, i.e. by opening the Stack creation form, yo
 
 ![Access Log example](<../assets/screenshots/image (50).png>)
 
+### Configure direct network access
+
+!!! tip
+    VCS Agents are intended for version control systems (VCS) that cannot be accessed over the internet from the Spacelift backend.
+
+    **If your VCS can be accessed over the internet, possibly after allowing the Spacelift backend IP addresses, then you do not need to use VCS Agents.**
+
+ When using private workers with a privately accessible version control system, you will need to ensure that your private workers have direct network access to your Version Control System.
+
+ Additionally, you will need to inform the private workers of the target network address for each of your VCS Agent Pools by setting up the following variables:
+
+- `SPACELIFT_PRIVATEVCS_MAPPING_NAME_<NUMBER>`: Name of the VCS Agent Pool.
+- `SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_<NUMBER>`: IP address or hostname, with protocol, for the VCS system.
+
+There can be multiple VCS systems so replace `<NUMBER>` with an integer. Start from `0` and increment it by one for each new VCS system.
+
+Here is an example that configures access to two VCS systems:
+
+```bash
+export SPACELIFT_PRIVATEVCS_MAPPING_NAME_0=bitbucket_pool
+export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_0=http://192.168.2.2
+export SPACELIFT_PRIVATEVCS_MAPPING_NAME_1=github_pool
+export SPACELIFT_PRIVATEVCS_MAPPING_BASE_ENDPOINT_1=https://internal-github.net
+```
+
+When using Kubernetes workers, please see the [VCS Agents](./worker-pools/kubernetes-workers.md#using-vcs-agents-with-kubernetes-workers) section in the Kubernetes workers docs for specific information on how to configure this.
+
 ## Worker pool settings
 
 {% if is_saas() %}
 VCS agents are only supported when using private worker pools.
 {% endif %}
-Since your source code is downloaded directly by Spacelift workers, you need to configure them to access your VCS instance. Instructions for doing this are available on the [worker pools](./worker-pools/README.md#vcs-agents) page.
+Since your source code is downloaded directly by Spacelift workers, you need to configure them to [directly access your VCS instance](#configure-direct-network-access).
 
 ## Passing Metadata Tags
 

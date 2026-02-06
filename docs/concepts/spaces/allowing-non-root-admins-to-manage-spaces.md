@@ -1,27 +1,23 @@
 # Managing child spaces
 
-By default, only `root` admins can manage the spaces' tree topology.
+By default, only `root` admins can manage the spaces tree because we also grant `root` admins the ability to enforce best practices organization-wide by [autoattaching policies](https://docs.spacelift.io/concepts/policy.html#automatically).
 
-This limitation stems from the fact that we also grant the `root` admins the ability to enforce a set of best practices across the whole organization by [autoattaching policies](https://docs.spacelift.io/concepts/policy.html#automatically).
+However, if your organization needs to allow other users to [alter the spaces tree structure](./structuring-your-spaces-tree.md), `root` admins can adjust it in account settings.
 
-However, if this limitation doesn't align with your organization's needs, you can adjust it in the account settings.
+1. Click your name in the bottom-left of the screen, then **Organization settings**.
+2. In the _Access control center_ section, click **Spaces**.
+3. Click the toggle to **enable** or **disable** allowing space admins to create and edit spaces.
+      - If enabled, non-root admins can create, manage, and delete the spaces they manage and those spaces' children.
+      - If disabled, non-root admins cannot modify spaces.
 
-## Toggling the setting
+![Allow non-admins to edit spaces](<../../assets/screenshots/spaces/allow_nonroot_space_management.png>)
 
-The feature is controlled by a toggle found in the account settings. Only `root` admins can toggle the setting.
-![](<../../assets/screenshots/spaces/subspaces-toggle.png>)
+## Non-root admin limitations
 
-After enabling this setting, non-root admins will be able to create, manage, and delete child spaces that are children of the spaces they administrate.
-After disabling the setting, non-root admins will no longer have the ability to modify spaces.
+A subspace created by a non-root admin has **inheritance enabled by default**, and non-root admins cannot disable inheritance.
 
-## Limitations
+Only `root` admins can:
 
-A subspace created by a non-root admin has inheritance enabled by default.
-
-Non-root admins cannot create a subspace with disabled inheritance or update the subspace to disable inheritance.
-
-Only `root` admins can create child spaces that have disabled inheritance.
-
-Only `root` admins are eligible to disable inheritance in a space.
-
-Only `root` admins can enable/disable non-root admins to manage sub-spaces.
+- Create child spaces that have disabled inheritance.
+- Disable inheritance in a space.
+- Enable/disable non-root admins to manage sub-spaces.

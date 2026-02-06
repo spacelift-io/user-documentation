@@ -8,11 +8,12 @@
 2. *[Create a link](#2-connect-to-source-code) between your new stack and an existing source code repository.
 3. *[Choose the backend vendor](#3-choose-vendor).
 4. [Define common behavior](#4-define-behavior) of the stack.
-5. [Create stack hooks](#5-add-hooks).
-6. [Attach a cloud integration](#6-attach-cloud).
-7. [Attach policies](#7-attach-policies).
-8. [Attach contexts](#8-attach-context).
-9. *[Review the summary and create your stack](#9-summary).
+5. [Assign roles](#5-assign-roles).
+6. [Create stack hooks](#6-add-hooks).
+7. [Attach a cloud integration](#7-attach-cloud).
+8. [Attach policies](#8-attach-policies).
+9. [Attach contexts](#9-attach-context).
+10. *[Review the summary and create your stack](#10-summary).
 
 !!! info
     You need to be an admin to create a stack. By default, GitHub account owners and admins are automatically given Spacelift admin privileges, but this can be customized using [login policies](../policy/login-policy.md) and/or [SSO integration](../../integrations/single-sign-on/README.md).
@@ -66,7 +67,7 @@ We support Terraform 0.12.0 and above, and all OpenTofu versions. Spacelift also
 3. **Manage State** (recommended): Choose whether Spacelift should handle the OpenTofu/Terraform state.
       1. If **disabled**: Optionally enter a **workspace**.
       2. If **enabled**: Configure these options:
-         - [**External state access**](../../vendors/terraform/external-state-access.md): Allow external read-only access for administrative stacks or users with write permissions to the Stack's space.
+         - [**External state access**](../../vendors/terraform/external-state-access.md): Allow external read-only access for stacks with [Space writer role](../authorization/assigning-roles-stacks.md) or users with write permissions to the Stack's space.
          - **Import existing state file**: Enable to import a state file from your previous backend.
 4. Click **Create & continue**.
 
@@ -117,18 +118,21 @@ Determine and set additional behaviors for your stack.
 
 1. **Worker pool**: Choose which [worker pool](../../concepts/worker-pools/README.md) to use (default is public workers).
 2. **Runner image**: Use a custom runner for your runtime environment.
-3. [**Administrative**](../../concepts/stack/stack-settings.md#administrative): Choose whether a stack has privileges to create ohter Spacelift resources via our [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs).
-4. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Allows you to promote a proposed run to a tracked run (i.e. deploy from a feature branch).
-5. **Autodeploy**: Automatically deploy changes to your code.
-6. [**Autoretry**](../../concepts/stack/stack-settings.md#autoretry): Automatically retry deployment of invalidated proposed runs. For stacks using private workers only.
-7. **Enable local preview**: Preview how code changes will execute with the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature.
-8. **Enable** [**secret masking**](../../concepts/stack/stack-settings.md#enable-well-known-secret-masking): Automatically redact secret patterns from logs.
-9. **Protect from deletion** (recommended): Protect your stacks from accidental deletion.
-10. **Transfer sensitive outputs across dependencices**: Pass sensitive outputs from this stack to dependent stacks.
+3. **Allow** [**run promotion**](../../concepts/run/run-promotion.md): Allows you to promote a proposed run to a tracked run (i.e. deploy from a feature branch).
+4. **Autodeploy**: Automatically deploy changes to your code.
+5. [**Autoretry**](../../concepts/stack/stack-settings.md#autoretry): Automatically retry deployment of invalidated proposed runs. For stacks using private workers only.
+6. **Enable local preview**: Preview how code changes will execute with the [spacectl](https://github.com/spacelift-io/spacectl){: rel="nofollow"} CLI feature.
+7. **Enable** [**secret masking**](../../concepts/stack/stack-settings.md#enable-well-known-secret-masking): Automatically redact secret patterns from logs.
+8. **Protect from deletion** (recommended): Protect your stacks from accidental deletion.
+9. **Transfer sensitive outputs across dependencices**: Pass sensitive outputs from this stack to dependent stacks.
 
 Once you've configured your settings, click **Save & continue**.
 
-### 5. Add hooks
+### 5. Assign roles
+
+You can assign roles to your stack to control access and permissions to other Spacelift resources. This is done through [role attachments](../authorization/assigning-roles-stacks.md). This is useful if you want to manage Spacelift resources using IaC. See more details in the [Terraform provider documentation](../../vendors/terraform/terraform-provider.md).
+
+### 6. Add hooks
 
 You also have the ability to control what happens before and after each runner phase using [stack hooks](../../concepts/stack/stack-settings.md#customizing-workflow). Define commands that run during the following phases:
 
@@ -141,7 +145,7 @@ You also have the ability to control what happens before and after each runner p
 
 Once you've added all hooks, click **Save & continue**.
 
-### 6. Attach cloud
+### 7. Attach cloud
 
 If desired, attach your [cloud provider integration](../../getting-started/integrate-cloud/README.md).
 
@@ -152,7 +156,7 @@ If desired, attach your [cloud provider integration](../../getting-started/integ
 5. Click **Attach**.
 6. Click **Continue**.
 
-### 7. Attach policies
+### 8. Attach policies
 
 If you're just following the LaunchPad steps, you won't have any [policies](../../concepts/policy/README.md) yet. If you did configure policies, you will be able to attach them here:
 
@@ -163,7 +167,7 @@ If you're just following the LaunchPad steps, you won't have any [policies](../.
 
 Click **Continue**.
 
-### 8. Attach context
+### 9. Attach context
 
 Contexts are sets of environment variables and related configuration, including hooks, that can be shared across multiple stacks. By attaching a context, you ensure your stack has all the necessary configuration elements it needs to operate, without repeating the setup for each stack.
 
@@ -171,7 +175,7 @@ If you're just following the LaunchPad steps, you won't have any [contexts](../.
 
 Click **Continue**.
 
-### 9. Summary
+### 10. Summary
 
 Review your settings before finalizing your stack, then click **Confirm**.
 
@@ -193,13 +197,13 @@ If you want to save the state file before deleting a stack, you can retrieve it 
 
 Depending on the backend of your stack, there are different commands you can run as a [task](../run/task.md) before deleting the stack.
 
-| Backend           | Command                                        |
-| -------------- | ------------------------------------------------------------ |
-| **Terraform**       | `terraform destroy -auto-approve`           |
-| **OpenTofu**       | `tofu destroy -auto-approve` |
-| **CloudFormation**      | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>` |
-| **Pulumi** | `pulumi destroy --non-interactive --yes` |
-| **Kubernetes** | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |
+| Backend            | Command                                                                                                                                        |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Terraform**      | `terraform destroy -auto-approve`                                                                                                              |
+| **OpenTofu**       | `tofu destroy -auto-approve`                                                                                                                   |
+| **CloudFormation** | `aws cloudformation delete-stack --stack-name <cloudformation-stack-name>`                                                                     |
+| **Pulumi**         | `pulumi destroy --non-interactive --yes`                                                                                                       |
+| **Kubernetes**     | `kubectl delete --ignore-not-found -l spacelift-stack=<stack-slug> $(kubectl api-resources --verbs=list,create -o name &#124; paste -s -d, -)` |
 
 !!! tip
     For Terraform, you can also run a task through our CLI tool [spacectl](../../vendors/terraform/provider-registry.md#use-our-cli-tool-called-spacectl).

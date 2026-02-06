@@ -106,8 +106,8 @@ Some parts of the module can be customized to avoid deploying parts of the infra
 Before you start, set a few environment variables that will be used by the Spacelift modules:
 
 ```shell
-# Extract this from your archive: self-hosted-v3.0.0.tar.gz
-export TF_VAR_spacelift_version="v3.0.0"
+# Extract this from your archive: self-hosted-v4.0.0.tar.gz
+export TF_VAR_spacelift_version="v4.0.0"
 
 # The AWS region you want to deploy Spacelift to.
 export TF_VAR_aws_region="eu-west-1"
@@ -200,19 +200,35 @@ provider "aws" {
 }
 
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"
+  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"
 
-  spacelift_version  = var.spacelift_version
-  aws_region         = var.aws_region
-  license_token      = var.license_token
-  k8s_namespace      = var.k8s_namespace
-  server_domain      = var.server_domain
-  mqtt_broker_domain = var.mqtt_broker_domain
-  admin_username     = var.admin_username
-  admin_password     = var.admin_password
-  server_acm_arn     = var.server_acm_arn
+  spacelift_version   = var.spacelift_version
+  aws_region          = var.aws_region
+  license_token       = var.license_token
+  k8s_namespace       = var.k8s_namespace
+  server_domain       = var.server_domain
+  mqtt_broker_domain  = var.mqtt_broker_domain
+  admin_username      = var.admin_username
+  admin_password      = var.admin_password
+  server_acm_arn      = var.server_acm_arn
+  rds_engine_version  = "17.7"
+  eks_upgrade_policy  = {
+    support_type = "STANDARD"
+  }
 }
+```
 
+!!! info "EKS Upgrade Policy"
+    The `eks_upgrade_policy` determines how your EKS cluster handles Kubernetes version upgrades when standard support ends.
+
+    - **STANDARD**: Automatically upgrades to the next Kubernetes version when the 14-month standard support period ends. This option provides more frequent security patches and bug fixes at a lower cost.
+    - **EXTENDED** (AWS default): Prevents automatic upgrades and keeps the cluster on the current version for an additional 12 months after standard support ends. This incurs higher costs and receives fewer updates.
+
+    By explicitly setting `support_type = "STANDARD"` in the example above, you're opting out of AWS's default extended support behavior.
+
+    **Important**: You can only change the upgrade policy while your cluster is running a Kubernetes version in standard support. Once a cluster version enters extended support, you cannot change the policy until you upgrade to a standard-supported version. For more details, see [AWS EKS extended support documentation](https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html){: rel="nofollow"}.
+
+```hcl
 output "shell" {
   sensitive = true
   value     = module.spacelift.shell
@@ -385,9 +401,60 @@ ${TF_VAR_server_domain}                    300 IN  CNAME     <lb-name>.<region>.
 ${TF_VAR_mqtt_broker_domain}               300 IN  CNAME     <lb-name>.elb.<region>.amazonaws.com
 ```
 
+### VCS Gateway Service
+
+Ideally, your VCS provider [should be accessible](../reference/networking.md) from both the Spacelift backend and its workers. If direct access is not possible, you can use [VCS Agent Pools](../../../concepts/vcs-agent-pools.md) to proxy the connections from the Spacelift backend to your VCS provider.
+
+The VCS Agent Pool architecture introduces a VCS Gateway service, deployed alongside the Spacelift backend, and exposed via a dedicated Application Load Balancer. External VCS Agents connect to this load balancer over gRPC (port 443 with TLS termination), while internal Spacelift services (server, drain) communicate with the gateway via HTTP using pod IP addresses within the cluster.
+
+To enable this setup, add the following variables to your module configuration:
+
+```hcl
+module "spacelift" {
+  # VCS Gateway configuration
+  vcs_gateway_domain  = "vcs-gateway.mycorp.io"  # The DNS record for the VCS Gateway service, without protocol.
+  vcs_gateway_acm_arn = "<VCS Gateway certificate ARN>"  # Must be a valid, issued certificate (separate from the server certificate).
+
+  # Other settings are omitted for brevity
+}
+```
+
+After applying the Terraform changes, re-apply the ingress class (which now includes the VCS Gateway listener certificate), regenerate your `spacelift-values.yaml` from the `helm_values` output, and redeploy the Helm chart to enable the VCS Gateway service:
+
+```shell
+tofu output -raw kubernetes_ingress_class | kubectl apply -f -
+tofu output -raw helm_values > spacelift-values.yaml
+
+helm upgrade \
+  --repo https://downloads.spacelift.io/helm \
+  spacelift \
+  spacelift-self-hosted \
+  --install --wait --timeout 20m \
+  --namespace "$K8S_NAMESPACE" \
+  --values "spacelift-values.yaml"
+```
+
+Set up the DNS record for the VCS Gateway service. You can find the load balancer address from the ingress:
+
+```shell
+kubectl get ingresses --namespace "$K8S_NAMESPACE" spacelift-vcs-gateway
+```
+
+Create a CNAME record pointing your VCS Gateway domain to this load balancer address:
+
+```zone
+${TF_VAR_vcs_gateway_domain}               300 IN  CNAME     <vcs-gateway-lb-name>.<region>.elb.amazonaws.com
+```
+
+With the backend now configured, proceed to the [VCS Agent Pools guide](../../../concepts/vcs-agent-pools.md) to complete the setup.
+
 ## Next steps
 
 Now that your Spacelift installation is up and running, take a look at the [initial installation](./first-setup.md) section for the next steps to take.
+
+### Configure telemetry
+
+You can configure telemetry collection to monitor your installation's performance and troubleshoot issues. See our [telemetry configuration guides](./telemetry/README.md) for step-by-step instructions on setting up Datadog, OpenTelemetry with Jaeger, or OpenTelemetry with Grafana Stack.
 
 ### Create a worker pool
 
@@ -423,7 +490,7 @@ Before running `tofu destroy` on the infrastructure, you may want to set the fol
 
 ```hcl
 module "spacelift" {
-  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v2.1.0"
+  source = "github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted?ref=v3.1.0"
 
   # Other settings..
 

@@ -6,10 +6,14 @@ IdP groups can receive roles through direct group assignment. Assign roles to th
 
 ### Assign roles to IdP groups using the web UI
 
+!!! info "Permission Scope"
+    - **Root Space Admins** can create/modify/delete IdP group mappings and manage role bindings across all spaces
+    - **Non-root Space Admins** can view all IdP group mappings but only manage role bindings for spaces they administer; they cannot create/modify/delete IdP group mappings
+
 1. Verify you meet the prerequisites:
     1. The selected management strategy for your organization must be User Management.
     2. Your identity provider [must be connected to Spacelift](../../integrations/single-sign-on/README.md).
-    3. You must have appropriate permissions to manage user group roles.
+    3. You must have Space Admin permissions on the target space where you want to assign roles (or Root Space Admin permissions for all spaces).
     4. Target spaces must exist where you want to assign roles.
 2. Navigate to IdP group mapping:
     1. Click your name in the bottom left corner of the Spacelift interface.
@@ -38,153 +42,381 @@ Refer to the [Spacelift Terraform provider documentation](https://registry.terra
     3. Understanding of OPA/Rego policy language.
 2. Use the `roles` rule to assign roles to users:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Assign role based on team membership
-roles[space][role_id] {
-    input.session.teams[_] == "team-name"
-}
-```
+    # Assign role based on team membership
+    roles[space] contains role_id if {
+        some team in input.session.teams
+        team == "team-name"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Assign role based on team membership
+    roles[space][role_id] {
+        input.session.teams[_] == "team-name"
+    }
+    ```
+
+#### RBAC role assignment
+
+!!! note "Getting Role slugs"
+
+    To use custom roles in login policies, copy the role slug from **Organization Settings** → **Access Control Center** → **Roles** → select role → copy slug.
+
+Use the `roles` rule to assign RBAC roles in login policies:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    # Basic login permissions
+    allow if input.session.member
+
+    # Assign RBAC roles using role slugs
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        team == "Frontend"
+    }
+
+    roles["space-id"] contains "platform-engineer-role-slug" if {
+        some team in input.session.teams
+        team == "DevOps"
+    }
+
+    # Assign admin role for root space
+    roles["root"] contains "space-admin-role-slug" if {
+        some team in input.session.teams
+        team == "Admin"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # Basic login permissions
+    allow { input.session.member }
+
+    # Assign RBAC roles using role slugs
+    roles["space-id"]["developer-role-slug"] {
+        input.session.teams[_] == "Frontend"
+    }
+
+    roles["space-id"]["platform-engineer-role-slug"] {
+        input.session.teams[_] == "DevOps"
+    }
+
+    # Assign admin role for root space
+    roles["root"]["space-admin-role-slug"] {
+        input.session.teams[_] == "Admin"
+    }
+    ```
+
+If a user is logged in, their access levels will not change, so newly added spaces might not be visible. The user must log out and back in to see new spaces they're granted access to.
+
+However, the space's creator immediately has access to it.
 
 #### Individual group assignment
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# DevOps team gets platform engineer role
-roles["infrastructure"]["platform-engineer-role-id"] {
-    input.session.teams[_] == "DevOps"
-}
+    # DevOps team gets platform engineer role
+    roles["space-id"] contains "platform-engineer-role-slug" if {
+        some team in input.session.teams
+        team == "DevOps"
+    }
 
-# Frontend team gets developer role
-roles["frontend"]["developer-role-id"] {
-    input.session.teams[_] == "Frontend"
-}
-```
+    # Frontend team gets developer role
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        team == "Frontend"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # DevOps team gets platform engineer role
+    roles["space-id"]["platform-engineer-role-slug"] {
+        input.session.teams[_] == "DevOps"
+    }
+
+    # Frontend team gets developer role
+    roles["space-id"]["developer-role-slug"] {
+        input.session.teams[_] == "Frontend"
+    }
+    ```
 
 #### Multiple teams, same role
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Define team sets
-developer_teams := {"Frontend", "Backend", "Mobile", "QA"}
-platform_teams := {"DevOps", "SRE", "Platform"}
+    # Define team sets
+    developer_teams := {"Frontend", "Backend", "Mobile", "QA"}
+    platform_teams := {"DevOps", "SRE", "Platform"}
 
-# Assign developer access
-roles["applications"]["developer-role-id"] {
-    developer_teams[input.session.teams[_]]
-}
+    # Assign developer access
+    roles["space-id"] contains "developer-role-slug" if {
+        some team in input.session.teams
+        developer_teams[team]
+    }
 
-# Assign platform access
-roles["infrastructure"]["platform-role-id"] {
-    platform_teams[input.session.teams[_]]
-}
-```
+    # Assign platform access
+    roles["space-id"] contains "platform-role-slug" if {
+        some team in input.session.teams
+        platform_teams[team]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Define team sets
+    developer_teams := {"Frontend", "Backend", "Mobile", "QA"}
+    platform_teams := {"DevOps", "SRE", "Platform"}
+
+    # Assign developer access
+    roles["space-id"]["developer-role-slug"] {
+        developer_teams[input.session.teams[_]]
+    }
+
+    # Assign platform access
+    roles["space-id"]["platform-role-slug"] {
+        platform_teams[input.session.teams[_]]
+    }
+    ```
 
 #### Hierarchical team access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Junior developers: development only
-roles["development"]["junior-dev-role-id"] {
-    input.session.teams[_] == "Junior-Developers"
-}
+    # Junior developers: development only
+    roles["space-id"] contains "junior-dev-role-slug" if {
+        some team in input.session.teams
+        team == "Junior-Developers"
+    }
 
-# Senior developers: development + staging
-roles[space]["senior-dev-role-id"] {
-    input.session.teams[_] == "Senior-Developers"
-    senior_spaces := {"development", "staging"}
-    senior_spaces[space]
-}
+    # Senior developers: development + staging
+    roles[space] contains "senior-dev-role-slug" if {
+        some team in input.session.teams
+        team == "Senior-Developers"
+        senior_spaces := {"development", "staging"}
+        senior_spaces[space]
+    }
 
-# Team leads: all environments
-roles[space]["team-lead-role-id"] {
-    input.session.teams[_] == "Team-Leads"
-    all_spaces := {"development", "staging", "production"}
-    all_spaces[space]
-}
-```
+    # Team leads: all environments
+    roles[space] contains "team-lead-role-slug" if {
+        some team in input.session.teams
+        team == "Team-Leads"
+        all_spaces := {"development", "staging", "production"}
+        all_spaces[space]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Junior developers: development only
+    roles["space-id"]["junior-dev-role-slug"] {
+        input.session.teams[_] == "Junior-Developers"
+    }
+
+    # Senior developers: development + staging
+    roles[space]["senior-dev-role-slug"] {
+        input.session.teams[_] == "Senior-Developers"
+        senior_spaces := {"development", "staging"}
+        senior_spaces[space]
+    }
+
+    # Team leads: all environments
+    roles[space]["team-lead-role-slug"] {
+        input.session.teams[_] == "Team-Leads"
+        all_spaces := {"development", "staging", "production"}
+        all_spaces[space]
+    }
+    ```
 
 #### Department-based access
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Engineering department base access
-roles["development"]["engineer-role-id"] {
-    input.session.teams[_] == "Engineering"
-}
+    # Engineering department base access
+    roles["space-id"] contains "engineer-role-slug" if {
+        some team in input.session.teams
+        team == "Engineering"
+    }
 
-# Operations department infrastructure access
-roles["infrastructure"]["ops-role-id"] {
-    input.session.teams[_] == "Operations"
-}
+    # Operations department infrastructure access
+    roles["space-id"] contains "ops-role-slug" if {
+        some team in input.session.teams
+        team == "Operations"
+    }
 
-# Security department audit access across all spaces
-roles[space]["security-auditor-role-id"] {
-    input.session.teams[_] == "Security"
-    # Apply to all spaces
-    space := input.spaces[_].id
-}
-```
+    # Security department audit access across all spaces
+    roles[space] contains "security-auditor-role-slug" if {
+        some team in input.session.teams
+        team == "Security"
+        # Apply to all spaces
+        some s in input.spaces
+        space := s.id
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Engineering department base access
+    roles["space-id"]["engineer-role-slug"] {
+        input.session.teams[_] == "Engineering"
+    }
+
+    # Operations department infrastructure access
+    roles["space-id"]["ops-role-slug"] {
+        input.session.teams[_] == "Operations"
+    }
+
+    # Security department audit access across all spaces
+    roles[space]["security-auditor-role-slug"] {
+        input.session.teams[_] == "Security"
+        # Apply to all spaces
+        space := input.spaces[_].id
+    }
+    ```
 
 #### Project and functional groups
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Project-based access
-roles["project-alpha"]["developer-role-id"] {
-    input.session.teams[_] == "Project-Alpha-Team"
-}
+    # Project-based access
+    roles["project-alpha"] contains "developer-role-id" if {
+        some team in input.session.teams
+        team == "Project-Alpha-Team"
+    }
 
-roles["project-beta"]["developer-role-id"] {
-    input.session.teams[_] == "Project-Beta-Team"
-}
+    roles["project-beta"] contains "developer-role-id" if {
+        some team in input.session.teams
+        team == "Project-Beta-Team"
+    }
 
-# Functional role overlays
-roles["infrastructure"]["platform-role-id"] {
-    input.session.teams[_] == "Platform-Engineers"
-}
+    # Functional role overlays
+    roles["infrastructure"] contains "platform-role-id" if {
+        some team in input.session.teams
+        team == "Platform-Engineers"
+    }
 
-roles[space]["security-role-id"] {
-    input.session.teams[_] == "Security-Champions"
-    # Security champions get audit access everywhere
-    space := input.spaces[_].id
-}
-```
+    roles[space] contains "security-role-id" if {
+        some team in input.session.teams
+        team == "Security-Champions"
+        # Security champions get audit access everywhere
+        some s in input.spaces
+        space := s.id
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Project-based access
+    roles["project-alpha"]["developer-role-id"] {
+        input.session.teams[_] == "Project-Alpha-Team"
+    }
+
+    roles["project-beta"]["developer-role-id"] {
+        input.session.teams[_] == "Project-Beta-Team"
+    }
+
+    # Functional role overlays
+    roles["infrastructure"]["platform-role-id"] {
+        input.session.teams[_] == "Platform-Engineers"
+    }
+
+    roles[space]["security-role-id"] {
+        input.session.teams[_] == "Security-Champions"
+        # Security champions get audit access everywhere
+        space := input.spaces[_].id
+    }
+    ```
 
 #### Multi-condition team assignment
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-allow { input.session.member }
+    allow if input.session.member
 
-# Production access requires both team membership and seniority
-roles["production"]["prod-deployer-role-id"] {
-    deployment_teams := {"DevOps", "SRE", "Platform"}
-    deployment_teams[input.session.teams[_]]
+    # Production access requires both team membership and seniority
+    roles["production"] contains "prod-deployer-role-slug" if {
+        deployment_teams := {"DevOps", "SRE", "Platform"}
+        some team in input.session.teams
+        deployment_teams[team]
 
-    # Additional condition: must also be in senior group
-    input.session.teams[_] == "Senior-Engineers"
-}
-```
+        # Additional condition: must also be in senior group
+        some t in input.session.teams
+        t == "Senior-Engineers"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    allow { input.session.member }
+
+    # Production access requires both team membership and seniority
+    roles["production"]["prod-deployer-role-slug"] {
+        deployment_teams := {"DevOps", "SRE", "Platform"}
+        deployment_teams[input.session.teams[_]]
+
+        # Additional condition: must also be in senior group
+        input.session.teams[_] == "Senior-Engineers"
+    }
+    ```
 
 ## Troubleshooting
 

@@ -49,6 +49,7 @@ If you choose to automatically enable the functionality, clicking the _Save_ but
   "account": "example",
   "action": "audit_trail_webhook.set",
   "actor": "github::name",
+  "actor_roles": ["space-admin", "context-creator"],
   "context": {
     "mutation": "auditTrailSetWebhook"
   },
@@ -75,6 +76,7 @@ Every audit trail payload conforms to the same schema:
 - `account`: name (subdomain) of the affected Spacelift account;
 - `action`: name of the performed action;
 - `actor`: actor performing the action - the `::` format shows both the actor identity (second element), and the source of the identity (first element)
+- `actor_roles`: (optional) array of role slugs attached to the actor when the action was performed. Only present when the actor has role attachments (e.g., stacks with [role bindings](../concepts/authorization/assigning-roles-stacks.md));
 - `context`: some contextual metadata about the request;
 - `data`: action-specific payload showing arguments passed to the request. Any sensitive arguments (like secrets) are sanitized;
 
@@ -85,6 +87,7 @@ Below is a sample:
   "account": "example",
   "action": "stack.create",
   "actor": "github::name",
+  "actor_roles": ["space-admin", "context-creator"],
   "context": {
     "mutation": "stackCreate"
   },
@@ -153,6 +156,7 @@ The audit trail can be disabled and deleted at any point, but for both events we
   "account": "example",
   "action": "audit_trail_webhook.delete",
   "actor": "github::user",
+  "actor_roles": ["space-admin"],
   "context": {
     "mutation": "auditTrailDeleteWebhook"
   },
@@ -164,6 +168,8 @@ The audit trail can be disabled and deleted at any point, but for both events we
 
 ### Verifying payload
 
+<!-- Medium link below sometimes result in 403 in CI check so lets ignore it -->
+<!-- markdown-link-check-disable-next-line -->
 Spacelift uses the same similar verification mechanism as GitHub. With each payload we send 2 headers, `X-Signature` and `X-Signature-256`. `X-Signature` header contains the SHA1 hash of the payload, while `X-Signature-256` contains the SHA256 hash. We're using the exact same mechanism as GitHub to generate signatures, please refer to [this article](https://medium.com/@vampiire/how-to-verify-the-authenticity-of-a-github-apps-webhook-payload-8d63ccc81a24){: rel="nofollow"} for details.
 
 ### Sending logs to AWS

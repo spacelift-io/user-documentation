@@ -87,13 +87,13 @@ The setup steps are pretty similar to the ones for [stacks](../../concepts/stack
 
 #### Connect to source code
 
-![](../../assets/screenshots/terraform/modules/new_module_source_code.png)
+![](../../assets/screenshots/terraform/modules/new_module_source_code.png){ .on-glb }
 
 First, point Spacelift at the right repo and choose the "[tracked](../../concepts/stack/stack-settings.md#vcs-integration-and-repository)" branch - note that repositories whose names don't follow the convention are filtered out:
 
 #### Add details
 
-![](<../../assets/screenshots/terraform/modules/new_module_details.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_details.png>){ .on-glb }
 
 In the details section, you will be able to add a **name**, **provider**, [labels](../../concepts/stack/stack-settings.md#labels) and [description](../../concepts/stack/stack-settings.md#name-and-description).
 
@@ -101,21 +101,23 @@ The name and provider will be inferred from your repository name if it follows t
 
 #### Module Created
 
-![](<../../assets/screenshots/terraform/modules/new_module_intermediate.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_intermediate.png>){ .on-glb }
 
  After finishing adding details to your module, you're brought to a new screen indicating that your module has been successfully created. This screen serves as a branching point where you can enhance the functionality of your module through various integrations and customizations.
 
 You have the flexibility to either take shortcuts to specific configurations or continue through the standard process of setting up your module.
 
-#### Share module
+#### Define module availability
 
-![](<../../assets/screenshots/terraform/modules/new_module_share.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_share.png>){ .on-glb }
 
-In this step, you can share module with different Spacelift accounts, you just need to add their names in subdomain form (all lowercase). You can find more about module sharing [here](./module-registry.md#sharing-modules).
+In this step, you can make your module available to specific spaces in your account. Select the spaces that should have access to use this module in their stacks.
+
+Modules become discoverable and usable by stacks in the selected spaces, while module management remains with the owner. Learn more about [module availability](#module-availability).
 
 #### Define behavior
 
-![](<../../assets/screenshots/terraform/modules/new_module_behavior.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_behavior.png>){ .on-glb }
 
 In the behavior section there are few settings that you can set to make your module work in a specific way:
 
@@ -128,7 +130,7 @@ In the behavior section there are few settings that you can set to make your mod
 
 #### Attach Module Cloud Integration
 
-![](<../../assets/screenshots/terraform/modules/new_module_cloud.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_cloud.png>){ .on-glb }
 
 Here you have the ability to attach any Cloud Integrations you have configured.
 
@@ -138,11 +140,13 @@ Spacelift integrates with identity management systems from major cloud providers
 
 Currently, AWS, Azure and GCP are natively supported.
 
+AWS and Azure integrations can also be auto-attached. To do so, add a label to your module that matches the `autoattach_label` in your integrations.
+
 You can read more about Cloud integrations [here](../../integrations/cloud-providers/README.md).
 
 #### Attach Module Policies
 
-![](<../../assets/screenshots/terraform/modules/new_module_policies.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_policies.png>){ .on-glb }
 
 Spacelift as a development platform is built around the concept of policies and allows defining policies that involve various decision points in the application.
 
@@ -159,7 +163,7 @@ You can read more about policies [here](../../concepts/policy/README.md).
 
 #### Attach Module Contexts
 
-![](<../../assets/screenshots/terraform/modules/new_module_contexts.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_contexts.png>){ .on-glb }
 
 Contexts are sets of environment variables and related configuration including hooks that can be shared across multiple modules. By attaching a context, you ensure your module has all the necessary configuration elements it needs to operate, without repeating the setup for each module.
 
@@ -169,7 +173,7 @@ You can read more about contexts [here](../../concepts/configuration/context.md)
 
 #### Summary
 
-![](<../../assets/screenshots/terraform/modules/new_module_summary.png>)
+![](<../../assets/screenshots/terraform/modules/new_module_summary.png>){ .on-glb }
 
  On the summary section, you can now review your settings before finalizing the creation of your module. This modular approach ensures your module gets set up with all the necessary components.
 
@@ -277,7 +281,7 @@ Note that in order to refer to a test case, you need to set a unique `id` to it.
 
 Whenever tests succeed on a [tracked change](../../concepts/run/README.md#where-do-runs-come-from), a new **Version** is created based on the `module_version` in the configuration. Important thing to note is that Spacelift will not let you reuse the number of a successful version, and will require you to strictly follow semantic versioning - ie. you can't go to from `0.2.0` to `0.4.0`, skipping `0.3.0` entirely.
 
-![](../../assets/screenshots/Versions_-_terraform_spacelift_example.png)
+![](../../assets/screenshots/Versions_-_terraform_spacelift_example.png){ .on-glb }
 
 Two proposed git flow are as follows:
 
@@ -323,7 +327,7 @@ You can mark a version as bad using the dropdown menu on the right side of the v
 
 You'll be able to see in the version details that the version has been **marked as bad** and the description.
 
-![](../../assets/screenshots/Version_mark_as_bad_2.png)
+![](../../assets/screenshots/Version_mark_as_bad_2.png){ .on-glb }
 
 ## Modules in practice
 
@@ -332,19 +336,118 @@ In order to use modules, you have to source them from the Spacelift module regis
 ![](<../../assets/screenshots/image (1).png>)
 
 !!! info
-    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [Space Inheritance](../../concepts/spaces/access-control.md#inheritance).
+    Stacks that use private modules need access to the Space the modules reside in, which can be achieved via [space inheritance](../../concepts/spaces/access-control.md#inheritance) or module [space availability](#space-availability).
 
-### Sharing modules
+### Module availability
 
-Unlike Stacks, modules can be shared between Spacelift accounts in a sense that while they're always **managed** by a single account, they can be made accessible to an arbitrary number of other accounts.
+#### Space availability
 
-In order to share the module with other accounts, please add their names in subdomain form (all lowercase) in the "Module settings" > "Sharing" section:
+Modules can be made available to specific spaces within your account, giving you fine-grained control over which teams can discover and use your modules. When you make a module available to a space, any stack in that space can reference it in their Terraform configurations.
 
-![](../../assets/screenshots/module_sharing.png)
+When you make a module available to a space, all child spaces with [inheritance enabled](../../concepts/spaces/access-control.md#inheritance) will also be able to access the module.
 
-This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md).
+To make a module available to other spaces, select the target spaces in the availability section under **Module settings > Availability**
 
-You can also mark the module as **public** which will make it accessible to everyone inside and outside Spacelift. This can be done with the [Spacelift OpenTofu/Terraform provider](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/resources/module#optional) via the `public` attribute.
+![](../../assets/screenshots/terraform/modules/module_sharing.png)
+
+This can also be accomplished programmatically using our [Terraform provider](terraform-provider.md) via the `space_shares` attribute:
+
+```hcl
+resource "spacelift_space" "frontend_team" {
+  name = "frontend-team"
+}
+
+resource "spacelift_space" "backend_team" {
+  name = "backend-team"
+}
+
+# Platform module owned by root space, made available to application teams
+resource "spacelift_module" "common_networking" {
+  name       = "networking"
+  branch     = "main"
+  repository = "terraform-networking"
+
+  space_shares = [
+    spacelift_space.frontend_team.id,
+    spacelift_space.backend_team.id,
+  ]
+}
+```
+
+The `space_shares` attribute accepts a list of space IDs. Changes to this list will update module availability, allowing you to manage module access as code.
+
+##### Permissions
+
+To be able to make a module available to a space, you need the following permissions:
+
+- **Admin** access on the space where the module belongs.
+- **Write** access OR the `SPACE_SHARE_MODULE` action to the target space.
+
+You may also want to assign read access to the target space, otherwise the space will not appear in the space selector in Spacelift UI.
+You can create a custom role called `module share` like below that you can reuse:
+
+![](../../assets/screenshots/terraform/modules/module_share_role.png)
+
+##### Using available modules
+
+When a module is made available to a space you have access to, you can:
+
+- Discover it in the module list and search results.
+- Reference it in your stack configurations.
+
+Module management remains with the owner. You cannot see module details, modify settings, create versions, or change availability configuration for modules exposed to you.
+
+##### Finding available modules
+
+The module list includes both modules you own and modules that have been made available to you.
+
+![](../../assets/screenshots/terraform/modules/module_list.png){ .on-glb }
+
+Modules made available to you are greyed out because the only thing you can do with them is consume them from your stacks.
+
+You can use the **availability filter** to filter by specific spaces to see what's available and where.
+
+![](../../assets/screenshots/terraform/modules/module_list_availability_filter.png)
+
+This helps module owners see which spaces can access their modules, and helps consumers find the modules they can use.
+
+##### When to use space availability
+
+Space availability is the recommended approach for most organizations. Use it when:
+
+- Different teams within your account need access to different module sets.
+- You want centralized governance over who can use which modules.
+
+For example, your platform team might maintain networking and security modules in a dedicated space, then make them available selectively to specific application team spaces.
+
+#### Cross-account sharing
+
+!!! warning "Migrating from cross-account sharing"
+    If you're currently sharing modules between accounts, consider consolidating into a single account with space-based organization. This provides better visibility, simpler access control, and improved governance.
+
+    **Cross account sharing might be deprecated in the future**
+
+Cross-account sharing is supported for backwards compatibility and specific multi-account scenarios, but space availability is recommended for new implementations.
+
+Consider cross-account sharing only if you manage completely separate Spacelift accounts that need to share modules.
+
+#### Public modules
+
+Public modules are accessible to anyone, including users outside your Spacelift account. This is appropriate for open-source modules you want to share with the broader community.
+
+To make a module public, use the `public` attribute in the [Terraform provider](https://registry.terraform.io/providers/spacelift-io/spacelift/latest/docs/resources/module):
+
+```hcl
+resource "spacelift_module" "public_example" {
+  name       = "example"
+  branch     = "main"
+  repository = "terraform-aws-example"
+  public     = true
+}
+```
+
+!!! warning
+    Public modules are discoverable and usable by anyone. Only mark modules as public if you intend to share them with the community.
 
 ### Using modules outside of Spacelift
 

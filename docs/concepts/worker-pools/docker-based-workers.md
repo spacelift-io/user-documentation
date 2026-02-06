@@ -42,7 +42,7 @@ The [terraform-aws-spacelift-workerpool-on-ec2](https://github.com/spacelift-io/
 
 ```hcl
 module "my_workerpool" {
-  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.2.0"
+  source = "github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2?ref=v5.4.2"
 
   secure_env_vars = {
     SPACELIFT_TOKEN            = var.worker_pool_config
@@ -436,5 +436,23 @@ module "my_workerpool" {
 The Spacelift worker includes graceful interruption handling: it monitors for [spot interruption notices](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-instance-termination-notices.html){: rel="nofollow"} and allows running jobs to complete when possible. However, if a run doesn't complete within the 2-minute interruption grace period, it will be abruptly terminated and crash.
 
 Use the [AWS EC2 Spot Instance Advisor](https://aws.amazon.com/ec2/spot/instance-advisor/){: rel="nofollow"} to select cost-effective instance types with lower interruption rates. See the [spot instances example](https://github.com/spacelift-io/terraform-aws-spacelift-workerpool-on-ec2/tree/main/examples/spot-instances){: rel="nofollow"} for more configuration options.
+
+### Download EC2 module from registry
+
+Our EC2 worker pool module can be downloaded from our registry, instead of directly from GitHub:
+
+```hcl
+module "spacelift-workerpool-on-ec2" {
+  source  = "spacelift.io/spacelift-io/spacelift-workerpool-on-ec2/aws"
+  version = ">= 5.4.0"
+
+  # Other settings are omitted for brevity
+
+  instance_market_options = {
+    market_type = "spot"
+  }
+  ec2_instance_type = "t3.medium"
+}
+```
 
 {% endif %}

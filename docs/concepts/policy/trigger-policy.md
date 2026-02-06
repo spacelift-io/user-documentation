@@ -5,25 +5,28 @@ description: Create complex workflows using trigger policies
 # Trigger policy
 
 !!! tip
-    We now have the [stack dependencies](../stack/stack-dependencies.md) feature available which should mostly cover the use cases described below. It's a simpler and more intuitive way to define dependencies between stacks.
+    While trigger policies are still available, [stack dependencies](../stack/stack-dependencies.md) are a simpler, more intuitive way to define dependencies between stacks.
 
-## Purpose
+Often, infrastructure consists of a number of interconnected projects (which we call [stacks](../stack/README.md)). Some projects depend logically on one another, and others must be deployed in a particular order (for example, a rolling deploy in multiple regions).
 
-Frequently, your infrastructure consists of a number of projects ([stacks](../stack/README.md) in Spacelift parlance) that are connected in some way - either depend logically on one another, or must be deployed in a particular order for some other reason - for example, a rolling deploy in multiple regions.
+Trigger policies allow you to decide if some tracked runs should be triggered. They are evaluated every time a stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) reaches a **terminal state**. This allows for very interesting and complex workflows (e.g. automated retry logic). Terminal states include:
 
-Enter trigger policies. Trigger policies are evaluated at the end of each stack-blocking run (which includes [tracked runs](../run/tracked.md) and [tasks](../run/task.md)) as well as on module version releases and allow you to decide if some tracked Runs should be triggered. This is a very powerful feature, effectively turning Spacelift into a Turing machine.
+- [Finished](../run/README.md#finished)
+- [Canceled](../run/README.md)
+- [Discarded](../run/tracked.md#discarded)
+- [Stopped](../run/README.md#stopping-runs)
+- [Failed](../run/README.md#failed)
 
-!!! warning
-    Note that in order to support various use cases this policy type is currently evaluated every time a blocking Run reaches a **terminal state**, which includes states like [Canceled](../run/README.md), [Discarded](../run/tracked.md#discarded), [Stopped](../run/README.md#stopping-runs) or [Failed](../run/README.md#failed) in addition to the more obvious [Finished](../run/README.md#finished). This allows for very interesting and complex workflows (eg. automated retry logic) but please be aware of that when writing your own policies.
+Workflows contain one initial run and all other runs triggered directly or indirectly by the initial run. In the trigger policy, you can access all runs in the same workflow as the currently finished run, regardless of their stack. This lets you coordinate executions of multiple stacks and build workflows that require multiple runs to finish to begin the next stage (and trigger another stack).
 
-All runs triggered - directly or indirectly - by trigger policies as a result of the same initial run are grouped into a so-called workflow. In the trigger policy you can access all other runs in the same workflow as the currently finished run, regardless of their Stack. This lets you coordinate executions of multiple Stacks and build workflows which require multiple runs to finish in order to commence to the next stage (and trigger another Stack).
+## Data input schema
 
-## Data input
+### Triggered by run
 
-When triggered by a _run_, this is the schema of the data input that each policy request will receive:
+When triggered by a _run_, each policy request will receive this data input schema:
 
 !!! tip "Official Schema Reference"
-    For the most up-to-date and complete schema definition, please refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `TRIGGER` policy type.
+    For the most up-to-date and complete schema definition, refer to the [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){: rel="nofollow"} under the `TRIGGER` policy type.
 
 ```json
 {
@@ -84,6 +87,10 @@ When triggered by a _run_, this is the schema of the data input that each policy
   },
   "stack": {
     "administrative": "boolean - is the stack administrative",
+    "roles": [{
+      "id": "string - the role slug, eg. space-admin",
+      "name": "string - the role name"
+    }],
     "autodeploy": "boolean - is the stack currently set to autodeploy",
     "branch": "string - tracked branch of the stack",
     "id": "string - unique stack identifier",
@@ -151,9 +158,16 @@ When triggered by a _run_, this is the schema of the data input that each policy
 ```
 
 !!! info
-    Note the presence of two similar keys: `stack` and `stacks`. The former is the Stack that the newly finished Run belongs to. The other is a list of all Stacks in the account. The schema for both is the same.
+    The schema includes two similar keys: `stack` and `stacks`.
 
-When triggered by a _new module version_, this is the schema of the data input that each policy request will receive:
+    - `stack`: The stack that the newly finished run belongs to.
+    - `stacks`: A list of all stacks in the account.
+
+    The schema for both is the same.
+
+### Triggered by new module version
+
+When triggered by a _new module version_, each policy request will receive this data input schema:
 
 ```json
 
@@ -217,15 +231,13 @@ When triggered by a _new module version_, this is the schema of the data input t
 ## Examples
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/trigger){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library/tree/main/examples/trigger){: rel="nofollow"} that are ready to use or alter to meet your specific needs.
 
     If you cannot find what you are looking for below or in the library, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
-Since trigger policies turn Spacelift into a Turing machine, you could probably use them to implement Conway's [Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life){: rel="nofollow"}, but there are a few more obvious use cases. Let's have a look at two of them - interdependent Stacks and automated retries.
-
 ### Interdependent stacks
 
-The purpose here is to create a complex workflow that spans multiple Stacks. We will want to trigger a predefined list of Stacks when a Run finishes successfully. Here's our first take:
+In this example use case, we'll create a complex workflow that spans multiple stacks. We want to trigger a predefined list of stacks when a run finishes successfully. Here's our first take:
 
 ```opa
 package spacelift
@@ -240,11 +252,9 @@ finished {
 }
 ```
 
-Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/gz547MYtfN){: rel="nofollow"}. But it's **far from ideal**. We can't be guaranteed that stacks with these IDs still exist in this account. Spacelift will handle that just fine, but you'll likely find if confusing. Also, for any new Stack that appears you will need to explicitly add it to the list. That's annoying.
+However, this example is not ideal. We can't be guaranteed that stacks with these IDs still exist in this account, and any new stack will need to be explicitly added to the list.
 
-We can do better, and to do that, we'll use Stack [labels](../stack/stack-settings.md#labels). Labels are completely arbitrary strings that you can attach to individual Stacks, and we can use them to do something magical - have "client" Stacks "subscribe" to "parent" ones.
-
-So how's that:
+To fix those issues in the policy, we'll use stack [labels](../stack/stack-settings.md#labels). Labels are completely arbitrary strings that you can attach to individual stacks, and we can use them to have "client" stacks subscribe to "parent" ones.
 
 ```opa
 package spacelift
@@ -257,9 +267,9 @@ trigger[stack.id] {
 }
 ```
 
-Here's a minimal example of this rule in the [Rego playground](https://play.openpolicyagent.org/p/2fFcGNXycg){: rel="nofollow"}. The benefit of this policy is that you can attach it to all your stacks, and it will just work for your entire organization.
+You can attach this trigger policy to all your stacks and it will work for your entire organization.
 
-Can we do better? Sure, we can even have stacks use labels to decide which types of runs or state changes they care about. Here's a mind-bending example:
+We could even have stacks use labels to decide which types of runs or state changes they care about:
 
 ```opa
 package spacelift
@@ -274,11 +284,9 @@ trigger[stack.id] {
 }
 ```
 
-[Another Rego example to play with](https://play.openpolicyagent.org/p/R35tO7nvCB){: rel="nofollow"}. Now, how cool is that?
-
 ### Automated retries
 
-Here's another use case - sometimes OpenTofu/Terraform or Pulumi deployments fail for a reason that has nothing to do with the code - think eventual consistency between various cloud subsystems, transient API errors etc. It would be great if you could restart the failed run. Oh, and let's make sure new runs are not created in a crazy loop - since policy-triggered runs trigger another policy evaluation:
+Sometimes OpenTofu/Terraform or Pulumi deployments fail for a reason that has nothing to do with the code, like eventual consistency between various cloud subsystems, transient API errors, etc. It would help if you could restart the failed run while ensuring new runs aren't created in a loop (since policy-triggered runs trigger another policy evaluation).
 
 ```opa
 package spacelift
@@ -291,12 +299,11 @@ trigger[stack.id] {
 }
 ```
 
-!!! info
-    Note that this will also prevent user-triggered runs from being retried. Which is usually what you want in the first place, because a triggering human is probably already babysitting the Stack anyway.
+This policy will also prevent user-triggered runs from being retried.
 
-### Diamond Problem
+### Diamond problem
 
-The diamond problem happens when your stacks and their dependencies form a shape like in the following diagram:
+The diamond problem happens when your stacks and their dependencies form a shape like this:
 
 ```mermaid
 graph LR
@@ -306,9 +313,9 @@ graph LR
   2b --> 3;
 ```
 
-Which means that Stack 1 triggers both Stack 2a and 2b, and we only want to trigger Stack 3 when both predecessors finish. This can be elegantly solved using workflows.
+Stack 1 triggers both Stack 2a and 2b, and we only want to trigger Stack 3 when both predecessors finish. This can be solved using workflows.
 
-First we'll have to create a trigger policy for Stack 1:
+First, create a trigger policy for Stack 1:
 
 ```opa
 package spacelift
@@ -329,7 +336,7 @@ tracked_and_finished {
 
 This will trigger both Stack 2a and 2b whenever a run finishes on Stack 1.
 
-Now onto a trigger policy for Stack 2a and 2b:
+Now, create a trigger policy for Stack 2a and 2b:
 
 ```opa
 package spacelift
@@ -344,9 +351,9 @@ trigger["stack-3"] {
 }
 ```
 
-Here we trigger Stack 3, whenever the runs in Stack 2a and 2b are both finished.
+This will trigger Stack 3 whenever the runs in Stack 2a and 2b are both finished.
 
-You can also easily extend this to work with a label-based approach, so that you could define Stack 3's dependencies by attaching a `depends-on:stack-2a,stack-2b`label to it:
+You can extend this with labels so you could define Stack 3's dependencies by attaching a `depends-on:stack-2a,stack-2b` label to it:
 
 ```opa
 package spacelift
@@ -382,9 +389,9 @@ trigger[stack.id] {
 
 ### Module updates
 
-Trigger policies can be attached to modules as well. Modules track the consumers of each of their versions. When a new module version is released, the consumers of the previously newest version are assumed to be potential consumers of the newly released one. Hence, the trigger policy for a module can be used to trigger a run on all of these stacks. The module version will be updated as long as the version constraints allow the newest version to be used.
+Trigger policies can be attached to modules, which track the consumers of each of their versions. When a new module version is released, the consumers of the previously newest version are assumed to be potential consumers of the newly released one. The trigger policy for a module can be used to trigger a run on all of these stacks. The module version will be updated as long as the version constraints allow the newest version to be used.
 
-Here is a simple trigger policy that will trigger a run on all stacks that use the latest version of the module when a new version is released:
+This simple policy will trigger a run on all stacks that use the latest version of the module when a new version is released:
 
 ```opa
 package spacelift
@@ -392,4 +399,6 @@ package spacelift
 trigger[stack.id] { stack := input.stacks[_] }
 ```
 
-Note that the stack would need to be have been triggered once successfully (initialized) prior to module start tracking it. It's also possible to combine this with a tag driven module version release push policy and [here is a link to an example of that.](https://github.com/spacelift-solutions/demo/blob/main/admin/policies.tf){: rel="nofollow"}
+Auto-updates will only affect the stacks the trigger policy has access to (via inheritance or directly).
+
+The stack would need to be have been triggered successfully (initialized) once, before the module starts tracking it. You can also combine this policy with a tag-driven module version release push policy. [Here is an example](https://github.com/spacelift-solutions/demo/blob/main/admin/policies.tf){: rel="nofollow"}.

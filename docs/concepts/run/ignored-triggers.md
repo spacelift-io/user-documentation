@@ -18,19 +18,19 @@ A run can be ignored because of the following reasons:
 
 If you go to the main stack view where you can see the list of runs, a warning box will be shown in case your stack is not in sync. This warning will explain why the commit has been ignored.
 
-![](../../assets/screenshots/run/ignored-triggers.png)
+![Warning for an ignored run](<../../assets/screenshots/run/ignored-triggers.png>)
 
 The warning will automatically disappear if you push another commit that triggers a run. You can also dismiss this warning box, and click on the checkbox to not show ignored run warnings again.
 
 In case you want to re-enable it, you can find a toggle in your personal settings.
 
-![](../../assets/screenshots/run/ignored-triggers-settings.png)
+![Enable ignored runs warnings](<../../assets/screenshots/run/ignored-triggers-settings.png>)
 
 ## Ignored runs tab
 
-If you want to go back in time and try to understand why a run has not been triggered, you can open the Ignored runs tab.
+If you want to go back to understand why a run has not been triggered, you can open the _Ignored runs_ tab.
 
 !!! info
     The retention period for those ignored runs is **7 days**.
 
-![](../../assets/screenshots/run/ignored-triggers-list.png)
+![Ignored runs tab](<../../assets/screenshots/run/ignored-triggers-list.png>)

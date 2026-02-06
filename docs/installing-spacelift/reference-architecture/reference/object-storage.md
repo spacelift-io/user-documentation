@@ -46,6 +46,9 @@ The following environment variables can be used to configure object storage:
 | `OBJECT_STORAGE_BUCKET_USER_UPLOADED_WORKSPACES` | Yes            | Bucket where workspaces uploaded as part of local preview functionality are stored temporarily.                                         |
 | `OBJECT_STORAGE_BUCKET_WORKSPACE`                | Yes            | Bucket where run workspaces are stored.                                                                                                 |
 
+!!! warning "Bucket name formatting"
+    When configuring bucket names, ensure they are exact and do not contain any special characters, trailing or leading spaces, or trailing slashes. Incorrect formatting (e.g., `my-bucket/` instead of `my-bucket`) can cause 400 Bad Request errors and installation failures. Always verify that bucket names are clean strings without prefixes, suffixes, or whitespace.
+
 ## Access requirements
 
 None of our buckets need public access - they just need access from the Spacelift backend services. For certain situations where access to buckets is required from outside the backend services, for example when uploading state files from the frontend, or when workers upload run logs, we rely on pre-signed URLs that are only valid for a certain period of time.

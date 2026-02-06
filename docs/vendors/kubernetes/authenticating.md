@@ -88,6 +88,21 @@ Please note, your Stack needs to have the following environment variables set fo
 !!! info
     The `get-credentials` command configures your _kubeconfig_ file to use the `gcloud config config-helper` command to allow token refresh. Unfortunately this command will not work when we only have an access token available. The script provided works around this by manually removing and re-creating the user details in the config file.
 
+
+### GCP With OIDC Authentication
+
+If you are using the [OIDC integration](../../integrations/cloud-providers/oidc/gcp-oidc.md) to authenticate with GCP, the process is similar.
+You still need a runner image with the [`gcloud CLI`](https://cloud.google.com/sdk/gcloud){: rel="nofollow"} and `kubectl` installed, but the
+_before init_ commands are slightly different:
+
+
+```bash
+gcloud auth login --cred-file $GOOGLE_APPLICATION_CREDENTIALS
+gcloud container clusters get-credentials $GKE_CLUSTER_NAME \
+  --region $GKE_CLUSTER_REGION \
+  --project $GCP_PROJECT_NAME 
+```
+
 ### Single Zone Deployment
 
 If your cluster is deployed to a single zone, you can use the `--zone` flag instead of the `--region` flag in the `gcloud container clusters get-credentials` command:

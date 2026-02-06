@@ -130,6 +130,12 @@ This can be done with the `autoattach` label, you can read more about that [here
 
 ## Billing
 
+### How do I downgrade from the Enterprise trial to the Free plan?
+
+You do not need to manually downgrade your account if you're on an Enterprise trial. When the trial period ends, your account automatically switches to the Free plan. You can check how many days remain in your trial on the billing page.
+
+You'll retain access to your existing configurations, but your account will be subject to the limitations of the Free plan.
+
 ### What counts as a user?
 
 Everyone who logged in to the Services in a given month is counts as a user.

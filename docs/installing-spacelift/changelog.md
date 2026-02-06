@@ -4,6 +4,193 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 # Changelog
 
+## vNext
+
+### Features
+
+- **Plan policy input**: Removed the feature flag which controls when the `push` object is added in to the push policy input for pull requests. Push object is now only included if the event's `HeadCommit` branch is not the same as the stack branch.
+
+### Fixes
+
+- **Azure DevOps**: Improved handling of transient Azure DevOps connection errors.
+
+## Changes between v4.2.0 and v4.1.0
+
+### Features
+
+- **Drift Detection Permissions**: Added granular RBAC permissions for drift detection management. Users can now be granted specific permissions to create, update, or delete drift detection schedules on stacks (`DRIFT_DETECTION_INTEGRATION_CREATE`, `DRIFT_DETECTION_INTEGRATION_UPDATE`, `DRIFT_DETECTION_INTEGRATION_DELETE`), enabling more fine-grained access control for drift detection operations.
+- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission. You'll need to use:
+    - [v2.1.0 or later](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted/releases/tag/v2.1.0) for ECS installation using the Terraform module for Spacelift on AWS.
+    - [v3.3.0 or later](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.3.0) for EKS installation using the Terraform module for Spacelift on AWS.
+
+## Changes between v4.1.0 and v4.0.0
+
+### Features
+
+- **Rego v1 support**: Self-hosted installations now support [Rego v1](../concepts/policy/README.md#rego-version-support) for policies. We recommend using Rego v1 for all new policies and migrating existing policies to v1 as soon as possible. Rego v1 introduces improved syntax and stricter semantics that make policies more robust and easier to maintain. For migration guidance, see the [OPA migration guide](https://www.openpolicyagent.org/docs/v0-upgrade#changes-to-rego-in-opa-v10){: rel="nofollow"}.
+- **VCS Gateway support for EKS, GKE, and AKS**: The [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"}, [GKE](https://github.com/spacelift-io/terraform-google-spacelift-selfhosted){: rel="nofollow"}, and [AKS](https://github.com/spacelift-io/terraform-azure-spacelift-selfhosted){: rel="nofollow"} Terraform modules now include optional configuration for the VCS Gateway service. Requires [Helm chart v0.56.0](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.56.0){: rel="nofollow"} or later.
+
+    By default, Spacelift communicates with your VCS provider directly, but some organizations need to host their VCS systems internally where Spacelift can't reach them. The VCS Gateway is the backend component that enables [VCS Agent Pools](../concepts/vcs-agent-pools.md) to bridge this gap - VCS Agents running in your infrastructure connect to the gateway and proxy requests to your private GitLab, GitHub Enterprise, Bitbucket Data Center, or Azure DevOps instances.
+
+    The VCS Gateway is exposed via a dedicated load balancer and requires a separate DNS record to be configured.
+
+    **Updated deployment guides:**
+
+    - [EKS](./reference-architecture/guides/deploying-to-eks.md#vcs-gateway-service)
+    - [GKE](./reference-architecture/guides/deploying-to-gke.md#vcs-gateway-service)
+    - [AKS](./reference-architecture/guides/deploying-to-aks.md#vcs-gateway-service)
+
+### Documentation
+
+- **PostgreSQL upgrade guides**: Added a comprehensive [Upgrading PostgreSQL](./reference-architecture/external-dependencies.md#upgrading-postgresql) section covering everything you need to know before upgrading your database: expected downtime for minor and major upgrades, what happens to your Spacelift installation during the upgrade, and cloud provider-specific instructions for AWS, GCP, and Azure. For AWS users, we also published a dedicated [RDS Upgrade Guide](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted/blob/main/docs/rds-upgrade-guide.md){: rel="nofollow"} with step-by-step instructions for our Terraform modules.
+- **GKE deployment guide**: Updated [database configuration steps](./reference-architecture/guides/deploying-to-gke.md#configure-database) to include schema permissions required for PostgreSQL 15+, which no longer grants CREATE privileges on the public schema by default.
+- **AKS and GKE deployment guides**: Bumped the cert-manager Helm chart version to v1.19.2. We recommend upgrading your cert-manager deployment to stay current with security patches and bug fixes.
+
+## Changes between v4.0.0 and v3.8.0
+
+!!! info "Safe upgrade from any v3.x.x version"
+    This release contains no breaking changes. You can safely upgrade from any v3.x.x version without requiring configuration changes or migration steps.
+
+### 🌟 Feature of the Month: Auto-attach Cloud Integrations
+
+Managing cloud integrations across multiple stacks and modules just got easier. AWS and Azure integrations can now be automatically attached using labels, eliminating the need to manually configure each stack.
+
+**How it works:**
+
+1. Create your cloud integration and add a label in the format `autoattach:<your_label>`
+2. Enable the auto-attach toggle during setup
+3. Add the same label to any stack or module
+4. The integration automatically attaches - no manual configuration needed
+
+Any stack or module with a matching label will automatically have the integration attached, and newly labeled resources will pick it up instantly. This follows the same pattern as other auto-attachable resources in Spacelift, making integration management consistent across your infrastructure.
+
+**Learn more:**
+
+- [AWS auto-attach integrations](../integrations/cloud-providers/aws.md#auto-attach-integrations)
+- [Azure auto-attach integrations](../integrations/cloud-providers/azure.md#auto-attach-integrations)
+
+### Features
+
+- **Refreshed sidebar design**: The navigation sidebar now features a modern glassmorphism design with a lighter, semi-transparent appearance for improved visual aesthetics.
+
+- **Command palette**: Navigate Spacelift faster with the new command palette. Access it with ⌘K (Mac) or Ctrl+K (Windows/Linux), or click "Search Spacelift" in the sidebar. Quickly create resources (stacks, modules, contexts) and jump to any section of the platform without clicking through menus.
+
+- **Account default runner images**: Added support for account default runner images. See the [runtime security](../integrations/docker.md#account-default-runner-images) for more information.
+
+    !!! note
+        This feature was mistakenly listed in the v3.8.0 changelog but is actually included in this release.
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
+    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
+    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
+
+    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
+- **Policy evaluation timeouts**: You can now set custom evaluation timeouts for different policy types to better control their execution duration. See the [policy timeouts documentation](../concepts/policy/README.md#evaluation-timeouts) for details.
+
+- **Enhanced APM error reporting**: [Observability products](./reference-architecture/reference/telemetry.md) (Datadog, OpenTelemetry, etc.) were previously sometimes receiving the same generic "internal error" messages shown to end users. They now receive unwrapped errors with full stack traces and detailed technical context, making production issues significantly easier to debug while maintaining end-user security.
+
+- **Terraform module updates**: The [AWS ECS](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted){: rel="nofollow"} and [EKS](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"} Terraform modules have been updated to v2.0.0 and v3.0.0 respectively, with important improvements and breaking changes:
+
+    **ECS module (v2.0.0)**:
+
+    - Database credentials consolidated into `sensitive_env_vars` for better secret management
+    - License token now uses write-only parameters to keep secrets out of state (requires OpenTofu/Terraform 1.11+)
+    - Native support for distributed tracing through [Datadog APM and OpenTelemetry](./reference-architecture/reference/telemetry.md) sidecars
+
+    **EKS module (v3.0.0)**:
+
+    - EKS cluster version and RDS engine version are now required parameters, giving you explicit control over infrastructure versions
+    - EKS module dependency upgraded from v20 to v21
+
+    See the full release notes for migration details: [ECS v2.0.0](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted/releases/tag/v2.0.0){: rel="nofollow"} and [EKS v3.0.0](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.0.0){: rel="nofollow"}.
+
+- **OpenTofu 1.11.2 support**: Stacks can now use OpenTofu 1.11.2.
+
+- **Configurable PostgreSQL version (CloudFormation)**: You can now configure the PostgreSQL engine version for CloudFormation installations using the `postgres_engine_version` parameter in your `config.json` file.
+
+    **📖 See the [PostgreSQL version upgrade guide](./cloudformation/postgresql-version-upgrade.md)** for complete instructions including downtime expectations, upgrade process, and cleanup procedures.
+
+    !!! info "Terraform installations"
+        If you're using Terraform-based installations, follow the [HashiCorp RDS upgrade tutorial](https://developer.hashicorp.com/terraform/tutorials/aws/rds-upgrade#upgrade-rds-instance){: rel="nofollow"} to upgrade your PostgreSQL version.
+
+    !!! warning "Reminder: CloudFormation support phase-out"
+        CloudFormation installations will eventually be phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. We will provide advance notice before discontinuing support. We recommend planning your migration to the Reference Architecture to ensure continued access to new features. See the [migration guide](./cloudformation/cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
+
+### Fixes
+
+- **Telemetry**: Improved trace quality by adding proper parent contexts to background operations, reducing orphaned spans in distributed tracing systems.
+- **Telemetry**: Updated telemetry metadata to follow OpenTelemetry semantic conventions, improving compatibility with observability platforms and making traces easier to analyze.
+- **Telemetry**: Errors are now unwrapped before being sent to observability platforms, providing more detailed context for debugging while maintaining generic error messages for end users.
+
+### Documentation
+
+- **Telemetry configuration guides**: Added comprehensive guides for configuring telemetry collection in Kubernetes installations. These guides provide step-by-step instructions for setting up observability with [Datadog](./reference-architecture/guides/telemetry/k8s-datadog.md), [OpenTelemetry with Grafana Stack](./reference-architecture/guides/telemetry/k8s-otel-grafana-stack.md), and [OpenTelemetry with Jaeger](./reference-architecture/guides/telemetry/k8s-otel-jaeger.md). Each guide includes installation steps, configuration examples, troubleshooting tips, and cleanup procedures.
+
+## Changes between v3.8.0 and v3.7.0
+
+### Features
+
+- **Plugins**: Introduced a new plugin system that allows you to extend Spacelift's functionality with custom integrations and automations. Plugins are written using the [spaceforge](https://github.com/spacelift-io/plugins){: rel="nofollow"} Python SDK and can integrate with third-party services, automate workflows, and enhance your infrastructure management capabilities.
+
+    Key features include:
+
+    - **Marketplace**: Browse and install plugins from the Templates section in the Spacelift UI
+    - **Auto-attachment**: Automatically attach plugins to stacks using labels
+    - **First-class citizens**: Plugins are managed directly in Spacelift, not through stacks
+    - **Configurable parameters**: Define and configure plugin-specific settings during installation
+    - **Multiple execution phases**: Run plugins at different stages of your infrastructure lifecycle(before_init, after_plan, after_apply, etc.)
+
+    See the [plugins documentation](../integrations/plugins.md) for installation guides, usage instructions, and plugin development guidelines.
+
+- **Authorization & RBAC**: Stacks can now assume roles for elevated permissions through stack role attachments, replacing the legacy administrative flag. This new approach provides three key advantages:
+    - **Cross-space access**: Attach roles for sibling spaces, not just the stack's own space and subspaces
+    - **Fine-grained permissions**: Use [custom roles with specific actions](../concepts/authorization/rbac-system.md#custom-roles) instead of full Space Admin permissions
+    - **Enhanced audit trail**: Role information (`actor_roles`) is included in [webhook payloads](../integrations/audit-trail.md#usage) for better visibility
+
+The administrative flag is deprecated for stacks and [will be automatically disabled](../concepts/authorization/assigning-roles-stacks.md#migration-from-administrative-flag) on **June 1st, 2026**. On that date, Spacelift will backfill affected stacks with Space Admin roles (100% backward compatible), but manual migration is recommended to access advanced features and to avoid drifts in the OpenTofu/Terraform state.
+
+!!! note
+[Modules](../vendors/terraform/module-registry.md) are not affected by this change. The administrative flag for modules remains unchanged.
+
+See the [stack role bindings documentation](../concepts/authorization/assigning-roles-stacks.md) for migration guides and detailed examples.
+
+- **Authorization & RBAC**: Non-root Space Admins can now view all roles, users, API keys, and IdP group mappings (read-only) and manage role bindings within their administered spaces. Previously, these capabilities were limited to Root Space Admins only. See the [RBAC system documentation](../concepts/authorization/rbac-system.md#space-admin) for details.
+- **Login Policy**: Enriched the roles input in login policy data with `slug` and `ulid` fields for better role identification and assignment. See the [login policy documentation](../concepts/policy/login-policy.md#roles) for details.
+
+### Fixes
+
+- **Modules**: Fixed an issue where legacy space modules were incorrectly displayed as having no read access when users had valid read permissions. That could have happened if still using legacy space and access policies.
+- **Performance**: Postgres queue performance is now improved by adding indexes to the `message_queue_messages` and `message_queue_deduplications` tables.
+
+## Changes between v3.7.0 and v3.6.0
+
+### Features
+
+- **Kubernetes Worker Pools**: The Kubernetes worker pool controller now supports auto-registration with version `v0.0.27`.
+
+  Worker pools can be created and managed entirely through Kubernetes resources without manual setup in the Spacelift UI.
+  The controller automatically registers pools with Spacelift, generates credentials, and handles the complete lifecycle.
+
+  This enables pure GitOps workflows where worker pools are provisioned declaratively alongside other infrastructure.
+
+  Additionally, OIDC-based API keys can be used to eliminate static credentials from the cluster entirely.
+
+  See the [auto-registration documentation](../concepts/worker-pools/kubernetes-workers.md#auto-registration) for more details.
+
+## Changes between v3.6.0 and v3.5.0
+
+### Features
+
+- **VCS Integrations**: The \"Use Git checkout\" field is now visible by default in all VCS integration details pages. This field indicates whether the integration uses git checkout to download source code (required for sparse checkout functionality).
+- **Dashboard**: The Dashboard is now accessible to all users, not just admins. Non-admin users can view most dashboard widgets, with the Launch Pad and User Activity widgets remaining admin-only.
+- **Filters**: Enhanced filtering interface with improved selection states, dropdown functionality, and visual styling for better user experience
+- **Personal Settings**: You can now find new "Spaces" view under your personal settings. This view lets you see the permissions you have for each space, making it easier to understand your access across Spacelift.
+- Added **SSO SAML** attribute mapping support. See the [custom attribute mapping documentation](../integrations/single-sign-on/README.md#custom-attribute-mapping) for more information.
+- Errors and panics are now logged to stdout in a structured JSON format, providing better observability.
+
 ## Changes between v3.5.0 and v3.4.0
 
 ### Features
@@ -143,7 +330,7 @@ In this scenario, running the v2.6.1 installer should resolve the problem.
 - Scheduler service: cron jobs are now triggered via a [new ECS service called scheduler](./cloudformation/install.md#scheduler). This has no impact on the app functionality, but those who use custom VPCs will need to provide a new config value under `vpc_config` called `scheduler_security_group_id`. **Important**: the database security group must be updated as well since the scheduler service needs to access the database. So for custom VPC installations, the required updates are the following:
     - creating a new security group for the scheduler service
         - with no ingress
-        - an egress record to the database security group
+        - unrestricted egress
     - updating the database security group ingress to allow connections from the scheduler security group
     - please see the [advanced installations](./cloudformation/advanced-installations.md) page for code examples
 - Disable XRay: if you wish to disable telemetry in the backend, you can do so by setting the `tracing_enabled` configuration value to `false` in the install script's config file.
@@ -295,7 +482,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Added OpenTofu support for Terragrunt](../vendors/terragrunt/terragrunt-tool.md)
     - **Important note**: in order to use this new feature, you need to recycle your worker pools. This is because new launcher versions are downloaded during the instance startup, and the old launchers do not support this new feature. Note: we recommend recycling the worker pools after each release anyway. The [native Kubernetes workers](../concepts/worker-pools/kubernetes-workers.md) are an exception to this rule since each run starts a new container running the latest launcher image for your Self-Hosted instance.
 - [Added `Trigger always` flag to Stack Dependencies](../concepts/stack/stack-dependencies.md)
-- Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sampling-policy-inputs)
+- Disabled the rate limiting for [policy sampling](../concepts/policy/README.md#sample-policy-inputs)
 - Added LaunchPad, a dashboard for new Spacelift users that provides a guided tour of the platform
 - Added support for [OPA v0.64](https://github.com/open-policy-agent/opa/releases/tag/v0.64.0)
 - Support for moved and [imported](https://developer.hashicorp.com/terraform/language/import) Terraform resources
@@ -317,10 +504,10 @@ Although we have safeguards in place to ensure the migration is successful, we r
 ### Features
 
 - [Beta Terragrunt support](../vendors/terragrunt/README.md)
-- [Enhanced VCS integrations](https://spacelift.io/changelog/en/enhanced-vcs-integrations)
-- [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#opentofu)
-- [New run history view](https://spacelift.io/changelog/en/introducing-the-new-run-history-view)
-- [Redesigned stack creation view](https://spacelift.io/changelog/en/stack-creation-v2)
+- [Enhanced VCS integrations](https://feedback.spacelift.io/changelog/enhanced-vcs-integrations)
+- [OpenTofu v1.6.2 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
+- [New run history view](https://feedback.spacelift.io/changelog/introducing-the-new-run-history-view)
+- [Redesigned stack creation view](https://feedback.spacelift.io/changelog/stack-creation-v2)
 
 ### Fixes
 
@@ -333,7 +520,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [User Management](../concepts/user-management/README.md)
 - [Terraform Provider Registry](../vendors/terraform/provider-registry.md)
 - The settings page is now split into Organization and Personal settings
-- [OpenTofu v1.6.1 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [OpenTofu v1.6.1 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
 - [PR stack locking](../concepts/policy/push-policy/README.md#stack-locking)
 - [Support for deploying workers via the Kubernetes operator](../concepts/worker-pools/kubernetes-workers.md)
 
@@ -348,7 +535,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 
 ### Features
 
-- [OpenTofu v1.6.0 support](../concepts/stack/creating-a-stack.md#opentofu)
+- [OpenTofu v1.6.0 support](../concepts/stack/creating-a-stack.md#3-choose-vendor)
 - [PRs as notification targets](../concepts/policy/notification-policy.md#pull-request-notifications)
 - [Run prioritization through Push Policy](../concepts/policy/push-policy/README.md#prioritization) (`prioritize` keyword)
 - Add state size (in bytes) to `ManagedStateVersion` type in GraphQL
@@ -365,7 +552,7 @@ Although we have safeguards in place to ensure the migration is successful, we r
 - [Auto Attaching Contexts](../concepts/configuration/context.md#auto-attachments)
 - [Context Hooks](../concepts/configuration/context.md#editing-hooks)
 - Additional [project globs](../concepts/stack/stack-settings.md#project-globs)
-- [Pull request default behaviour change](https://spacelift.io/changelog/en/upcoming-pull-request-default-behaviour-change)
+- [Pull request default behaviour change](https://feedback.spacelift.io/changelog/upcoming-pull-request-default-behaviour-change)
     - Spacelift will start handling pull request events and creating proposed runs if no push policy is set as the default behaviour
 
 ### Fixes

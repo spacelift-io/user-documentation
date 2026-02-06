@@ -22,10 +22,21 @@ You can configure these settings when you first [create a stack](../../getting-s
 
 ### Administrative
 
-This setting determines whether a stack has administrative privileges within its [space](../spaces/README.md). Administrative stacks receive an API token that grants them elevated access to a subset of the Spacelift API, which is used by the [Terraform provider](../../vendors/terraform/terraform-provider.md). This allows them to create, update, and destroy Spacelift resources.
+!!! warning "Deprecated - Use stack role attachments instead"
+    The administrative flag is deprecated and will be automatically disabled on June 1st, 2026. On that date, Spacelift will automatically attach the Space Admin role to each stack's own space, which is 100% backward compatible but does not provide advanced features.
+
+    We recommend migrating as soon as possible to [stack role attachments](../authorization/assigning-roles-stacks.md) to take advantage of:
+
+    - **Cross-space access**: Access sibling spaces, not just your own space and subspaces
+    - **Fine-grained permissions**: Use custom roles with specific actions instead of full Space Admin permissions
+    - **Enhanced audit trail**: Role information included in webhook payloads
+
+    **To replicate the current behavior**, attach the Space Admin role to the stack using its own space as the binding space. See the [migration guide](../authorization/assigning-roles-stacks.md#migration-from-administrative-flag) for detailed instructions.
+
+This legacy setting determines whether a stack has administrative privileges within its [space](../spaces/README.md). Administrative stacks receive an API token that grants them elevated access to a subset of the Spacelift API, which is used by the [Terraform provider](../../vendors/terraform/terraform-provider.md). This allows them to create, update, and destroy Spacelift resources.
 
 !!! info
-    Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control).
+    Administrative stacks get the Admin role in the [space they belong to](../spaces/access-control.md#access-control) and all of its subspaces.
 
 Administrative stacks can declaratively manage other stacks, their [environments](../configuration/environment.md), [contexts](../configuration/context.md), [policies](../policy/README.md), [modules](../../vendors/terraform/module-registry.md), and [worker pools](../worker-pools). This approach helps avoid manual configuration, often referred to as "ClickOps."
 
@@ -69,7 +80,7 @@ These commands can serve two main purposes: modifying the workspace (such as set
 
 #### How to run multiple commands
 
-Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
+Avoid using newlines (`\n`) in hooks. Spacelift chains commands with double ampersands (`&&`), and wraps each hook in curly brackets (`{}`) to avoid ambiguous behavior. Using newlines can hide non-zero exit codes if the last command in the block succeeds. To run multiple commands, either add multiple hooks or use a script as a [mounted file](../configuration/environment.md#mounted-files) and call it in the hook.
 
 Additionally, using a semicolon (`;`) in hooks will cause subsequent commands to run even if the phase fails. Use `&&` or wrap your hook in parentheses to ensure "after" commands only execute if the phase succeeds.
 
@@ -230,15 +241,17 @@ List of the most useful labels:
 - **feature:enable_log_timestamps** -- Enables timestamps on run logs.
 - **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
 - **feature:disable_pr_comments** - Disables Pull Request Comments
-- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments
+- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments (The default change summary)
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
 - **feature:enable_git_checkout** -- Enables support for downloading source code using standard Git checkout rather than downloading a tarball via API
+- **feature:aws_oidc_session_tagging** -- Enables AWS session tagging when using OIDC
 - **feature:ignore_runtime_config** -- Ignores .spacelift/config
 - **terragrunt** -- Old way of using Terragrunt from the Terraform backend
 - **ghenv: Name** -- GitHub Deployment environment (defaults to the stack name)
 - **ghenv: -** -- Disables the creation of GitHub deployment environments
-- **autoattach:autoattached_label** -- Used for policies/contexts to autoattach the policy/contexts to all stacks containing `autoattached_label`
+- **autoattach:autoattached_label** -- Used for policies/contexts/integrations to autoattach the policy/context/integration to all stacks containing `autoattached_label`
 - **feature:k8s_keep_using_prune_white_list_flag** -- sets `--prune-whitelist` flag instead of `--prune-allowlist` for the template parameter `.PruneWhiteList` in the Kubernetes custom workflow.
+- **feature:pr_enforce_unique_module_version** -- Enforces module version to be unique even for PR checks
 
 ### Project root
 
@@ -263,9 +276,6 @@ Example valid paths:
 Example invalid path (glob pattern):
 
 - `./infrastructure/*`
-
-!!! info
-    This feature is still in beta and may not be visible for everyone.
 
 ![](../../assets/screenshots/stack/settings/sparse-checkout.png)
 

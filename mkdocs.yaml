@@ -41,6 +41,7 @@ markdown_extensions:
   - admonition
   - attr_list
   - pymdownx.details
+  - pymdownx.snippets
   - pymdownx.highlight:
       auto_title: false
       linenums: true
@@ -51,11 +52,17 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - toc:
       permalink: »
       permalink_title: Anchor link to this section
 extra_css:
   - assets/css/custom.css
+  - assets/css/copy-to-llm.css
+extra_javascript:
+  - assets/js/copy-to-llm.js
 extra:
   generator: false
   environment: !ENV [DOC_ENV, "dev"]
@@ -82,6 +89,7 @@ extra:
 hooks:
   - hooks/fetch_banner.py
   - hooks/move_index.py
+  - hooks/copy_to_llm.py
 plugins:
   - search
   - macros
@@ -98,3 +106,4 @@ plugins:
       redirect_maps:
         "concepts/policy/git-push-policy.md": "concepts/policy/push-policy/README.md"
         "integrations/single-sign-on/azure-ad-oidc-setup-guide.md": "integrations/single-sign-on/microsoft-entra-id-oidc-setup-guide.md"
+        "legal/DPA.md": "legal/dpa.md"

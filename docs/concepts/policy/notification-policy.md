@@ -2,23 +2,20 @@
 
 ## Purpose
 
-!!! info
-    Please note, we currently don't support importing rego.v1. For more details, refer to the note in the [introduction](../policy/README.md) section.
+Notification policies can filter, route, and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md), meaning that it does not need to be attached to a specific [stack](../stack/README.md). Notification policices always verify the space they're in can be accessed by whatever action is being evaluated. If you are new to spaces, consider exploring our [spaces documentation](../spaces/README.md).
 
-Notification [policies](./README.md) can be used to filter, route and adjust the body of notification messages sent by Spacelift. The policy works at the [space level](../spaces/README.md) meaning that it does not need to be attached to a specific [stack](../stack/README.md), but rather is always evaluated if the space it's in can be accessed by whatever action is being evaluated.
-
-All notifications go through the policy evaluation. This means any of them can be redirected to the routes defined in the policy.
+All notifications go through the policy evaluation, so any of them can be redirected to the routes defined in the policy.
 
 A notification policy can define the following rules:
 
 - **inbox**: Allows messages to be routed to the Spacelift notification inbox.
-- **slack**: Allows messages to be routed to a given slack channel.
+- **slack**: Allows messages to be routed to a given Slack channel.
 - **webhook**: Allows messages to be routed to a given webhook.
 - **pull_request**: Allows messages to be routed to one or more pull requests.
 
 If no rules match, no action is taken.
 
-## Data input
+## Data input schema
 
 This is the schema of the data input that each policy request can receive:
 
@@ -149,6 +146,10 @@ This is the schema of the data input that each policy request can receive:
     },
     "stack": {
       "administrative": "boolean",
+      "roles": [{
+        "id": "string - the role slug, eg. space-admin",
+        "name": "string - the role name"
+      }],
       "autodeploy": "boolean",
       "autoretry": "boolean",
       "branch": "string",
@@ -202,7 +203,9 @@ This is the schema of the data input that each policy request can receive:
 }
 ```
 
-The final JSON object received as input will depend on the type of notification being sent. Event-dependent objects will only be present when those events happen. The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sampling-policy-inputs) and check the [Policy Workbench](../policy/README.md#policy-workbench-in-practice), but you can also use the table below as a reference:
+The final JSON object received as input will depend on the type of notification being sent. Event-dependent objects will only be present when those events happen.
+
+The best way to see what input your Notification policy received is to [enable sampling](../policy/README.md#sample-policy-inputs) and check the [policy workbench](../policy/README.md#policy-workbench-in-practice). You can also use the table in the next section as a reference.
 
 ### Ansible vendor changes structure
 
@@ -232,37 +235,32 @@ For Ansible runs, the `changes` array contains objects with different `action` v
 | `internal_error`    | Internal error occurred                                              |
 | `module_version`    | [Module](../../vendors/terraform/module-registry.md) version updated |
 
-## Policy in practice
+## Notification policy in practice
 
 Using the notification policy, you can completely re-write notifications or control where and when they are sent. Let's look into how the policy works for each of the defined routes.
 
 ### Choose a space for your policy
 
-When creating notification policies you should take into account the space in which you're creating them. Generally the policy follows the same conventions as any other Spacelift component, with a few small caveats.
+When creating notification policies, take into account the space in which you're creating them. Generally the policy follows the same conventions as any other Spacelift component, with a few small caveats.
 
-#### Determine space for run update notifications
+=== "Run update notifications"
+    Run update messages will rely on the space that the run is happening in. It will check any policies in that space, including policies inherited from other spaces.
 
-Run update messages will rely on the space that the run is happening in. It will check any policies in that Space including policies inherited from other Spaces.
+=== "Internal errors"
+    Most internal errors will check for notification policies inside of the root space. However if the policy is reporting about a component that belongs to a certain space (and can determine which space it is), then it will check for policies in that or any inherited spaces.
 
-#### Determine space for internal errors
+    Here is a list of components it will check in order:
 
-Most internal errors will check for notification policies inside of the root space. However if the policy is reporting about a component that belongs to a certain space and it can determine to which one it is, then it will check for policies in that or any inherited space.
-
-Here is a list of components it will check in order:
-
-- Stack
-- Worker pool
-- AWS integration
-- Policy
-
-!!! info
-    If you are new to spaces, consider exploring our [spaces documentation](../spaces/README.md).
+    - Stack
+    - Worker pool
+    - AWS integration
+    - Policy
 
 ### Inbox notifications
 
-Inbox notifications are what you receive in your [Spacelift notification inbox](../../product/notifications.md). By default, these are errors that happened during some kind of action execution inside Spacelift and are always sent even if you do not have a policy created.
+Inbox notifications are what you receive in your [Spacelift notification inbox](../../product/notifications.md). By default, these are errors that happened during action execution inside Spacelift and are always sent even if you do not have a policy created.
 
-However using the policy allows you to alter the body of those errors to add additional context, or even more importantly it allows you to create your own unique notifications.
+However, with notification policices you can alter the body of those errors to add additional context or create your own unique notifications.
 
 The inbox rule accepts multiple configurable parameters, all _optional_:
 
@@ -272,125 +270,207 @@ The inbox rule accepts multiple configurable parameters, all _optional_:
 
 #### Create new inbox notifications
 
-This inbox rule which will send `INFO` level notification messages to your inbox when a tracked run has finished:
+This inbox rule will send `INFO` level notification messages to your inbox when a tracked run has finished:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
- inbox[{
-  "title": "Tracked run finished!",
-  "body": sprintf("http://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
-  "severity": "INFO",
- }] {
-   stack := input.run_updated.stack
-   run := input.run_updated.run
-   run.type == "TRACKED"
-   run.state == "FINISHED"
- }
-```
+    inbox contains {
+      "title": "Tracked run finished!",
+      "body": sprintf("http://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+      "severity": "INFO",
+    } if {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "FINISHED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+     inbox[{
+      "title": "Tracked run finished!",
+      "body": sprintf("http://example.app.spacelift.io/stack/%s/run/%s has finished", [stack.id, run.id]),
+      "severity": "INFO",
+     }] {
+       stack := input.run_updated.stack
+       run := input.run_updated.run
+       run.type == "TRACKED"
+       run.state == "FINISHED"
+     }
+    ```
 
 ### Slack messages
 
-[Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy, but before creating any policies that interact with Slack you will need to [add the slack integration to your Spacelift account](../../integrations/chatops/slack.md#connecting-your-spacelift-account-to-the-slack-workspace).
+[Slack](../../integrations/chatops/slack.md) messages can also be controlled using the notification policy. Before creating any policies that interact with Slack, you will need to [add the slack integration](../../integrations/chatops/slack.md#connecting-your-spacelift-account-to-the-slack-workspace) to your Spacelift account.
 
 !!! info
-    The documentation section about [Slack](../../integrations/chatops/slack.md) contains more information about available actions, Slack access policies, and more.
+    The documentation about [Slack](../../integrations/chatops/slack.md) contains more information about available actions, Slack access policies, and more.
 
-Another important point to mention is that the rules for Slack require a `channel_id` to be defined. This can be found at the bottom of a channel's _About_ section in Slack:
+The rules for Slack require a `channel_id` to be defined, which can be found at the bottom of a channel's _About_ section in Slack:
 
-![](../../assets/screenshots/slack-channel-info.png)
+![Slack channel ID](<../../assets/screenshots/slack-channel-info.png>)
 
-Now you should be ready to define rules for routing Slack messages. Slack rules allow you to make the same filtering
-decisions as any other rule in the policy. They also allow you to edit the message bodies themselves in order to create custom messages.
+Once the integration is configured in your account, you should be ready to define rules for routing Slack messages. Slack rules allow you to make the same filtering decisions as any other rule in the policy. They also allow you to edit the message bodies themselves to create custom messages.
 
 The Slack rules accept multiple configurable parameters:
 
-- `channel_id` - the Slack channel to which the message will be delivered (**Required**)
-- `message` - a custom message to be sent (**Optional**)
-- `mention_users` - an array of users to mention in the default message (**Optional**)
-- `mention_groups` - an array of groups to mention in the default message (**Optional**)
+- `channel_id`: The Slack channel to which the message will be delivered.
+- `message` (optional): A custom message to be sent.
+- `mention_users` (optional): An array of users to mention in the default message.
+- `mention_groups` (optional): An array of groups to mention in the default message.
 
 #### Filtering and routing messages
 
-For example if you wanted to receive only finished runs on a specific Slack channel you would define a rule like this:
+To receive notifications for **finished runs only** on a specific Slack channel, define a rule like this:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-slack[{"channel_id": "C0000000000"}] {
-  input.run_updated != null
+    slack contains {"channel_id": "C0000000000"} if {
+      input.run_updated != null
 
-  run := input.run_updated.run
-  run.state == "FINISHED"
-}
-```
+      run := input.run_updated.run
+      run.state == "FINISHED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    slack[{"channel_id": "C0000000000"}] {
+      input.run_updated != null
+
+      run := input.run_updated.run
+      run.state == "FINISHED"
+    }
+    ```
 
 #### Changing the message body
 
-Together with filtering and routing messages you can also alter the message body itself, here is an example
-for sending a custom message where a run which tries to attach a policy requires confirmation:
+To send a custom message when a run which tries to attach a policy requires confirmation, define a rule like this:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-slack[{
-  "channel_id": "C0000000000",
-  "message": sprintf("http://example.app.spacelift.io/stack/%s/run/%s is trying to attach a policy!", [stack.id, run.id]),
-}] {
-  stack := input.run_updated.stack
-  run := input.run_updated.run
-  run.type == "TRACKED"
-  run.state == "UNCONFIRMED"
-  change := run.changes[_]
-  change.phase == "plan"
-  change.entity.type == "spacelift_policy_attachment"
-}
-```
+    slack contains {
+      "channel_id": "C0000000000",
+      "message": sprintf("http://example.app.spacelift.io/stack/%s/run/%s is trying to attach a policy!", [stack.id, run.id]),
+    } if {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "UNCONFIRMED"
+      some change in run.changes
+      change.phase == "plan"
+      change.entity.type == "spacelift_policy_attachment"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    slack[{
+      "channel_id": "C0000000000",
+      "message": sprintf("http://example.app.spacelift.io/stack/%s/run/%s is trying to attach a policy!", [stack.id, run.id]),
+    }] {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "UNCONFIRMED"
+      change := run.changes[_]
+      change.phase == "plan"
+      change.entity.type == "spacelift_policy_attachment"
+    }
+    ```
 
 #### Mentioning users and groups
 
-You can provide an array of user IDs and group IDs to mention in the default message.
+You can provide an array of user IDs and group IDs to mention in the default message. To mention a user and a group (conditionally) in a Slack message, define a rule like this:
 
-The following example shows how to mention a user and a group (conditionally) in a Slack message:
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-```opa
-package spacelift
+    users := {
+      "bob": "U08MA4D50RY"
+    }
+    groups := {
+      "devs": "S08MA51EW4S"
+    }
 
-users := {
-  "bob": "U08MA4D50RY"
-}
-groups := {
-  "devs": "S08MA51EW4S"
-}
+    mention_groups(run) := [groups.devs] if {
+      run.state == "UNCONFIRMED"
+    } else := []
 
-mention_groups(run) = [groups.devs] {
-  run.state == "UNCONFIRMED"
-} else = []
+    slack contains {
+      "channel_id": "C08MA83LAD9",
+      "mention_users": [users.bob],
+      "mention_groups": mention_groups(run),
+    } if {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+    }
+    ```
 
-slack[{
-  "channel_id": "C08MA83LAD9",
-  "mention_users": [users.bob],
-  "mention_groups": mention_groups(run)
-}] {
-  run := input.run_updated.run
-  run.type == "TRACKED"
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-#### Organizing messages in Slack threads
+    users := {
+      "bob": "U08MA4D50RY"
+    }
+    groups := {
+      "devs": "S08MA51EW4S"
+    }
 
-You can use the `thread_key` parameter to group related messages in a single Slack thread. When the first message with a specific `thread_key` is sent, it creates a new message in the channel. Subsequent messages with the same `thread_key` will be sent as replies in that thread instead of creating new messages.
+    mention_groups(run) = [groups.devs] {
+      run.state == "UNCONFIRMED"
+    } else = []
 
-The following example shows how to use `thread_key` to group all updates for a single run in one thread:
+    slack[{
+      "channel_id": "C08MA83LAD9",
+      "mention_users": [users.bob],
+      "mention_groups": mention_groups(run)
+    }] {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+    }
+    ```
 
-```opa
-package spacelift
+#### Organizing messages in threads
 
-slack[{"channel_id": "C08TULY2SBS", "thread_key": run.id}] {
- run := input.run_updated.run
- run.type == "TRACKED"
-}
-```
+Use the `thread_key` parameter to group related messages in a single Slack thread. When the first message with a specific `thread_key` is sent, it creates a new message in the channel. Subsequent messages with the same `thread_key` will be sent as replies in that thread, instead of creating new messages.
+
+Here's how to use `thread_key` to group all updates for a single run in one thread:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    slack contains {"channel_id": "C08TULY2SBS", "thread_key": run.id} if {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    slack[{"channel_id": "C08TULY2SBS", "thread_key": run.id}] {
+     run := input.run_updated.run
+     run.type == "TRACKED"
+    }
+    ```
 
 This will send a message every time the run is updated, with each update appearing as a reply in the same thread.
 
@@ -400,293 +480,450 @@ This will send a message every time the run is updated, with each update appeari
 ### Webhook requests
 
 !!! info
-    This section of documentation requires you have configured at least one [Named Webhook](../../integrations/webhooks.md).
-    Consider exploring that part of documentation first.
+    You must configure at least one [named webhook](../../integrations/webhooks.md) before using webhook notifications.
 
-Webhook notifications are a very powerful part of the notification policy. Using them, one is able to not only
-receive webhooks on specific events that happen in Spacelift, but also craft unique requests to be consumed
-by some third-party.
+With webhook notifications, you can receive webhooks on specific events that happen in Spacelift and craft unique requests to be consumed by some third-party.
 
-The notification policy relies on named webhooks which can be created and managed in the [Webhooks section of Spacelift](../../integrations/webhooks.md).
-Any policy evaluation will always receive a list of possible webhooks together with their labels as input.
-The data received in the policy input should be used to determine which webhook will be used when sending the request.
+The notification policy relies on **named webhooks**, which can be created and managed in the [webhooks section of Spacelift](../../integrations/webhooks.md). Any policy evaluation will always receive a list of possible webhooks together with their labels as input. The data received in the policy input should be used to determine which webhook will be used when sending the request.
 
 The webhook policy accepts multiple configurable parameters:
 
-- `endpoint_id` - endpoint id (slug) to which the webhook will be delivered  (**Required**)
-- `headers` - a key value map which will be appended to request headers (**Optional**)
-- `payload` - a custom valid JSON object to be sent as request body (**Optional**)
-- `method` - a HTTP method to use when sending the request (**Optional**)
+- `endpoint_id`: Endpoint id (slug) to which the webhook will be delivered.
+- `headers` (optional): A key value map to append to request headers.
+- `payload` (optional): A custom valid JSON object to be sent as request body.
+- `method` (optional): The HTTP method to use when sending the request.
 
 #### Filtering webhook requests
 
-Filtering and selecting webhooks can be done by using the received input data. Rules can be created where only
-specific actions should trigger a webhook being sent.
-For example we could define a rule which would allow a webhook to be sent about any drift detection run:
+Filter and select webhooks using the received input data. You can create rules where only specific actions trigger a webhook being sent. For example, we could define a rule to allow a webhook to be sent about any drift detection run:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-webhook[{"endpoint_id": endpoint.id}] {
-  endpoint := input.webhook_endpoints[_]
-  endpoint.id == "drift-hook"
-  input.run_updated.run.drift_detection == true
-  input.run_updated.run.type == "PROPOSED"
-}
-```
+    webhook contains {"endpoint_id": endpoint.id} if {
+      some endpoint in input.webhook_endpoints
+      endpoint.id == "drift-hook"
+      input.run_updated.run.drift_detection == true
+      input.run_updated.run.type == "PROPOSED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    webhook[{"endpoint_id": endpoint.id}] {
+      endpoint := input.webhook_endpoints[_]
+      endpoint.id == "drift-hook"
+      input.run_updated.run.drift_detection == true
+      input.run_updated.run.type == "PROPOSED"
+    }
+    ```
 
 #### Creating a custom webhook request
 
-All requests sent will always include the default headers for verification, a payload which is
-appropriate for the message type and the `method` set as `POST`. However, by using the webhook rule
-we can modify the body of the request, change the method or add additional headers.
-For example, if we wanted to define a completely custom request for a [tracked run](../run/README.md) we would define a rule like this:
+All requests sent will include the default headers for verification, a payload appropriate for the message type, and the `method` set as `POST`. However, by using the webhook rule we can modify the body of the request, change the method, or add additional headers.
 
-```opa
-package spacelift
+To set up a completely custom request for a [tracked run](../run/README.md), define a rule like this:
 
-webhook[wbdata] {
-  endpoint := input.webhook_endpoints[_]
-  endpoint.id == "testing-notifications"
-  wbdata := {
-    "endpoint_id": endpoint.id,
-    "payload": {
-      "custom_field": "This is a custom message",
-      "run_type": input.run_updated.run.type,
-      "run_state": input.run_updated.run.state,
-      "updated_at": input.run_updated.run.updated_at,
-    },
-    "method": "PUT",
-    "headers": {
-      "custom-header": "custom",
-    },
-  }
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-  input.run_updated.run.type == "TRACKED"
-}
-```
+    webhook contains wbdata if {
+      some endpoint in input.webhook_endpoints
+      endpoint.id == "testing-notifications"
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "custom_field": "This is a custom message",
+          "run_type": input.run_updated.run.type,
+          "run_state": input.run_updated.run.state,
+          "updated_at": input.run_updated.run.updated_at,
+        },
+        "method": "PUT",
+        "headers": {
+          "custom-header": "custom",
+        },
+      }
 
-Using custom webhook requests also makes it quite easy to integrate Spacelift with any third-party webhook consumer.
+      input.run_updated.run.type == "TRACKED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    webhook[wbdata] {
+      endpoint := input.webhook_endpoints[_]
+      endpoint.id == "testing-notifications"
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "custom_field": "This is a custom message",
+          "run_type": input.run_updated.run.type,
+          "run_state": input.run_updated.run.state,
+          "updated_at": input.run_updated.run.updated_at,
+        },
+        "method": "PUT",
+        "headers": {
+          "custom-header": "custom",
+        },
+      }
+
+      input.run_updated.run.type == "TRACKED"
+    }
+    ```
+
+Using custom webhook requests also makes it easy to integrate Spacelift with any third-party webhook consumer.
 
 #### Including run logs in webhook requests
 
-You can include logs from various run phases in your webhook requests by using placeholders in any value field of the payload (note that placeholders in JSON keys will be ignored):
+You can include logs from various run phases in your webhook requests by using placeholders in any value field of the payload. Placeholders in JSON keys will be ignored:
 
-- `spacelift::logs::initializing` placeholder will be replaced with logs from the [initializing](../run/README.md#initializing) phase
-- `spacelift::logs::preparing` placeholder will be replaced with logs from the [preparing](../run/README.md#preparing) phase
-- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
-- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
+- `spacelift::logs::initializing` placeholder will be replaced with logs from the [initializing](../run/README.md#initializing) phase.
+- `spacelift::logs::preparing` placeholder will be replaced with logs from the [preparing](../run/README.md#preparing) phase.
+- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase.
+- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase.
 
 Here's an example that includes logs from different phases in the webhook payload:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-webhook[wbdata] {
-  endpoint := input.webhook_endpoints[_]
-  endpoint.id == "test"
-  wbdata := {
-    "endpoint_id": endpoint.id,
-    "payload": {
-      "initializing": "spacelift::logs::initializing",
-      "preparing": "You can embed the placeholder within text like this: spacelift::logs::preparing",
-      "planning_and_applying": ["The placeholders also work in lists:", "spacelift::logs::planning", "spacelift::logs::applying"],
-    },
-    "method": "PUT",
-    "headers": {
-      "custom-header": "custom",
-    },
-  }
+    webhook contains wbdata if {
+      some endpoint in input.webhook_endpoints
+      endpoint.id == "test"
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "initializing": "spacelift::logs::initializing",
+          "preparing": "You can embed the placeholder within text like this: spacelift::logs::preparing",
+          "planning_and_applying": ["The placeholders also work in lists:", "spacelift::logs::planning", "spacelift::logs::applying"],
+        },
+        "method": "PUT",
+        "headers": {
+          "custom-header": "custom",
+        },
+      }
 
-  input.run_updated.run.type == "TRACKED"
-  input.run_updated.run.state == "FINISHED"
-}
-```
+      input.run_updated.run.type == "TRACKED"
+      input.run_updated.run.state == "FINISHED"
+    }
+    ```
 
-#### Custom webhook requests in action
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-##### Discord integration
+    webhook[wbdata] {
+      endpoint := input.webhook_endpoints[_]
+      endpoint.id == "test"
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "initializing": "spacelift::logs::initializing",
+          "preparing": "You can embed the placeholder within text like this: spacelift::logs::preparing",
+          "planning_and_applying": ["The placeholders also work in lists:", "spacelift::logs::planning", "spacelift::logs::applying"],
+        },
+        "method": "PUT",
+        "headers": {
+          "custom-header": "custom",
+        },
+      }
 
-Discord can be integrated to receive updates about Spacelift by simply creating a new webhook endpoint in your Discord server's integrations
-section and providing that as the endpoint when creating a new [named webhook](../../integrations/webhooks.md).
+      input.run_updated.run.type == "TRACKED"
+      input.run_updated.run.state == "FINISHED"
+    }
+    ```
+
+#### Discord integration using custom webhook requests
+
+Discord can be integrated to receive updates about Spacelift by creating a new webhook endpoint in your Discord server's integrations section and providing that as the endpoint when creating a new [named webhook](../../integrations/webhooks.md) in Spacelift.
 
 !!! info
     <!-- markdown-link-check-disable -->
-    For more information about making Discord webhooks follow their [official webhook guide](https://support.discord.com/hc/en-us/articles/228383668){: rel="nofollow"}.
+    For more information about making Discord webhooks, follow their [official webhook guide](https://support.discord.com/hc/en-us/articles/228383668){: rel="nofollow"}.
 
-After creating the webhook on both Discord and Spacelift you will need to define a new webhook rule like this:
+After creating the webhook on both Discord and Spacelift, you will need to define a new webhook rule like this:
 
-```opa
-# Send updates about tracked runs to discord.
-webhook[wbdata] {
-  endpoint := input.webhook_endpoints[_]
-  endpoint.id == "YOUR_WEBHOOK_ID_HERE"
-  stack := input.run_updated.stack
-  run := input.run_updated.run
-  wbdata := {
-    "endpoint_id": endpoint.id,
-    "payload": {
-      "embeds": [{
-        "title": "Tracked run triggered!",
-        "description": sprintf("Stack: [%s](http://example.app.spacelift.io/stack/%s)\nRun ID: [%s](http://example.app.spacelift.io/stack/%s/run/%s)\nRun state: %s", [stack.name,stack.id,run.id,stack.id, run.id,run.state]),
-        }]
-     }
-  }
-  input.run_updated.run.type == "TRACKED"
-}
-```
+=== "Rego v1"
+    ```opa
+    # Send updates about tracked runs to discord.
+    webhook contains wbdata if {
+      some endpoint in input.webhook_endpoints
+      endpoint.id == "YOUR_WEBHOOK_ID_HERE"
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "embeds": [{
+            "title": "Tracked run triggered!",
+            "description": sprintf("Stack: [%s](http://example.app.spacelift.io/stack/%s)\nRun ID: [%s](http://example.app.spacelift.io/stack/%s/run/%s)\nRun state: %s", [stack.name, stack.id, run.id, stack.id, run.id, run.state]),
+          }],
+        },
+      }
+      input.run_updated.run.type == "TRACKED"
+    }
+    ```
 
-And that's it! You should now be receiving updates about tracked runs to your Discord server:
+=== "Rego v0"
+    ```opa
+    # Send updates about tracked runs to discord.
+    webhook[wbdata] {
+      endpoint := input.webhook_endpoints[_]
+      endpoint.id == "YOUR_WEBHOOK_ID_HERE"
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      wbdata := {
+        "endpoint_id": endpoint.id,
+        "payload": {
+          "embeds": [{
+            "title": "Tracked run triggered!",
+            "description": sprintf("Stack: [%s](http://example.app.spacelift.io/stack/%s)\nRun ID: [%s](http://example.app.spacelift.io/stack/%s/run/%s)\nRun state: %s", [stack.name,stack.id,run.id,stack.id, run.id,run.state]),
+            }]
+         }
+      }
+      input.run_updated.run.type == "TRACKED"
+    }
+    ```
 
-![](../../assets/screenshots/discord.png)
+Once the rule is created, you should receive updates about tracked runs on your Discord server:
+
+![Discord receiving notification from Spacelift](<../../assets/screenshots/discord.png>)
 
 ### Pull request notifications
 
-Pull request notifications are a very powerful part of the notification policy.
-Using them, one is able to not only target a single pull request but also pull requests targeting a specific branch or commit.
+With pull request notifications, you can target a single pull request as well as pull requests targeting a specific branch or commit.
 
-The pull request rule accepts multiple configurable parameters:
+The pull request rule accepts multiple configurable parameters, **all optional**:
 
-- `id` - a pull request ID (**Optional**)
-- `commit` - a target commit SHA (**Optional**)
-- `branch` - a target branch (**Optional**)
-- `body` - a custom comment body (**Optional**)
-- `deduplication_key` - a deduplication key for updating PR comments (**Optional**)
+- `id`: A pull request ID.
+- `commit`: The target commit SHA.
+- `branch`: The target branch.
+- `body`: A custom comment body.
+- `deduplication_key`: A deduplication key for updating PR comments.
 
-#### Creating a pull request comment
+#### Creating a PR comment
 
-For example here is a rule which will add a comment (containing a default body) to the pull request that triggered the run:
+Here's a rule which will add a comment (containing a default body) to the pull request that triggered the run:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-import future.keywords.contains
-import future.keywords.if
+    pull_request contains {"commit": run.commit.hash} if {
+      run := input.run_updated.run
+      run.state == "FINISHED"
+    }
+    ```
 
-pull_request contains {"commit": run.commit.hash} if {
- run := input.run_updated.run
- run.state == "FINISHED"
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    import future.keywords.contains
+    import future.keywords.if
+
+    pull_request contains {"commit": run.commit.hash} if {
+     run := input.run_updated.run
+     run.state == "FINISHED"
+    }
+    ```
 
 !!! hint
-    It works best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
+    Pull request notifications work best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
 
-#### Updating an existing pull request comment
+#### Updating an existing PR comment
 
-The following example will add a comment to the pull request that triggered the run, and will update that comment for every run state change, instead of creating new comments.
+Here's a rule to add a comment to the pull request that triggered the run and update that comment for every run state change, instead of creating new comments.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-import future.keywords
+    pull_request contains {
+      "commit": run.commit.hash,
+      "body": sprintf("Run %s is %s", [run.id, run.state]),
+      "deduplication_key": deduplication_key,
+    } if {
+      run := input.run_updated.run
+      deduplication_key := input.run_updated.stack.id
+    }
+    ```
 
-pull_request contains {
- "commit": run.commit.hash,
- "body": sprintf("Run %s is %s", [run.id, run.state]),
- "deduplication_key": deduplication_key,
-} if {
- run := input.run_updated.run
- deduplication_key := input.run_updated.stack.id
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-The essential aspect for updating existing comments is the `deduplication_key`, which must have a constant value throughout the PR's lifetime to update the same comment.
-If the `deduplication_key` changes but a comment was created with the old deduplication_key, a new comment will be created and updated.<br><br>
-The deduplication_key is associated with the PR using it, so using the same `deduplication_key` on different PRs is safe and will not cause collisions.<br><br>
-To use this with existing policies, simply add `deduplication_key := input.run_updated.stack.id` (or another constant value) to the condition of the pull_request rule.
+    import future.keywords
 
-#### Adding a comment to pull requests targeting a specific commit
+    pull_request contains {
+     "commit": run.commit.hash,
+     "body": sprintf("Run %s is %s", [run.id, run.state]),
+     "deduplication_key": deduplication_key,
+    } if {
+     run := input.run_updated.run
+     deduplication_key := input.run_updated.stack.id
+    }
+    ```
 
-You specify a target commit SHA using the `commit` parameter:
+The essential aspect for updating existing comments is the `deduplication_key`, which must have a **constant value throughout the PR's lifetime** to update the same comment. If the `deduplication_key` changes but a comment was created with the old deduplication_key, a new comment will be created and updated.
 
-```opa
-package spacelift
+The `deduplication_key` is associated with the PR using it, so using the same `deduplication_key` on different PRs is safe and will not cause collisions.
 
-import future.keywords.contains
-import future.keywords.if
+To use this with existing policies, simply add `deduplication_key := input.run_updated.stack.id` (or another constant value) to the condition of the `pull_request` rule.
 
-pull_request contains {
- "commit": run.commit.hash,
- "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
-} if {
- stack := input.run_updated.stack
- run := input.run_updated.run
- run.state == "FINISHED"
-}
-```
+#### Adding a comment to PRs targeting a specific commit
 
-#### Adding a comment to pull requests targeting a specific branch
+Specify a target commit SHA using the `commit` parameter:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    pull_request contains {
+      "commit": run.commit.hash,
+      "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+    } if {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.state == "FINISHED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    import future.keywords.contains
+    import future.keywords.if
+
+    pull_request contains {
+     "commit": run.commit.hash,
+     "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+    } if {
+     stack := input.run_updated.stack
+     run := input.run_updated.run
+     run.state == "FINISHED"
+    }
+    ```
+
+#### Adding a comment to PRs targeting a specific branch
 
 Provide the branch name using the `branch` parameter:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-import future.keywords.contains
-import future.keywords.if
+    pull_request contains {
+      "branch": "main",
+      "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+    } if {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.state == "FINISHED"
+    }
+    ```
 
-pull_request contains {
- "branch": "main",
- "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
-} if {
- stack := input.run_updated.stack
- run := input.run_updated.run
- run.state == "FINISHED"
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    import future.keywords.contains
+    import future.keywords.if
+
+    pull_request contains {
+     "branch": "main",
+     "body": sprintf("https://%s.app.spacelift.io/stack/%s/run/%s has finished", [input.account.name, stack.id, run.id]),
+    } if {
+     stack := input.run_updated.stack
+     run := input.run_updated.run
+     run.state == "FINISHED"
+    }
+    ```
 
 !!! hint
-    Please note that `branch` is the base branch of the pull request. For example, if it's `"branch": input.run_updated.stack.branch`, that'd mean that the policy would comment into every pull request that targets the tracked branch of the stack.
+     `branch` is the base branch of the pull request. For example, if it's `"branch": input.run_updated.stack.branch`, the policy would comment into every pull request that targets the tracked branch of the stack.
 
 #### Changing the comment body
 
-You can customize the comment body, even include logs from various run phases by including a corresponding placeholder:
+You can customize the comment body and even include logs from various run phases by including a corresponding placeholder:
 
-- `spacelift::logs::initializing` placeholder will be replaces with logs from the [initializing](../run/README.md#initializing) phase
-- `spacelift::logs::preparing` placeholder will be replaces with logs from the [preparing](../run/README.md#preparing) phase
-- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase
-- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase
+- `spacelift::logs::initializing` placeholder will be replaces with logs from the [initializing](../run/README.md#initializing) phase.
+- `spacelift::logs::preparing` placeholder will be replaces with logs from the [preparing](../run/README.md#preparing) phase.
+- `spacelift::logs::planning` placeholder will be replaced with logs from the [planning](../run/proposed.md#planning) phase.
+- `spacelift::logs::applying` placeholder will be replaced with logs from the [applying](../run/tracked.md#applying) phase.
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-import future.keywords.contains
-import future.keywords.if
+    pull_request contains {
+      "commit": run.commit.hash,
+      "body": body,
+    } if {
+      stack := input.run_updated.stack
+      run := input.run_updated.run
+      run.state == "FINISHED"
 
-pull_request contains {
- "commit": run.commit.hash,
- "body": body,
-} if {
- stack := input.run_updated.stack
- run := input.run_updated.run
- run.state == "FINISHED"
+      body := sprintf(
+        `https://%s.app.spacelift.io/stack/%s/run/%s has finished
 
- body := sprintf(
-  `https://%s.app.spacelift.io/stack/%s/run/%s has finished
+    ## Planning logs
 
-## Planning logs
+    %s
+    spacelift::logs::planning
+    %s
+    `,
+        [input.account.name, stack.id, run.id, "```", "```"],
+      )
+    }
+    ```
 
-%s
-spacelift::logs::planning
-%s
-`,
-  [input.account.name, stack.id, run.id, "```", "```"],
- )
-}
-```
+=== "Rego v0"
+    ```opa
+    package spacelift
 
-#### Complex example: adding a comment to a pull request about changed resources
+    import future.keywords.contains
+    import future.keywords.if
 
-The following example will add a comment to a pull request where it will list all the resources that were added, changed, deleted, imported, moved or forgotten.
+    pull_request contains {
+     "commit": run.commit.hash,
+     "body": body,
+    } if {
+     stack := input.run_updated.stack
+     run := input.run_updated.run
+     run.state == "FINISHED"
+
+     body := sprintf(
+      `https://%s.app.spacelift.io/stack/%s/run/%s has finished
+
+    ## Planning logs
+
+    %s
+    spacelift::logs::planning
+    %s
+    `,
+      [input.account.name, stack.id, run.id, "```", "```"],
+     )
+    }
+    ```
+
+#### Adding a comment to a PR about changed resources
+
+This more complex example will add a comment to a pull request where it will list all the resources that were added, changed, deleted, imported, moved, or forgotten.
 
 !!! note
-    Please note that this is an example policy which you can customize completely, if you would like to do so feel free to add `sample := true` to the the policy and then use the [Policy Workbench](../policy/README.md#policy-workbench-in-practice) to see what data is available. This example is also specifically for GitHub.
+    This is an example policy you can customize completely. If you would like to do so, add `sample := true` to the the policy and use the [policy workbench](../policy/README.md#policy-workbench-in-practice) to see what data is available. This example is also specifically for GitHub.
 
 ```opa
 package spacelift
-
-import future.keywords  # Import future syntax features.
 
 # Define a variable `header` to store a formatted string using the `sprintf` function.
 # This string will include dynamic information such as the URL for resource changes and
@@ -799,6 +1036,6 @@ pull_request contains {
 
 ```
 
-<p align="center">
-  <img src="../../assets/screenshots/notification-policy-pr.png"/>
-</p>
+The output will look like this:
+
+![Changed resources header rule output](<../../assets/screenshots/notification-policy-pr.png>)

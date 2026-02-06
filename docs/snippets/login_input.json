@@ -1,0 +1,37 @@
+{
+  "request": {
+    "remote_ip": "string - IP address of the request origin",
+    "timestamp_ns": "integer - Unix timestamp in nanoseconds"
+  },
+  "attachment": "object - Attachment data (may be null)",
+  "session": {
+    "account_name": "string - Account name for machine sessions",
+    "admin": "boolean - Whether the session has admin privileges",
+    "creator_ip": "string - IP address where the session was created",
+    "login": "string - Login identifier",
+    "machine": "boolean - Whether this is a machine session",
+    "member": "boolean - Whether the user is a member of the account",
+    "name": "string - Display name of the user",
+    "stack_id": "string - Stack ID for machine sessions",
+    "teams": [
+      "string - item"
+    ]
+  },
+  "spaces": [
+    {
+      "id": "string - Space identifier",
+      "labels": [
+        "string - item"
+      ],
+      "name": "string - Space display name"
+    }
+  ],
+  "roles": [
+    {
+      "id": "string - Role identifier",
+      "name": "string - Role display name",
+      "slug": "string - Role slug",
+      "ulid": "string - Role ULID (Universally Unique Lexicographically Sortable Identifier)"
+    }
+  ]
+}

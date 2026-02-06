@@ -6,169 +6,205 @@ description: >-
 
 # Environment
 
-If you take a look at the Environment screen of a stack you will notice it's pretty busy - in fact it's the second busiest view in Spacelift ([run](../run/README.md) being the undisputed winner). Ultimately though, all the records here are either [environment variables](environment.md#environment-variables) or [mounted files](environment.md#mounted-files). The main part of the view represents the synthetic outcome determining what your run will "see" when executed. If this does not make sense yet, please hang on and read the remainder of this article.
+The Environment screen of a stack displays all configured [environment variables](environment.md#environment-variables), [mounted files](environment.md#mounted-files), and attached contexts. The main part of the view represents the synthetic outcome showing what your run will "see" when executed.
 
-![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.26.10 PM.png>)
+![Stack environment view](<../../assets/screenshots/stack/environment_view.png>)
 
 ## Environment variables
 
-The concept of environment variables is instinctively understood by all programmers. It's represented as a key-value mapping available to all processes running in a given environment. Both with Pulumi and OpenTofu/Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_` they are used in OpenTofu/Terraform to [use environment variables as OpenTofu/Terraform](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"} _input variables_.
+Environment variables are key-value mappings available to all processes running in a given environment. With both Pulumi and OpenTofu/Terraform, environment variables are frequently used to configure providers. Additionally, when prefixed with `TF_VAR_`, environment variables are used as [OpenTofu/Terraform input variables](https://www.terraform.io/docs/configuration/variables.html#environment-variables){: rel="nofollow"}.
 
 !!! info
-    Spacelift does not provide a dedicated mechanism of defining [OpenTofu/Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases without the need to introduce an extra entity.
+    Spacelift does not provide a dedicated mechanism for defining [OpenTofu/Terraform input variables](https://www.terraform.io/docs/language/values/variables.html){: rel="nofollow"} because the combination of `TF_VAR_` environment variables and mounted files should cover all use cases.
 
-Adding an environment variable is rather straightforward - don't worry yet about the visibility (difference between _plain_ and _secret_ variables). This is described in a [separate section](environment.md#a-note-on-visibility):
+### Adding environment variables
 
-![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.27.13 PM.png>)
+Adding an environment variable is straightforward:
 
-...and so is editing:
+1. In the _Ship Infra_ > _Stacks_ tab, choose the stack to add a variable to.
+2. Navigate to the **Environment** tab.
+3. In the _Environment variables_ section, click **Add variable**.
+4. Fill in variable details:
+      - **Name**: Enter a name for the variable.
+      - **Value**: Enter the variable's value.
+      - **Mark as secret**: Enable to mark the value as a secret, which will hide it in the Spacelift UI and via API.
+      - **Description** (optional): Enter a short (markdown-supported) description of the variable.
+5. Click **Create**.
 
-![Environment variable in the viewing mode](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.28.17 PM.png>)
+![Create a new environment variable](<../../assets/screenshots/stack/create-environment-variable.png>)
 
-![Environment variable in the editing mode ](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.27.56 PM.png>)
+If you mark the variable as secret, you will see this:
 
-### Environment variable interpolation
+![Create a secret environment variable](<../../assets/screenshots/stack/secret-env-value.png>)
 
-Note that environment variables can refer to other environment variables using simple interpolation. For example, if you have an environment variable `FOO` with a value of `bar` you can use it to define another environment variable `BAZ` as `${FOO}-baz` which will result in `bar-baz` being set as the value of `BAZ`. This interpolation is lazily and dynamically evaluated on the worker, and will work between environment variables defined in different ways, including [contexts](context.md).
+You can edit or delete the variable by clicking the three dots next to it. You cannot change the name of a variable, just the value.
+
+![Edit or delete environment variable](<../../assets/screenshots/stack/edit-env-variable.png>)
+
+#### User-configurable variables
+
+Spacelift users can configure environment variables to alter their stack behaviors. For example, if you have a large number of resources (statefiles, modules, etc.) in a stack causing operation timeouts, you can configure:
+
+- `SPACELIFT_STATE_ANALYTICS_UPLOAD_TIMEOUT`
+- `SPACELIFT_STATE_OUTPUTS_UPLOAD_TIMEOUT`
+- `SPACELIFT_MODULE_METADATA_UPLOAD_TIMEOUT`
+
+The `value` for these should be a duration string: one or more decimal numbers (which can include fractions) and a unit suffix, for example "`300ms`". Spacelift accepts these time units:
+
+- ns
+- us (or µs)
+- ms
+- s
+- m
+
+You can set the timeout values to a maximum of 10 minutes.
+
+#### Environment variable interpolation
+
+Environment variables can refer to other environment variables using simple interpolation. For example, if you have an environment variable `FOO` with a value of `bar` you can use it to define another environment variable `BAZ` as `${FOO}-baz` which will result in `bar-baz` being set as the value of `BAZ`. This interpolation is dynamically evaluated on the worker, and will work between environment variables defined in different ways, including [contexts](context.md).
 
 ### Computed values
 
-You will possibly notice some environment variables being marked as `<computed>`, which means that their value is only computed at runtime. These are not directly set on the stack but come from various integrations - for example, AWS credentials (`AWS_ACCESS_KEY_ID` and friends) are set by the [AWS integration](../../integrations/cloud-providers/aws.md) and `SPACELIFT_API_TOKEN` is injected into each run to serve a number of purposes.
+You may notice some environment variables marked as `<computed>`, which means that their value is only computed at runtime. These are not directly set on the stack but come from various integrations. For example, AWS credentials (`AWS_ACCESS_KEY_ID` and friends) are set by the [AWS integration](../../integrations/cloud-providers/aws.md), and the `SPACELIFT_API_TOKEN` is injected into each run to serve a number of purposes.
 
-You cannot set a computed value but you can override it - that is, explicitly set an environment variable on a stack that has the same name as the variable that comes from integration. This is due to precedence rules that warrant its own [dedicated section](environment.md#a-note-on-visibility).
+You cannot set a computed value, but you can override it, which explicitly sets an environment variable on a stack that has the same name as the variable that comes from an integration. This is due to [precedence rules](#variable-visibility).
 
-Overriding a computed value is almost like editing a regular stack variable, although worth noticing is _Override_ replacing _Edit_ and the lack of _Delete_ action:
+You can override the computed value by clicking the three dots next to it.
 
-![Computed variable in the viewing mode](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (4).png>)
+![Override value](<../../assets/screenshots/stack/override-env-variable.png>)
 
-When you click _Override_, you can replace the value computed at runtime with a static one:
+When you click _Override_, you can replace the value computed at runtime with a static one.
 
-![Computed variable in the editing mode](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (5).png>)
+![Editing a computed variable value](<../../assets/screenshots/stack/override-value-drawer.png>)
 
-Note how it becomes a regular write-only variable upon saving:
-
-![](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (6).png>)
-
-If you delete this variable, it will again be replaced by the computed one. If you want to get rid of the computed variable entirely, you will need to disable the integration that originally led to its inclusion in this list.
+When you do so, the variable will become a normal, editable one. If you delete the variable, it will be replaced by the computed one. To remove a computed variable entirely, you will need to disable the integration that originally led to its inclusion in the list.
 
 #### Spacelift environment
 
-The _Spacelift environment_ section lists a special subset of [computed values](environment.md#computed-values) that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to OpenTofu/Terraform configuration, and their names always clearly suggest the content:
+The _Spacelift environment_ section lists a special subset of computed values that are injected into each run and that provide some Spacelift-specific metadata about the context of the job being executed. These are prefixed so that they can be used directly as input variables to OpenTofu/Terraform configuration, and their names always clearly suggest the content:
 
-| Environment Variable               | Type   | Description                                                           | Possible Values / Format                                                                                                                                                         |
-|------------------------------------|--------|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TF_VAR_spacelift_account_name      | string | Spacelift account name.                                               | `<ACCOUNT_NAME>.app.spacelift.io`                                                                                                                                                |
-| TF_VAR_spacelift_commit_branch     | string | The commit branch in the Version Control System (VCS).                | e.g., `main`, `develop`, `feature/branch-name`                                                                                                                                   |
-| TF_VAR_spacelift_commit_sha        | string | The SHA of the commit in the Version Control System (VCS).            | Git commit SHA (40-character hash, e.g., `0123456789abcdef0123456789abcdef01234567`)                                                                                             |
-| TF_VAR_spacelift_local_preview     | boolean| Indicates if the local-preview feature is enabled for the stack.      | `true` or `false`                                                                                                                                                                |
-| TF_VAR_spacelift_project_root      | string | The project root defined in the stack for the Version Control System. | Relative path (e.g., `src/app`)                                                                                                                                                  |
-| TF_VAR_spacelift_repository        | string | The name of the repository in the Version Control System (VCS).       | Format: `owner/repo`                                                                                                                                                             |
-| TF_VAR_spacelift_run_id            | string | The unique Run ID for the current run.                                | UUID-like format (e.g., `01JKZAHVAQHFM8CC3EA5HWRMP1`)                                                                                                                            |
-| TF_VAR_spacelift_run_state         | enum   | The state of the current run.                                         | `QUEUED`, `CANCELED`, `INITIALIZING`, `PLANNING`, `FAILED`, `FINISHED`, `UNCONFIRMED`, `DISCARDED`, `CONFIRMED`, `APPLYING`, `PERFORMING`, `STOPPED`, `DESTROYING`, `PREPARING`, `PREPARING_APPLY`, `SKIPPED`, `REPLAN_REQUESTED`, `PENDING` (DEPRECATED), `READY`, `PREPARING_REPLAN`, `PENDING_REVIEW` |
-| TF_VAR_spacelift_run_trigger       | string | The trigger information of the run.                                   | e.g., `Username`, `git commit`, `trigger policy`, `schedule identifier`, `API keys`, `reconciliation runs`, `modules`                                                            |
-| TF_VAR_spacelift_run_type          | enum   | The type of the current run.                                          | `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DESTROY`, `PARSE`                                                                                                                     |
-| TF_VAR_spacelift_space_id          | string | The ID of the Space that the stack belongs to.                        | e.g., `root` (for the default space)                                                                                                                                             |
-| TF_VAR_spacelift_stack_branch      | string | The tracked branch for the stack.                                     | e.g., `main`, `production`                                                                                                                                                       |
-| TF_VAR_spacelift_stack_id          | string | The ID of the stack.                                                  | e.g., `myfirststack`                                                                                                                                                             |
-| TF_VAR_spacelift_stack_labels      | string | The labels attached to the stack.                                     | Comma-separated list (e.g., `feature:add_plan_pr_comment,newlabel`)                                                                                                              |
-| TF_VAR_spacelift_stack_labels_list | string | The labels attached to the stack expressed as list.                   | HCL list (e.g., `["feature:add_plan_pr_comment","newlabel"]`)                                                                                                                    |
-| TF_VAR_spacelift_workspace_root    | string | The workspace root information.                                       | Absolute path (e.g., `/mnt/workspace`)                                                                                                                                           |
+| Environment Variable | Type | Description | Possible Values / Format |
+| -------------------- | -----| ----------- | ----------------------- |
+| TF_VAR_spacelift_account_name | string | Spacelift account name. | `<ACCOUNT_NAME>.app.spacelift.io` |
+| TF_VAR_spacelift_commit_branch | string | The commit branch in the Version Control System (VCS). | e.g., `main`, `develop`, `feature/branch-name` |
+| TF_VAR_spacelift_commit_sha | string | The SHA of the commit in the Version Control System (VCS). | Git commit SHA (40-character hash, e.g., `0123456789abcdef0123456789abcdef01234567`) |
+| TF_VAR_spacelift_local_preview | boolean | Indicates if the local-preview feature is enabled for the stack. | `true` or `false` |
+| TF_VAR_spacelift_project_root | string | The project root defined in the stack for the Version Control System. | Relative path (e.g., `src/app`) |
+| TF_VAR_spacelift_repository | string | The name of the repository in the Version Control System (VCS). | Format: `owner/repo` |
+| TF_VAR_spacelift_run_id | string | The unique Run ID for the current run. | UUID-like format (e.g., `01JKZAHVAQHFM8CC3EA5HWRMP1`) |
+| TF_VAR_spacelift_run_state | enum | The state of the current run. | `QUEUED`, `CANCELED`, `INITIALIZING`, `PLANNING`, `FAILED`, `FINISHED`, `UNCONFIRMED`, `DISCARDED`, `CONFIRMED`, `APPLYING`, `PERFORMING`, `STOPPED`, `DESTROYING`, `PREPARING`, `PREPARING_APPLY`, `SKIPPED`, `REPLAN_REQUESTED`, `PENDING` (DEPRECATED), `READY`, `PREPARING_REPLAN`, `PENDING_REVIEW` |
+| TF_VAR_spacelift_run_trigger | string | The trigger information of the run. | e.g., `Username`, `git commit`, `trigger policy`, `schedule identifier`, `API keys`, `reconciliation runs`, `modules` |
+| TF_VAR_spacelift_run_type | enum | The type of the current run. | `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, `DESTROY`, `PARSE` |
+| TF_VAR_spacelift_space_id | string | The ID of the Space that the stack belongs to. | e.g., `root` (for the default space) |
+| TF_VAR_spacelift_stack_branch | string | The tracked branch for the stack. | e.g., `main`, `production` |
+| TF_VAR_spacelift_stack_id | string | The ID of the stack. | e.g., `myfirststack` |
+| TF_VAR_spacelift_stack_labels | string | The labels attached to the stack. | Comma-separated list (e.g., `feature:add_plan_pr_comment,newlabel`) |
+| TF_VAR_spacelift_stack_labels_list | string | The labels attached to the stack expressed as list. | HCL list (e.g., `["feature:add_plan_pr_comment","newlabel"]`) |
+| TF_VAR_spacelift_workspace_root | string | The workspace root information. | Absolute path (e.g., `/mnt/workspace`) |
 
 !!! info
-    Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables, to avoid confusion.
+    Unless you know exactly what you're doing, we generally **discourage overriding** these dynamic variables.
 
 #### Per-stage environment variables
 
-The Spacelift flow can be broken down into a number of stages - most importantly:
+The Spacelift flow can be broken down into a number of stages, most importantly:
 
-- [Initializing](../run/README.md#initializing), where we prepare the workspace;
-- [Planning](../run/proposed.md#planning), which calculates the changes;
-- [Applying](../run/tracked.md#applying), which makes the actual changes;
+- [Initializing](../run/README.md#initializing): Prepare the workspace.
+- [Planning](../run/proposed.md#planning): Calculate the changes.
+- [Applying](../run/tracked.md#applying): Make the actual changes.
 
-In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any actual changes to your resources and your state and needs the credentials that support it. Yet frequently, the practice is to pass the same credentials to all stages. The reason for that is either the lack of awareness or - more often - the limitations in the tooling. Depending on your flow, this may be a potential security issue because even if you [manually review every job](../run/tracked.md#approval-flow) before it reaches the [_Applying_](../run/tracked.md#applying) stage, [the Planning phase can do a lot of damage](https://alex.kaskaso.li/post/terraform-plan-rce){: rel="nofollow"}.
+In this model, only the [_Applying_](../run/tracked.md#applying) phase makes any actual changes to your resources and your state and needs the credentials that support it. However, we often see users passing the same credentials to all stages. Depending on your flow, this can be a  security issue because even if you [manually review every job](../run/tracked.md#approval-flow) before it reaches the [_applying_](../run/tracked.md#applying) stage, [the _planning_ phase can do a lot of damage](https://owasp.org/www-project-top-10-ci-cd-security-risks/CICD-SEC-04-Poisoned-Pipeline-Execution){: rel="nofollow"}.
 
-Spacelift supports a more security-conscious approach by allowing users to define variables that are passed to read (in practice, everything except for [Applying](../run/tracked.md#applying)) and write stages. By default, we pass an environment variable to all stages, but prefixes can be used to change the default behavior.
+#### Environment variable prefixes
 
-An environment variable whose name starts with the `ro_` prefix is only passed to read stages but not to the write ([_Applying_](../run/tracked.md#applying)) stage. On the other hand, an environment variable whose name starts with the `wo_` prefix is only passed to the write ([_Applying_](../run/tracked.md#applying)) stage but not to the read ones.
+Spacelift supports a more security-conscious approach by allowing users to define variables that are passed to _read_ (in practice, everything except for [_applying_](../run/tracked.md#applying)) and _write_ stages. By default, we pass an environment variable to all stages, but prefixes can be used to change the default behavior. For example:
+
+- `ro_`: An environment variable whose name starts with the `ro_` (read only) prefix is only passed to read stages but not to the write ([_applying_](../run/tracked.md#applying)) stage.
+- `wo_`: An environment variable whose name starts with the `wo_` (write only) prefix is only passed to the write ([_applying_](../run/tracked.md#applying)) stage but not to the read ones.
 
 Combining the two prefixes makes it easy to create flows that limit the exposure of admin credentials to the code that has been thoroughly reviewed. The example below uses a `GITHUB_TOKEN` environment variable used by the [GitHub Terraform provider](https://registry.terraform.io/providers/integrations/github/latest/docs){: rel="nofollow"} variable split into two separate environment variables:
 
-![](../../assets/screenshots/Environment_·_Bacon_bacon.png)
+![Using environment variable prefixes](<../../assets/screenshots/Environment_·_Bacon_bacon.png>)
 
-The first token will potentially be exposed to less-trusted code, so it makes sense to create it with read-only permissions. The second token on the other hand will only be exposed to the reviewed code and can be given write or admin permissions.
+The first token will potentially be exposed to less-trusted code, so it makes sense to create it with read-only permissions. The second token will only be exposed to the reviewed code and can be given write (or admin) permissions.
 
 A similar approach can be used for AWS, GCP, Azure, or any other cloud provider credentials.
 
 !!! info
-    Newlines are not supported in environment variables. Alternatively mounted files can be used, base64 encoding / decoding, or removing the newlines where it would be possible to do so.
+    Newlines are not supported in environment variables. Alternatively, you can use mounted files, base64 encoding/decoding, or removing newlines where possible.
 
 ## Mounted files
 
-Every now and then an environment variable is not what you need - you need a file instead. Terraform Kubernetes provider is a great example - one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path){: rel="nofollow"} which needs to be present in your workspace as well.
+Every now and then an environment variable is not what you need; you need a file instead. Terraform's Kubernetes provider is a great example, as one of the common ways of configuring it involves setting a [`KUBECONFIG` variable pointing to the actual config file](https://www.terraform.io/docs/providers/kubernetes/index.html#config_path){: rel="nofollow"} which needs to be present in your workspace as well.
 
-It's almost like creating an environment variable, though instead of typing (or pasting) the value you'll be uploading a file:
+### Adding mounted files
 
-![Before uploading a file](<../../assets/screenshots/Editing_environment_·_Managed_stack (2).png>)
+1. In the _Ship Infra_ > _Stacks_ tab, choose the stack to add a mounted file to.
+2. Navigate to the **Environment** tab.
+3. In the _Mounted files_ section, click **Add file**.
+4. Fill in file details:
+      - **Path**: Enter the path for the mounted file, which will begin with `/mnt/workspace/`.
+      - **Mark as secret**: Enable to mark the value as a secret, which will hide it in the Spacelift UI and via API.
+      - **Description** (optional): Enter a short (markdown-supported) description of the variable.
+      - **File content**: Click **Upload** to add a file from your device, or **Add manually** to manually enter the details of the mounted file.
+5. Click **Create**.
 
-![File uploaded](<../../assets/screenshots/Editing_environment_·_Managed_stack (3).png>)
+![Create a new mounted file](<../../assets/screenshots/stack/create-mounted-file.png>)
+
+You can give your mounted file a different name than the uploaded file. You can also use `/` characters in the file path to nest it deeper in directory tree. For example, `a/b/c/d/e.json` is a perfectly valid file path.
+
+Similar to environment variables, mounted files can have different [visibility settings](#variable-visibility). Plaintext (non-secret) files can be downloaded from the UI or API, while secret files will only be visible to the [run](../run/README.md) executed for the [stack](../stack/README.md).
 
 !!! info
-    Notice how you can give your file a name that's different to the name of the uploaded entity. In fact, you can use `/` characters in the file path to nest it deeper in directory tree - for example `a/b/c/d/e.json` is a perfectly valid file path.
-
-Similar to environment variables, mounted files can have different visibility settings - you can learn more about it [here](environment.md#a-note-on-visibility). One thing to note here is that plaintext files can be downloaded back straight from the UI or API while secret ones will only be visible to the [run](../run/README.md) executed for the [stack](../stack/README.md).
-
-!!! info
-    Mounted files are limited to 2 MB in size. If you need to inject larger files into your workspace, we suggest that you make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
+    Mounted files are limited to 2 MB in size. If you need to inject larger files into your workspace, make them part of the [Docker runner image](../../integrations/docker.md#customizing-the-runner-image), or retrieve them dynamically using something like _wget_ or _curl_.
 
 ### Project structure
 
-When discussing mounted files, it is important to understand the structure of the Spacelift workspace. Every Spacelift workload gets a dedicated directory `/mnt/workspace/`, which also serves as a root for all the mounted files.
+When using mounted files, it's important to understand the structure of the Spacelift workspace. Every Spacelift workload gets a dedicated directory `/mnt/workspace/`, which also serves as a root for all the mounted files.
 
 Your Git repository is cloned into `/mnt/workspace/source/`, which also serves as the working directory for your project, unless explicitly overridden by the project root configuration setting (either on the [stack level](../stack/stack-settings.md#project-root) or on in the [runtime configuration](runtime-configuration/README.md#project_root-setting)).
 
 !!! warning
-    Mounted files may be put into `/mnt/workspace/source/` as well and it's a legitimate use case, for example, to dynamically inject backend settings or even add extra infra definitions. Just **beware of path clashes** as mounted files will **override your project source code** in case of conflict. Sometimes this is what you want, sometimes not.
+    Mounted files may be put into `/mnt/workspace/source/` as well. It's a legitimate use case to dynamically inject backend settings or even add extra infra definitions. Just beware of path clashes, as mounted files will **override your project source code** in case of conflict.
 
 ## Attached contexts
 
-While contexts are important enough to [warrant their own dedicated article](context.md), it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/README.md), as well as with [computed values](environment.md#computed-values). Perhaps you've noticed the blue labels on one of the earlier screenshots. If you haven't, here they are again, with a proper highlight:
+We cover [contexts](./context.md) in more depth in this article, but it's also crucial to understand how they interact with [environment variables](environment.md#environment-variables), [mounted files](environment.md#mounted-files) set directly on the [stack](../stack/README.md), and [computed values](environment.md#computed-values).
 
-![](<../../assets/screenshots/Screen Shot 2022-07-02 at 2.30.34 PM.png>)
+### Adding attached contexts
 
-The highlighted label is the name of the [attached context](context.md#attaching-contexts) that supplies those values. The sorted list of attached contexts is located below the calculated environment view, and each entry can be unfurled to see its exact content.
+1. In the _Ship Infra_ > _Stacks_ tab, choose the stack to add a variable to.
+2. Navigate to the **Contexts** tab.
+3. Click **Attach context**.
+4. Fill in details:
+      - **Select context**: Enter the name of the context to attach.
+      - **Priority**: Enter a number value for the priority of the context. If multiple contexts are attached to a stack, they will be evaluated starting with the lowest priority.
+5. Click **Attach**.
 
-Similar to [computed values](environment.md#computed-values), those coming from contexts can also be overridden. Here's an example:
+[Attached contexts](./context.md#attaching-and-detaching-contexts) that supply a variable's value are displayed as blue labels in the environment variable list.
 
-![Variable from an attached context in the viewing mode](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (9).png>)
+![Attached context labels](<../../assets/screenshots/stack/attached-context-labels.png>)
 
-![Variable from an attached context in the editing mode](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (10).png>)
+Similar to [computed values](#computed-values), you can override the attached value by clicking the three dots next to it, clicking **Override**, entering the new value, then clicking **Save**.
 
-![Context variable overridden with a stack variable](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (11).png>)
+When you do so, the variable will become a normal, editable one. If you delete the variable, it will be replaced by the value defined by the context. To remove the context-provided variable entirely, you will need to detach the [context](./context.md).
 
-Note how we can now _Delete_ the variable - this would revert it to the value defined by the context. Contexts can both provide [environment variables](environment.md#environment-variables) as well as [mounted files](environment.md#mounted-files), and both can be overridden directly on the stack.
+Contexts can both provide [environment variables](#environment-variables) as well as [mounted files](#mounted-files), and both can be overridden directly on the stack.
 
-!!! info
-    If you want to get rid of the context-provided variable or file entirely, you will need to [detach the context itself](context.md).
+## Variable visibility
 
-## A note on visibility
+[Environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) can be _plain_ and _secret_. Here they are in the form for the new environment variable:
 
-Perhaps you may have noticed how [environment variables](environment.md#environment-variables) and [mounted files](environment.md#mounted-files) come in two flavors - _plain_ and _secret_. Here they are in the form for the new environment variable:
+Functionally, the difference between the two is simple:
 
-![](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (12).png>)
+- Plain values are accessible in the web GUI and through the [API](../../integrations/api.md).
+- Secret values are only accessible to [runs](../run/README.md) and [tasks](../run/task.md).
 
-...and here they are in the form for the new mounted file:
+Additionally, plain mounted files can be downloaded from the web GUI or through the [API](../../integrations/api.md), and secret can't.
 
-![](<../../assets/screenshots/Editing_environment_·_Managed_stack (4).png>)
+### Check a secret variable value
 
-Functionally, the difference between the two is pretty simple - plain values are accessible in the web GUI and through the [API](../../integrations/api.md), and secret ones aren't - they're only made available to [Runs](../run/README.md) and [Tasks](../run/task.md). Here's an example of two environment variables in the GUI - one plain, and one secret (also referred to as _write-only_):
-
-![Note the asterisks for the secret (write-only) variable](<../../assets/screenshots/Editing_environment_·_Stack_managed_by_Spacelift (15).png>)
-
-Mounted files are similar - plain can be downloaded from the web GUI or through the [API](../../integrations/api.md), and secret can't. Here's the difference in the GUI:
-
-![The grey icon above is meant to indicate that you cannot download the mounted file](<../../assets/screenshots/Environment_·_Managed_stack (2).png>)
-
-While the content of secret (write-only) environment variables and mounted files is not accessible through the GUI or [API](../../integrations/api.md), the checksums are always available so if you have the value handy and just want to check if that's the same value as the one set in Spacelift, you can compare its checksum with the one reported by us - check out the most recent [GraphQL API](../../integrations/api.md#graphql-schema-s) schema for more details.
+While the content of secret (write-only) environment variables and mounted files is hidden in the GUI or [API](../../integrations/api.md), the checksums are always available. If you have the value and want to check if it's the same value as the one set in Spacelift, you can compare its checksum with the one reported by Spacelift via the [GraphQL API](../../integrations/api.md#view-the-graphql-schema).
 
 !!! info
-    Though all of our data is [encrypted both at rest and in transit](../../product/security/README.md#encryption), secret (write-only) values enjoy two extra layers of protection.
+    Though all of our data is [encrypted both at rest and in transit](../../product/security/README.md#encryption), secret (write-only) values have two extra layers of protection.

@@ -5,55 +5,54 @@
     This feature is only available to paid Spacelift accounts. Please check out our [pricing page](https://spacelift.io/pricing){: rel="nofollow"} for more information.
 {% endif %}
 
-## Introduction
-
 Policy-as-code is the idea of expressing rules using a high-level programming language and treating them as you normally treat code, which includes version control as well as continuous integration and deployment. This approach extends the infrastructure-as-code approach to also cover the rules governing this infrastructure, and the platform that manages it.
 
 Spacelift as a development platform is built around this concept and allows defining policies that involve various decision points in the application. User-defined policies can decide:
 
-- Login: [who gets to log in](login-policy.md) to your Spacelift account and with what level of access;
-- Access: [who gets to access individual Stacks](stack-access-policy.md) and with what level of access;
-- Approval: [who can approve or reject a run](approval-policy.md) and how a run can be approved;
-- Initialization: [which Runs and Tasks can be started](run-initialization-policy.md);
-- Notification: [routing and filtering notifications](notification-policy.md);
-- Plan: [which changes can be applied](terraform-plan-policy.md);
-- Push: [how Git push events are interpreted](push-policy/README.md);
-- Task: [which one-off commands can be executed](task-run-policy.md);
-- Trigger: [what happens when blocking runs terminate](trigger-policy.md);
+- **Login**: [Who gets to log in](login-policy.md) to your Spacelift account and with what level of access.
+- **Access**: [Who gets to access individual Stacks](stack-access-policy.md) and with what level of access. Access policies have been replaced by [space access control](../spaces/access-control.md).
+- **Approval**: [Who can approve or reject a run](approval-policy.md) and how a run can be approved.
+- **Initialization**: [Which runs and tasks can be started](deprecated/run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
+- **Notification**: [Routing and filtering notifications](notification-policy.md).
+- **Plan**: [Which changes can be applied](terraform-plan-policy.md).
+- **Push**: [How Git push events are interpreted](push-policy/README.md).
+- **Task**: [Which one-off commands can be executed](deprecated/task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
+- **Trigger**: [What happens when blocking runs terminate](trigger-policy.md). Trigger policies have been mostly replaced by [stack dependencies](../stack/stack-dependencies.md).
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
 
-| Type                                           | Purpose                                                                                        | Types                 | Returns            | Rules                                                     |
-|------------------------------------------------|------------------------------------------------------------------------------------------------|-----------------------|--------------------|-----------------------------------------------------------|
-| [Login](login-policy.md)                       | Allow or deny login, grant admin access                                                        | Positive and negative | `boolean`          | `allow`, `admin`, `deny`, `deny_admin`                    |
-| [Access](stack-access-policy.md)               | Grant or deny appropriate level of stack access                                                | Positive and negative | `boolean`          | `read`, `write`, `deny`, `deny_write`                     |
-| [Approval](approval-policy.md)                 | Who can approve or reject a run and how a run can be approved                                  | Positive and negative | `boolean`          | `approve, reject`                                         |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing)  | Negative              | `set<string>`      | `deny`                                                    |
-| [Notification](notification-policy.md)         | Routes and filters notifications                                                               | Positive              | `map<string, any>` | `inbox`, `slack`, `webhook`                               |
-| [Plan](terraform-plan-policy.md)               | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative              | `set<string>`      | `deny`, `warn`                                            |
-| [Push](push-policy/README.md)                     | Determines how a Git push event is interpreted                                                 | Positive and negative | `boolean`          | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md)                     | Blocks suspicious [tasks](../run/task.md) from running                                         | Negative              | `set<string>`      | `deny`                                                    |
-| [Trigger](trigger-policy.md)                   | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md)   | Positive              | `set<string>`      | `trigger`                                                 |
+| Type | Purpose | Types | Returns | Rules |
+|------|---------|-------|---------|-------|
+| [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin` |
+| [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
+| [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve, reject` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
+| [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
+| [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
+| [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
-    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that are ready to use or that you could tweak to meet your specific needs.
-    For up to date policy input information you can also refer to [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){:+ rel="nofollow"}.
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that are ready to use or alter to meet your specific needs.
+
+    For up-to-date policy input information you can also refer to [official Spacelift policy contract schema](https://app.spacelift.io/.well-known/policy-contract.json){:+ rel="nofollow"}.
 
     If you cannot find what you are looking for, please reach out to [our support](../../product/support/README.md#contact-support) and we will craft a policy to do exactly what you need.
 
 ## How it works
 
-Spacelift uses an open-source project called [**Open Policy Agent**](https://www.openpolicyagent.org/){: rel="nofollow"} and its rule language, [**Rego**](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}**,** to execute user-defined pieces of code we call **Policies** at various decision points. Policies come in different flavors that we call **types**, with each type being executed at a different decision point.
+Spacelift uses an open-source project called [**Open Policy Agent**](https://www.openpolicyagent.org/){: rel="nofollow"} and its rule language, [**Rego**](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}, to execute policies at various decision points.
 
-You can think of policies as snippets of code that receive some JSON-formatted input and are allowed to produce some output in a predefined form. This input normally represents the data that should be enough to make some decision in its context. Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
+You can think of policies as snippets of code that receive some JSON-formatted input (the data needed to make a decision) and are allowed to produce an output in a predefined form.  Each policy type exposes slightly different data, so please refer to their respective schemas for more information.
 
-Except for [login policies](login-policy.md) that are global, all other policy types operate on the [stack](../stack/README.md) level, and they can be attached to multiple stacks, just as [contexts](../configuration/context.md) are, which both facilitates code reuse and allows flexibility. Policies only affect stacks they're attached to. Please refer to the [relevant section of this article](#attaching-policies) for more information about attaching policies.
+[Login policies](./login-policy.md) are global. All other policy types operate on the [stack](../stack/README.md) level and can be attached to multiple stacks, like [contexts](../configuration/context.md), which facilitates code reuse and allows flexibility. Policies only affect stacks they're [attached to](#attaching-policies).
 
-Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. However, once these policies are evaluated against the same input, their results are combined. So if you allow user login from one policy but deny it from another, the result will still be a denial.
+Multiple policies of the same type can be attached to a single stack, in which case they are evaluated separately to avoid having their code (like local variables and helper rules) affect one another. Once these policies are evaluated against the same input, their results are **combined**. So if you allow user login from one policy but deny it from another, the result will still be a denial.
 
-### Version
+### OPA version
 
-We update the version of OPA that we are using regularly, to find out the version we are currently running, you can use the following query:
+We update the version of OPA that we are using regularly. To find out the version we are currently running, use this query:
 
 ```graphql
 query getOPAVersion{
@@ -67,9 +66,17 @@ For more detailed information about the GraphQL API and its integration, please 
 
 ### Policy language
 
-[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"} - the language that we're using to execute policies - is a very elegant, Turing incomplete data query language. It takes a few hours (tops) to get your head around all of its quirks but if you can handle SQL and the likes of [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you'll find Rego pretty familiar. For each policy, we also give you plenty of examples that you can tweak to achieve your goals, and each of those examples comes with a link allowing you to execute it in [the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}.
+[Rego](https://www.openpolicyagent.org/docs/latest/policy-language/){: rel="nofollow"}, the language we're using to execute policies, is a very elegant, Turing incomplete data query language. If you know SQL and [`jq`](https://stedolan.github.io/jq/){: rel="nofollow"}, you should find Rego familiar and only need a few hours to understand its quirks. For each policy, we also provide examples you can tweak to achieve your goals.
 
-### Constraints
+#### Rego version support
+
+Spacelift supports both Rego v0 and v1. You can switch between versions at any time when editing a policy using the version selector in the policy editor.
+
+![Select rego version](<../../assets/screenshots/rego-version-selector.png>)
+
+**We recommend using Rego v1 for all new policies.** Rego v1 introduces improved syntax and stricter semantics that make policies more robust and easier to maintain. For information on migrating existing policies from v0 to v1, see the [OPA migration guide](https://www.openpolicyagent.org/docs/v0-upgrade#changes-to-rego-in-opa-v10){: rel="nofollow"}.
+
+### Rego constraints
 
 To keep policies functionally pure and relatively snappy, we disabled some Rego built-ins that can query external or runtime data. These are:
 
@@ -79,91 +86,176 @@ To keep policies functionally pure and relatively snappy, we disabled some Rego 
 - `time.now_ns`
 - `trace`
 
-Disabling `time.now_ns` may seem surprising at first - after all, what's wrong with getting the current timestamp? Alas, depending on the current timestamp will make your policies impure and thus tricky to test - and we encourage you to [test your policies thoroughly](#testing-policies)! You will notice though that the current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in plan policy payloads, so please use it instead.
+Policies must be self-contained and cannot refer to external resources (e.g. files in a VCS repository).
 
-Policies must be self-contained and cannot refer to external resources (e.g., files in a VCS repository).
+!!! info
 
-## Return Types
+    Disabling `time.now_ns` may seem surprising, but depending on the current timestamp it can make your policies impure and thus tricky to test. We encourage you to [test your policies thoroughly](#testing-policies)!
 
-There are currently nine types of supported policies and while each of them is different, they have a lot in common. In particular, they can fall into a few groups based on what rules are expected to return.
+    The current timestamp in Rego-compatible form (Unix nanoseconds) is available as `spacelift.request.timestamp_ns` in plan policy payloads, so please use it instead.
+
+## Policy returns and rules
+
+Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
+
+| Type  | Purpose  | Types   | Returns   | Rules  |
+|-------|----------|---------|-----------|--------|
+| [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin`|
+| [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
+| [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve`, `reject` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>` | `deny` |
+| [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
+| [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
+| [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
+
+!!! tip
+    We maintain a [library of example policies](https://github.com/spacelift-io/spacelift-policies-example-library){: rel="nofollow"} that you can tweak to meet your specific needs or use as-is.
+
+    If you cannot find what you are looking for, please reach out to [our support](../../product/support/README.md) and we will craft a policy to do exactly what you need.
 
 ### Boolean
 
-[Login](login-policy.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative - that is, they can explicitly **allow** or **deny** access.
+[Login](login-policy.md) and [access](stack-access-policy.md) policies expect rules to return a **boolean value** (_true_ or _false_). Each type of policy defines its own set of rules corresponding to different access levels. In these cases, various types of rules can be positive or negative (that is, they can explicitly **allow** or **deny** access).
 
-### Set of Strings
+### Set of strings
 
-The second group of policies ([initialization](run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions - it's only their lack that counts as an implicit success.
+The second group of policies ([initialization](deprecated/run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](deprecated/task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions. Only their lack counts as an implicit success.
 
 Here's a practical difference between the two types:
 
-```opa title="boolean.rego"
-package spacelift
+=== "Boolean returns"
 
-# This is a simple deny rule.
-# When it matches, no feedback is provided.
-deny {
-  true
-}
-```
+    === "Rego v1"
+        ```opa title="boolean.rego"
+        package spacelift
 
-```opa title="string.rego"
-package spacelift
+        # This is a simple deny rule.
+        # When it matches, no feedback is provided.
+        deny if {
+          true
+        }
+        ```
 
-# This is a deny rule with string value.
-# When it matches, that value is reported to the user.
-deny["the user will see this"] {
-  true
-}
-```
+    === "Rego v0"
+        ```opa title="boolean.rego"
+        package spacelift
+
+        # This is a simple deny rule.
+        # When it matches, no feedback is provided.
+        deny {
+          true
+        }
+        ```
+
+=== "String returns"
+
+    === "Rego v1"
+        ```opa title="string.rego"
+        package spacelift
+
+        # This is a deny rule with string value.
+        # When it matches, that value is reported to the user.
+        deny contains "the user will see this" if {
+          true
+        }
+        ```
+
+    === "Rego v0"
+        ```opa title="string.rego"
+        package spacelift
+
+        # This is a deny rule with string value.
+        # When it matches, that value is reported to the user.
+        deny["the user will see this"] {
+          true
+        }
+        ```
 
 For the policies that generate a set of strings, you want these strings to be both informative and relevant, so you'll see this pattern a lot in the examples:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-we_dont_create := { "scary", "resource", "types" }
+    we_dont_create := {"scary", "resource", "types"}
 
-# This is an example of a plan policy.
-deny[sprintf("some rule violated (%s)", [resource.address])] {
-  some resource
-  created_resources[resource]
+    # This is an example of a plan policy.
+    deny contains sprintf("some rule violated (%s)", [resource.address]) if {
+      some resource in created_resources
 
-  we_dont_create[resource.type]
-}
-```
+      we_dont_create[resource.type]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    we_dont_create := {"scary", "resource", "types"}
+
+    # This is an example of a plan policy.
+    deny[sprintf("some rule violated (%s)", [resource.address])] {
+      some resource
+      created_resources[resource]
+
+      we_dont_create[resource.type]
+    }
+    ```
 
 ### Complex objects
 
-Final group of policies ([notification](notification-policy.md)) will generate and return more complex objects. These are typically JSON objects.
-In terms of syntax they are still very similar to other policies which return sets of strings, but they provide additional information inside the returned decision. For example here is a rule which will return a JSON object to be used when creating a custom notification:
+[Notification](notification-policy.md) policies will generate and return more complex objects, typically JSON objects. In terms of syntax, the returned values are still very similar to policies that return sets of strings, but they provide additional information inside the returned decision.
 
-```opa
-package spacelift
+For example, this rule which will return a JSON object to be used when creating a custom notification:
 
-inbox[{
-  "title": "Tracked run finished!",
-  "body": sprintf("Run ID: %s", [run.id]),
-  "severity": "INFO",
-}] {
-  run := input.run_updated.run
-  run.type == "TRACKED"
-  run.state == "FINISHED"
-}
-```
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-## Helper Functions
+    inbox contains {
+      "title": "Tracked run finished!",
+      "body": sprintf("Run ID: %s", [run.id]),
+      "severity": "INFO",
+    } if {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "FINISHED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    inbox[{
+      "title": "Tracked run finished!",
+      "body": sprintf("Run ID: %s", [run.id]),
+      "severity": "INFO",
+    }] {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "FINISHED"
+    }
+    ```
+
+### Helper functions
 
 The following helper functions can be used in Spacelift policies:
 
-| Name                     | Description                                                                                                                                                                            |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `output := sanitized(x)` | `output` is the string `x` sanitized using the same algorithm we use to sanitize secrets.                                                                                              |
-| `result := exec(x)`      | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools). |
+| Name | Description |
+| ---- | ----------- |
+| `output := sanitized(x)` | `output` is the string `x` sanitized using the same algorithm we use to sanitize secrets. |
+| `result := exec(x)` | Executes the command `x`. `result` is an object containing `status`, `stdout` and `stderr`. Only applicable for run initialization policies for [private workers](../worker-pools). |
 
 ## Creating policies
 
-There are two ways of creating policies - through the web UI and through the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter as it's much easier to manage down the line and [allows proper unit testing](#testing-policies). Here's how you'd define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration for completeness):
+You can create policies through the web UI and the [Terraform provider](../../vendors/terraform/terraform-provider.md). We generally suggest the latter, as it's much easier to manage down the line and [allows proper unit testing](#testing-policies).
+
+### With the Terraform provider
+
+Here's how you would define a plan policy in Terraform and attach it to a stack (also created here with minimal configuration):
 
 ```opa
 resource "spacelift_stack" "example-stack" {
@@ -186,138 +278,195 @@ resource "spacelift_policy_attachment" "example-attachment" {
 }
 ```
 
-On the other hand, if you want to create a policy in the UI, here's how you could go about that. **Note that you must be a Spacelift admin to manage policies**. First, go to the Policies screen in your account view, and click the _Create policy_ button:
+### With the web UI
 
-![Click the Create Policy button at the top right of the view.](<../../assets/screenshots/create-policy1.png>)
+**You must be a Spacelift admin to manage policies**.
 
-This takes you to the policy creation screen where you can choose the type of policy you want to create, and edit its body. For each type of policy you're also given an explanation and a few examples.
+You can create approval, push, plan, trigger, and notification policies in the web UI. [Login policies](./login-policy.md) are created in a different section of the UI.
 
-Once you're done, click on the _Create policy_ button to save it. Don't worry, policy body is mutable so you'll always be able to edit it if need be.
+![Click Create Policy at the top right of the view.](<../../assets/screenshots/create-policy1.png>)
+
+1. Navigate to the _Enforce Guardrails_ > _Policies_ tab in Spacelift.
+2. Click **Create policy**.
+3. Fill in the required policy details:
+      1. **Name**: Enter a unique, descriptive name for the policy.
+      2. **Type**: Select the type of policy from the dropdown.
+      3. **Space**: Select the space to create the policy in.
+      4. **Description** (optional): Enter a (markdown-supported) description for the policy.
+      5. **Labels** (optional): Add labels to help sort and filter your policies. You can use `autoattach:label` to attach the policy to stacks or modules with the chosen `label` automatically.
+4. Click **Continue** to edit the policy.
+      - You'll see an example policy body based on the type you chose. Remove the comments from any rules you'd like to apply and add or change rules as needed.
+5. Click **Create policy**. You can always edit policies as needed.
 
 ### Policy structure
 
 We prepend variable definitions to each policy. These variables can be different for each type, but the prepended code is very similar. Here's an example for the [Approval](approval-policy.md) policy:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# This is what Spacelift will query for when evaluating policies.
-result = {
-  "approve": approve,
-  "reject": reject,
-  "flag": flag,
-  "sample": sample,
-}
+    # This is what Spacelift will query for when evaluating policies.
+    result := {
+      "approve": approve,
+      "reject": reject,
+      "flag": flag,
+      "sample": sample,
+    }
 
-# Default to ensure that "approve" is defined.
-default approve = false
+    # Default to ensure that "approve" is defined.
+    default approve := false
 
-# Default to ensure that "reject" is defined.
-default reject = false
+    # Default to ensure that "reject" is defined.
+    default reject := false
 
-# Default to ensure that "sample" is defined.
-default sample = false
+    # Default to ensure that "sample" is defined.
+    default sample := false
 
-# Placeholder to ensure that "flag" will be a set.
-flag["never"] {
-  false
-}
-```
+    # Placeholder to ensure that "flag" will be a set.
+    flag contains "never" if {
+      false
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # This is what Spacelift will query for when evaluating policies.
+    result = {
+      "approve": approve,
+      "reject": reject,
+      "flag": flag,
+      "sample": sample,
+    }
+
+    # Default to ensure that "approve" is defined.
+    default approve = false
+
+    # Default to ensure that "reject" is defined.
+    default reject = false
+
+    # Default to ensure that "sample" is defined.
+    default sample = false
+
+    # Placeholder to ensure that "flag" will be a set.
+    flag["never"] {
+      false
+    }
+    ```
 
 !!! warning
-    Remember that you can't change predefined variable types. Doing so will result in a policy validation error and the policy won't be saved.
+    You can't change predefined variable types. Doing so will result in a policy validation error and the policy won't be saved.
 
 ## Attaching policies
 
-### Automatically
+### Automatically (with labels)
 
-Policies, with the exception of [Login policies](login-policy.md), can be automatically attached to stacks using the `autoattach:label` special label where `label` is the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
+With the exception of [login policies](login-policy.md), policies can be automatically attached to stacks using the `autoattach:label` special label. Replace `label` with the name of a label attached to stacks and/or modules in your Spacelift account you wish the policy to be attached to.
 
-#### Policy Attachment Example
+#### Policy attachment example
 
-In the example below, the policy will be automatically attached to all stacks/modules with the label `needs_approval`.
+Adding `autoattach:needs_approval` label to your policy will automatically attach the policy to all stacks/modules with the label `needs_approval`. This can be done with any label you're using on your stacks and modules.
 
-![Require at least one approval on all tracked runs for Stacks/Modules that have the label "needs_approval".](<../../assets/screenshots/approval_needed.png>)
+![Attach policy to anything with the needs_approval label](<../../assets/screenshots/approval_needed.png>)
 
-#### Wildcard Policy Attachments
+#### Wildcard policy attachments
 
-In addition to being able to automatically attach policies using a specific label, you can also choose to attach a policy to stacks/modules in the account using a wildcard, for example using `autoattach:*` as a label on a policy, will attach the policy to all stacks/modules.
+You can also attach a policy to stacks/modules using a wildcard. For example, using `autoattach:*` as a label will attach the policy to all stacks/modules.
 
 ### Manually
 
-In the web UI attaching policies is done in the stack management view, in the Policies tab:
+In the web UI, attaching policies is done in the stack management view:
 
-![Select a Policy and manually attach it to the Stack.](<../../assets/screenshots/Manually_attach_policies.png>)
+![Select a policy and manually attach it to the stack](<../../assets/screenshots/policies/Policies_AttachtoStack.png>)
+
+1. Navigate to the _Ship Infra_ > _Stacks_ tab.
+2. Click the name of the stack to attach a policy to.
+3. Click the **Policies** tab, then click **Attach policy**.
+4. Select policy details:
+    ![Attach a policy to a stack](<../../assets/screenshots/policies/AttachPolicyDrawer.png>)
+      - **Policy type**: Select the type of policy from the dropdown list.
+      - **Select policy**: Choose the specific policy to add from the dropdown list.
+5. Click **Attach**.
 
 ## Policy workbench
 
-One thing we've noticed while working with policies in practice is that it takes a while to get them right. This is not only because the concept or the underlying language introduce a learning curve, but also because the feedback cycle can be slow: write a plan policy, make a code change, trigger a run, verify policy behavior... rinse and repeat. This can easily take hours.
+Sometimes, it takes trial and error to get policies working as intended. This is due to several factors: an unfamiliarity with the concept, a learning curve with the policy language, and/or the slow feedback cycle. Generally, feedback can easily take hours as you iterate through writing a plan policy, making a code change, triggering a run, verifying policy behavior, and rinsing and repeating.
 
-Enter **policy workbench**. Policy workbench allows you to capture policy evaluation events so that you can adjust the policy independently and therefore shorten the entire cycle. In order to make use of the workbench, you will first need to [sample policy inputs](#sampling-policy-inputs).
+Enter **policy workbench**. Policy workbench captures policy evaluation events so that you can adjust the policy independently, shortening the entire cycle. In order to use the workbench, you will first need to sample policy inputs.
 
-### Sampling policy inputs
+### Sample policy inputs
 
-Each of Spacelift's policies supports an additional boolean rule called `sample`. Returning `true` from this rule means that the input to the policy evaluation is captured, along with the policy body at the time and the exact result of the policy evaluation. You can for example just capture every evaluation with a simple:
+Each of Spacelift's policies supports an additional boolean rule called `sample`. Returning `true` from this rule means that the input to the policy evaluation is captured, along with the policy body at the time and the exact result of the policy evaluation. You can, for example, capture every evaluation with a simple:
 
-```opa
-sample { true }
-```
+=== "Rego v1"
+    ```opa
+    sample if true
+    ```
 
-If that feels a bit simplistic and spammy, you can adjust this rule to capture only certain types of inputs. For example, in this case we will only want to capture evaluations that returned in an empty list for `deny` reasons (eg. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
+=== "Rego v0"
+    ```opa
+    sample { true }
+    ```
 
-```opa
-sample { count(deny) == 0 }
-```
+If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](deprecated/task-run-policy.md) policy):
 
-You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example relevant to a plan policy we will use the timestamp - note that since it's originally expressed in nanoseconds, we will turn it into milliseconds to get a better spread. We'll also want to sample every 10th evaluation:
+=== "Rego v1"
+    ```opa
+    sample if count(deny) == 0
+    ```
 
-```opa
-sample {
-  millis := round(input.spacelift.request.timestamp_ns / 1e6)
-  millis % 100 <= 10
-}
-```
+=== "Rego v0"
+    ```opa
+    sample { count(deny) == 0 }
+    ```
+
+You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example, we will use the timestamp turned into milliseconds from nanoseconds to get a better spread. We'll also sample every 10th evaluation:
+
+=== "Rego v1"
+    ```opa
+    sample if {
+      millis := round(input.spacelift.request.timestamp_ns / 1e6)
+      millis % 100 <= 10
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    sample {
+      millis := round(input.spacelift.request.timestamp_ns / 1e6)
+      millis % 100 <= 10
+    }
+    ```
 
 ### Why sample?
 
-Capturing all evaluations sounds tempting but it will also be extremely messy. We're only showing **100 most recent evaluations from the past 7 days**, so if you capture everything then the most valuable samples can be drowned by irrelevant or uninteresting ones. Also, sampling adds a small performance penalty to your operations.
+Capturing all evaluations sounds tempting, but it will also be extremely messy. Spacelift only shows the **100 most recent evaluations from the past 7 days**. If you capture everything, the most valuable samples can be drowned by irrelevant or uninteresting ones. Also, sampling adds a smaller performance penalty to your operations.
 
 ### Policy workbench in practice
 
-In order to show you how to work with the policy workbench, we are going to use a [task policy](task-run-policy.md) that whitelists just two tasks - an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty:
+To show you how to work with the policy workbench, we are going to use a [task policy](deprecated/task-run-policy.md) that allowlists just two tasks: an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty.
 
 !!! info
-    This example comes from our [test repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes, depending on whether you like to RTFM or not. We strongly recommend you give it a go.
+    This example comes from our [test Terraform repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes.
 
-![](<../../assets/screenshots/Sampling-1.png>)
+1. On the _Enforce Guardrails_ > _Policies_ tab, click the name of the policy to edit in the workbench.
+2. Click **Show simulation panel** on the right-hand side of the screen.
+    ![Show simulation panel button](<../../assets/screenshots/Simulation-panel.png>)
+3. If your policy has been evaluated and sampled, you will see the policy body on the left-hand side of the screen and a dropdown with timestamped evaluations (inputs) on the right-hand side. The evaluations are color-coded based on their outcomes.
+    ![See previous inputs](<../../assets/screenshots/Simulation-panel2.png>)
+4. Select one of the inputs in the dropdown, then click **Simulate**.
+    ![Simulate an input](<../../assets/screenshots/Simulation-panel3.png>)
+5. While running simulations, you can modify both the input and the policy body. If you change the policy body, or select an input that was evaluated using a different policy version, a warning will appear:
+    ![Simulation change warning](<../../assets/screenshots/Simulation-change1.png>)
+6. Click **Show changes** in the warning to view the exact differences between the policy body in the editor and the one used for the selected input.
+    ![Show changes](<../../assets/screenshots/Simulation-change2.png>)
+7. When you are satisfied with your updated policy, click **Save changes** so future evaluations use the new policy body.
 
-In order to get to the policy workbench, click on the Show simulation panel link on the right hand side of the screen:
+### Filtering samples
 
-![](<../../assets/screenshots/Simulation-panel.png>)
-
-If your policy has been used evaluated and sampled, your screen should look something like this:
-
-![](<../../assets/screenshots/Simulation-panel2.png>)
-
-On the left hand side you have the policy body. On the right hand side there's a dropdown with timestamped evaluations (inputs) of this policy, color-coded for their ultimate outcome. Selecting one of the inputs allows you to simulate the evaluation:
-
-![](<../../assets/screenshots/Simulation-panel3.png>)
-
-While running simulations, you can modify both the input and the policy body. If you change the policy body, or select an input that was evaluated using a different policy version, a warning will appear:
-
-![](<../../assets/screenshots/Simulation-change1.png>)
-
-Clicking the _Show changes_ link in this warning displays the exact differences between the policy body in the editor and the one used for the selected input:
-
-![](<../../assets/screenshots/Simulation-change2.png>)
-
-Once you are satisfied with your updated policy body, click the _Save changes_ button to ensure future evaluations use the new version.
-
-### Filtering Samples
-
-The Samples view offers powerful filtering options to help you quickly locate relevant samples.
-
-You can filter samples by:
+The samples view offers powerful filtering options to help you quickly locate relevant samples. You can filter samples by:
 
 - Stack name
 - Outcome
@@ -325,67 +474,95 @@ You can filter samples by:
 - Push branch
 - Stack repository
 
-![](<../../assets/screenshots/policy-samples.png>)
+![Samples view](<../../assets/screenshots/policy-samples.png>)
 
-Once you have identified the sample you want, click the three-dot menu (...) and select "Use to simulate" to run a simulation with that sample.
+Once you have identified the sample you want, click the three dots beside its outcome and select **Use to simulate** to run a simulation with that sample.
 
-### Is it safe?
+### Is policy sampling safe?
 
-Yes, policy sampling is perfectly safe. Session data may contain some personal information like username, name and IP, but that data is only persisted for 7 days. Most importantly, in [plan policies](terraform-plan-policy.md) the inputs hash all the string attributes of resources, ensuring that no sensitive data leaks through this means.
+Policy sampling is perfectly safe. Session data may contain some personal information like username, name, and IP, but that data is only persisted for 7 days. Most importantly, in [plan policies](terraform-plan-policy.md), the inputs hash all the string attributes of resources, ensuring that no sensitive data leaks through this means.
 
-Last but not least, the policy workbench - including access to previous inputs - is only available to **Spacelift account administrators**.
+Last but not least, the policy workbench (including access to previous inputs) is only available to **Spacelift account administrators**.
 
 ## Policy library
 
-Sometimes, OPA can be hard, especially if you are just starting out with it. [The Policy Workbench](https://docs.spacelift.io/concepts/policy/#policy-workbench) is great for helping you get policies right, but with the Policy library, we take it up a notch.
+OPA can be difficult to learn, especially if you are just starting out with it. [The policy workbench](#policy-workbench) is great for helping you get policies right, but with the policy library, we take it up a notch.
 
-The Policy library gives you the ability to import templates as regular policies directly inside your Spacelift account, that can be easily modified to accustom your needs.
+The policy library gives you the ability to import templates as regular policies, directly inside your Spacelift account, that can be easily modified to meet your needs.
 
-Inside your Spacelift account, under policies, you will see a new option called **Templates**:
-![](../../assets/screenshots/policy_library.png)
+On the _Enforce Guardrails_ > _Policies_ tab in Spacelift, you will see a new section: **Templates**.
 
-You have the option to filter the policies based on the policy type or labels, and whenever you find a policy you would like to add to your account, you will simply need to click on the **Import** option. There are examples available for all supported policy types.
+![Templates section](<../../assets/screenshots/policy_library.png>)
 
-After clicking import, you have to fill in a few details — such as the space you want to use and whether or not you want to keep the same name, change the description, and even add or remove labels.
+You can filter the policies based on the policy type or labels. There are examples available for all supported policy types.
 
-![](../../assets/screenshots/policy_library_drawer.png)
+### Import policy templates
 
-Then, after clicking on **continue**, you have the option to edit the policy if you need to modify its behavior, or you could simply import it as it is:
-
-![](../../assets/screenshots/policy_library_policy_edit.png)
-
-Now, if you click on **Create policy**, you will successfully import it in your Spacelift account.
+1. When you find a policy template you would like to add to your account, click **Import**.
+2. Edit policy details (optional):
+    ![Create policy from import](<../../assets/screenshots/policy_library_drawer.png>)
+      1. **Name**: Enter a descriptive name for the policy.
+      2. **Type**: Ensure the policy type is correct.
+      3. **Space**: Select the space to create the policy in.
+      4. **Description** (optional): Enter a (markdown-supported) description for the policy.
+      5. **Labels** (optional): Add labels to help sort and filter your policies. You can use `autoattach:label` to attach the policy to stacks or modules with the chosen `label` automatically.
+3. Click **Continue** to edit the policy.
+    ![Edit policy body](<../../assets/screenshots/policy_library_policy_edit.png>)
+      - You'll see an example policy body based on the type you chose. Remove the comments from any rules you'd like to apply and add or change rules as needed.
+4. Click **Create policy**. You can always edit policies as needed.
 
 ## Testing policies
 
 !!! info
-    In the examples for each type of policy we invite you to play around with the policy and its input [in the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}. While certainly useful, we won't consider it proper unit testing.
+    We invite you to play around with policy examples and inputs [in the Rego playground](https://play.openpolicyagent.org/){: rel="nofollow"}. However, this is not a replacement for proper unit testing.
 
-The whole point of policy-as-code is being able to handle it as code, which involves everyone's favorite bit - testing. Testing policies is crucial because you don't want them accidentally allow the wrong crowd to do the wrong things.
+The whole point of policy-as-code is being able to handle it as code, which involves testing. Testing policies is crucial to make sure they aren't allowing unauthorized actions or too restrictive.
 
-Luckily, Spacelift uses a well-documented and well-supported open source language called Rego, which has built-in support for testing. Testing Rego is extensively covered in [their documentation](https://www.openpolicyagent.org/docs/latest/policy-testing/){: rel="nofollow"} so in this section we'll only look at things specific to Spacelift.
+Spacelift uses a well-documented and well-supported open-source language, [Rego](#policy-language), which has built-in support for testing. Testing Rego is extensively covered in [their documentation](https://www.openpolicyagent.org/docs/latest/policy-testing/){: rel="nofollow"} so in this section we'll only look at things specific to Spacelift.
 
-Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#account-membership), and write a test for it:
+Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#restricting-access-in-specific-circumstances), and write a test for it:
 
-```opa title="deny-non-members.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-non-members.rego"
+    package spacelift
 
-deny { not input.session.member }
-```
+    deny if not input.session.member
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-non-members.rego"
+    package spacelift
+
+    deny { not input.session.member }
+    ```
 
 You'll see that we simply mock out the `input` received by the policy:
 
-```opa title="deny-non-members_test.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-non-members_test.rego"
+    package spacelift
 
-test_non_member {
-    deny with input as { "session": { "member": false } }
-}
+    test_non_member if {
+        deny with input as {"session": {"member": false}}
+    }
 
-test_member_not_denied {
-    not deny with input as { "session": { "member": true } }
-}
-```
+    test_member_not_denied if {
+        not deny with input as {"session": {"member": true}}
+    }
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-non-members_test.rego"
+    package spacelift
+
+    test_non_member {
+        deny with input as {"session": {"member": false}}
+    }
+
+    test_member_not_denied {
+        not deny with input as {"session": {"member": true}}
+    }
+    ```
 
 We can then test it in the console using `opa test` command (note the glob, which captures both the source and its associated test):
 
@@ -394,93 +571,161 @@ We can then test it in the console using `opa test` command (note the glob, whic
 PASS: 2/2
 ```
 
-Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](run-initialization-policy.md) that denies commits to a particular branch (because why not):
+Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](deprecated/run-initialization-policy.md) that **denies commits** to a particular branch:
 
-```opa title="deny-sandbox.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-sandbox.rego"
+    package spacelift
 
-deny[sprintf("don't push to %s", [branch])] {
-  branch := input.commit.branch
-  branch == "sandbox"
-}
-```
+    deny contains sprintf("don't push to %s", [branch]) if {
+      branch := input.commit.branch
+      branch == "sandbox"
+    }
+    ```
 
-In the respective test, we will check that the set return by the **deny** rule either has the expected element for the matching input, or is empty for non-matching one:
+=== "Rego v0"
+    ```opa title="deny-sandbox.rego"
+    package spacelift
 
-```opa title="deny-sandbox_test.rego"
-package spacelift
+    deny[sprintf("don't push to %s", [branch])] {
+      branch := input.commit.branch
+      branch == "sandbox"
+    }
+    ```
 
-test_sandbox_denied {
-  expected := { "don't push to sandbox" }
+In the test, we will check that the set return by the **deny** rule either has the expected element for the matching input, or is empty for non-matching one:
 
-  deny == expected with input as { "commit": { "branch": "sandbox" } }
-}
+=== "Rego v1"
+    ```opa title="deny-sandbox_test.rego"
+    package spacelift
 
-test_master_not_denied {
-  expected := set()
+    test_sandbox_denied if {
+      expected := {"don't push to sandbox"}
 
-  deny == expected with input as { "commit": { "branch": "master" } }
-}
-```
+      deny == expected with input as {"commit": {"branch": "sandbox"}}
+    }
 
-Again, we can then test it in the console using `opa test` command (note the glob, which captures both the source and its associated test):
+    test_master_not_denied if {
+      expected := set()
+
+      deny == expected with input as {"commit": {"branch": "master"}}
+    }
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-sandbox_test.rego"
+    package spacelift
+
+    test_sandbox_denied {
+      expected := {"don't push to sandbox"}
+
+      deny == expected with input as {"commit": {"branch": "sandbox"}}
+    }
+
+    test_master_not_denied {
+      expected := set()
+
+      deny == expected with input as {"commit": {"branch": "master"}}
+    }
+    ```
+
+Again, we can test the policy in the console using `opa test` (note the glob, which captures both the source and its associated test):
 
 ```bash
 ❯ opa test deny-sandbox*
 PASS: 2/2
 ```
 
-!!! success
-    We suggest you always unit test your policies and apply the same continuous integration principles as with your application code. You can set up a CI project using the vendor of your choice for the same repository that's linked to the Spacelift project that's defining those policies, to get an external validation.
+!!! tip
+    We suggest you always unit test your policies and apply the same continuous integration principles as with your application code. You can set up a CI project using your vendor of choice for the same repository that's linked to the Spacelift project that's defining those policies, to get an external validation.
 
 ## Policy flags
 
-By default, each policy is completely self-contained and does not depend on the result of previous policies. There are at times situations where you want to introduce a chain of policies passing some data to one another. Different types of policies have access to different types of data required to make a decision, and you can use policy flags to pass that data (or more likely, a useful digest of that data) between them.
+By default, each policy is completely self-contained and does not depend on the result of previous policies. However, there are some situations where you want to introduce a chain of policies passing data to one another.
 
-Let's take a look at a simple example. Let's say you have a [push policy](./push-policy/README.md) with access to the list of files affected by a push or a PR event. You want to introduce a form of ownership control where changes to different files need approval from different users. For example, a change in the `network` directory may require approval from the network team, while a change in the `database` directory needs an approval from the DBAs.
+Different types of policies have access to different types of data required to make a decision, and you can use policy flags to pass that data between them.
 
-Approvals are handled by an [approval policy](./approval-policy.md) but the problem is that it no longer retains access to the list of affected files. This is a great use case to use flags. Let's have the push policy set arbitrary review flags on the run. This can be a separate push policy as in this example, or part of one of your pre-existing push policies. For the sake of simplicity, the example below will only focus on the `network` bit.
+Say you have a [push policy](./push-policy/README.md) with access to the list of files affected by a push or a PR event. You want to introduce a form of ownership control, where changes to different files need approval from different users. For example, a change in the `network` directory may require approval from the network team, while a change in the `database` directory needs an approval from the DBAs.
 
-```rego title="flag_for_review.rego"
-package spacelift
+Approvals are handled by an [approval policy](./approval-policy.md) but it doesn't retain access to the list of affected files you need. This is where policy flags come in: set arbitrary review flags on the run in the push policy. This can be a separate push policy as in this example, or part of one of your pre-existing push policies. For simplicity, our example will only focus on `network`.
 
-network_review_flag = "review:network"
+=== "Rego v1"
+    ```rego title="flag_for_review.rego"
+    package spacelift
 
-flag[network_review_flag] {
-  startswith(input.push.affected_files[_], "network/")
-}
+    network_review_flag := "review:network"
 
-flag[network_review_flag] {
-  startswith(input.pull_request.diff[_], "network/*")
-}
-```
+    flag contains network_review_flag if {
+      some file in input.push.affected_files
+      startswith(file, "network/")
+    }
 
-Now, we can introduce a network approval policies using this flag.
+    flag contains network_review_flag if {
+      some diff in input.pull_request.diff
+      startswith(diff, "network/*")
+    }
+    ```
 
-```rego title="network-review.rego"
-package spacelift
+=== "Rego v0"
+    ```rego title="flag_for_review.rego"
+    package spacelift
 
-network_review_required {
-  input.run.flags[_] == "review:network"
-}
+    network_review_flag = "review:network"
 
-approve { not network_review_required }
-approve {
-  input.reviews.current.approvals[_].session.teams[_] == "DBA"
-}
-```
+    flag[network_review_flag] {
+      startswith(input.push.affected_files[_], "network/")
+    }
+
+    flag[network_review_flag] {
+      startswith(input.pull_request.diff[_], "network/*")
+    }
+    ```
+
+Now, we can introduce a network approval policy using this flag.
+
+=== "Rego v1"
+    ```rego title="network-review.rego"
+    package spacelift
+
+    network_review_required if {
+      some flag in input.run.flags
+      flag == "review:network"
+    }
+
+    approve if not network_review_required
+
+    approve if {
+      some approval in input.reviews.current.approvals
+      some team in approval.session.teams
+      team == "DBA"
+    }
+    ```
+
+=== "Rego v0"
+    ```rego title="network-review.rego"
+    package spacelift
+
+    network_review_required {
+      input.run.flags[_] == "review:network"
+    }
+
+    approve { not network_review_required }
+    approve {
+      input.reviews.current.approvals[_].session.teams[_] == "DBA"
+    }
+    ```
 
 There are a few things worth knowing about flags:
 
 - They are **arbitrary strings** and Spacelift makes no assumptions about their format or content.
-- They can be **reset** by policies that set them - see [policy flag reset](policy-flag-reset.md) for details;
-- They are **passed between policy types**. If you have multiple policies of the same type, they will not be able to see each other's flags;
-- They can be set by any policies that explicitly **touch a run**: [push](./push-policy/README.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md);
-- They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document;
+- They can be **reset** by policies that set them (see [policy flag reset](policy-flag-reset.md) for details).
+- They are **passed between policy types**. If you have multiple policies of the same type, they will not be able to see each other's flags.
+- They can be set by any policies that explicitly **touch a run**: [push](./push-policy/README.md), [approval](./approval-policy.md), [plan](./terraform-plan-policy.md) and [trigger](./trigger-policy.md).
+- They are always accessible through `run`'s `flags` property whenever the `run` resource is present in the input document.
 
-Also worth noting is the fact that flags are shown in the GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Below is an example of an approval policy exposing decision-making details:
+Flags are shown in the Spacelift GUI, so even if you're not using them to explicitly pass the data between different types of policies, they can still be useful for debugging purposes. Here's an example of an approval policy exposing decision-making details:
 
-![Approval policy with flags](../../assets/screenshots/policy_flags_gui_example.png)
+![Approval policy with flags](<../../assets/screenshots/policy_flags_gui_example.png>)
 
 ## Backwards-compatibility
 
@@ -488,15 +733,57 @@ Policies, like the rest of Spacelift functionality, are generally kept fully bac
 
 Occasionally policies might be deprecated, and once unused, disabled, but this is a process in which we work very closely with any affected users to make sure they have ample time to migrate and aren't negatively affected.
 
-However, we do reserve the right to add new fields to policy inputs and introduce additional invocation sites. E.g. we could introduce a new input event type to the Push Policy, and existing Push Policies will start getting those events. Thus, users are expected to write their policies in a way that new input types are handled gracefully, by checking for the event type in their rules.
+However, we do reserve the right to add new fields to policy inputs and introduce additional invocation sites. For example, we could introduce a new input event type to the push policy, and existing push policies will start getting those events. Thus, users are expected to write their policies in a way that new input types are handled gracefully, by checking for the event type in their rules.
 
-For example, in a Push Policy, you might write a rule as follows:
+For example, in a push policy, you might write a rule as follows:
 
-```rego title="backwards-compatibility.rego"
-track {
-  not is_null(input.pull_request)
-  input.pull_request.labels[_] == "deploy"
-}
-```
+=== "Rego v1"
+    ```rego title="backwards-compatibility.rego"
+    track if {
+      not is_null(input.pull_request)
+      some label in input.pull_request.labels
+      label == "deploy"
+    }
+    ```
 
-As you can see, the first line in the `track` rule makes sure that we only respond to events that contain the pull_request field.
+=== "Rego v0"
+    ```rego title="backwards-compatibility.rego"
+    track {
+      not is_null(input.pull_request)
+      input.pull_request.labels[_] == "deploy"
+    }
+    ```
+
+As you can see, the first line in the `track` rule makes sure that we only respond to events that contain the `pull_request`j field.
+
+## Evaluation timeouts
+
+All policies have a maximum evaluation time to ensure that they do not negatively impact Spacelift's performance. Some policies have a longer timeout due to the complexity of their inputs and expected processing time.
+
+The following table outlines the timeout durations for each policy type:
+
+| Type                      | Timeout  |
+|---------------------------|----------|
+| Plan                      | 45s      |
+| Notification              | 10s      |
+| Push                      | 10s      |
+| All other policies        | 5s       |
+
+!!! Info
+    Usually there are multiple policies being evaluated for an event. The combined evaluation time for all policies is 5 minutes
+
+{% if is_self_hosted() %}
+Self-hosted deployments have additional control over policy evaluation timeouts. You can adjust the timeouts with flags or using these environment variables:
+
+- `POLICY_REGO_TIMEOUT_PLAN`
+- `POLICY_REGO_TIMEOUT_LOGIN`
+- `POLICY_REGO_TIMEOUT_PUSH`
+- `POLICY_REGO_TIMEOUT_APPROVAL`
+- `POLICY_REGO_TIMEOUT_TRIGGER`
+- `POLICY_REGO_TIMEOUT_NOTIFICATION`
+- `POLICY_REGO_TIMEOUT_INTENT`
+- `POLICY_REGO_EVALUATION_COMBINED_TIMEOUT`
+
+These variables accept duration strings (e.g., `30s`, `2m`).
+
+{% endif %}
