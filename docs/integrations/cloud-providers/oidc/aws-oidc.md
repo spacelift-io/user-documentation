@@ -106,6 +106,38 @@ For example, you could create a policy like this, which would cover most interna
 
 Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.
 
+### Session tagging
+
+You can enable OIDC session tagging by adding the label `feature:aws_oidc_session_tagging` to your stack. This allows Spacelift to pass principal tags during the `AssumeRoleWithWebIdentity` call, which can be useful for auditing and access control.
+
+To use session tagging, your IAM role's trust relationship must include the `sts:TagSession` action:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::123456789012:oidc-provider/demo.app.spacelift.io"
+      },
+      "Action": [
+        "sts:AssumeRoleWithWebIdentity",
+        "sts:TagSession"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "demo.app.spacelift.io:aud": "demo.app.spacelift.io"
+        }
+      }
+    }
+  ]
+}
+```
+
+!!! hint
+    Replace `demo.app.spacelift.io` with the hostname of your Spacelift account, and update the AWS account ID in the Federated ARN.
+
 ## Configure the Terraform provider
 
 Once the Spacelift-AWS OIDC integration is set up, the Terraform provider can be configured without the need for any static credentials. The `aws_role_arn` variable should be set to the ARN of the role that you want to assume:
