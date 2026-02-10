@@ -1,74 +1,61 @@
 # Resources
 
-One major benefit of specialized tools like Spacelift - as opposed to general-purpose CI/CD platforms - is that they intimately understand the material they're working with. With regards to infra-as-code, the most important part of this story is understanding your managed resources in-depth. Both from the current perspective, but also being able to put each resource in its historical context.
+Specialized tools like Spacelift intimately unerstand the material they're working with. For infrastructure-as-code, it's important to understand your managed resources both from the current perspective and its historical context.
 
-The Resources view is the result of multiple months of meticulous work understanding and documenting the lifecycle of each resource managed by Spacelift, regardless of the technology used - OpenTofu/Terraform, Terragrunt, Pulumi or AWS CloudFormation.
+In Spacelift, navigate to _Ship Infra_ > _Resources_. The _Resources_ view displays the lifecycle of each resource managed by Spacelift, regardless of the technology used: OpenTofu/Terraform, Terragrunt, Pulumi, AWS CloudFormation, etc.
 
 ## Stack-level resources
 
+Navigate to _Ship Infra_ > _Stacks_, then click the name of the stack whose resources you want to view. Navigate to the _Resources_ tab.
+
 This screen shows you the stack-level resources view. By default, resources are grouped to help you understand the structure of each of your infrastructure projects.
 
-![](<../../assets/screenshots/stack-by-stack.png>)
+![Stack resources view](<../../assets/screenshots/stack-by-stack.png>)
 
-Resources can be grouped by provider and type. Let's group by provider:
+Resources can be grouped by type and provider:
 
-![](<../../assets/screenshots/stack-by-provider.png>)
+![Group resources by provider](<../../assets/screenshots/stack-by-provider.png>)
 
-We can see lots of AWS resources, `random`, `null_resource`, and a one from TLS. Let's now filter just the TLS one.
+If we click on a resource, a drawer displays its details:
 
-![](<../../assets/screenshots/stack-by-provider-filter-tls.png>)
+![Resource details drawer](<../../assets/screenshots/stack-by-provider-filter-tls-details.png>)
 
-Let's now take a look at this one:
+In the bottom-right corner is the vendor-specific representation of the resource. For security purposes, all string values are sanitized and never shown directly. Only the first seven characters of their checksum are displayed. If you know the possible value, you can easily do the comparison. If not, the secret is safe.
 
-![](<../../assets/screenshots/stack-by-provider-filter-tls-details.png>)
+You can drill down to see the runs that either created or last updated each of the managed resources. Click the ID of the run in either the _Created by_ or _Updated by_ sections to be taken to the run in question:
 
-The panel that is now showing on the right hand side of the Resources view shows the details of a single resource, which is now highlighted using a blue background color. On this panel, we see two noteworthy things.
+![Run ID clickable](<../../assets/screenshots/resources-run.png>)
 
-Starting with the lower right hand corner, we have the vendor-specific representation of the resource. Note how for security purposes all string values are sanitized. In fact, we never get to see them directly - we only see first 7 characters of their checksum. If you know the possible value, you can easily do the comparison. If you don't, then the secret is safe.
+If you click the commit SHA, you will be taken to the GitHub commit. Depending on your Git flow, the commit may be linked to a Pull Request, giving you the ultimate visibility into the infrastructure change management process:
 
-More importantly, though, you can drill down to see the runs that either created, or last updated each of the managed resources. Let's now go back to our `tls-key`, and click on the ID of the run shown in the _Updated by_ section.
-This will take you to the run in question:
-
-![](<../../assets/screenshots/resources-run.png>)
-
-One extra click on the commit SHA will take you to the GitHub commit. Depending on your Git flow, the commit may be linked to a Pull Request, giving you the ultimate visibility into the infrastructure change management process:
-
-![](<../../assets/screenshots/resources-sha.png>)
+![GitHub commit](<../../assets/screenshots/resources-sha.png>)
 
 ## Account-level resources
 
-A view similar to stack-level resources is available for the entire account, too.
+A view similar to stack-level resources is available for the entire Spacelift account. Navigate to _Ship Infra_ > _Resources_.
 
-![](../../assets/screenshots/resources-account.png)
+![Account-level resources view](<../../assets/screenshots/resources-account.png>)
 
-We can unfold stack resources by clicking on the arrow:
+Click the arrow beside a resource to expand it:
 
-![](../../assets/screenshots/resources-account-more.png)
+![Expand stack resources](<../../assets/screenshots/resources-account-more.png>)
 
-By default we group by stack, giving you the same view as for stack-level resources. But you will notice that there are more rows in the table representing different stacks.
+By default, Spacelift groups by stack, giving you the same view as for stack-level resources. At the account level, there are more rows in the table representing different stacks. You can filter and group by different properties.
 
-In this view you can also filter and group by different properties.
+![Group and filter by type](<../../assets/screenshots/resources-account-group-and-filter.png>)
 
-![](../../assets/screenshots/resources-account-group-and-filter.png)
+## Share resource details
 
-## Shared via a link
+You can share a resource's details via a link by clicking the icon in the top-right corner.
 
-You can share a resource via a link by clicking the icon in the top-right corner.
+![Share resources in details drawer](<../../assets/screenshots/stack-by-provider-filter-tls-details-share.png>)
 
-![](../../assets/screenshots/stack-by-provider-filter-tls-details-share.png)
+You can also click the three dots beside a resource on the table row and click **Copy link**.
 
-The other way is to click on three dots on the table row and choose the _Copy link_ option.
+![Share resources in table view](<../../assets/screenshots/stack-by-provider-filter-tls-share.png>)
 
-![](../../assets/screenshots/stack-by-provider-filter-tls-share.png)
+## Add filters from cells
 
-It's possible from both views - stack-level and account-level.
+On the left side of the _Resources_ view is the filter menu. You can add filters from the cells of the list by clicking the **filter icon** ("Add to filters").
 
-![](../../assets/screenshots/resources-account-group-and-filter-share.png)
-
-## Add to filters - cell option
-
-On the left side, you can see the filter menu.
-You can also use filters by clicking on the three dots for a column.
-
-![](../../assets/screenshots/resources-account-filter.png)
-![](../../assets/screenshots/resources-account-filter2.png)
+![Add to filters](<../../assets/screenshots/resources-account-filter.png>)

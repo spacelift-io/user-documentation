@@ -1,13 +1,15 @@
 # User management
 
-Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [Login Policies](../policy/login-policy.md).
+Spacelift is made for collaboration. In order to collaborate, you need collaborators. User Management is an easy way to invite new members to your organization and manage their permissions, together with third-party integrations and group access. If you prefer to write a policy rather than using our UI, please check out [login policies](../policy/login-policy.md).
 
 !!! warning
     User Management doesn't affect GitHub organization or [SSO](../../integrations/single-sign-on/README.md) admins and private account owners who always get admin access to their respective Spacelift accounts. This is to avoid a situation where a mistake in User Management locks out everyone from the account.
 
 ## User
 
-Users are individuals invited through their email and authenticated using your account's Identity Provider. Users can have personal permissions assigned. If a user gains Spacelift access through both invites/login policy and IdP group mapping, the permissions ultimately applied to them are a **combination** of the user permission set and group permission set.
+Users are individuals who can access Spacelift after being invited through their email (or via [policies](../policy/login-policy.md)) and authenticated using your account's identity provider. Users can have personal permissions assigned.
+
+If a user gains Spacelift access through both invites/login policy and IdP group mapping, the permissions ultimately applied to them are a **combination** of the user permission set and group permission set.
 
 ## Roles in User Management
 
@@ -33,7 +35,7 @@ With IdP mapping, you can assign permissions in Spacelift to groups as provided 
 
 To map your IdP groups to matching user groups in Spacelift:
 
-1. Hover over your name in the bottom left corner, then click **Organization settings**.
+1. Hover over your name in the bottom-left corner, then click **Organization settings**.
 2. Under _Identity Management_, click **IdP group mapping**.
 3. Click **Map IdP group**.
     ![Map IdP group drawer](<../../assets/screenshots/user-management/map_idp_group.png>)
