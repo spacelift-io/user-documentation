@@ -4,25 +4,37 @@ description: Moving from Cloudformation-based installation to the reference arch
 
 # CloudFormation to OpenTofu/Terraform migration
 
-If you seek to migrate from the Cloudformation-based installation to the reference architecture, we developed [a small migration toolkit to help you with the process](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"}.
+If you seek to migrate from the CloudFormation-based installation to the reference architecture, we developed [a migration toolkit to help you with the process](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"}.
 
-The end result will be similar to the [ECS guide](../reference-architecture/guides/deploying-to-ecs.md) with the following differences:
+The toolkit supports two migration targets:
+
+- **ECS** - the end result will be similar to the [ECS deployment guide](../reference-architecture/guides/deploying-to-ecs.md)
+- **EKS** - the end result will be similar to the [EKS deployment guide](../reference-architecture/guides/deploying-to-eks.md)
+
+In both cases, the following differences from a fresh installation apply:
 
 - the message queue will remain SQS as opposed to Postgres
 - the MQTT server will remain IoT Core as opposed to the built-in server
 
-The migration process **does not require any downtime**. It pulls up a new application (ECS) environment in parallel to the existing one so that you can test it before switching over.
+Please check the compatibility matrix to ensure your versions are supported:
+
+| Target | Spacelift version | AWS module |
+|--------|-------------------|------------|
+| ECS | >= 2.6.0 | [spacelift](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted){: rel="nofollow"} 2.1.1 + [ecs](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted){: rel="nofollow"} 2.1.0 |
+| EKS | >= 4.0.0 | [eks](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"} 3.4.0 |
+
+The migration process **does not require any downtime**. It pulls up a new application environment in parallel to the existing one so that you can test it before switching over.
 
 !!! note
     The most important resources are the persistence layer: the S3 buckets and the RDS cluster. Both of those resources are protected by default. S3 buckets cannot be removed as long as they have objects in them and the RDS cluster has deletion protection enabled by default.
 
 In short, the migration process looks like this:
 
-- the script ensures the prerequisites are met (you're at least on Self-Hosted v2.6.0 version)
-- the Python script will read your Cloudformation stacks and generate an equivalent Terraform project, which will include various of import statements to import your Cloudformation-managed infrastructure into Terraform
-- the Terraform code will also create a brand new load balancer and an ECS cluster which will connect to the exact same AWS resources as the old one
-- once you have confirmed the new ECS cluster's services are looking good, you can point your website's DNS to the new load balancer
-- you can manually scale down the services' desired count to 0 in the old ECS cluster
+- the script ensures the prerequisites are met (check the compatibility matrix above)
+- the Python script will read your CloudFormation stacks and generate an equivalent Terraform project, which will include import statements to import your CloudFormation-managed infrastructure into Terraform
+- the Terraform code will also create a brand new load balancer and compute environment (ECS or EKS) which will connect to the exact same AWS resources as the old one
+- once you have confirmed the new environment's services are looking good, you can point your website's DNS to the new load balancer
+- you can manually scale down the services in the old environment
 - ideally, you should test this new environment for a few days before deleting the old one
 - once you are happy with the new environment, you can delete the old one by running the `delete_cf_stacks.py` Python script which will make sure to retain the required resources and delete the rest
 - there are a few leftover resources that you can delete manually

@@ -10,9 +10,21 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 - **Plan policy input**: Removed the feature flag which controls when the `push` object is added in to the push policy input for pull requests. Push object is now only included if the event's `HeadCommit` branch is not the same as the stack branch.
 
+    !!! warning "Potentially breaking change"
+        If your push policies rely on the `push` object being present in plan policy inputs for pull requests targeting the stack branch, this change may affect their behavior. Review any push policies that reference the `push` object to ensure they handle its absence correctly.
+
 ### Fixes
 
 - **Azure DevOps**: Improved handling of transient Azure DevOps connection errors.
+
+### Documentation
+
+- **CloudFormation to EKS migration**: The [self-hosted-v2-to-v3 migration toolkit](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit){: rel="nofollow"} (v2.0.0) now supports migrating CloudFormation-based installations to EKS, in addition to the existing ECS path. Use the `--target-module eks` flag to generate Terraform code targeting the [terraform-aws-eks-spacelift-selfhosted](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"} module. The [EKS module v3.4.0](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted/releases/tag/v3.4.0){: rel="nofollow"} includes the required variables for externally-managed resources during migration. See the [CloudFormation to EKS migration guide](https://github.com/spacelift-io/self-hosted-v2-to-v3-kit/blob/main/docs/cloudformation_to_eks.md){: rel="nofollow"} for step-by-step instructions.
+
+    | Target | Spacelift version | AWS module |
+    |--------|-------------------|------------|
+    | ECS | >= 2.6.0 | [spacelift](https://github.com/spacelift-io/terraform-aws-spacelift-selfhosted){: rel="nofollow"} 2.1.1 + [ecs](https://github.com/spacelift-io/terraform-aws-ecs-spacelift-selfhosted){: rel="nofollow"} 2.1.0 |
+    | EKS | >= 4.0.0 | [eks](https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted){: rel="nofollow"} 3.4.0 |
 
 ## Changes between v4.2.0 and v4.1.0
 
