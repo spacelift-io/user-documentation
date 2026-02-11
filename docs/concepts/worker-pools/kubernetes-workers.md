@@ -51,9 +51,18 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
-    !!! warning
-        [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.
-        [The latest CRD's can be found in this link](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller/crds).
+    !!! warning "Upgrading from chart versions prior to v0.58.0"
+        Starting with v0.58.0, the Helm chart manages CRDs via a subchart instead of the `crds/` directory. Before upgrading from an older version, you must label and annotate each existing CRD so Helm can adopt them:
+
+        ```shell
+        for crd in workerpools.workers.spacelift.io workers.workers.spacelift.io; do \
+          kubectl label crd "${crd}" 'app.kubernetes.io/managed-by=Helm' && \
+          kubectl annotate crd "${crd}" 'meta.helm.sh/release-name=spacelift-workerpool-controller' && \
+          kubectl annotate crd "${crd}" 'meta.helm.sh/release-namespace=spacelift-worker-controller-system'
+        done
+        ```
+
+        Failure to complete this step before upgrading will result in Helm conflicts with the pre-existing CRD resources.
 
     !!! tip "Prometheus metrics"
         The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
