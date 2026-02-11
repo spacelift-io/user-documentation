@@ -1,0 +1,36 @@
+{
+  "module": {
+    "administrative": "boolean - Whether the module is administrative",
+    "branch": "string - Git branch tracked by this module",
+    "id": "string - Module identifier",
+    "name": "string - Module name",
+    "namespace": "string - Module namespace",
+    "project_root": "string - Project root directory",
+    "repository": "string - Repository name",
+    "terraform_provider": "string - Terraform provider for the module"
+  },
+  "stacks": [
+    {
+      "additional_project_globs": [
+        "string - glob pattern"
+      ],
+      "administrative": "boolean - Whether the stack is administrative",
+      "autodeploy": "boolean - Whether autodeploy is enabled",
+      "branch": "string - Git branch tracked by this stack",
+      "contexts": [
+        "string - context slug"
+      ],
+      "id": "string - Stack identifier",
+      "labels": [
+        "string - label"
+      ],
+      "locked_by": "string - User who locked the stack, if any",
+      "name": "string - Stack display name",
+      "namespace": "string - Stack namespace",
+      "project_root": "string - Project root directory",
+      "repository": "string - Repository name",
+      "state": "string - Current stack state",
+      "queued_runs": "integer - Number of queued runs for this stack"
+    }
+  ]
+}
