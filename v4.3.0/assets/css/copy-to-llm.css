@@ -1,0 +1,117 @@
+/**
+ * Styles for Copy to LLM button and toast notifications
+ */
+
+/* Copy to LLM Button - positioned in right sidebar */
+.copy-to-llm-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 0.8rem);
+  padding: 0.5rem 0.8rem;
+  margin: 0 0.4rem 1rem 0.4rem;
+  background-color: var(--color-primary-main, #7C47FC);
+  color: var(--color-default-white, #fff);
+  border: none;
+  border-radius: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.copy-to-llm-button:hover {
+  background-color: var(--color-primary-light, #9A70FF);
+  transform: scale(1.02);
+}
+
+.copy-to-llm-button:active {
+  transform: scale(0.98);
+}
+
+.copy-to-llm-button svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Copied state */
+.copy-to-llm-button.copied {
+  background-color: #22c55e;
+}
+
+.copy-to-llm-button.copied::after {
+  content: '✓';
+  margin-left: 4px;
+}
+
+/* Toast notification */
+.copy-to-llm-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  background-color: var(--color-default-primary, #131417);
+  color: var(--color-default-white, #fff);
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 10000;
+  max-width: 320px;
+}
+
+.copy-to-llm-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.copy-to-llm-toast--success {
+  background-color: #22c55e;
+}
+
+.copy-to-llm-toast--error {
+  background-color: #ef4444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .copy-to-llm-button {
+    position: static;
+    transform: none;
+    margin: 1rem 0.4rem;
+    width: calc(100% - 0.8rem);
+    justify-content: center;
+  }
+
+  .copy-to-llm-button:hover,
+  .copy-to-llm-button:active {
+    transform: none;
+  }
+
+  .copy-to-llm-toast {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+  }
+}
+
+/* Dark mode adjustments */
+[data-md-color-scheme="slate"] .copy-to-llm-button {
+  background-color: var(--color-primary-main, #7C47FC);
+}
+
+[data-md-color-scheme="slate"] .copy-to-llm-button:hover {
+  background-color: var(--color-primary-light, #9A70FF);
+}
+
+[data-md-color-scheme="slate"] .copy-to-llm-toast {
+  background-color: #1f2937;
+}
