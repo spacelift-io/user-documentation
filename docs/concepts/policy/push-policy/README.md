@@ -117,6 +117,44 @@ The deduplication key consists of the commit SHA and run type. If your policy re
 
 When events are deduplicated and you're sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that the first one creates a run.
 
+## Pull Request ID Availability
+
+When a git push occurs on an open pull request, the push policy receives two events: a git push event that has `pull_request: null` in its input and a pull request event that contains the pull request data. The default push policy triggers on both events, but due to the deduplication logic described above, the two events are considered the same, and the system retains the first event (the push event without pull request data) and discards the later one (the pull request event with pull request data).
+
+This means that notification policies and other downstream processes never see the event with the `pull_request_id` field, which can cause issues when trying to target specific pull requests for comments.
+
+### Ensuring Pull Request ID is Available
+
+To ensure the `pull_request_id` is available in notification policies, you can modify your push policy to ignore the push event without pull request data:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    is_pr if not is_null(input.pull_request)
+
+    ignore if { not track; not is_pr }
+
+    # Your existing track and propose rules
+    track if input.push.branch == input.stack.branch
+    propose if not is_null(input.pull_request)
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    is_pr { not is_null(input.pull_request) }
+
+    ignore { not track; not is_pr }
+
+    # Your existing track and propose rules
+    track { input.push.branch == input.stack.branch }
+    propose { not is_null(input.pull_request) }
+    ```
+
+However, this approach has a side effect: it will ignore push events when there is no pull request. This means that direct pushes to the tracked branch (without an associated pull request) will not trigger runs. If this behavior is not desired for your workflow, you'll need to evaluate whether the benefits of having reliable pull request ID availability outweigh this limitation.
+
 ## Canceling in-progress runs
 
 You can use push policies to pre-empt any in-progress runs with the new run. The input document includes the `in_progress` key, which contains an array of runs that are currently either still [queued](../../run/README.md#queued), [ready](../../run/README.md#ready), or [awaiting human confirmation](../../run/tracked.md#unconfirmed). You can use it in conjunction with the cancel rule like this:
