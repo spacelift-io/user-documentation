@@ -1,4 +1,5 @@
 {
+  "aliveStatusCodes": [200, 206, 429],
   "httpHeaders": [
     {
       "urls": [
@@ -107,6 +108,12 @@
     },
     {
       "pattern": "^https://spacelift.statuspage.io/"
+    },
+    {
+      "pattern": "^https://www.elastic.co/*"
+    },
+    {
+      "pattern": "^#"
     }
   ]
 }

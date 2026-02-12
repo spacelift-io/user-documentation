@@ -4,7 +4,7 @@ description: Managing Terragrunt Stacks through Spacelift.
 # Terragrunt
 
 !!! warning
-    Terragrunt support is currently in **beta** and has some important limitations to take into consideration. Please see our documentation [here](limitations.md) for more information.
+    Terragrunt support is currently in **beta** and has some important [limitations](./limitations.md) to take into consideration.
 
 ## Why use Terragrunt?
 

@@ -6,6 +6,9 @@ description: Details about all limitations when using Terragrunt stacks in space
 
 ## State management
 
+!!! info
+    Spacelift is working to enable native state management for Terragrunt, which will be available for private beta in mid-January. Contact your customer representative or Spacelift support for more information.
+
 Terragrunt is a great tool for organizing your state management configuration and allows you to easily define how you manage your state across multiple projects. However, It is not currently possible when using Terragrunt's run-all functionality to relate state files to projects in a consistent manner. For this reason Spacelift does not support storing state for Terragrunt based stacks, and you will need to maintain your own remote state backend configuration.
 
 ## Terragrunt mocked outputs

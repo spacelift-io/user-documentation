@@ -2,7 +2,15 @@
 description: Find out how to install Spacelift Self-Hosted
 ---
 
-# Installation Guide
+# Installation Guide (deprecated)
+
+!!! danger "Not recommended for new installations"
+    CloudFormation-based installations are being phased out in favor of the more flexible Terraform/OpenTofu-based Reference Architecture. **For new installations, use one of these instead:**
+
+    - [Deploying to ECS](../reference-architecture/guides/deploying-to-ecs.md) - Deploy Spacelift on Amazon ECS
+    - [Deploying to EKS](../reference-architecture/guides/deploying-to-eks.md) - Deploy Spacelift on Amazon EKS
+
+    Existing CloudFormation installations will continue to be supported, and we will provide advance notice before discontinuing support. If you're currently using CloudFormation, see the [migration guide](./cloudformation-to-opentofu-terraform-migration.md) for a zero-downtime transition process.
 
 This guide contains instructions on installing a self-hosted copy of Spacelift in an AWS account you control.
 
@@ -222,6 +230,7 @@ The possible configuration options are:
 
 - `database.delete_protection_enabled` - **only for Spacelift-managed databases**. Whether to enable deletion protection for the database (defaults to `true`). Note: `uninstall.sh` script will disable this option before deleting the database. Leave it empty for self-managed databases.
 - `database.instance_class` - **only for Spacelift-managed databases**. The instance class of the database (defaults to `db.t4g.large`). Leave it empty for self-managed databases.
+- `database.postgres_engine_version` - **only for Spacelift-managed databases**. The PostgreSQL engine version to use (defaults to `13.21`). See the [PostgreSQL version upgrade guide](./postgresql-version-upgrade.md) for information on upgrading to a newer version.
 - `database.connection_string_ssm_arn` - **only for self-managed databases**. The ARN of the SSM parameter that stores the connection string to the database. Leave it empty for Spacelift-managed databases.
 - `database.connection_string_ssm_kms_arn` - **only for self-managed databases**. The ARN of the KMS key used to encrypt the SSM parameter. Leave it empty for Spacelift-managed databases.
 
@@ -242,7 +251,7 @@ For example:
 When choosing an encryption key for the secret, we recommend using the Spacelift Master KMS key. The key is being created by `spacelift-infra-kms` CloudFormation stack. The ECS tasks will read this secret so the execution role of the ECS task needs to have permissions to decrypt the secret - by default the execution roles have permission to decrypt secrets encrypted with the Spacelift Master KMS key.
 
 !!! note
-    Make sure the Postgres version is the same as the one in the Cloudformation template. In general, there shouldn't be issues with newer versions but it's the safest to use the same major version at least.
+    Make sure the Postgres version is the same as the one in the Cloudformation template. In general, there shouldn't be issues with newer versions but it's the safest to use the same major version at least. To upgrade your PostgreSQL version, see the [PostgreSQL version upgrade guide](./postgresql-version-upgrade.md).
 
 ###### Going from Spacelift-managed to self-managed database
 
@@ -310,17 +319,17 @@ your desired tags to the `global_resources_tags` array in the _config.json_:
 
 You can configure the following options for the S3 buckets, they are all required, but have prefilled values in the config.
 
-| Bucket name                       |                                                        Description                                                        |
-| --------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| `run_logs`                        |                                         This is where we store the logs of a run.                                         |
-| `deliveries_bucket`               |                                       Contains webhook and audit trail deliveries.                                        |
-| `large_queue_messages_bucket`     |                  SQS has a limitation of message size (256 KiB), we use an S3 bucket to work around it.                   |
-| `metadata_bucket`                 |                                         Contains metadata for run initialization.                                         |
-| `policy_inputs_bucket`            | We store policy inputs here - this is used for [Policy Sampling](../../concepts/policy/README.md#sampling-policy-inputs). |
-| `uploads_bucket`                  |   Used for uploading [stack states during stack creation](../../faq/README.md#how-do-i-import-the-state-for-my-stack).    |
-| `user_uploaded_workspaces_bucket` |    Used for storing code for the [local preview](../../concepts/stack/stack-settings.md#enable-local-preview) feature.    |
-| `workspaces_bucket`               |                      The workspaces are stored here for paused runs (eg.: waiting for confirmation).                      |
-| `access_logs_bucket`              |                                            Access logs for the load balancer.                                             |
+| Bucket name                       |                                                       Description                                                       |
+| --------------------------------- | :---------------------------------------------------------------------------------------------------------------------: |
+| `run_logs`                        |                                        This is where we store the logs of a run.                                        |
+| `deliveries_bucket`               |                                      Contains webhook and audit trail deliveries.                                       |
+| `large_queue_messages_bucket`     |                 SQS has a limitation of message size (256 KiB), we use an S3 bucket to work around it.                  |
+| `metadata_bucket`                 |                                        Contains metadata for run initialization.                                        |
+| `policy_inputs_bucket`            | We store policy inputs here - this is used for [Policy Sampling](../../concepts/policy/README.md#sample-policy-inputs). |
+| `uploads_bucket`                  |  Used for uploading [stack states during stack creation](../../faq/README.md#how-do-i-import-the-state-for-my-stack).   |
+| `user_uploaded_workspaces_bucket` |   Used for storing code for the [local preview](../../concepts/stack/stack-settings.md#enable-local-preview) feature.   |
+| `workspaces_bucket`               |                     The workspaces are stored here for paused runs (eg.: waiting for confirmation).                     |
+| `access_logs_bucket`              |                                           Access logs for the load balancer.                                            |
 
 ```json
     "s3_config": {

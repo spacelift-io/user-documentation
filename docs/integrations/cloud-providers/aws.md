@@ -183,6 +183,52 @@ This will generate a trust relationship that looks something like this:
         - for [us.spacelift.io](https://us.spacelift.io), use `577638371743`.
 {% endif %}
 
+## Auto-attach integrations
+
+AWS integrations can now be auto-attached to stacks and modules. To do so, include a label in your integration following this format `autoattach:<your_label>`. Then select the `Enable auto-attach` toggle and click `Set up`.
+
+![](<../../assets/screenshots/integrations/cloud-providers/aws/auto-attach-aws-form.png>)
+
+You will immediately see the stacks and modules that already have your label in the Auto-attached section. To auto-attach your new integration to another stack or module, simply add `<your_label>` to it and we will attach the integration for you. This follows the same behavior as other _auto-attachable_ resources.
+
+![](<../../assets/screenshots/integrations/cloud-providers/aws/auto-attach-aws-list.png>)
+
+!!! info
+    You have to enable auto-attach on each integration individually to prevent clashes with previous labels in your account.
+
+## Session tagging
+
+You can enable session tagging to have Spacelift attach run and stack metadata as tags when assuming your IAM role. These tags show up in CloudTrail logs, providing additional context for auditing.
+
+To use session tagging, enable the **Enable tag session** option when creating or editing your AWS integration. Your IAM role's trust policy will need to include both `sts:AssumeRole` and `sts:TagSession` permissions as separate statements:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "<spacelift-principal>"
+      },
+      "Action": "sts:TagSession"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "<spacelift-principal>"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringLike": {
+          "sts:ExternalId": "your-account@*"
+        }
+      }
+    }
+  ]
+}
+```
+
 ## Are my credentials safe?
 
 Assuming roles and generating credentials **on private worker** is perfectly safe. Those credentials are never leaked to us in any shape or form.

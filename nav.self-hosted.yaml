@@ -16,6 +16,11 @@ nav:
               - installing-spacelift/reference-architecture/guides/deploying-to-onprem.md
               - installing-spacelift/reference-architecture/guides/first-setup.md
               - installing-spacelift/reference-architecture/guides/observability.md
+              - Telemetry:
+                  - installing-spacelift/reference-architecture/guides/telemetry/README.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-datadog.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-grafana-stack.md
+                  - installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-jaeger.md
               - installing-spacelift/reference-architecture/guides/air-gapped.md
               - installing-spacelift/reference-architecture/guides/disaster-recovery.md
           - Reference:
@@ -29,10 +34,11 @@ nav:
               - installing-spacelift/reference-architecture/reference/slack.md
               - installing-spacelift/reference-architecture/reference/telemetry.md
               - installing-spacelift/reference-architecture/reference/usage-reporting.md
-      - CloudFormation:
+      - CloudFormation (deprecated):
           - installing-spacelift/cloudformation/install.md
           - installing-spacelift/cloudformation/advanced-installations.md
           - installing-spacelift/cloudformation/disaster-recovery.md
+          - installing-spacelift/cloudformation/postgresql-version-upgrade.md
           - installing-spacelift/cloudformation/slack-integration-setup.md
           - installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.md
   - 🚀 Getting Started:
@@ -51,6 +57,7 @@ nav:
       - getting-started/create-stack/README.md
     - Step 4. Invite teammates:
       - getting-started/invite-teammates/README.md
+  - ❔ Support knowledge base: faq/support_kb.md
   - ✋ FAQ: faq/README.md
   - ⭐ Main Concepts:
       - Stack:
@@ -85,14 +92,18 @@ nav:
           - concepts/policy/login-policy.md
           - concepts/policy/stack-access-policy.md
           - concepts/policy/approval-policy.md
-          - concepts/policy/run-initialization-policy.md
           - concepts/policy/notification-policy.md
           - concepts/policy/terraform-plan-policy.md
           - Push Policy:
               - concepts/policy/push-policy/README.md
               - concepts/policy/push-policy/run-external-dependencies.md
-          - concepts/policy/task-run-policy.md
           - concepts/policy/trigger-policy.md
+          - Deprecated Policies:
+              - concepts/policy/deprecated/README.md
+              - concepts/policy/deprecated/run-initialization-policy.md
+              - concepts/policy/deprecated/task-run-policy.md
+              - concepts/policy/deprecated/migrate-to-approval-policy.md
+              - concepts/policy/deprecated/migrate-to-spaces.md
       - Resources:
           - concepts/resources/README.md
           - concepts/resources/configuration-management.md
@@ -147,7 +158,7 @@ nav:
           # Hence the override.
           - C#: vendors/pulumi/c-sharp.md
           - vendors/pulumi/golang.md
-          - vendors/pulumi/javascript.md
+          - vendors/pulumi/typescript.md
           - vendors/pulumi/python.md
       - AWS CloudFormation:
           - vendors/cloudformation/README.md

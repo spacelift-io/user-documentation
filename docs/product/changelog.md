@@ -4,6 +4,63 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2026-02-04
+
+- **Terragrunt Stacks**: OpenTofu is now the default tool when creating Terragrunt stacks, replacing Terraform as the default option.
+
+## 2026-02-02
+
+- UI feature: Added warning when attaching stack roles to admin stacks.
+
+## 2026-01-30
+
+- API fix: Resolved URL handling for OIDC keys with double slashes in audience.
+
+## 2026-01-28
+
+### Features
+
+- **Drift Detection Permissions**: Added granular RBAC permissions for drift detection management. Users can now be granted specific permissions to create, update, or delete drift detection schedules on stacks (`DRIFT_DETECTION_INTEGRATION_CREATE`, `DRIFT_DETECTION_INTEGRATION_UPDATE`, `DRIFT_DETECTION_INTEGRATION_DELETE`), enabling more fine-grained access control for drift detection operations.
+
+## 2026-01-21
+
+### Features
+
+- **AWS Integration**: Added session tagging support for AWS role assumptions. You can now enable the "Enable tag session" option when creating or editing AWS integrations, which adds session tags when Spacelift assumes the configured IAM role. This helps with AWS CloudTrail auditing and compliance tracking. When enabled, the trust policy must include the `sts:TagSession` permission.
+
+## 2026-01-13
+
+- fix(dashboard): exclude modules from Stacks state dashboard element
+- feat(oidc-federation): add use:sig field to .well-known/jwks endpoint
+
+## 2026-01-09
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control how module can be
+    shared with other spaces. This allow to share a module with a space without granting full write to the target space.
+    - `SPACE_SHARE_MODULE` - Allow modules to be shared with an assigned space from other spaces
+
+    You may also probably want to set the `SPACE_READ` permission in order for your users to be able to see the availaible spaces in the UI.
+
+    See the [module sharing documentation](../vendors/terraform/module-registry.md#sharing-modules) for more details.
+
+## 2025-12-17
+
+### Features
+
+- **Cloud Integrations**: AWS and Azure integrations now support auto-attachment to stacks and modules. This follows the same behavior as other auto-attachable resources like contexts and policies. See the cloud integration documentation for [AWS](../integrations/cloud-providers/aws.md#auto-attach-integrations) and [Azure](../integrations/cloud-providers/azure.md#auto-attach-integrations) for more details.
+
+## 2025-12-10
+
+### Features
+
+- **Advanced Access Control**: Added granular permissions for Terraform Module Registry management. You can now control who can disable/enable modules, trigger module version tests, and mark module versions as bad through the following new permissions:
+    - `MODULE_DISABLE` - Disable a module
+    - `MODULE_ENABLE` - Enable a disabled module
+    - `MODULE_TRIGGER_VERSION` - Trigger module version tests
+    - `MODULE_MARK_AS_BAD` - Mark a module version as bad (yanking)
+
+  These permissions can be assigned to custom roles in your space, providing fine-grained control over module management operations.
+
 ## 2025-11-25
 
 ### Fixes

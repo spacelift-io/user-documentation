@@ -21,6 +21,26 @@ In order to enjoy the maximum level of flexibility and security with a private w
 
     Containerized workers can share the same virtual server because the management is handled by the orchestrator.
 
+## Shared responsibility model
+
+Spacelift shares the responsibility for overall worker maintenance with you. How you use public and private workers depends on the level of configuration your organization needs and the level of responsibility you can take on. There are some worker permissions you can only manage with [private workers](#private-worker-pool).
+
+In your infrastructure, responsibility is broken down into chunks:
+
+![Shared responsibility model](<../../assets/screenshots/worker-pools-shared-responsibility-models.png>)
+
+### Public vs private worker comparison
+
+Private workers offer more customization options, but your organization is responsible for maintaining them by configuring compute resources, network access rules, and worker updates. With public workers, maintenance falls on Spacelift's side.
+
+| Private workers | Public workers |
+| ----------------| -------------- |
+| Offer more customization but require more responsibility from client | Offer less customization but require less responsibility |
+| Deployed in client infrastructure | Deployed in Spacelift's infrastructure |
+| Assumes client's cloud provider IAM role | Needs trust relations between Spacelift's cloud provider and client's |
+| All actions taken from client's infrastructure | All actions taken from Spacelift's infrastructure |
+| Private or public Docker repository | Only public Docker repository |
+
 ## Setting up
 
 ### Generate Worker Private Key
@@ -71,7 +91,7 @@ A number of configuration variables are available to customize how your launcher
 - `SPACELIFT_DEBUG`- if set to true, this will output the exact commands spacelift runs to the worker logs.
 
 !!! warning
-    [Server-side initialization policies](../../concepts/policy/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
+    [Server-side initialization policies](../../concepts/policy/deprecated/run-initialization-policy.md) are being deprecated. `SPACELIFT_LAUNCHER_RUN_INITIALIZATION_POLICY` shouldn't be confused with that. This policy is a Worker-side initialization policy and it can be set by using the launcher run initialization policy flag.
 
     For a limited time period we will be running both types of initialization policy checks but ultimately we're planning to move the pre-flight checks to the worker node, thus allowing customers to block suspicious looking jobs on their end.
 
@@ -142,10 +162,10 @@ Your worker needs access to the following AWS services in order to function corr
 {% if is_saas() %}
 
 - Access to the public Elastic Container Registry if using our default runner image.
-- Access to `app.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
+- Access to `app.spacelift.io`, `registry.spacelift.io`, `<your account name>.app.spacelift.io`, and `downloads.spacelift.io` which point at CloudFront.
 - Access to `worker-iot.spacelift.io`. This points at the [AWS IoT Core endpoints](https://docs.aws.amazon.com/general/latest/gr/iot-core.html){: rel="nofollow"} for worker communication via MQTT.
     - !!! info "US Regional URLs"
-          If your account is in the US region, your workers need access to `app.us.spacelift.io`, `<your account name>.app.us.spacelift.io`, `downloads.us.spacelift.io`, and `worker-iot.us.spacelift.io` instead.
+          If your account is in the US region, your workers need access to `app.us.spacelift.io`, `registry.us.spacelift.io`, `<your account name>.app.us.spacelift.io`, `downloads.us.spacelift.io`, and `worker-iot.us.spacelift.io` instead.
 - Access to [Amazon S3](https://docs.aws.amazon.com/general/latest/gr/s3.html){: rel="nofollow"} for uploading run logs.
 
 !!! tip "Failover"

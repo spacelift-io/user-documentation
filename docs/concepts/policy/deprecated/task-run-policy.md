@@ -2,7 +2,7 @@
 
 !!! warning
 
-    Task run policies are deprecated. Use [approval policies](./approval-policy.md) instead for a more flexible, powerful way to control which tasks are allowed to proceed.
+    Task run policies are deprecated. Use [approval policies](../approval-policy.md) instead for a more flexible, powerful way to control which tasks are allowed to proceed.
 
     Existing users with task run policies should migrate as soon as possible using our [migration guide](#migration-guide).
 
@@ -19,15 +19,23 @@ Task run policies prevent:
 
 Task policies only use a single rule, **deny**, with a string message. A single match for that rule will prevent a run from being created, with an appropriate API error. Let's define a simple rule and attach it to a stack:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["not in my town, you don't"] { true }
-```
+    deny contains "not in my town, you don't" if true
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["not in my town, you don't"] { true }
+    ```
 
 Here's the outcome when trying to run a task:
 
-![Task run policy deny outcome](<../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png>)
+![Task run policy deny outcome](../../../assets/screenshots/Tasks_·_Stack_managed_by_Spacelift.png)
 
 ## Data input schema
 
@@ -85,76 +93,146 @@ In addition to our [helper functions](./README.md#helper-functions), we provide 
 
 This example blocks non-admins from running tasks:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny["only admins can run tasks"] { not input.session.admin }
-```
+    deny contains "only admins can run tasks" if not input.session.admin
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny["only admins can run tasks"] { not input.session.admin }
+    ```
 
 However, we could allow writers to run some commands we consider safe, like resource [tainting and untainting](https://www.terraform.io/docs/commands/taint.html){: rel="nofollow"}:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-deny[sprintf("command not allowed (%s)", [command])] {
-  command := input.request.command
+    deny contains sprintf("command not allowed (%s)", [command]) if {
+      command := input.request.command
 
-  not input.session.admin
-  not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
-}
-```
+      not input.session.admin
+      not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    deny[sprintf("command not allowed (%s)", [command])] {
+      command := input.request.command
+
+      not input.session.admin
+      not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+    }
+    ```
 
 If you want to keep allowlisting different commands, it may be more elegant to flip the rule logic by creating a series of _allowed_ rules and one _deny_ rule as `not allowed`. This example uses that approach to remind users not to run anything during the weekend:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-command := input.request.command
+    command := input.request.command
 
-deny[sprintf("command not allowed (%s)", [command])] { not allowed }
+    deny contains sprintf("command not allowed (%s)", [command]) if not allowed
 
-deny["no tasks on weekends"] {
-  today   := time.weekday(input.request.timestamp_ns)
-  weekend := { "Saturday", "Sunday" }
+    deny contains "no tasks on weekends" if {
+      today := time.weekday(input.request.timestamp_ns)
+      weekend := {"Saturday", "Sunday"}
 
-  weekend[today]
-}
+      weekend[today]
+    }
 
-allowed { input.session.admin }
-allowed { regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
-allowed { regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
-```
+    allowed if input.session.admin
+    allowed if regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+    allowed if regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command)
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    command := input.request.command
+
+    deny[sprintf("command not allowed (%s)", [command])] { not allowed }
+
+    deny["no tasks on weekends"] {
+      today   := time.weekday(input.request.timestamp_ns)
+      weekend := { "Saturday", "Sunday" }
+
+      weekend[today]
+    }
+
+    allowed { input.session.admin }
+    allowed { regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command) }
+    allowed { regex.match("^terraform\\simport\\s[\\w\\-\\.]*$", command) }
+    ```
 
 ## Migration guide
 
-A task policy can be expressed as an [approval policy](./approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Spacelift has, more or less, deprecated task policies in favor of approval policies.
+A task policy can be expressed as an [approval policy](../approval-policy.md) if it defines a single `reject` rule, and an `approve` rule that is its negation. Spacelift has, more or less, deprecated task policies in favor of approval policies.
 
 Here are the [task policy examples](#examples) rewritten as approval policies.
 
 ### Only allow OpenTofu/Terraform taint and untaint
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject {
-  command := input.run.command
-  not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
-}
+    reject if {
+      command := input.run.command
+      not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+    }
 
-approve { not reject }
-```
+    approve if not reject
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject {
+      command := input.run.command
+      not regex.match("^terraform\\s(un)?taint\\s[\\w\\-\\.]*$", command)
+    }
+
+    approve { not reject }
+    ```
 
 ### No tasks on weekends
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-reject {
-  today   := time.weekday(input.run.created_at)
-  weekend := { "Saturday", "Sunday" }
+    reject if {
+      today := time.weekday(input.run.created_at)
+      weekend := {"Saturday", "Sunday"}
 
-  weekend[today]
-}
+      weekend[today]
+    }
 
-approve { not reject }
-```
+    approve if not reject
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    reject {
+      today   := time.weekday(input.run.created_at)
+      weekend := { "Saturday", "Sunday" }
+
+      weekend[today]
+    }
+
+    approve { not reject }
+    ```

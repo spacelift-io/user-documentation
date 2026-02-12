@@ -40,11 +40,11 @@ jobs:
       RELEASE_BRANCH_NAME: ${{ inputs.environment_code == 'prod' && 'self-hosted-releases-prod' || 'self-hosted-releases-preprod' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Checkout Self-Hosted Releases
         if: ${{ inputs.deploy_self_hosted }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ env.RELEASE_BRANCH_NAME }}
           path: ${{ env.RELEASE_BRANCH_NAME }}

@@ -8,7 +8,7 @@ description: >-
 We provide a Kubernetes operator for managing Spacelift worker pools. The operator also works on OpenShift. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
 
 !!! info
-    Previously we provided a [Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool){: rel="nofollow"} for deploying worker pools to Kubernetes using Docker-in-Docker. This approach is no-longer recommended, and you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
+    The Docker-in-Docker approach is no-longer recommended, you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
 
 A `WorkerPool` defines the number of `Workers` registered with Spacelift via the `poolSize` parameter. The Spacelift operator will automatically create and register a number of `Worker` resources in Kubernetes depending on your `poolSize`.
 
@@ -51,9 +51,18 @@ The controller may also work with older versions, but we do not guarantee and pr
 
     You can open `values.yaml` from the helm chart repo for more customization options.
 
-    !!! warning
-        [Helm has no support at this time for upgrading or deleting crd's](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations) so this would need to be done manually through kubernetes.
-        [The latest CRD's can be found in this link](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller/crds).
+    !!! warning "Upgrading from chart versions prior to v0.58.0"
+        Starting with v0.58.0, the Helm chart manages CRDs via a subchart instead of the `crds/` directory. Before upgrading from an older version, you must label and annotate each existing CRD so Helm can adopt them:
+
+        ```shell
+        for crd in workerpools.workers.spacelift.io workers.workers.spacelift.io; do \
+          kubectl label crd "${crd}" 'app.kubernetes.io/managed-by=Helm' && \
+          kubectl annotate crd "${crd}" 'meta.helm.sh/release-name=spacelift-workerpool-controller' && \
+          kubectl annotate crd "${crd}" 'meta.helm.sh/release-namespace=spacelift-worker-controller-system'
+        done
+        ```
+
+        Failure to complete this step before upgrading will result in Helm conflicts with the pre-existing CRD resources.
 
     !!! tip "Prometheus metrics"
         The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
@@ -950,7 +959,7 @@ spec:
 
 ### Using VCS Agents with Kubernetes Workers
 
-Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](./README.md#vcs-agents) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
+Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](../vcs-agent-pools.md#run-the-vcs-agent-inside-a-kubernetes-cluster) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -1176,6 +1185,88 @@ During the controller's startup, you should see the `FIPS 140 mode {"enabled": t
 !!! note
     This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
 
+## Supply custom certificates to worker pools
+
+You can add custom certificate authority (CA) certificates to your worker pools. We support adding them to the controller container and to the container that runs OpenTofu/Terraform.
+
+### Add certificates to controller container
+
+1. Ensure your custom certificate is pem-encoded **and** the file name ends in `.pem`.
+2. Within the controller container, mount the certificate to `/ops/spacelift/certs`.
+
+This example is for the controller Helm chart. If you're using a manifest, you will need to edit it directly.
+
+``` yaml
+controllerManager:
+  manager:
+    extraVolumeMounts:
+      - name: ca-secret-volume
+        mountPath: /opt/spacelift/certs
+        readOnly: true
+  extraVolumes:
+    - name: ca-secret-volume
+      secret:
+        secretName: my-amazing-secret-with-something-dot-pem-inside-it
+```
+
+### Add certificates to the OpenTofu/Terraform process
+
+1. Prepare your **custom CA certificate**.
+      - Place your CA certificate in a directory on your computer (e.g., `custom-ca.pem`).
+2. Create an **extended CA bundle**.
+      - Download the existing CA cert bundle from the container and append your custom certificate:
+
+        ``` bash
+        docker run -it public.ecr.aws/spacelift/runner-terraform:latest cat /etc/ssl/certs/ca-certificates.crt > new-bundle.crt && cat custom-ca.pem >> new-bundle.crt
+        ```
+
+      - Ensure `new-bundle.crt` has a newline at the end.
+
+3. Create a **Kubernetes secret**.
+
+    ``` bash
+    kubectl create secret generic extended-ca-bundle --from-file=bundle=new-bundle.crt
+    ```
+
+4. **Update** your WorkerPool.
+      - Delete your existing WorkerPool object (required due to immutable fields):
+
+        ``` bash
+          kubectl delete workerpool workerpool -n spacelift-worker-pool-system
+        ```
+
+      - Create a new WorkerPool with the updated configuration, adjusting your `poolSize` and credential secret names as needed:
+
+        ``` yaml
+          apiVersion: workers.spacelift.io/v1beta1
+          kind: WorkerPool
+          metadata:
+            name: workerpool
+            namespace: spacelift-worker-pool-system
+          spec:
+            pod:
+              volumes:
+                - name: new-ca-bundle
+                  secret:
+                    secretName: extended-ca-bundle
+                    items:
+                      - key: bundle
+                        path: ca-certificates.crt
+              workerContainer:
+                volumeMounts:
+                  - name: new-ca-bundle
+                    mountPath: /etc/ssl/certs
+            poolSize: 5
+            privateKey:
+              secretKeyRef:
+                key: privateKey
+                name: spacelift-worker-pool-credentials
+            token:
+              secretKeyRef:
+                key: token
+                name: spacelift-worker-pool-credentials
+        ```
+
 ## Scaling a pool
 
 To scale your WorkerPool, you can either edit the resource in Kubernetes, or use the `kubectl scale` command:
@@ -1190,7 +1281,7 @@ Kubernetes workers are billed based on the number of provisioned workers that yo
 
 ## Migrating from Docker-in-Docker
 
-If you currently use our [Docker-in-Docker Helm chart](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-worker-pool) to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
+If you currently use Docker-in-Docker to run your worker pools, we recommend that you switch to our worker pool operator. For full details of how to install the operator and setup a worker pool, please see the [installation](#installation) section.
 
 The rest of this section provides useful information to be aware of when switching over from the Docker-in-Docker approach to the operator.
 
@@ -1205,7 +1296,7 @@ There are a number of improvements with the Kubernetes operator over the previou
 
 ### Deploying workers
 
-One major difference between the Docker-in-Docker Helm chart and the new operator is that the new chart only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
+One major difference between Docker-in-Docker and the new operator is that the new approach only deploys the operator, and not any workers. To deploy workers you need to create _WorkerPool_ resources after the operator has been deployed. See the section on [creating a worker pool](#create-a-workerpool) for more details.
 
 ### Testing both alongside each other
 

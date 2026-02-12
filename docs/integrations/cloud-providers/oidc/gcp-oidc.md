@@ -12,7 +12,7 @@ Many GCP resources require the [`project`](https://www.terraform.io/docs/provide
 
 ## Set up the Google Cloud Platform integration
 
-In order to enable Spacelift runs to access GCP resources, you need to set up Spacelift as a valid identity provider for your account within GCP.
+To enable Spacelift runs to access GCP resources, you need to set up Spacelift as a valid identity provider for your account within GCP.
 
 ### Set Spacelift as a valid identity provider
 
@@ -27,8 +27,8 @@ In order to enable Spacelift runs to access GCP resources, you need to set up Sp
     ![Add workload identity provider to GCP](<../../../assets/screenshots/oidc/gcp-add-provider.png>)
       1. **Select a provider**: Select **OpenID Connect (OIDC)**.
       2. **Provider name**: Enter the email address linked to your Spacelift account.
-      3. **Issuer (URL)**: The URL of your Spacelift account, including the scheme. Ensure you add [`iss`](./README.md#standard-claims) to the URL.
-      4. **Audiences**: Select **Allowed audiences**, then enter the hostname of your Spacelift account (e.g. `demo.app.spacelift.io`). Ensure you add [`aud`](./README.md#standard-claims) to the hostname.
+      3. **Issuer (URL)**: The [URL of your Spacelift account](./README.md#standard-claims), including the scheme.
+      4. **Audiences**: Select **Allowed audiences**, then enter the [hostname](./README.md#standard-claims) of your Spacelift account (e.g. `demo.app.spacelift.io`).
 6. Fill in the provider attributes to configure mappings between Spacelift token claims (assertions) and Google attributes:
     ![GCP provider attribute mapping](<../../../assets/screenshots/oidc/gcp-provider-attributes.png>)
        1. **Google 1**: This is filled in automatically with `google.subject`.
@@ -155,6 +155,10 @@ Here is an example of using a Spacelift [context](../../../concepts/configuratio
 ![GCP Spacelift settings](<../../../assets/screenshots/oidc/gcp-spacelift-settings.png>)
 
 For more information about configuring the OpenTofu/Terraform provider, please see the [Google Cloud Terraform provider docs](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#credentials){: rel="nofollow"}. The Pulumi configuration follows the same steps as OpenTofu/Terraform.
+
+## Alternative setup: direct resource access
+
+If you need to avoid using service accounts in GCP, Spacelift supports [direct resource access mode in GCP](../../../getting-started/integrate-cloud/GCP.md#alternative-setup-direct-resource-access). Since Spacelift only produces the OIDC token and configuration is handled on the GCP portal, you can use OIDC without service account impersonation.
 
 ## Troubleshooting
 

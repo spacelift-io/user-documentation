@@ -1,9 +1,10 @@
 # Invite teammates to your Spacelift instance
 
-You have two options for inviting people to your Spacelift account:
+You have a few options for inviting people to your Spacelift account:
 
 - Add [single users](#add-single-users).
 - Add [users via policies](#add-users-via-policies).
+- Add groups with [IdP group mapping](../../concepts/authorization/assigning-roles-groups.md#idp-group-role-bindings).
 
 !!! warning
     Granting access to individuals is more risky than granting access to only teams and account members. In the latter case, when an account member loses access to your organization, they automatically lose access to Spacelift. But when allowlisting individuals and _not_ restricting access to members only, you'll need to explicitly remove the individuals from your Spacelift login policy.
@@ -41,38 +42,68 @@ You have two options for inviting people to your Spacelift account:
 === "GitHub"
     This example uses GitHub usernames to grant access to Spacelift.
 
-    ```opa
-    package spacelift
+    === "Rego v1"
+        ```opa
+        package spacelift
 
-    admins  := { "alice" }
-    allowed := { "bob", "charlie", "danny" }
-    login   := input.session.login
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    deny  { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```opa
+        package spacelift
+
+        admins  := { "alice" }
+        allowed := { "bob", "charlie", "danny" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        deny  { not admin; not allow }
+        ```
+
     !!! tip
         GitHub organization admins are automatically Spacelift admins. There is no need to grant them permissions in the Login policy.
 
 === "GitLab, Google, Microsoft"
     This example uses email addresses to grant access to Spacelift.
 
-    ```rego
-    package spacelift
+    === "Rego v1"
+        ```rego
+        package spacelift
 
-    admins  := { "alice@example.com" }
-    allowed := { "bob@example.com" }
-    login   := input.session.login
+        admins := {"alice@example.com"}
+        allowed := {"bob@example.com"}
+        login := input.session.login
 
-    admin { admins[login] }
-    allow { allowed[login] }
-    # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
-    deny  { not admin; not allow }
-    ```
+        admin if admins[login]
+        allow if allowed[login]
+        # allow if endswith(input.session.login, "@example.com") Alternatively, grant access to every user with an @example.com email address
+        deny if { not admin; not allow }
+        ```
+
+    === "Rego v0"
+        ```rego
+        package spacelift
+
+        admins  := { "alice@example.com" }
+        allowed := { "bob@example.com" }
+        login   := input.session.login
+
+        admin { admins[login] }
+        allow { allowed[login] }
+        # allow { endswith(input.session.login, "@example.com") } Alternatively, grant access to every user with an @example.com email address
+        deny  { not admin; not allow }
+        ```
 
 Now your colleagues can access your Spacelift account as well.
 
-✅ Step 4 of the LaunchPad is complete! Now you can explore and configure Spacelift as needed. Consider triggering your [first stack run](../../README.md#trigger-your-first-run), or creating a [policy](../../concepts/policy/README.md#creating-policies) or a [context](../../concepts/configuration/context.md#creating).
+✅ Step 4 of the LaunchPad is complete! Now you can explore and configure Spacelift as needed. Consider triggering your [first stack run](../../README.md#trigger-your-first-run), or creating a [policy](../../concepts/policy/README.md#creating-policies) or a [context](../../concepts/configuration/context.md#creating-a-context).
 
 ![LaunchPad Step 4 complete](<../../assets/screenshots/getting-started/invite-teammates/LaunchPad-step-4-complete.png>)

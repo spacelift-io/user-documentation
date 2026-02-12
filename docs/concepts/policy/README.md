@@ -12,11 +12,11 @@ Spacelift as a development platform is built around this concept and allows defi
 - **Login**: [Who gets to log in](login-policy.md) to your Spacelift account and with what level of access.
 - **Access**: [Who gets to access individual Stacks](stack-access-policy.md) and with what level of access. Access policies have been replaced by [space access control](../spaces/access-control.md).
 - **Approval**: [Who can approve or reject a run](approval-policy.md) and how a run can be approved.
-- **Initialization**: [Which runs and tasks can be started](run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
+- **Initialization**: [Which runs and tasks can be started](deprecated/run-initialization-policy.md). Initialization policies have been replaced by [approval policies](./approval-policy.md).
 - **Notification**: [Routing and filtering notifications](notification-policy.md).
 - **Plan**: [Which changes can be applied](terraform-plan-policy.md).
 - **Push**: [How Git push events are interpreted](push-policy/README.md).
-- **Task**: [Which one-off commands can be executed](task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
+- **Task**: [Which one-off commands can be executed](deprecated/task-run-policy.md). Task run policies have been replaced by [approval policies](./approval-policy.md).
 - **Trigger**: [What happens when blocking runs terminate](trigger-policy.md). Trigger policies have been mostly replaced by [stack dependencies](../stack/stack-dependencies.md).
 
 Please refer to the following table for information on what each policy types returns, and the rules available within each policy.
@@ -26,11 +26,11 @@ Please refer to the following table for information on what each policy types re
 | [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin` |
 | [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
 | [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve, reject` |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>`      | `deny` |
 | [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
 | [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
 | [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
 | [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
@@ -103,11 +103,11 @@ Please refer to the following table for information on what each policy types re
 | [Login](login-policy.md) | Allow or deny login, grant admin access | Positive and negative | `boolean` | `allow`, `admin`, `deny`, `deny_admin`|
 | [Access](stack-access-policy.md) | Grant or deny appropriate level of stack access | Positive and negative | `boolean` | `read`, `write`, `deny`, `deny_write` |
 | [Approval](approval-policy.md) | Who can approve or reject a run and how a run can be approved | Positive and negative | `boolean` | `approve`, `reject` |
-| [Initialization](run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>` | `deny` |
+| [Initialization](deprecated/run-initialization-policy.md) | Blocks suspicious [runs](../run/README.md) before they [start](../run/README.md#initializing) | Negative | `set<string>` | `deny` |
 | [Notification](notification-policy.md) | Routes and filters notifications | Positive | `map<string, any>` | `inbox`, `slack`, `webhook` |
 | [Plan](terraform-plan-policy.md) | Gives feedback on [runs](../run/README.md) after [planning](../run/proposed.md#planning) phase | Negative | `set<string>` | `deny`, `warn` |
 | [Push](push-policy/README.md) | Determines how a Git push event is interpreted | Positive and negative | `boolean` | `track`, `propose`, `ignore`, `ignore_track`, `notrigger`, `notify` |
-| [Task](task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
+| [Task](deprecated/task-run-policy.md) | Blocks suspicious [tasks](../run/task.md) from running | Negative | `set<string>` | `deny` |
 | [Trigger](trigger-policy.md) | Selects [stacks](../stack/README.md) for which to trigger a [tracked run](../run/tracked.md) | Positive | `set<string>` | `trigger` |
 
 !!! tip
@@ -121,47 +121,88 @@ Please refer to the following table for information on what each policy types re
 
 ### Set of strings
 
-The second group of policies ([initialization](run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions. Only their lack counts as an implicit success.
+The second group of policies ([initialization](deprecated/run-initialization-policy.md), [plan](terraform-plan-policy.md), and [task](deprecated/task-run-policy.md)) is expected to generate a [**set of strings**](https://www.openpolicyagent.org/docs/latest/policy-language/#generating-sets){: rel="nofollow"} that serve as _direct feedback_ to the user. Those rules are generally negative in that they **can only block** certain actions. Only their lack counts as an implicit success.
 
 Here's a practical difference between the two types:
 
 === "Boolean returns"
-    ```opa title="boolean.rego"
-    package spacelift
 
-    # This is a simple deny rule.
-    # When it matches, no feedback is provided.
-    deny {
-      true
-    }
-    ```
+    === "Rego v1"
+        ```opa title="boolean.rego"
+        package spacelift
+
+        # This is a simple deny rule.
+        # When it matches, no feedback is provided.
+        deny if {
+          true
+        }
+        ```
+
+    === "Rego v0"
+        ```opa title="boolean.rego"
+        package spacelift
+
+        # This is a simple deny rule.
+        # When it matches, no feedback is provided.
+        deny {
+          true
+        }
+        ```
 
 === "String returns"
-    ```opa title="string.rego"
-    package spacelift
 
-    # This is a deny rule with string value.
-    # When it matches, that value is reported to the user.
-    deny["the user will see this"] {
-      true
-    }
-    ```
+    === "Rego v1"
+        ```opa title="string.rego"
+        package spacelift
+
+        # This is a deny rule with string value.
+        # When it matches, that value is reported to the user.
+        deny contains "the user will see this" if {
+          true
+        }
+        ```
+
+    === "Rego v0"
+        ```opa title="string.rego"
+        package spacelift
+
+        # This is a deny rule with string value.
+        # When it matches, that value is reported to the user.
+        deny["the user will see this"] {
+          true
+        }
+        ```
 
 For the policies that generate a set of strings, you want these strings to be both informative and relevant, so you'll see this pattern a lot in the examples:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-we_dont_create := { "scary", "resource", "types" }
+    we_dont_create := {"scary", "resource", "types"}
 
-# This is an example of a plan policy.
-deny[sprintf("some rule violated (%s)", [resource.address])] {
-  some resource
-  created_resources[resource]
+    # This is an example of a plan policy.
+    deny contains sprintf("some rule violated (%s)", [resource.address]) if {
+      some resource in created_resources
 
-  we_dont_create[resource.type]
-}
-```
+      we_dont_create[resource.type]
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    we_dont_create := {"scary", "resource", "types"}
+
+    # This is an example of a plan policy.
+    deny[sprintf("some rule violated (%s)", [resource.address])] {
+      some resource
+      created_resources[resource]
+
+      we_dont_create[resource.type]
+    }
+    ```
 
 ### Complex objects
 
@@ -169,19 +210,35 @@ deny[sprintf("some rule violated (%s)", [resource.address])] {
 
 For example, this rule which will return a JSON object to be used when creating a custom notification:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-inbox[{
-  "title": "Tracked run finished!",
-  "body": sprintf("Run ID: %s", [run.id]),
-  "severity": "INFO",
-}] {
-  run := input.run_updated.run
-  run.type == "TRACKED"
-  run.state == "FINISHED"
-}
-```
+    inbox contains {
+      "title": "Tracked run finished!",
+      "body": sprintf("Run ID: %s", [run.id]),
+      "severity": "INFO",
+    } if {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "FINISHED"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    inbox[{
+      "title": "Tracked run finished!",
+      "body": sprintf("Run ID: %s", [run.id]),
+      "severity": "INFO",
+    }] {
+      run := input.run_updated.run
+      run.type == "TRACKED"
+      run.state == "FINISHED"
+    }
+    ```
 
 ### Helper functions
 
@@ -245,31 +302,59 @@ You can create approval, push, plan, trigger, and notification policies in the w
 
 We prepend variable definitions to each policy. These variables can be different for each type, but the prepended code is very similar. Here's an example for the [Approval](approval-policy.md) policy:
 
-```opa
-package spacelift
+=== "Rego v1"
+    ```opa
+    package spacelift
 
-# This is what Spacelift will query for when evaluating policies.
-result = {
-  "approve": approve,
-  "reject": reject,
-  "flag": flag,
-  "sample": sample,
-}
+    # This is what Spacelift will query for when evaluating policies.
+    result := {
+      "approve": approve,
+      "reject": reject,
+      "flag": flag,
+      "sample": sample,
+    }
 
-# Default to ensure that "approve" is defined.
-default approve = false
+    # Default to ensure that "approve" is defined.
+    default approve := false
 
-# Default to ensure that "reject" is defined.
-default reject = false
+    # Default to ensure that "reject" is defined.
+    default reject := false
 
-# Default to ensure that "sample" is defined.
-default sample = false
+    # Default to ensure that "sample" is defined.
+    default sample := false
 
-# Placeholder to ensure that "flag" will be a set.
-flag["never"] {
-  false
-}
-```
+    # Placeholder to ensure that "flag" will be a set.
+    flag contains "never" if {
+      false
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    # This is what Spacelift will query for when evaluating policies.
+    result = {
+      "approve": approve,
+      "reject": reject,
+      "flag": flag,
+      "sample": sample,
+    }
+
+    # Default to ensure that "approve" is defined.
+    default approve = false
+
+    # Default to ensure that "reject" is defined.
+    default reject = false
+
+    # Default to ensure that "sample" is defined.
+    default sample = false
+
+    # Placeholder to ensure that "flag" will be a set.
+    flag["never"] {
+      false
+    }
+    ```
 
 !!! warning
     You can't change predefined variable types. Doing so will result in a policy validation error and the policy won't be saved.
@@ -315,24 +400,45 @@ Enter **policy workbench**. Policy workbench captures policy evaluation events s
 
 Each of Spacelift's policies supports an additional boolean rule called `sample`. Returning `true` from this rule means that the input to the policy evaluation is captured, along with the policy body at the time and the exact result of the policy evaluation. You can, for example, capture every evaluation with a simple:
 
-```opa
-sample { true }
-```
+=== "Rego v1"
+    ```opa
+    sample if true
+    ```
 
-If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](task-run-policy.md) policy):
+=== "Rego v0"
+    ```opa
+    sample { true }
+    ```
 
-```opa
-sample { count(deny) == 0 }
-```
+If that feels a bit simplistic, you can adjust this rule to capture only certain types of inputs. For example, in this case we only want to capture evaluations that returned in an empty list for `deny` reasons (e.g. with a [plan](terraform-plan-policy.md) or [task](deprecated/task-run-policy.md) policy):
+
+=== "Rego v1"
+    ```opa
+    sample if count(deny) == 0
+    ```
+
+=== "Rego v0"
+    ```opa
+    sample { count(deny) == 0 }
+    ```
 
 You can also sample a certain percentage of policy evaluations. Given that we don't generally allow nondeterministic evaluations, you'd need to depend on a source of randomness internal to the input. In this example, we will use the timestamp turned into milliseconds from nanoseconds to get a better spread. We'll also sample every 10th evaluation:
 
-```opa
-sample {
-  millis := round(input.spacelift.request.timestamp_ns / 1e6)
-  millis % 100 <= 10
-}
-```
+=== "Rego v1"
+    ```opa
+    sample if {
+      millis := round(input.spacelift.request.timestamp_ns / 1e6)
+      millis % 100 <= 10
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    sample {
+      millis := round(input.spacelift.request.timestamp_ns / 1e6)
+      millis % 100 <= 10
+    }
+    ```
 
 ### Why sample?
 
@@ -340,7 +446,7 @@ Capturing all evaluations sounds tempting, but it will also be extremely messy. 
 
 ### Policy workbench in practice
 
-To show you how to work with the policy workbench, we are going to use a [task policy](task-run-policy.md) that allowlists just two tasks: an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty.
+To show you how to work with the policy workbench, we are going to use a [task policy](deprecated/task-run-policy.md) that allowlists just two tasks: an innocent `ls`, and tainting a particular resource. It also only samples successful evaluations, where the list of `deny` reasons is empty.
 
 !!! info
     This example comes from our [test Terraform repo](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}, which gives you hands-on experience with most Spacelift functionalities within 10-15 minutes.
@@ -416,25 +522,47 @@ Spacelift uses a well-documented and well-supported open-source language, [Rego]
 
 Let's define a simple [login policy](login-policy.md) that denies access to [non-members](login-policy.md#restricting-access-in-specific-circumstances), and write a test for it:
 
-```opa title="deny-non-members.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-non-members.rego"
+    package spacelift
 
-deny { not input.session.member }
-```
+    deny if not input.session.member
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-non-members.rego"
+    package spacelift
+
+    deny { not input.session.member }
+    ```
 
 You'll see that we simply mock out the `input` received by the policy:
 
-```opa title="deny-non-members_test.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-non-members_test.rego"
+    package spacelift
 
-test_non_member {
-    deny with input as { "session": { "member": false } }
-}
+    test_non_member if {
+        deny with input as {"session": {"member": false}}
+    }
 
-test_member_not_denied {
-    not deny with input as { "session": { "member": true } }
-}
-```
+    test_member_not_denied if {
+        not deny with input as {"session": {"member": true}}
+    }
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-non-members_test.rego"
+    package spacelift
+
+    test_non_member {
+        deny with input as {"session": {"member": false}}
+    }
+
+    test_member_not_denied {
+        not deny with input as {"session": {"member": true}}
+    }
+    ```
 
 We can then test it in the console using `opa test` command (note the glob, which captures both the source and its associated test):
 
@@ -443,34 +571,63 @@ We can then test it in the console using `opa test` command (note the glob, whic
 PASS: 2/2
 ```
 
-Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](run-initialization-policy.md) that **denies commits** to a particular branch:
+Testing policies that provide feedback to the users is only slightly more complex. Instead of checking for boolean values, you'll be testing for set equality. Let's define a simple [run initialization policy](deprecated/run-initialization-policy.md) that **denies commits** to a particular branch:
 
-```opa title="deny-sandbox.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-sandbox.rego"
+    package spacelift
 
-deny[sprintf("don't push to %s", [branch])] {
-  branch := input.commit.branch
-  branch == "sandbox"
-}
-```
+    deny contains sprintf("don't push to %s", [branch]) if {
+      branch := input.commit.branch
+      branch == "sandbox"
+    }
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-sandbox.rego"
+    package spacelift
+
+    deny[sprintf("don't push to %s", [branch])] {
+      branch := input.commit.branch
+      branch == "sandbox"
+    }
+    ```
 
 In the test, we will check that the set return by the **deny** rule either has the expected element for the matching input, or is empty for non-matching one:
 
-```opa title="deny-sandbox_test.rego"
-package spacelift
+=== "Rego v1"
+    ```opa title="deny-sandbox_test.rego"
+    package spacelift
 
-test_sandbox_denied {
-  expected := { "don't push to sandbox" }
+    test_sandbox_denied if {
+      expected := {"don't push to sandbox"}
 
-  deny == expected with input as { "commit": { "branch": "sandbox" } }
-}
+      deny == expected with input as {"commit": {"branch": "sandbox"}}
+    }
 
-test_master_not_denied {
-  expected := set()
+    test_master_not_denied if {
+      expected := set()
 
-  deny == expected with input as { "commit": { "branch": "master" } }
-}
-```
+      deny == expected with input as {"commit": {"branch": "master"}}
+    }
+    ```
+
+=== "Rego v0"
+    ```opa title="deny-sandbox_test.rego"
+    package spacelift
+
+    test_sandbox_denied {
+      expected := {"don't push to sandbox"}
+
+      deny == expected with input as {"commit": {"branch": "sandbox"}}
+    }
+
+    test_master_not_denied {
+      expected := set()
+
+      deny == expected with input as {"commit": {"branch": "master"}}
+    }
+    ```
 
 Again, we can test the policy in the console using `opa test` (note the glob, which captures both the source and its associated test):
 
@@ -492,34 +649,71 @@ Say you have a [push policy](./push-policy/README.md) with access to the list of
 
 Approvals are handled by an [approval policy](./approval-policy.md) but it doesn't retain access to the list of affected files you need. This is where policy flags come in: set arbitrary review flags on the run in the push policy. This can be a separate push policy as in this example, or part of one of your pre-existing push policies. For simplicity, our example will only focus on `network`.
 
-```rego title="flag_for_review.rego"
-package spacelift
+=== "Rego v1"
+    ```rego title="flag_for_review.rego"
+    package spacelift
 
-network_review_flag = "review:network"
+    network_review_flag := "review:network"
 
-flag[network_review_flag] {
-  startswith(input.push.affected_files[_], "network/")
-}
+    flag contains network_review_flag if {
+      some file in input.push.affected_files
+      startswith(file, "network/")
+    }
 
-flag[network_review_flag] {
-  startswith(input.pull_request.diff[_], "network/*")
-}
-```
+    flag contains network_review_flag if {
+      some diff in input.pull_request.diff
+      startswith(diff, "network/*")
+    }
+    ```
+
+=== "Rego v0"
+    ```rego title="flag_for_review.rego"
+    package spacelift
+
+    network_review_flag = "review:network"
+
+    flag[network_review_flag] {
+      startswith(input.push.affected_files[_], "network/")
+    }
+
+    flag[network_review_flag] {
+      startswith(input.pull_request.diff[_], "network/*")
+    }
+    ```
 
 Now, we can introduce a network approval policy using this flag.
 
-```rego title="network-review.rego"
-package spacelift
+=== "Rego v1"
+    ```rego title="network-review.rego"
+    package spacelift
 
-network_review_required {
-  input.run.flags[_] == "review:network"
-}
+    network_review_required if {
+      some flag in input.run.flags
+      flag == "review:network"
+    }
 
-approve { not network_review_required }
-approve {
-  input.reviews.current.approvals[_].session.teams[_] == "DBA"
-}
-```
+    approve if not network_review_required
+
+    approve if {
+      some approval in input.reviews.current.approvals
+      some team in approval.session.teams
+      team == "DBA"
+    }
+    ```
+
+=== "Rego v0"
+    ```rego title="network-review.rego"
+    package spacelift
+
+    network_review_required {
+      input.run.flags[_] == "review:network"
+    }
+
+    approve { not network_review_required }
+    approve {
+      input.reviews.current.approvals[_].session.teams[_] == "DBA"
+    }
+    ```
 
 There are a few things worth knowing about flags:
 
@@ -543,11 +737,53 @@ However, we do reserve the right to add new fields to policy inputs and introduc
 
 For example, in a push policy, you might write a rule as follows:
 
-```rego title="backwards-compatibility.rego"
-track {
-  not is_null(input.pull_request)
-  input.pull_request.labels[_] == "deploy"
-}
-```
+=== "Rego v1"
+    ```rego title="backwards-compatibility.rego"
+    track if {
+      not is_null(input.pull_request)
+      some label in input.pull_request.labels
+      label == "deploy"
+    }
+    ```
+
+=== "Rego v0"
+    ```rego title="backwards-compatibility.rego"
+    track {
+      not is_null(input.pull_request)
+      input.pull_request.labels[_] == "deploy"
+    }
+    ```
 
 As you can see, the first line in the `track` rule makes sure that we only respond to events that contain the `pull_request`j field.
+
+## Evaluation timeouts
+
+All policies have a maximum evaluation time to ensure that they do not negatively impact Spacelift's performance. Some policies have a longer timeout due to the complexity of their inputs and expected processing time.
+
+The following table outlines the timeout durations for each policy type:
+
+| Type                      | Timeout  |
+|---------------------------|----------|
+| Plan                      | 45s      |
+| Notification              | 10s      |
+| Push                      | 10s      |
+| All other policies        | 5s       |
+
+!!! Info
+    Usually there are multiple policies being evaluated for an event. The combined evaluation time for all policies is 5 minutes
+
+{% if is_self_hosted() %}
+Self-hosted deployments have additional control over policy evaluation timeouts. You can adjust the timeouts with flags or using these environment variables:
+
+- `POLICY_REGO_TIMEOUT_PLAN`
+- `POLICY_REGO_TIMEOUT_LOGIN`
+- `POLICY_REGO_TIMEOUT_PUSH`
+- `POLICY_REGO_TIMEOUT_APPROVAL`
+- `POLICY_REGO_TIMEOUT_TRIGGER`
+- `POLICY_REGO_TIMEOUT_NOTIFICATION`
+- `POLICY_REGO_TIMEOUT_INTENT`
+- `POLICY_REGO_EVALUATION_COMBINED_TIMEOUT`
+
+These variables accept duration strings (e.g., `30s`, `2m`).
+
+{% endif %}

@@ -149,14 +149,25 @@ Policies can react to stack role attachments through the `stack.roles` field in 
 
 ### Example: Reject Space Admin role usage
 
-```rego
-package spacelift
+=== "Rego v1"
+    ```rego
+    package spacelift
 
-reject_with_note["Don't use the Space Admin role!"] {
-  role := input.stack.roles[_]
-  role.id == "space-admin" # (1)
-}
-```
+    reject_with_note contains "Don't use the Space Admin role!" if {
+      some role in input.stack.roles
+      role.id == "space-admin" # (1)
+    }
+    ```
+
+=== "Rego v0"
+    ```rego
+    package spacelift
+
+    reject_with_note["Don't use the Space Admin role!"] {
+      role := input.stack.roles[_]
+      role.id == "space-admin" # (1)
+    }
+    ```
 
 1. Role slug. Use either "Copy Slug" button in the UI or the [`spacelift_role` data source](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/datasources/role){: rel="nofollow"} to retrieve it.
 
@@ -247,30 +258,30 @@ List all stacks with `administrative = true` in your account. You can do this th
 
 Attach the Space Admin role to the stack using the stack's own space as the binding space:
 
-**Using the Terraform provider:**
+=== "Using the Terraform provider"
 
-```hcl
-data "spacelift_role" "admin_role" {
-  slug = "space-admin"
-}
-      
-resource "spacelift_role_attachment" "stack_admin" {
-  stack_id = spacelift_stack.management.id
-  space_id = spacelift_stack.management.space_id
-  role_id  = data.spacelift_role.admin_role.id
-}
-```
+    ```hcl
+    data "spacelift_role" "admin_role" {
+      slug = "space-admin"
+    }
+          
+    resource "spacelift_role_attachment" "stack_admin" {
+      stack_id = spacelift_stack.management.id
+      space_id = spacelift_stack.management.space_id
+      role_id  = data.spacelift_role.admin_role.id
+    }
+    ```
 
-**Using the Web UI:**
+=== "Using the Web UI"
 
-1. Navigate to the stack's **Settings** page, then choose **Roles**
-2. Click **Manage Roles** on the top right
-3. In the drawer, select the **Space admin** role and the stack's own Space as the target
-4. Click **Add**
+    1. Navigate to the stack's **Settings** page, then choose **Roles**.
+    2. Click **Manage Roles** on the top right.
+    3. In the drawer, select the **Space admin** role and the stack's own space as the target.
+    4. Click **Add**.
 
-Assuming your stack is in the `dev` [Space](../spaces/README.md), the role attachment will grant **Space admin** permissions in the `dev` space:
+    Assuming your stack is in the `dev` [space](../spaces/README.md), the role attachment will grant **Space admin** permissions in the `dev` space:
 
-![](../../assets/screenshots/role_stacks_migration.png)
+    ![](../../assets/screenshots/role_stacks_migration.png)
 
 #### 3. Remove the administrative attribute
 
@@ -283,7 +294,7 @@ resource "spacelift_stack" "management" {
 }
 ```
 
-!!! important
+!!! warning
     The administrative flag takes precedence over role attachments. If `administrative = true`, any attached roles will be ignored. You must either set `administrative = false`, or entirely remove the administrative attribute (recommended) for role attachments to take effect.
 
 #### 4. Verify the role attachment
@@ -294,19 +305,35 @@ After creating the role attachment, verify that the stack can perform the same o
 
 If any of your policies reference the `stack.administrative` field, update them to use the `stack.roles` field instead. For example:
 
-```rego
-# Old policy:
-deny["Administrative stacks are not allowed"] {
-  stack := input.spacelift.stack
-  stack.administrative == true
-}
+=== "Rego v1"
+    ```rego
+    # Old policy:
+    deny contains "Administrative stacks are not allowed" if {
+      stack := input.spacelift.stack
+      stack.administrative == true
+    }
 
-# Would become:
-deny["Administrative stacks are not allowed"] {
-  role := input.spacelift.stack.roles[_]
-  role.id == "space-admin" # (1)
-}
-```
+    # Would become:
+    deny contains "Administrative stacks are not allowed" if {
+      some role in input.stack.roles
+      role.id == "space-admin" # (1)
+    }
+    ```
+
+=== "Rego v0"
+    ```rego
+    # Old policy:
+    deny["Administrative stacks are not allowed"] {
+      stack := input.spacelift.stack
+      stack.administrative == true
+    }
+
+    # Would become:
+    deny["Administrative stacks are not allowed"] {
+      role := input.stack.roles[_]
+      role.id == "space-admin" # (1)
+    }
+    ```
 
 1. Role slug. Use either "Copy Slug" button in the UI or the [`spacelift_role` data source](https://search.opentofu.org/provider/spacelift-io/spacelift/latest/docs/datasources/role){: rel="nofollow"} to retrieve it.
 
