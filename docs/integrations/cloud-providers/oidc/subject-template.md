@@ -46,6 +46,7 @@ space:{spaceId}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
 ```
 
 **Example:**
+
 ```text
 space:production:stack:my-infra:run_type:TRACKED:scope:write
 ```
@@ -59,6 +60,7 @@ space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType
 ```
 
 **Example:**
+
 ```text
 space:us-east-1:space_path:/root/production/us-east-1:stack:my-infra:run_type:TRACKED:scope:write
 ```
