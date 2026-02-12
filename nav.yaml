@@ -167,6 +167,7 @@ nav:
           - integrations/cloud-providers/gcp.md
           - OpenID Connect (OIDC):
               - integrations/cloud-providers/oidc/README.md
+              - integrations/cloud-providers/oidc/subject-template.md
               - integrations/cloud-providers/oidc/aws-oidc.md
               - integrations/cloud-providers/oidc/gcp-oidc.md
               - integrations/cloud-providers/oidc/azure-oidc.md
