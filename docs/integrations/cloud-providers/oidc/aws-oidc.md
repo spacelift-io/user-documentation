@@ -106,6 +106,41 @@ For example, you could create a policy like this, which would cover most interna
 
 Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.
 
+### Using custom subject templates
+
+If you have configured a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder, you can create more sophisticated trust policies based on your space hierarchy.
+
+For example, if you have a space hierarchy like:
+
+```text
+root
+└── production
+    ├── us-east-1
+    └── eu-west-1
+```
+
+You can create a trust policy that grants access to all stacks within the `production` branch and all its descendants:
+
+```json
+"StringLike": {
+  "demo.app.spacelift.io:sub": "*:space_path:/root/production/*"
+}
+```
+
+This is particularly useful when you have identically-named spaces in different branches. For instance, if you have both `/root/production/us-east-1` and `/root/staging/us-east-1`, you can distinguish between them in your trust policies:
+
+```json
+"StringLike": {
+  "demo.app.spacelift.io:sub": [
+    "*:space_path:/root/production/us-east-1:*",
+    "*:space_path:/root/production/eu-west-1:*"
+  ]
+}
+```
+
+!!! hint
+    See the [Customizing the OIDC Subject Claim](subject-template.md) guide for more information on how to configure custom subject templates and migrate existing trust policies safely.
+
 ## Configure the Terraform provider
 
 Once the Spacelift-AWS OIDC integration is set up, the Terraform provider can be configured without the need for any static credentials. The `aws_role_arn` variable should be set to the ARN of the role that you want to assume:

@@ -67,6 +67,34 @@ After adding all the credentials for a stack, it should look something like this
 !!! info
     Please see the [Standard claims](README.md#standard-claims) section for more information about the subject format.
 
+### Using custom subject templates
+
+If you have configured a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder, you will need to update your federated credentials to match the new subject format.
+
+For example, if your custom template is:
+
+```text
+space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+```
+
+And you have a stack `azure-test` in the space `/root/production/us-east-1`, you would need to add credentials like:
+
+```text
+space:us-east-1:space_path:/root/production/us-east-1:stack:azure-test:run_type:TRACKED:scope:read
+space:us-east-1:space_path:/root/production/us-east-1:stack:azure-test:run_type:TRACKED:scope:write
+space:us-east-1:space_path:/root/production/us-east-1:stack:azure-test:run_type:PROPOSED:scope:read
+space:us-east-1:space_path:/root/production/us-east-1:stack:azure-test:run_type:TASK:scope:write
+space:us-east-1:space_path:/root/production/us-east-1:stack:azure-test:run_type:DESTROY:scope:write
+```
+
+This is particularly useful when you have identically-named spaces in different branches of your space hierarchy (e.g., `/root/production/us-east-1` vs `/root/staging/us-east-1`), as it allows you to distinguish between them in your federated credentials.
+
+!!! warning
+    Remember that Azure does not support wildcards in federated credentials, so you must add an exact match for each combination of run type and scope that you want to support, even when using custom subject templates.
+
+!!! hint
+    See the [Customizing the OIDC Subject Claim](subject-template.md) guide for more information on how to configure custom subject templates and migrate existing federated credentials safely.
+
 ## Configure the Terraform provider
 
 Once workload identity federation is set up, the [AzureRM provider can be configured](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_oidc){: rel="nofollow"} without the need for any static credentials.
