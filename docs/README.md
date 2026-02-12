@@ -23,17 +23,16 @@ In this guide we will briefly introduce some key concepts that you need to know 
 
 ## Create your Spacelift account
 
-![](<./assets/screenshots/StartforfreeGS.png>)
+![Spacelift homepage free trial button](<./assets/screenshots/StartforfreeGS.png>)
 
-1. On the [Spacelift home page](https://spacelift.io/){: rel="nofollow"}, click **Start for Free**.
-2. Create your Spacelift account by signing in with your GitHub, GitLab, Google, or Microsoft account.
+1. In the top-right of the [Spacelift home page](https://spacelift.io/){: rel="nofollow"}, click **Free trial**.
+2. Select the region (Europe or United States) where your data will be hosted.
+3. Create your Spacelift account by signing in with your GitHub, GitLab, Google, or Microsoft account.
 
-    ![](<./assets/screenshots/Startoptions.png>)
+    ![Start trial with identity provider](<./assets/screenshots/Startoptions.png>)
 
-If using GitHub, the selected GitHub organization or account name will be your Spacelift account name.
-
-!!! note
-    If using a Microsoft account, you may need to [provide admin approval](./faq/README.md#providing-admin-consent-for-microsoft-login) to log in.
+      - **GitHub**: The selected GitHub organization or account name will be your Spacelift account name.
+      - **Microsoft**: You may need to [provide admin approval](./faq/README.md#providing-admin-consent-for-microsoft-login) to log in.
 
 {% else %}
 
@@ -58,7 +57,7 @@ Once your LaunchPad tasks are complete, you can start your first stack run.
 
 ## Trigger your first run
 
-Assuming your repository contains your infrastructure (or you're using our provided [Terraform starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}), you can start using Spacelift to start runs.
+Assuming your repository contains your infrastructure (or you're using our provided [Terraform starter repository](https://github.com/spacelift-io/terraform-starter){: rel="nofollow"}), you can use Spacelift to start runs.
 
 !!! tip
     If you are using the Terraform starter repository, and you did not sign up for your Spacelift account with GitHub, you may need to add the environment variable `TF_VAR_github_app_namespace` with the value as your organization name or GitHub handle. You can do this under the `Environment` tab in the stack.
