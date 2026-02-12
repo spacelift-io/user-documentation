@@ -738,6 +738,40 @@ Here's a rule which will add a comment (containing a default body) to the pull r
 !!! hint
     Pull request notifications work best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
 
+#### Using pull request ID for more reliable targeting
+
+For more reliable pull request targeting, especially in GitHub Enterprise Server (GHES) or fork scenarios, you can use the `pull_request_id` instead of the commit hash:
+
+=== "Rego v1"
+    ```opa
+    package spacelift
+
+    pull_request contains {"id": run.commit.pull_request_id} if {
+      run := input.run_updated.run
+      run.state == "FINISHED"
+      run.commit.pull_request_id != null
+    }
+    ```
+
+=== "Rego v0"
+    ```opa
+    package spacelift
+
+    import future.keywords.contains
+    import future.keywords.if
+
+    pull_request contains {"id": run.commit.pull_request_id} if {
+     run := input.run_updated.run
+     run.state == "FINISHED"
+     run.commit.pull_request_id != null
+    }
+    ```
+
+Using `"id": pull_request_id` works because it tells Spacelift exactly which PR to comment on, so it can post the comment directly. Using `"commit": <sha>` can fail in GHES/fork scenarios because Spacelift then has to infer which PR that SHA belongs to.
+
+!!! info "Pull Request ID Availability"
+    The `pull_request_id` field is only available when specific push policy configurations are used. For more information about ensuring pull request ID availability, see [Pull Request ID Availability](push-policy/README.md#pull-request-id-availability) in the push policy documentation.
+
 #### Updating an existing PR comment
 
 Here's a rule to add a comment to the pull request that triggered the run and update that comment for every run state change, instead of creating new comments.
