@@ -11,7 +11,7 @@ description: >-
 
 We have a nice example in our [Notification policy](../policy/notification-policy.md#adding-a-comment-to-a-pr-about-changed-resources) documentation that shows how to add a comment to a pull request about changed resources. It is fully customizable, so you can change the message to your liking.
 
-### Via stack label (legacy)
+### Via stack label
 
 To enable this feature, add the label `feature:add_plan_pr_comment` to the stacks you wish to enable plan commenting for on pull requests.
 
