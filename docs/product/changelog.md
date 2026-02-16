@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-16
+
+- fix(docs): replace variables in user guide prerequisites
 ## 2026-02-04
 
 - **Terragrunt Stacks**: OpenTofu is now the default tool when creating Terragrunt stacks, replacing Terraform as the default option.
