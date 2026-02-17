@@ -6,13 +6,6 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ## Changes between v4.3.0 and v4.2.0
 
-### Features
-
-- **Plan policy input**: Removed the feature flag which controls when the `push` object is added in to the push policy input for pull requests. Push object is now only included if the event's `HeadCommit` branch is not the same as the stack branch.
-
-    !!! warning "Potentially breaking change"
-        If your push policies rely on the `push` object being present in plan policy inputs for pull requests targeting the stack branch, this change may affect their behavior. Review any push policies that reference the `push` object to ensure they handle its absence correctly.
-
 ### Fixes
 
 - **Azure DevOps**: Improved handling of transient Azure DevOps connection errors.
