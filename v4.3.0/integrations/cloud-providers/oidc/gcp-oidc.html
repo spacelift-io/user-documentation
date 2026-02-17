@@ -5696,6 +5696,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Grant access to service account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-space-paths-for-hierarchical-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using space paths for hierarchical access control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -7145,6 +7160,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Grant access to service account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-space-paths-for-hierarchical-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using space paths for hierarchical access control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -7343,6 +7373,34 @@
 </ol>
 <p>In this example, any token claiming to originate from our Spacelift account's <code>prod</code> space can impersonate the service account:
 <img alt="GCP granting access to service account" src="../../../assets/screenshots/oidc/gcp-grant-access.png"></p>
+<h4 id="using-space-paths-for-hierarchical-access-control">Using space paths for hierarchical access control<a class="headerlink" href="#using-space-paths-for-hierarchical-access-control" title="Anchor link to this section">»</a></h4>
+<p>If you have configured a <a href="subject-template.html">custom OIDC subject template</a> that includes the <code>{spacePath}</code> placeholder and mapped it to the <code>attribute.spacePath</code> attribute (step 6 in the attribute mapping section above), you can use it to create more dynamic access policies.</p>
+<p>For example, if you have a space hierarchy like:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>root
+└── production
+    ├── us-east-1
+    └── eu-west-1
+</code></pre></div></td></tr></tbody></table></div>
+<p>You can use an attribute condition with CEL (Common Expression Language) to grant access to all stacks within the <code>production</code> branch:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>attribute.spacePath.startsWith('/root/production/')
+</code></pre></div></td></tr></tbody></table></div>
+<p>This allows you to add new child spaces under <code>production</code> without needing to update your Workload Identity Pool configuration. This is particularly useful for organizations with complex space hierarchies and frequent changes to their space structure.</p>
+<p><strong>To set this up:</strong></p>
+<ol>
+<li>In the attribute mapping section when creating your workload identity pool, add:</li>
+<li><strong>Google</strong>: <code>attribute.spacePath</code></li>
+<li><strong>OIDC</strong>: <code>assertion.spacePath</code></li>
+<li>In the "Attribute conditions" field, use CEL expressions to match on the space path:</li>
+<li><code>attribute.spacePath.startsWith('/root/production/')</code> - Grants access to all production spaces</li>
+<li><code>attribute.spacePath == '/root/production/us-east-1'</code> - Grants access only to a specific space</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>spacePath</code> custom claim is only available when you configure a <a href="subject-template.html">custom OIDC subject template</a> that includes the <code>{spacePath}</code> placeholder. See the subject template documentation for setup instructions.</p>
+</div>
 <h3 id="download-the-configuration-file">Download the configuration file<a class="headerlink" href="#download-the-configuration-file" title="Anchor link to this section">»</a></h3>
 <p>After you give the workload identity pool access to impersonate the service account, you will be able to <em>Configure your application</em>.</p>
 <ol>
@@ -7518,6 +7576,39 @@ Once the workload identity pool has been created, you need to grant it access im
 
 In this example, any token claiming to originate from our Spacelift account&#x27;s `prod` space can impersonate the service account:
 ![GCP granting access to service account](&lt;../../../assets/screenshots/oidc/gcp-grant-access.png&gt;)
+
+#### Using space paths for hierarchical access control
+
+If you have configured a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder and mapped it to the `attribute.spacePath` attribute (step 6 in the attribute mapping section above), you can use it to create more dynamic access policies.
+
+For example, if you have a space hierarchy like:
+
+```text
+root
+└── production
+    ├── us-east-1
+    └── eu-west-1
+```
+
+You can use an attribute condition with CEL (Common Expression Language) to grant access to all stacks within the `production` branch:
+
+```cel
+attribute.spacePath.startsWith(&#x27;/root/production/&#x27;)
+```
+
+This allows you to add new child spaces under `production` without needing to update your Workload Identity Pool configuration. This is particularly useful for organizations with complex space hierarchies and frequent changes to their space structure.
+
+**To set this up:**
+
+1. In the attribute mapping section when creating your workload identity pool, add:
+   - **Google**: `attribute.spacePath`
+   - **OIDC**: `assertion.spacePath`
+2. In the &quot;Attribute conditions&quot; field, use CEL expressions to match on the space path:
+   - `attribute.spacePath.startsWith(&#x27;/root/production/&#x27;)` - Grants access to all production spaces
+   - `attribute.spacePath == &#x27;/root/production/us-east-1&#x27;` - Grants access only to a specific space
+
+!!! info
+    The `spacePath` custom claim is only available when you configure a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder. See the subject template documentation for setup instructions.
 
 ### Download the configuration file
 

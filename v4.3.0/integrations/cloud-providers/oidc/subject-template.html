@@ -9,28 +9,24 @@
         <meta name="author" content="Spacelift">
       
       
-        <link rel="canonical" href="https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc.html">
+        <link rel="canonical" href="https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc/subject-template.html">
       
       
-        <link rel="prev" href="aws.html">
       
       
-        <link rel="next" href="oidc/aws-oidc.html">
-      
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
-        <title>OpenID Connect (OIDC) - Spacelift Documentation</title>
+        <title>Customizing the OIDC Subject Claim - Spacelift Documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.84d31ad4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -75,11 +71,11 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/css/custom.css">
+      <link rel="stylesheet" href="../../../assets/css/custom.css">
     
-      <link rel="stylesheet" href="../../assets/css/copy-to-llm.css">
+      <link rel="stylesheet" href="../../../assets/css/copy-to-llm.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -91,7 +87,7 @@
     <meta name="robots" content="noindex,nofollow">
   
 
-  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -120,7 +116,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#openid-connect-oidc" class="md-skip">
+        <a href="#customizing-the-oidc-subject-claim" class="md-skip">
           Skip to content
         </a>
       
@@ -141,12 +137,12 @@
   
 
   <nav class="md-header__inner md-grid" aria-label="header.title">
-    <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
+    <a href="../../.." title="Spacelift Documentation" class="md-header__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
       
-  <img src="../../assets/images/logo.svg" alt="logo">
+  <img src="../../../assets/images/logo.svg" alt="logo">
 
     </a>
-    <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
+    <a href="../../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
       <svg width="127" height="29" viewBox="0 0 127 29" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0_1558_12595)">
   <path d="M4.14743 20.2839C2.37689 20.0464 2.23263 19.7222 2.23263 19.3541C2.23263 19.0409 2.42089 18.5155 3.68104 18.5155C5.12227 18.5155 5.4322 19.1021 5.53956 19.5432L5.55886 19.6229H7.42966L7.41889 19.5092C7.36579 18.9461 6.94637 17.1099 3.77146 17.1099C1.24549 17.1099 0.348912 18.3995 0.348912 19.504C0.348912 20.8483 1.3723 21.5818 3.66807 21.8823C5.63045 22.1198 5.79261 22.5281 5.79261 22.9613C5.79261 23.5972 5.21412 23.92 4.07263 23.92C2.87747 23.92 2.15074 23.5073 1.91186 22.693L1.8899 22.6179H0L0.0192943 22.7382C0.285581 24.4015 1.72484 25.3553 3.96797 25.3553C6.32461 25.3553 7.67638 24.4335 7.67638 22.8265C7.67638 21.7578 7.24877 20.71 4.14743 20.2839Z" fill="white"></path>
@@ -190,7 +186,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              OpenID Connect (OIDC)
+              Customizing the OIDC Subject Claim
             
           </span>
         </div>
@@ -303,9 +299,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Spacelift Documentation" class="md-nav__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
+    <a href="../../.." title="Spacelift Documentation" class="md-nav__button md-logo" aria-label="Spacelift Documentation" data-md-component="logo">
       
-  <img src="../../assets/images/logo.svg" alt="logo">
+  <img src="../../../assets/images/logo.svg" alt="logo">
 
     </a>
     Spacelift Documentation
@@ -320,7 +316,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../index.html" class="md-nav__link">
+      <a href="../../../index.html" class="md-nav__link">
         
   
   
@@ -395,7 +391,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/install-methods.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/install-methods.html" class="md-nav__link">
         
   
   
@@ -418,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/changelog.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/changelog.html" class="md-nav__link">
         
   
   
@@ -469,7 +465,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../installing-spacelift/reference-architecture.html" class="md-nav__link ">
+            <a href="../../../installing-spacelift/reference-architecture.html" class="md-nav__link ">
               
   
   
@@ -504,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/external-dependencies.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/external-dependencies.html" class="md-nav__link">
         
   
   
@@ -527,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/environment-requirements.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/environment-requirements.html" class="md-nav__link">
         
   
   
@@ -590,7 +586,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../installing-spacelift/reference-architecture/guides.html" class="md-nav__link ">
+            <a href="../../../installing-spacelift/reference-architecture/guides.html" class="md-nav__link ">
               
   
   
@@ -625,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-aks.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/deploying-to-aks.html" class="md-nav__link">
         
   
   
@@ -648,7 +644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-ecs.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/deploying-to-ecs.html" class="md-nav__link">
         
   
   
@@ -671,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-eks.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/deploying-to-eks.html" class="md-nav__link">
         
   
   
@@ -694,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-gke.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/deploying-to-gke.html" class="md-nav__link">
         
   
   
@@ -717,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/deploying-to-onprem.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/deploying-to-onprem.html" class="md-nav__link">
         
   
   
@@ -740,7 +736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/first-setup.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/first-setup.html" class="md-nav__link">
         
   
   
@@ -763,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/observability.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/observability.html" class="md-nav__link">
         
   
   
@@ -812,7 +808,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../installing-spacelift/reference-architecture/guides/telemetry.html" class="md-nav__link ">
+            <a href="../../../installing-spacelift/reference-architecture/guides/telemetry.html" class="md-nav__link ">
               
   
   
@@ -847,7 +843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/telemetry/k8s-datadog.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/telemetry/k8s-datadog.html" class="md-nav__link">
         
   
   
@@ -870,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-grafana-stack.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-grafana-stack.html" class="md-nav__link">
         
   
   
@@ -893,7 +889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-jaeger.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/telemetry/k8s-otel-jaeger.html" class="md-nav__link">
         
   
   
@@ -924,7 +920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/air-gapped.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/air-gapped.html" class="md-nav__link">
         
   
   
@@ -947,7 +943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/guides/disaster-recovery.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/guides/disaster-recovery.html" class="md-nav__link">
         
   
   
@@ -1016,7 +1012,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../installing-spacelift/reference-architecture/reference.html" class="md-nav__link ">
+            <a href="../../../installing-spacelift/reference-architecture/reference.html" class="md-nav__link ">
               
   
   
@@ -1051,7 +1047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/general-configuration.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/general-configuration.html" class="md-nav__link">
         
   
   
@@ -1074,7 +1070,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/encryption.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/encryption.html" class="md-nav__link">
         
   
   
@@ -1097,7 +1093,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/message-queues.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/message-queues.html" class="md-nav__link">
         
   
   
@@ -1120,7 +1116,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/mqtt-broker.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/mqtt-broker.html" class="md-nav__link">
         
   
   
@@ -1143,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/networking.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/networking.html" class="md-nav__link">
         
   
   
@@ -1166,7 +1162,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/object-storage.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/object-storage.html" class="md-nav__link">
         
   
   
@@ -1189,7 +1185,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/slack.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/slack.html" class="md-nav__link">
         
   
   
@@ -1212,7 +1208,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/telemetry.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/telemetry.html" class="md-nav__link">
         
   
   
@@ -1235,7 +1231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/reference-architecture/reference/usage-reporting.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/reference-architecture/reference/usage-reporting.html" class="md-nav__link">
         
   
   
@@ -1328,7 +1324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/install.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/install.html" class="md-nav__link">
         
   
   
@@ -1351,7 +1347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/advanced-installations.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/advanced-installations.html" class="md-nav__link">
         
   
   
@@ -1374,7 +1370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/disaster-recovery.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/disaster-recovery.html" class="md-nav__link">
         
   
   
@@ -1397,7 +1393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/postgresql-version-upgrade.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/postgresql-version-upgrade.html" class="md-nav__link">
         
   
   
@@ -1420,7 +1416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/slack-integration-setup.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/slack-integration-setup.html" class="md-nav__link">
         
   
   
@@ -1443,7 +1439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.html" class="md-nav__link">
+      <a href="../../../installing-spacelift/cloudformation/cloudformation-to-opentofu-terraform-migration.html" class="md-nav__link">
         
   
   
@@ -1512,7 +1508,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../index.html" class="md-nav__link ">
+            <a href="../../../index.html" class="md-nav__link ">
               
   
   
@@ -1577,7 +1573,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../getting-started/integrate-source-code.html" class="md-nav__link ">
+            <a href="../../../getting-started/integrate-source-code.html" class="md-nav__link ">
               
   
   
@@ -1612,7 +1608,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-source-code/GitHub.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-source-code/GitHub.html" class="md-nav__link">
         
   
   
@@ -1635,7 +1631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-source-code/GitLab.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-source-code/GitLab.html" class="md-nav__link">
         
   
   
@@ -1658,7 +1654,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-source-code/Bitbucket-Cloud.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-source-code/Bitbucket-Cloud.html" class="md-nav__link">
         
   
   
@@ -1681,7 +1677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-source-code/Bitbucket-DataCenter.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-source-code/Bitbucket-DataCenter.html" class="md-nav__link">
         
   
   
@@ -1704,7 +1700,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-source-code/Azure-DevOps.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-source-code/Azure-DevOps.html" class="md-nav__link">
         
   
   
@@ -1757,7 +1753,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../getting-started/integrate-cloud.html" class="md-nav__link ">
+            <a href="../../../getting-started/integrate-cloud.html" class="md-nav__link ">
               
   
   
@@ -1792,7 +1788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/integrate-cloud/AWS.html" class="md-nav__link">
+      <a href="../../../getting-started/integrate-cloud/AWS.html" class="md-nav__link">
         
   
   
@@ -1843,7 +1839,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../getting-started/create-stack.html" class="md-nav__link ">
+            <a href="../../../getting-started/create-stack.html" class="md-nav__link ">
               
   
   
@@ -1901,7 +1897,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../getting-started/invite-teammates.html" class="md-nav__link ">
+            <a href="../../../getting-started/invite-teammates.html" class="md-nav__link ">
               
   
   
@@ -1946,7 +1942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../faq/support_kb.html" class="md-nav__link">
+      <a href="../../../faq/support_kb.html" class="md-nav__link">
         
   
   
@@ -1968,7 +1964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../faq.html" class="md-nav__link">
+      <a href="../../../faq.html" class="md-nav__link">
         
   
   
@@ -2089,7 +2085,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/stack.html" class="md-nav__link ">
+            <a href="../../../concepts/stack.html" class="md-nav__link ">
               
   
   
@@ -2124,7 +2120,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/creating-a-stack.html" class="md-nav__link">
+      <a href="../../../concepts/stack/creating-a-stack.html" class="md-nav__link">
         
   
   
@@ -2147,7 +2143,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/stack-settings.html" class="md-nav__link">
+      <a href="../../../concepts/stack/stack-settings.html" class="md-nav__link">
         
   
   
@@ -2170,7 +2166,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/organizing-stacks.html" class="md-nav__link">
+      <a href="../../../concepts/stack/organizing-stacks.html" class="md-nav__link">
         
   
   
@@ -2193,7 +2189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/stack-dependencies.html" class="md-nav__link">
+      <a href="../../../concepts/stack/stack-dependencies.html" class="md-nav__link">
         
   
   
@@ -2216,7 +2212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/drift-detection.html" class="md-nav__link">
+      <a href="../../../concepts/stack/drift-detection.html" class="md-nav__link">
         
   
   
@@ -2239,7 +2235,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/stack/scheduling.html" class="md-nav__link">
+      <a href="../../../concepts/stack/scheduling.html" class="md-nav__link">
         
   
   
@@ -2290,7 +2286,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/blueprint.html" class="md-nav__link ">
+            <a href="../../../concepts/blueprint.html" class="md-nav__link ">
               
   
   
@@ -2354,7 +2350,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/configuration.html" class="md-nav__link ">
+            <a href="../../../concepts/configuration.html" class="md-nav__link ">
               
   
   
@@ -2389,7 +2385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/configuration/environment.html" class="md-nav__link">
+      <a href="../../../concepts/configuration/environment.html" class="md-nav__link">
         
   
   
@@ -2412,7 +2408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/configuration/context.html" class="md-nav__link">
+      <a href="../../../concepts/configuration/context.html" class="md-nav__link">
         
   
   
@@ -2457,7 +2453,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/configuration/runtime-configuration.html" class="md-nav__link ">
+            <a href="../../../concepts/configuration/runtime-configuration.html" class="md-nav__link ">
               
   
   
@@ -2492,7 +2488,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/configuration/runtime-configuration/runtime-yaml-reference.html" class="md-nav__link">
+      <a href="../../../concepts/configuration/runtime-configuration/runtime-yaml-reference.html" class="md-nav__link">
         
   
   
@@ -2567,7 +2563,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/run.html" class="md-nav__link ">
+            <a href="../../../concepts/run.html" class="md-nav__link ">
               
   
   
@@ -2602,7 +2598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/task.html" class="md-nav__link">
+      <a href="../../../concepts/run/task.html" class="md-nav__link">
         
   
   
@@ -2625,7 +2621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/proposed.html" class="md-nav__link">
+      <a href="../../../concepts/run/proposed.html" class="md-nav__link">
         
   
   
@@ -2648,7 +2644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/tracked.html" class="md-nav__link">
+      <a href="../../../concepts/run/tracked.html" class="md-nav__link">
         
   
   
@@ -2671,7 +2667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/test-case.html" class="md-nav__link">
+      <a href="../../../concepts/run/test-case.html" class="md-nav__link">
         
   
   
@@ -2694,7 +2690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/user-provided-metadata.html" class="md-nav__link">
+      <a href="../../../concepts/run/user-provided-metadata.html" class="md-nav__link">
         
   
   
@@ -2717,7 +2713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/run-promotion.html" class="md-nav__link">
+      <a href="../../../concepts/run/run-promotion.html" class="md-nav__link">
         
   
   
@@ -2740,7 +2736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/pull-request-comments.html" class="md-nav__link">
+      <a href="../../../concepts/run/pull-request-comments.html" class="md-nav__link">
         
   
   
@@ -2763,7 +2759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/run/ai.html" class="md-nav__link">
+      <a href="../../../concepts/run/ai.html" class="md-nav__link">
         
   
   
@@ -2830,7 +2826,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/policy.html" class="md-nav__link ">
+            <a href="../../../concepts/policy.html" class="md-nav__link ">
               
   
   
@@ -2865,7 +2861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/login-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/login-policy.html" class="md-nav__link">
         
   
   
@@ -2888,7 +2884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/stack-access-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/stack-access-policy.html" class="md-nav__link">
         
   
   
@@ -2911,7 +2907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/approval-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/approval-policy.html" class="md-nav__link">
         
   
   
@@ -2934,7 +2930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/notification-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/notification-policy.html" class="md-nav__link">
         
   
   
@@ -2957,7 +2953,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/terraform-plan-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/terraform-plan-policy.html" class="md-nav__link">
         
   
   
@@ -3002,7 +2998,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/policy/push-policy.html" class="md-nav__link ">
+            <a href="../../../concepts/policy/push-policy.html" class="md-nav__link ">
               
   
   
@@ -3037,7 +3033,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/push-policy/run-external-dependencies.html" class="md-nav__link">
+      <a href="../../../concepts/policy/push-policy/run-external-dependencies.html" class="md-nav__link">
         
   
   
@@ -3068,7 +3064,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/trigger-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/trigger-policy.html" class="md-nav__link">
         
   
   
@@ -3119,7 +3115,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/policy/deprecated.html" class="md-nav__link ">
+            <a href="../../../concepts/policy/deprecated.html" class="md-nav__link ">
               
   
   
@@ -3154,7 +3150,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/deprecated/run-initialization-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/deprecated/run-initialization-policy.html" class="md-nav__link">
         
   
   
@@ -3177,7 +3173,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/deprecated/task-run-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/deprecated/task-run-policy.html" class="md-nav__link">
         
   
   
@@ -3200,7 +3196,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/deprecated/migrate-to-approval-policy.html" class="md-nav__link">
+      <a href="../../../concepts/policy/deprecated/migrate-to-approval-policy.html" class="md-nav__link">
         
   
   
@@ -3223,7 +3219,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/policy/deprecated/migrate-to-spaces.html" class="md-nav__link">
+      <a href="../../../concepts/policy/deprecated/migrate-to-spaces.html" class="md-nav__link">
         
   
   
@@ -3284,7 +3280,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/resources.html" class="md-nav__link ">
+            <a href="../../../concepts/resources.html" class="md-nav__link ">
               
   
   
@@ -3319,7 +3315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/resources/configuration-management.html" class="md-nav__link">
+      <a href="../../../concepts/resources/configuration-management.html" class="md-nav__link">
         
   
   
@@ -3374,7 +3370,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/worker-pools.html" class="md-nav__link ">
+            <a href="../../../concepts/worker-pools.html" class="md-nav__link ">
               
   
   
@@ -3409,7 +3405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/worker-pools/docker-based-workers.html" class="md-nav__link">
+      <a href="../../../concepts/worker-pools/docker-based-workers.html" class="md-nav__link">
         
   
   
@@ -3432,7 +3428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/worker-pools/kubernetes-workers.html" class="md-nav__link">
+      <a href="../../../concepts/worker-pools/kubernetes-workers.html" class="md-nav__link">
         
   
   
@@ -3463,7 +3459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/spacectl.html" class="md-nav__link">
+      <a href="../../../concepts/spacectl.html" class="md-nav__link">
         
   
   
@@ -3514,7 +3510,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/spaces.html" class="md-nav__link ">
+            <a href="../../../concepts/spaces.html" class="md-nav__link ">
               
   
   
@@ -3549,7 +3545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/spaces/access-control.html" class="md-nav__link">
+      <a href="../../../concepts/spaces/access-control.html" class="md-nav__link">
         
   
   
@@ -3572,7 +3568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/spaces/creating-a-space.html" class="md-nav__link">
+      <a href="../../../concepts/spaces/creating-a-space.html" class="md-nav__link">
         
   
   
@@ -3595,7 +3591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/spaces/structuring-your-spaces-tree.html" class="md-nav__link">
+      <a href="../../../concepts/spaces/structuring-your-spaces-tree.html" class="md-nav__link">
         
   
   
@@ -3618,7 +3614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/spaces/migrating-out-of-the-legacy-space.html" class="md-nav__link">
+      <a href="../../../concepts/spaces/migrating-out-of-the-legacy-space.html" class="md-nav__link">
         
   
   
@@ -3673,7 +3669,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../concepts/user-management.html" class="md-nav__link ">
+            <a href="../../../concepts/user-management.html" class="md-nav__link ">
               
   
   
@@ -3708,7 +3704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/user-management/admin.html" class="md-nav__link">
+      <a href="../../../concepts/user-management/admin.html" class="md-nav__link">
         
   
   
@@ -3731,7 +3727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/user-management/user.html" class="md-nav__link">
+      <a href="../../../concepts/user-management/user.html" class="md-nav__link">
         
   
   
@@ -3762,7 +3758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../concepts/vcs-agent-pools.html" class="md-nav__link">
+      <a href="../../../concepts/vcs-agent-pools.html" class="md-nav__link">
         
   
   
@@ -3903,7 +3899,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/terraform.html" class="md-nav__link ">
+            <a href="../../../vendors/terraform.html" class="md-nav__link ">
               
   
   
@@ -3938,7 +3934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/module-registry.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/module-registry.html" class="md-nav__link">
         
   
   
@@ -3961,7 +3957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/provider-registry.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/provider-registry.html" class="md-nav__link">
         
   
   
@@ -3984,7 +3980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/external-modules.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/external-modules.html" class="md-nav__link">
         
   
   
@@ -4007,7 +4003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/terraform-provider.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/terraform-provider.html" class="md-nav__link">
         
   
   
@@ -4030,7 +4026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/state-management.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/state-management.html" class="md-nav__link">
         
   
   
@@ -4053,7 +4049,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/external-state-access.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/external-state-access.html" class="md-nav__link">
         
   
   
@@ -4076,7 +4072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/terragrunt.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/terragrunt.html" class="md-nav__link">
         
   
   
@@ -4099,7 +4095,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/version-management.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/version-management.html" class="md-nav__link">
         
   
   
@@ -4122,7 +4118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/handling-tfvars.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/handling-tfvars.html" class="md-nav__link">
         
   
   
@@ -4145,7 +4141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/cli-configuration.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/cli-configuration.html" class="md-nav__link">
         
   
   
@@ -4168,7 +4164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/infracost.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/infracost.html" class="md-nav__link">
         
   
   
@@ -4191,7 +4187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/resource-sanitization.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/resource-sanitization.html" class="md-nav__link">
         
   
   
@@ -4214,7 +4210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/storing-complex-variables.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/storing-complex-variables.html" class="md-nav__link">
         
   
   
@@ -4237,7 +4233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/debugging-guide.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/debugging-guide.html" class="md-nav__link">
         
   
   
@@ -4260,7 +4256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/dependency-lock-file.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/dependency-lock-file.html" class="md-nav__link">
         
   
   
@@ -4283,7 +4279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/cdktf.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/cdktf.html" class="md-nav__link">
         
   
   
@@ -4306,7 +4302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terraform/workflow-tool.html" class="md-nav__link">
+      <a href="../../../vendors/terraform/workflow-tool.html" class="md-nav__link">
         
   
   
@@ -4367,7 +4363,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/terragrunt.html" class="md-nav__link ">
+            <a href="../../../vendors/terragrunt.html" class="md-nav__link ">
               
   
   
@@ -4402,7 +4398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terragrunt/getting-started.html" class="md-nav__link">
+      <a href="../../../vendors/terragrunt/getting-started.html" class="md-nav__link">
         
   
   
@@ -4425,7 +4421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terragrunt/run-all.html" class="md-nav__link">
+      <a href="../../../vendors/terragrunt/run-all.html" class="md-nav__link">
         
   
   
@@ -4448,7 +4444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terragrunt/limitations.html" class="md-nav__link">
+      <a href="../../../vendors/terragrunt/limitations.html" class="md-nav__link">
         
   
   
@@ -4471,7 +4467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terragrunt/terragrunt-tool.html" class="md-nav__link">
+      <a href="../../../vendors/terragrunt/terragrunt-tool.html" class="md-nav__link">
         
   
   
@@ -4494,7 +4490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/terragrunt/reference.html" class="md-nav__link">
+      <a href="../../../vendors/terragrunt/reference.html" class="md-nav__link">
         
   
   
@@ -4553,7 +4549,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/pulumi.html" class="md-nav__link ">
+            <a href="../../../vendors/pulumi.html" class="md-nav__link ">
               
   
   
@@ -4588,7 +4584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/pulumi/c-sharp.html" class="md-nav__link">
+      <a href="../../../vendors/pulumi/c-sharp.html" class="md-nav__link">
         
   
   
@@ -4611,7 +4607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/pulumi/golang.html" class="md-nav__link">
+      <a href="../../../vendors/pulumi/golang.html" class="md-nav__link">
         
   
   
@@ -4634,7 +4630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/pulumi/typescript.html" class="md-nav__link">
+      <a href="../../../vendors/pulumi/typescript.html" class="md-nav__link">
         
   
   
@@ -4657,7 +4653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/pulumi/python.html" class="md-nav__link">
+      <a href="../../../vendors/pulumi/python.html" class="md-nav__link">
         
   
   
@@ -4718,7 +4714,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/cloudformation.html" class="md-nav__link ">
+            <a href="../../../vendors/cloudformation.html" class="md-nav__link ">
               
   
   
@@ -4753,7 +4749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/cloudformation/getting-started.html" class="md-nav__link">
+      <a href="../../../vendors/cloudformation/getting-started.html" class="md-nav__link">
         
   
   
@@ -4776,7 +4772,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/cloudformation/reference.html" class="md-nav__link">
+      <a href="../../../vendors/cloudformation/reference.html" class="md-nav__link">
         
   
   
@@ -4799,7 +4795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/cloudformation/integrating-with-sam.html" class="md-nav__link">
+      <a href="../../../vendors/cloudformation/integrating-with-sam.html" class="md-nav__link">
         
   
   
@@ -4822,7 +4818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/cloudformation/integrating-with-the-serverless-framework.html" class="md-nav__link">
+      <a href="../../../vendors/cloudformation/integrating-with-the-serverless-framework.html" class="md-nav__link">
         
   
   
@@ -4845,7 +4841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/cloudformation/integrating-with-cdk.html" class="md-nav__link">
+      <a href="../../../vendors/cloudformation/integrating-with-cdk.html" class="md-nav__link">
         
   
   
@@ -4908,7 +4904,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/kubernetes.html" class="md-nav__link ">
+            <a href="../../../vendors/kubernetes.html" class="md-nav__link ">
               
   
   
@@ -4943,7 +4939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/getting-started.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/getting-started.html" class="md-nav__link">
         
   
   
@@ -4966,7 +4962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/authenticating.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/authenticating.html" class="md-nav__link">
         
   
   
@@ -4989,7 +4985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/custom-resources.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/custom-resources.html" class="md-nav__link">
         
   
   
@@ -5012,7 +5008,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/helm.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/helm.html" class="md-nav__link">
         
   
   
@@ -5035,7 +5031,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/kustomize.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/kustomize.html" class="md-nav__link">
         
   
   
@@ -5058,7 +5054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/kubernetes/workflow-tool.html" class="md-nav__link">
+      <a href="../../../vendors/kubernetes/workflow-tool.html" class="md-nav__link">
         
   
   
@@ -5117,7 +5113,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../vendors/ansible.html" class="md-nav__link ">
+            <a href="../../../vendors/ansible.html" class="md-nav__link ">
               
   
   
@@ -5152,7 +5148,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/ansible/getting-started.html" class="md-nav__link">
+      <a href="../../../vendors/ansible/getting-started.html" class="md-nav__link">
         
   
   
@@ -5175,7 +5171,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/ansible/reference.html" class="md-nav__link">
+      <a href="../../../vendors/ansible/reference.html" class="md-nav__link">
         
   
   
@@ -5198,7 +5194,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/ansible/policies.html" class="md-nav__link">
+      <a href="../../../vendors/ansible/policies.html" class="md-nav__link">
         
   
   
@@ -5221,7 +5217,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../vendors/ansible/ansible-galaxy.html" class="md-nav__link">
+      <a href="../../../vendors/ansible/ansible-galaxy.html" class="md-nav__link">
         
   
   
@@ -5256,10 +5252,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -5292,11 +5286,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8">
         
           
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
@@ -5312,7 +5306,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             ⚙️ Integrations
@@ -5326,7 +5320,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../audit-trail.html" class="md-nav__link">
+      <a href="../../audit-trail.html" class="md-nav__link">
         
   
   
@@ -5395,7 +5389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../chatops/slack.html" class="md-nav__link">
+      <a href="../../chatops/slack.html" class="md-nav__link">
         
   
   
@@ -5418,7 +5412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../chatops/msteams.html" class="md-nav__link">
+      <a href="../../chatops/msteams.html" class="md-nav__link">
         
   
   
@@ -5446,8 +5440,6 @@
                 
   
   
-    
-  
   
   
     
@@ -5467,15 +5459,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3">
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../cloud-providers.html" class="md-nav__link ">
+            <a href="../../cloud-providers.html" class="md-nav__link ">
               
   
   
@@ -5494,7 +5486,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_3">
             <span class="md-nav__icon md-icon"></span>
             Cloud Integrations
@@ -5510,7 +5502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="aws.html" class="md-nav__link">
+      <a href="../aws.html" class="md-nav__link">
         
   
   
@@ -5530,8 +5522,6 @@
                 
   
   
-    
-  
   
   
     
@@ -5555,15 +5545,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3_3">
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="oidc.html" class="md-nav__link md-nav__link--active">
+            <a href="../oidc.html" class="md-nav__link ">
               
   
   
@@ -5576,13 +5566,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_8_3_3" id="__nav_8_3_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_8_3_3" id="__nav_8_3_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8_3_3">
             <span class="md-nav__icon md-icon"></span>
             OpenID Connect (OIDC)
@@ -5598,7 +5588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/aws-oidc.html" class="md-nav__link">
+      <a href="aws-oidc.html" class="md-nav__link">
         
   
   
@@ -5621,7 +5611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/gcp-oidc.html" class="md-nav__link">
+      <a href="gcp-oidc.html" class="md-nav__link">
         
   
   
@@ -5644,7 +5634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/azure-oidc.html" class="md-nav__link">
+      <a href="azure-oidc.html" class="md-nav__link">
         
   
   
@@ -5667,7 +5657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="oidc/vault-oidc.html" class="md-nav__link">
+      <a href="vault-oidc.html" class="md-nav__link">
         
   
   
@@ -5730,7 +5720,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../observability.html" class="md-nav__link ">
+            <a href="../../observability.html" class="md-nav__link ">
               
   
   
@@ -5765,7 +5755,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../observability/datadog.html" class="md-nav__link">
+      <a href="../../observability/datadog.html" class="md-nav__link">
         
   
   
@@ -5788,7 +5778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../observability/prometheus.html" class="md-nav__link">
+      <a href="../../observability/prometheus.html" class="md-nav__link">
         
   
   
@@ -5851,7 +5841,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../source-control.html" class="md-nav__link ">
+            <a href="../../source-control.html" class="md-nav__link ">
               
   
   
@@ -5886,7 +5876,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/github.html" class="md-nav__link">
+      <a href="../../source-control/github.html" class="md-nav__link">
         
   
   
@@ -5909,7 +5899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/gitlab.html" class="md-nav__link">
+      <a href="../../source-control/gitlab.html" class="md-nav__link">
         
   
   
@@ -5932,7 +5922,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/azure-devops.html" class="md-nav__link">
+      <a href="../../source-control/azure-devops.html" class="md-nav__link">
         
   
   
@@ -5955,7 +5945,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/bitbucket-cloud.html" class="md-nav__link">
+      <a href="../../source-control/bitbucket-cloud.html" class="md-nav__link">
         
   
   
@@ -5978,7 +5968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/bitbucket-datacenter-server.html" class="md-nav__link">
+      <a href="../../source-control/bitbucket-datacenter-server.html" class="md-nav__link">
         
   
   
@@ -6001,7 +5991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../source-control/raw-git.html" class="md-nav__link">
+      <a href="../../source-control/raw-git.html" class="md-nav__link">
         
   
   
@@ -6032,7 +6022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../docker.html" class="md-nav__link">
+      <a href="../../docker.html" class="md-nav__link">
         
   
   
@@ -6101,7 +6091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api.html" class="md-nav__link">
+      <a href="../../api.html" class="md-nav__link">
         
   
   
@@ -6124,7 +6114,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api-development-with-mcp.html" class="md-nav__link">
+      <a href="../../api-development-with-mcp.html" class="md-nav__link">
         
   
   
@@ -6155,7 +6145,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../webhooks.html" class="md-nav__link">
+      <a href="../../webhooks.html" class="md-nav__link">
         
   
   
@@ -6178,7 +6168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../teleport.html" class="md-nav__link">
+      <a href="../../teleport.html" class="md-nav__link">
         
   
   
@@ -6247,7 +6237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../external-integrations/backstage.html" class="md-nav__link">
+      <a href="../../external-integrations/backstage.html" class="md-nav__link">
         
   
   
@@ -6270,7 +6260,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../external-integrations/servicenow.html" class="md-nav__link">
+      <a href="../../external-integrations/servicenow.html" class="md-nav__link">
         
   
   
@@ -6369,7 +6359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/notifications.html" class="md-nav__link">
+      <a href="../../../product/notifications.html" class="md-nav__link">
         
   
   
@@ -6412,7 +6402,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../product/security.html" class="md-nav__link ">
+            <a href="../../../product/security.html" class="md-nav__link ">
               
   
   
@@ -6450,7 +6440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/migrating-to-spacelift.html" class="md-nav__link">
+      <a href="../../../product/migrating-to-spacelift.html" class="md-nav__link">
         
   
   
@@ -6473,7 +6463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/bulk-actions.html" class="md-nav__link">
+      <a href="../../../product/bulk-actions.html" class="md-nav__link">
         
   
   
@@ -6516,7 +6506,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../product/support.html" class="md-nav__link ">
+            <a href="../../../product/support.html" class="md-nav__link ">
               
   
   
@@ -6554,7 +6544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/disaster-continuity.html" class="md-nav__link">
+      <a href="../../../product/disaster-continuity.html" class="md-nav__link">
         
   
   
@@ -6577,7 +6567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/onboarding-best-practices.html" class="md-nav__link">
+      <a href="../../../product/onboarding-best-practices.html" class="md-nav__link">
         
   
   
@@ -6644,7 +6634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../product/archive/support.html" class="md-nav__link">
+      <a href="../../../product/archive/support.html" class="md-nav__link">
         
   
   
@@ -6739,7 +6729,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/terms.html" class="md-nav__link">
+      <a href="../../../legal/terms.html" class="md-nav__link">
         
   
   
@@ -6762,7 +6752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/refund-policy.html" class="md-nav__link">
+      <a href="../../../legal/refund-policy.html" class="md-nav__link">
         
   
   
@@ -6785,7 +6775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/privacy.html" class="md-nav__link">
+      <a href="../../../legal/privacy.html" class="md-nav__link">
         
   
   
@@ -6808,7 +6798,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/cookie-policy.html" class="md-nav__link">
+      <a href="../../../legal/cookie-policy.html" class="md-nav__link">
         
   
   
@@ -6831,7 +6821,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/dpa.html" class="md-nav__link">
+      <a href="../../../legal/dpa.html" class="md-nav__link">
         
   
   
@@ -6898,7 +6888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../legal/archive/terms.html" class="md-nav__link">
+      <a href="../../../legal/archive/terms.html" class="md-nav__link">
         
   
   
@@ -6964,19 +6954,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#considerations-when-self-hosting" class="md-nav__link">
+  <a href="#why-customize-the-subject-claim" class="md-nav__link">
     <span class="md-ellipsis">
-      Considerations when self-hosting
+      Why customize the subject claim?
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Considerations when self-hosting">
+    <nav class="md-nav" aria-label="Why customize the subject claim?">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#overriding-issuer-and-jwks-endpoints-self-hosted" class="md-nav__link">
+  <a href="#the-problem-with-space-slugs" class="md-nav__link">
     <span class="md-ellipsis">
-      Overriding issuer and JWKS endpoints (Self-Hosted)
+      The problem with space slugs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-solution-custom-subject-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      The solution: Custom subject templates
     </span>
   </a>
   
@@ -6988,52 +6987,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#about-the-spacelift-oidc-token" class="md-nav__link">
+  <a href="#what-is-the-subject-template" class="md-nav__link">
     <span class="md-ellipsis">
-      About the Spacelift OIDC token
+      What is the subject template?
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="About the Spacelift OIDC token">
+    <nav class="md-nav" aria-label="What is the subject template?">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#standard-claims" class="md-nav__link">
+  <a href="#default-format" class="md-nav__link">
     <span class="md-ellipsis">
-      Standard claims
+      Default format
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#custom-claims" class="md-nav__link">
+  <a href="#customizable-format" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom claims
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Custom claims">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#wildcards" class="md-nav__link">
-    <span class="md-ellipsis">
-      Wildcards
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#about-scopes" class="md-nav__link">
-    <span class="md-ellipsis">
-      About scopes
+      Customizable format
     </span>
   </a>
   
@@ -7045,19 +7020,46 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#custom-claims-mapping-for-groups" class="md-nav__link">
+  <a href="#available-placeholders" class="md-nav__link">
     <span class="md-ellipsis">
-      Custom Claims Mapping for Groups
+      Available placeholders
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Custom Claims Mapping for Groups">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to configure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#template-syntax-and-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Template syntax and validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Template syntax and validation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#configuring-custom-claims-mapping" class="md-nav__link">
+  <a href="#template-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuring Custom Claims Mapping
+      Template examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation rules
     </span>
   </a>
   
@@ -7069,9 +7071,84 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-the-spacelift-oidc-token" class="md-nav__link">
+  <a href="#migration-guide" class="md-nav__link">
     <span class="md-ellipsis">
-      Use the Spacelift OIDC token
+      Migration guide
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#safe-migration-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safe migration process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-dual-format-aws-trust-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Dual-format AWS trust policy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use cases
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-space-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical space authorization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distinguishing-identically-named-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      Distinguishing identically-named spaces
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provider-specific-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Provider-specific considerations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional resources
     </span>
   </a>
   
@@ -7091,7 +7168,7 @@
                 
   <div>
     <div class="mobile-nav-wrapper">
-      <a href="../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
+      <a href="../../.." title="Spacelift Documentation" class="md-header__button md-logo logo--small" aria-label="Spacelift Documentation" data-md-component="logo">
         <svg width="127" height="29" viewBox="0 0 127 29" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0_1558_12595)">
   <path d="M4.14743 20.2839C2.37689 20.0464 2.23263 19.7222 2.23263 19.3541C2.23263 19.0409 2.42089 18.5155 3.68104 18.5155C5.12227 18.5155 5.4322 19.1021 5.53956 19.5432L5.55886 19.6229H7.42966L7.41889 19.5092C7.36579 18.9461 6.94637 17.1099 3.77146 17.1099C1.24549 17.1099 0.348912 18.3995 0.348912 19.504C0.348912 20.8483 1.3723 21.5818 3.66807 21.8823C5.63045 22.1198 5.79261 22.5281 5.79261 22.9613C5.79261 23.5972 5.21412 23.92 4.07263 23.92C2.87747 23.92 2.15074 23.5073 1.91186 22.693L1.8899 22.6179H0L0.0192943 22.7382C0.285581 24.4015 1.72484 25.3553 3.96797 25.3553C6.32461 25.3553 7.67638 24.4335 7.67638 22.8265C7.67638 21.7578 7.24877 20.71 4.14743 20.2839Z" fill="white"></path>
@@ -7134,125 +7211,255 @@
 
 
 
-<h1 id="openid-connect-oidc">OpenID Connect (OIDC)<a class="headerlink" href="#openid-connect-oidc" title="Anchor link to this section">»</a></h1>
-<p>OpenID Connect is a federated identity technology that allows you to exchange short-lived Spacelift credentials for temporary credentials valid for external service providers like AWS, GCP, Azure, HashiCorp Vault etc. With OIDC, Spacelift can manage your infrastructure on these cloud providers without static credentials.</p>
-<p>OIDC is also an attractive alternative to our native <a href="aws.html">AWS</a> integration in that it implements a common protocol, requires no additional configuration on the Spacelift side, supports a wider range of external service providers and empowers the user to construct more sophisticated access policies based on JWT claims.</p>
-<p>It is not the purpose of this document to explain the details of the OpenID Connect protocol. If you are not familiar with it, we recommend you read the <a href="https://openid.net/specs/openid-connect-core-1_0.html" rel="nofollow">OpenID Connect specification</a> or GitHub's excellent introduction to <a href="https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect" rel="nofollow">security hardening with OpenID Connect</a>.</p>
-<h2 id="considerations-when-self-hosting">Considerations when self-hosting<a class="headerlink" href="#considerations-when-self-hosting" title="Anchor link to this section">»</a></h2>
-<p>For this feature to work, the service you are integrating with needs to be able to verify that tokens issued by Spacelift are valid by accessing the JWKs used by Spacelift.</p>
-<p>The simplest option is allowing the service you are integrating with to access your Spacelift server directly. In this case it will access the <code>/.well-known/openid-configuration</code> and <code>/.well-known/jwks</code> endpoints on your Spacelift server during the token exchange.</p>
-<p>Another option is to manually upload the JWKs (that you can get from the <code>/.well-known/jwks</code> endpoint on your Spacelift server) to the service you are integrating with if they support doing so.</p>
-<h3 id="overriding-issuer-and-jwks-endpoints-self-hosted">Overriding issuer and JWKS endpoints (Self-Hosted)<a class="headerlink" href="#overriding-issuer-and-jwks-endpoints-self-hosted" title="Anchor link to this section">»</a></h3>
-<p>For Self-Hosted installations, you can override the <code>issuer</code> and <code>jwks_uri</code> values in the OpenID Connect Discovery Document by adding the following environment variables to your deployment:</p>
-<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nv">FEDERATION_CUSTOM_ISSUER</span><span class="o">=</span>https://id.example.com
-<span class="nv">FEDERATION_CUSTOM_JWKS_URI</span><span class="o">=</span>https://id.example.com/.well-known/jwks.json
-</code></pre></div></td></tr></tbody></table></div>
-<p>Alternatively, if you use CloudFormation, you can use the following configuration values:</p>
+<h1 id="customizing-the-oidc-subject-claim">Customizing the OIDC Subject Claim<a class="headerlink" href="#customizing-the-oidc-subject-claim" title="Anchor link to this section">»</a></h1>
+<h2 id="why-customize-the-subject-claim">Why customize the subject claim?<a class="headerlink" href="#why-customize-the-subject-claim" title="Anchor link to this section">»</a></h2>
+<p>By default, Spacelift generates OIDC tokens with a subject claim that includes the space ID (slug), but not the full hierarchical path of the space. This works well for simple setups, but can create challenges in more complex organizational structures.</p>
+<h3 id="the-problem-with-space-slugs">The problem with space slugs<a class="headerlink" href="#the-problem-with-space-slugs" title="Anchor link to this section">»</a></h3>
+<p>Consider this space hierarchy:</p>
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">"federation_config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"issuer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://id.example.com"</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">"jwks_uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://id.example.com/.well-known/jwks.json"</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code>root
+├── production
+│   ├── us-east-1
+│   └── eu-west-1
+└── staging
+    ├── us-east-1
+    └── eu-west-1
+</code></pre></div></td></tr></tbody></table></div>
+<p>With the default subject format, you might have:</p>
+<ul>
+<li>Stack in <code>/root/production/us-east-1</code> → <code>space:us-east-1:stack:infra:run_type:TRACKED:scope:write</code></li>
+<li>Stack in <code>/root/staging/us-east-1</code> → <code>space:us-east-1:stack:infra:run_type:TRACKED:scope:write</code></li>
+</ul>
+<p>These two completely different spaces produce <strong>identical subject claims</strong> because they share the same slug (<code>us-east-1</code>). This makes it impossible to distinguish between them in cloud provider trust policies.</p>
+<h3 id="the-solution-custom-subject-templates">The solution: Custom subject templates<a class="headerlink" href="#the-solution-custom-subject-templates" title="Anchor link to this section">»</a></h3>
+<p>Custom subject templates allow you to include the full space path in the subject claim, enabling you to:</p>
+<ul>
+<li><strong>Distinguish between identically-named spaces</strong> in different branches of your hierarchy</li>
+<li><strong>Create hierarchical trust policies</strong> that grant access to all spaces under a specific branch (e.g., all production spaces)</li>
+<li><strong>Simplify access management</strong> by avoiding the need to update trust policies every time you add a new space</li>
+</ul>
+<h2 id="what-is-the-subject-template">What is the subject template?<a class="headerlink" href="#what-is-the-subject-template" title="Anchor link to this section">»</a></h2>
+<p>The subject template controls the format of the <code>sub</code> (subject) claim in the OIDC JWT token that Spacelift generates for each run. This token is used when authenticating with cloud providers like AWS, GCP, and Azure.</p>
+<h3 id="default-format">Default format<a class="headerlink" href="#default-format" title="Anchor link to this section">»</a></h3>
+<p>By default, the subject claim follows this format:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>space:{spaceId}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+</code></pre></div></td></tr></tbody></table></div>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>space:production:stack:my-infra:run_type:TRACKED:scope:write
+</code></pre></div></td></tr></tbody></table></div>
+<h3 id="customizable-format">Customizable format<a class="headerlink" href="#customizable-format" title="Anchor link to this section">»</a></h3>
+<p>You can customize this format using placeholders. For example, to include the full space path:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+</code></pre></div></td></tr></tbody></table></div>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>space:us-east-1:space_path:/root/production/us-east-1:stack:my-infra:run_type:TRACKED:scope:write
+</code></pre></div></td></tr></tbody></table></div>
+<h2 id="available-placeholders">Available placeholders<a class="headerlink" href="#available-placeholders" title="Anchor link to this section">»</a></h2>
+<p>When configuring a custom subject template, you can use the following placeholders:</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{spaceId}</code></td>
+<td>The space slug</td>
+<td><code>production</code> or <code>us-east-1</code></td>
+</tr>
+<tr>
+<td><code>{spacePath}</code></td>
+<td>The full hierarchical path of the space</td>
+<td><code>/root/production/us-east-1</code></td>
+</tr>
+<tr>
+<td><code>{callerType}</code></td>
+<td>The type of entity that owns the run</td>
+<td><code>stack</code> or <code>module</code></td>
+</tr>
+<tr>
+<td><code>{callerId}</code></td>
+<td>The stack or module slug</td>
+<td><code>my-infra</code></td>
+</tr>
+<tr>
+<td><code>{runId}</code></td>
+<td>The run ULID</td>
+<td><code>01HXX123ABC...</code></td>
+</tr>
+<tr>
+<td><code>{runType}</code></td>
+<td>The type of run</td>
+<td><code>PROPOSED</code>, <code>TRACKED</code>, <code>TASK</code>, <code>TESTING</code>, or <code>DESTROY</code></td>
+</tr>
+<tr>
+<td><code>{scope}</code></td>
+<td>The scope of the token</td>
+<td><code>read</code> or <code>write</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>{spacePath}</code> placeholder is only populated when included in your template. If you don't use it in your template, this custom claim won't be added to the token.</p>
+</div>
+<h2 id="how-to-configure">How to configure<a class="headerlink" href="#how-to-configure" title="Anchor link to this section">»</a></h2>
+<ol>
+<li>Navigate to <strong>Organization Settings</strong> → <strong>Security</strong> → <strong>OIDC subject template</strong></li>
+<li>Enter your custom template in the template field</li>
+<li>Leave the field empty to use the default format</li>
+<li>Click <strong>Save</strong> to apply the changes</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This feature requires account administrator privileges.</p>
+</div>
+<h2 id="template-syntax-and-validation">Template syntax and validation<a class="headerlink" href="#template-syntax-and-validation" title="Anchor link to this section">»</a></h2>
+<h3 id="template-examples">Template examples<a class="headerlink" href="#template-examples" title="Anchor link to this section">»</a></h3>
+<p>Here are some common template patterns:</p>
+<p><strong>Include full space path (recommended for hierarchical setups):</strong></p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+</code></pre></div></td></tr></tbody></table></div>
+<p>Result: <code>space:us-east-1:space_path:/root/production/us-east-1:stack:infra:run_type:TRACKED:scope:write</code></p>
+<p><strong>Simplified format with path:</strong></p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>{spacePath}|{callerType}:{callerId}|{runType}|{scope}
+</code></pre></div></td></tr></tbody></table></div>
+<p>Result: <code>/root/production/us-east-1|stack:infra|TRACKED|write</code></p>
+<p><strong>Custom separator style:</strong></p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>path:{spacePath}:type:{callerType}:caller:{callerId}:run:{runId}:scope:{scope}
+</code></pre></div></td></tr></tbody></table></div>
+<p>Result: <code>path:/root/production/us-east-1:type:stack:caller:infra:run:01HXX123:scope:write</code></p>
+<h3 id="validation-rules">Validation rules<a class="headerlink" href="#validation-rules" title="Anchor link to this section">»</a></h3>
+<p>Templates are validated to ensure they:</p>
+<ul>
+<li>Do not exceed <strong>1000 characters</strong> in length</li>
+<li>Only contain valid placeholders</li>
+<li>Use only allowed characters: alphanumeric, <code>-</code>, <code>_</code>, <code>:</code>, <code>/</code>, <code>|</code>, <code>{</code>, <code>}</code></li>
+<li>Do not contain spaces, newlines, tabs, or special characters like <code>&amp;</code>, <code>=</code>, <code>?</code>, <code>#</code>, <code>@</code>, <code>%</code></li>
+<li>Produce subject claims that do not exceed <strong>2048 characters</strong> when rendered</li>
+</ul>
+<p>If your template fails validation, you'll see an error message explaining what needs to be fixed.</p>
+<h2 id="migration-guide">Migration guide<a class="headerlink" href="#migration-guide" title="Anchor link to this section">»</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Breaking change</p>
+<p>Changing your subject template is a breaking change for existing cloud provider trust policies. You must update your trust policies <strong>before</strong> changing the template in Spacelift to avoid authentication failures.</p>
+</div>
+<h3 id="safe-migration-process">Safe migration process<a class="headerlink" href="#safe-migration-process" title="Anchor link to this section">»</a></h3>
+<p>Follow these steps to migrate safely:</p>
+<ol>
+<li><strong>Update cloud provider trust policies</strong> to accept <strong>both</strong> the old and new subject formats</li>
+<li><strong>Test the dual-format policy</strong> with a non-critical stack to ensure it works</li>
+<li><strong>Configure the new template</strong> in Spacelift (via UI or API)</li>
+<li><strong>Verify successful authentication</strong> by triggering runs and checking they can access cloud resources</li>
+<li><strong>Remove the old format</strong> from your trust policies after confirming everything works</li>
+</ol>
+<h3 id="example-dual-format-aws-trust-policy">Example: Dual-format AWS trust policy<a class="headerlink" href="#example-dual-format-aws-trust-policy" title="Anchor link to this section">»</a></h3>
+<p>During migration, your AWS IAM role trust policy should accept both formats:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"Principal"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"Federated"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam::123456789012:oidc-provider/demo.app.spacelift.io"</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sts:AssumeRoleWithWebIdentity"</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">"StringLike"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">"demo.app.spacelift.io:sub"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">"space:production:*"</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">"*:space_path:/root/production/*"</span>
+<span class="w">          </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></tbody></table></div>
-<p>The behavior follows this precedence:</p>
-<ul>
-<li><strong>If only the issuer is provided</strong> → <code>jwks_uri</code> is automatically derived from it</li>
-<li><strong>If both are provided</strong> → both override values are used</li>
-<li><strong>If neither is provided</strong> → fallback to current behavior (account URL)</li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The <code>issuer</code> value must exactly match the <code>iss</code> claim in the tokens for proper validation.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Replace <code>demo.app.spacelift.io</code> with the hostname of your Spacelift account, and adjust the space names to match your hierarchy.</p>
 </div>
-<h2 id="about-the-spacelift-oidc-token">About the Spacelift OIDC token<a class="headerlink" href="#about-the-spacelift-oidc-token" title="Anchor link to this section">»</a></h2>
-<p>The Spacelift OIDC token is a <a href="https://jwt.io/" rel="nofollow">JSON Web Token</a> that is signed by Spacelift and contains a set of claims that can be used to construct a set of temporary credentials for the external service provider. The token is valid for an hour and is available to every run in any paid Spacelift account. The token is available in the <code>SPACELIFT_OIDC_TOKEN</code> environment variable and in the <code>/mnt/workspace/spacelift.oidc</code> file.</p>
-<h3 id="standard-claims">Standard claims<a class="headerlink" href="#standard-claims" title="Anchor link to this section">»</a></h3>
-<p>The token contains the following standard claims:</p>
-<ul>
-<li><code>iss</code>: The issuer of the token. This is the URL of your Spacelift account, for example <code>https://demo.app.spacelift.io</code>, and is unique for each Spacelift account.</li>
-<li><code>sub</code>: The subject of the token, which includes some information about the Spacelift run that generated this token.<ul>
-<li>By default, the subject claim is constructed as follows: <code>space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;</code>. For example, <code>space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write</code>. Individual values are also available as separate <a href="#custom-claims">custom claims</a>.</li>
-<li>You can customize the subject claim format to include additional information like the full space path. See <a href="oidc/subject-template.html">Customizing the OIDC Subject Claim</a> for details.</li>
-</ul>
-</li>
-<li><code>aud</code>: The audience of the token. This is the hostname of your Spacelift account, for example <code>demo.app.spacelift.io</code>, and is unique for each Spacelift account.</li>
-<li><code>exp</code>: The expiration time of the token, in seconds since the Unix epoch. The token is valid for one hour.</li>
-<li><code>iat</code>: The time at which the token was issued, in seconds since the Unix epoch.</li>
-<li><code>jti</code>: The unique identifier of the token.</li>
-<li><code>nbf</code>: The time before which the token is not valid, in seconds since the Unix epoch. This is always set to the same value as <code>iat</code>.</li>
-</ul>
-<h3 id="custom-claims">Custom claims<a class="headerlink" href="#custom-claims" title="Anchor link to this section">»</a></h3>
-<p>The token also contains the following custom claims:</p>
-<ul>
-<li><code>spaceId</code>: The ID of the space in which the run that owns the token was executed.</li>
-<li><code>callerType</code>: The type of the caller, i.e. the entity that owns the run, either <a href="../../concepts/stack.html"><code>stack</code></a> or <a href="../../vendors/terraform/module-registry.html"><code>module</code></a>.</li>
-<li><code>callerId</code>: The ID of the caller, i.e. the <a href="../../concepts/stack.html">stack</a> or <a href="../../vendors/terraform/module-registry.html">module</a> that generated the run.</li>
-<li><code>runType</code>: The type of the run, such as <a href="../../concepts/run/proposed.html"><code>PROPOSED</code></a>, <a href="../../concepts/run/tracked.html"><code>TRACKED</code></a>, <a href="../../concepts/run/task.html"><code>TASK</code></a>, <a href="../../concepts/run/test-case.html"><code>TESTING</code></a> or <a href="../../concepts/run/test-case.html"><code>DESTROY</code></a>.</li>
-<li><code>runId</code>: The ID of the run that owns the token.</li>
-<li><code>scope</code>: The scope of the token, either <code>read</code> or <code>write</code>.</li>
-</ul>
-<h4 id="wildcards">Wildcards<a class="headerlink" href="#wildcards" title="Anchor link to this section">»</a></h4>
-<p>You can use wildcards like "*" in your OIDC token, as long as the wildcard matches the exact format of the sub claim: <code>space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;</code>.</p>
-<p>For example, you could create a policy like this, which would cover most internal spaces, stacks, run types, and scopes:</p>
+<p>Once you've verified that runs are authenticating successfully with the new format, you can remove the old format (<code>"space:production:*"</code>) from the policy.</p>
+<h2 id="use-cases">Use cases<a class="headerlink" href="#use-cases" title="Anchor link to this section">»</a></h2>
+<h3 id="hierarchical-space-authorization">Hierarchical space authorization<a class="headerlink" href="#hierarchical-space-authorization" title="Anchor link to this section">»</a></h3>
+<p>The primary use case for custom subject templates is enabling hierarchical authorization in cloud providers.</p>
+<p><strong>Scenario:</strong> You want to grant access to all stacks in your production environment, regardless of which specific space they're in.</p>
+<p>With the default template, you'd need to list each space individually:</p>
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">"Condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">"StringLike"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">"yourSpaceliftDomain:sub"</span><span class="p">:</span><span class="w"> </span><span class="s2">"space:production-*:stack:*:run_type:*:scope:*"</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">"StringLike"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"demo.app.spacelift.io:sub"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"space:production:*"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"space:prod-us-east-1:*"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"space:prod-eu-west-1:*"</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div></td></tr></tbody></table></div>
+<p>This requires updating the policy every time you add a new production space.</p>
+<p><strong>With <code>{spacePath}</code></strong>, you can create a single rule that covers the entire branch:</p>
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">"StringLike"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"demo.app.spacelift.io:sub"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*:space_path:/root/production/*"</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></tbody></table></div>
+<p>Now, any stack in <code>/root/production/</code> or its child spaces automatically inherits access.</p>
+<h3 id="distinguishing-identically-named-spaces">Distinguishing identically-named spaces<a class="headerlink" href="#distinguishing-identically-named-spaces" title="Anchor link to this section">»</a></h3>
+<p><strong>Scenario:</strong> You have spaces with the same slug in different branches (e.g., <code>/root/production/us-east-1</code> and <code>/root/staging/us-east-1</code>).</p>
+<p>With the default template, these produce identical subject claims, making it impossible to grant different permissions.</p>
+<p><strong>With <code>{spacePath}</code></strong>, each space has a unique subject claim:</p>
 <ul>
-<li><code>space:production-*</code>: Covers any internal Space ID that begins with "production-".</li>
-<li><code>stack:*</code>: Matches any stack inside that production space.</li>
-<li><code>run_type:*</code>: Covers all types of runs (e.g., PROPOSED, TRACKED).</li>
-<li><code>scope:*</code>: Covers both read and write scopes for that run.</li>
+<li>Production: <code>*:space_path:/root/production/us-east-1:*</code></li>
+<li>Staging: <code>*:space_path:/root/staging/us-east-1:*</code></li>
 </ul>
-<p>Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.</p>
-<h3 id="about-scopes">About scopes<a class="headerlink" href="#about-scopes" title="Anchor link to this section">»</a></h3>
-<p>Whether the token is given <code>read</code> or <code>write</code> scope depends on the type of the run that generated the token:</p>
+<p>You can now create separate trust policies for each environment.</p>
+<h2 id="provider-specific-considerations">Provider-specific considerations<a class="headerlink" href="#provider-specific-considerations" title="Anchor link to this section">»</a></h2>
+<p>Each cloud provider has different capabilities for matching the subject claim in trust policies:</p>
 <ul>
-<li><code>read</code>: <a href="../../concepts/run/proposed.html">Proposed</a> runs.</li>
-<li><code>write</code>: <a href="../../concepts/run/tracked.html">Tracked</a>, <a href="../../concepts/run/test-case.html">testing</a>, and <a href="../../concepts/run/test-case.html">destroy</a> runs as well as <a href="../../concepts/run/task.html">tasks</a>.</li>
+<li><strong>AWS</strong>: Supports wildcards (<code>*</code>) in <code>StringLike</code> conditions. See <a href="aws-oidc.html#using-custom-subject-templates">AWS-specific examples</a>.</li>
+<li><strong>GCP</strong>: Supports CEL expressions and custom claim mappings. See <a href="gcp-oidc.html#using-space-paths-for-hierarchical-access-control">GCP-specific examples</a>.</li>
+<li><strong>Azure</strong>: Requires exact matches with no wildcard support. See <a href="azure-oidc.html#using-custom-subject-templates">Azure-specific examples</a>.</li>
 </ul>
-<p>The only exceptions are tracked runs whose stack is not set to <a href="../../concepts/run/tracked.html#approval-flow">autodeploy</a>. In that case, the token will have a <code>read</code> scope during the planning phase, and a <code>write</code> scope during the apply phase. This is because a tracked run requiring a manual approval should not perform write operations before human confirmation.</p>
-<p>The scope claim, as well as other claims presented by the Spacelift token, are merely advisory. It depends on you whether you want to control access to your external service provider based on the scope of the token or on some other claim like space, caller, or run type. In other words, Spacelift gives you the data and it's up to you to decide how to use it.</p>
-<h2 id="custom-claims-mapping-for-groups">Custom Claims Mapping for Groups<a class="headerlink" href="#custom-claims-mapping-for-groups" title="Anchor link to this section">»</a></h2>
-<p>Some identity providers use non-standard claim names for user group membership. For example:</p>
+<p>Refer to the provider-specific documentation pages for detailed setup instructions and examples.</p>
+<h2 id="additional-resources">Additional resources<a class="headerlink" href="#additional-resources" title="Anchor link to this section">»</a></h2>
 <ul>
-<li><strong>AWS Cognito</strong> uses <code>cognito:groups</code> instead of the standard <code>groups</code> claim</li>
-<li><strong>Google Workspace</strong> does not include group membership in OIDC tokens by default</li>
+<li><a href="../oidc.html">OIDC Overview</a> - Learn about Spacelift's OIDC integration</li>
+<li><a href="aws-oidc.html">AWS OIDC Integration</a> - AWS-specific setup and examples</li>
+<li><a href="gcp-oidc.html">GCP OIDC Integration</a> - GCP-specific setup and examples</li>
+<li><a href="azure-oidc.html">Azure OIDC Integration</a> - Azure-specific setup and examples</li>
 </ul>
-<p>Spacelift allows you to map custom claims from your identity provider to the standard <code>groups</code> claim that Spacelift expects. This enables group-based access control even when your IdP doesn't follow the standard OIDC groups claim convention.</p>
-<h3 id="configuring-custom-claims-mapping">Configuring Custom Claims Mapping<a class="headerlink" href="#configuring-custom-claims-mapping" title="Anchor link to this section">»</a></h3>
-<p>To configure custom claims mapping:</p>
-<ol>
-<li>Navigate to <strong>Organization settings</strong> → <strong>Single Sign-On</strong></li>
-<li>In your OIDC configuration, look for the <strong>Custom claims mapping</strong> section</li>
-<li>Add a mapping for the <code>groups</code> claim:</li>
-<li><strong>Claim name in IdP</strong>: Enter the custom claim name from your identity provider (e.g., <code>cognito:groups</code>)</li>
-<li><strong>Claim name in Spacelift</strong>: Enter <code>groups</code></li>
-</ol>
-<p><img alt="Screenshot: OIDC configuration page showing custom claims mapping section" src="../../assets/screenshots/sso/oidc-custom-claims.png"></p>
-<h2 id="use-the-spacelift-oidc-token">Use the Spacelift OIDC token<a class="headerlink" href="#use-the-spacelift-oidc-token" title="Anchor link to this section">»</a></h2>
-<p>You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:</p>
-<ul>
-<li><a href="oidc/subject-template.html">Customizing the subject claim</a> - Learn how to customize the OIDC token subject format for hierarchical space authorization</li>
-<li><a href="oidc/aws-oidc.html">AWS</a></li>
-<li><a href="oidc/gcp-oidc.html">GCP</a></li>
-<li><a href="oidc/azure-oidc.html">Azure</a></li>
-<li><a href="oidc/vault-oidc.html">HashiCorp Vault</a></li>
-</ul>
-<p>In particular, we will focus on setting up the integration and using it from these services' respective Terraform providers.</p>
 
 
 
@@ -7268,157 +7475,255 @@
                 
   </div>
 
-              <div id="llm-markdown-content" style="display: none;" data-content="# OpenID Connect (OIDC)
+              <div id="llm-markdown-content" style="display: none;" data-content="# Customizing the OIDC Subject Claim
 
-**Source:** https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc.html
-
-
-# OpenID Connect (OIDC)
+**Source:** https://docs.spacelift.dev/self-hosted/latest/integrations/cloud-providers/oidc/subject-template.html
 
 
+# Customizing the OIDC Subject Claim
 
-OpenID Connect is a federated identity technology that allows you to exchange short-lived Spacelift credentials for temporary credentials valid for external service providers like AWS, GCP, Azure, HashiCorp Vault etc. With OIDC, Spacelift can manage your infrastructure on these cloud providers without static credentials.
+## Why customize the subject claim?
 
+By default, Spacelift generates OIDC tokens with a subject claim that includes the space ID (slug), but not the full hierarchical path of the space. This works well for simple setups, but can create challenges in more complex organizational structures.
 
-OIDC is also an attractive alternative to our native [AWS](../aws.md) integration in that it implements a common protocol, requires no additional configuration on the Spacelift side, supports a wider range of external service providers and empowers the user to construct more sophisticated access policies based on JWT claims.
+### The problem with space slugs
 
+Consider this space hierarchy:
 
-It is not the purpose of this document to explain the details of the OpenID Connect protocol. If you are not familiar with it, we recommend you read the [OpenID Connect specification](https://openid.net/specs/openid-connect-core-1_0.html){: rel=&quot;nofollow&quot;} or GitHub&#x27;s excellent introduction to [security hardening with OpenID Connect](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect){: rel=&quot;nofollow&quot;}.
-
-
-
-## Considerations when self-hosting
-
-For this feature to work, the service you are integrating with needs to be able to verify that tokens issued by Spacelift are valid by accessing the JWKs used by Spacelift.
-
-The simplest option is allowing the service you are integrating with to access your Spacelift server directly. In this case it will access the `/.well-known/openid-configuration` and `/.well-known/jwks` endpoints on your Spacelift server during the token exchange.
-
-Another option is to manually upload the JWKs (that you can get from the `/.well-known/jwks` endpoint on your Spacelift server) to the service you are integrating with if they support doing so.
-
-### Overriding issuer and JWKS endpoints (Self-Hosted)
-
-For Self-Hosted installations, you can override the `issuer` and `jwks_uri` values in the OpenID Connect Discovery Document by adding the following environment variables to your deployment:
-
-```bash
-FEDERATION_CUSTOM_ISSUER=https://id.example.com
-FEDERATION_CUSTOM_JWKS_URI=https://id.example.com/.well-known/jwks.json
+```text
+root
+├── production
+│   ├── us-east-1
+│   └── eu-west-1
+└── staging
+    ├── us-east-1
+    └── eu-west-1
 ```
 
-Alternatively, if you use CloudFormation, you can use the following configuration values:
+With the default subject format, you might have:
+
+- Stack in `/root/production/us-east-1` → `space:us-east-1:stack:infra:run_type:TRACKED:scope:write`
+- Stack in `/root/staging/us-east-1` → `space:us-east-1:stack:infra:run_type:TRACKED:scope:write`
+
+These two completely different spaces produce **identical subject claims** because they share the same slug (`us-east-1`). This makes it impossible to distinguish between them in cloud provider trust policies.
+
+### The solution: Custom subject templates
+
+Custom subject templates allow you to include the full space path in the subject claim, enabling you to:
+
+- **Distinguish between identically-named spaces** in different branches of your hierarchy
+- **Create hierarchical trust policies** that grant access to all spaces under a specific branch (e.g., all production spaces)
+- **Simplify access management** by avoiding the need to update trust policies every time you add a new space
+
+## What is the subject template?
+
+The subject template controls the format of the `sub` (subject) claim in the OIDC JWT token that Spacelift generates for each run. This token is used when authenticating with cloud providers like AWS, GCP, and Azure.
+
+### Default format
+
+By default, the subject claim follows this format:
+
+```text
+space:{spaceId}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+```
+
+**Example:**
+
+```text
+space:production:stack:my-infra:run_type:TRACKED:scope:write
+```
+
+### Customizable format
+
+You can customize this format using placeholders. For example, to include the full space path:
+
+```text
+space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+```
+
+**Example:**
+
+```text
+space:us-east-1:space_path:/root/production/us-east-1:stack:my-infra:run_type:TRACKED:scope:write
+```
+
+## Available placeholders
+
+When configuring a custom subject template, you can use the following placeholders:
+
+| Placeholder | Description | Example |
+|------------|-------------|---------|
+| `{spaceId}` | The space slug | `production` or `us-east-1` |
+| `{spacePath}` | The full hierarchical path of the space | `/root/production/us-east-1` |
+| `{callerType}` | The type of entity that owns the run | `stack` or `module` |
+| `{callerId}` | The stack or module slug | `my-infra` |
+| `{runId}` | The run ULID | `01HXX123ABC...` |
+| `{runType}` | The type of run | `PROPOSED`, `TRACKED`, `TASK`, `TESTING`, or `DESTROY` |
+| `{scope}` | The scope of the token | `read` or `write` |
+
+!!! info
+    The `{spacePath}` placeholder is only populated when included in your template. If you don&#x27;t use it in your template, this custom claim won&#x27;t be added to the token.
+
+## How to configure
+
+1. Navigate to **Organization Settings** → **Security** → **OIDC subject template**
+2. Enter your custom template in the template field
+3. Leave the field empty to use the default format
+4. Click **Save** to apply the changes
+
+!!! info
+    This feature requires account administrator privileges.
+
+## Template syntax and validation
+
+### Template examples
+
+Here are some common template patterns:
+
+**Include full space path (recommended for hierarchical setups):**
+
+```text
+space:{spaceId}:space_path:{spacePath}:{callerType}:{callerId}:run_type:{runType}:scope:{scope}
+```
+
+Result: `space:us-east-1:space_path:/root/production/us-east-1:stack:infra:run_type:TRACKED:scope:write`
+
+**Simplified format with path:**
+
+```text
+{spacePath}|{callerType}:{callerId}|{runType}|{scope}
+```
+
+Result: `/root/production/us-east-1|stack:infra|TRACKED|write`
+
+**Custom separator style:**
+
+```text
+path:{spacePath}:type:{callerType}:caller:{callerId}:run:{runId}:scope:{scope}
+```
+
+Result: `path:/root/production/us-east-1:type:stack:caller:infra:run:01HXX123:scope:write`
+
+### Validation rules
+
+Templates are validated to ensure they:
+
+- Do not exceed **1000 characters** in length
+- Only contain valid placeholders
+- Use only allowed characters: alphanumeric, `-`, `_`, `:`, `/`, `|`, `{`, `}`
+- Do not contain spaces, newlines, tabs, or special characters like `&amp;`, `=`, `?`, `#`, `@`, `%`
+- Produce subject claims that do not exceed **2048 characters** when rendered
+
+If your template fails validation, you&#x27;ll see an error message explaining what needs to be fixed.
+
+## Migration guide
+
+!!! warning &quot;Breaking change&quot;
+    Changing your subject template is a breaking change for existing cloud provider trust policies. You must update your trust policies **before** changing the template in Spacelift to avoid authentication failures.
+
+### Safe migration process
+
+Follow these steps to migrate safely:
+
+1. **Update cloud provider trust policies** to accept **both** the old and new subject formats
+2. **Test the dual-format policy** with a non-critical stack to ensure it works
+3. **Configure the new template** in Spacelift (via UI or API)
+4. **Verify successful authentication** by triggering runs and checking they can access cloud resources
+5. **Remove the old format** from your trust policies after confirming everything works
+
+### Example: Dual-format AWS trust policy
+
+During migration, your AWS IAM role trust policy should accept both formats:
 
 ```json
 {
-  &quot;federation_config&quot;: {
-    &quot;issuer&quot;: &quot;https://id.example.com&quot;,
-    &quot;jwks_uri&quot;: &quot;https://id.example.com/.well-known/jwks.json&quot;
-  }
+  &quot;Version&quot;: &quot;2012-10-17&quot;,
+  &quot;Statement&quot;: [
+    {
+      &quot;Effect&quot;: &quot;Allow&quot;,
+      &quot;Principal&quot;: {
+        &quot;Federated&quot;: &quot;arn:aws:iam::123456789012:oidc-provider/demo.app.spacelift.io&quot;
+      },
+      &quot;Action&quot;: &quot;sts:AssumeRoleWithWebIdentity&quot;,
+      &quot;Condition&quot;: {
+        &quot;StringLike&quot;: {
+          &quot;demo.app.spacelift.io:sub&quot;: [
+            &quot;space:production:*&quot;,
+            &quot;*:space_path:/root/production/*&quot;
+          ]
+        }
+      }
+    }
+  ]
 }
 ```
 
-The behavior follows this precedence:
+!!! hint
+    Replace `demo.app.spacelift.io` with the hostname of your Spacelift account, and adjust the space names to match your hierarchy.
 
-- **If only the issuer is provided** → `jwks_uri` is automatically derived from it
-- **If both are provided** → both override values are used
-- **If neither is provided** → fallback to current behavior (account URL)
+Once you&#x27;ve verified that runs are authenticating successfully with the new format, you can remove the old format (`&quot;space:production:*&quot;`) from the policy.
 
-!!! warning
-    The `issuer` value must exactly match the `iss` claim in the tokens for proper validation.
+## Use cases
 
+### Hierarchical space authorization
 
+The primary use case for custom subject templates is enabling hierarchical authorization in cloud providers.
 
-## About the Spacelift OIDC token
+**Scenario:** You want to grant access to all stacks in your production environment, regardless of which specific space they&#x27;re in.
 
-The Spacelift OIDC token is a [JSON Web Token](https://jwt.io/){: rel=&quot;nofollow&quot;} that is signed by Spacelift and contains a set of claims that can be used to construct a set of temporary credentials for the external service provider. The token is valid for an hour and is available to every run in any paid Spacelift account. The token is available in the `SPACELIFT_OIDC_TOKEN` environment variable and in the `/mnt/workspace/spacelift.oidc` file.
-
-### Standard claims
-
-The token contains the following standard claims:
-
-- `iss`: The issuer of the token. This is the URL of your Spacelift account, for example `https://demo.app.spacelift.io`, and is unique for each Spacelift account.
-- `sub`: The subject of the token, which includes some information about the Spacelift run that generated this token.
-    - By default, the subject claim is constructed as follows: `space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;`. For example, `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
-    - You can customize the subject claim format to include additional information like the full space path. See [Customizing the OIDC Subject Claim](subject-template.md) for details.
-- `aud`: The audience of the token. This is the hostname of your Spacelift account, for example `demo.app.spacelift.io`, and is unique for each Spacelift account.
-- `exp`: The expiration time of the token, in seconds since the Unix epoch. The token is valid for one hour.
-- `iat`: The time at which the token was issued, in seconds since the Unix epoch.
-- `jti`: The unique identifier of the token.
-- `nbf`: The time before which the token is not valid, in seconds since the Unix epoch. This is always set to the same value as `iat`.
-
-### Custom claims
-
-The token also contains the following custom claims:
-
-- `spaceId`: The ID of the space in which the run that owns the token was executed.
-- `callerType`: The type of the caller, i.e. the entity that owns the run, either [`stack`](../../../concepts/stack/README.md) or [`module`](../../../vendors/terraform/module-registry.md).
-- `callerId`: The ID of the caller, i.e. the [stack](../../../concepts/stack/README.md) or [module](../../../vendors/terraform/module-registry.md) that generated the run.
-- `runType`: The type of the run, such as [`PROPOSED`](../../../concepts/run/proposed.md), [`TRACKED`](../../../concepts/run/tracked.md), [`TASK`](../../../concepts/run/task.md), [`TESTING`](../../../concepts/run/test-case.md) or [`DESTROY`](../../../concepts/run/test-case.md).
-- `runId`: The ID of the run that owns the token.
-- `scope`: The scope of the token, either `read` or `write`.
-
-#### Wildcards
-
-You can use wildcards like &quot;*&quot; in your OIDC token, as long as the wildcard matches the exact format of the sub claim: `space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;`.
-
-For example, you could create a policy like this, which would cover most internal spaces, stacks, run types, and scopes:
+With the default template, you&#x27;d need to list each space individually:
 
 ```json
-&quot;Condition&quot;: {
-  &quot;StringLike&quot;: {
-    &quot;yourSpaceliftDomain:sub&quot;: &quot;space:production-*:stack:*:run_type:*:scope:*&quot;
-  }
+&quot;StringLike&quot;: {
+  &quot;demo.app.spacelift.io:sub&quot;: [
+    &quot;space:production:*&quot;,
+    &quot;space:prod-us-east-1:*&quot;,
+    &quot;space:prod-eu-west-1:*&quot;
+  ]
 }
 ```
 
-- `space:production-*`: Covers any internal Space ID that begins with &quot;production-&quot;.
-- `stack:*`: Matches any stack inside that production space.
-- `run_type:*`: Covers all types of runs (e.g., PROPOSED, TRACKED).
-- `scope:*`: Covers both read and write scopes for that run.
+This requires updating the policy every time you add a new production space.
 
-Wherever you need tighter control of access or which spaces and stacks are affected, replace the wildcard with the exact value for that portion of the claim.
+**With `{spacePath}`**, you can create a single rule that covers the entire branch:
 
-### About scopes
+```json
+&quot;StringLike&quot;: {
+  &quot;demo.app.spacelift.io:sub&quot;: &quot;*:space_path:/root/production/*&quot;
+}
+```
 
-Whether the token is given `read` or `write` scope depends on the type of the run that generated the token:
+Now, any stack in `/root/production/` or its child spaces automatically inherits access.
 
-- `read`: [Proposed](../../../concepts/run/proposed.md) runs.
-- `write`: [Tracked](../../../concepts/run/tracked.md), [testing](../../../concepts/run/test-case.md), and [destroy](../../../concepts/run/test-case.md) runs as well as [tasks](../../../concepts/run/task.md).
+### Distinguishing identically-named spaces
 
-The only exceptions are tracked runs whose stack is not set to [autodeploy](../../../concepts/run/tracked.md#approval-flow). In that case, the token will have a `read` scope during the planning phase, and a `write` scope during the apply phase. This is because a tracked run requiring a manual approval should not perform write operations before human confirmation.
+**Scenario:** You have spaces with the same slug in different branches (e.g., `/root/production/us-east-1` and `/root/staging/us-east-1`).
 
-The scope claim, as well as other claims presented by the Spacelift token, are merely advisory. It depends on you whether you want to control access to your external service provider based on the scope of the token or on some other claim like space, caller, or run type. In other words, Spacelift gives you the data and it&#x27;s up to you to decide how to use it.
+With the default template, these produce identical subject claims, making it impossible to grant different permissions.
 
-## Custom Claims Mapping for Groups
+**With `{spacePath}`**, each space has a unique subject claim:
 
-Some identity providers use non-standard claim names for user group membership. For example:
+- Production: `*:space_path:/root/production/us-east-1:*`
+- Staging: `*:space_path:/root/staging/us-east-1:*`
 
-- **AWS Cognito** uses `cognito:groups` instead of the standard `groups` claim
-- **Google Workspace** does not include group membership in OIDC tokens by default
+You can now create separate trust policies for each environment.
 
-Spacelift allows you to map custom claims from your identity provider to the standard `groups` claim that Spacelift expects. This enables group-based access control even when your IdP doesn&#x27;t follow the standard OIDC groups claim convention.
+## Provider-specific considerations
 
-### Configuring Custom Claims Mapping
+Each cloud provider has different capabilities for matching the subject claim in trust policies:
 
-To configure custom claims mapping:
+- **AWS**: Supports wildcards (`*`) in `StringLike` conditions. See [AWS-specific examples](aws-oidc.md#using-custom-subject-templates).
+- **GCP**: Supports CEL expressions and custom claim mappings. See [GCP-specific examples](gcp-oidc.md#using-space-paths-for-hierarchical-access-control).
+- **Azure**: Requires exact matches with no wildcard support. See [Azure-specific examples](azure-oidc.md#using-custom-subject-templates).
 
-1. Navigate to **Organization settings** → **Single Sign-On**
-2. In your OIDC configuration, look for the **Custom claims mapping** section
-3. Add a mapping for the `groups` claim:
-   - **Claim name in IdP**: Enter the custom claim name from your identity provider (e.g., `cognito:groups`)
-   - **Claim name in Spacelift**: Enter `groups`
+Refer to the provider-specific documentation pages for detailed setup instructions and examples.
 
-![Screenshot: OIDC configuration page showing custom claims mapping section](../../../assets/screenshots/sso/oidc-custom-claims.png)
+## Additional resources
 
-## Use the Spacelift OIDC token
-
-You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:
-
-- [Customizing the subject claim](./subject-template.md) - Learn how to customize the OIDC token subject format for hierarchical space authorization
-- [AWS](./aws-oidc.md)
-- [GCP](./gcp-oidc.md)
-- [Azure](./azure-oidc.md)
-- [HashiCorp Vault](./vault-oidc.md)
-
-In particular, we will focus on setting up the integration and using it from these services&#x27; respective Terraform providers."></div>
+- [OIDC Overview](README.md) - Learn about Spacelift&#x27;s OIDC integration
+- [AWS OIDC Integration](aws-oidc.md) - AWS-specific setup and examples
+- [GCP OIDC Integration](gcp-oidc.md) - GCP-specific setup and examples
+- [Azure OIDC Integration](azure-oidc.md) - Azure-specific setup and examples"></div>
 </article>
             </div>
           
@@ -7500,13 +7805,13 @@ In particular, we will focus on setting up the integration and using it from the
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.sections"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.annotate", "content.code.copy", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.sections"], "search": "../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
   
-      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.f55a23d4.min.js"></script>
       
-        <script src="../../assets/js/copy-to-llm.js"></script>
+        <script src="../../../assets/js/copy-to-llm.js"></script>
       
     
 

@@ -6997,6 +6997,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pull-request-id-availability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pull Request ID Availability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pull Request ID Availability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ensuring-pull-request-id-is-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ensuring Pull Request ID is Available
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#canceling-in-progress-runs" class="md-nav__link">
     <span class="md-ellipsis">
       Canceling in-progress runs
@@ -7452,9 +7476,59 @@ labeled <span class="o">{</span> input<span class="o">.</span>pull_request<span 
 <p>Push policies could resolve to the same actionable (not <em>ignore</em>) outcome (e.g. <em>track</em> or <em>propose</em>). In those cases, instead of creating two separate runs, we debounce the events by deduplicating runs created by them on a per-stack basis.</p>
 <p>The deduplication key consists of the commit SHA and run type. If your policy returns two different actionable outcomes for two different events associated with a given SHA, both runs will be created. In practice, this would be an unusual corner case and a reason to revisit your workflow.</p>
 <p>When events are deduplicated and you're sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that the first one creates a run.</p>
+<h2 id="pull-request-id-availability">Pull Request ID Availability<a class="headerlink" href="#pull-request-id-availability" title="Anchor link to this section">»</a></h2>
+<p>When a git push occurs on an open pull request, the push policy receives two events: a git push event that has <code>pull_request: null</code> in its input and a pull request event that contains the pull request data. The default push policy triggers on both events, but due to the deduplication logic described above, the two events are considered the same, and the system retains the first event (the push event without pull request data) and discards the later one (the pull request event with pull request data).</p>
+<p>This means that notification policies and other downstream processes never see the event with the <code>pull_request_id</code> field, which can cause issues when trying to target specific pull requests for comments.</p>
+<h3 id="ensuring-pull-request-id-is-available">Ensuring Pull Request ID is Available<a class="headerlink" href="#ensuring-pull-request-id-is-available" title="Anchor link to this section">»</a></h3>
+<p>To ensure the <code>pull_request_id</code> is available in notification policies, you can modify your push policy to ignore the push event without pull request data:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="rego-v1_3" name="__tabbed_4" type="radio"><input id="rego-v0_3" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="rego-v1_3">Rego v1</label><label for="rego-v0_3">Rego v0</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">package</span> spacelift
+
+is_pr <span class="k">if</span> not is_null<span class="o">(</span>input<span class="o">.</span>pull_request<span class="o">)</span>
+
+ignore <span class="k">if</span> <span class="o">{</span> not track<span class="o">;</span> not is_pr <span class="o">}</span>
+
+<span class="err">#</span> Your existing track <span class="k">and</span> propose rules
+track <span class="k">if</span> input<span class="o">.</span>push<span class="o">.</span>branch <span class="o">==</span> input<span class="o">.</span>stack<span class="o">.</span>branch
+propose <span class="k">if</span> not is_null<span class="o">(</span>input<span class="o">.</span>pull_request<span class="o">)</span>
+</code></pre></div></td></tr></tbody></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">package</span> spacelift
+
+is_pr <span class="o">{</span> not is_null<span class="o">(</span>input<span class="o">.</span>pull_request<span class="o">)</span> <span class="o">}</span>
+
+ignore <span class="o">{</span> not track<span class="o">;</span> not is_pr <span class="o">}</span>
+
+<span class="err">#</span> Your existing track <span class="k">and</span> propose rules
+track <span class="o">{</span> input<span class="o">.</span>push<span class="o">.</span>branch <span class="o">==</span> input<span class="o">.</span>stack<span class="o">.</span>branch <span class="o">}</span>
+propose <span class="o">{</span> not is_null<span class="o">(</span>input<span class="o">.</span>pull_request<span class="o">)</span> <span class="o">}</span>
+</code></pre></div></td></tr></tbody></table></div>
+</div>
+</div>
+</div>
+<p>However, this approach has a side effect: it will ignore push events when there is no pull request. This means that direct pushes to the tracked branch (without an associated pull request) will not trigger runs. If this behavior is not desired for your workflow, you'll need to evaluate whether the benefits of having reliable pull request ID availability outweigh this limitation.</p>
 <h2 id="canceling-in-progress-runs">Canceling in-progress runs<a class="headerlink" href="#canceling-in-progress-runs" title="Anchor link to this section">»</a></h2>
 <p>You can use push policies to pre-empt any in-progress runs with the new run. The input document includes the <code>in_progress</code> key, which contains an array of runs that are currently either still <a href="../run.html#queued">queued</a>, <a href="../run.html#ready">ready</a>, or <a href="../run/tracked.html#unconfirmed">awaiting human confirmation</a>. You can use it in conjunction with the cancel rule like this:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="rego-v1_3" name="__tabbed_4" type="radio"><input id="rego-v0_3" name="__tabbed_4" type="radio"><div class="tabbed-labels"><label for="rego-v1_3">Rego v1</label><label for="rego-v0_3">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="rego-v1_4" name="__tabbed_5" type="radio"><input id="rego-v0_4" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="rego-v1_4">Rego v1</label><label for="rego-v0_4">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7471,7 +7545,7 @@ labeled <span class="o">{</span> input<span class="o">.</span>pull_request<span 
 </div>
 </div>
 <p>Of course, you can use a more sophisticated approach and only choose to cancel a certain type of run, or runs in a particular state. For example, this rule will only cancel proposed runs that are currently queued (waiting for the worker):</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="rego-v1_4" name="__tabbed_5" type="radio"><input id="rego-v0_4" name="__tabbed_5" type="radio"><div class="tabbed-labels"><label for="rego-v1_4">Rego v1</label><label for="rego-v0_4">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="rego-v1_5" name="__tabbed_6" type="radio"><input id="rego-v0_5" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="rego-v1_5">Rego v1</label><label for="rego-v0_5">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7500,7 +7574,7 @@ labeled <span class="o">{</span> input<span class="o">.</span>pull_request<span 
 </div>
 </div>
 <p>You can also compare branches and cancel proposed runs in queued state pointing to a specific branch:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="rego-v1_5" name="__tabbed_6" type="radio"><input id="rego-v0_5" name="__tabbed_6" type="radio"><div class="tabbed-labels"><label for="rego-v1_5">Rego v1</label><label for="rego-v0_5">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="rego-v1_6" name="__tabbed_7" type="radio"><input id="rego-v0_6" name="__tabbed_7" type="radio"><div class="tabbed-labels"><label for="rego-v1_6">Rego v1</label><label for="rego-v0_6">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7547,7 +7621,7 @@ labeled <span class="o">{</span> input<span class="o">.</span>pull_request<span 
 <p>By default, ignored runs on a stack will return a <code>skipped</code> status check event, rather than a fail event. If you want ignored run events to have a <code>failed</code> status check on your VCS, set the <code>fail</code> function value to <code>true</code> in your Push policy.</p>
 <h3 id="example-policy">Example policy<a class="headerlink" href="#example-policy" title="Anchor link to this section">»</a></h3>
 <p>The following push policy does not trigger any run within Spacelift. Using this policy, we can ensure that the status check within our VCS (in this case, GitHub) fails and returns the message "I love bacon."</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="rego-v1_6" name="__tabbed_7" type="radio"><input id="rego-v0_6" name="__tabbed_7" type="radio"><div class="tabbed-labels"><label for="rego-v1_6">Rego v1</label><label for="rego-v0_6">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="rego-v1_7" name="__tabbed_8" type="radio"><input id="rego-v0_7" name="__tabbed_8" type="radio"><div class="tabbed-labels"><label for="rego-v1_7">Rego v1</label><label for="rego-v0_7">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7573,7 +7647,7 @@ message<span class="o">[</span><span class="s2">"I love bacon"</span><span class
 <p>You can use a simple push policy to manage your Terraform module versions using git tags and push your module to the Spacelift module registry using git tag events. Use the <code>module_version</code> block within a push policy attached your module, and then set the version using the tag information from the git push event.</p>
 <p>For example, this push policy will trigger a tracked run when a tag event is detected, then parses the tag event data and uses that value for the module version. We remove a git tag prefixed with <code>v</code> as the Terraform module registry only supports versions in a numeric <code>X.X.X</code> format.</p>
 <p>For this policy, you will need to provide a mock, non-existent version for proposed runs. This precaution has been taken to ensure that pull requests do not encounter check failures due to the existence of versions that are already in use.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="rego-v1_7" name="__tabbed_8" type="radio"><input id="rego-v0_7" name="__tabbed_8" type="radio"><div class="tabbed-labels"><label for="rego-v1_7">Rego v1</label><label for="rego-v0_7">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="rego-v1_8" name="__tabbed_9" type="radio"><input id="rego-v0_8" name="__tabbed_9" type="radio"><div class="tabbed-labels"><label for="rego-v1_8">Rego v1</label><label for="rego-v0_8">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -7630,7 +7704,7 @@ propose <span class="o">{</span>
 </div>
 </div>
 <p>To add a track rule to your push policy, this will start a tracked run when the module version is not empty and the push branch is the same as the one the module branch is tracking:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="rego-v1_8" name="__tabbed_9" type="radio"><input id="rego-v0_8" name="__tabbed_9" type="radio"><div class="tabbed-labels"><label for="rego-v1_8">Rego v1</label><label for="rego-v0_8">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="rego-v1_9" name="__tabbed_10" type="radio"><input id="rego-v0_9" name="__tabbed_10" type="radio"><div class="tabbed-labels"><label for="rego-v1_9">Rego v1</label><label for="rego-v0_9">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7661,7 +7735,7 @@ propose <span class="o">{</span>
 <p>The cause is very similar to GitHub Actions, where they don't expose repository secrets when forked repositories open pull requests.</p>
 </div>
 <p>If you want to allow forks to trigger runs, you can explicitly do it with <code>allow_fork</code> rule. For example, if you trust certain people or organizations, this rule allows a forked repository to run <strong>only</strong> if the owner of the forked repo is <code>johnwayne</code> or <code>microsoft</code>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="rego-v1_9" name="__tabbed_10" type="radio"><input id="rego-v0_9" name="__tabbed_10" type="radio"><div class="tabbed-labels"><label for="rego-v1_9">Rego v1</label><label for="rego-v0_9">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="rego-v1_10" name="__tabbed_11" type="radio"><input id="rego-v0_10" name="__tabbed_11" type="radio"><div class="tabbed-labels"><label for="rego-v1_10">Rego v1</label><label for="rego-v0_10">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -7736,7 +7810,7 @@ allow_fork <span class="o">{</span>
 <li><code>undiverged</code>: Indicates that the PR branch is not behind the target branch.</li>
 </ul>
 <p>This push policy will automatically deploy a PR's changes once it has been approved, any required checks have completed, and the PR has a <code>deploy</code> label added to it:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="rego-v1_10" name="__tabbed_11" type="radio"><input id="rego-v0_10" name="__tabbed_11" type="radio"><div class="tabbed-labels"><label for="rego-v1_10">Rego v1</label><label for="rego-v0_10">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="rego-v1_11" name="__tabbed_12" type="radio"><input id="rego-v0_11" name="__tabbed_12" type="radio"><div class="tabbed-labels"><label for="rego-v1_11">Rego v1</label><label for="rego-v0_11">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8246,7 +8320,7 @@ allow_fork <span class="o">{</span>
 <p>This list may include false positives, for example in a situation where you delete a given file in one commit, bring it back in another commit, then push multiple commits at once. This is a safer default than trying to figure out the exact scope of each push.</p>
 </div>
 <p>Imagine a situation where you only want to look at changes to Terraform definitions (in HCL or <a href="https://www.terraform.io/docs/configuration/syntax-json.html" rel="nofollow">JSON</a>) inside one the <code>production/</code> or <code>modules/</code> directory, and have <code>track</code> and <code>propose</code> use their default settings:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="rego-v1_11" name="__tabbed_12" type="radio"><input id="rego-v0_11" name="__tabbed_12" type="radio"><div class="tabbed-labels"><label for="rego-v1_11">Rego v1</label><label for="rego-v0_11">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="rego-v1_12" name="__tabbed_13" type="radio"><input id="rego-v0_12" name="__tabbed_13" type="radio"><div class="tabbed-labels"><label for="rego-v1_12">Rego v1</label><label for="rego-v0_12">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8327,7 +8401,7 @@ affected <span class="o">{</span>
 <p>By default when the push policy instructs Spacelift to ignore a certain change, no commit status check is sent back to the VCS. This behavior is explicitly designed to prevent noise in monorepo scenarios where a large number of stacks are linked to the same Git repo.</p>
 <p>However, you may still be interested in learning that the push was ignored, or getting a commit status check for a given stack when it's set as required by <a href="https://docs.github.com/en/github/administering-a-repository/managing-a-branch-protection-rule" rel="nofollow">GitHub's branch protection</a> rules or your internal organization rules.</p>
 <p>In that case, you can use the <code>notify</code> rule to override default notification settings. So if you want to notify your VCS vendor even when a commit is ignored, you can define it like this:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="rego-v1_12" name="__tabbed_13" type="radio"><input id="rego-v0_12" name="__tabbed_13" type="radio"><div class="tabbed-labels"><label for="rego-v1_12">Rego v1</label><label for="rego-v0_12">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="rego-v1_13" name="__tabbed_14" type="radio"><input id="rego-v0_13" name="__tabbed_14" type="radio"><div class="tabbed-labels"><label for="rego-v1_13">Rego v1</label><label for="rego-v0_13">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8362,7 +8436,7 @@ notify <span class="o">{</span> ignore <span class="o">}</span>
 <h3 id="applying-from-a-tag">Applying from a tag<a class="headerlink" href="#applying-from-a-tag" title="Anchor link to this section">»</a></h3>
 <p>Another use case for a Git push policy would be to apply from a newly created <em>tag</em> rather than from a branch. This can be useful in multiple scenarios. For example, a staging/QA environment could be deployed every time a certain tag type is applied to a tested branch, thereby providing inline feedback on a GitHub Pull Request from the actual deployment rather than a plan/test. You could also constrain production to only apply from tags unless a run is explicitly triggered by the user.</p>
 <p>Here's an example:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="rego-v1_13" name="__tabbed_14" type="radio"><input id="rego-v0_13" name="__tabbed_14" type="radio"><div class="tabbed-labels"><label for="rego-v1_13">Rego v1</label><label for="rego-v0_13">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="rego-v1_14" name="__tabbed_15" type="radio"><input id="rego-v0_14" name="__tabbed_15" type="radio"><div class="tabbed-labels"><label for="rego-v1_14">Rego v1</label><label for="rego-v0_14">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8391,7 +8465,7 @@ propose <span class="o">{</span> input<span class="o">.</span>push<span class="o
 <p>However, sometimes you want to trigger tracked runs in a specific order or under specific circumstances either manually or using a <a href="trigger-policy.html">trigger policy</a>. So what you want is an option to set the head commit without triggering a run. The boolean <code>notrigger</code> rule will work in conjunction with the <code>track</code> decision and prevent the tracked run from being created.</p>
 <p><code>notrigger</code> does not depend in any way on the <code>track</code> rule; they're entirely independent. Spacelift will only look at <code>notrigger</code> if <code>track</code> evaluates to <em>true</em> when interpreting the result of the policy.</p>
 <p>Here's an example of using the two rules together to always set the new commit on the stack, but not trigger a run. You would use this when the run is always triggered <a href="../run/tracked.html#triggering-manually">manually</a>, through <a href="../../integrations/api.html">the API</a>, or using a <a href="trigger-policy.html">trigger policy</a>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="rego-v1_14" name="__tabbed_15" type="radio"><input id="rego-v0_14" name="__tabbed_15" type="radio"><div class="tabbed-labels"><label for="rego-v1_14">Rego v1</label><label for="rego-v0_14">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="rego-v1_15" name="__tabbed_16" type="radio"><input id="rego-v0_15" name="__tabbed_16" type="radio"><div class="tabbed-labels"><label for="rego-v1_15">Rego v1</label><label for="rego-v0_15">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8413,7 +8487,7 @@ notrigger <span class="o">{</span> true <span class="o">}</span>
 </div>
 <h3 id="default-git-push-policy">Default Git push policy<a class="headerlink" href="#default-git-push-policy" title="Anchor link to this section">»</a></h3>
 <p>If no Git push policies are attached to a stack or a module, the default behavior is equivalent to this policy:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="rego-v1_15" name="__tabbed_16" type="radio"><input id="rego-v0_15" name="__tabbed_16" type="radio"><div class="tabbed-labels"><label for="rego-v1_15">Rego v1</label><label for="rego-v0_15">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="rego-v1_16" name="__tabbed_17" type="radio"><input id="rego-v0_16" name="__tabbed_17" type="radio"><div class="tabbed-labels"><label for="rego-v1_16">Rego v1</label><label for="rego-v0_16">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8587,7 +8661,7 @@ normalize_path<span class="o">(</span>path<span class="o">)</span> <span class="
 <h3 id="prioritization">Prioritization<a class="headerlink" href="#prioritization" title="Anchor link to this section">»</a></h3>
 <p>Although we generally recommend using our default scheduling order (tracked runs and tasks, then proposed runs, then drift detection runs), you can use push policies to prioritize certain runs over others. For example, you may want to prioritize runs triggered by a certain user or a certain branch.</p>
 <p>Use the boolean <code>prioritize</code> rule to mark a run as prioritized:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="rego-v1_16" name="__tabbed_17" type="radio"><input id="rego-v0_16" name="__tabbed_17" type="radio"><div class="tabbed-labels"><label for="rego-v1_16">Rego v1</label><label for="rego-v0_16">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="rego-v1_17" name="__tabbed_18" type="radio"><input id="rego-v0_17" name="__tabbed_18" type="radio"><div class="tabbed-labels"><label for="rego-v1_17">Rego v1</label><label for="rego-v0_17">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8641,7 +8715,7 @@ prioritize <span class="o">{</span> input<span class="o">.</span>stack<span clas
 <p>Runs are only rejected if the push policy rules result in an attempt to acquire a lock on an already locked stack with a different lock key. If the <code>lock</code> rule is undefined or results in an empty string, runs will not be rejected.</p>
 </div>
 <p>This example policy snippet locks a stack when a pull request is opened or synchronized, and unlocks it when the pull request is closed or merged.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="18:2"><input checked="checked" id="rego-v1_17" name="__tabbed_18" type="radio"><input id="rego-v0_17" name="__tabbed_18" type="radio"><div class="tabbed-labels"><label for="rego-v1_17">Rego v1</label><label for="rego-v0_17">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="rego-v1_18" name="__tabbed_19" type="radio"><input id="rego-v0_18" name="__tabbed_19" type="radio"><div class="tabbed-labels"><label for="rego-v1_18">Rego v1</label><label for="rego-v0_18">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8686,7 +8760,7 @@ unlock <span class="o">:</span><span class="k">=</span> lock_id <span class="o">
 </div>
 </div>
 <p>You can customize selectively locking and unlocking the stacks whose project root or project globs are set to track the files in the pull request:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="rego-v1_18" name="__tabbed_19" type="radio"><input id="rego-v0_18" name="__tabbed_19" type="radio"><div class="tabbed-labels"><label for="rego-v1_18">Rego v1</label><label for="rego-v0_18">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="rego-v1_19" name="__tabbed_20" type="radio"><input id="rego-v0_19" name="__tabbed_20" type="radio"><div class="tabbed-labels"><label for="rego-v1_19">Rego v1</label><label for="rego-v0_19">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8783,7 +8857,7 @@ affected_pr <span class="o">{</span>
 </div>
 </div>
 <p>You can also lock and unlock through <a href="../run/pull-request-comments.html">comments</a>:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="20:2"><input checked="checked" id="rego-v1_19" name="__tabbed_20" type="radio"><input id="rego-v0_19" name="__tabbed_20" type="radio"><div class="tabbed-labels"><label for="rego-v1_19">Rego v1</label><label for="rego-v0_19">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="rego-v1_20" name="__tabbed_21" type="radio"><input id="rego-v0_20" name="__tabbed_21" type="radio"><div class="tabbed-labels"><label for="rego-v1_20">Rego v1</label><label for="rego-v0_20">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -8945,6 +9019,44 @@ Push policies could resolve to the same actionable (not _ignore_) outcome (e.g. 
 The deduplication key consists of the commit SHA and run type. If your policy returns two different actionable outcomes for two different events associated with a given SHA, both runs will be created. In practice, this would be an unusual corner case and a reason to revisit your workflow.
 
 When events are deduplicated and you&#x27;re sampling policy evaluations, you may notice that there are two samples for the same SHA, each with different input. You can generally assume that the first one creates a run.
+
+## Pull Request ID Availability
+
+When a git push occurs on an open pull request, the push policy receives two events: a git push event that has `pull_request: null` in its input and a pull request event that contains the pull request data. The default push policy triggers on both events, but due to the deduplication logic described above, the two events are considered the same, and the system retains the first event (the push event without pull request data) and discards the later one (the pull request event with pull request data).
+
+This means that notification policies and other downstream processes never see the event with the `pull_request_id` field, which can cause issues when trying to target specific pull requests for comments.
+
+### Ensuring Pull Request ID is Available
+
+To ensure the `pull_request_id` is available in notification policies, you can modify your push policy to ignore the push event without pull request data:
+
+=== &quot;Rego v1&quot;
+    ```opa
+    package spacelift
+
+    is_pr if not is_null(input.pull_request)
+
+    ignore if { not track; not is_pr }
+
+    # Your existing track and propose rules
+    track if input.push.branch == input.stack.branch
+    propose if not is_null(input.pull_request)
+    ```
+
+=== &quot;Rego v0&quot;
+    ```opa
+    package spacelift
+
+    is_pr { not is_null(input.pull_request) }
+
+    ignore { not track; not is_pr }
+
+    # Your existing track and propose rules
+    track { input.push.branch == input.stack.branch }
+    propose { not is_null(input.pull_request) }
+    ```
+
+However, this approach has a side effect: it will ignore push events when there is no pull request. This means that direct pushes to the tracked branch (without an associated pull request) will not trigger runs. If this behavior is not desired for your workflow, you&#x27;ll need to evaluate whether the benefits of having reliable pull request ID availability outweigh this limitation.
 
 ## Canceling in-progress runs
 
