@@ -7231,7 +7231,8 @@
 <ul>
 <li><code>iss</code>: The issuer of the token. This is the URL of your Spacelift account, for example <code>https://demo.app.spacelift.io</code>, and is unique for each Spacelift account.</li>
 <li><code>sub</code>: The subject of the token, which includes some information about the Spacelift run that generated this token.<ul>
-<li>The subject claim is constructed as follows: <code>space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;</code>. For example, <code>space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write</code>. Individual values are also available as separate <a href="#custom-claims">custom claims</a>.</li>
+<li>By default, the subject claim is constructed as follows: <code>space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;</code>. For example, <code>space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write</code>. Individual values are also available as separate <a href="#custom-claims">custom claims</a>.</li>
+<li>You can customize the subject claim format to include additional information like the full space path. See <a href="oidc/subject-template.html">Customizing the OIDC Subject Claim</a> for details.</li>
 </ul>
 </li>
 <li><code>aud</code>: The audience of the token. This is the hostname of your Spacelift account, for example <code>demo.app.spacelift.io</code>, and is unique for each Spacelift account.</li>
@@ -7298,6 +7299,7 @@
 <h2 id="use-the-spacelift-oidc-token">Use the Spacelift OIDC token<a class="headerlink" href="#use-the-spacelift-oidc-token" title="Anchor link to this section">»</a></h2>
 <p>You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:</p>
 <ul>
+<li><a href="oidc/subject-template.html">Customizing the subject claim</a> - Learn how to customize the OIDC token subject format for hierarchical space authorization</li>
 <li><a href="oidc/aws-oidc.html">AWS</a></li>
 <li><a href="oidc/gcp-oidc.html">GCP</a></li>
 <li><a href="oidc/azure-oidc.html">Azure</a></li>
@@ -7387,7 +7389,8 @@ The token contains the following standard claims:
 
 - `iss`: The issuer of the token. This is the URL of your Spacelift account, for example `https://demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `sub`: The subject of the token, which includes some information about the Spacelift run that generated this token.
-    - The subject claim is constructed as follows: `space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;`. For example, `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
+    - By default, the subject claim is constructed as follows: `space:&lt;space_id&gt;:(stack|module):&lt;stack_id|module_id&gt;:run_type:&lt;run_type&gt;:scope:&lt;read|write&gt;`. For example, `space:legacy-01KJMM56VS4W3AL9YZWVCXBX8D:stack:infra:run_type:TRACKED:scope:write`. Individual values are also available as separate [custom claims](#custom-claims).
+    - You can customize the subject claim format to include additional information like the full space path. See [Customizing the OIDC Subject Claim](subject-template.md) for details.
 - `aud`: The audience of the token. This is the hostname of your Spacelift account, for example `demo.app.spacelift.io`, and is unique for each Spacelift account.
 - `exp`: The expiration time of the token, in seconds since the Unix epoch. The token is valid for one hour.
 - `iat`: The time at which the token was issued, in seconds since the Unix epoch.
@@ -7462,6 +7465,7 @@ To configure custom claims mapping:
 
 You can follow our guidelines to see how to use the Spacelift OIDC token to authenticate with:
 
+- [Customizing the subject claim](./subject-template.md) - Learn how to customize the OIDC token subject format for hierarchical space authorization
 - [AWS](./aws-oidc.md)
 - [GCP](./gcp-oidc.md)
 - [Azure](./azure-oidc.md)

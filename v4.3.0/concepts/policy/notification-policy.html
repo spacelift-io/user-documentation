@@ -3238,6 +3238,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#using-pull-request-id-for-more-reliable-targeting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pull request ID for more reliable targeting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#updating-an-existing-pr-comment" class="md-nav__link">
     <span class="md-ellipsis">
       Updating an existing PR comment
@@ -7506,6 +7515,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#using-pull-request-id-for-more-reliable-targeting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pull request ID for more reliable targeting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#updating-an-existing-pr-comment" class="md-nav__link">
     <span class="md-ellipsis">
       Updating an existing PR comment
@@ -8790,9 +8808,58 @@ pull_request contains <span class="o">{</span><span class="s2">"commit"</span><s
 <p class="admonition-title">Hint</p>
 <p>Pull request notifications work best in combination with a <a href="push-policy.html#push-and-pull-request-events">push policy</a> to create proposed runs on pull requests.</p>
 </div>
+<h4 id="using-pull-request-id-for-more-reliable-targeting">Using pull request ID for more reliable targeting<a class="headerlink" href="#using-pull-request-id-for-more-reliable-targeting" title="Anchor link to this section">»</a></h4>
+<p>For more reliable pull request targeting, especially in GitHub Enterprise Server (GHES) or fork scenarios, you can use the <code>pull_request_id</code> instead of the commit hash:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="rego-v1_10" name="__tabbed_12" type="radio"><input id="rego-v0_10" name="__tabbed_12" type="radio"><div class="tabbed-labels"><label for="rego-v1_10">Rego v1</label><label for="rego-v0_10">Rego v0</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">package</span> spacelift
+
+pull_request contains <span class="o">{</span><span class="s2">"id"</span><span class="o">:</span> <span class="kt">run</span><span class="o">.</span>commit<span class="o">.</span>pull_request_id<span class="o">}</span> <span class="k">if</span> <span class="o">{</span>
+  run <span class="o">:</span><span class="k">=</span> input<span class="o">.</span>run_updated<span class="o">.</span>run
+  run<span class="o">.</span>state <span class="o">==</span> <span class="s2">"FINISHED"</span>
+  run<span class="o">.</span>commit<span class="o">.</span>pull_request_id <span class="o">!=</span> null
+<span class="o">}</span>
+</code></pre></div></td></tr></tbody></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">package</span> spacelift
+
+<span class="k">import</span> future<span class="o">.</span>keywords<span class="o">.</span>contains
+<span class="k">import</span> future<span class="o">.</span>keywords<span class="o">.</span><span class="k">if</span>
+
+pull_request contains <span class="o">{</span><span class="s2">"id"</span><span class="o">:</span> <span class="kt">run</span><span class="o">.</span>commit<span class="o">.</span>pull_request_id<span class="o">}</span> <span class="k">if</span> <span class="o">{</span>
+ run <span class="o">:</span><span class="k">=</span> input<span class="o">.</span>run_updated<span class="o">.</span>run
+ run<span class="o">.</span>state <span class="o">==</span> <span class="s2">"FINISHED"</span>
+ run<span class="o">.</span>commit<span class="o">.</span>pull_request_id <span class="o">!=</span> null
+<span class="o">}</span>
+</code></pre></div></td></tr></tbody></table></div>
+</div>
+</div>
+</div>
+<p>Using <code>"id": pull_request_id</code> works because it tells Spacelift exactly which PR to comment on, so it can post the comment directly. Using <code>"commit": &lt;sha&gt;</code> can fail in GHES/fork scenarios because Spacelift then has to infer which PR that SHA belongs to.</p>
+<div class="admonition info">
+<p class="admonition-title">Pull Request ID Availability</p>
+<p>The <code>pull_request_id</code> field is only available when specific push policy configurations are used. For more information about ensuring pull request ID availability, see <a href="push-policy.html#pull-request-id-availability">Pull Request ID Availability</a> in the push policy documentation.</p>
+</div>
 <h4 id="updating-an-existing-pr-comment">Updating an existing PR comment<a class="headerlink" href="#updating-an-existing-pr-comment" title="Anchor link to this section">»</a></h4>
 <p>Here's a rule to add a comment to the pull request that triggered the run and update that comment for every run state change, instead of creating new comments.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="rego-v1_10" name="__tabbed_12" type="radio"><input id="rego-v0_10" name="__tabbed_12" type="radio"><div class="tabbed-labels"><label for="rego-v1_10">Rego v1</label><label for="rego-v0_10">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="rego-v1_11" name="__tabbed_13" type="radio"><input id="rego-v0_11" name="__tabbed_13" type="radio"><div class="tabbed-labels"><label for="rego-v1_11">Rego v1</label><label for="rego-v0_11">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8849,7 +8916,7 @@ pull_request contains <span class="o">{</span>
 <p>To use this with existing policies, simply add <code>deduplication_key := input.run_updated.stack.id</code> (or another constant value) to the condition of the <code>pull_request</code> rule.</p>
 <h4 id="adding-a-comment-to-prs-targeting-a-specific-commit">Adding a comment to PRs targeting a specific commit<a class="headerlink" href="#adding-a-comment-to-prs-targeting-a-specific-commit" title="Anchor link to this section">»</a></h4>
 <p>Specify a target commit SHA using the <code>commit</code> parameter:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="rego-v1_11" name="__tabbed_13" type="radio"><input id="rego-v0_11" name="__tabbed_13" type="radio"><div class="tabbed-labels"><label for="rego-v1_11">Rego v1</label><label for="rego-v0_11">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="rego-v1_12" name="__tabbed_14" type="radio"><input id="rego-v0_12" name="__tabbed_14" type="radio"><div class="tabbed-labels"><label for="rego-v1_12">Rego v1</label><label for="rego-v0_12">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8905,7 +8972,7 @@ pull_request contains <span class="o">{</span>
 </div>
 <h4 id="adding-a-comment-to-prs-targeting-a-specific-branch">Adding a comment to PRs targeting a specific branch<a class="headerlink" href="#adding-a-comment-to-prs-targeting-a-specific-branch" title="Anchor link to this section">»</a></h4>
 <p>Provide the branch name using the <code>branch</code> parameter:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="rego-v1_12" name="__tabbed_14" type="radio"><input id="rego-v0_12" name="__tabbed_14" type="radio"><div class="tabbed-labels"><label for="rego-v1_12">Rego v1</label><label for="rego-v0_12">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="rego-v1_13" name="__tabbed_15" type="radio"><input id="rego-v0_13" name="__tabbed_15" type="radio"><div class="tabbed-labels"><label for="rego-v1_13">Rego v1</label><label for="rego-v0_13">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -8971,7 +9038,7 @@ pull_request contains <span class="o">{</span>
 <li><code>spacelift::logs::planning</code> placeholder will be replaced with logs from the <a href="../run/proposed.html#planning">planning</a> phase.</li>
 <li><code>spacelift::logs::applying</code> placeholder will be replaced with logs from the <a href="../run/tracked.html#applying">applying</a> phase.</li>
 </ul>
-<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="rego-v1_13" name="__tabbed_15" type="radio"><input id="rego-v0_13" name="__tabbed_15" type="radio"><div class="tabbed-labels"><label for="rego-v1_13">Rego v1</label><label for="rego-v0_13">Rego v0</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="rego-v1_14" name="__tabbed_16" type="radio"><input id="rego-v0_14" name="__tabbed_16" type="radio"><div class="tabbed-labels"><label for="rego-v1_14">Rego v1</label><label for="rego-v0_14">Rego v0</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -10060,6 +10127,40 @@ Here&#x27;s a rule which will add a comment (containing a default body) to the p
 
 !!! hint
     Pull request notifications work best in combination with a [push policy](push-policy/README.md#push-and-pull-request-events) to create proposed runs on pull requests.
+
+#### Using pull request ID for more reliable targeting
+
+For more reliable pull request targeting, especially in GitHub Enterprise Server (GHES) or fork scenarios, you can use the `pull_request_id` instead of the commit hash:
+
+=== &quot;Rego v1&quot;
+    ```opa
+    package spacelift
+
+    pull_request contains {&quot;id&quot;: run.commit.pull_request_id} if {
+      run := input.run_updated.run
+      run.state == &quot;FINISHED&quot;
+      run.commit.pull_request_id != null
+    }
+    ```
+
+=== &quot;Rego v0&quot;
+    ```opa
+    package spacelift
+
+    import future.keywords.contains
+    import future.keywords.if
+
+    pull_request contains {&quot;id&quot;: run.commit.pull_request_id} if {
+     run := input.run_updated.run
+     run.state == &quot;FINISHED&quot;
+     run.commit.pull_request_id != null
+    }
+    ```
+
+Using `&quot;id&quot;: pull_request_id` works because it tells Spacelift exactly which PR to comment on, so it can post the comment directly. Using `&quot;commit&quot;: &lt;sha&gt;` can fail in GHES/fork scenarios because Spacelift then has to infer which PR that SHA belongs to.
+
+!!! info &quot;Pull Request ID Availability&quot;
+    The `pull_request_id` field is only available when specific push policy configurations are used. For more information about ensuring pull request ID availability, see [Pull Request ID Availability](push-policy/README.md#pull-request-id-availability) in the push policy documentation.
 
 #### Updating an existing PR comment
 
