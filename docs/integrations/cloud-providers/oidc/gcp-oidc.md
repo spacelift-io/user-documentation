@@ -54,6 +54,39 @@ Once the workload identity pool has been created, you need to grant it access im
 In this example, any token claiming to originate from our Spacelift account's `prod` space can impersonate the service account:
 ![GCP granting access to service account](<../../../assets/screenshots/oidc/gcp-grant-access.png>)
 
+#### Using space paths for hierarchical access control
+
+If you have configured a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder and mapped it to the `attribute.spacePath` attribute (step 6 in the attribute mapping section above), you can use it to create more dynamic access policies.
+
+For example, if you have a space hierarchy like:
+
+```text
+root
+└── production
+    ├── us-east-1
+    └── eu-west-1
+```
+
+You can use an attribute condition with CEL (Common Expression Language) to grant access to all stacks within the `production` branch:
+
+```cel
+attribute.spacePath.startsWith('/root/production/')
+```
+
+This allows you to add new child spaces under `production` without needing to update your Workload Identity Pool configuration. This is particularly useful for organizations with complex space hierarchies and frequent changes to their space structure.
+
+**To set this up:**
+
+1. In the attribute mapping section when creating your workload identity pool, add:
+   - **Google**: `attribute.spacePath`
+   - **OIDC**: `assertion.spacePath`
+2. In the "Attribute conditions" field, use CEL expressions to match on the space path:
+   - `attribute.spacePath.startsWith('/root/production/')` - Grants access to all production spaces
+   - `attribute.spacePath == '/root/production/us-east-1'` - Grants access only to a specific space
+
+!!! info
+    The `spacePath` custom claim is only available when you configure a [custom OIDC subject template](subject-template.md) that includes the `{spacePath}` placeholder. See the subject template documentation for setup instructions.
+
 ### Download the configuration file
 
 After you give the workload identity pool access to impersonate the service account, you will be able to _Configure your application_.

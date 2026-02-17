@@ -239,9 +239,9 @@ List of the most useful labels:
 
 - **infracost** -- Enables Infracost on your stack
 - **feature:enable_log_timestamps** -- Enables timestamps on run logs.
-- **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. It is deprecated. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
-- **feature:disable_pr_comments** - Disables Pull Request Comments
-- **feature:disable_pr_delta_comments** - Disables Pull Request Delta Comments (The default change summary)
+- **feature:add_plan_pr_comment** -- Enables Pull Request Plan Commenting. Please use [Notification policies](../policy/notification-policy.md#complex-example-adding-a-comment-to-a-pull-request-about-changed-resources) instead.
+- **feature:disable_pr_comments** -- Disables Pull Request Comments
+- **feature:disable_pr_delta_comments** -- Disables Pull Request Delta Comments (The default change summary)
 - **feature:disable_resource_sanitization** -- Disables resource sanitization
 - **feature:enable_git_checkout** -- Enables support for downloading source code using standard Git checkout rather than downloading a tarball via API
 - **feature:aws_oidc_session_tagging** -- Enables AWS session tagging when using OIDC
