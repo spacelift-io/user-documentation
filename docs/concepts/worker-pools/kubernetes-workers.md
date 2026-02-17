@@ -3,45 +3,49 @@ description: >-
   This article explains how you can run worker pools that use Kubernetes to execute runs.
 ---
 
-# Kubernetes Workers
+# Kubernetes workers
 
-We provide a Kubernetes operator for managing Spacelift worker pools. The operator also works on OpenShift. This operator allows you to define `WorkerPool` resources in your cluster, and allows you to scale these pools up and down using standard Kubernetes functionality.
+Spacelift provides a Kubernetes operator for managing worker pools. The operator also works on OpenShift. This operator allows you to:
+
+- Define `WorkerPool` resources in your cluster.
+- Scale these pools up and down using standard Kubernetes functionality.
 
 !!! info
-    The Docker-in-Docker approach is no-longer recommended, you should use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
+    The Docker-in-Docker approach is no-longer recommended. Use the Kubernetes operator instead. Please see the section on [migrating from Docker-in-Docker](#migrating-from-docker-in-docker) for more information.
 
 A `WorkerPool` defines the number of `Workers` registered with Spacelift via the `poolSize` parameter. The Spacelift operator will automatically create and register a number of `Worker` resources in Kubernetes depending on your `poolSize`.
 
-!!! info
-    `Worker` resources do not use up any cluster resources other than an entry in the Kubernetes API when they are idle. `Pods` are created on demand for `Workers` when scheduling messages are received from Spacelift. This means that in an idle state no additional resources are being used in your cluster other than what is required to run the controller component of the Spacelift operator.
+## Idle resource usage
+
+`Worker` resources do not use up any cluster resources other than an entry in the Kubernetes API when they are idle.
+
+`Pods` are created on demand for `Workers` when scheduling messages are received from Spacelift. This means that in an idle state, no additional resources are being used in your cluster other than what is required to run the controller component of the Spacelift operator.
 
 ## Kubernetes version compatibility
 
-The spacelift controller is compatible with Kubernetes version **v1.26+**.
-The controller may also work with older versions, but we do not guarantee and provide support for unmaintained Kubernetes versions.
+The Spacelift controller is compatible with Kubernetes version **v1.26+**. The controller may also work with older versions, but we do not guarantee and provide support for unmaintained Kubernetes versions.
 
 ## Installation
 
 ### Controller setup
 
 === "Kubectl"
-    To install the worker pool controller along with its CRDs, run the following command:
+    To install the worker pool controller along with its CRDs, run this command:
 
     ```shell
     kubectl apply --server-side -f https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml
     ```
 
     !!!warning
-        It is important to use the `--server-side` flag here. The reason is that our CRD definitions
-        contains long field descriptions. This causes the apply to fail, as detailed [in this kubebuilder issue](https://github.com/kubernetes-sigs/kubebuilder/issues/3460),
-        because kubernetes sets the `kubectl.kubernetes.io/last-applied-configuration` annotation, and the size of the CRD exceed
-        the maximum size of an annotation field.
+        It is important to use the `--server-side` flag here because our CRD definitions contain long field descriptions.
+        
+        Kubernetes sets the `kubectl.kubernetes.io/last-applied-configuration` annotation, and the size of the CRD exceeds the maximum size of an annotation field, which causes the apply to fail (as detailed [in this kubebuilder issue](https://github.com/kubernetes-sigs/kubebuilder/issues/3460)).
 
     !!! tip
         You can download the manifests yourself from <https://downloads.spacelift.io/kube-workerpool-controller/latest/manifests.yaml> if you would like to inspect them or alter the Deployment configuration for the controller.
 
 === "Helm"
-    You can install the controller using the official [spacelift-workerpool-controller](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller) Helm chart.
+    Install the controller using the official [spacelift-workerpool-controller](https://github.com/spacelift-io/spacelift-helm-charts/tree/main/spacelift-workerpool-controller) Helm chart.
 
     ```shell
     helm repo add spacelift https://downloads.spacelift.io/helm
@@ -49,7 +53,7 @@ The controller may also work with older versions, but we do not guarantee and pr
     helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace
     ```
 
-    You can open `values.yaml` from the helm chart repo for more customization options.
+    You can open `values.yaml` from the Helm chart repository for more customization options.
 
     !!! warning "Upgrading from chart versions prior to v0.58.0"
         Starting with v0.58.0, the Helm chart manages CRDs via a subchart instead of the `crds/` directory. Before upgrading from an older version, you must label and annotate each existing CRD so Helm can adopt them:
@@ -65,8 +69,8 @@ The controller may also work with older versions, but we do not guarantee and pr
         Failure to complete this step before upgrading will result in Helm conflicts with the pre-existing CRD resources.
 
     !!! tip "Prometheus metrics"
-        The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec.
-        This is useful for scaling workers based on queue length in spacelift (`spacelift_worker_pool_runs_pending` metric).
+        The controller also has a subchart for our prometheus-exporter project that exposes metrics in OpenMetrics spec. This is useful for scaling workers based on queue length in Spacelift (`spacelift_worker_pool_runs_pending` metric).
+        
         To install the controller with the prometheus-exporter subchart, use the following command:
         ```shell
         helm upgrade spacelift-workerpool-controller spacelift/spacelift-workerpool-controller --install --namespace spacelift-worker-controller-system --create-namespace \
@@ -79,7 +83,7 @@ The controller may also work with older versions, but we do not guarantee and pr
 
 #### OpenShift
 
-If you are using OpenShift, additional steps are required to allow the controller to run properly.
+If you are using OpenShift, additional steps are needed for the controller to run properly.
 
 1. Get the controllers service account name:
 
@@ -93,7 +97,7 @@ If you are using OpenShift, additional steps are required to allow the controlle
     oc adm policy add-scc-to-user anyuid -z {service_account_name} -n {namespace_of_controller} --as system:admin
     ```
 
-3. Create a Spacelift Admin role in the namespace where your worker pods will run (note this may be different from the namespace you installed the controller into):
+3. Create a Spacelift Admin role in the namespace where your worker pods will run (this may be different from the namespace you installed the controller into):
 
     ```shell
     oc create role spacelift-admin --verb='*' --resource='*' -n {namespace_of_worker_pods}
@@ -105,13 +109,13 @@ If you are using OpenShift, additional steps are required to allow the controlle
     oc create rolebinding spacelift-admin-binding --role=spacelift-admin --serviceaccount={namespace_of_controller}:{service_account_name} -n {namespace_of_worker_pods}
     ```
 
-5. Ensure the controller can indeed use the kubernetes api in the namespace where your worker pods will run:
+5. Ensure the controller can indeed use the Kubernetes API in the namespace where your worker pods will run:
 
     ```shell
     oc auth can-i '*' '*' --as=system:serviceaccount:{namespace_of_controller}:{service_account_name} -n {namespace_of_worker_pods}
     ```
 
-    Note: this should return `yes` if everything is set up correctly.
+    This should return `yes` if everything is set up correctly.
 
 6. Restart the worker controller pod to make sure it picks up the new permissions.
 
@@ -127,20 +131,22 @@ With OIDC secret configuration, you can also avoid storing static Spacelift cred
 
 If you don't want to use auto-registration, create the WorkerPool [manually](#manual-registration) in Spacelift and save its secrets on the cluster.
 
-### Auto-Registration
+### Auto-registration
 
 With auto-registration, the controller automatically creates and manages worker pools in Spacelift without requiring manual setup steps in the UI.
+
 When you create a WorkerPool resource without token and privateKey credentials, the controller handles the complete lifecycle: it registers the pool with Spacelift, generates the required credentials, stores them securely in Kubernetes secrets, and manages ongoing operations.
 
-This approach enables true GitOps workflows where worker pools can be provisioned declaratively alongside other infrastructure.
-There's no need to coordinate between the Spacelift UI and your Kubernetes deployment, eliminating potential errors and simplifying automation.
+This approach enables true GitOps workflows where worker pools can be provisioned declaratively alongside other infrastructure. There's no need to coordinate between the Spacelift UI and your Kubernetes deployment, eliminating potential errors and simplifying automation.
 
 !!! warning
-    When using auto registration, it's impossible to update and reset the workerpool from the Spacelift UI. The reason for that is to make obvious that the pool is managed from the cluster, and avoid conflicts by forcing a single source of truth.
+    When using auto-registration, you cannot update and reset the workerpool from the Spacelift UI. This makes it obvious that the pool is managed from the cluster, and avoid conflicts by forcing a single source of truth.
 
-#### Create an API Key
+#### Create an API key
 
-For auto registration to work, you need to create a Spacelift API key to allow the controller to manage worker pools in Spacelift. This key should be granted the `Worker pool controller` role for the space that your worker pool will be created in, and needs to be stored in a secret called `spacelift-api-credentials` in the same namespace as the Kubernetes controller (by default `spacelift-worker-controller-system`).
+For auto-registration to work, you need to create a Spacelift API key to allow the controller to manage worker pools in Spacelift.
+
+This key should be granted the `Worker pool controller` role for the space that your worker pool will be created in, and needs to be stored in a secret called `spacelift-api-credentials` in the same namespace as the Kubernetes controller (by default `spacelift-worker-controller-system`).
 
 === "Regular API key"
 
@@ -160,8 +166,7 @@ For auto registration to work, you need to create a Spacelift API key to allow t
 
 === "OIDC API key"
 
-    Create an [OIDC-based API key](../../integrations/api.md#oidc-based-api-keys) configured to trust your cluster's OIDC provider, with the "Worker pool controller" system role assigned to the appropriate space(s).
-    For detailed OIDC integration setup, see the [OIDC documentation](../../integrations/cloud-providers/oidc/README.md).
+    Create an [OIDC-based API key](../../integrations/api.md#oidc-based-api-keys) configured to trust your cluster's OIDC provider, with the "Worker pool controller" system role assigned to the appropriate space(s). For detailed OIDC integration setup, see the [OIDC documentation](../../integrations/cloud-providers/oidc/README.md).
 
     ![built in system role](../../assets/screenshots/worker-pools-kubernetes-role.png)
 
@@ -181,7 +186,7 @@ For auto registration to work, you need to create a Spacelift API key to allow t
 
 ##### EKS OIDC Setup example
 
-To configure OIDC authentication for EKS, you need the cluster's OIDC issuer URL. Get it with:
+To configure OIDC authentication for EKS, you need the cluster's OIDC issuer URL, which you can retrieve with:
 
 ```shell
 aws eks describe-cluster --name <cluster-name> --query "cluster.identity.oidc.issuer" --output text
@@ -212,27 +217,26 @@ spec:
 EOF
 ```
 
-You can refer to the [`WorkerPool`](#configuration) CRD for all optional fields. There are fields specific for auto registration that configures how your pool is setup in Spacelift.
+You can refer to the [`WorkerPool`](#configuration) CRD for all optional fields. There are fields specific for auto-registration that configures how your pool is setup in Spacelift.
 
 ### Manual Registration
 
 While auto-registration is recommended, you can manually create the WorkerPool. Create a worker pool in the Spacelift UI, get credentials for it, and configure them in Kubernetes.
-This approach requires creating a worker pool in the Spacelift UI first, getting credentials, and configuring them in Kubernetes.
 
 #### Create a Secret
 
 Create a Secret containing the private key and token for your worker pool, generated [earlier in this guide](./README.md#setting-up).
 
-First, export the token and private key as base64 encoded strings:
+First, export the token and private key as base64-encoded strings:
 
-=== "**MacOS**"
+=== "MacOS"
 
     ```shell
     export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
     export SPACELIFT_WP_PRIVATE_KEY=$(cat ./your-private-key.pem | base64 -b 0)
     ```
 
-=== "**Linux**"
+=== "Linux"
 
     ```shell
     export SPACELIFT_WP_TOKEN=$(cat ./your-workerpool-config-file.config)
@@ -256,7 +260,7 @@ EOF
 
 #### Create a WorkerPool
 
-Finally, create a WorkerPool resource using the following command:
+Finally, create a WorkerPool resource using this command:
 
 ```shell
 kubectl apply -f - <<EOF
@@ -279,7 +283,7 @@ EOF
 
 {% if is_self_hosted() %}
 
-### Grant access to the Launcher image
+### Grant access to the launcher image
 
 During your Self-Hosted installation process, the Spacelift launcher image should be uploaded to a container repository. For instance, it could be Artifact Registry in GCP or ECR in AWS.
 
@@ -289,31 +293,32 @@ The launcher image is used during runs on Kubernetes workers to prepare the work
 
 Some options for this include:
 
-1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes. Alternatively, you can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
+1. If your Kubernetes cluster is running inside AWS, you can [add a policy](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) to your ECR to allow pulls from your cluster nodes.
+      - Alternatively, you can use one of the methods listed in the [ECR private registry authentication guide](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
 2. You can copy the image to a registry accessible by your cluster, and then set the `spec.pod.launcherImage` configuration option on your `WorkerPool` resource to point at it.
 
 {% endif %}
 
 !!! info
-    You can deploy the controller globally (the default option) to monitor all namespaces, allowing worker pools in multiple namespaces, or restrict it to specific namespaces using the `namespaces` [option in the Helm chart values](https://github.com/spacelift-io/spacelift-helm-charts/blob/88fa4327408b55082d5a18a1f6ccf2ed2ab90228/spacelift-workerpool-controller/values.yaml#L10). The namespace of the controller and workers themselves doesn’t impact functionality.
+    You can deploy the controller globally (the default option) to monitor all namespaces, allowing worker pools in multiple namespaces, or restrict it to specific namespaces using the `namespaces` [option in the Helm chart values](https://github.com/spacelift-io/spacelift-helm-charts/blob/88fa4327408b55082d5a18a1f6ccf2ed2ab90228/spacelift-workerpool-controller/values.yaml#L10).
 
-That's it - the workers in your pool should connect to Spacelift, and you should be able to trigger runs!
+    The namespace of the controller and workers themselves doesn’t impact functionality.
+
+The workers in your pool should connect to Spacelift, and you should be able to trigger runs.
 
 ## Upgrade
 
 Usually, there is nothing special to do for upgrading the controller.
 
-Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those specials versions.
+Some release of the controller may include backward compatibility breaks, you can find below instructions about how to upgrade for those special versions.
 
 ### Upgrading to controller v0.0.27 - or Helm chart v0.52.0
 
-This release introduces auto-registration support and **requires additional RBAC permissions** for the controller to manage secrets.
-The upgrade is backward compatible with existing worker pools.
+This release introduces auto-registration support and **requires additional RBAC permissions** for the controller to manage secrets. The upgrade is backward compatible with existing worker pools.
 
-If you installed the controller using the Helm chart, the RBAC permissions are automatically updated during the upgrade.
-The same applies if you installed using kubectl with raw manifests. The updated permissions are included in the manifests.
+If you installed the controller using the Helm chart, the RBAC permissions are automatically updated during the upgrade. The same applies if you installed using kubectl with raw manifests. The updated permissions are included in the manifests.
 
-No action is required for existing manually registered worker pools, they will continue to work exactly as before.
+No action is required for existing manually registered worker pools, and they will continue to work exactly as before.
 
 The new auto-registration feature is opt-in, and only activates when the following conditions are both true:
 
@@ -327,12 +332,10 @@ This release changes the way the controller exposes metrics by removing usage of
 You can find more context about the reason for this change in the [Kubebuilder repository](https://github.com/kubernetes-sigs/kubebuilder/discussions/3907).
 
 === "Kubectl"
-    If the controller was installed using compiled Kubernetes manifest using `kubectl apply -f ...`,
-    you should first uninstall the current release before deploying the new one.
+    If the controller was installed using compiled Kubernetes manifest using `kubectl apply -f ...`, you should first uninstall the current release before deploying the new one.
 
     !!! warning
-        The command below will remove CRDs and thus also remove your `WorkerPool` from the cluster.
-        Before running it, make sure that you'll be able to recreate them after the upgrade.
+        The command below will remove CRDs and thus also remove your `WorkerPool` from the cluster. Before running it, make sure that you'll be able to recreate them after the upgrade.
 
     ```shell
     # Scale down all your workerpools to zero, and make sure there is no remaining Worker resource in the cluster.
@@ -342,7 +345,7 @@ You can find more context about the reason for this change in the [Kubebuilder r
     kubectl delete -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.16/manifests.yaml
     ```
 
-    Then you can install the new controller version with the following command.
+    Then you can install the new controller version with this command.
 
     ```shell
     kubectl apply -f https://downloads.spacelift.io/kube-workerpool-controller/v0.0.17/manifests.yaml
@@ -350,40 +353,39 @@ You can find more context about the reason for this change in the [Kubebuilder r
 
 === "Helm"
 
-    CRDs have been updated in this new version, and Helm does not perform CRDs update for us.
-    So before upgrading to the latest version of the chart, you should execute the following commands to upgrade CRDs.
+    CRDs have been updated in this new version, and Helm does not perform CRDs update for us. Before upgrading to the latest version of the chart, you should execute these commands to upgrade CRDs.
 
     ```shell
     kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/worker-crd.yaml
     kubectl apply -f https://raw.githubusercontent.com/spacelift-io/spacelift-helm-charts/refs/tags/v0.33.0/spacelift-workerpool-controller/crds/workerpool-crd.yaml
     ```
 
-    Once done, you can upgrade the chart like usual with `helm upgrade`.
+    Once done, you can upgrade the chart as usual with `helm upgrade`.
 
-## Run Containers
+## Run containers
 
-When a run assigned to a Kubernetes worker is scheduled by Spacelift, the worker pool controller creates a new Pod to process the run. This Pod consists of the following containers:
+When a run assigned to a Kubernetes worker is scheduled by Spacelift, the worker pool controller creates a new pod to process the run. This pod consists of the following containers:
 
-- An init container called `init`, responsible for populating the workspace for the run.
-- A `launcher-grpc` container that runs a gRPC server used by the worker for certain tasks like uploading the workspace between run stages, and notifying the worker when a user has requested that the run be stopped.
-- A `worker` container that executes your run.
+- `init`: Responsible for populating the workspace for the run.
+- `launcher-grpc`: Runs a gRPC server used by the worker for certain tasks like uploading the workspace between run stages, and notifying the worker when a user has requested that the run be stopped.
+- `worker`: Executes your run.
 
 The `init` and `launcher-grpc` containers use the `public.ecr.aws/spacelift/launcher:<version>` container image published by Spacelift. By default, the Spacelift backend sends the correct value for `<version>` through to the controller for each run, guaranteeing that the run is pinned to a specific image version that is compatible with the Spacelift backend.
 
 The `worker` container uses the [runner image](../../concepts/stack/stack-settings.md#runner-image) specified by your Spacelift stack.
 
 !!! warning
-    You can use the `spec.pod.launcherImage` configuration option to pin the `init` and `launcher-grpc` containers to a specific version, but we do not typically recommend doing this because it means that your run Pods could become incompatible with the Spacelift backend as new versions are released.
+    You can use the `spec.pod.launcherImage` configuration option to pin the `init` and `launcher-grpc` containers to a specific version. However, we don't recommend doing this because your run pods could become incompatible with the Spacelift backend as new versions are released.
 
-## Resource Usage
+## Resource usage
 
-### Kubernetes Controller
+### Kubernetes controller
 
-During normal operations the worker pool controller CPU and memory usage should be fairly stable. The main operation that can be resource intensive is scaling out a worker pool. Scaling up involves generating an RSA keypair for each worker, and is CPU-bound. If you notice performance issues when scaling out, it's worth giving the controller more CPU.
+During normal operations the worker pool controller CPU and memory usage should be fairly stable. The main operation that can be resource intensive is scaling out a worker pool. Scaling up involves generating an RSA keypair for each worker, and is CPU-bound. If you notice performance issues when scaling out, try giving the controller more CPU.
 
-### Run Pods
+### Run pods
 
-Resource requests and limits for the `init`, `launcher-grpc` and `worker` containers can be set via your `WorkerPool` definitions, like in the following example:
+Resource requests and limits for the `init`, `launcher-grpc`, and `worker` containers can be set via your `WorkerPool` definitions:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -436,26 +438,28 @@ spec:
         #   memory: 200Mi
 ```
 
-You can use the values above as a baseline to get started, but the exact values you need for your pool will depend on your individual circumstances. You should use monitoring tools to adjust these to values that make sense.
+You can use the example values above to get started, but the exact values you need for your pool will depend on your individual circumstances. You should use monitoring tools to adjust to values that make the most sense.
 
 !!! warning
-    In general, we don't suggest setting very low CPU or memory limits for the `init`, `grpc` or `worker` containers since doing so could affect the performance of runs, or even cause runs to fail if they are set too low. And in particular, the worker container resource usage will very much depend on your workloads. For example stacks with large numbers of Terraform resources may use more memory than smaller stacks.
+    In general, we don't suggest setting very low CPU or memory limits for the `init`, `grpc`, or `worker` containers since doing so could affect the performance of runs, or even cause runs to fail if they are set too low.
+
+    In particular, the worker container resource usage will very much depend on your workloads. For example stacks with large numbers of Terraform resources may use more memory than smaller stacks.
 
 ## Volumes
 
-There are two volumes that are always attached to your run Pods:
+There are two volumes that are always attached to your run pods:
 
-- The workspace volume.
-- The binaries cache volume.
+- The workspace.
+- The binaries cache.
 
 Both of these volumes default to using `emptyDir` storage with no size limit. Spacelift workers will function correctly without using a custom configuration for these volumes, but there may be situations where you wish to change this default, for example:
 
-- To prevent Kubernetes evicting your run Pods due to disk pressure (and therefore causing runs to fail).
+- To prevent Kubernetes evicting your run pods due to disk pressure (and therefore causing runs to fail).
 - To support caching tool binaries (for example Terraform or OpenTofu) between runs.
 
-### Workspace Volume
+### Workspace volume
 
-The workspace volume is used to store the temporary workspace data needed for processing a run. This includes metadata about the run, along with your source code. The workspace volume does not need to be shared or persisted between runs, and for that reason we recommend using an [Ephemeral Volume](https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/) so that the volume is bound to the lifetime of the run, and will be destroyed when the run Pod is deleted.
+The workspace volume is used to store the temporary workspace data needed for processing a run. This includes metadata about the run, along with your source code. The workspace volume does not need to be shared or persisted between runs, and for that reason we recommend using an [ephemeral volume](https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/) so that the volume is bound to the lifetime of the run, and will be destroyed when the run pod is deleted.
 
 The workspace volume can be configured via the `spec.pod.workspaceVolume` property, which accepts a standard Kubernetes volume definition. Here's an example of using an ephemeral AWS GP2 volume for storage:
 
@@ -496,15 +500,15 @@ spec:
             storageClassName: gp2
 ```
 
-### Binaries Cache Volume
+### Binaries cache volume
 
 The binaries cache volume is used to cache binaries (e.g. `terraform` and `kubectl`) across multiple runs. You can use an ephemeral volume for the binaries cache like with the workspace volume, but doing so will not result in any caching benefits. To be able to share the binaries cache with multiple run pods, you need to use a volume type that supports `ReadWriteMany`, for example AWS EFS.
 
 To configure the binaries cache volume, you can use exactly the same approach as with the [workspace volume](#workspace-volume), the only difference is that you should use the `spec.pod.binariesCacheVolume` property instead of `spec.pod.workspaceVolume`.
 
-### Custom Volumes
+### Custom volumes
 
-See the section on [configuration](#configuration) for more details on how to configure these two volumes along with any additional volumes you require.
+See [configuration](#configuration) for more details on how to configure these two volumes along with any additional volumes you require.
 
 ## Configuration
 
@@ -751,7 +755,7 @@ spec:
         image: redis
 ```
 
-### Pod History Management
+### Pod history management
 
 The Kubernetes operator provides flexible pod history management to control how long completed run pods are retained. This allows you to balance between debugging capabilities and resource usage.
 
@@ -759,19 +763,19 @@ The Kubernetes operator provides flexible pod history management to control how 
 
 The pod history management system supports both count-based and time-based cleanup strategies that work together:
 
-- **Count-based limits**: Control how many completed pods to keep per worker
-- **Time-based cleanup (TTL)**: Automatically remove pods after a specified duration
-- **Combined strategy**: Pods are removed when they exceed **either** the count limit **or** the time limit
+- **Count-based limits**: Control how many completed pods to keep per worker.
+- **Time-based cleanup (TTL)**: Automatically remove pods after a specified duration.
+- **Combined strategy**: Pods are removed when they exceed **either** the count limit **or** the time limit.
 
-#### Default Behavior
+#### Default behavior
 
-- **Successful pods**: Removed immediately (limit: 0)
-- **Failed pods**: Keep 5 most recent (limit: 5)
-- **Time limits**: No automatic TTL cleanup (unless explicitly configured)
+- **Successful pods**: Removed immediately (limit: 0).
+- **Failed pods**: Keep five most recent (limit: 5).
+- **Time limits**: No automatic TTL cleanup unless explicitly configured.
 
-#### Configuration Options
+#### Configuration options
 
-##### Count-Based Limits
+##### Count-based limits
 
 ```yaml
 spec:
@@ -782,7 +786,7 @@ spec:
   failedPodsHistoryLimit: 10
 ```
 
-##### Time-Based Cleanup (TTL)
+##### Time-based cleanup (TTL)
 
 ```yaml
 spec:
@@ -793,9 +797,9 @@ spec:
   failedPodsHistoryTTL: "72h"
 ```
 
-##### Special Modes
+##### Special modes
 
-**Delete-All Mode**: Set limit to 0 to remove all pods immediately
+**Delete-all mode**: Set limit to 0 to remove all pods immediately.
 
 ```yaml
 spec:
@@ -803,7 +807,7 @@ spec:
   failedPodsHistoryLimit: 0      # Remove all failed pods immediately
 ```
 
-**TTL-Only Mode**: Set TTL without limit for time-based cleanup only
+**TTL-only mode**: Set TTL without limit for time-based cleanup only.
 
 ```yaml
 spec:
@@ -812,19 +816,19 @@ spec:
   # successfulPodsHistoryLimit is intentionally unset
 ```
 
-#### Behavior Details
+#### Behavior details
 
-- **Pod selection**: Uses creation time for consistent ordering (oldest removed first)
-- **Running pods**: Never affected by cleanup, only applies to completed pods
-- **WorkerPool scope**: Cleanup is managed centrally at the WorkerPool level across all workers in the pool
-- **Deletion safety**: Pods already being deleted are excluded from counts
+- **Pod selection**: Uses creation time for consistent ordering (oldest removed first).
+- **Running pods**: Never affected by cleanup, only applies to completed pods.
+- **WorkerPool scope**: Cleanup is managed centrally at the WorkerPool level across all workers in the pool.
+- **Deletion safety**: Pods already being deleted are excluded from counts.
 
 !!! note "Migration from keepSuccessfulPods"
     The `keepSuccessfulPods` field has been deprecated since controller version v0.0.25 and Helm chart version 0.46.0, and has been removed in favor of the new pod history management system. If you previously used `keepSuccessfulPods: true`, set `successfulPodsHistoryLimit` to a positive value instead.
 
-### Configure a docker daemon as a sidecar container
+### Configure a Docker daemon as a sidecar container
 
-If for some reason you need to have a docker daemon running as a sidecar, you can follow the example below.
+If you need to have a Docker daemon running as a sidecar, you can follow the example below.
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -853,12 +857,14 @@ spec:
 
 ### Timeouts
 
-There are two types of timeouts that you can set
+There are two types of timeouts that you can set:
 
-- The run timeout: this causes the run to fail if its duration exceeds a defined duration.
-- The log output timeout: this causes the run to fail if no logs has been generated for a defined duration.
+- **Run**: Causes the run to fail if its duration exceeds a defined duration.
+- **Log output**: Causes the run to fail if no logs has been generated for a defined duration.
 
-To configure the run timeout you need to configure two items - the `activeDeadlineSeconds` for the Pod, as well as the `SPACELIFT_LAUNCHER_RUN_TIMEOUT` for the worker container:
+#### Run timeout
+
+You need to configure two items: the `activeDeadlineSeconds` for the pod and the `SPACELIFT_LAUNCHER_RUN_TIMEOUT` for the worker container:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -874,7 +880,9 @@ spec:
           value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
 ```
 
-To configure the logs timeout you just need to add a single environment variable to the worker container:
+#### Log output timeout
+
+You need to add a single environment variable to the worker container:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -889,20 +897,19 @@ spec:
           value: 3600s # This is using the golang duration format, more info here https://pkg.go.dev/time#ParseDuration
 ```
 
-### Network Configuration
+### Network configuration
 
-Your cluster configuration needs to be set up to allow the controller and the scheduled pods to reach the internet.
-This is required to listen for new jobs from the Spacelift backend and report back status and run logs.
+Your cluster configuration needs to be set up to allow the controller and the scheduled pods to reach the internet. This is required to listen for new jobs from the Spacelift backend and report back status and run logs.
 
 You can find the necessary endpoints to allow in the [Network Security](./README.md#network-security) section.
 
-### Initialization Policies
+### Initialization policies
 
 Using an initialization policy is simple and requires three steps:
 
 - Create a `ConfigMap` containing your policy.
 - Attach the `ConfigMap` as a volume in the `pod` specification for your pool.
-- Add an environment variable to the init container, telling it where to read the policy from.
+- Add an environment variable to the `init` container, telling it where to read the policy from.
 
 First, create your policy:
 
@@ -957,9 +964,9 @@ spec:
           value: "/opt/spacelift/policies/initialization/initialization-policy.rego"
 ```
 
-### Using VCS Agents with Kubernetes Workers
+### Using VCS agents with Kubernetes workers
 
-Using VCS Agents with Kubernetes workers is simple, and uses exactly the same approach outlined in the [VCS Agents](../vcs-agent-pools.md#run-the-vcs-agent-inside-a-kubernetes-cluster) section. To configure your VCS Agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
+Using VCS Agents with Kubernetes workers involves the same approach outlined in the [VCS agents](../vcs-agent-pools.md#run-the-vcs-agent-inside-a-kubernetes-cluster) section. To configure your VCS agent environment variables in a Kubernetes WorkerPool, add them to the `spec.pod.initContainer.env` section, like in the following example:
 
 ```yaml
 apiVersion: workers.spacelift.io/v1beta1
@@ -987,24 +994,24 @@ spec:
 
 ### Controller metrics
 
-The workerpool controller does not expose any metrics by default.
+The worker pool controller does not expose any metrics by default.
 
-You can set `--metrics-bind-address=:8443` flag to enable them and activate the Prometheus endpoint.
-By default, the controller exposes metrics using HTTPS and a self-signed certificate.
-This endpoint is also protected using RBAC. If you use the helm chart to deploy the controller, you can use the built-in metrics reader role to grant access.
+You can set `--metrics-bind-address=:8443` flag to enable them and activate the Prometheus endpoint. By default, the controller exposes metrics using HTTPS and a self-signed certificate. This endpoint is also protected using RBAC.
 
-You may also want to use a valid certificate for production workloads. You can mount your cert in the container to the following paths:
+If you use the Helm chart to deploy the controller, you can use the built-in metrics reader role to grant access.
+
+You may also want to use a valid certificate for production workloads. Mount your cert in the container to the following paths:
 
 ```text
 /tmp/k8s-metrics-server/serving-certs/tls.crt
 /tmp/k8s-metrics-server/serving-certs/tls.key
 ```
 
-It's also possible to fully disable TLS on the metrics endpoint and ask the controller to export metrics using http. You need to set --metrics-secure=false flag for that.
+You can also set the `--metrics-secure=false` flag to fully disable TLS on the metrics endpoint and ask the controller to export metrics using HTTP.
 
 More information about metrics authentication and TLS config can be found on the [kubebuilder docs](https://book.kubebuilder.io/reference/metrics#by-using-authnauthz-enabled-by-default).
 
-More information about exposed metrics can be found by scrapping the metrics endpoint, see and example below
+More information about exposed metrics can be found by scraping the metrics endpoint, for example:
 
 ```shell
 # HELP spacelift_workerpool_controller_worker_creation_duration_seconds Time in seconds needed to create a new worker
@@ -1032,7 +1039,7 @@ spacelift_workerpool_controller_worker_total{pool_ulid="01JHFXXPDC6J8XM2VB0M9CS3
 
 If you are using our Helm chart to deploy the controller, you can configure metrics by switching some boolean flags in `values.yml`.
 
-You can check the links in the comments below about how to secure your metrics endpoint.
+Check the links in the comments about how to secure your metrics endpoint.
 
 ```yaml
 # The metric service will expose a metrics endpoint that can be scraped by a prometheus instance.
@@ -1078,11 +1085,9 @@ spec:
 
 ### Autoscaling
 
-Careful consideration should be given when scheduling the controller in the cluster.
-If the worker pool controller is evicted due to autoscaling or other reasons, it may miss MQTT messages and cause
-temporary run failures.
+Be careful when scheduling the controller in the cluster. If the worker pool controller is evicted due to autoscaling or other reasons, it may miss MQTT messages and cause temporary run failures.
 
-**Therefore, it is strongly recommended to deploy the controller on nodes with high stability and availability.**
+Therefore, we strongly recommend deploying the controller on **nodes with high stability and availability**.
 
 #### EKS
 
@@ -1157,7 +1162,7 @@ For Azure cluster you can set the following annotation on the controller pod.
 With Go 1.24, the Go runtime [has added support for FIPS mode](https://tip.golang.org/doc/security/fips140){: rel="nofollow"}. This allows you to run your Spacelift workerpool-controller in a [FIPS 140-3](https://en.wikipedia.org/wiki/FIPS_140-3){: rel="nofollow"}-compliant manner.
 
 !!! note
-    Note that the above Go documentation mentions that FIPS mode is best effort based and doesn't guarantee compliance with all requirements.
+    Note that the Go documentation mentions that FIPS mode is _best effort-based_ and doesn't guarantee compliance with all requirements.
 
 If you'd like to have the workerpool-controller run in FIPS mode, turn the `controllerManager.enforceFips140` flag to `true` in the Helm chart values. We introduced this in the [v0.42.0 release](https://github.com/spacelift-io/spacelift-helm-charts/releases/tag/v0.42.0){: rel="nofollow"} of the Helm chart.
 
@@ -1169,6 +1174,7 @@ If you'd like to have the workerpool-controller run in FIPS mode, turn the `cont
     ```
 
     Or pass it as a parameter: `--set controllerManager.enforceFips140=true`.
+
 === "Kubernetes"
     When deployed without helm, you'll need to set the `GODEBUG=fips140=only` environment variable manually on the controller container. The command to do this is:
 
@@ -1183,7 +1189,7 @@ If you'd like to have the workerpool-controller run in FIPS mode, turn the `cont
 During the controller's startup, you should see the `FIPS 140 mode {"enabled": true}` message in the logs.
 
 !!! note
-    This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting - they are not compliant with FIPS 140-3 yet.
+    This will only make the controller run in FIPS mode. The Spacelift worker pods are not affected by this setting as they are not compliant with FIPS 140-3 yet.
 
 ## Supply custom certificates to worker pools
 
@@ -1275,9 +1281,9 @@ To scale your WorkerPool, you can either edit the resource in Kubernetes, or use
 kubectl scale workerpools my-worker-pool --replicas=5
 ```
 
-## Billing for Kubernetes Workers
+## Billing for Kubernetes workers
 
-Kubernetes workers are billed based on the number of provisioned workers that you have, exactly the same as for any of our other ways of running workers. What this means in practice is that you will be billed based on the number of workers defined by the `poolSize` of your WorkerPool, _even when those workers are idle and not processing any runs_.
+Kubernetes workers are billed based on the number of provisioned workers that you have, exactly the same as for any of our other ways of running workers. In practice, you will be billed based on the number of workers defined by the `poolSize` of your WorkerPool, **even when those workers are idle** and not processing any runs.
 
 ## Migrating from Docker-in-Docker
 
@@ -1300,11 +1306,11 @@ One major difference between Docker-in-Docker and the new operator is that the n
 
 ### Testing both alongside each other
 
-You can run both the new operator as well as your existing Docker-in-Docker workers. In fact you can even connect both to the same Spacelift worker pool. This allows you to test the operator to make sure everything is working before switching over.
+You can run both the new operator and your existing Docker-in-Docker workers. You can also connect both to the same Spacelift worker pool. This allows you to test the operator to make sure everything is working before switching over.
 
 ### Customizing timeouts
 
-If you are currently using `SPACELIFT_LAUNCHER_RUN_TIMEOUT` or `SPACELIFT_LAUNCHER_LOGS_TIMEOUT`, please see the section on [timeouts](#timeouts) to find out how to achieve this with the operator.
+If you are currently using `SPACELIFT_LAUNCHER_RUN_TIMEOUT` or `SPACELIFT_LAUNCHER_LOGS_TIMEOUT`, please see the section on [timeouts](#timeouts) to configure timeouts with the operator.
 
 ### Storage configuration
 
@@ -1316,7 +1322,7 @@ In the Docker-in-Docker approach, the number of workers is controlled by the `re
 
 ## Troubleshooting
 
-### Listing WorkerPools and Workers
+### Listing WorkerPools and workers
 
 To list all of your WorkerPools, you can use the following command:
 
@@ -1324,13 +1330,13 @@ To list all of your WorkerPools, you can use the following command:
 kubectl get workerpools
 ```
 
-To list all of your Workers, use the following command:
+To list all of your workers, use the following command:
 
 ```shell
 kubectl get workers
 ```
 
-To list the Workers for a specific pool, use the following command (replace `<worker-pool-id>` with the ID of the pool from Spacelift):
+To list the workers for a specific pool, use the following command (replace `<worker-pool-id>` with the ID of the pool from Spacelift):
 
 ```shell
 kubectl get workers -l "workers.spacelift.io/workerpool=<worker-pool-id>"
@@ -1338,7 +1344,7 @@ kubectl get workers -l "workers.spacelift.io/workerpool=<worker-pool-id>"
 
 ### Listing run pods
 
-When a run is scheduled, a new pod is created to process that run. It's important to note that a single worker can only process a single run at a time, making it easy to find pods by run or worker IDs.
+When a run is scheduled, a new pod is created to process that run. A single worker can only process a single run at a time, making it easy to find pods by run or worker IDs.
 
 To list the pod for a specific run, use the following command (replacing `<run-id>` with the ID of the run):
 
@@ -1400,7 +1406,7 @@ Another common reason that can cause workers to fail to connect with Spacelift i
 
 ### Run not starting
 
-If a run is scheduled to a worker but it gets stuck in the preparing phase for a long time, it may be caused by various issues like CPU or memory limits that are too low, or not being able to pull the stack's runner image. The best option in this scenario is to find the run pod and describe it to find out what's happening.
+If a run is scheduled to a worker but it gets stuck in the _preparing_ phase for a long time, it may be caused by various issues like CPU or memory limits that are too low, or not being able to pull the stack's runner image. The best option in this scenario is to find the run pod and describe it to find out what's happening.
 
 For example, in the following scenario, we can use `kubectl get pods` to discover that the run pod is stuck in `ImagePullBackOff`, meaning that it is unable to pull one of its container images:
 
@@ -1442,9 +1448,9 @@ Events:
   Warning  Failed     2m57s (x5 over 4m13s)  kubelet            Error: ImagePullBackOff
 ```
 
-In this case, we can see that the problem is that the `someone/non-existent-image:1234` container image cannot be pulled, meaning that the run can't start. In this situation the fix would be to add the correct authentication to allow your Kubernetes cluster to pull the image, or to adjust your stack settings to refer to the correct image if it is wrong.
+In this case, the problem is that the `someone/non-existent-image:1234` container image cannot be pulled, meaning that the run can't start. The fix would be to add the correct authentication to allow your Kubernetes cluster to pull the image, or to adjust your stack settings to refer to the correct image if it is wrong.
 
-Similarly, if you specify too low memory limits for one of the containers in the run pod Kubernetes may end up killing it. You can find this out in exactly the same way:
+Similarly, if you specify too low memory limits for one of the containers in the run pod, Kubernetes may end up killing it. You can find this out in exactly the same way:
 
 ```shell
 $ kubectl get pods -l "workers.spacelift.io/run-id=01HPS85J6SRG37DG6FGNRZGHMM"
@@ -1507,7 +1513,7 @@ Please see our [instructions on customizing the runner image](../../integrations
 
 ### Networking issues caused by Pod identity
 
-When a run is assigned to a worker, the controller creates a new Pod to process that run. The Pod has labels indicating the worker and run ID, and looks something like this:
+When a run is assigned to a worker, the controller creates a new pod to process that run. The pod has labels indicating the worker and run ID, and looks something like this:
 
 ```yaml
 apiVersion: v1
@@ -1522,4 +1528,4 @@ spec:
   ... rest of the pod spec
 ```
 
-Because the set of labels are unique for each run being processed, this can cause problems with systems like [Cilium](https://cilium.io/) that use Pod labels to determine the identity of each Pod, leading to your runs having networking issues. If you are using a system like this, you may want to exclude the `workers.spacelift.io/*` labels from being used to determine network identity.
+Because the set of labels are unique for each run being processed, this can cause problems with systems like [Cilium](https://cilium.io/) that use pod labels to determine the identity of each pod, leading to your runs having networking issues. If you are using a system like this, you may want to exclude the `workers.spacelift.io/*` labels from being used to determine network identity.
