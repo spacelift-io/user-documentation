@@ -167,6 +167,7 @@ nav:
           - integrations/chatops/msteams.md
       - Cloud Integrations:
           - integrations/cloud-providers/README.md
+          - integrations/cloud-providers/oidc/subject-template.md
           - integrations/cloud-providers/aws.md
           - integrations/cloud-providers/azure.md
           - integrations/cloud-providers/gcp.md
