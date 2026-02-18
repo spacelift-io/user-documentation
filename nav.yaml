@@ -97,6 +97,11 @@ nav:
           - concepts/intent/README.md
           - concepts/intent/setting-up-azure-and-gcp-credentials.md
           - concepts/intent/handy-commands-and-prompts.md
+      - Template:
+          - concepts/template/README.md
+          - concepts/template/workbench.md
+          - concepts/template/deployments.md
+          - concepts/template/configuration.md
   - 🛰️ Platforms:
       - Terraform:
           - vendors/terraform/README.md
