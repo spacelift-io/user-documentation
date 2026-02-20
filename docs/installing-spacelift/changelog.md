@@ -8,6 +8,7 @@ description: Find out about the latest changes to the Self-Hosted Spacelift.
 
 ### Features
 
+- **Terragrunt**: Added a new _Skip replan_ option for stacks using Run All mode. When enabled, the second planning phase during the apply stage is skipped by reusing the saved plan, which can speed up deployments.
 - **Templates**: Introduced a self-service infrastructure provisioning system that enables application developers to deploy infrastructure without deep IaC or Spacelift knowledge. Templates provide a form-based deployment interface with reusable, versioned configurations that maintain lifecycle control over deployed infrastructure.
 
     Unlike Blueprints which create independent stacks that live separately after creation, Templates maintain ongoing lifecycle management of deployed stacks. Changes to template-managed stacks must be made through the template system (updating deployment inputs, switching versions, or publishing new template versions), providing governance and consistency while still allowing controlled infrastructure evolution.
