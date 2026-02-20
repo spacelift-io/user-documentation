@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2026-02-20
+
+### Features
+
+- **Terragrunt**: Added a new _Skip replan_ option for stacks using Run All mode. When enabled, the second planning phase during the apply stage is skipped by reusing the saved plan, which can speed up deployments.
+
 ## 2026-02-18
 
 ### Features
