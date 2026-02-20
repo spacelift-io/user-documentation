@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-20
+
+- feat(trial): add fedramp trial contact instructions
 ## 2026-02-18
 
 ### Features
