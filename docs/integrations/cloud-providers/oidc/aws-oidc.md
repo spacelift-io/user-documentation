@@ -145,6 +145,16 @@ This is particularly useful when you have identically-named spaces in different 
 
 You can enable OIDC session tagging by adding the label `feature:aws_oidc_session_tagging` to your stack. This allows Spacelift to pass principal tags during the `AssumeRoleWithWebIdentity` call, which can be useful for auditing and access control.
 
+When session tagging is enabled, Spacelift sets the following tags on the assumed role session:
+
+| Tag key | Value |
+|---------|-------|
+| `run`   | The ULID of the run |
+| `stack` | The slug of the stack |
+| `space` | The slug of the space the stack belongs to |
+
+All three tags are marked as [transitive](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining){: rel="nofollow"}, meaning they are automatically carried forward when your role assumes another role. This is useful when managing resources across multiple AWS accounts, as the Spacelift context remains attached throughout the role chain.
+
 To use session tagging, your IAM role's trust relationship must include the `sts:TagSession` action:
 
 ```json

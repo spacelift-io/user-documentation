@@ -200,6 +200,14 @@ You will immediately see the stacks and modules that already have your label in 
 
 You can enable session tagging to have Spacelift attach run and stack metadata as tags when assuming your IAM role. These tags show up in CloudTrail logs, providing additional context for auditing.
 
+When session tagging is enabled, Spacelift sets the following tags on the assumed role session:
+
+| Tag key | Value |
+|---------|-------|
+| `run`   | The ULID of the run |
+| `stack` | The slug of the stack |
+| `space` | The slug of the space the stack belongs to |
+
 To use session tagging, enable the **Enable tag session** option when creating or editing your AWS integration. Your IAM role's trust policy will need to include both `sts:AssumeRole` and `sts:TagSession` permissions as separate statements:
 
 ```json
