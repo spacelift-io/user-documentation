@@ -114,6 +114,9 @@
     },
     {
       "pattern": "^#"
+    },
+    {
+      "pattern": "^https://github.com/spacelift-io/terraform-aws-eks-spacelift-selfhosted"
     }
   ]
 }
