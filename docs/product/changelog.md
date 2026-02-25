@@ -4,6 +4,10 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+
+## 2026-02-25
+
+- feat(oidc): add space ancestry claim to OIDC tokens
 ## 2026-02-20
 
 ### Features
