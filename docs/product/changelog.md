@@ -4,6 +4,12 @@ description: Find out about the latest changes to Spacelift.
 
 # Changelog
 
+## 2026-02-26
+
+### Features
+
+- **Terragrunt**: Implemented resource destruction when deleting a Terragrunt-managed stack. Previously, deleting a stack only marked it as destroying without performing actual cleanup of Terragrunt-managed resources.
+
 ## 2026-02-20
 
 ### Features
