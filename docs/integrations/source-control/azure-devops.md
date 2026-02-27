@@ -155,6 +155,17 @@ For Spacelift to be able to send checks to pull requests, it has to include an i
     normalize_path(path) := trim(path, "/")
     ```
 
+### Accessible projects
+
+You can optionally restrict which Azure DevOps projects are accessible through a given integration. This allows you to limit which projects can be used by stacks and modules linked to this integration.
+
+![Accessible projects setting in Azure DevOps integration](<../../assets/screenshots/azure_devops_accessible_projects.png>)
+
+To configure accessible projects, navigate to the integration settings and add project names under the **Accessible projects** field. You can add multiple projects by clicking **+ Add another project**. If left empty, all projects within the organization will be accessible.
+
+!!! note
+    This is a Spacelift-side restriction. Even if the personal access token has a broader scope, Spacelift will only allow requests targeting the specified projects.
+
 ## Delete the integration
 
 If you no longer need the integration, delete it by clicking the 3 dots next to the integration name on the _Integrations > Azure DevOps_ page, and then clicking **Delete**. You need **admin** access to the integration Space to be able to delete it.
